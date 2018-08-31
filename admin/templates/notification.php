@@ -49,7 +49,7 @@
                                 </div><!-- .col -->
                             </div><!-- row -->
                             <ul class="awsm-list-inline">
-                                <li><?php submit_button( esc_html__( 'Save', 'wp-job-openings' ) ); ?></li>
+                                <li><?php echo apply_filters( 'awsm_job_settings_submit_btn', get_submit_button( esc_html__( 'Save', 'wp-job-openings' ) ), 'notification' ); ?></li>
                                 <!-- <li><a href="#" class="awsm-text-red">Delete template</a></li> -->
                             </ul>
                         </div><!-- .awsm-acc-content -->
@@ -83,7 +83,7 @@
                                 </div><!-- .col -->
                             </div><!-- row -->
                             <ul class="awsm-list-inline">
-                                <li><?php submit_button( esc_html__( 'Save', 'wp-job-openings' ) ); ?></li>
+                                <li><?php echo apply_filters( 'awsm_job_settings_submit_btn', get_submit_button( esc_html__( 'Save', 'wp-job-openings' ) ), 'notification' ); ?></li>
                                 <!-- <li><a href="#" class="awsm-text-red">Delete template</a></li> -->
                             </ul>
                         </div><!-- .awsm-acc-content -->

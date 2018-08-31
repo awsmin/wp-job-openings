@@ -100,7 +100,7 @@
             </table>
         </div>
         <div class="awsm-form-footer">
-            <?php submit_button(); ?>
+        <?php echo apply_filters( 'awsm_job_settings_submit_btn', get_submit_button(), 'general' ); ?>
         </div><!-- .awsm-form-footer -->
 	</form>
 </div>

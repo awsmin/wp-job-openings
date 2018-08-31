@@ -319,10 +319,11 @@ a.awsm-text-red:hover{
     margin: 0;
     padding: 0;
 }
+.post-type-awsm_job_application #post-body-content{
+    margin-bottom: 0px;
+}
 .awsm-application-container {
-    width: 100%;
-    padding: 20px 0;
-    margin: 0px 14px 0;
+    padding: 20px 0 20px 14px;
 }
 .awsm-applicant-image-container {
     float: left;
@@ -370,6 +371,9 @@ a.awsm-text-red:hover{
 }
 .awsm-applicant-details-list li span p:first-child{
     margin-top: 0;
+}
+.awsm-job-edit-btn-wrapper {
+    margin-top: 10px;
 }
 .awsm-job-expiry-main{
     display: none;

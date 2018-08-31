@@ -37,6 +37,9 @@ The first version of the plugin comes with two layouts - Grid and List which are
 * Job Expiry Options
 * Detailed documentation
 
+= Add-ons =
+
+* [Docs Viewer](https://wordpress.org/plugins/docs-viewer-add-on-for-wp-job-openings/)
 
 == Installation ==
 1. Upload the plugin folder to the `/wp-content/plugins/` directory, or install the plugin through the WordPress plugins screen directly.
@@ -56,10 +59,15 @@ The first version of the plugin comes with two layouts - Grid and List which are
 
 == Changelog ==
 
+= V 1.0.1 - 2018-08-22 =
+* Added job specifications display options on job detail page appearance settings
+* Added job status meta box on application detail screen
+* Minor fixes and improvements
+
 = V 1.0 - 2018-08-12 =
 * Initial Release
 
 == Upgrade Notice ==
 
-= V 1.0 - 2018-08-12 =
-* Initial Release
+= 1.0.1 =
+Improvements and minor fixes

@@ -4,7 +4,7 @@
     }
     $awsm_filters = get_option( 'awsm_jobs_filter' );
     $listing_specs = get_option( 'awsm_jobs_listing_specs' );
-    $view = $this->get_job_listing_view();
+    $view = AWSM_Job_Openings::get_job_listing_view();
 
     while( $query->have_posts() ) { $query->the_post();
         $job_id = get_the_ID();
@@ -22,11 +22,10 @@
                 </div>
 
                 <div class="awsm-<?php echo $view; ?>-right-col">
-                    <?php echo $this->get_specifications_content( $job_id, false, $awsm_filters, $listing_specs ); ?>
+                    <?php echo AWSM_Job_Openings::get_specifications_content( $job_id, false, $awsm_filters, $listing_specs ); ?>
 
                     <div class="awsm-job-more-container">
-                        <?php printf( '<%1$s class="awsm-job-more"%3$s>%2$s</%1$s> ', ( $view === 'grid' ) ? 'span' : 'a', esc_html__( 'More Details', 'wp-job-openings' ), ( $view === 'grid' ) ? '' : ' href="' . $permalink . '"' ); ?>
-                        <span>&rarr;</span>
+                        <?php printf( '<%1$s class="awsm-job-more"%3$s>%2$s <span></span></%1$s> ', ( $view === 'grid' ) ? 'span' : 'a', esc_html__( 'More Details', 'wp-job-openings' ), ( $view === 'grid' ) ? '' : ' href="' . $permalink . '"' ); ?>
                     </div>
                 </div>
             </div>

@@ -7,6 +7,7 @@ class AWSM_Job_Openings_Form {
     private static $_instance = null;
 
     public function __construct( ) {
+        $this->cpath = untrailingslashit( plugin_dir_path( __FILE__ ) );
         add_action( 'awsm_application_form_init', array( $this, 'application_form' ) );
         add_action( 'awsm_application_form_field_init', array( $this, 'form_field_init' ) );
         add_action( 'before_awsm_job_details', array( $this, 'insert_application' ) );
@@ -167,7 +168,7 @@ class AWSM_Job_Openings_Form {
     }
 
     public function application_form() {
-        include_once plugin_dir_path( __FILE__ ) . 'templates/partials/application-form.php';
+        include_once $this->cpath . '/templates/partials/application-form.php';
     }
 
     public function form_field_init() {
@@ -316,8 +317,6 @@ class AWSM_Job_Openings_Form {
                                 foreach( $applicant_details as $meta_key => $meta_value ) {
                                     update_post_meta( $application_id, $meta_key, $meta_value );
                                 }
-                                // application count
-                                $this->applications_count( null, true, $job_id );
                                 // Now, send notification email
                                 $this->notification_email( $applicant_details );
                                 $awsm_response['success'][] = esc_html__( "Your application has been submitted.", "wp-job-openings" );
@@ -361,23 +360,6 @@ class AWSM_Job_Openings_Form {
             $content .= '<li>' . $msg . '</li>';
         }
         printf( '<ul class="%1$s">%2$s</ul>', $class_name, $content );
-    }
-
-    public function applications_count( $application_id, $increment = true, $job_id = null ) {
-        $job_id = ( is_null( $job_id ) && ! is_null( $application_id ) ) ? get_post_meta( $application_id, 'awsm_job_id', true ) : $job_id;
-        if( ! empty( $job_id ) ) {
-            $count = get_post_meta( $job_id, 'awsm_application_count', true );
-            if( ! empty( $count ) ) {
-                if( $increment ) {
-                    $count++;
-                } else {
-                    $count--;
-                }
-            } else {
-                $count = 1;
-            }
-            update_post_meta( $job_id, 'awsm_application_count', $count );
-        }
     }
 
     private function notification_email( $applicant_details ) {

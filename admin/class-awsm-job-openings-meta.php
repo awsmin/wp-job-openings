@@ -7,6 +7,7 @@ class AWSM_Job_Openings_Meta {
     private static $_instance = null;
 
     public function __construct() {
+        $this->cpath = untrailingslashit( plugin_dir_path( __FILE__ ) );
         add_action( 'add_meta_boxes', array( $this, 'awsm_register_meta_boxes' ) );
         add_action( 'admin_menu', array( $this, 'remove_meta_boxes' ) );
         if( isset( $_GET['awsm_action'] ) && $_GET['awsm_action'] === 'download_resume' ) {
@@ -25,6 +26,7 @@ class AWSM_Job_Openings_Meta {
         global $action;
         if( $action == 'edit' ) {
           add_meta_box( 'awsm-status-meta', esc_html__( 'Job Status', 'wp-job-openings'), array( $this, 'awsm_job_status'), 'awsm_job_openings', "side", "low" );
+          add_meta_box( 'awsm-status-meta-applicant', esc_html__( 'Job Status', 'wp-job-openings'), array( $this, 'awsm_job_status'), 'awsm_job_application', "side", "low" );
         }
         $awsm_filters = get_option( 'awsm_jobs_filter' );
         if( ! empty( $awsm_filters ) ) {
@@ -34,20 +36,20 @@ class AWSM_Job_Openings_Meta {
         add_meta_box( 'awsm-job-details-meta', esc_html__('Applicant Details', 'wp-job-openings'), array( $this, 'awsm_job_application_handle' ), 'awsm_job_application', "normal", "high" );
     }
 
-    public function awsm_job_status() {
-        include_once plugin_dir_path( __FILE__ ) . 'templates/meta/job-status.php';
+    public function awsm_job_status( $post ) {
+        include_once $this->cpath . '/templates/meta/job-status.php';
     }
 
     public function awsm_job_handle( $post ) {
-        include_once plugin_dir_path( __FILE__ ) . 'templates/meta/job-specifications.php';
+        include_once $this->cpath . '/templates/meta/job-specifications.php';
     }
 
     public function awsm_job_expiration( $post ) {
-        include plugin_dir_path( __FILE__ ) . 'templates/meta/job-expiry.php';
+        include $this->cpath . '/templates/meta/job-expiry.php';
     }
 
     public function awsm_job_application_handle( $post ) {
-       include plugin_dir_path( __FILE__ ) . 'templates/meta/applicant-single.php';
+       include $this->cpath . '/templates/meta/applicant-single.php';
     }
 
     public function remove_meta_boxes() {

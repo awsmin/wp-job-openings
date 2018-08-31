@@ -7,6 +7,7 @@ class AWSM_Job_Openings_Settings {
     private static $_instance = null;
 
     public function __construct( $awsm_core ) {
+        $this->cpath = untrailingslashit( plugin_dir_path( __FILE__ ) );
         $this->awsm_core = $awsm_core;
         $this->register_default_settings();
         $this->set_settings_capability();
@@ -39,10 +40,10 @@ class AWSM_Job_Openings_Settings {
         if ( ! current_user_can( 'manage_awsm_jobs' ) ) {
             wp_die( esc_html__( 'You do not have sufficient permissions to access this page.', 'wp-job-openings' ) );
         }
-        include_once plugin_dir_path(__FILE__) . 'templates/base.php';
+        include_once $this->cpath . '/templates/base.php';
     }
 
-    public function settings_tab_menus() {
+    public static function settings_tab_menus() {
         return array(
             'general'        => esc_html__( 'General', 'wp-job-openings' ),
             'appearance'     => esc_html__( 'Appearance', 'wp-job-openings' ),
@@ -107,6 +108,18 @@ class AWSM_Job_Openings_Settings {
                 ),
                 array(
                     'option_name' => 'awsm_jobs_expired_jobs_listings'
+                ),
+                array(
+                    'option_name' => 'awsm_jobs_specification_job_detail'
+                ),
+                array(
+                    'option_name' => 'awsm_jobs_show_specs_icon'
+                ),
+                array(
+                    'option_name' => 'awsm_jobs_make_specs_clickable'
+                ),
+                array(
+                    'option_name' => 'awsm_jobs_specs_position'
                 ),
                 array(
                     'option_name' => 'awsm_jobs_expired_jobs_content_details'

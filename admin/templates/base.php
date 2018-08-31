@@ -2,10 +2,11 @@
     if( ! defined( 'ABSPATH' ) ) {
         exit;
     }
+    do_action( 'before_awsm_job_settings_init' );
 ?>
 
 <div class="wrap awsm-job-settings-wrap" id="awsm-job-settings-wrap">
-    <?php $tab_menus = $this->settings_tab_menus(); ?>
+    <?php $tab_menus = AWSM_Job_Openings_Settings::settings_tab_menus(); ?>
     <h1><?php esc_html_e('Settings', 'wp-job-openings'); ?></h1>
     <?php settings_errors(); ?>
     <h2 class="nav-tab-wrapper awsm-settings-tab-wrapper">
@@ -27,6 +28,6 @@
                 include_once $settings_filename;
             }
         }
-        do_action('awsm_jobs_settings_tab_section');
+        do_action( 'awsm_jobs_settings_tab_section' );
     ?>
 </div>

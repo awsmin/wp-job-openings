@@ -44,7 +44,7 @@ class AWSM_Job_Openings_Info {
         remove_submenu_page( 'edit.php?post_type=awsm_job_openings', 'awsm-jobs-help-page' );
     }
 
-    public function get_info_header( $page ) { ?>
+    public static function get_info_header( $page ) { ?>
         <div class="awsm-job-welcome">
             <div class="awsm-job-welcome-main">
                 <img src="<?php echo esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/job.png' ); ?>" alt="WP Job Openings">
@@ -61,27 +61,27 @@ class AWSM_Job_Openings_Info {
     <?php
     }
 
-    public function get_info_footer() { ?>
+    public static function get_info_footer() { ?>
         </div><!-- .awsm-job-welcome -->
     <?php
     }
 
     public function welcome_page() {
-        $this->get_info_header( 'welcome' );
+        self::get_info_header( 'welcome' );
         include_once $this->cpath . '/templates/info/welcome.php';
-        $this->get_info_footer();
+        self::get_info_footer();
     }
 
     public function help_page() {
-        $this->get_info_header( 'help' );
+        self::get_info_header( 'help' );
         include_once $this->cpath . '/templates/info/help.php';
-        $this->get_info_footer();
+        self::get_info_footer();
     }
 
     public function add_ons_page() {
-        $this->get_info_header( 'add-ons' );
+        self::get_info_header( 'add-ons' );
         include_once $this->cpath . '/templates/info/add-ons.php';
-        $this->get_info_footer();
+        self::get_info_footer();
     }
 
     public function get_add_on_btn_content( $plugin ) {

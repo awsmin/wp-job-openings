@@ -46,7 +46,7 @@ a.awsm-grid-item{
 .awsm-job-item{
     background: #fff;
     padding: 20px;
-     font-size: 14px;
+    font-size: 14px;
 }
 .awsm-grid-item .awsm-job-item{
     margin-bottom: 30px;
@@ -75,6 +75,9 @@ a.awsm-grid-item{
     margin: 0 0 15px;
     font-size: 18px;
     text-align: left;
+}
+.awsm-job-item h2.awsm-job-post-title a{
+    font-size: 18px;
 }
 .awsm-grid-item .awsm-job-info{
     min-height: 83px;
@@ -170,13 +173,16 @@ a.awsm-grid-item .awsm-job-specification-item{
     display: inline-block;
     vertical-align: middle;
 }
+.awsm-job-more-container .awsm-job-more span::before{
+    content: "\002192";
+}
 .awsm-lists .awsm-load-more-main{
     margin-top: 30px;
 }
 .awsm-job-specification-item{
 }
 .awsm-job-specification-item > [class^="awsm-job-icon-"]{
-    margin-right: 4px;
+    margin-right: 6px;
 }
 .awsm-job-specification-term::after{
     content: ", ";
@@ -193,9 +199,9 @@ a.awsm-grid-item .awsm-job-specification-item{
 .awsm-job-single-wrap *::after{
     box-sizing: border-box;
 }
-/* .awsm-job-single-wrap{
-
-} */
+.awsm-job-single-wrap{
+    margin-bottom: 1.3em;
+} 
 .awsm-job-single-wrap::after{
     content: "";
     display: table;
@@ -206,16 +212,16 @@ a.awsm-grid-item .awsm-job-specification-item{
 }
 .awsm-job-single-wrap.awsm-col-2 .awsm-job-content {
     float: left;
-    width: 65%;
+    width: 55%;
     padding-right: 15px;
 }
 .awsm-job-single-wrap.awsm-col-2 .awsm-job-form {
     float: left;
-    width: 35%;
+    width: 45%;
     padding-left: 15px;
 }
-.awsm-job-head{
-    margin-bottom: 40px;
+.awsm-job-head, .awsm_job_spec_above_content{
+    margin-bottom: 20px;
 }
 .awsm-job-head h1{
     margin: 0 0 20px;
@@ -286,10 +292,10 @@ a.awsm-grid-item .awsm-job-specification-item{
     padding: 0 !important;
 }
 .awsm-success-message{
-    border:1px solid green;
+    border: 1px solid green;
 }
 .awsm-error-message{
-    border:1px solid red;
+    border: 1px solid red;
 }
 ul.awsm-error-message li {
     margin-left: 1.2em;
@@ -350,3 +356,4 @@ ul.awsm-error-message li {
         float: none;
     }
 }
+

@@ -4,7 +4,7 @@
 **Tags:** jobs, job listing, job openings, job board, careers page, jobs page, wp job opening, jobs plugin  
 **Requires at least:** 4.0  
 **Tested up to:** 4.9.8  
-**Stable tag:** 1.0  
+**Stable tag:** 1.0.1  
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -38,6 +38,10 @@ The first version of the plugin comes with two layouts - Grid and List which are
 * Application Listings in Plugin
 * Job Expiry Options
 * Detailed documentation
+
+## Add-ons
+
+* [Docs Viewer](https://wordpress.org/plugins/docs-viewer-add-on-for-wp-job-openings/)
 
 ## Installation
 
@@ -83,6 +87,11 @@ The first version of the plugin comes with two layouts - Grid and List which are
   [![Application View](https://ps.w.org/wp-job-openings/trunk/screenshot-9.png)](https://wordpress.org/plugins/wp-job-openings/)
 
 ## Changelog
+
+**V 1.0.1 - 2018-08-22**
+* Added job specifications display options on job detail page appearance settings
+* Added job status meta box on application detail screen
+* Minor fixes and improvements
 
 **V 1.0 - 2018-08-12**
 * Initial Release

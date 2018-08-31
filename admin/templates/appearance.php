@@ -17,6 +17,11 @@
             $hidden_class = ' class="awsm-hide"';
             $no_columns_options = apply_filters( 'awsm_jobs_number_of_columns_options', array( 1, 2, 3, 4 ) );
             $enable_filters = get_option( 'awsm_enable_job_filter_listing' );
+            $spec_position = get_option( 'awsm_jobs_specs_position', 'below_content' );
+            $job_specs_positions = apply_filters( 'awsm_jobs_specifications_position', array(
+                'below_content'    => 'Below job description',
+                'above_content'    => 'Above job description'
+            ) );
         ?>
 
         <div class="awsm-nav-subtab-container clearfix">
@@ -183,6 +188,46 @@
                         </tr>
                         <tr>
                             <th scope="row">
+                                <?php _e( 'Job specifications', 'wp-job-openings' ); ?>
+                            </th>
+                            <td>
+                                <ul class="awsm-check-list">
+                                    <li>
+                                        <label for="awsm_jobs_specification_job_detail">
+                                            <input type="checkbox" id="awsm_jobs_specification_job_detail"  name="awsm_jobs_specification_job_detail" value="show_in_detail" <?php echo esc_attr( $this->is_settings_field_checked( get_option( 'awsm_jobs_specification_job_detail', 'show_in_detail' ), 'show_in_detail' ) ); ?> /><?php _e( 'Show job specifications in job detail page', 'wp-job-openings' ); ?>
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label for="awsm_jobs_show_specs_icon">
+                                            <input type="checkbox" id="awsm_jobs_show_specs_icon" name="awsm_jobs_show_specs_icon" value="show_icon" <?php echo esc_attr( $this->is_settings_field_checked( get_option( 'awsm_jobs_show_specs_icon', 'show_icon' ), 'show_icon' ) ); ?> /><?php _e( 'Show icons for job specifications in job detail page', 'wp-job-openings' ); ?>
+                                        </label>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr id="awsm_jobs_specification_position">
+                            <th scope="row">
+                                <label for="awsm_jobs_specs_position"><?php _e( 'Job spec position ', 'wp-job-openings' ); ?></label>
+                            </th>
+                            <td>
+                                <select name="awsm_jobs_specs_position" class="awsm-select-control regular-text" id="awsm_jobs_specs_position">
+                                    <?php
+                                        if( ! empty( $job_specs_positions ) ) {
+                                            foreach( $job_specs_positions as $position => $label ) {
+                                                $selected = '';
+                                                if( $spec_position == $position ) {
+                                                    $selected = ' selected';
+                                                }
+                                                printf( '<option value="%1$s"%3$s>%2$s</option>', esc_attr( $position ), esc_html( $label ), $selected );
+                                            }
+                                        }
+                                    ?>
+
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
                                 <?php esc_html_e( 'Other display options', 'wp-job-openings' ); ?>
                             </th>
                             <td>
@@ -212,7 +257,7 @@
         </div><!-- #awsm-job-details-options-container -->
 
         <div class="awsm-form-footer">
-            <?php submit_button(); ?>
+            <?php echo apply_filters( 'awsm_job_settings_submit_btn', get_submit_button(), 'appearance' ); ?>
         </div><!-- .awsm-form-footer -->
     </form>
 </div><!-- .awsm-admin-settings -->

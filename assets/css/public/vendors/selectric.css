@@ -5,6 +5,7 @@
 .awsm-selectric-wrapper {
   position: relative;
   cursor: pointer;
+  min-width: 160px;
 }
 
 .awsm-selectric-responsive {
@@ -18,6 +19,7 @@
   position: relative;
   overflow: hidden;
   box-shadow: 3px 3px 5px 0 rgba(0,0,0,0.04);
+  width: 100%;
 }
 
 .awsm-selectric .label {
@@ -31,6 +33,7 @@
   line-height: 46px;
   color: #444;
   height: 46px;
+  text-align: left;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;

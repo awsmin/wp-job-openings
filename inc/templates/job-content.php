@@ -5,12 +5,12 @@
     $expired_message = esc_html__( 'Sorry! This job is expired.', 'wp-job-openings' );
 ?>
 
-<div class="awsm-job-single-wrap<?php echo $this->get_job_details_class(); ?>">
+<div class="awsm-job-single-wrap<?php echo AWSM_Job_Openings::get_job_details_class(); ?>">
     <?php do_action( 'before_awsm_job_details' ); ?>
 
     <?php if( get_option( 'awsm_jobs_expired_jobs_content_details' ) != 'content' || get_post_status() != 'expired' ) : ?>
         <div class="awsm-job-content">
-            <?php include_once plugin_dir_path(__FILE__) .  'partials/job-details.php'; ?>
+            <?php include_once untrailingslashit( plugin_dir_path( __FILE__ ) ) .  '/partials/job-details.php'; ?>
         </div><!-- .awsm-job-content -->
 
         <div class="awsm-job-form">
