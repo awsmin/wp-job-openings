@@ -1,0 +1,63 @@
+{
+  "name": "wp-job-openings",
+  "version": "1.0.0",
+  "description": "Super simple Job Listing plugin to manage Job Openings and Applicants on your WordPress site.",
+  "main": "gulpfile.js",
+  "scripts": {
+    "start": "gulp",
+    "watch": "cross-env NODE_ENV=development gulp watch",
+    "build": "cross-env NODE_ENV=production gulp build",
+    "archive": "cross-env git archive --format=zip --prefix=wp-job-openings/ --output=./build/wp-job-openings.zip --worktree-attributes master",
+    "dev-archive": "cross-env git archive --format=zip --prefix=wp-job-openings/ --output=./build/wp-job-openings.zip --worktree-attributes dev-branch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/awsmin/wp-job-openings.git"
+  },
+  "keywords": [
+    "wordpress",
+    "plugin",
+    "jobs",
+    "job listing",
+    "job openings",
+    "job board",
+    "careers page",
+    "jobs page",
+    "wp job opening",
+    "jobs plugin"
+  ],
+  "author": "AWSM Innovations",
+  "license": "GPL-2.0",
+  "homepage": "https://awsm.in",
+  "devDependencies": {
+    "browser-sync": "^2.24.4",
+    "cross-env": "^5.2.0",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^5.0.0",
+    "gulp-clean-css": "^3.9.4",
+    "gulp-concat": "^2.6.1",
+    "gulp-help": "^1.6.1",
+    "gulp-jshint": "^2.1.0",
+    "gulp-line-ending-corrector": "^1.0.2",
+    "gulp-rename": "^1.3.0",
+    "gulp-sort": "^2.0.0",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-strip-debug": "^3.0.0",
+    "gulp-uglify": "^3.0.0",
+    "gulp-wp-pot": "^2.3.2",
+    "prettier": "^1.14.2"
+  },
+  "browserslist": [
+    "last 2 version",
+    "> 1%",
+    "ie >= 9",
+    "ie_mob >= 10",
+    "ff >= 30",
+    "chrome >= 34",
+    "safari >= 7",
+    "opera >= 23",
+    "ios >= 7",
+    "android >= 4",
+    "bb >= 10"
+  ]
+}

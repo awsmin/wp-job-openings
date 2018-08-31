@@ -1,0 +1,352 @@
+.awsm-row{
+    margin: 0 -15px;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    display: flexbox;
+    -webkit-flex-flow: row wrap;
+    flex-flow: row wrap;
+}
+.awsm-row,
+.awsm-row *,
+.awsm-row *::before,
+.awsm-row *::after{
+    box-sizing: border-box;
+}
+.awsm-grid-item{
+    float: left;
+    width: 33.333%;
+    padding: 0 15px !important;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: column;
+    -webkit-flex-direction: column;
+}
+a.awsm-grid-item{
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    border: none !important;
+    margin: 0 !important;
+    text-decoration: none !important;
+}
+.awsm-grid-col-4 .awsm-grid-item{
+    width: 25%;
+}
+.awsm-grid-col-2 .awsm-grid-item{
+    width: 50%;
+}
+.awsm-grid-col .awsm-grid-item{
+    width: 100%;
+}
+.awsm-job-item{
+    background: #fff;
+    padding: 20px;
+     font-size: 14px;
+}
+.awsm-grid-item .awsm-job-item{
+    margin-bottom: 30px;
+    box-shadow: 0 5px 15px 0 rgba(0,0,0,0.13);
+    border: 1px solid #ececec;
+     display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: column;
+    -webkit-flex-direction: column;
+    flex-grow: 1;
+    -webkit-flex-grow: 1;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+.awsm-grid-item .awsm-job-item:hover,
+.awsm-grid-item .awsm-job-item:focus{
+     box-shadow: 0 5px 20px 0 rgba(0,0,0,0.23);
+}
+.awsm-job-item h2.awsm-job-post-title{
+    margin: 0 0 15px;
+    font-size: 18px;
+    text-align: left;
+}
+.awsm-grid-item .awsm-job-info{
+    min-height: 83px;
+    margin-bottom: 10px;
+}
+.awsm-grid-item .awsm-job-info p{
+    margin: 0 0 8px;
+}
+.awsm-filter-wrap{
+    margin: 0 -10px 30px;
+}
+.awsm-filter-wrap .awsm-filter-item{
+    display: inline-block;
+    padding: 0 10px;
+}
+.awsm-jobs-none-container {
+    padding: 25px;
+}
+.awsm-jobs-none-container p {
+    margin: 0;
+    padding: 5px;
+}
+.awsm-row .awsm-load-more-main{
+    padding: 0 15px;
+    width: 100%;
+}
+.awsm-load-more-main{
+    float: left;
+    width: 100%;
+}
+.awsm-load-more-main a.awsm-load-more{
+    display: block;
+    text-align: center;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 5px 15px 0 rgba(0,0,0,0.13);
+    border: 1px solid #ececec !important;
+    margin: 0 !important;
+    text-decoration: none !important;
+    outline: none !important;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+.awsm-load-more-main a.awsm-load-more:hover,
+.awsm-load-more-main a.awsm-load-more:focus{
+    box-shadow: 0 5px 20px 0 rgba(0,0,0,0.23);
+}
+
+/*---- List ----*/
+
+.awsm-lists{
+    box-shadow: 0 5px 15px 0 rgba(0,0,0,0.13);
+}
+.awsm-list-item{
+    width: 100%;
+}
+.awsm-list-item h2.awsm-job-post-title{
+    margin-bottom: 0;
+}
+.awsm-list-item .awsm-job-item{
+    border-bottom: 1px solid rgba(0,0,0,0.13);
+}
+.awsm-list-item .awsm-job-item::after{
+    content: "";
+    display: table;
+    clear: both;
+}
+.awsm-list-left-col{
+    float: left;
+    width: 50%;
+}
+.awsm-list-right-col{
+    float: left;
+    width: 50%;
+    text-align: right;
+}
+.awsm-list-item .awsm-job-specification-wrapper{
+    display: inline-block;
+    vertical-align: middle;
+}
+.awsm-list-item .awsm-job-specification-item{
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 15px 0 0;
+}
+a.awsm-grid-item .awsm-job-specification-item{
+    color: #4C4C4C;
+}
+.awsm-list-item .awsm-job-more-container{
+    display: inline-block;
+    vertical-align: middle;
+}
+.awsm-lists .awsm-load-more-main{
+    margin-top: 30px;
+}
+.awsm-job-specification-item{
+}
+.awsm-job-specification-item > [class^="awsm-job-icon-"]{
+    margin-right: 4px;
+}
+.awsm-job-specification-term::after{
+    content: ", ";
+}
+.awsm-job-specification-term:last-child::after{
+    content: "";
+}
+
+/*----- Single ----*/
+
+.awsm-job-single-wrap,
+.awsm-job-single-wrap *,
+.awsm-job-single-wrap *::before,
+.awsm-job-single-wrap *::after{
+    box-sizing: border-box;
+}
+/* .awsm-job-single-wrap{
+
+} */
+.awsm-job-single-wrap::after{
+    content: "";
+    display: table;
+    clear: both;
+}
+.awsm-job-content {
+    padding-bottom: 32px;
+}
+.awsm-job-single-wrap.awsm-col-2 .awsm-job-content {
+    float: left;
+    width: 65%;
+    padding-right: 15px;
+}
+.awsm-job-single-wrap.awsm-col-2 .awsm-job-form {
+    float: left;
+    width: 35%;
+    padding-left: 15px;
+}
+.awsm-job-head{
+    margin-bottom: 40px;
+}
+.awsm-job-head h1{
+    margin: 0 0 20px;
+}
+/* .awsm-job-head .awsm-job-list-info{
+
+} */
+.awsm-job-list-info span{
+    margin-right: 10px;
+}
+.awsm-job-single-wrap .awsm-job-expiration-label {
+    font-weight: bold;
+}
+
+.awsm-job-form-inner{
+    background: #fff;
+    box-shadow: 0 0 3px 0 rgba(0,0,0,0.1);
+    padding: 35px;
+}
+
+.awsm-job-form-inner h2{
+    margin: 0 0 30px;
+}
+.awsm-job-form-group{
+    margin-bottom: 20px;
+}
+.awsm-job-form-group input[type=checkbox], .awsm-job-form-group input[type=radio]{
+    margin-right: 5px;
+}
+.awsm-job-form-group label{
+    display: block;
+    margin-bottom: 10px;
+}
+.awsm-job-inline-group label {
+    display: inline;
+    font-weight: normal;
+}
+.awsm-job-form-control{
+    display: block;
+    width: 100%;
+}
+.awsm-job-submit{
+    background: #0195ff;
+    border: 1px solid #0195ff;
+    padding: 10px 30px;
+    color: #fff;
+}
+.awsm-job-submit:hover,
+.awsm-job-submit:focus{
+    background: rgba(0,0,0,0);
+    color: #0195ff;
+}
+.awsm-job-form-error{
+    color:red;
+    font-weight:500
+}
+.awsm-success-message,
+.awsm-error-message {
+    padding: 12px 25px;
+}
+.awsm-success-message p:empty,
+.awsm-error-message p:empty{
+    display: none;
+}
+.awsm-success-message p,
+.awsm-error-message p{
+    margin: 0 !important;
+    padding: 0 !important;
+}
+.awsm-success-message{
+    border:1px solid green;
+}
+.awsm-error-message{
+    border:1px solid red;
+}
+ul.awsm-error-message li {
+    margin-left: 1.2em;
+    line-height: 1.8em;
+}
+.awsm-expired-message {
+    padding: 25px;
+}
+.awsm-expired-message p {
+    margin: 1em 0em;
+}
+
+@media (max-width:1024px){
+    .awsm-grid-col-4 .awsm-grid-item{
+        width: 33.333%;
+    }
+}
+@media (max-width:992px){
+    .awsm-job-single-wrap.awsm-col-2 .awsm-job-content {
+        width: 100%;
+        padding-right: 0;
+    }
+    .awsm-job-single-wrap.awsm-col-2 .awsm-job-form {
+        width: 100%;
+        padding-left: 0;
+    }
+}
+@media (max-width:768px){
+    .awsm-grid-col-4 .awsm-grid-item,
+    .awsm-grid-col-3 .awsm-grid-item,
+    .awsm-grid-item{
+        width: 50%;
+    }
+    .awsm-list-left-col{
+        width: 100%;
+        padding-bottom: 10px;
+    }
+    .awsm-list-right-col{
+        width: 100%;
+        text-align: left;
+    }
+
+}
+@media (max-width:648px){
+    .awsm-grid-col-4 .awsm-grid-item,
+    .awsm-grid-col-3 .awsm-grid-item,
+    .awsm-grid-col-2 .awsm-grid-item,
+    .awsm-grid-item{
+        width: 100%;
+    }
+    .awsm-list-item .awsm-job-specification-wrapper{
+        display: block;
+        padding-bottom: 5px;
+        float: none;
+    }
+    .awsm-list-item .awsm-job-more-container{
+        display: block;
+        float: none;
+    }
+}
