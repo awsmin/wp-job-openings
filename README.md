@@ -52,39 +52,39 @@ The first version of the plugin comes with two layouts - Grid and List which are
 
 * **Job listing - Grid View**
 
-  [![Grid View](https://ps.w.org/wp-job-openings/trunk/screenshot-1.jpg)](https://wordpress.org/plugins/wp-job-openings/)
+  [![Grid View](https://ps.w.org/wp-job-openings/assets/screenshot-1.jpg)](https://wordpress.org/plugins/wp-job-openings/)
 
 * **Job listing - List View**
 
-  [![List View](https://ps.w.org/wp-job-openings/trunk/screenshot-2.jpg)](https://wordpress.org/plugins/wp-job-openings/)
+  [![List View](https://ps.w.org/wp-job-openings/assets/screenshot-2.jpg)](https://wordpress.org/plugins/wp-job-openings/)
 
 * **General Settings**
   
-  [![General Settings](https://ps.w.org/wp-job-openings/trunk/screenshot-3.png)](https://wordpress.org/plugins/wp-job-openings/)
+  [![General Settings](https://ps.w.org/wp-job-openings/assets/screenshot-3.png)](https://wordpress.org/plugins/wp-job-openings/)
 
 * **Job Listing Page Appearance Settings**
 
-  [![Listing Appearance Settings](https://ps.w.org/wp-job-openings/trunk/screenshot-4.png)](https://wordpress.org/plugins/wp-job-openings/)
+  [![Listing Appearance Settings](https://ps.w.org/wp-job-openings/assets/screenshot-4.png)](https://wordpress.org/plugins/wp-job-openings/)
 
 * **Job Details Page Appearance Settings**
 
-  [![Job Details Appearance Settings](https://ps.w.org/wp-job-openings/trunk/screenshot-5.png)](https://wordpress.org/plugins/wp-job-openings/)
+  [![Job Details Appearance Settings](https://ps.w.org/wp-job-openings/assets/screenshot-5.png)](https://wordpress.org/plugins/wp-job-openings/)
 
 * **Job Specifications Manager**
 
-  [![Specifications Manager](https://ps.w.org/wp-job-openings/trunk/screenshot-6.png)](https://wordpress.org/plugins/wp-job-openings/)
+  [![Specifications Manager](https://ps.w.org/wp-job-openings/assets/screenshot-6.png)](https://wordpress.org/plugins/wp-job-openings/)
 
 * **Application Form Settings**
 
-  [![Form Settings](https://ps.w.org/wp-job-openings/trunk/screenshot-7.png)](https://wordpress.org/plugins/wp-job-openings/)
+  [![Form Settings](https://ps.w.org/wp-job-openings/assets/screenshot-7.png)](https://wordpress.org/plugins/wp-job-openings/)
 
 * **Email Notification Settings**
   
-  [![Notification Setting](https://ps.w.org/wp-job-openings/trunk/screenshot-8.png)](https://wordpress.org/plugins/wp-job-openings/)
+  [![Notification Setting](https://ps.w.org/wp-job-openings/assets/screenshot-8.png)](https://wordpress.org/plugins/wp-job-openings/)
 
 * **Application View**
   
-  [![Application View](https://ps.w.org/wp-job-openings/trunk/screenshot-9.png)](https://wordpress.org/plugins/wp-job-openings/)
+  [![Application View](https://ps.w.org/wp-job-openings/assets/screenshot-9.png)](https://wordpress.org/plugins/wp-job-openings/)
 
 ## Changelog
 
