@@ -7,7 +7,6 @@ class AWSM_Job_Openings_Filters {
     private static $_instance = null;
 
     public function __construct( ) {
-        $this->cpath = untrailingslashit( plugin_dir_path( __FILE__ ) );
         add_action( 'awsm_filter_form', array( $this, 'display_filter_form' ) );
         add_action( 'wp_ajax_jobfilter', array( $this,'awsm_posts_filters' ) );
         add_action( 'wp_ajax_nopriv_jobfilter',  array( $this,'awsm_posts_filters') );
@@ -24,6 +23,9 @@ class AWSM_Job_Openings_Filters {
 
     public function display_filter_form() {
         if( get_option( 'awsm_enable_job_filter_listing' ) !== 'enabled' ) {
+            return;
+        }
+        if( is_archive() && ! is_post_type_archive( 'awsm_job_openings' ) ) {
             return;
         }
         $filter_content = '';
@@ -70,7 +72,7 @@ class AWSM_Job_Openings_Filters {
         $query = new WP_Query( $args );
 
         if ( $query->have_posts() ) :
-            include_once $this->cpath . '/templates/partials/listing-view.php';
+            include_once AWSM_Job_Openings::get_template_path( 'main.php', 'job-openings' );
         else :
             if( $_POST['action'] !== 'loadmore' ) :
         ?>

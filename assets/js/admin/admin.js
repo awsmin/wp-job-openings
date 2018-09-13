@@ -191,8 +191,9 @@ jQuery(document).ready(function ($) {
 		var current_target = $current_subtab.data('target');
 		var $current_target_container = $(current_target);
 		if ($current_target_container.length > 0) {
-			$('.awsm-sub-options-container').hide();
-			$('.awsm-nav-subtab').removeClass('current');
+			var $main_tab = $current_subtab.closest('.awsm-admin-settings');
+			$main_tab.find('.awsm-sub-options-container').hide();
+			$main_tab.find('.awsm-nav-subtab').removeClass('current');
 			$current_subtab.addClass('current');
 			if (enableFadeIn) {
 				$current_target_container.fadeIn();
@@ -202,16 +203,23 @@ jQuery(document).ready(function ($) {
 		}
 	}
 
-	var current_subtab_id = $("#awsm_current_appearance_subtab").val();
-	var $current_subtab = $('#' + current_subtab_id);
-	awsm_subtab_toggle($current_subtab);
+	var subtabs_selector = '.awsm_current_settings_subtab';
+	var $subtabs = $(subtabs_selector);
+	if($subtabs.length > 0) {
+		$($subtabs).each(function(i) {
+			var current_subtab_id = $(this).val();
+			var $current_subtab = $('#' + current_subtab_id);
+			awsm_subtab_toggle($current_subtab);
+		});
+	}
 	$('#awsm-job-settings-wrap').on('click', '.awsm-nav-subtab', function (e) {
 		e.preventDefault();
-		$current_subtab = $(this);
-		current_subtab_id = $current_subtab.attr('id');
+		var $current_subtab = $(this);
+		var current_subtab_id = $current_subtab.attr('id');
+		var $main_tab = $current_subtab.closest('.awsm-admin-settings');
 		if (!$current_subtab.hasClass('current')) {
 			awsm_subtab_toggle($current_subtab, true);
-			$("#awsm_current_appearance_subtab").val(current_subtab_id);
+			$main_tab.find(subtabs_selector).val(current_subtab_id);
 		}
 	});
 

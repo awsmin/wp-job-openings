@@ -156,11 +156,12 @@ gulp.task(
 		gulp.watch("./**/*.php", function() {
 			browserSync.reload();
 		});
-		gulp.watch(config.style.general.src + "**/*.css", ["load-general-styles"]);
-		gulp.watch(config.style.public.src + "**/*.css", ["load-public-styles"]);
-		gulp.watch(config.style.admin.src + "**/*.css", ["load-admin-styles"]);
-		gulp.watch(config.scripts.public.src + "**/*.js", ["load-public-scripts"]);
-		gulp.watch(config.scripts.admin.src + "**/*.js", ["load-admin-scripts"]);
+		for (let type in config.style) {
+			gulp.watch(config.style[type].src + "**/*.css", [`load-${type}-styles`]);
+		}
+		for (let type in config.scripts) {
+			gulp.watch(config.scripts[type].src + "**/*.js", [`load-${type}-scripts`]);
+		}
 	}
 );
 

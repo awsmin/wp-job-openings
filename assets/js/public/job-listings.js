@@ -1,4 +1,5 @@
 jQuery(function ($) {
+	var $content_wrapper = $('#awsm-job-response');
 	// ========== Job Filters ==========
 	var $filter = $('#awsm-job-filter');
 	var $filter_option = $filter.find('.awsm-filter-option');
@@ -6,12 +7,17 @@ jQuery(function ($) {
 	function awsm_job_filters() {
 		$.ajax({
 			url: $filter.attr('action'),
+			beforeSend: function(xhr) {
+				$content_wrapper.addClass('awsm-jobs-loading');
+			},
 			data: $filter.serialize(),
 			type: $filter.attr('method')
 		}).done(function (data) {
-			$('#awsm-job-response').html(data);
+			$content_wrapper.html(data);
 		}).fail(function (xhr) {
 			console.log(xhr);
+		}).always(function() {
+			$content_wrapper.removeClass('awsm-jobs-loading');
 		});
 	}
 
@@ -37,30 +43,42 @@ jQuery(function ($) {
 	});
 
 	// ========== Job Listings Load More ==========
-	var $content_wrapper = $('#awsm-job-response');
 	$content_wrapper.on('click', '.awsm-load-more-btn', function (e) {
 		e.preventDefault();
 		var $button = $(this);
 		$button.prop('disabled', true);
+		var wp_data = [];
 		var paged = $button.data('page');
 		paged = (typeof paged == 'undefined') ? 1 : paged;
-		var wp_data = 'action=loadmore&paged=' + paged;
 
 		// filters
 		if ($filter.length > 0) {
 			if (filter_check()) {
-				var filter_data = $filter_option.serialize();
-				wp_data += ('&' + filter_data);
+				wp_data = $filter_option.serializeArray();
 			}
 		}
+
+		// taxonomy archives
+		if(awsmJobsPublic.is_tax_archive) {
+			var taxonomy = $content_wrapper.data('taxonomy');
+			var term_id = $content_wrapper.data('termId');
+			if(typeof taxonomy !== 'undefined' && typeof term_id !== 'undefined') {
+				wp_data.push({
+					name: 'awsm_job_spec[' + taxonomy + ']',
+					value: term_id
+				});
+			}
+		}
+
+		wp_data.push({ name: 'action', value: 'loadmore' }, { name: 'paged', value: paged });
 
 		// now, handle ajax
 		$.ajax({
 			url: awsmJobsPublic.ajaxurl,
-			data: wp_data,
+			data: $.param(wp_data),
 			type: 'POST',
 			beforeSend: function (xhr) {
-				$button.text('Loading...');
+				$button.text(awsmJobsPublic.i18n.loading_text);
 			}
 		}).done(function (data) {
 			if (data) {

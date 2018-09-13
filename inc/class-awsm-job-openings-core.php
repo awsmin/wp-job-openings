@@ -53,7 +53,7 @@ class AWSM_Job_Openings_Core {
         );
 
         $args = array(
-            'has_archive'     => false,
+            'has_archive'     => true,
             'labels'          => $labels,
             'hierarchical'    => false,
             'map_meta_cap'    => true,
@@ -163,7 +163,7 @@ class AWSM_Job_Openings_Core {
         $caps = $this->get_caps();
         $hr_caps = array_merge( $caps['level_1'], $caps['level_2'], $caps['level_3'], $caps['level_4'] );
         $hr_caps['read'] = true;
-        add_role( 'hr', __( 'HR' ), $hr_caps );      
+        add_role( 'hr', __( 'HR' ), $hr_caps );
     }
 
     private function remove_custom_role() {

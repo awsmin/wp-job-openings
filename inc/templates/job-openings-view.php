@@ -1,27 +1,61 @@
 <?php
-	if( ! defined( 'ABSPATH' ) ) {
-		exit;
-	}
-	$args = AWSM_Job_Openings::awsm_job_query_args();
-    $query = new WP_Query( $args );
-	if( $query->have_posts() ) : ?>
-		<div class="awsm-job-wrap">
+/**
+ * Template for displaying job openings (used by shortcode too)
+ * 
+ * Override this by copying it to currenttheme/wp-job-openings/job-openings-view.php
+ * 
+ * @package wp-job-openings
+ * @version 1.1
+ */
 
-			<?php do_action( 'awsm_filter_form' );  ?>
+if( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
-			<div class="<?php echo AWSM_Job_Openings::get_job_listing_view_class(); ?>" id="awsm-job-response">
-				<?php
-					include_once untrailingslashit( plugin_dir_path( __FILE__ ) ) .  '/partials/listing-view.php';
-				?>
-			</div>
+/**
+ * before_awsm_jobs_listing hook
+ * 
+ * @hooked awsm_jobs_archive_title
+ * 
+ * @since 1.1
+ */
+do_action( 'before_awsm_jobs_listing' );
 
+$query = awsm_jobs_query();
+
+if( $query->have_posts() ) : ?>
+	<div class="awsm-job-wrap">
+
+		<?php
+			/**
+			 * awsm_filter_form hook
+			 * 
+			 * Display filter form for job listings
+			 * 
+			 * @hooked AWSM_Job_Openings_Filters::display_filter_form()
+			 * 
+			 * @since 1.0
+			 */
+			do_action( 'awsm_filter_form' );
+		?>
+
+		<div <?php awsm_jobs_view_class(); awsm_jobs_data_attrs(); ?> id="awsm-job-response">
+			<?php include_once get_awsm_jobs_template_path( 'main', 'job-openings' ); ?>
 		</div>
+
+	</div>
 <?php
-	else :
+else :
 ?>
-		<div class="jobs-none-container">
-			<p><?php echo get_option( 'awsm_default_msg' ); ?></p>
-		</div>
+	<div class="jobs-none-container">
+		<p><?php awsm_no_jobs_msg(); ?></p>
+	</div>
 <?php
-	endif;
-?>
+endif;
+
+/**
+ * after_awsm_jobs_listing hook
+ * 
+ * @since 1.1
+ */
+do_action( 'after_awsm_jobs_listing' );

@@ -9,7 +9,6 @@ class AWSM_Job_Openings_Settings {
     public function __construct( $awsm_core ) {
         $this->cpath = untrailingslashit( plugin_dir_path( __FILE__ ) );
         $this->awsm_core = $awsm_core;
-        $this->register_default_settings();
         $this->set_settings_capability();
 
         add_action( 'admin_menu', array( $this, 'admin_menu' ) );
@@ -19,6 +18,7 @@ class AWSM_Job_Openings_Settings {
         add_action( 'update_option_awsm_select_page_listing', array( $this, 'update_awsm_page_listing' ), 10, 2 );
         add_action( 'update_option_awsm_permalink_slug', array( $this, 'update_awsm_permalink_slug' ), 10, 2 );
         add_action( 'update_option_awsm_jobs_remove_filters', array( $this, 'update_awsm_jobs_remove_filters' ), 10, 2 );
+        add_action( 'update_option_awsm_jobs_make_specs_clickable', array( $this, 'update_awsm_jobs_make_specs_clickable' ), 10, 2 );
     }
 
     public static function init( $awsm_core ) {
@@ -104,22 +104,25 @@ class AWSM_Job_Openings_Settings {
                     'callback'    => array( $this, 'sanitize_array_fields' )
                 ),
                 array(
+                    'option_name' => 'awsm_jobs_details_page_template' /** @since 1.1 */
+                ),
+                array(
                     'option_name' => 'awsm_jobs_details_page_layout'
                 ),
                 array(
                     'option_name' => 'awsm_jobs_expired_jobs_listings'
                 ),
                 array(
-                    'option_name' => 'awsm_jobs_specification_job_detail'
+                    'option_name' => 'awsm_jobs_specification_job_detail' /** @since 1.0.1 */
                 ),
                 array(
-                    'option_name' => 'awsm_jobs_show_specs_icon'
+                    'option_name' => 'awsm_jobs_show_specs_icon' /** @since 1.0.1 */
                 ),
                 array(
-                    'option_name' => 'awsm_jobs_make_specs_clickable'
+                    'option_name' => 'awsm_jobs_make_specs_clickable' /** @since 1.0.1 */
                 ),
                 array(
-                    'option_name' => 'awsm_jobs_specs_position'
+                    'option_name' => 'awsm_jobs_specs_position' /** @since 1.0.1 */
                 ),
                 array(
                     'option_name' => 'awsm_jobs_expired_jobs_content_details'
@@ -145,6 +148,9 @@ class AWSM_Job_Openings_Settings {
 
             'form' => array(
                 array(
+                    'option_name' => 'awsm_current_form_subtab' /** @since 1.1 */
+                ),
+                array(
                     'option_name' => 'awsm_jobs_admin_upload_file_ext',
                     'callback'    => array( $this, 'sanitize_upload_file_extns' )
                 ),
@@ -154,6 +160,17 @@ class AWSM_Job_Openings_Settings {
                 array(
                     'option_name' => 'awsm_gdpr_cb_text',
                     'callback'    => array( $this, 'awsm_gdpr_cb_text_handle' )
+                ),
+                array(
+                    'option_name' => 'awsm_jobs_enable_recaptcha' /** @since 1.1 */
+                ),
+                array(
+                    'option_name' => 'awsm_jobs_recaptcha_site_key', /** @since 1.1 */
+                    'callback'    => array( $this, 'sanitize_site_key' )
+                ),
+                array(
+                    'option_name' => 'awsm_jobs_recaptcha_secret_key', /** @since 1.1 */
+                    'callback'    => array( $this, 'sanitize_secret_key' )
                 )
             ),
 
@@ -195,10 +212,7 @@ class AWSM_Job_Openings_Settings {
         return $settings;
     }
 
-    private function register_default_settings() {
-        if ( get_option( 'awsm_register_default_settings' ) == 1 ) {
-            return;
-        }
+    private function default_settings() {
         $options = array(
             'awsm_permalink_slug'                => 'jobs',
             'awsm_default_msg'                   => esc_html__( 'We currently have no job openings', 'wp-job-openings' ),
@@ -242,6 +256,13 @@ class AWSM_Job_Openings_Settings {
                 }
             }
         }
+    }
+
+    public function register_default_settings() {
+        if ( get_option( 'awsm_register_default_settings' ) == 1 ) {
+            return;
+        }
+        $this->default_settings();
         update_option( 'awsm_register_default_settings', 1 );
     }
 
@@ -280,6 +301,24 @@ class AWSM_Job_Openings_Settings {
             $slug = $old_value;
         }
         return $slug;
+    }
+
+    public function sanitize_site_key( $input ) {
+        $old_value = get_option( 'awsm_jobs_recaptcha_site_key' );
+        if( empty( $input ) ) {
+            add_settings_error( 'awsm_jobs_recaptcha_site_key', 'awsm-recaptcha-site-key', esc_html__( 'Invalid site key provided.', 'wp-job-openings' ) );
+            $input = $old_value;
+        }
+        return $input;
+    }
+
+    public function sanitize_secret_key( $input ) {
+        $old_value = get_option( 'awsm_jobs_recaptcha_secret_key' );
+        if( empty( $input ) ) {
+            add_settings_error( 'awsm_jobs_recaptcha_secret_key', 'awsm-recaptcha-secret-key', esc_html__( 'Invalid secret key provided.', 'wp-job-openings' ) );
+            $input = $old_value;
+        }
+        return $input;
     }
 
     public function sanitize_list_per_page( $input ) {
@@ -407,6 +446,12 @@ class AWSM_Job_Openings_Settings {
         $this->awsm_core->unregister_awsm_job_openings_post_type();
         $this->awsm_core->register_post_types();
         flush_rewrite_rules();
+    }
+
+    public function update_awsm_jobs_make_specs_clickable( $old_value, $value ) {
+        if( ! empty( $value ) ) {
+            flush_rewrite_rules();
+        }
     }
 
     public function display_check_list( $label, $option_name, $value, $saved_data ) {

@@ -5,6 +5,18 @@ if( ! defined( 'ABSPATH' ) ) {
 
 class AWSM_Job_Openings_Form {
     private static $_instance = null;
+    public static $allowed_html = array(
+        'a' => array(
+            'href' => array(),
+            'title' => array()
+        ),
+        'br' => array(),
+        'em' => array(),
+        'span' => array(),
+        'strong' => array(),
+        'small' => array()
+    );
+    public static $required_msg = 'This field is required.';
 
     public function __construct( ) {
         $this->cpath = untrailingslashit( plugin_dir_path( __FILE__ ) );
@@ -22,9 +34,7 @@ class AWSM_Job_Openings_Form {
         return self::$_instance;
     }
 
-    public function form_fields() {
-        $gdpr_cb_text = get_option( 'awsm_gdpr_cb_text' );
-        $gdpr_enable = get_option( 'awsm_enable_gdpr_cb' );
+    public function dynamic_form_fields() {
         $allowed_file_types = get_option( 'awsm_jobs_admin_upload_file_ext' );
         $allowed_file_content = '';
         if( is_array( $allowed_file_types ) && ! empty( $allowed_file_types ) ) {
@@ -85,38 +95,17 @@ class AWSM_Job_Openings_Form {
                 'id'           => 'awsm-application-file',
                 'class'        => array( 'awsm-resume-file-control', 'awsm-job-form-control' ),
                 'content'      => $allowed_file_content
-            ),
-
-            'awsm_form_privacy_policy' => array(
-                'show_field'   => ( ! empty( $gdpr_cb_text ) && ! empty( $gdpr_enable ) ),
-                'label'        => html_entity_decode( $gdpr_cb_text, ENT_QUOTES ),
-                'field_type'   => array(
-                    'tag'   => 'input',
-                    'type'  => 'checkbox',
-                    'value' => 'yes'
-                ),
-                'label_inline' => 'right'
             )
         );
         $form_fields = apply_filters( 'awsm_application_form_fields', $default_form_fields );
         return $form_fields;
     }
 
-    public function display_fields() {
-        $form_fields = $this->form_fields();
+    public function display_dynamic_fields() {
+        $form_fields = $this->dynamic_form_fields();
         if( ! empty( $form_fields ) ) {
-            $allowed_html = array(
-                'a' => array(
-                    'href' => array(),
-                    'title' => array()
-                ),
-                'br' => array(),
-                'em' => array(),
-                'span' => array(),
-                'strong' => array(),
-                'small' => array()
-            );
-            $required_msg = esc_html__( 'This field is required.', 'wp-job-openings' );
+            $allowed_html = self::$allowed_html;
+            $required_msg = esc_attr__( self::$required_msg, 'wp-job-openings' );
             $form_output = '';
             foreach( $form_fields as $field_name => $field_args ) {
                 $show_field = ( isset( $field_args['show_field'] ) ) ? $field_args['show_field'] : true;
@@ -167,12 +156,57 @@ class AWSM_Job_Openings_Form {
         }
     }
 
+    public function get_gdpr_field_label() {
+        $content = false;
+        $gdpr_cb_text = get_option( 'awsm_gdpr_cb_text' );
+        $gdpr_enable = get_option( 'awsm_enable_gdpr_cb' );
+        if( ! empty( $gdpr_enable ) && ! empty( $gdpr_cb_text ) ) {
+            $content = html_entity_decode( $gdpr_cb_text, ENT_QUOTES );
+        }
+        return $content;
+    }
+
+    public function display_gdpr_field() {
+        $label = $this->get_gdpr_field_label();
+        if( ! empty( $label ) ) :
+    ?>
+            <div class="awsm-job-form-group awsm-job-inline-group">
+                <input name="awsm_form_privacy_policy" class="awsm-job-form-field" id="awsm_form_privacy_policy" required="" data-msg-required="<?php echo esc_attr__( self::$required_msg, 'wp-job-openings' ); ?>" value="yes" aria-required="true" type="checkbox"><label for="awsm_form_privacy_policy"><?php echo wp_kses( $label, self::$allowed_html ); ?> <span class="awsm-job-form-error">*</span></label>
+            </div>
+    <?php
+        endif;
+    }
+
+    public function display_recaptcha_field() {
+        if( $this->is_recaptcha_set() ) :
+            $site_key = get_option( 'awsm_jobs_recaptcha_site_key' );
+            $fallback_url = add_query_arg( 'k', $site_key, 'https://www.google.com/recaptcha/api/fallback' );
+    ?>
+            <div class="awsm-job-form-group">
+                <div class="g-recaptcha" data-sitekey="<?php echo esc_attr( $site_key ); ?>"></div>
+                <noscript>
+                    <div style="width: 302px; height: 422px; position: relative;">
+                        <div style="width: 302px; height: 422px; position: absolute;">
+                            <iframe src="<?php echo esc_url( $fallback_url ); ?>" frameborder="0" scrolling="no" style="width: 302px; height:422px; border-style: none;"></iframe>
+                        </div>
+                        <div style="width: 300px; height: 60px; border-style: none; bottom: 12px; left: 25px; margin: 0px; padding: 0px; right: 25px; background: #f9f9f9; border: 1px solid #c1c1c1; border-radius: 3px;">
+                            <textarea id="g-recaptcha-response" name="g-recaptcha-response" class="g-recaptcha-response" style="width: 250px; height: 40px; border: 1px solid #c1c1c1; margin: 10px 25px; padding: 0px; resize: none;" ></textarea>
+                        </div>
+                    </div>
+                </noscript>
+            </div>
+    <?php
+        endif;
+    }
+
     public function application_form() {
-        include_once $this->cpath . '/templates/partials/application-form.php';
+        include_once AWSM_Job_Openings::get_template_path( 'form.php', 'single-job' );
     }
 
     public function form_field_init() {
-        $this->display_fields();
+        $this->display_dynamic_fields();
+        $this->display_gdpr_field();
+        $this->display_recaptcha_field();
     }
 
     public function upload_dir( $param ) {
@@ -213,8 +247,16 @@ class AWSM_Job_Openings_Form {
             $applicant_letter = awsm_jobs_sanitize_textarea( $_POST['awsm_applicant_letter'] );
             $attachment = $_FILES['awsm_file'];
             $agree_privacy_policy = false;
-            $gdpr_enable = get_option( 'awsm_enable_gdpr_cb' );
-            if( ! empty( $gdpr_enable ) ) {
+            if( $this->is_recaptcha_set() ) {
+                $is_human = false;
+                if( isset( $_POST['g-recaptcha-response'] ) ){
+                  $is_human = $this->validate_captcha_field( $_POST['g-recaptcha-response'] );
+                }
+                if( ! $is_human ) {
+                    $awsm_response['error'][] = esc_html__( "Please verify that you are not a robot.", "wp-job-openings" );
+                }
+            }
+            if( $this->get_gdpr_field_label() !== false ) {
                 if( ! isset( $_POST['awsm_form_privacy_policy'] ) ||  $_POST['awsm_form_privacy_policy'] !== 'yes' ) {
                     $awsm_response['error'][] = esc_html__( "Please agree to our privacy policy.", "wp-job-openings" );
                 } else {
@@ -327,13 +369,49 @@ class AWSM_Job_Openings_Form {
                             $awsm_response['error'][] = esc_html__( 'Error in submitting your application. Please try again later!', 'wp-job-openings' );
                         }
                     } else {
-                        $awsm_response['error'][] =  $movefile['error'];
+                        $awsm_response['error'][] = $movefile['error'];
                     }
                 }
             }
             add_action( 'awsm_application_form_notices', array( $this, 'awsm_form_submit_notices' ) );
         }
         return $awsm_response;
+    }
+
+    public function is_recaptcha_set() {
+        $is_set = false;
+        $enable_recaptcha = get_option( 'awsm_jobs_enable_recaptcha' );
+        $site_key = get_option( 'awsm_jobs_recaptcha_site_key' );
+        $secret_key = get_option( 'awsm_jobs_recaptcha_secret_key' );
+        if ( $enable_recaptcha == 'enable' && ! empty( $site_key ) && ! empty( $secret_key ) ) {
+            $is_set = true;
+        }
+        return $is_set;
+    }
+
+    public function validate_captcha_field( $token ) {
+        $is_valid = false;
+        $verify_url = 'https://www.google.com/recaptcha/api/siteverify';
+        if ( ! empty( $token ) ) {
+            $secret_key = get_option( 'awsm_jobs_recaptcha_secret_key' );
+            $response = wp_safe_remote_post( $verify_url, array(
+                'body' => array(
+                    'secret' => $secret_key,
+                    'response' => $token,
+                    'remoteip' => $_SERVER['REMOTE_ADDR']
+                ),
+            ) );
+            if( ! is_wp_error( $response ) ) {
+                $response_body = wp_remote_retrieve_body( $response );
+                if( ! is_wp_error( $response_body ) ) {
+                    if ( wp_remote_retrieve_response_code( $response ) === 200 ) {
+                        $response = json_decode( $response_body, true );
+                        $is_valid = isset( $response['success'] ) && $response['success'] === true;
+                    }
+                }
+            }
+        }
+        return $is_valid;
     }
 
     public function ajax_handle() {

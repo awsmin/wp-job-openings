@@ -312,6 +312,10 @@ a.awsm-text-red:hover{
 }
 .awsm-settings-aside .awsm-job-template-tag-list span:last-child{
     padding: 0 0 0 10px;
+    -webkit-user-select: all;
+    -moz-user-select: all;
+    -ms-user-select: all;
+    user-select: all;
 }
 /* Job Applications */
 /* to fix application meta box styling issue */

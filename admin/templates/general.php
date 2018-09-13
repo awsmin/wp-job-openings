@@ -24,9 +24,11 @@
 ?>
 
 <div id="settings-awsm-settings-general" class="awsm-admin-settings" style="display: block;" >
+    <?php do_action( 'awsm_settings_form_elem_start', 'general' ); ?>
     <form method="POST" action="options.php#settings-awsm-settings-general" id="general_settings_form">
     	<?php
-    	   settings_fields( 'awsm-jobs-general-settings' );
+           settings_fields( 'awsm-jobs-general-settings' );
+           do_action( 'before_awsm_settings_main_content', 'general' );
     	?>
     	<div class="awsm-form-section-main">
             <table class="form-table">
@@ -99,8 +101,12 @@
                 </tbody>
             </table>
         </div>
+
+        <?php do_action( 'after_awsm_settings_main_content', 'general' ); ?>
+
         <div class="awsm-form-footer">
         <?php echo apply_filters( 'awsm_job_settings_submit_btn', get_submit_button(), 'general' ); ?>
         </div><!-- .awsm-form-footer -->
 	</form>
+    <?php do_action( 'awsm_settings_form_elem_end', 'general' ); ?>
 </div>

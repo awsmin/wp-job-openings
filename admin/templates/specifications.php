@@ -10,9 +10,11 @@
 ?>
 
 <div id="settings-awsm-settings-specifications" class="awsm-admin-settings" style="display: none;">
+    <?php do_action( 'awsm_settings_form_elem_start', 'specifications' ); ?>
     <form method="POST" action="options.php#settings-awsm-settings-specifications" id="job_specifications_form">
         <?php
             settings_fields( 'awsm-jobs-specifications-settings' );
+            do_action( 'before_awsm_settings_main_content', 'specifications' );
         ?>
         <div class="awsm-form-section-main">
             <div class="awsm-form-section">
@@ -112,8 +114,12 @@
                 <p><a class="button awsm-add-filter-row" href="#"><?php esc_html_e( 'Add new spec','wp-job-openings' );?></a></p>
             </div><!-- .awsm-form-section -->
         </div><!-- .awsm-form-section-main -->
+
+        <?php do_action( 'after_awsm_settings_main_content', 'specifications' ); ?>
+
         <div class="awsm-form-footer">
             <?php echo apply_filters( 'awsm_job_settings_submit_btn', get_submit_button(), 'specifications' ); ?>
         </div><!-- .awsm-form-footer -->
     </form>
+    <?php do_action( 'awsm_settings_form_elem_end', 'specifications' ); ?>
 </div><!-- .awsm-admin-settings -->

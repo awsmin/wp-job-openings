@@ -1,7 +1,7 @@
 === WP Job Openings ===
 Contributors: awsmin
 Tags: jobs, job listing, job openings, job board, careers page, jobs page, wp job opening, jobs plugin
-Requires at least: 4.0
+Requires at least: 4.1
 Tested up to: 4.9.8
 Stable tag: trunk
 License: GPLv2 or later
@@ -14,7 +14,7 @@ Super simple Job Listing plugin to manage Job Openings and Applicants on your Wo
 == Description ==
 Are you looking for setting up a job listing page for a website? WP Job Openings plugin is the most simple yet powerful plugin for you. 
 
-The plugin is designed after carefully analysing hundreds of job listing layouts and methods. We just picked the best features out of the all and built a plugin that’s super simple to use and extendible to a high performing recruitment tool. 
+The plugin is designed after carefully analysing hundreds of job listing layouts and methods. We just picked the best features out of the all and built a plugin that’s super simple to use and extensible to a high performing recruitment tool. 
 
 The first version of the plugin comes with two layouts - Grid and List which are designed carefully according to the modern design and User Experience principles. Highlight of the plugin is its totally flexible filter options. You will not realise its power until you start using it. 
 
@@ -30,7 +30,7 @@ The first version of the plugin comes with two layouts - Grid and List which are
 * Unlimited Job Specifications 
 * Unlimited Filtering Options
 * AJAX Powered Job Listing and Filtering
-* Comes with Default Form to Sumit Applications
+* Comes with Default Form to Submit Applications
 * HR Role for setting up HR user
 * Options to Customise Email Notifications
 * Application Listings in Plugin
@@ -50,7 +50,7 @@ The first version of the plugin comes with two layouts - Grid and List which are
 1. Job listing - Grid View
 2. Job listing - List View
 3. General Settings
-4. Job Listing Page Appearance Settings 
+4. Job Listing Page Appearance Settings
 5. Job Details Page Appearance Settings
 6. Job Specifications Manager
 7. Application Form Settings
@@ -59,15 +59,27 @@ The first version of the plugin comes with two layouts - Grid and List which are
 
 == Changelog ==
 
+= V 1.1 - 2018-09-12 =
+* Added: Custom template support.
+* Added: New hooks for better templating
+* Added: reCAPTCHA feature for job application form
+* Added: New job specifications display option on job detail page appearance settings
+* Fixed: Job view count issue when caching plugin is used
+* Minor bug fixes
+* Overall code and performance improvement
+
 = V 1.0.1 - 2018-08-22 =
-* Added job specifications display options on job detail page appearance settings
-* Added job status meta box on application detail screen
+* Added: Job specifications display options on job detail page appearance settings
+* Added: Job status meta box on application detail screen
 * Minor fixes and improvements
 
 = V 1.0 - 2018-08-12 =
 * Initial Release
 
 == Upgrade Notice ==
+
+= 1.1 =
+New Features Added
 
 = 1.0.1 =
 Improvements and minor fixes

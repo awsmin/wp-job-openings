@@ -1,4 +1,10 @@
-jQuery(document).ready(function ($) {
+jQuery(document).ready(function ($) { 
+  // =============== Job Views ===============
+  var job_id = Number(awsmJobsPublic.job_id);
+  if(job_id && ! isNaN(job_id)) {
+    $.post(awsmJobsPublic.ajaxurl, { action: 'awsm_view_count', awsm_job_id: job_id });
+  }
+
   // ========== Job Aplication Form ==========
   var $application_form = $("#awsm-application-form");
   var $application_message = $(".awsm-application-message");
@@ -31,7 +37,7 @@ jQuery(document).ready(function ($) {
       if (file_data > maxSize) {
         $application_message
           .addClass(error_class)
-          .html(awsmJobsPublic.form_error_msg.file_validation)
+          .html(awsmJobsPublic.i18n.form_error_msg.file_validation)
           .fadeIn();
       } else {
         $application_message
@@ -74,7 +80,7 @@ jQuery(document).ready(function ($) {
           .fail(function (xhr) {
             $application_message
               .addClass(error_class)
-              .html(awsmJobsPublic.form_error_msg.general)
+              .html(awsmJobsPublic.i18n.form_error_msg.general)
               .fadeIn();
             console.log(xhr);
           })

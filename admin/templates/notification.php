@@ -14,8 +14,12 @@
 
 <div id="settings-awsm-settings-notification" class="awsm-admin-settings" style="display: none;">
     <div class="awsm-settings-col-left">
+        <?php do_action( 'awsm_settings_form_elem_start', 'notification' ); ?>
         <form method="POST" action="options.php#settings-awsm-settings-notification" id="notification_form">
-            <?php settings_fields( 'awsm-jobs-notification-settings' ); ?>
+            <?php
+                settings_fields( 'awsm-jobs-notification-settings' );
+                do_action( 'before_awsm_settings_main_content', 'notification' );
+            ?>
             <h2 class="awsm-section-title"><?php esc_html_e( 'Application Notifications', 'wp-job-openings' ); ?></h2>
             <div class="awsm-form-section-main awsm-acc-section-main">
                 <div class="awsm-form-section awsm-acc-secton" id="settings-notification">
@@ -91,7 +95,11 @@
                     <?php do_action( 'after_awsm_notification_settings' ); ?>
                 </div><!-- .awsm-form-section -->
             </div><!-- .awsm-form-section-main -->
+
+            <?php do_action( 'after_awsm_settings_main_content', 'notification' ); ?>
+            
         </form>
+        <?php do_action( 'awsm_settings_form_elem_end', 'notification' ); ?>
     </div><!-- .awsm-settings-col-left -->
     <div class="awsm-settings-col-right">
         <div class="awsm-settings-aside">
