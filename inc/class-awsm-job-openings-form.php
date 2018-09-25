@@ -440,7 +440,30 @@ class AWSM_Job_Openings_Form {
         printf( '<ul class="%1$s">%2$s</ul>', $class_name, $content );
     }
 
-    private function notification_email( $applicant_details ) {
+    public function get_mail_template_tags( $applicant_details, $options = array() ) {
+        $admin_email = isset( $options['admin_email'] ) ? $options['admin_email'] : get_option( 'admin_email' );
+        $company_name = isset( $options['company_name'] ) ? $options['company_name'] : get_option( 'awsm_job_company_name' );
+        $hr_email = isset( $options['hr_email'] ) ? $options['hr_email'] : get_option( 'awsm_hr_email_address', '' );
+        $job_expiry = get_post_meta( $applicant_details['awsm_job_id'], 'awsm_job_expiry', true );
+        $job_expiry = ( ! empty( $job_expiry ) ) ? date_i18n( __( get_option( 'date_format' ) ), strtotime( $job_expiry ) ) : '';
+        $attachment_url = wp_get_attachment_url( $applicant_details['awsm_attachment_id'] );
+        $tags = array(
+            '{applicant}'        => $applicant_details['awsm_applicant_name'],
+            '{applicant-email}'  => $applicant_details['awsm_applicant_email'],
+            '{applicant-phone}'  => $applicant_details['awsm_applicant_phone'],
+            '{job-id}'           => $applicant_details['awsm_job_id'],
+            '{job-expiry}'       => $job_expiry,
+            '{admin-email}'      => $admin_email,
+            '{hr-email}'         => $hr_email,
+            '{company}'          => $company_name,
+            '{job-title}'        => $applicant_details['awsm_apply_for'],
+            '{applicant-cover}'  => $applicant_details['awsm_applicant_letter'],
+            '{applicant-resume}' => ( ! empty( $attachment_url ) ) ? esc_url( $attachment_url ) : ''
+        );
+        return $tags;
+    }
+
+    protected function notification_email( $applicant_details ) {
         $enable_acknowledgement = get_option( 'awsm_jobs_acknowledgement' );
         $enable_admin = get_option( 'awsm_jobs_enable_admin_notification' );
         if  ( $enable_acknowledgement == 'acknowledgement'  || $enable_admin == 'enable'  ) {
@@ -449,47 +472,30 @@ class AWSM_Job_Openings_Form {
             $notifi_subject = get_option( 'awsm_jobs_notification_subject' );
             $notifi_content = get_option( 'awsm_jobs_notification_content' );
             $company_name = get_option( 'awsm_job_company_name', '' );
-            $hr_email = get_option( 'awsm_hr_email_address', '' );
             $admin_to = get_option( 'awsm_jobs_admin_to_notification' );
             $admin_cc = get_option( 'awsm_jobs_admin_hr_notification' );
             $admin_subject = get_option( 'awsm_jobs_admin_notification_subject' );
             $admin_content = get_option( 'awsm_jobs_admin_notification_content' );
-            $job_expiry = get_post_meta( $applicant_details['awsm_job_id'], 'awsm_job_expiry', true);
-            $job_expiry = ( ! empty( $job_expiry ) ) ? date_i18n( __( get_option( 'date_format' ) ), strtotime( $job_expiry ) ) : '';
-            $attachment_url = wp_get_attachment_url( $applicant_details['awsm_attachment_id'] );
-            $notification_details = array(
-                '{applicant}'        => $applicant_details['awsm_applicant_name'],
-                '{applicant-email}'  => $applicant_details['awsm_applicant_email'],
-                '{applicant-phone}'  => $applicant_details['awsm_applicant_phone'],
-                '{job-id}'           => $applicant_details['awsm_job_id'],
-                '{job-expiry}'       => $job_expiry,
-                '{admin-email}'      => $admin_email,
-                '{hr-email}'         => $hr_email,
-                '{company}'          => $company_name,
-                '{job-title}'        => $applicant_details['awsm_apply_for'],
-                '{applicant-cover}'  => $applicant_details['awsm_applicant_letter'],
-                '{applicant-resume}' => ( ! empty( $attachment_url ) ) ? esc_url( $attachment_url ) : ''
-            );
-            $template_tags = array_keys( $notification_details );
-            $replacement_values = array_values( $notification_details );
+            $tags = $this->get_mail_template_tags( $applicant_details, array(
+                'admin_email'  => $admin_email,
+                'company_name' => $company_name
+            ) );
+            $tag_names = array_keys( $tags );
+            $tag_values = array_values( $tags );
             if ( $enable_acknowledgement == 'acknowledgement' && ! empty( $notifi_subject ) && ! empty( $notifi_content ) ) {
-                $filtered_subject = str_replace( $template_tags, $replacement_values, $notifi_subject );
-                $filtered_content = str_replace( $template_tags, $replacement_values, $notifi_content );
                 $to = $applicant_details['awsm_applicant_email'];
-                $subject = $filtered_subject;
-                $message = $filtered_content;
-                $title = ( ! empty( $company_name ) ) ? $company_name : get_option( 'blogname' );
+                $from = ( ! empty( $company_name ) ) ? $company_name : get_option( 'blogname' );
+                $subject = str_replace( $tag_names, $tag_values, $notifi_subject );
+                $message = str_replace( $tag_names, $tag_values, $notifi_content );
                 $headers = array();
-                $headers[] = 'From: ' . $title . ' <' . $admin_email . '>';
+                $headers[] = 'From: ' . $from . ' <' . $admin_email . '>';
                 $headers[] = 'Cc: ' . $applicant_cc;
                 wp_mail( $to, $subject, $message, $headers );
             }
             if( $enable_admin == 'enable' && ! empty( $admin_subject ) && ! empty( $admin_content ) ) {
-                $filtered_admin_subject = str_replace( $template_tags, $replacement_values, $admin_subject );
-                $filtered_admin_content = str_replace( $template_tags, $replacement_values, $admin_content );
                 $to = $admin_to;
-                $subject = $filtered_admin_subject;
-                $message = $filtered_admin_content;
+                $subject = str_replace( $tag_names, $tag_values, $admin_subject );
+                $message = str_replace( $tag_names, $tag_values, $admin_content );
                 $admin_headers = array();
                 $admin_headers[] = 'From: ' . $applicant_details['awsm_applicant_name'] . ' <' . $applicant_details['awsm_applicant_email'] . '>';
                 $admin_headers[] = 'Cc: ' . $admin_cc;

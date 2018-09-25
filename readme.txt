@@ -59,6 +59,11 @@ The first version of the plugin comes with two layouts - Grid and List which are
 
 == Changelog ==
 
+= V 1.1.1 - 2018-09-21 =
+* Fixed: Plugin activation is terminated when plugin is activated through WP-CLI
+* Fixed: Invalid error messages when reCAPTCHA in not enabled in Form settings
+* Code improvements
+
 = V 1.1 - 2018-09-12 =
 * Added: Custom template support.
 * Added: New hooks for better templating
@@ -78,8 +83,8 @@ The first version of the plugin comes with two layouts - Grid and List which are
 
 == Upgrade Notice ==
 
+= 1.1.1 =
+Bug fixes and improvements
+
 = 1.1 =
 New Features Added
-
-= 1.0.1 =
-Improvements and minor fixes

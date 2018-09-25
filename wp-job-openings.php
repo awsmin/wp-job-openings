@@ -13,7 +13,7 @@
  * Description: Super simple Job Listing plugin to manage Job Openings and Applicants on your WordPress site.
  * Author: AWSM Innovations
  * Author URI: https://awsm.in/
- * Version: 1.1
+ * Version: 1.1.1
  * Licence: GPLv2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text domain: wp-job-openings
@@ -36,7 +36,7 @@ if( ! defined( 'AWSM_JOBS_PLUGIN_URL' ) ) {
     define( 'AWSM_JOBS_PLUGIN_URL', untrailingslashit( plugin_dir_url(__FILE__) ) );
 }
 if( ! defined( 'AWSM_JOBS_PLUGIN_VERSION' ) ) {
-    define( 'AWSM_JOBS_PLUGIN_VERSION', '1.1' );
+    define( 'AWSM_JOBS_PLUGIN_VERSION', '1.1.1' );
 }
 if( ! defined( 'AWSM_JOBS_UPLOAD_DIR_NAME' ) ) {
     define( 'AWSM_JOBS_UPLOAD_DIR_NAME', 'awsm-job-openings' );
@@ -57,7 +57,7 @@ class AWSM_Job_Openings {
         AWSM_Job_Openings_Filters::init();
         if( is_admin() ) {
             AWSM_Job_Openings_Meta::init();
-            $this->awsm_settings = AWSM_Job_Openings_Settings::init( $this->awsm_core );
+            AWSM_Job_Openings_Settings::init( $this->awsm_core );
             AWSM_Job_Openings_Info::init();
         }
 
@@ -105,7 +105,7 @@ class AWSM_Job_Openings {
     }
 
     public function activate() {
-        $this->awsm_settings->register_default_settings();
+        $this->register_default_settings();
         $this->awsm_core->register();
         $this->create_page_when_activate();
         flush_rewrite_rules();
@@ -117,6 +117,13 @@ class AWSM_Job_Openings {
         $this->clear_cron_jobs();
         $this->awsm_core->unregister();
         flush_rewrite_rules();
+    }
+
+    private function register_default_settings() {
+        if( ! class_exists( 'AWSM_Job_Openings_Settings' ) ) {
+            require_once AWSM_JOBS_PLUGIN_DIR . "/admin/class-awsm-job-openings-settings.php";
+        }
+        AWSM_Job_Openings_Settings::register_defaults();
     }
 
     public function activate_welcome_page() {

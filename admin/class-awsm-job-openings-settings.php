@@ -212,7 +212,7 @@ class AWSM_Job_Openings_Settings {
         return $settings;
     }
 
-    private function default_settings() {
+    private static function default_settings() {
         $options = array(
             'awsm_permalink_slug'                => 'jobs',
             'awsm_default_msg'                   => esc_html__( 'We currently have no job openings', 'wp-job-openings' ),
@@ -258,11 +258,11 @@ class AWSM_Job_Openings_Settings {
         }
     }
 
-    public function register_default_settings() {
+    public static function register_defaults() {
         if ( get_option( 'awsm_register_default_settings' ) == 1 ) {
             return;
         }
-        $this->default_settings();
+        self::default_settings();
         update_option( 'awsm_register_default_settings', 1 );
     }
 
@@ -305,7 +305,8 @@ class AWSM_Job_Openings_Settings {
 
     public function sanitize_site_key( $input ) {
         $old_value = get_option( 'awsm_jobs_recaptcha_site_key' );
-        if( empty( $input ) ) {
+        $enable = get_option( 'awsm_jobs_enable_recaptcha' );
+        if( empty( $input ) && $enable == 'enable' ) {
             add_settings_error( 'awsm_jobs_recaptcha_site_key', 'awsm-recaptcha-site-key', esc_html__( 'Invalid site key provided.', 'wp-job-openings' ) );
             $input = $old_value;
         }
@@ -314,7 +315,8 @@ class AWSM_Job_Openings_Settings {
 
     public function sanitize_secret_key( $input ) {
         $old_value = get_option( 'awsm_jobs_recaptcha_secret_key' );
-        if( empty( $input ) ) {
+        $enable = get_option( 'awsm_jobs_enable_recaptcha' );
+        if( empty( $input ) && $enable == 'enable' ) {
             add_settings_error( 'awsm_jobs_recaptcha_secret_key', 'awsm-recaptcha-secret-key', esc_html__( 'Invalid secret key provided.', 'wp-job-openings' ) );
             $input = $old_value;
         }

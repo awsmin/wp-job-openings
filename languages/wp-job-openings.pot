@@ -94,7 +94,7 @@ msgstr ""
 msgid "File not found!"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:36, admin/class-awsm-job-openings-settings.php:36, admin/templates/base.php:10, wp-job-openings.php:203
+#: admin/class-awsm-job-openings-settings.php:36, admin/class-awsm-job-openings-settings.php:36, admin/templates/base.php:10, wp-job-openings.php:210
 msgid "Settings"
 msgstr ""
 
@@ -122,7 +122,7 @@ msgstr ""
 msgid "We currently have no job openings"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:244, admin/class-awsm-job-openings-settings.php:422
+#: admin/class-awsm-job-openings-settings.php:244, admin/class-awsm-job-openings-settings.php:424
 msgid "By using this form you agree with the storage and handling of your data by this website."
 msgstr ""
 
@@ -134,23 +134,23 @@ msgstr ""
 msgid "Slug cannot be updated. A page with same slug exists. Please choose a different URL slug."
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:309
+#: admin/class-awsm-job-openings-settings.php:310
 msgid "Invalid site key provided."
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:318
+#: admin/class-awsm-job-openings-settings.php:320
 msgid "Invalid secret key provided."
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:327
+#: admin/class-awsm-job-openings-settings.php:329
 msgid "Listings per page must be greater than or equal to 1."
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:413
+#: admin/class-awsm-job-openings-settings.php:415
 msgid "Error in saving file upload types!"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:486
+#: admin/class-awsm-job-openings-settings.php:488
 msgid "You do not have sufficient permissions to manage options."
 msgstr ""
 
@@ -356,7 +356,7 @@ msgstr ""
 msgid "Secret key"
 msgstr ""
 
-#: admin/templates/general.php:22, wp-job-openings.php:496
+#: admin/templates/general.php:22, wp-job-openings.php:503
 msgid "Select a page"
 msgstr ""
 
@@ -600,7 +600,7 @@ msgstr ""
 msgid "Active"
 msgstr ""
 
-#: admin/templates/meta/job-status.php:23, wp-job-openings.php:309
+#: admin/templates/meta/job-status.php:23, wp-job-openings.php:316
 msgid "Expired"
 msgstr ""
 
@@ -772,7 +772,7 @@ msgstr ""
 msgid "Job Openings"
 msgstr ""
 
-#: inc/class-awsm-job-openings-core.php:43, wp-job-openings.php:276
+#: inc/class-awsm-job-openings-core.php:43, wp-job-openings.php:283
 msgid "Job"
 msgstr ""
 
@@ -804,7 +804,7 @@ msgstr ""
 msgid "Parent Job :"
 msgstr ""
 
-#: inc/class-awsm-job-openings-core.php:78, inc/class-awsm-job-openings-core.php:80, inc/class-awsm-job-openings-core.php:81, wp-job-openings.php:212
+#: inc/class-awsm-job-openings-core.php:78, inc/class-awsm-job-openings-core.php:80, inc/class-awsm-job-openings-core.php:81, wp-job-openings.php:219
 msgid "Applications"
 msgstr ""
 
@@ -920,7 +920,7 @@ msgstr ""
 msgid "Your application has been submitted."
 msgstr ""
 
-#: inc/class-awsm-job-openings-form.php:366, inc/class-awsm-job-openings-form.php:369, wp-job-openings.php:474
+#: inc/class-awsm-job-openings-form.php:366, inc/class-awsm-job-openings-form.php:369, wp-job-openings.php:481
 msgid "Error in submitting your application. Please try again later!"
 msgstr ""
 
@@ -944,100 +944,100 @@ msgstr ""
 msgid "Apply for this position"
 msgstr ""
 
-#: wp-job-openings.php:140
+#: wp-job-openings.php:147
 msgid "Jobs"
 msgstr ""
 
-#: wp-job-openings.php:210
+#: wp-job-openings.php:217
 msgid "Job Title"
 msgstr ""
 
-#: wp-job-openings.php:211
+#: wp-job-openings.php:218
 msgid "Job ID"
 msgstr ""
 
-#: wp-job-openings.php:213
+#: wp-job-openings.php:220
 msgid "Expiry"
 msgstr ""
 
-#: wp-job-openings.php:214
+#: wp-job-openings.php:221
 msgid "Views"
 msgstr ""
 
-#: wp-job-openings.php:215
+#: wp-job-openings.php:222
 msgid "Conversion"
 msgstr ""
 
-#: wp-job-openings.php:274
+#: wp-job-openings.php:281
 msgid "Applicant"
 msgstr ""
 
-#: wp-job-openings.php:275
+#: wp-job-openings.php:282
 msgid "ID"
 msgstr ""
 
-#: wp-job-openings.php:277
+#: wp-job-openings.php:284
 msgid "Applied on"
 msgstr ""
 
-#: wp-job-openings.php:297
+#: wp-job-openings.php:304
 msgid "View Job: "
 msgstr ""
 
-#: wp-job-openings.php:315
+#: wp-job-openings.php:322
 msgid "Expired <span class=\"count\">(%s)</span>"
 msgid_plural "Expired <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: wp-job-openings.php:368
+#: wp-job-openings.php:375
 msgid "Published "
 msgstr ""
 
-#: wp-job-openings.php:368
+#: wp-job-openings.php:375
 msgid "Current Openings "
 msgstr ""
 
-#: wp-job-openings.php:371
+#: wp-job-openings.php:378
 msgid "Expired "
 msgstr ""
 
-#: wp-job-openings.php:371
+#: wp-job-openings.php:378
 msgid "Inactive"
 msgstr ""
 
-#: wp-job-openings.php:391
+#: wp-job-openings.php:398
 msgid "All Jobs"
 msgstr ""
 
-#: wp-job-openings.php:472
+#: wp-job-openings.php:479
 msgid "Loading..."
 msgstr ""
 
-#: wp-job-openings.php:475
+#: wp-job-openings.php:482
 msgid "The file you have selected is too large."
 msgstr ""
 
-#: wp-job-openings.php:570
+#: wp-job-openings.php:577
 msgid "Application #%1$s for %2$s"
 msgstr ""
 
-#: wp-job-openings.php:577
+#: wp-job-openings.php:584
 msgid "Submitted on %1$s"
 msgstr ""
 
-#: wp-job-openings.php:581
+#: wp-job-openings.php:588
 msgid "from IP "
 msgstr ""
 
-#: wp-job-openings.php:741
+#: wp-job-openings.php:748
 msgid "View Applications"
 msgstr ""
 
-#: wp-job-openings.php:849
+#: wp-job-openings.php:856
 msgid "Closing on"
 msgstr ""
 
-#: wp-job-openings.php:852
+#: wp-job-openings.php:859
 msgid "Expired on"
 msgstr ""
