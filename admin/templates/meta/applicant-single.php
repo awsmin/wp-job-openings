@@ -11,11 +11,11 @@
             $avatar = apply_filters( 'awsm_applicant_photo', get_avatar( $applicant_email, 130 ) );
             echo '<div class="awsm-applicant-image">' . $avatar . '</div>';
             $attachment_id = get_post_meta( $post->ID, 'awsm_attachment_id', true );
-            $resume_details = $this->get_resume_details( $attachment_id );
+            $resume_details = $this->get_attached_file_details( $attachment_id );
             if( ! empty( $resume_details ) ) :
                 $file_size_display = ! empty( $resume_details['file_size']['display'] ) ? '(' . $resume_details['file_size']['display'] . ')' : '';
         ?>
-                <a href="<?php echo $this->get_resume_download_url( $attachment_id ); ?>" class="button awsm-applicant-resume-btn" rel="nofollow"><strong><?php esc_html_e( 'Download Resume', 'wp-job-openings' ); ?></strong><span><?php echo esc_html( $resume_details['file_type']['ext'] ) . $file_size_display; ?></span></a>
+                <a href="<?php echo $this->get_attached_file_download_url( $attachment_id ); ?>" class="button awsm-applicant-resume-btn" rel="nofollow"><strong><?php esc_html_e( 'Download Resume', 'wp-job-openings' ); ?></strong><span><?php echo esc_html( $resume_details['file_type']['ext'] ) . $file_size_display; ?></span></a>
         <?php endif;  ?>
     </div><!-- .awsm-applicant-image-container -->
 

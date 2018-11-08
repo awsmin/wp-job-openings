@@ -18,7 +18,7 @@ jQuery(document).ready(function ($) {
     errorElement: "div",
     errorClass: "awsm-job-form-error",
     errorPlacement: function (error, element) {
-      error.appendTo(element.parent(".awsm-job-form-group"));
+      error.appendTo(element.parents(".awsm-job-form-group"));
     }
   });
 
@@ -28,24 +28,33 @@ jQuery(document).ready(function ($) {
     var proceed = $application_form.valid();
     var maxSize = awsmJobsPublic.wp_max_upload_size;
     if (proceed) {
-      var container = $(".awsm-job-form"),
-        field = $("input[name='awsm_file']", container),
-        form = $("#awsm-application-form")[0],
-        file_data = (typeof field.prop("files")[0] !== 'undefined') ? field.prop("files")[0].size : 0,
-        form_data = new FormData(form),
-        ajaxurl = awsmJobsPublic.ajaxurl;
-      if (file_data > maxSize) {
+      var container = $(".awsm-job-form");
+      var field = $("input[name='awsm_file']", container);
+      var form = $("#awsm-application-form")[0];
+      var file_check = true;
+      var $file_control = $('.awsm-form-file-control');
+      if( $file_control.length > 0 ) {
+        $('.awsm-form-file-control').each(function() {
+          var $file_field = $(this);
+          var file_size = (typeof $file_field.prop("files")[0] !== 'undefined') ? $file_field.prop("files")[0].size : 0;
+          if( file_size > maxSize ) {
+            file_check = false;
+          }
+        });
+      }
+      if (file_check === false) {
         $application_message
           .addClass(error_class)
           .html(awsmJobsPublic.i18n.form_error_msg.file_validation)
           .fadeIn();
       } else {
+        var form_data = new FormData(form);
         $application_message
           .removeClass(success_class + " " + error_class)
           .hide();
         $submit_btn.prop('disabled', true).val(submit_btn_res_text);
         $.ajax({
-            url: ajaxurl,
+            url: awsmJobsPublic.ajaxurl,
             cache: false,
             contentType: false,
             processData: false,

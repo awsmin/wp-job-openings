@@ -13,7 +13,7 @@
  * Description: Super simple Job Listing plugin to manage Job Openings and Applicants on your WordPress site.
  * Author: AWSM Innovations
  * Author URI: https://awsm.in/
- * Version: 1.1.2
+ * Version: 1.2
  * Licence: GPLv2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text domain: wp-job-openings
@@ -36,7 +36,7 @@ if( ! defined( 'AWSM_JOBS_PLUGIN_URL' ) ) {
     define( 'AWSM_JOBS_PLUGIN_URL', untrailingslashit( plugin_dir_url(__FILE__) ) );
 }
 if( ! defined( 'AWSM_JOBS_PLUGIN_VERSION' ) ) {
-    define( 'AWSM_JOBS_PLUGIN_VERSION', '1.1.2' );
+    define( 'AWSM_JOBS_PLUGIN_VERSION', '1.2' );
 }
 if( ! defined( 'AWSM_JOBS_UPLOAD_DIR_NAME' ) ) {
     define( 'AWSM_JOBS_UPLOAD_DIR_NAME', 'awsm-job-openings' );
@@ -78,6 +78,7 @@ class AWSM_Job_Openings {
         add_filter( 'archive_template', array( $this, 'jobs_archive_template' ) );
         add_action( 'wp_ajax_awsm_view_count', array( $this, 'job_views_handler' ) );
         add_action( 'wp_ajax_nopriv_awsm_view_count', array( $this, 'job_views_handler' ) );
+        add_action( 'wp_footer', array( $this, 'display_structured_data' ) );
         $this->admin_filters();
 
         add_shortcode( 'awsmjobs', array( $this, 'awsm_jobs_shortcode' ) );
@@ -176,6 +177,7 @@ class AWSM_Job_Openings {
             add_action( 'save_post', array( $this, 'awsm_job_save_post' ), 100, 2 );
             add_action( 'before_delete_post', array( $this, 'delete_attachment_post' ) );
             add_action( 'restrict_manage_posts', array( $this, 'awsm_admin_filtering_posts' ) );
+            add_action( 'before_awsm_job_settings_init', array( $this, 'no_script_msg' ) );
         }
     }
 
@@ -458,6 +460,15 @@ class AWSM_Job_Openings {
             }
         }
         wp_die();
+    }
+
+    public function no_script_msg() { ?>
+        <noscript>
+            <div class="notice notice-error">
+                <p><?php esc_html_e( 'JavaScript is required! Please enable it in your browser.', 'wp-job-openings' ); ?></p>
+            </div>
+        </noscript>
+    <?php
     }
 
     public function register_scripts() {
@@ -928,6 +939,100 @@ class AWSM_Job_Openings {
             echo $content;
         } else {
             return $content;
+        }
+    }
+
+    public function job_spec_structured_data( $post ) {
+        $data = array();
+        $default_emp_types = array(
+            'FULL_TIME'  => __( 'Full Time', 'wp-job-openings' ),
+            'PART_TIME'  => __( 'Part Time', 'wp-job-openings' ),
+            'CONTRACTOR' => __( 'Freelance', 'wp-job-openings' ),
+            'TEMPORARY'  => __( 'Temporary', 'wp-job-openings' ),
+            'INTERN'     => __( 'Intern', 'wp-job-openings' ),
+            'VOLUNTEER'  => __( 'Volunteer', 'wp-job-openings' ),
+            'PER_DIEM'   => __( 'Per Diem', 'wp-job-openings' ),
+            'OTHER'      => __( 'Other', 'wp-job-openings' ),
+        );
+        $default_emp_types = array_flip( array_map( 'sanitize_title', $default_emp_types ) );
+        if( ! empty( $default_emp_types ) ) {
+            if( taxonomy_exists( 'job-type' ) ) {
+                $emp_types = get_the_terms( $post->ID, 'job-type' );
+                if( ! empty( $emp_types ) ) {
+                    $data['employmentType'] = array();
+                    foreach( $emp_types as $emp_type ) {
+                        $slug = $emp_type->slug;
+                        if( array_key_exists( $slug, $default_emp_types ) ) {
+                            $data['employmentType'][] = $default_emp_types[$slug];
+                        }
+                    }
+                    if( count( $data['employmentType'] ) == 1 ) {
+                        $data['employmentType'] = $data['employmentType'][0];
+                    }
+                }
+            }
+        }
+        
+        if( taxonomy_exists( 'job-location' ) ) {
+            $locations = get_the_terms( $post->ID, 'job-location' );
+            if( ! empty( $locations ) ) {
+                $data['jobLocation'] = array();
+                foreach( $locations as $location ) {
+                    $data['jobLocation'][] = array(
+                        '@type'   => 'Place',
+                        'address' => $location->name
+                    );
+                }
+                if( count( $data['jobLocation'] ) == 1 ) {
+                    $data['jobLocation'] = $data['jobLocation'][0];
+                }
+            }
+        }
+        return apply_filters( 'awsm_job_spec_structured_data', $data );
+    }
+
+    public function get_structured_data() {
+        global $post;
+        if( $post->post_status == 'expired' ) {
+            return;
+        }
+
+        $post_id = $post->ID;
+        $data = array(
+            '@context'    => 'http://schema.org/',
+            '@type'       => 'JobPosting',
+            'title'       => wp_strip_all_tags( get_the_title() ),
+            'description' => get_the_content(),
+            'datePosted'  => get_post_time( 'c' )
+        );
+        $expiry_on_list = get_post_meta( $post_id,  'awsm_set_exp_list', true);
+        $expiration_date = get_post_meta( $post_id, 'awsm_job_expiry', true );
+        if( $expiry_on_list == 'set_listing' && ! empty( $expiration_date ) ) {
+            $data['validThrough'] = date( 'c', strtotime( $expiration_date ) );
+        }
+        $company_name = get_option( 'awsm_job_company_name' );
+        if( ! empty( $company_name ) ) {
+            $data['hiringOrganization'] = array(
+                '@type'  => 'Organization',
+                'name'   => $company_name,
+                'sameAs' => esc_url( home_url() )
+            );
+        }
+        $job_spec_data = $this->job_spec_structured_data( $post );
+        if( ! empty( $job_spec_data ) ) {
+            $data = array_merge( $data, $job_spec_data );
+        }
+        return apply_filters( 'awsm_job_structured_data', $data );
+    }
+
+    public function display_structured_data() {
+        if( ! is_singular( 'awsm_job_openings' ) ) {
+            return;
+        }
+
+        $data = $this->get_structured_data();
+        if( ! empty( $data ) ) {
+            printf( '<script type="application/ld+json">%s</script>', wp_json_encode( $data ) );
         }
     }
 }

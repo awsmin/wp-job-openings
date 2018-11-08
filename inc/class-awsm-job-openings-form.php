@@ -5,6 +5,7 @@ if( ! defined( 'ABSPATH' ) ) {
 
 class AWSM_Job_Openings_Form {
     private static $_instance = null;
+    public $form_fields_order = array( 'awsm_applicant_name', 'awsm_applicant_email', 'awsm_applicant_phone', 'awsm_applicant_letter', 'awsm_file' );
     public static $allowed_html = array(
         'a' => array(
             'href' => array(),
@@ -16,9 +17,8 @@ class AWSM_Job_Openings_Form {
         'strong' => array(),
         'small' => array()
     );
-    public static $required_msg = 'This field is required.';
 
-    public function __construct( ) {
+    public function __construct() {
         $this->cpath = untrailingslashit( plugin_dir_path( __FILE__ ) );
         add_action( 'awsm_application_form_init', array( $this, 'application_form' ) );
         add_action( 'awsm_application_form_field_init', array( $this, 'form_field_init' ) );
@@ -93,7 +93,7 @@ class AWSM_Job_Openings_Form {
                     'accept' => $allowed_file_types
                 ),
                 'id'           => 'awsm-application-file',
-                'class'        => array( 'awsm-resume-file-control', 'awsm-job-form-control' ),
+                'class'        => array( 'awsm-resume-file-control', 'awsm-job-form-control', 'awsm-form-file-control' ),
                 'content'      => $allowed_file_content
             )
         );
@@ -102,12 +102,18 @@ class AWSM_Job_Openings_Form {
     }
 
     public function display_dynamic_fields() {
-        $form_fields = $this->dynamic_form_fields();
-        if( ! empty( $form_fields ) ) {
+        $dynamic_form_fields = $this->dynamic_form_fields();
+        if( ! empty( $dynamic_form_fields ) ) {
+            $ordered_form_fields = array();
+            $form_fields_order = apply_filters( 'awsm_application_form_fields_order', $this->form_fields_order );
+            foreach( $form_fields_order as $form_field_order ) {
+                $ordered_form_fields[$form_field_order] = $dynamic_form_fields[$form_field_order];
+            }
+            $dynamic_form_fields = $ordered_form_fields;
             $allowed_html = self::$allowed_html;
-            $required_msg = esc_attr__( self::$required_msg, 'wp-job-openings' );
+            $required_msg = esc_attr__( 'This field is required.', 'wp-job-openings' );
             $form_output = '';
-            foreach( $form_fields as $field_name => $field_args ) {
+            foreach( $dynamic_form_fields as $field_name => $field_args ) {
                 $show_field = ( isset( $field_args['show_field'] ) ) ? $field_args['show_field'] : true;
                 if( $show_field ) {
                     $label = ( isset( $field_args['label'] ) ) ? $field_args['label'] : '';
@@ -130,7 +136,7 @@ class AWSM_Job_Openings_Form {
                     if( $input_type === 'file' ) {
                         $common_attrs .= isset( $field_args['field_type']['accept'] ) ? sprintf( ' accept="%s"', esc_attr( $field_args['field_type']['accept'] ) ) : '';
                     } else {
-                        if( $tag !== 'textarea' ) {
+                        if( $tag !== 'textarea' && $tag !== 'select' ) {
                             $common_attrs .= isset( $field_args['field_type']['value'] ) ? sprintf( ' value="%s"', esc_attr( $field_args['field_type']['value'] ) ) : '';
                         }
                     }
@@ -139,8 +145,34 @@ class AWSM_Job_Openings_Form {
                     if( ! empty( $label ) ) {
                         $label_content = sprintf( '<label for="%2$s">%1$s</label>', wp_kses( $label, $allowed_html ) . $required_label, esc_attr( $field_id ) );
                     }
-                    if( $tag === 'input' ) {
-                        $form_content .= sprintf( '<input type="%1$s" %2$s />', esc_attr( $input_type ), $common_attrs );
+                    if( $tag === 'input' || $tag === 'select' ) {
+                        if( $tag === 'select' || $input_type === 'checkbox' || $input_type === 'radio' ) {
+                            $options = isset( $field_args['field_type']['options'] ) ? $field_args['field_type']['options'] : '';
+                            if( ! empty( $options ) && is_array( $options ) ) {
+                                $options_content = '';
+                                if( $tag === 'select' ) {
+                                    if( ! $required ) {
+                                        $options_content .= sprintf( '<option value="">%s</option>', esc_html__( '--Please Choose an Option--', 'wp-job-openings' ) );
+                                    }
+                                    foreach( $options as $option ) {
+                                        $options_content .= sprintf( '<option value="%s">%s</option>', esc_attr( $option ), esc_html( $option ) );
+                                    }
+                                    $form_content .= sprintf( '<select %2$s>%1$s</select>', $options_content, $common_attrs );
+                                } else {
+                                    $id_suffix = 1;
+                                    foreach( $options as $option ) {
+                                        $name_suffix = ( $input_type === 'checkbox' ) ? '[]' : '';
+                                        $current_field_id = esc_attr( $field_id . '_' . $id_suffix );
+                                        $common_attrs = sprintf( 'name="%1$s" class="%2$s" id="%3$s"%4$s', esc_attr( $field_name . $name_suffix ), esc_attr( $field_class ), $current_field_id, $required_attr . $data_required . $data_error_msg );
+                                        $options_content .= sprintf( '<span><input type="%s" value="%s" %s /> <label for="%s">%s</label></span>', esc_attr( $input_type ), esc_attr( $option ), $common_attrs, $current_field_id, esc_html( $option ) );
+                                        $id_suffix ++;
+                                    }
+                                    $form_content .= sprintf( '<div class="awsm-job-form-options-container">%s</div>', $options_content );
+                                }
+                            }
+                        } else {
+                            $form_content .= sprintf( '<input type="%1$s" %2$s />', esc_attr( $input_type ), $common_attrs );
+                        }
                     } elseif( $tag === 'textarea' ) {
                         $form_content .= sprintf( '<textarea %1$s rows="5" cols="50"></textarea>', $common_attrs );
                     }
@@ -171,7 +203,7 @@ class AWSM_Job_Openings_Form {
         if( ! empty( $label ) ) :
     ?>
             <div class="awsm-job-form-group awsm-job-inline-group">
-                <input name="awsm_form_privacy_policy" class="awsm-job-form-field" id="awsm_form_privacy_policy" required="" data-msg-required="<?php echo esc_attr__( self::$required_msg, 'wp-job-openings' ); ?>" value="yes" aria-required="true" type="checkbox"><label for="awsm_form_privacy_policy"><?php echo wp_kses( $label, self::$allowed_html ); ?> <span class="awsm-job-form-error">*</span></label>
+                <input name="awsm_form_privacy_policy" class="awsm-job-form-field" id="awsm_form_privacy_policy" required="" data-msg-required="<?php echo esc_attr__( 'This field is required.', 'wp-job-openings' ); ?>" value="yes" aria-required="true" type="checkbox"><label for="awsm_form_privacy_policy"><?php echo wp_kses( $label, self::$allowed_html ); ?> <span class="awsm-job-form-error">*</span></label>
             </div>
     <?php
         endif;
@@ -247,6 +279,7 @@ class AWSM_Job_Openings_Form {
             $applicant_letter = awsm_jobs_sanitize_textarea( $_POST['awsm_applicant_letter'] );
             $attachment = $_FILES['awsm_file'];
             $agree_privacy_policy = false;
+            $generic_err_msg = esc_html__( 'Error in submitting your application. Please refresh the page and retry.', 'wp-job-openings' );
             if( $this->is_recaptcha_set() ) {
                 $is_human = false;
                 if( isset( $_POST['g-recaptcha-response'] ) ){
@@ -271,10 +304,6 @@ class AWSM_Job_Openings_Form {
             }
             if( empty( $applicant_name ) ) {
                 $awsm_response['error'][] = esc_html__( "Name is required.", "wp-job-openings" );
-            } else {
-                if(!preg_match("/^[a-zA-Z ]*$/",$applicant_name)) {
-                  $awsm_response['error'][] = esc_html__( "Only letters and white spaces are allowed for name.", "wp-job-openings" );
-                }
             }
             if(empty( $applicant_email ) ) {
                 $awsm_response['error'][] = esc_html__( "Email is required.", "wp-job-openings" );
@@ -297,9 +326,11 @@ class AWSM_Job_Openings_Form {
                $awsm_response['error'][] = esc_html__( "Please select your cv/resume.", "wp-job-openings" );
             }
 
+            do_action( 'awsm_job_application_submitting' );
+
             if ( count( $awsm_response['error'] ) === 0 ) {
                 if ( ! isset( $_POST['awsm_application_nonce'] ) || ! wp_verify_nonce( $_POST['awsm_application_nonce'], 'awsm_insert_application_nonce' ) ) {
-                    $awsm_response['error'][] = esc_html__( "Error while uploading: authenticate error.", "wp-job-openings" );
+                    $awsm_response['error'][] = $generic_err_msg;
                 } else {
                     if ( ! function_exists( 'wp_handle_upload' ) ) {
                         require_once( ABSPATH . 'wp-admin/includes/file.php' );
@@ -362,11 +393,14 @@ class AWSM_Job_Openings_Form {
                                 // Now, send notification email
                                 $this->notification_email( $applicant_details );
                                 $awsm_response['success'][] = esc_html__( "Your application has been submitted.", "wp-job-openings" );
+
+                                do_action( 'awsm_job_application_submitted' );
+                                
                             } else {
-                                $awsm_response['error'][] = esc_html__( 'Error in submitting your application. Please try again later!', 'wp-job-openings' );
+                                $awsm_response['error'][] = $generic_err_msg;
                             }
                         } else {
-                            $awsm_response['error'][] = esc_html__( 'Error in submitting your application. Please try again later!', 'wp-job-openings' );
+                            $awsm_response['error'][] = $generic_err_msg;
                         }
                     } else {
                         $awsm_response['error'][] = $movefile['error'];
@@ -446,18 +480,18 @@ class AWSM_Job_Openings_Form {
         $hr_email = isset( $options['hr_email'] ) ? $options['hr_email'] : get_option( 'awsm_hr_email_address', '' );
         $job_expiry = get_post_meta( $applicant_details['awsm_job_id'], 'awsm_job_expiry', true );
         $job_expiry = ( ! empty( $job_expiry ) ) ? date_i18n( __( get_option( 'date_format' ) ), strtotime( $job_expiry ) ) : '';
-        $attachment_url = wp_get_attachment_url( $applicant_details['awsm_attachment_id'] );
+        $attachment_url = isset( $applicant_details['awsm_attachment_id'] ) ? wp_get_attachment_url( $applicant_details['awsm_attachment_id'] ) : '';
         $tags = array(
             '{applicant}'        => $applicant_details['awsm_applicant_name'],
             '{applicant-email}'  => $applicant_details['awsm_applicant_email'],
-            '{applicant-phone}'  => $applicant_details['awsm_applicant_phone'],
+            '{applicant-phone}'  => isset( $applicant_details['awsm_applicant_phone'] ) ? $applicant_details['awsm_applicant_phone'] : '',
             '{job-id}'           => $applicant_details['awsm_job_id'],
             '{job-expiry}'       => $job_expiry,
             '{admin-email}'      => $admin_email,
             '{hr-email}'         => $hr_email,
             '{company}'          => $company_name,
             '{job-title}'        => $applicant_details['awsm_apply_for'],
-            '{applicant-cover}'  => $applicant_details['awsm_applicant_letter'],
+            '{applicant-cover}'  => isset( $applicant_details['awsm_applicant_letter'] ) ? $applicant_details['awsm_applicant_letter'] : '',
             '{applicant-resume}' => ( ! empty( $attachment_url ) ) ? esc_url( $attachment_url ) : ''
         );
         return $tags;

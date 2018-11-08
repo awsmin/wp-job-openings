@@ -88,15 +88,17 @@ class AWSM_Job_Openings_Meta {
                     } else {
                         $value =  get_post_meta( $post_id , $meta_key, true );
                     }
-                    $meta_content = ( empty( $multi_line ) ) ? esc_html( $value ) : wp_kses( wpautop( $value ), array( 'p' => array(), 'br' => array() ) );
-                    $list .= sprintf( '<li><label>%1$s</label><span>%2$s</span></li>', esc_html( $label ), $meta_content );
+                    if( ! empty( $value ) ) {
+                        $meta_content = ( empty( $multi_line ) ) ? esc_html( $value ) : wp_kses( wpautop( $value ), array( 'p' => array(), 'br' => array() ) );
+                        $list .= sprintf( '<li><label>%1$s</label><span>%2$s</span></li>', esc_html( $label ), $meta_content );
+                    }
                 }
             }
         }
         return $list;
     }
 
-    public function get_resume_details( $attachment_id ) {
+    public function get_attached_file_details( $attachment_id ) {
         $details = array();
         $attachment_file = get_attached_file( $attachment_id );
         if( ! empty( $attachment_file ) ) {
@@ -115,40 +117,44 @@ class AWSM_Job_Openings_Meta {
         return $details;
     }
 
-    public function get_resume_download_url( $attachment_id ) {
+    public function get_attached_file_download_url( $attachment_id, $type = 'resume' ) {
         $download_url = add_query_arg( array(
             'awsm_id'     => $attachment_id,
-            'awsm_nonce'  => wp_create_nonce( 'awsm_resume_download' ),
-            'awsm_action' => 'download_resume'
+            'awsm_nonce'  => wp_create_nonce( 'awsm_' . $type . '_download' ),
+            'awsm_action' => 'download_' . $type
         ), get_edit_post_link() );
         return esc_url( $download_url );
     }
 
-    public function download_resume_handle() {
+    public function attached_file_download_handler( $type, $suffix ) {
         if( current_user_can( 'edit_others_applications' ) && isset( $_GET['awsm_id'] ) && isset( $_GET['awsm_nonce'] ) ) {
-            if( ! wp_verify_nonce( $_GET['awsm_nonce'], 'awsm_resume_download' ) ) {
+            if( ! wp_verify_nonce( $_GET['awsm_nonce'], 'awsm_' . $type . '_download' ) ) {
                 wp_die( esc_html__( 'Error occurred!', 'wp-job-openings' ) );
             }
             $attachment_id = intval( $_GET['awsm_id'] );
             if( ! $attachment_id ) {
                 wp_die( esc_html__( 'Invalid id.', 'wp-job-openings' ) );
             }
-            $resume_details = $this->get_resume_details( $attachment_id );
-            if( ! empty( $resume_details ) ) {
-                $resume_name = sanitize_title( get_the_title( $attachment_id ) . '_' . __( 'resume', 'wp-job-openings' ) );
+            $file_details = $this->get_attached_file_details( $attachment_id );
+            if( ! empty( $file_details ) ) {
+                $file_name = sanitize_title( get_the_title( $attachment_id ) . $suffix );
                 header( 'Content-Description: File Transfer' );
-                header( 'Content-Type: ' . $resume_details['file_type']['type'] );
-                header( 'Content-Disposition: attachment; filename="' . $resume_name . '.' . $resume_details['file_type']['ext'] . '"' );
+                header( 'Content-Type: ' . $file_details['file_type']['type'] );
+                header( 'Content-Disposition: attachment; filename="' . $file_name . '.' . $file_details['file_type']['ext'] . '"' );
                 header( 'Expires: 0' );
                 header( 'Pragma: no-cache' );
-                if( ! empty( $resume_details['file_size']['size'] ) ) {
-                    header( 'Content-Length: ' . $resume_details['file_size']['size'] );
+                if( ! empty( $file_details['file_size']['size'] ) ) {
+                    header( 'Content-Length: ' . $file_details['file_size']['size'] );
                 }
-                readfile( $resume_details['file_name'] );
+                readfile( $file_details['file_name'] );
                 exit;
             } else {
                 wp_die( esc_html__( 'File not found!', 'wp-job-openings' ) );
             }
         }
+    }
+
+    public function download_resume_handle() {
+        $this->attached_file_download_handler( 'resume', '_' . __( 'resume', 'wp-job-openings' ) );
     }
 }

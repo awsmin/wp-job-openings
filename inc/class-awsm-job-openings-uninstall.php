@@ -39,6 +39,7 @@ class AWSM_Job_Openings_Uninstall {
             'awsm_jobs_hide_expiry_date',
             'awsm_jobs_filter',
             'awsm_jobs_remove_filters',
+            'awsm_current_form_subtab',
             'awsm_jobs_admin_upload_file_ext',
             'awsm_enable_gdpr_cb',
             'awsm_gdpr_cb_text',

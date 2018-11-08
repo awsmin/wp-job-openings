@@ -177,23 +177,6 @@ jQuery(document).ready(function ($) {
 
 	/*================ Settings Navigation ================*/
 
-	$('.awsm-settings-tab-wrapper a').on("click", function (e) {
-		e.preventDefault();
-		var id = $(e.target).attr("href");
-		window.location.hash = id;
-		$('.awsm-admin-settings').hide();
-		$(id).show();
-		$('.nav-tab-active').removeClass('nav-tab-active');
-		$(this).addClass('nav-tab-active');
-	});
-
-	if (window.location.hash.length > 0) {
-		$('.awsm-admin-settings').hide();
-		$('.nav-tab-active').removeClass('nav-tab-active');
-		$(window.location.hash).show();
-		$('a[href="' + window.location.hash + '"]').addClass('nav-tab-active');
-	}
-
 	function awsm_subtab_toggle($current_subtab, enableFadeIn) {
 		var enableFadeIn = (typeof enableFadeIn !== 'undefined') ? enableFadeIn : false;
 		var current_target = $current_subtab.data('target');
@@ -217,7 +200,7 @@ jQuery(document).ready(function ($) {
 		$($subtabs).each(function(i) {
 			var current_subtab_id = $(this).val();
 			var $current_subtab = $('#' + current_subtab_id);
-			awsm_subtab_toggle($current_subtab);
+			awsm_subtab_toggle($current_subtab, true);
 		});
 	}
 	$('#awsm-job-settings-wrap').on('click', '.awsm-nav-subtab', function (e) {
@@ -231,16 +214,29 @@ jQuery(document).ready(function ($) {
 		}
 	});
 
+	/*================ Settings Loader ================*/
+
+	$(".awsm-jobs-settings-loader-container").fadeOut(function() {
+		$("#awsm-jobs-settings-section").css('visibility', 'visible').addClass('awsm-visible');
+	});
+
 	/*================ Settings: Notifications ================*/
 
-	$('.awsm-acc-head').click(function (e) {
+	$("#awsm-jobs-settings-section").on('click', '.awsm-acc-head', function(e) {
+		var check = true;
+		var $elem = $(this);
 		var $switch = $('.awsm-toggle-switch');
-		if (!$switch.is(e.target) && $switch.has(e.target).length === 0) {
+		if($switch.length > 0) {
+			if($switch.is(e.target) || $switch.has(e.target).length > 0) {
+				check = false;
+			}
+		}
+		if(check) {
 			$('.awsm-acc-head').removeClass('on');
 			$('.awsm-acc-content').slideUp('normal');
-			if ($(this).next().is(':hidden') == true) {
-				$(this).addClass('on');
-				$(this).next().slideDown('normal');
+			if ($elem.next('.awsm-acc-content').is(':hidden') == true) {
+				$elem.addClass('on');
+				$elem.next('.awsm-acc-content').slideDown('normal');
 			}
 		}
 	});
@@ -264,8 +260,6 @@ jQuery(document).ready(function ($) {
 			url: awsmJobsAdmin.ajaxurl,
 			data: options_data,
 			type: 'POST'
-		}).done(function (data) {
-			console.log(data);
 		}).fail(function (xhr) {
 			console.log(xhr);
 		});

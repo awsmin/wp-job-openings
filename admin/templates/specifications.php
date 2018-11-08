@@ -9,14 +9,14 @@
     $icon_placeholder = 'data-placeholder="' . esc_html__( 'Select icon', 'wp-job-openings' ) . '"';
 ?>
 
-<div id="settings-awsm-settings-specifications" class="awsm-admin-settings" style="display: none;">
+<div id="settings-awsm-settings-specifications" class="awsm-admin-settings">
     <?php do_action( 'awsm_settings_form_elem_start', 'specifications' ); ?>
-    <form method="POST" action="options.php#settings-awsm-settings-specifications" id="job_specifications_form">
+    <form method="POST" action="options.php" id="job_specifications_form">
         <?php
             settings_fields( 'awsm-jobs-specifications-settings' );
             do_action( 'before_awsm_settings_main_content', 'specifications' );
         ?>
-        <div class="awsm-form-section-main">
+        <div class="awsm-form-section-main awsm-sub-options-container" id="awsm-job-specifications-options-container">
             <div class="awsm-form-section">
                 <table id="awsm-repeatable-specifications" width="100%" class="awsm-specs">
                     <thead>

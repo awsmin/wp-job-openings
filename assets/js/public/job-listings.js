@@ -93,11 +93,15 @@ jQuery(function ($) {
 	});
 
 	/*----- Custom select box - selectric -----*/
-	$('.awsm-filter-item select').selectric({
-		arrowButtonMarkup: '<span class="awsm-selectric-arrow-drop">&#x25be;</span>',
-		customClass: {
-			prefix: 'awsm-selectric',
-			camelCase: false
-		},
-	});
+	function awsmDropDown($elem) {
+		$elem.selectric({
+			arrowButtonMarkup: '<span class="awsm-selectric-arrow-drop">&#x25be;</span>',
+			customClass: {
+				prefix: 'awsm-selectric',
+				camelCase: false
+			},
+		});
+	}
+	awsmDropDown($('.awsm-job-select-control'));
+	awsmDropDown($('.awsm-filter-item select'));
 });

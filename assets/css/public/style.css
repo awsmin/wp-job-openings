@@ -255,13 +255,19 @@ a.awsm-grid-item .awsm-job-specification-item{
     display: block;
     margin-bottom: 10px;
 }
-.awsm-job-inline-group label {
+.awsm-job-inline-group label,
+.awsm-job-form-options-container label {
     display: inline;
     font-weight: normal;
 }
 .awsm-job-form-control{
     display: block;
     width: 100%;
+}
+.awsm-job-form-options-container span {
+    display: inline-block;
+    margin-bottom: 10px;
+    margin-left: 10px;
 }
 .awsm-job-submit{
     background: #0195ff;

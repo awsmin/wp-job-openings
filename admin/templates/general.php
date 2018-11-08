@@ -23,14 +23,14 @@
     }
 ?>
 
-<div id="settings-awsm-settings-general" class="awsm-admin-settings" style="display: block;" >
+<div id="settings-awsm-settings-general" class="awsm-admin-settings">
     <?php do_action( 'awsm_settings_form_elem_start', 'general' ); ?>
-    <form method="POST" action="options.php#settings-awsm-settings-general" id="general_settings_form">
+    <form method="POST" action="options.php" id="general_settings_form">
     	<?php
            settings_fields( 'awsm-jobs-general-settings' );
            do_action( 'before_awsm_settings_main_content', 'general' );
     	?>
-    	<div class="awsm-form-section-main">
+    	<div class="awsm-form-section-main awsm-sub-options-container" id="awsm-general-options-container">
             <table class="form-table">
                 <tbody>
                     <?php do_action( 'before_awsm_general_settings' ); ?>

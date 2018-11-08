@@ -59,6 +59,13 @@ The first version of the plugin comes with two layouts - Grid and List which are
 
 == Changelog ==
 
+= V 1.2 - 2018-10-17 =
+* Added: Job posting structured data for better SEO
+* Added: New hooks for managing job application form
+* Fixed: Validation issue for Full Name field in job application form
+* Improved: Functionality of the Settings page
+* Other minor fixes and improvements
+
 = V 1.1.2 - 2018-09-23 =
 * Fixed: Plugin activation error due to conflict with other plugins, especially Yoast SEO
 
@@ -86,5 +93,5 @@ The first version of the plugin comes with two layouts - Grid and List which are
 
 == Upgrade Notice ==
 
-= 1.1.2 =
-Fixed plugin activation error
+= 1.2 =
+Bug fixes and Improvements

@@ -8,9 +8,9 @@
     $recaptcha_secret_key = get_option( 'awsm_jobs_recaptcha_secret_key' );
 ?>
 <!-- Upload File Extensions -->
-<div id="settings-awsm-settings-form" class="awsm-admin-settings" style="display: none;">
+<div id="settings-awsm-settings-form" class="awsm-admin-settings">
     <?php do_action( 'awsm_settings_form_elem_start', 'form' ); ?>
-    <form method="POST" action="options.php#settings-awsm-settings-form" id="upload-file-form">
+    <form method="POST" action="options.php" id="upload-file-form">
         <?php settings_fields( 'awsm-jobs-form-settings' ); ?>
 
         <div class="awsm-nav-subtab-container clearfix">
