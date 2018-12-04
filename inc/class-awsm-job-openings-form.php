@@ -329,82 +329,78 @@ class AWSM_Job_Openings_Form {
             do_action( 'awsm_job_application_submitting' );
 
             if ( count( $awsm_response['error'] ) === 0 ) {
-                if ( ! isset( $_POST['awsm_application_nonce'] ) || ! wp_verify_nonce( $_POST['awsm_application_nonce'], 'awsm_insert_application_nonce' ) ) {
-                    $awsm_response['error'][] = $generic_err_msg;
-                } else {
-                    if ( ! function_exists( 'wp_handle_upload' ) ) {
-                        require_once( ABSPATH . 'wp-admin/includes/file.php' );
+                if ( ! function_exists( 'wp_handle_upload' ) ) {
+                    require_once( ABSPATH . 'wp-admin/includes/file.php' );
+                }
+                if ( ! function_exists( 'wp_crop_image' ) ) {
+                    include( ABSPATH . 'wp-admin/includes/image.php' );
+                }
+                $mimes = array();
+                $allowed_mime_types = get_allowed_mime_types();
+                $alowed_types = get_option( 'awsm_jobs_admin_upload_file_ext' );
+                foreach( $alowed_types as $allowed_type ) {
+                    if( isset( $allowed_mime_types[$allowed_type] ) ) {
+                        $mimes[$allowed_type] = $allowed_mime_types[$allowed_type];
                     }
-                    if ( ! function_exists( 'wp_crop_image' ) ) {
-                        include( ABSPATH . 'wp-admin/includes/image.php' );
-                    }
-                    $mimes = array();
-                    $allowed_mime_types = get_allowed_mime_types();
-                    $alowed_types = get_option( 'awsm_jobs_admin_upload_file_ext' );
-                    foreach( $alowed_types as $allowed_type ) {
-                        if( isset( $allowed_mime_types[$allowed_type] ) ) {
-                            $mimes[$allowed_type] = $allowed_mime_types[$allowed_type];
-                        }
-                    }
-                    $override = array( 'test_form' => false, 'mimes' => $mimes, 'unique_filename_callback' => array( $this, 'hashed_file_name' )
+                }
+                $override = array( 'test_form' => false, 'mimes' => $mimes, 'unique_filename_callback' => array( $this, 'hashed_file_name' )
+                );
+                add_filter( 'upload_dir', array( $this, 'upload_dir' ) );
+                $movefile = wp_handle_upload( $attachment, $override );
+                remove_filter( 'upload_dir', array( $this, 'upload_dir' ) );
+                if ( $movefile && ! isset( $movefile['error'] ) ) {
+                    $post_base_data = array(
+                        'post_title'     => $applicant_name,
+                        'post_content'   => '',
+                        'post_status'    => 'publish',
+                        'comment_status' => 'closed'
                     );
-                    add_filter( 'upload_dir', array( $this, 'upload_dir' ) );
-                    $movefile = wp_handle_upload( $attachment, $override );
-                    remove_filter( 'upload_dir', array( $this, 'upload_dir' ) );
-                    if ( $movefile && ! isset( $movefile['error'] ) ) {
-                        $post_base_data = array(
-                            'post_title'     => $applicant_name,
-                            'post_content'   => '',
-                            'post_status'    => 'publish',
-                            'comment_status' => 'closed'
-                        );
-                        $application_data = array_merge( $post_base_data, array(
-                            'post_type'   => 'awsm_job_application',
-                            'post_parent' => $job_id
+                    $application_data = array_merge( $post_base_data, array(
+                        'post_type'   => 'awsm_job_application',
+                        'post_parent' => $job_id
+                    ) );
+                    $application_id = wp_insert_post( $application_data );
+
+                    if ( ! empty( $application_id ) && ! is_wp_error( $application_id ) ) {
+                        $attachment_data = array_merge( $post_base_data, array(
+                            'post_mime_type' => $movefile['type'],
+                            'guid'           => $movefile['url']
                         ) );
-                        $application_id = wp_insert_post( $application_data );
+                        $attach_id = wp_insert_attachment( $attachment_data, $movefile['file'], $application_id );
 
-                        if ( ! empty( $application_id ) && ! is_wp_error( $application_id ) ) {
-                            $attachment_data = array_merge( $post_base_data, array(
-                                'post_mime_type' => $movefile['type'],
-                                'guid'           => $movefile['url']
-                            ) );
-                            $attach_id = wp_insert_attachment( $attachment_data, $movefile['file'], $application_id );
-
-                            if ( ! empty( $attach_id ) && ! is_wp_error( $attach_id ) ) {
-                                $attach_data = wp_generate_attachment_metadata( $attach_id, $movefile['file'] );
-                                wp_update_attachment_metadata( $attach_id, $attach_data );
-                                $applicant_details = array(
-                                    'awsm_job_id'           => $job_id,
-                                    'awsm_apply_for'        => esc_html( get_the_title( $job_id ) ),
-                                    'awsm_applicant_ip'     => isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( $_SERVER['REMOTE_ADDR'] ) : '',
-                                    'awsm_applicant_name'   => $applicant_name,
-                                    'awsm_applicant_email'  => $applicant_email,
-                                    'awsm_applicant_phone'  => $applicant_phone,
-                                    'awsm_applicant_letter' => $applicant_letter,
-                                    'awsm_attachment_id'    => $attach_id
-                                );
-                                if( ! empty( $agree_privacy_policy ) ) {
-                                    $applicant_details['awsm_agree_privacy_policy'] = $agree_privacy_policy;
-                                }
-                                foreach( $applicant_details as $meta_key => $meta_value ) {
-                                    update_post_meta( $application_id, $meta_key, $meta_value );
-                                }
-                                // Now, send notification email
-                                $this->notification_email( $applicant_details );
-                                $awsm_response['success'][] = esc_html__( "Your application has been submitted.", "wp-job-openings" );
-
-                                do_action( 'awsm_job_application_submitted' );
-                                
-                            } else {
-                                $awsm_response['error'][] = $generic_err_msg;
+                        if ( ! empty( $attach_id ) && ! is_wp_error( $attach_id ) ) {
+                            $attach_data = wp_generate_attachment_metadata( $attach_id, $movefile['file'] );
+                            wp_update_attachment_metadata( $attach_id, $attach_data );
+                            $applicant_details = array(
+                                'awsm_job_id'           => $job_id,
+                                'awsm_apply_for'        => esc_html( get_the_title( $job_id ) ),
+                                'awsm_applicant_ip'     => isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( $_SERVER['REMOTE_ADDR'] ) : '',
+                                'awsm_applicant_name'   => $applicant_name,
+                                'awsm_applicant_email'  => $applicant_email,
+                                'awsm_applicant_phone'  => $applicant_phone,
+                                'awsm_applicant_letter' => $applicant_letter,
+                                'awsm_attachment_id'    => $attach_id
+                            );
+                            if( ! empty( $agree_privacy_policy ) ) {
+                                $applicant_details['awsm_agree_privacy_policy'] = $agree_privacy_policy;
                             }
+                            foreach( $applicant_details as $meta_key => $meta_value ) {
+                                update_post_meta( $application_id, $meta_key, $meta_value );
+                            }
+                            // Now, send notification email
+                            $this->notification_email( $applicant_details );
+                            $awsm_response['success'][] = esc_html__( "Your application has been submitted.", "wp-job-openings" );
+
+                            do_action( 'awsm_job_application_submitted' );
+
                         } else {
                             $awsm_response['error'][] = $generic_err_msg;
                         }
                     } else {
-                        $awsm_response['error'][] = $movefile['error'];
+                        $awsm_response['error'][] = $generic_err_msg;
                     }
+                } else {
+                    $awsm_response['error'][] = $movefile['error'];
                 }
             }
             add_action( 'awsm_application_form_notices', array( $this, 'awsm_form_submit_notices' ) );
@@ -522,18 +518,20 @@ class AWSM_Job_Openings_Form {
                 $subject = str_replace( $tag_names, $tag_values, $notifi_subject );
                 $message = str_replace( $tag_names, $tag_values, $notifi_content );
                 $headers = array();
+                $headers[] = 'Content-Type: text/html; charset=UTF-8';
                 $headers[] = 'From: ' . $from . ' <' . $admin_email . '>';
                 $headers[] = 'Cc: ' . $applicant_cc;
-                wp_mail( $to, $subject, $message, $headers );
+                wp_mail( $to, $subject, nl2br($message), $headers );
             }
             if( $enable_admin == 'enable' && ! empty( $admin_subject ) && ! empty( $admin_content ) ) {
                 $to = $admin_to;
                 $subject = str_replace( $tag_names, $tag_values, $admin_subject );
                 $message = str_replace( $tag_names, $tag_values, $admin_content );
                 $admin_headers = array();
+                $admin_headers[] = 'Content-Type: text/html; charset=UTF-8';
                 $admin_headers[] = 'From: ' . $applicant_details['awsm_applicant_name'] . ' <' . $applicant_details['awsm_applicant_email'] . '>';
                 $admin_headers[] = 'Cc: ' . $admin_cc;
-                wp_mail( $to, $subject, $message, $admin_headers );
+                wp_mail( $to, $subject, nl2br($message), $admin_headers );
             }
         }
     }

@@ -244,59 +244,59 @@ msgstr ""
 msgid "Job detail page template"
 msgstr ""
 
-#: admin/templates/appearance.php:184
+#: admin/templates/appearance.php:186
 msgid "Theme Template"
 msgstr ""
 
-#: admin/templates/appearance.php:187
+#: admin/templates/appearance.php:191
 msgid "Plugin Template"
 msgstr ""
 
-#: admin/templates/appearance.php:193
+#: admin/templates/appearance.php:199
 msgid "Layout of job detail page"
 msgstr ""
 
-#: admin/templates/appearance.php:198
+#: admin/templates/appearance.php:206
 msgid "Single Column "
 msgstr ""
 
-#: admin/templates/appearance.php:201
+#: admin/templates/appearance.php:211
 msgid "Two Columns "
 msgstr ""
 
-#: admin/templates/appearance.php:207
+#: admin/templates/appearance.php:219
 msgid "Job specifications"
 msgstr ""
 
-#: admin/templates/appearance.php:213
+#: admin/templates/appearance.php:225
 msgid "Show job specifications in job detail page"
 msgstr ""
 
-#: admin/templates/appearance.php:218
+#: admin/templates/appearance.php:230
 msgid "Show icons for job specifications in job detail page"
 msgstr ""
 
-#: admin/templates/appearance.php:223
+#: admin/templates/appearance.php:235
 msgid "Make job specifications clickable in job detail page"
 msgstr ""
 
-#: admin/templates/appearance.php:231
+#: admin/templates/appearance.php:243
 msgid "Job spec position "
 msgstr ""
 
-#: admin/templates/appearance.php:252
+#: admin/templates/appearance.php:264
 msgid "Other display options"
 msgstr ""
 
-#: admin/templates/appearance.php:258
+#: admin/templates/appearance.php:270
 msgid "Hide content of expired listing from job detail page "
 msgstr ""
 
-#: admin/templates/appearance.php:263
+#: admin/templates/appearance.php:275
 msgid "Block search engine robots to expired jobs"
 msgstr ""
 
-#: admin/templates/appearance.php:268
+#: admin/templates/appearance.php:280
 msgid "Hide expiry date from job detail page"
 msgstr ""
 
@@ -328,35 +328,35 @@ msgstr ""
 msgid "The checkbox"
 msgstr ""
 
-#: admin/templates/form.php:68
+#: admin/templates/form.php:69
 msgid "Enable the GDPR compliance checkbox"
 msgstr ""
 
-#: admin/templates/form.php:73
+#: admin/templates/form.php:74
 msgid "Checkbox text"
 msgstr ""
 
-#: admin/templates/form.php:89
+#: admin/templates/form.php:91
 msgid "reCAPTCHA options"
 msgstr ""
 
-#: admin/templates/form.php:94
+#: admin/templates/form.php:96
 msgid "Enable reCAPTCHA"
 msgstr ""
 
-#: admin/templates/form.php:98
+#: admin/templates/form.php:100
 msgid "Enable reCAPTCHA on the form"
 msgstr ""
 
-#: admin/templates/form.php:101
+#: admin/templates/form.php:103
 msgid "Get your keys"
 msgstr ""
 
-#: admin/templates/form.php:106
+#: admin/templates/form.php:108
 msgid "Site key"
 msgstr ""
 
-#: admin/templates/form.php:116
+#: admin/templates/form.php:118
 msgid "Secret key"
 msgstr ""
 
@@ -920,11 +920,11 @@ msgstr ""
 msgid "Please select your cv/resume."
 msgstr ""
 
-#: inc/class-awsm-job-openings-form.php:395
+#: inc/class-awsm-job-openings-form.php:392
 msgid "Your application has been submitted."
 msgstr ""
 
-#: inc/class-awsm-job-openings-form.php:468
+#: inc/class-awsm-job-openings-form.php:464
 msgid "The following errors have occurred:"
 msgstr ""
 

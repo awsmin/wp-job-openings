@@ -1,5 +1,10 @@
 ## Changelog
 
+### V 1.2.1 - 2018-11-16
+* Fixed: Job Application submission error when caching plugin is used
+* Fixed: Application feedback mail issue when Non-English characters are used
+* Fixed: Settings UI issues
+
 ### V 1.2 - 2018-10-17
 * Added: Job posting structured data for better SEO
 * Added: New hooks for managing job application form

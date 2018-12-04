@@ -64,6 +64,7 @@
                     <tr>
                         <th scope="row">
                              <?php esc_html_e( 'The checkbox', 'wp-job-openings' ); ?>
+                        </th>
                         <td>
                             <label for="awsm_enable_gdpr_cb"><input type="checkbox" name="awsm_enable_gdpr_cb" class="awsm-check-control-field" id="awsm_enable_gdpr_cb" value="true" <?php echo esc_attr( $this->is_settings_field_checked( get_option( 'awsm_enable_gdpr_cb' ), 'true' ) ); ?> data-req-target="#awsm_gdpr_cb_text" /> <?php _e( 'Enable the GDPR compliance checkbox', 'wp-job-openings' ) ?></label>
                         </td>
@@ -71,6 +72,7 @@
                     <tr>
                         <th scope="row">
                              <label for="awsm_gdpr_cb_text"><?php esc_html_e( 'Checkbox text', 'wp-job-openings' ); ?></label>
+                        </th>
                         <td>
                             <input type="text" class="medium-text" name="awsm_gdpr_cb_text" id="awsm_gdpr_cb_text" value="<?php echo $gdpr_cb_text; ?>" />
                         </td>

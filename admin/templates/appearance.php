@@ -180,12 +180,18 @@
                         </th>
                         <td>
                             <?php $job_details_template = get_option( 'awsm_jobs_details_page_template', 'default' ); ?>
-                                <label for="awsm_jobs_default_template">
-                                    <input type="radio" name="awsm_jobs_details_page_template" value="default" id="awsm_jobs_default_template" <?php echo esc_attr( $this->is_settings_field_checked( $job_details_template, 'default' ) ); ?> /><?php esc_html_e( 'Theme Template', 'wp-job-openings' ); ?>
-                                </label>
-                                <label for="awsm_jobs_custom_template">
-                                    <input type="radio" name="awsm_jobs_details_page_template" value="custom" id="awsm_jobs_custom_template" <?php echo esc_attr( $this->is_settings_field_checked( $job_details_template, 'custom' ) ); ?> /><?php esc_html_e( 'Plugin Template', 'wp-job-openings' ); ?>
-                                </label>
+                            <ul class="awsm-list-inline">
+                                <li>
+                                    <label for="awsm_jobs_default_template">
+                                        <input type="radio" name="awsm_jobs_details_page_template" value="default" id="awsm_jobs_default_template" <?php echo esc_attr( $this->is_settings_field_checked( $job_details_template, 'default' ) ); ?> /><?php esc_html_e( 'Theme Template', 'wp-job-openings' ); ?>
+                                    </label>
+                                </li>
+                                <li>
+                                    <label for="awsm_jobs_custom_template">
+                                        <input type="radio" name="awsm_jobs_details_page_template" value="custom" id="awsm_jobs_custom_template" <?php echo esc_attr( $this->is_settings_field_checked( $job_details_template, 'custom' ) ); ?> /><?php esc_html_e( 'Plugin Template', 'wp-job-openings' ); ?>
+                                    </label>
+                                </li>
+                            </ul>
                         </td>
                     </tr>
                     <tr>
@@ -194,12 +200,18 @@
                         </th>
                         <td>
                             <?php $job_details_layout = get_option( 'awsm_jobs_details_page_layout' ); ?>
-                                <label for="awsm-job-single-layout">
-                                    <input type="radio" name="awsm_jobs_details_page_layout" value="single" id="awsm-job-single-layout" <?php echo esc_attr( $this->is_settings_field_checked( $job_details_layout, 'single', true ) ); ?> /><?php esc_html_e( 'Single Column ', 'wp-job-openings' ); ?>
-                                </label>
-                                <label for="awsm-job-two-columns-layout">
-                                    <input type="radio" name="awsm_jobs_details_page_layout" value="two" id="awsm-job-two-columns-layout" <?php echo esc_attr( $this->is_settings_field_checked( $job_details_layout, 'two' ) ); ?> /><?php esc_html_e( 'Two Columns ', 'wp-job-openings' ); ?>
-                                </label>
+                            <ul class="awsm-list-inline">
+                                <li>
+                                    <label for="awsm-job-single-layout">
+                                        <input type="radio" name="awsm_jobs_details_page_layout" value="single" id="awsm-job-single-layout" <?php echo esc_attr( $this->is_settings_field_checked( $job_details_layout, 'single', true ) ); ?> /><?php esc_html_e( 'Single Column ', 'wp-job-openings' ); ?>
+                                    </label>
+                                </li>
+                                <li>
+                                    <label for="awsm-job-two-columns-layout">
+                                        <input type="radio" name="awsm_jobs_details_page_layout" value="two" id="awsm-job-two-columns-layout" <?php echo esc_attr( $this->is_settings_field_checked( $job_details_layout, 'two' ) ); ?> /><?php esc_html_e( 'Two Columns ', 'wp-job-openings' ); ?>
+                                    </label>
+                                </li>
+                            </ul>
                         </td>
                     </tr>
                     <tr>

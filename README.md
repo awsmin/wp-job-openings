@@ -4,7 +4,7 @@
 **Tags:** jobs, job listing, job openings, job board, careers page, jobs page, wp job opening, jobs plugin  
 **Requires at least:** 4.1  
 **Tested up to:** 4.9.8  
-**Stable tag:** 1.2  
+**Stable tag:** 1.2.1  
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -88,6 +88,11 @@ The first version of the plugin comes with two layouts - Grid and List which are
 
 ## Changelog
 
+**V 1.2.1 - 2018-11-16**
+* Fixed: Job Application submission error when caching plugin is used
+* Fixed: Application feedback mail issue when Non-English characters are used
+* Fixed: Settings UI issues
+
 **V 1.2 - 2018-10-17**
 * Added: Job posting structured data for better SEO
 * Added: New hooks for managing job application form
@@ -111,10 +116,5 @@ The first version of the plugin comes with two layouts - Grid and List which are
 * Fixed: Job view count issue when caching plugin is used
 * Minor bug fixes
 * Overall code and performance improvement
-
-**V 1.0.1 - 2018-08-22**
-* Added: Job specifications display options on job detail page appearance settings
-* Added: Job status meta box on application detail screen
-* Minor fixes and improvements
 
 View complete Changelog in [CHANGELOG.MD](https://github.com/awsmin/wp-job-openings/blob/master/CHANGELOG.md)
