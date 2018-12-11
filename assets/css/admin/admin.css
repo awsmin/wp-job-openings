@@ -386,13 +386,14 @@ a.awsm-text-red:hover {
 }
 .awsm-applicant-details-list li label {
 	float: left;
-	min-width: 100px;
+	max-width: 120px;
+	width: 100%;
 	padding-right: 20px;
 	font-weight: 600;
 }
 .awsm-applicant-details-list li span {
 	float: left;
-	width: calc(100% - 130px);
+	width: calc(100% - 150px);
 	overflow: hidden;
 }
 .awsm-applicant-details-list li span p:first-child {
