@@ -10,8 +10,12 @@ class AWSM_Job_Openings_Meta {
         $this->cpath = untrailingslashit( plugin_dir_path( __FILE__ ) );
         add_action( 'add_meta_boxes', array( $this, 'awsm_register_meta_boxes' ) );
         add_action( 'admin_menu', array( $this, 'remove_meta_boxes' ) );
-        if( isset( $_GET['awsm_action'] ) && $_GET['awsm_action'] === 'download_resume' ) {
-            add_action( 'plugins_loaded', array( $this, 'download_resume_handle' ) );
+        if( isset( $_GET['awsm_action'] ) ) {
+            if( $_GET['awsm_action'] === 'download_resume' ) {
+                add_action( 'plugins_loaded', array( $this, 'download_resume_handle' ) );
+            } elseif( $_GET['awsm_action'] === 'download_file' ) {
+                add_action( 'plugins_loaded', array( $this, 'download_file_handle' ) );
+            }
         }
     }
 
@@ -90,12 +94,15 @@ class AWSM_Job_Openings_Meta {
                     }
                     if( ! empty( $value ) ) {
                         $meta_content = ( empty( $multi_line ) ) ? esc_html( $value ) : wp_kses( wpautop( $value ), array( 'p' => array(), 'br' => array() ) );
+                        if( isset( $meta_options['type'] ) && $meta_options['type'] === 'file' ) {
+                            $meta_content = sprintf( '<a href="%2$s" rel="nofollow"><strong>%1$s</strong></a>', esc_html__( 'Download File', 'wp-job-openings' ), $this->get_attached_file_download_url( $value, 'file', $label ) );
+                        }
                         $list .= sprintf( '<li><label>%1$s</label><span>%2$s</span></li>', esc_html( $label ), $meta_content );
                     }
                 }
             }
         }
-        return $list;
+        return apply_filters( 'awsm_jobs_applicant_meta_details_list', $list );
     }
 
     public function get_attached_file_details( $attachment_id ) {
@@ -117,12 +124,16 @@ class AWSM_Job_Openings_Meta {
         return $details;
     }
 
-    public function get_attached_file_download_url( $attachment_id, $type = 'resume' ) {
-        $download_url = add_query_arg( array(
+    public function get_attached_file_download_url( $attachment_id, $type = 'resume', $label = '' ) {
+        $query_vars = array(
             'awsm_id'     => $attachment_id,
             'awsm_nonce'  => wp_create_nonce( 'awsm_' . $type . '_download' ),
             'awsm_action' => 'download_' . $type
-        ), get_edit_post_link() );
+        );
+        if( ! empty( $label ) ) {
+            $query_vars['attachment_label'] = sanitize_title( $label );
+        }
+        $download_url = add_query_arg( $query_vars, get_edit_post_link() );
         return esc_url( $download_url );
     }
 
@@ -156,5 +167,10 @@ class AWSM_Job_Openings_Meta {
 
     public function download_resume_handle() {
         $this->attached_file_download_handler( 'resume', '_' . __( 'resume', 'wp-job-openings' ) );
+    }
+
+    public function download_file_handle() {
+        $suffix = isset( $_GET['attachment_label'] ) ? '-' . $_GET['attachment_label'] : '';
+        $this->attached_file_download_handler( 'file', $suffix );
     }
 }
