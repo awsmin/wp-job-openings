@@ -8,3 +8,4 @@ README.md export-ignore
 CHANGELOG.md export-ignore
 assets/fonts/icomoon.json export-ignore
 .prettierrc export-ignore
+*.map export-ignore

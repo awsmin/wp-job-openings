@@ -9,13 +9,12 @@
 
 /*============================= Dependencies =============================*/
 
-const gulp = require("gulp-help")(require("gulp")),
+const gulp = require("gulp"),
 	config = require("./config"),
 	concat = require("gulp-concat"),
 	rename = require("gulp-rename"),
 	lineEC = require("gulp-line-ending-corrector"),
-	sourcemaps = require("gulp-sourcemaps"), // Write inline source maps
-	browserSync = require("browser-sync").create();
+	bs = require("browser-sync").create();
 
 /* --- Dependencies: css --- */
 const cleanCSS = require("gulp-clean-css"), // Minify CSS
@@ -31,109 +30,96 @@ const wpPot = require("gulp-wp-pot"),
 
 /*================================= Tasks =================================*/
 
-gulp.task("init", false, () => {
+let init = cb => {
 	console.log("-------------------------------------------");
 	console.log("<<<<<-------- WP Job Openings -------->>>>>");
 	console.log("-------------------------------------------");
-});
+	cb();
+};
 
 /* --- Tasks: Browsersync --- */
-gulp.task(
-	"browser-sync",
-	`Initialize Browsersync and proxy ${config.previewURL}`,
-	() => {
-		browserSync.init({
-			ghostMode: false,
-			proxy: config.previewURL,
-			notify: false
-		});
-	}
-);
+
+let browserSync = cb => {
+	bs.init({
+		ghostMode: false,
+		proxy: config.previewURL,
+		notify: false
+	});
+	cb();
+};
+let bsReload = cb => {
+	bs.reload();
+	cb();
+};
+browserSync.description = `Initialize Browsersync and proxy ${
+	config.previewURL
+}`;
+gulp.task("browser-sync", browserSync);
 
 /* --- Tasks: CSS --- */
-function minifyStyles(type) {
-	let src =
-		type === "general"
-			? [config.style.general.src + "*.css"]
-			: [
-					config.style[type].src + "vendors/*.css",
-					config.style[type].src + "includes/*.css",
-					config.style[type].src + "*.css"
-			  ];
-	let outputName = config.style[type].outputName;
-	let dest = config.style[type].dest;
-
-	let stream = gulp.src(src);
-	if (config.debug) {
-		stream = stream.pipe(sourcemaps.init());
-	}
-	stream = stream
-		.pipe(concat(outputName))
-		.pipe(autoprefixer())
-		.pipe(cleanCSS({compatibility: "ie9"}))
-		.pipe(rename({suffix: ".min"}))
-		.pipe(lineEC());
-	if (config.debug) {
-		stream = stream.pipe(sourcemaps.write()).pipe(lineEC());
-	}
-	return stream.pipe(gulp.dest(dest));
-}
-
-function loadStyles(type) {
-	let src = config.style[type].dest;
-	return gulp.src(src + "*.css").pipe(browserSync.stream());
-}
 
 for (let type in config.style) {
-	gulp.task(`${type}-style`, `Concatenate ${type} styles and minify it`, () => {
-		minifyStyles(type);
-	});
-	gulp.task(`load-${type}-styles`, false, [`${type}-style`], () => {
-		loadStyles(type);
-	});
+	let styleTask = () => {
+		let src =
+			type === "general"
+				? [config.style.general.src + "*.css"]
+				: [
+						config.style[type].src + "vendors/*.css",
+						config.style[type].src + "includes/*.css",
+						config.style[type].src + "*.css"
+				  ];
+		let outputName = config.style[type].outputName;
+		let dest = config.style[type].dest;
+
+		return gulp
+			.src(src, {sourcemaps: config.debug ? true : false})
+			.pipe(concat(outputName))
+			.pipe(autoprefixer())
+			.pipe(cleanCSS({compatibility: "ie9"}))
+			.pipe(rename({suffix: ".min"}))
+			.pipe(lineEC())
+			.pipe(gulp.dest(dest, {sourcemaps: config.debug ? "." : false}));
+	};
+	let loadStyleTask = () => {
+		let src = config.style[type].dest;
+		return gulp.src(src + "*.css").pipe(bs.stream());
+	};
+	styleTask.description = `Concatenate ${type} styles and minify it`;
+	gulp.task(`${type}-style`, styleTask);
+	gulp.task(`load-${type}-styles`, gulp.series(`${type}-style`, loadStyleTask));
 }
 
 /* --- Tasks: JS --- */
-function minifyScripts(type) {
-	let src = [
-		config.scripts[type].src + "vendors/*.js",
-		config.scripts[type].src + "*.js"
-	];
-	let outputName = config.scripts[type].outputName;
-	let dest = config.scripts[type].dest;
-
-	let stream = gulp.src(src);
-	if (config.debug) {
-		stream = stream.pipe(sourcemaps.init());
-	} else {
-		stream = stream.pipe(stripDebug());
-	}
-	stream = stream
-		.pipe(concat(outputName))
-		.pipe(uglify())
-		.pipe(rename({suffix: ".min"}))
-		.pipe(lineEC());
-	if (config.debug) {
-		stream = stream.pipe(sourcemaps.write()).pipe(lineEC());
-	}
-	return stream.pipe(gulp.dest(dest));
-}
 
 for (let type in config.scripts) {
-	gulp.task(
-		`${type}-scripts`,
-		`Concatenate ${type} js files and minify it`,
-		() => {
-			minifyScripts(type);
+	let scriptTask = () => {
+		let src = [
+			config.scripts[type].src + "vendors/*.js",
+			config.scripts[type].src + "*.js"
+		];
+		let outputName = config.scripts[type].outputName;
+		let dest = config.scripts[type].dest;
+	
+		let stream = gulp.src(src, {sourcemaps: config.debug ? true : false});
+		if (!config.debug) {
+			stream = stream.pipe(stripDebug());
 		}
-	);
-	gulp.task(`load-${type}-scripts`, false, [`${type}-scripts`], () => {
-		browserSync.reload();
-	});
+		stream = stream
+			.pipe(concat(outputName))
+			.pipe(uglify())
+			.pipe(rename({suffix: ".min"}))
+			.pipe(lineEC())
+			.pipe(gulp.dest(dest, {sourcemaps: config.debug ? "." : false}));
+		return stream;
+	};
+	scriptTask.description = `Concatenate ${type} js files and minify it`;
+	gulp.task(`${type}-scripts`, scriptTask);
+	gulp.task(`load-${type}-scripts`, gulp.series(`${type}-scripts`, bsReload));
 }
 
 /* --- Tasks: i18n --- */
-gulp.task("translate", "Generates pot file for plugin localization", () => {
+
+let i18n = () => {
 	return gulp
 		.src(["./**/*.php", "!./build/**/*.php"])
 		.pipe(sort())
@@ -145,35 +131,44 @@ gulp.task("translate", "Generates pot file for plugin localization", () => {
 			})
 		)
 		.pipe(gulp.dest(config.translation.dest));
-});
+};
+i18n.description = "Generates pot file for plugin localization";
+gulp.task("translate", i18n);
 
 /* --- Tasks: Watch files for any change --- */
-gulp.task(
-	"watch",
-	"Watch PHP, JS and CSS files for any change",
-	["init", "browser-sync"],
-	function() {
-		gulp.watch("./**/*.php", function() {
-			browserSync.reload();
-		});
-		for (let type in config.style) {
-			gulp.watch(config.style[type].src + "**/*.css", [`load-${type}-styles`]);
-		}
-		for (let type in config.scripts) {
-			gulp.watch(config.scripts[type].src + "**/*.js", [`load-${type}-scripts`]);
-		}
+
+let watchFiles = () => {
+	gulp.watch("./**/*.php", bsReload);
+	for (let type in config.style) {
+		gulp.watch(
+			config.style[type].src + "**/*.css",
+			gulp.series(`load-${type}-styles`)
+		);
 	}
-);
+	for (let type in config.scripts) {
+		gulp.watch(
+			config.scripts[type].src + "**/*.js",
+			gulp.series(`load-${type}-scripts`)
+		);
+	}
+};
+watchFiles.description = "Watch PHP, JS and CSS files for any change";
+gulp.task("watch", gulp.series(browserSync, watchFiles));
 
 /* --- Tasks: Default tasks --- */
-gulp.task("default", false, ["init", "help"]);
+gulp.task("default", gulp.series(init, browserSync));
 
 /* --- Tasks: Build tasks --- */
-gulp.task("build", "Generate CSS and JS files to be included in the plugin", [
-	"init",
-	"general-style",
-	"public-style",
-	"admin-style",
-	"public-scripts",
-	"admin-scripts"
-]);
+gulp.task(
+	"build",
+	gulp.series(
+		init,
+		gulp.parallel(
+			"general-style",
+			"public-style",
+			"admin-style",
+			"public-scripts",
+			"admin-scripts"
+		)
+	)
+);
