@@ -346,7 +346,17 @@ class AWSM_Job_Openings_Settings {
                 if( isset( $filter['filter'] ) ) {
                     $filters[$index]['filter'] = sanitize_text_field( $filter['filter'] );
                     if( ! isset( $filter['taxonomy'] ) ) {
-                        $filters[$index]['taxonomy'] = sanitize_title_with_dashes( $filter['filter'] );
+                        $taxonomy = sanitize_title_with_dashes( $filter['filter'] );
+                        if( taxonomy_exists( $taxonomy ) || strlen( $taxonomy ) > 32 ) {
+                            $error = esc_html__( 'Taxonomy key must not exceed 32 characters.', 'wp-job-openings' );
+                            if( taxonomy_exists( $taxonomy ) ) {
+                                $error = esc_html__( 'Taxonomy already exist!', 'wp-job-openings' );
+                            }
+                            add_settings_error( 'awsm_jobs_filter', 'awsm-jobs-filter', sprintf( esc_html__( 'Error in registering Job Specification with key: %1$s. %2$s', 'wp-job-openings' ), '<em>' . $taxonomy . '</em>', $error ) );
+                            unset( $filters[$index] );
+                            continue;
+                        }
+                        $filters[$index]['taxonomy'] = $taxonomy;
                     } else {
                         $current_taxonomy = sanitize_text_field( $filter['taxonomy'] );
                         $filters[$index]['taxonomy'] = $current_taxonomy;

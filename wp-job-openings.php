@@ -612,7 +612,8 @@ class AWSM_Job_Openings {
             foreach( $awsm_filters as $awsm_filter ) {
                 if( isset( $awsm_filter['taxonomy'], $awsm_filter['filter'] ) ) {
                     $taxonomy = $awsm_filter['taxonomy'];
-                    if( ! taxonomy_exists( $taxonomy ) ) {
+                    $tax_length = strlen( $taxonomy );
+                    if( ! taxonomy_exists( $taxonomy ) && ( $tax_length > 0 && $tax_length <= 32 ) ) {
                         $args = array(
                             'labels'       => array( 'name' => esc_html( $awsm_filter['filter'] ) ),
                             'show_ui'      => false,
