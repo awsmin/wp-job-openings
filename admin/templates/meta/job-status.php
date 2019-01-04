@@ -16,7 +16,7 @@
 <table class="awsm-job-stat-table">
   <tr>
     <td><?php esc_html_e( 'Job Title' );?></td>
-    <td><?php echo $job_title; ?></td>
+    <td><?php echo wp_strip_all_tags( $job_title ); ?></td>
   </tr>
   <tr>
     <td><?php esc_html_e( 'Current Status:', 'wp-job-openings' ); ?></td>
