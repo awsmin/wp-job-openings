@@ -37,7 +37,7 @@
     <td><?php echo ( ! empty( $views_count ) ) ? $views_count : 0; ?></td>
   </tr>
   <tr>
-    <td><?php esc_html_e( 'Applications Received:', 'wp-job-openings' ); ?></td>
+    <td><?php esc_html_e( 'Applications:', 'wp-job-openings' ); ?></td>
     <td>
       <?php
         if( $post_count > 0 ) {
