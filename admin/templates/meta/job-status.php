@@ -10,9 +10,14 @@
   $post_count = count( $applications );
   $check_status = get_post_status( $the_ID );
   $views_count = get_post_meta( $the_ID , 'awsm_views_count', true );
+  $job_title = get_the_title( $the_ID );
 ?>
 
 <table class="awsm-job-stat-table">
+  <tr>
+    <td><?php esc_html_e( 'Job Title' );?></td>
+    <td><?php echo $job_title; ?></td>
+  </tr>
   <tr>
     <td><?php esc_html_e( 'Current Status:', 'wp-job-openings' ); ?></td>
     <td>
