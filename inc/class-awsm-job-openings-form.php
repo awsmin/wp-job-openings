@@ -326,6 +326,11 @@ class AWSM_Job_Openings_Form {
                $awsm_response['error'][] = esc_html__( "Please select your cv/resume.", "wp-job-openings" );
             }
 
+            /**
+             * Fires before job application submission
+             * 
+             * @since 1.2
+             */
             do_action( 'awsm_job_application_submitting' );
 
             if ( count( $awsm_response['error'] ) === 0 ) {
@@ -388,10 +393,19 @@ class AWSM_Job_Openings_Form {
                                 update_post_meta( $application_id, $meta_key, $meta_value );
                             }
                             // Now, send notification email
+                            $applicant_details['application_id'] = $application_id;
                             $this->notification_email( $applicant_details );
+
                             $awsm_response['success'][] = esc_html__( "Your application has been submitted.", "wp-job-openings" );
 
-                            do_action( 'awsm_job_application_submitted' );
+                            /**
+                             * Fires after successful job application submission
+                             * 
+                             * @since 1.2
+                             * 
+                             * @param int $application_id Application ID
+                             */
+                            do_action( 'awsm_job_application_submitted', $application_id );
 
                         } else {
                             $awsm_response['error'][] = $generic_err_msg;
@@ -517,11 +531,25 @@ class AWSM_Job_Openings_Form {
                 $from = ( ! empty( $company_name ) ) ? $company_name : get_option( 'blogname' );
                 $subject = str_replace( $tag_names, $tag_values, $notifi_subject );
                 $message = str_replace( $tag_names, $tag_values, $notifi_content );
+                $mail_content = nl2br( $message );
                 $headers = array();
                 $headers[] = 'Content-Type: text/html; charset=UTF-8';
                 $headers[] = 'From: ' . $from . ' <' . $admin_email . '>';
                 $headers[] = 'Cc: ' . $applicant_cc;
-                wp_mail( $to, $subject, nl2br($message), $headers );
+                $current_time = current_time( 'timestamp' );
+                $is_mail_send = wp_mail( $to, $subject, $mail_content, $headers );
+                if( $is_mail_send ) {
+                    $mails_data = array(
+                        array(
+                            'send_by'      => 0,
+                            'mail_date'    => $current_time,
+                            'cc'           => $applicant_cc,
+                            'subject'      => $subject,
+                            'mail_content' => $mail_content
+                        )
+                    );
+                    update_post_meta( $applicant_details['application_id'], 'awsm_application_mails', $mails_data );
+                }
             }
             if( $enable_admin == 'enable' && ! empty( $admin_subject ) && ! empty( $admin_content ) ) {
                 $to = $admin_to;
@@ -531,7 +559,7 @@ class AWSM_Job_Openings_Form {
                 $admin_headers[] = 'Content-Type: text/html; charset=UTF-8';
                 $admin_headers[] = 'From: ' . $applicant_details['awsm_applicant_name'] . ' <' . $applicant_details['awsm_applicant_email'] . '>';
                 $admin_headers[] = 'Cc: ' . $admin_cc;
-                wp_mail( $to, $subject, nl2br($message), $admin_headers );
+                wp_mail( $to, $subject, nl2br( $message ), $admin_headers );
             }
         }
     }
