@@ -27,6 +27,15 @@ if( ! defined( 'ABSPATH' ) ) {
 
     <h2><?php echo esc_html( apply_filters( 'awsm_application_form_title', __( 'Apply for this position', 'wp-job-openings' ) ) ); ?></h2>
 
+    <?php
+        /**
+         * awsm_application_form_description hook
+         *
+         * @since 1.2.2
+         */
+        do_action( 'awsm_application_form_description' );
+    ?>
+
     <form id="awsm-application-form" name="applicationform" method="post" enctype="multipart/form-data">
 
         <?php
