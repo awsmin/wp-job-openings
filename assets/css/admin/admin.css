@@ -11,6 +11,9 @@
 .clearfix {
 	zoom: 1;
 }
+.awsm-job-settings-wrap a:focus{
+	box-shadow: none;
+}
 .awsm-admin-settings,
 .awsm-admin-settings *,
 .awsm-admin-settings *::before,
