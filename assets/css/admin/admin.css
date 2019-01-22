@@ -693,6 +693,20 @@ a.awsm-text-red:hover {
 	display: block;
 }
 
+.awsm-jobs-error-container {
+    padding: 7px 0px;
+}
+.awsm-jobs-error {
+	background: #fff;
+	border-left: 4px solid #dc3232;
+	box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
+	padding: 7px 12px;
+}
+.awsm-jobs-error p {
+	margin: .5em 0;
+	padding: 2px;
+}
+
 .awsm-job-addon-item {
 	background: #fff;
 	padding: 30px 25px;
