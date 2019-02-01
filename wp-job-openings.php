@@ -378,10 +378,10 @@ class AWSM_Job_Openings {
 
     public function modified_post_status_filter( $views ) {
         if( isset( $views['publish'] ) ) {
-            $views['publish'] = str_replace( esc_html__( 'Published ', 'wp-job-openings' ), esc_html__( 'Current Openings ', 'wp-job-openings' ), $views['publish'] );
+            $views['publish'] = str_replace( esc_html__( 'Published', 'wp-job-openings' ), esc_html__( 'Current Openings', 'wp-job-openings' ), $views['publish'] );
         }
         if( isset( $views['expired'] ) ) {
-            $views['expired'] = str_replace( esc_html__( 'Expired ', 'wp-job-openings' ), esc_html__( 'Inactive', 'wp-job-openings' ), $views['expired'] );
+            $views['expired'] = str_replace( esc_html__( 'Expired', 'wp-job-openings' ), esc_html__( 'Inactive', 'wp-job-openings' ), $views['expired'] );
         }
         return $views;
     }
