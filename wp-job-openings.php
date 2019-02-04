@@ -502,24 +502,27 @@ class AWSM_Job_Openings {
 
     public function awsm_admin_enqueue_scripts( $hook ) {
         $screen = get_current_screen();
+        wp_register_style( 'awsm-job-admin', AWSM_JOBS_PLUGIN_URL . '/assets/css/admin.min.css', array( 'awsm-jobs-general' ), AWSM_JOBS_PLUGIN_VERSION, 'all' );
+
+        wp_register_script( 'awsm-job-admin', AWSM_JOBS_PLUGIN_URL . '/assets/js/admin.min.js', array( 'jquery', 'jquery-ui-datepicker' ), AWSM_JOBS_PLUGIN_VERSION, true );
+
         if( ! empty( $screen ) ) {
             $post_type = $screen->post_type;
             if ( ( $post_type == 'awsm_job_openings' ) || ( $post_type == 'awsm_job_application' ) ) {
                 wp_enqueue_style( 'awsm-jobs-general' );
-                wp_enqueue_style( 'awsm-job-admin', AWSM_JOBS_PLUGIN_URL . '/assets/css/admin.min.css', array( 'awsm-jobs-general' ), AWSM_JOBS_PLUGIN_VERSION, 'all' );
-
-                wp_enqueue_script( 'awsm-admin', AWSM_JOBS_PLUGIN_URL . '/assets/js/admin.min.js', array( 'jquery', 'jquery-ui-datepicker' ), AWSM_JOBS_PLUGIN_VERSION, true );
-
-                wp_localize_script( 'awsm-admin', 'awsmJobsAdmin', array(
-                    'ajaxurl'    => admin_url( 'admin-ajax.php' ),
-                    'plugin_url' => AWSM_JOBS_PLUGIN_URL,
-                    'nonce'      => wp_create_nonce( 'awsm-admin-nonce' ),
-                    'i18n'       => array(
-                        'select2_no_page' => esc_html__( 'Select a page', 'wp-job-openings' )
-                    )
-                ) );
+                wp_enqueue_style( 'awsm-job-admin' );
+                wp_enqueue_script( 'awsm-job-admin' );
             }
-         }
+        }
+        
+        wp_localize_script( 'awsm-job-admin', 'awsmJobsAdmin', array(
+            'ajaxurl'    => admin_url( 'admin-ajax.php' ),
+            'plugin_url' => AWSM_JOBS_PLUGIN_URL,
+            'nonce'      => wp_create_nonce( 'awsm-admin-nonce' ),
+            'i18n'       => array(
+                'select2_no_page' => esc_html__( 'Select a page', 'wp-job-openings' )
+            )
+        ) );
     }
 
     public static function get_template_path( $template_name, $sub_dir_name = false ) {
