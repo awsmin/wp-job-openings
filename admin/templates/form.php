@@ -11,22 +11,14 @@
 <div id="settings-awsm-settings-form" class="awsm-admin-settings">
     <?php do_action( 'awsm_settings_form_elem_start', 'form' ); ?>
     <form method="POST" action="options.php" id="upload-file-form">
-        <?php settings_fields( 'awsm-jobs-form-settings' ); ?>
+        <?php
+            settings_fields( 'awsm-jobs-form-settings' );
 
-        <div class="awsm-nav-subtab-container clearfix">
-            <ul class="subsubsub">
-                <li>
-                    <a href="#" class="awsm-nav-subtab current" id="awsm-general-form-nav-subtab" data-target="#awsm-general-form-options-container"><?php _e( 'General', 'wp-job-openings' ); ?></a>
-                </li>
-                <li>
-                    <a href="#" class="awsm-nav-subtab" id="awsm-recaptha-form-nav-subtab" data-target="#awsm-recaptcha-form-options-container"><?php _e( 'reCAPTCHA', 'wp-job-openings' ); ?></a>
-                </li>
-                <?php do_action( 'awsm_jobs_settings_subtab_section', 'form' ); ?>
-            </ul>
-            <input type="hidden" name="awsm_current_form_subtab" class="awsm_current_settings_subtab" value="<?php echo esc_attr( $form_subtab ); ?>" />
-        </div>
+            // display form subtabs.
+            $this->display_subtabs( 'form', 'awsm-general-form-nav-subtab' );
 
-        <?php do_action( 'before_awsm_settings_main_content', 'form' ); ?>
+            do_action( 'before_awsm_settings_main_content', 'form' );
+        ?>
 
         <div class="awsm-form-section-main awsm-sub-options-container" id="awsm-general-form-options-container">
             <table class="form-table">

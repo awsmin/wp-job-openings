@@ -28,6 +28,10 @@
     <form method="POST" action="options.php" id="general_settings_form">
     	<?php
            settings_fields( 'awsm-jobs-general-settings' );
+
+           // display general subtabs.
+           $this->display_subtabs( 'general' );
+
            do_action( 'before_awsm_settings_main_content', 'general' );
     	?>
     	<div class="awsm-form-section-main awsm-sub-options-container" id="awsm-general-options-container">

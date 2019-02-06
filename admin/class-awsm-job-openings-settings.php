@@ -53,9 +53,51 @@ class AWSM_Job_Openings_Settings {
         );
     }
 
+    public function setting_subtabs( $section ) {
+        $subtabs = array();
+        switch ( $section ) {
+            case 'appearance' :
+                $subtabs = array(
+                    'listing' => array(
+                        'id'     => 'awsm-job-listing-nav-subtab',
+                        'target' => 'awsm-job-listing-options-container',
+                        'label'  => __( 'Job Listing Page', 'wp-job-openings' ),
+                    ),
+                    'details' => array(
+                        'id'     => 'awsm-job-details-nav-subtab',
+                        'target' => 'awsm-job-details-options-container',
+                        'label'  => __( 'Job Detail Page', 'wp-job-openings' ),
+                    )
+                );
+                break;
+            case 'form' :
+                $subtabs = array(
+                    'general' => array(
+                        'label'  => __( 'General', 'wp-job-openings' ),
+                    ),
+                    'recaptcha' => array(
+                        'label'  => __( 'reCAPTCHA', 'wp-job-openings' ),
+                    ),
+                );
+                break;
+        }
+        /**
+         * Filters the Settings Subtabs.
+         *
+         * @since 1.2.2
+         * 
+         * @param array $subtabs Subtabs data.
+         * @param string $section Current settings section.
+         */
+        return apply_filters( 'awsm_jobs_settings_subtabs', $subtabs, $section );
+    }
+
     private function settings() {
         $settings = array(
             'general'   => array(
+                array(
+                    'option_name' => 'awsm_current_general_subtab' /** @since 1.2.2 */
+                ),
                 array(
                     'option_name' => 'awsm_select_page_listing'
                 ),
@@ -137,6 +179,9 @@ class AWSM_Job_Openings_Settings {
 
             'specifications' => array(
                 array(
+                    'option_name' => 'awsm_current_specifications_subtab' /** @since 1.2.2 */
+                ),
+                array(
                     'option_name' => 'awsm_jobs_filter',
                     'callback'    => array( $this, 'awsm_jobs_filter_handle' )
                 ),
@@ -175,6 +220,9 @@ class AWSM_Job_Openings_Settings {
             ),
 
             'notification' => array(
+                array(
+                    'option_name' => 'awsm_current_notification_subtab' /** @since 1.2.2 */
+                ),
                 array(
                     'option_name' => 'awsm_jobs_applicant_notification'
                 ),
@@ -466,30 +514,6 @@ class AWSM_Job_Openings_Settings {
         }
     }
 
-    public function display_check_list( $label, $option_name, $value, $saved_data ) {
-        $checked = '';
-        if( ! empty( $saved_data ) ) {
-            if( in_array( $value, $saved_data ) ) {
-                $checked = ' checked';
-            }
-        }
-        printf( '<li><label for="%1$s-%2$s"><input type="checkbox" name="%1$s[]" id="%1$s-%2$s" value="%2$s"%4$s />%3$s</label></li>', $option_name, $value, $label, $checked );
-    }
-
-    public function is_settings_field_checked( $option, $value, $default = false ) {
-        $checked = '';
-        if( ! empty( $option ) ) {
-            if( $option === $value ) {
-                $checked = 'checked';
-            }
-        } else {
-            if( $default ) {
-                $checked = 'checked';
-            }
-        }
-        return $checked;
-    }
-
     public function settings_switch_ajax() {
         if( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'awsm-admin-nonce' ) ) {
             wp_die();
@@ -506,5 +530,62 @@ class AWSM_Job_Openings_Settings {
             echo $option_value;
         }
         wp_die();
+    }
+
+    public function is_settings_field_checked( $option, $value, $default = false ) {
+        $checked = '';
+        if( ! empty( $option ) ) {
+            if( $option === $value ) {
+                $checked = 'checked';
+            }
+        } else {
+            if( $default ) {
+                $checked = 'checked';
+            }
+        }
+        return $checked;
+    }
+
+    public function display_subtabs( $section, $subtab_id = '' ) {
+        $subtabs = $this->setting_subtabs( $section );
+        if( ! empty( $subtabs ) ) :
+            $initial_tab = true;
+            $current_tab_option = "awsm_current_{$section}_subtab";
+            $current_tab_id = get_option( $current_tab_option, $subtab_id );
+        ?>
+            <div class="awsm-nav-subtab-container clearfix">
+                <ul class="subsubsub">
+                    <?php
+                        foreach( $subtabs as $key => $subtab ) :
+                            $unique_id = $key . '-' . $section;
+                            $id = isset( $subtab['id'] ) ? $subtab['id'] : "awsm-{$unique_id}-nav-subtab";
+                            $target = isset( $subtab['target'] ) ? $subtab['target'] : "awsm-{$unique_id}-options-container";
+                            $current_class = $initial_tab ? ' current' : '';
+                    ?>
+                            <li>
+                                <a href="#" class="awsm-nav-subtab<?php echo esc_attr( $current_class ); ?>" id="<?php echo esc_attr( $id ); ?>" data-target="#<?php echo esc_attr( $target ); ?>">
+                                    <?php echo esc_html( $subtab['label'] ); ?>
+                                </a>
+                            </li>
+                    <?php
+                            $initial_tab = false;
+                        endforeach;
+                    ?>
+                    <?php do_action( 'awsm_jobs_settings_subtab_section', $section ); ?>
+                </ul>
+                <input type="hidden" name="<?php echo esc_attr( $current_tab_option ); ?>" class="awsm_current_settings_subtab" value="<?php echo esc_attr( $current_tab_id ); ?>" />
+            </div>
+        <?php
+        endif;
+    }
+
+    public function display_check_list( $label, $option_name, $value, $saved_data ) {
+        $checked = '';
+        if( ! empty( $saved_data ) ) {
+            if( in_array( $value, $saved_data ) ) {
+                $checked = ' checked';
+            }
+        }
+        printf( '<li><label for="%1$s-%2$s"><input type="checkbox" name="%1$s[]" id="%1$s-%2$s" value="%2$s"%4$s />%3$s</label></li>', $option_name, $value, $label, $checked );
     }
 }

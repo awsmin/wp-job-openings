@@ -18,6 +18,10 @@
         <form method="POST" action="options.php" id="notification_form">
             <?php
                 settings_fields( 'awsm-jobs-notification-settings' );
+
+                // display notification subtabs.
+                $this->display_subtabs( 'notification' );
+
                 do_action( 'before_awsm_settings_main_content', 'notification' );
             ?>
 

@@ -13,7 +13,6 @@
             $listing_view = get_option( 'awsm_jobs_listing_view' );
             $list_page = get_option( 'awsm_jobs_list_per_page' );
             $number_list_columns = get_option( 'awsm_jobs_number_of_columns' );
-            $appearance_subtab = get_option( 'awsm_current_appearance_subtab' );
             $specifications = get_option( 'awsm_jobs_filter' );
             $hidden_class = ' class="awsm-hide"';
             $no_columns_options = apply_filters( 'awsm_jobs_number_of_columns_options', array( 1, 2, 3, 4 ) );
@@ -23,22 +22,12 @@
                 'below_content'    => 'Below job description',
                 'above_content'    => 'Above job description'
             ) );
+
+            // display form subtabs.
+            $this->display_subtabs( 'appearance' );
+
+            do_action( 'before_awsm_settings_main_content', 'appearance' );
         ?>
-
-        <div class="awsm-nav-subtab-container clearfix">
-            <ul class="subsubsub">
-                <li>
-                    <a href="#" class="awsm-nav-subtab current" id="awsm-job-listing-nav-subtab" data-target="#awsm-job-listing-options-container"><?php esc_html_e( 'Job Listing Page', 'wp-job-openings' ); ?></a>
-                </li>
-                <li>
-                    <a href="#" class="awsm-nav-subtab" id="awsm-job-details-nav-subtab" data-target="#awsm-job-details-options-container"><?php esc_html_e( 'Job Detail Page', 'wp-job-openings' ); ?></a>
-                </li>
-                <?php do_action( 'awsm_jobs_settings_subtab_section', 'appearance' ); ?>
-            </ul>
-            <input type="hidden" name="awsm_current_appearance_subtab" class="awsm_current_settings_subtab" value="<?php echo esc_attr( $appearance_subtab ); ?>" />
-        </div>
-
-        <?php do_action( 'before_awsm_settings_main_content', 'appearance' ); ?>
 
         <div class="awsm-form-section-main awsm-sub-options-container" id="awsm-job-listing-options-container">
             <table class="form-table">

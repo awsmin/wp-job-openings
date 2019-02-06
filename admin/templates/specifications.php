@@ -14,6 +14,10 @@
     <form method="POST" action="options.php" id="job_specifications_form">
         <?php
             settings_fields( 'awsm-jobs-specifications-settings' );
+
+            // display specifications subtabs.
+            $this->display_subtabs( 'specifications' );
+
             do_action( 'before_awsm_settings_main_content', 'specifications' );
         ?>
         <div class="awsm-form-section-main awsm-sub-options-container" id="awsm-job-specifications-options-container">
