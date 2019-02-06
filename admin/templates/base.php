@@ -28,7 +28,7 @@
 
     <div class="awsm-jobs-settings-section-wrapper">
         <div class="awsm-jobs-settings-loader-container">
-            <span class="awsm-jobs-settings-loader"><img src="<?php echo esc_url( admin_url( 'images/spinner-2x.gif' ) ); ?>" width="32" height="32" alt="<?php esc_html_e( 'Loading...', 'wp-job-openings' ); ?>" /></span>
+            <span class="awsm-jobs-settings-loader"><img src="<?php echo esc_url( admin_url( 'images/spinner-2x.gif' ) ); ?>" width="32" height="32" alt="" /></span>
         </div>
 
         <div id="awsm-jobs-settings-section" class="awsm-jobs-settings-section" style="visibility: hidden;">
