@@ -15,6 +15,7 @@ class AWSM_Job_Openings_Uninstall {
 
     private static function get_all_options() {
         $options    = array(
+            'awsm_current_general_subtab',
             'awsm_select_page_listing',
             'awsm_job_company_name',
             'awsm_hr_email_address',
@@ -37,6 +38,7 @@ class AWSM_Job_Openings_Uninstall {
             'awsm_jobs_expired_jobs_content_details',
             'awsm_jobs_expired_jobs_block_search',
             'awsm_jobs_hide_expiry_date',
+            'awsm_current_specifications_subtab',
             'awsm_jobs_filter',
             'awsm_jobs_remove_filters',
             'awsm_current_form_subtab',
@@ -46,6 +48,7 @@ class AWSM_Job_Openings_Uninstall {
             'awsm_jobs_enable_recaptcha',
             'awsm_jobs_recaptcha_site_key',
             'awsm_jobs_recaptcha_secret_key',
+            'awsm_current_notification_subtab',
             'awsm_jobs_applicant_notification',
             'awsm_jobs_hr_notification',
             'awsm_jobs_acknowledgement',
