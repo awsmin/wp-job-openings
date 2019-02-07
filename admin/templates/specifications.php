@@ -3,7 +3,6 @@
         exit;
     }
     $awsm_filters = get_option( 'awsm_jobs_filter' );
-    $spec_keys = wp_list_pluck( $awsm_filters, 'taxonomy' );
     $taxonomy_objects = get_object_taxonomies( 'awsm_job_openings', 'objects' );
     $spec_label_placeholder = 'placeholder="' . esc_html__( 'Enter a specification', 'wp-job-openings' ) . '"';
     $spec_tags_placeholder = 'data-placeholder="' . esc_html__( 'Enter options', 'wp-job-openings' ) . '"';
@@ -56,6 +55,7 @@
                         <?php
                             else :
                                 $index = 0;
+                                $spec_keys = wp_list_pluck( $awsm_filters, 'taxonomy' );
                                 foreach( $taxonomy_objects as $taxonomy => $taxonomy_options ) :
                                     if ( ! in_array( $taxonomy, $spec_keys, true ) ) {
                                         continue;

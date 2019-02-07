@@ -3,13 +3,14 @@
 		exit;
 	}
 	$awsm_filters = get_option( 'awsm_jobs_filter' );
-	$spec_keys = wp_list_pluck( $awsm_filters, 'taxonomy' );
 	$taxonomy_objects = get_object_taxonomies( 'awsm_job_openings', 'objects' );
 ?>
 
 <div class="awsm-job-specifications-section" id="awsm_job_specifications">
 	<?php
-		if( ! empty( $taxonomy_objects ) ) :
+		if( ! empty( $taxonomy_objects ) && ! empty( $awsm_filters ) ) :
+			$spec_keys = wp_list_pluck( $awsm_filters, 'taxonomy' );
+			
 			echo '<ul class="awsm-job-specification-wrapper">';
 			foreach( $taxonomy_objects as $taxonomy => $taxonomy_options ) :
 				if ( ! in_array( $taxonomy, $spec_keys, true ) ) {
