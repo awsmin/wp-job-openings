@@ -884,25 +884,30 @@ class AWSM_Job_Openings {
 
     public static function get_specifications_content( $post_id, $display_label, $filter_data = array(), $enabled_specs = 'all' ) {
         $spec_content = '';
-        $taxonomies = get_object_taxonomies( 'awsm_job_openings', 'objects' );
-        $show_icon = get_option( 'awsm_jobs_show_specs_icon', 'show_icon' );
-        $is_specs_clickable = get_option( 'awsm_jobs_make_specs_clickable' );
-        foreach( $taxonomies as $taxonomy => $options ) {
-            $display = true;
-            if( $enabled_specs !== 'all' ) {
-                $display = false;
-                if( is_array( $enabled_specs ) && in_array( $taxonomy, $enabled_specs ) ) {
-                    $display = true;
-                }
-            }
-            if( $display ) {
-                $terms = get_the_terms( $post_id, $taxonomy );
-                if( ! empty( $terms ) ) {
-                    $spec_label = $spec_icon = $spec_terms = '';
-                    if( $display_label ) {
-                        $spec_label = '<span class="awsm-job-specification-label"><strong>' . esc_html( $options->label ) . ': </strong></span>';
+        $filter_data = ! empty( $filter_data ) ? $filter_data : get_option( 'awsm_jobs_filter' );
+        if ( ! empty( $filter_data ) ) {
+            $spec_keys = wp_list_pluck( $filter_data, 'taxonomy' );
+            $taxonomies = get_object_taxonomies( 'awsm_job_openings', 'objects' );
+            $show_icon = get_option( 'awsm_jobs_show_specs_icon', 'show_icon' );
+            $is_specs_clickable = get_option( 'awsm_jobs_make_specs_clickable' );
+            foreach( $taxonomies as $taxonomy => $options ) {
+                if ( ! in_array( $taxonomy, $spec_keys, true ) ) {
+					continue;
+				}
+                $display = true;
+                if( $enabled_specs !== 'all' ) {
+                    $display = false;
+                    if( is_array( $enabled_specs ) && in_array( $taxonomy, $enabled_specs ) ) {
+                        $display = true;
                     }
-                    if( ! empty( $filter_data ) ) {
+                }
+                if( $display ) {
+                    $terms = get_the_terms( $post_id, $taxonomy );
+                    if( ! empty( $terms ) ) {
+                        $spec_label = $spec_icon = $spec_terms = '';
+                        if( $display_label ) {
+                            $spec_label = '<span class="awsm-job-specification-label"><strong>' . esc_html( $options->label ) . ': </strong></span>';
+                        }
                         foreach( $filter_data as $filter ) {
                             if( $taxonomy == $filter['taxonomy'] ) {
                                 if( ! empty( $filter['icon'] ) ) {
@@ -912,16 +917,16 @@ class AWSM_Job_Openings {
                                 }
                             }
                         }
-                    }
-                    foreach ( $terms as $term ) {
-                        $term_link = get_term_link( $term );
-                        if ( ! is_singular( 'awsm_job_openings' ) || $is_specs_clickable !== 'make_clickable' || is_wp_error( $term_link ) ) {
-                            $spec_terms .= '<span class="awsm-job-specification-term">' . esc_html( $term->name ). '</span> ';
-                        } else {
-                            $spec_terms .= sprintf( '<a href="%2$s" class="awsm-job-specification-term">%1$s</a> ', esc_html( $term->name ), esc_url($term_link ) );
+                        foreach ( $terms as $term ) {
+                            $term_link = get_term_link( $term );
+                            if ( ! is_singular( 'awsm_job_openings' ) || $is_specs_clickable !== 'make_clickable' || is_wp_error( $term_link ) ) {
+                                $spec_terms .= '<span class="awsm-job-specification-term">' . esc_html( $term->name ). '</span> ';
+                            } else {
+                                $spec_terms .= sprintf( '<a href="%2$s" class="awsm-job-specification-term">%1$s</a> ', esc_html( $term->name ), esc_url($term_link ) );
+                            }
                         }
+                        $spec_content .= sprintf( '<div class="awsm-job-specification-item">%1$s</div>', $spec_icon . $spec_label . $spec_terms );
                     }
-                    $spec_content .= sprintf( '<div class="awsm-job-specification-item">%1$s</div>', $spec_icon . $spec_label . $spec_terms );
                 }
             }
         }
@@ -936,8 +941,7 @@ class AWSM_Job_Openings {
         $show_job_spec = get_option( 'awsm_jobs_specification_job_detail', 'show_in_detail' );
         $spec_position = get_option( 'awsm_jobs_specs_position', 'below_content' );
         if( $spec_position === $pos && $show_job_spec === 'show_in_detail' ) {
-            $awsm_filters = get_option( 'awsm_jobs_filter' );
-            $content = sprintf( '<div class="awsm-job-specifications-container %2$s"><div class="awsm-job-specifications-row">%1$s</div></div>', self::get_specifications_content( $post_id, true, $awsm_filters ), 'awsm_job_spec_' . $pos );
+            $content = sprintf( '<div class="awsm-job-specifications-container %2$s"><div class="awsm-job-specifications-row">%1$s</div></div>', self::get_specifications_content( $post_id, true ), 'awsm_job_spec_' . $pos );
         }
         if ( $echo ) {
             echo $content;

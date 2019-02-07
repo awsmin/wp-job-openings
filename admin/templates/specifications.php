@@ -3,6 +3,7 @@
         exit;
     }
     $awsm_filters = get_option( 'awsm_jobs_filter' );
+    $spec_keys = wp_list_pluck( $awsm_filters, 'taxonomy' );
     $taxonomy_objects = get_object_taxonomies( 'awsm_job_openings', 'objects' );
     $spec_label_placeholder = 'placeholder="' . esc_html__( 'Enter a specification', 'wp-job-openings' ) . '"';
     $spec_tags_placeholder = 'data-placeholder="' . esc_html__( 'Enter options', 'wp-job-openings' ) . '"';
@@ -38,7 +39,7 @@
                             <td><?php _e( 'Options', 'wp-job-openings' ); ?></td></td>
                             <td></td>
                         </tr>
-                        <?php if( empty( $taxonomy_objects ) ) : ?>
+                        <?php if( empty( $taxonomy_objects ) || empty( $awsm_filters ) ) : ?>
                             <tr class="awsm_job_specifications_settings_row">
                                 <td>
                                     <input type="text" class="widefat awsm_jobs_filter_title" name="awsm_jobs_filter[0][filter]" value="" required <?php echo $spec_label_placeholder; ?> />
@@ -56,6 +57,9 @@
                             else :
                                 $index = 0;
                                 foreach( $taxonomy_objects as $taxonomy => $taxonomy_options ) :
+                                    if ( ! in_array( $taxonomy, $spec_keys, true ) ) {
+                                        continue;
+                                    }
                         ?>
                                     <tr class="awsm_job_specifications_settings_row" data-index="<?php echo $index; ?>">
                                         <td>
@@ -65,12 +69,10 @@
                                         <td>
                                            <select class="awsm-font-icon-selector awsm-icon-select-control" name="awsm_jobs_filter[<?php echo $index; ?>][icon]" style="width: 100%;" <?php echo $icon_placeholder; ?>>
                                                 <?php
-                                                    if( ! empty( $awsm_filters ) ) {
-                                                        foreach( $awsm_filters as $filter ) {
-                                                            if( $taxonomy == $filter['taxonomy'] ) {
-                                                                if( ! empty( $filter['icon'] ) ) {
-                                                                    printf( '<option value="%1$s" selected><i class="awsm-job-icon-%1$s"></i> %1$s</option>', $filter['icon'] );
-                                                                }
+                                                    foreach( $awsm_filters as $filter ) {
+                                                        if( $taxonomy == $filter['taxonomy'] ) {
+                                                            if( ! empty( $filter['icon'] ) ) {
+                                                                printf( '<option value="%1$s" selected><i class="awsm-job-icon-%1$s"></i> %1$s</option>', $filter['icon'] );
                                                             }
                                                         }
                                                     }
@@ -99,7 +101,7 @@
                                 endforeach;
                             endif;
                         ?>
-                        <tr class="awsm-filter-empty-row screen-reader-text" data-next="<?php echo ( ! empty( $taxonomy_objects ) ) ? count( $taxonomy_objects ) : 1; ?>">
+                        <tr class="awsm-filter-empty-row screen-reader-text" data-next="<?php echo ( ! empty( $awsm_filters ) ) ? count( $awsm_filters ) : 1; ?>">
                             <td>
                                 <input type="text" class="widefat awsm_jobs_filter_title" <?php echo $spec_label_placeholder; ?> />
                             </td>
