@@ -86,12 +86,12 @@ jQuery(document).ready(function ($) {
 	awsmJobTagSelect($('.awsm_job_specification_terms'), false);
 
 	// Spec icons select
-	var icon_data = [{
+	var iconData = [{
 		id: '',
 		text: ''
 	}];
 
-	function format_icon_select_state(state) {
+	function formatIconSelectState(state) {
 		if (!state.id) {
 			return state.text;
 		}
@@ -99,7 +99,7 @@ jQuery(document).ready(function ($) {
 		return $state;
 	}
 
-	function awsm_spec_icon_select($elem, data) {
+	function awsmSpecIconSelect($elem, data) {
 		var placeholder_text = $elem.data('placeholder');
 		$elem.select2({
 			placeholder: {
@@ -108,24 +108,24 @@ jQuery(document).ready(function ($) {
 			},
 			allowClear: true,
 			data: data,
-			templateResult: format_icon_select_state,
-			templateSelection: format_icon_select_state,
+			templateResult: formatIconSelectState,
+			templateSelection: formatIconSelectState,
 			theme: 'awsm-job'
 		});
 	}
 
-	function awsm_icon_data() {
+	function awsmIconData() {
 		$.getJSON(awsmJobsAdmin.plugin_url + '/assets/fonts/awsm-icons.json', function (data) {
 			$.each(data.icons, function (index, icon) {
-				icon_data.push({
+				iconData.push({
 					id: icon,
 					text: icon
 				});
 			});
-			awsm_spec_icon_select($('.awsm-icon-select-control'), icon_data);
+			awsmSpecIconSelect($('.awsm-icon-select-control'), iconData);
 		});
 	}
-	awsm_icon_data();
+	awsmIconData();
 
 	$('.awsm_jobs_filter_tags').on('select2:unselect', function (e) {
 		var $row = $(this).parents('.awsm_job_specifications_settings_row');
@@ -138,40 +138,37 @@ jQuery(document).ready(function ($) {
 
 	$('.awsm-add-filter-row').on('click', function (e) {
 		e.preventDefault();
-		var enable_row = true;
+		var enableRow = true;
 		$('.awsm_job_specifications_settings_row .awsm_jobs_filter_title').each(function () {
 			if ($(this).val().length == 0) {
 				$(this).focus();
-				enable_row = false;
+				enableRow = false;
 			}
 		});
-		if (enable_row) {
-			var wrapper = '#awsm-repeatable-specifications';
-			var $empty_row = $(wrapper + ' .awsm-filter-empty-row');
-			var row = $empty_row.clone(true);
-			var filter_next = $empty_row.data('next');
-			row.find('.awsm_jobs_filter_title').attr('name', 'awsm_jobs_filter[' + filter_next + '][filter]').prop('required', true);
-			row.find('.awsm-font-icon-selector').attr('name', 'awsm_jobs_filter[' + filter_next + '][icon]').addClass('awsm-icon-select-control');
-			row.find('.awsm-empty-spec-select').attr('name', 'awsm_jobs_filter[' + filter_next + '][tags][]').addClass('awsm_jobs_filter_tags').removeClass('awsm-empty-spec-select');
-			$empty_row.data('next', filter_next + 1);
-			$(wrapper).find('.awsm_job_specifications_settings_body').append('<tr class="awsm_job_specifications_settings_row">' + row.html() + '</tr>');
+		if (enableRow) {
+			var $wrapper = $('#awsm-repeatable-specifications');
+			var next = $wrapper.data('next');
+			var specTemplate = wp.template('awsm-job-spec-settings');
+			var templateData = { index: next };
+			$wrapper.data('next', next + 1);
+			$wrapper.find('.awsm_job_specifications_settings_body').append(specTemplate(templateData));
 			awsmJobTagSelect($('.awsm_jobs_filter_tags').last());
-			awsm_spec_icon_select($('.awsm-icon-select-control').last(), icon_data);
+			awsmSpecIconSelect($('.awsm-icon-select-control').last(), iconData);
 		}
 	});
 
 	$('#awsm-repeatable-specifications').on('click', '.awsm-filters-remove-row', function (e) {
 		e.preventDefault();
-		var $delete_btn = $(this);
-		var container_selector = '#awsm-repeatable-specifications';
-		var row_selector = '.awsm_job_specifications_settings_row';
-		var next = $(row_selector).length;
-		var taxonomy = $delete_btn.data('taxonomy');
+		var $deleteBtn = $(this);
+		var $wrapper = $('#awsm-repeatable-specifications');
+		var rowSelector = '.awsm_job_specifications_settings_row';
+		var next = $(rowSelector).length;
+		var taxonomy = $deleteBtn.data('taxonomy');
 		next = (typeof next !== 'undefined' && next > 0) ? (next - 1) : 0;
-		$(container_selector + ' .awsm-filter-empty-row').data('next', next);
-		$delete_btn.parents(row_selector).remove();
+		$wrapper.data('next', next);
+		$deleteBtn.parents(rowSelector).remove();
 		if (typeof taxonomy !== 'undefined') {
-			$(container_selector).append('<input type="hidden" name="awsm_jobs_remove_filters[]" value="' + taxonomy + '" />');
+			$wrapper.append('<input type="hidden" name="awsm_jobs_remove_filters[]" value="' + taxonomy + '" />');
 		}
 	});
 
