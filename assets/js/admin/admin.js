@@ -1,7 +1,7 @@
 /**
  * for generic select2 initialization
  */
-function awsm_select_control($elem, placeholder) {
+function awsmJobSelectControl($elem, placeholder) {
 	var placeholder = (typeof placeholder !== 'undefined') ? placeholder : '';
 	var options = {
 		minimumResultsForSearch: 25,
@@ -16,7 +16,7 @@ function awsm_select_control($elem, placeholder) {
 /**
  * for select2 initialization with tags input
  */
-function awsm_tags_select($elem, dropdownHidden) {
+function awsmJobTagSelect($elem, dropdownHidden) {
 	var dropdownHidden = (typeof dropdownHidden !== 'undefined') ? dropdownHidden : true;
 	if ($elem.length > 0) {
 		$elem.select2({
@@ -64,8 +64,8 @@ jQuery(document).ready(function ($) {
 		}
 	});
 
-	awsm_select_control($('.awsm-select-page-control'), awsmJobsAdmin.i18n.select2_no_page);
-	awsm_select_control($('.awsm-select-control'));
+	awsmJobSelectControl($('.awsm-select-page-control'), awsmJobsAdmin.i18n.select2_no_page);
+	awsmJobSelectControl($('.awsm-select-control'));
 
 	/*================ Job Expiry ================*/
 
@@ -82,8 +82,8 @@ jQuery(document).ready(function ($) {
 
 	/*================ Job Specifications ================*/
 
-	awsm_tags_select($('.awsm_jobs_filter_tags'));
-	awsm_tags_select($('.awsm_job_specification_terms'), false);
+	awsmJobTagSelect($('.awsm_jobs_filter_tags'));
+	awsmJobTagSelect($('.awsm_job_specification_terms'), false);
 
 	// Spec icons select
 	var icon_data = [{
@@ -155,7 +155,7 @@ jQuery(document).ready(function ($) {
 			row.find('.awsm-empty-spec-select').attr('name', 'awsm_jobs_filter[' + filter_next + '][tags][]').addClass('awsm_jobs_filter_tags').removeClass('awsm-empty-spec-select');
 			$empty_row.data('next', filter_next + 1);
 			$(wrapper).find('.awsm_job_specifications_settings_body').append('<tr class="awsm_job_specifications_settings_row">' + row.html() + '</tr>');
-			awsm_tags_select($('.awsm_jobs_filter_tags').last());
+			awsmJobTagSelect($('.awsm_jobs_filter_tags').last());
 			awsm_spec_icon_select($('.awsm-icon-select-control').last(), icon_data);
 		}
 	});
