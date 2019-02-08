@@ -504,7 +504,7 @@ class AWSM_Job_Openings {
         $screen = get_current_screen();
         wp_register_style( 'awsm-job-admin', AWSM_JOBS_PLUGIN_URL . '/assets/css/admin.min.css', array( 'awsm-jobs-general' ), AWSM_JOBS_PLUGIN_VERSION, 'all' );
 
-        wp_register_script( 'awsm-job-admin', AWSM_JOBS_PLUGIN_URL . '/assets/js/admin.min.js', array( 'jquery', 'jquery-ui-datepicker' ), AWSM_JOBS_PLUGIN_VERSION, true );
+        wp_register_script( 'awsm-job-admin', AWSM_JOBS_PLUGIN_URL . '/assets/js/admin.min.js', array( 'jquery', 'jquery-ui-datepicker', 'wp-util' ), AWSM_JOBS_PLUGIN_VERSION, true );
 
         if( ! empty( $screen ) ) {
             $post_type = $screen->post_type;
