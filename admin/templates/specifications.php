@@ -11,7 +11,7 @@
 
 <div id="settings-awsm-settings-specifications" class="awsm-admin-settings">
     <?php do_action( 'awsm_settings_form_elem_start', 'specifications' ); ?>
-    <form method="POST" action="options.php" id="job_specifications_form">
+    <form method="POST" action="options.php" id="awsm-job-specifications-form">
         <?php
             settings_fields( 'awsm-jobs-specifications-settings' );
 
@@ -66,6 +66,22 @@
                 <!-- job-spec-templates -->
                 <script type="text/html" id="tmpl-awsm-job-spec-settings">
                     <?php $this->spec_template( '{{data.index}}' ); ?>
+                </script>
+
+                <script type="text/html" id="tmpl-awsm-job-spec-settings-error">
+                    <div class="awsm-jobs-error-container">
+                        <div class="awsm-jobs-error">
+                            <p>
+                                <strong>
+                                    <# if( data.isInvalidKey ) { #>
+                                        <?php
+                                            esc_html_e( 'The job specification key should only contain alphanumeric, latin characters separated by hyphen/underscore, and cannot begin or end with a hyphen/underscore.', 'wp-job-openings' );
+                                        ?>
+                                    <# } #>
+                                </strong>
+                            </p>
+                        </div>
+                    </div>
                 </script>
                 <!-- /job-spec-templates -->
 

@@ -387,56 +387,63 @@ class AWSM_Job_Openings_Settings {
         return $input;
     }
 
-    public function awsm_jobs_filter_handle( $input ) {
-        $filters = $input;
+    public function awsm_jobs_filter_handle( $filters ) {
+        $old_value = get_option( 'awsm_jobs_filter' );
         if( ! empty( $filters ) ) {
             foreach( $filters as $index => $filter ) {
-                if( isset( $filter['filter'] ) ) {
-                    $filters[$index]['filter'] = sanitize_text_field( $filter['filter'] );
-                    if( ! isset( $filter['taxonomy'] ) ) {
-                        $taxonomy = sanitize_title_with_dashes( $filter['filter'] );
-                        if( taxonomy_exists( $taxonomy ) || strlen( $taxonomy ) > 32 ) {
-                            $error = esc_html__( 'Taxonomy key must not exceed 32 characters.', 'wp-job-openings' );
-                            if( taxonomy_exists( $taxonomy ) ) {
-                                $error = esc_html__( 'Taxonomy already exist!', 'wp-job-openings' );
+                $spec_name = isset( $filter['filter'] ) ? sanitize_text_field( $filter['filter'] ) : '';
+                $spec_key = isset( $filter['taxonomy'] ) ? sanitize_title_with_dashes( $filter['taxonomy'] ) : '';
+
+                // Job specifications validation.
+                if ( empty( $spec_name ) || empty( $spec_key ) ) {
+                    add_settings_error( 'awsm_jobs_filter', 'awsm-jobs-filter', esc_html__( 'Job Specification and Key cannot be empty!', 'wp-job-openings' ) );
+                    return $old_value;
+                }
+                if ( strlen( $spec_key ) > 32 ) {
+                    add_settings_error( 'awsm_jobs_filter', 'awsm-jobs-filter', esc_html__( 'Job specification key must not exceed 32 characters.', 'wp-job-openings' ) );
+                    return $old_value;
+                }
+                if ( ! preg_match( "/^([a-z0-9]+(-|_))*[a-z0-9]+$/", $spec_key ) ) {
+                    add_settings_error( 'awsm_jobs_filter', 'awsm-jobs-filter', esc_html__( 'The job specification key should only contain alphanumeric, latin characters separated by hyphen/underscore, and cannot begin or end with a hyphen/underscore.', 'wp-job-openings' ) );
+                    return $old_value;
+                }
+                if ( isset( $filter['register'] ) ) {
+                    if ( taxonomy_exists( $spec_key ) ) {
+                        add_settings_error( 'awsm_jobs_filter', 'awsm-jobs-filter', sprintf( esc_html__( 'Error in registering Job Specification with key: %1$s. %2$s', 'wp-job-openings' ), '<em>' . $spec_key . '</em>', esc_html__( 'Taxonomy already exist!', 'wp-job-openings' ) ) );
+                        unset( $filters[$index] );
+                        continue;
+                    }
+                }
+
+                $filters[$index]['filter'] = $spec_name;
+                $filters[$index]['taxonomy'] = $spec_key;
+                if( isset( $filter['remove_tags'] ) ) {
+                    if( ! empty( $filter['remove_tags'] ) ) {
+                        $remove_tags = $filter['remove_tags'];
+                        if( isset( $filter['tags'] ) ) {
+                            if( ! empty( $filter['tags'] ) ) {
+                                $remove_tags = array_diff( $remove_tags, $filter['tags'] );
                             }
-                            add_settings_error( 'awsm_jobs_filter', 'awsm-jobs-filter', sprintf( esc_html__( 'Error in registering Job Specification with key: %1$s. %2$s', 'wp-job-openings' ), '<em>' . $taxonomy . '</em>', $error ) );
-                            unset( $filters[$index] );
-                            continue;
                         }
-                        $filters[$index]['taxonomy'] = $taxonomy;
-                    } else {
-                        $current_taxonomy = sanitize_text_field( $filter['taxonomy'] );
-                        $filters[$index]['taxonomy'] = $current_taxonomy;
-                        if( isset( $filter['remove_tags'] ) ) {
-                            if( ! empty( $filter['remove_tags'] ) ) {
-                                $remove_tags = $filter['remove_tags'];
-                                if( isset( $filter['tags'] ) ) {
-                                    if( ! empty( $filter['tags'] ) ) {
-                                        $remove_tags = array_diff( $remove_tags, $filter['tags'] );
-                                    }
-                                }
-                                if( ! empty( $remove_tags ) ) {
-                                    foreach ( $remove_tags as $remove_tag ) {
-                                        $slug = sanitize_title( $remove_tag );
-                                        $term = get_term_by( 'slug', $slug, $current_taxonomy );
-                                        if ( ! is_wp_error( $term ) && ! empty( $term ) ) {
-                                            wp_delete_term( $term->term_id, $current_taxonomy );
-                                        }
-                                    }
+                        if( ! empty( $remove_tags ) ) {
+                            foreach ( $remove_tags as $remove_tag ) {
+                                $slug = sanitize_title( $remove_tag );
+                                $term = get_term_by( 'slug', $slug, $spec_key );
+                                if ( ! is_wp_error( $term ) && ! empty( $term ) ) {
+                                    wp_delete_term( $term->term_id, $spec_key );
                                 }
                             }
                         }
                     }
-                    if( isset( $filter['icon'] ) ) {
-                        if( ! empty( $filter['icon'] ) ) {
-                            $filters[$index]['icon'] = sanitize_text_field( $filter['icon'] );
-                        }
+                }
+                if( isset( $filter['icon'] ) ) {
+                    if( ! empty( $filter['icon'] ) ) {
+                        $filters[$index]['icon'] = sanitize_text_field( $filter['icon'] );
                     }
-                    if( isset( $filter['tags'] ) ) {
-                        if( ! empty( $filter['tags'] ) ) {
-                            $filters[$index]['tags'] = array_map( 'sanitize_text_field', $filter['tags'] );
-                        }
+                }
+                if( isset( $filter['tags'] ) ) {
+                    if( ! empty( $filter['tags'] ) ) {
+                        $filters[$index]['tags'] = array_map( 'sanitize_text_field', $filter['tags'] );
                     }
                 }
             }
@@ -596,7 +603,8 @@ class AWSM_Job_Openings_Settings {
 
         $i = esc_attr( $index );
         $spec_title = $row_data = $del_btn_data = $icon_option = $tag_options = '';
-        $spec_key_html = sprintf( '<input type="text" class="widefat" name="awsm_jobs_filter[%s][taxonomy]" value="" placeholder="%s" required />', $i, esc_attr__( 'Specification key', 'wp-job-openings' ) );
+        $spec_key_html = sprintf( '<input type="text" class="widefat awsm-jobs-spec-key" name="awsm_jobs_filter[%1$s][taxonomy]" value="" maxlength="32" placeholder="%2$s" title="%3$s" required /><input type="hidden" name="awsm_jobs_filter[%1$s][register]" value="true" />', $i, esc_attr__( 'Specification key', 'wp-job-openings' ), esc_attr__( 'The job specification key should only contain alphanumeric, latin characters separated by hyphen/underscore, and cannot begin or end with a hyphen/underscore.', 'wp-job-openings' ) );
+
         if ( ! empty( $tax_details ) && isset( $tax_details['key'] ) && isset( $tax_details['options'] ) ) {
             $spec_key = $tax_details['key'];
             $spec_options = $tax_details['options'];
@@ -619,9 +627,9 @@ class AWSM_Job_Openings_Settings {
             }
         }
         ?>
-            <tr class="awsm_job_specifications_settings_row"<?php echo $row_data; ?>>
+            <tr class="awsm-job-specifications-settings-row"<?php echo $row_data; ?>>
                 <td>
-                    <input type="text" class="widefat awsm_jobs_filter_title" name="awsm_jobs_filter[<?php echo $i; ?>][filter]" value="<?php echo $spec_title; ?>" placeholder="<?php esc_html_e( 'Enter a specification', 'wp-job-openings' ); ?>" required />
+                    <input type="text" class="widefat awsm-jobs-spec-title" name="awsm_jobs_filter[<?php echo $i; ?>][filter]" value="<?php echo $spec_title; ?>" placeholder="<?php esc_html_e( 'Enter a specification', 'wp-job-openings' ); ?>" required />
                 </td>
                 <td>
                     <?php echo $spec_key_html; ?>

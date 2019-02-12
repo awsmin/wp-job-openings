@@ -85,6 +85,11 @@ jQuery(document).ready(function ($) {
 	awsmJobTagSelect($('.awsm_jobs_filter_tags'));
 	awsmJobTagSelect($('.awsm_job_specification_terms'), false);
 
+	var specRegEx = new RegExp('^([a-z0-9]+(-|_))*[a-z0-9]+$');
+	var $specWrapper = $("#awsm-job-specifications-options-container");
+
+	var tlData = { "а":"a", "А":"a", "б":"b", "Б":"B", "в":"v", "В":"V", "ґ":"g","г":"g", "Г":"G", "д":"d", "Д":"D", "е":"e", "ё":"e", "Е":"E", "є":"ye", "э":"e", "Э":"E", "и":"i", "і":"i", "ї":"yi", "й":"i", "И":"I", "Й":"I", "к":"k", "К":"K", "л":"l", "Л":"L", "м":"m", "М":"M", "н":"n", "Н":"N", "о":"o", "О":"O", "п":"p", "П":"P", "р":"r", "Р":"R", "с":"s", "С":"S", "т":"t", "Т":"T", "у":"u", "У":"U", "ф":"f", "Ф":"F", "х":"h", "Х":"H", "ц":"c", "ч":"ch", "Ч":"CH", "ш":"sh", "Ш":"SH", "щ":"sch", "Щ":"SCH", "ж":"zh", "Ж":"ZH", "з":"z", "З":"Z", "Ъ":"'", "ь":"'", "ъ":"'", "Ь":"'", "ы":"i", "Ы":"I", "ю":"yu", "Ю":"YU", "я":"ya", "Я":"Ya", "ё":"yo", "Ё":"YO", "ц":"ts", "Ц":"TS" };
+
 	// Spec icons select
 	var iconData = [{
 		id: '',
@@ -97,6 +102,13 @@ jQuery(document).ready(function ($) {
 		}
 		var $state = $('<span><i class="awsm-job-icon-' + state.id + '"></i> ' + state.id + '</span>');
 		return $state;
+	}
+
+	function transliterate(text) {
+		var chars = text.split('');
+		return chars.map(function(char) {
+			return (char in tlData) ? tlData[char] : char;
+		}).join('');
 	}
 
 	function awsmSpecIconSelect($elem, data) {
@@ -128,7 +140,7 @@ jQuery(document).ready(function ($) {
 	awsmIconData();
 
 	$('.awsm_jobs_filter_tags').on('select2:unselect', function (e) {
-		var $row = $(this).parents('.awsm_job_specifications_settings_row');
+		var $row = $(this).parents('.awsm-job-specifications-settings-row');
 		var index = $row.data('index');
 		var unselected = e.params.data.id;
 		if (typeof index !== 'undefined' && typeof unselected !== 'undefined') {
@@ -139,7 +151,7 @@ jQuery(document).ready(function ($) {
 	$('.awsm-add-filter-row').on('click', function (e) {
 		e.preventDefault();
 		var enableRow = true;
-		$('.awsm_job_specifications_settings_row .awsm_jobs_filter_title').each(function () {
+		$('.awsm-job-specifications-settings-row .awsm-jobs-spec-title').each(function () {
 			if ($(this).val().length == 0) {
 				$(this).focus();
 				enableRow = false;
@@ -161,7 +173,7 @@ jQuery(document).ready(function ($) {
 		e.preventDefault();
 		var $deleteBtn = $(this);
 		var $wrapper = $('#awsm-repeatable-specifications');
-		var rowSelector = '.awsm_job_specifications_settings_row';
+		var rowSelector = '.awsm-job-specifications-settings-row';
 		var next = $(rowSelector).length;
 		var taxonomy = $deleteBtn.data('taxonomy');
 		next = (typeof next !== 'undefined' && next > 0) ? (next - 1) : 0;
@@ -169,6 +181,39 @@ jQuery(document).ready(function ($) {
 		$deleteBtn.parents(rowSelector).remove();
 		if (typeof taxonomy !== 'undefined') {
 			$wrapper.append('<input type="hidden" name="awsm_jobs_remove_filters[]" value="' + taxonomy + '" />');
+		}
+	});
+
+	$specWrapper.on('keyup blur', '.awsm-jobs-spec-title', function() {
+		var $specElem = $(this);
+		var title = $specElem.val();
+		var $row = $specElem.parents('.awsm-job-specifications-settings-row');
+		if (title.length > 0) {
+			title = $.trim(title).replace(/\s/g, '-').toLowerCase();
+			if (! specRegEx.test(title)) {
+				tlText = transliterate(title);
+				title = tlText !== title ? tlText : '';
+			}
+			$row.find('.awsm-jobs-spec-key').val(title);
+		}
+	});
+
+	$specWrapper.parents("#settings-awsm-settings-specifications").find("form").submit(function(e) {
+		if ($specWrapper.is(":visible")) {
+			var isValid = true;
+			$(".awsm-jobs-error-container").remove();
+			$(".awsm-jobs-spec-key").each(function(index) {
+				var key = $(this).val();
+				if (! specRegEx.test(key)) {
+					isValid = false;
+				}
+			});
+			if (! isValid) {
+				e.preventDefault();
+				var errorTemplate = wp.template('awsm-job-spec-settings-error');
+				var templateData = {isInvalidKey: true};
+				$specWrapper.find(".awsm-form-section").append(errorTemplate(templateData));
+			}
 		}
 	});
 
