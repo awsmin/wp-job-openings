@@ -41,17 +41,24 @@ class AWSM_Job_Openings_Core {
         }
 
         $labels = array(
-            'name'               => __( 'Job Openings', 'wp-job-openings' ),
-            'singular_name'      => __( 'Job', 'wp-job-openings' ),
-            'add_new'            => __( 'New Opening', 'wp-job-openings' ),
-            'add_new_item'       => __( 'Add New Job', 'wp-job-openings' ),
-            'edit_item'          => __( 'Edit Job', 'wp-job-openings' ),
-            'new_item'           => __( 'New job', 'wp-job-openings' ),
-            'search_items'       => __( 'Search Jobs', 'wp-job-openings' ),
-            'not_found'          => __( 'No Jobs found', 'wp-job-openings' ),
-            'not_found_in_trash' => __( 'No Jobs found in Trash', 'wp-job-openings' ),
-            'parent_item_colon'  => __( 'Parent Job :', 'wp-job-openings' ),
-            'menu_name'          => __( 'Job Openings', 'wp-job-openings' )
+            'name'                     => __( 'Job Openings', 'wp-job-openings' ),
+            'singular_name'            => __( 'Job', 'wp-job-openings' ),
+            'add_new'                  => __( 'New Opening', 'wp-job-openings' ),
+            'add_new_item'             => __( 'Add New Job', 'wp-job-openings' ),
+            'edit_item'                => __( 'Edit Job', 'wp-job-openings' ),
+            'new_item'                 => __( 'New job', 'wp-job-openings' ),
+            'search_items'             => __( 'Search Jobs', 'wp-job-openings' ),
+            'not_found'                => __( 'No Jobs found', 'wp-job-openings' ),
+            'not_found_in_trash'       => __( 'No Jobs found in Trash', 'wp-job-openings' ),
+            'parent_item_colon'        => __( 'Parent Job :', 'wp-job-openings' ),
+            'menu_name'                => __( 'Job Openings', 'wp-job-openings' ),
+            'view_item'                => __( 'View Job listing', 'wp-job-openings' ),
+            'view_items'               => __( 'View Job listings', 'wp-job-openings' ),
+            'item_published'           => __( 'Job listing published.', 'wp-job-openings' ),
+            'item_published_privately' => __( 'Job listing published privately.', 'wp-job-openings' ),
+            'item_reverted_to_draft'   => __( 'Job listing reverted to draft.', 'wp-job-openings' ),
+            'item_scheduled'           => __( 'Job listing scheduled.', 'wp-job-openings' ),
+            'item_updated'             => __( 'Job listing updated.', 'wp-job-openings' ),
         );
 
         $args = array(
@@ -81,10 +88,9 @@ class AWSM_Job_Openings_Core {
             'singular_name'      => __( 'Application', 'wp-job-openings' ),
             'menu_name'          => __( 'Applications', 'wp-job-openings' ),
             'edit_item'          => __( 'Applications', 'wp-job-openings' ),
-            'view_item'          => __( 'View Application', 'wp-job-openings' ),
             'search_items'       => __( 'Search Applications', 'wp-job-openings' ),
             'not_found'          => __( 'No Applications found', 'wp-job-openings' ),
-            'not_found_in_trash' => __( 'No Applications found in Trash', 'wp-job-openings' )
+            'not_found_in_trash' => __( 'No Applications found in Trash', 'wp-job-openings' ),
         );
 
         $args = array(
@@ -220,17 +226,17 @@ class AWSM_Job_Openings_Core {
         // Preview job link.
         $preview_post_link_html = sprintf( ' <a target="_blank" href="%1$s">%2$s</a>',
             esc_url( $preview_url ),
-            __( 'Preview job listing', 'wp-job-openings' )
+            __( 'Preview Job listing', 'wp-job-openings' )
         );
         // Scheduled job preview link.
         $scheduled_post_link_html = sprintf( ' <a target="_blank" href="%1$s">%2$s</a>',
             esc_url( $permalink ),
-            __( 'Preview job listing', 'wp-job-openings' )
+            __( 'Preview Job listing', 'wp-job-openings' )
         );
         // View job link.
         $view_post_link_html = sprintf( ' <a href="%1$s">%2$s</a>',
             esc_url( $permalink ),
-            __( 'View job listing', 'wp-job-openings' )
+            __( 'View Job listing', 'wp-job-openings' )
         );
 
         $scheduled_date = date_i18n( __( 'M j, Y @ H:i' ), strtotime( $post->post_date ) );
