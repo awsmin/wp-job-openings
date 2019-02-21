@@ -30,7 +30,7 @@ if( ! defined( 'ABSPATH' ) ) {
     <?php if( ! is_awsm_job_expired( false ) ) : ?>
 
         <div class="awsm-job-content">
-            <?php include_once get_awsm_jobs_template_path( 'main', 'single-job' ); ?>
+            <?php include get_awsm_jobs_template_path( 'main', 'single-job' ); ?>
         </div><!-- .awsm-job-content -->
 
         <div class="awsm-job-form">

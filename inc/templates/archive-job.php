@@ -25,7 +25,7 @@ do_action( 'before_awsm_jobs_main_content' );
     <div class="awsm-job-main awsm-job-archive-content">
         <div class="awsm-job-container">
 
-            <?php include_once get_awsm_jobs_template_path( 'job-openings-view' ); ?>
+            <?php include get_awsm_jobs_template_path( 'job-openings-view' ); ?>
             
         </div>
     </div>

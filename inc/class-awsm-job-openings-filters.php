@@ -72,7 +72,7 @@ class AWSM_Job_Openings_Filters {
         $query = new WP_Query( $args );
 
         if ( $query->have_posts() ) :
-            include_once AWSM_Job_Openings::get_template_path( 'main.php', 'job-openings' );
+            include AWSM_Job_Openings::get_template_path( 'main.php', 'job-openings' );
         else :
             if( $_POST['action'] !== 'loadmore' ) :
         ?>

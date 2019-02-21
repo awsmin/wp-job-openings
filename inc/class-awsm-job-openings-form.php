@@ -232,7 +232,7 @@ class AWSM_Job_Openings_Form {
     }
 
     public function application_form() {
-        include_once AWSM_Job_Openings::get_template_path( 'form.php', 'single-job' );
+        include AWSM_Job_Openings::get_template_path( 'form.php', 'single-job' );
     }
 
     public function form_field_init() {
@@ -335,7 +335,7 @@ class AWSM_Job_Openings_Form {
 
             if ( count( $awsm_response['error'] ) === 0 ) {
                 if ( ! function_exists( 'wp_handle_upload' ) ) {
-                    require_once( ABSPATH . 'wp-admin/includes/file.php' );
+                    include( ABSPATH . 'wp-admin/includes/file.php' );
                 }
                 if ( ! function_exists( 'wp_crop_image' ) ) {
                     include( ABSPATH . 'wp-admin/includes/image.php' );

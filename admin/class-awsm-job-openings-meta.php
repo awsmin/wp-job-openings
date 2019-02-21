@@ -41,11 +41,11 @@ class AWSM_Job_Openings_Meta {
     }
 
     public function awsm_job_status( $post ) {
-        include_once $this->cpath . '/templates/meta/job-status.php';
+        include $this->cpath . '/templates/meta/job-status.php';
     }
 
     public function awsm_job_handle( $post ) {
-        include_once $this->cpath . '/templates/meta/job-specifications.php';
+        include $this->cpath . '/templates/meta/job-specifications.php';
     }
 
     public function awsm_job_expiration( $post ) {

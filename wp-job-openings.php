@@ -208,7 +208,7 @@ class AWSM_Job_Openings {
         }
 
         ob_start();
-        require_once self::get_template_path( 'job-openings-view.php' );
+        include self::get_template_path( 'job-openings-view.php' );
         return ob_get_clean();
     }
 
@@ -568,7 +568,7 @@ class AWSM_Job_Openings {
         }
 
         ob_start();
-        require_once self::get_template_path( 'job-content.php' );
+        include_once self::get_template_path( 'job-content.php' );
         return ob_get_clean();
     }
 

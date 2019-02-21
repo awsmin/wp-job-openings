@@ -40,7 +40,7 @@ if( $query->have_posts() ) : ?>
 		?>
 
 		<div <?php awsm_jobs_view_class(); awsm_jobs_data_attrs(); ?> id="awsm-job-response">
-			<?php include_once get_awsm_jobs_template_path( 'main', 'job-openings' ); ?>
+			<?php include get_awsm_jobs_template_path( 'main', 'job-openings' ); ?>
 		</div>
 
 	</div>
