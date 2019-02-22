@@ -31,7 +31,7 @@ if( ! defined( 'ABSPATH' ) ) {
         /**
          * awsm_application_form_description hook
          *
-         * @since 1.2.2
+         * @since 1.3
          */
         do_action( 'awsm_application_form_description' );
     ?>

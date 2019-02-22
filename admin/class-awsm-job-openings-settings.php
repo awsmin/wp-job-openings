@@ -84,7 +84,7 @@ class AWSM_Job_Openings_Settings {
         /**
          * Filters the Settings Subtabs.
          *
-         * @since 1.2.2
+         * @since 1.3
          * 
          * @param array $subtabs Subtabs data.
          * @param string $section Current settings section.
@@ -96,7 +96,7 @@ class AWSM_Job_Openings_Settings {
         $settings = array(
             'general'   => array(
                 array(
-                    'option_name' => 'awsm_current_general_subtab' /** @since 1.2.2 */
+                    'option_name' => 'awsm_current_general_subtab' /** @since 1.3 */
                 ),
                 array(
                     'option_name' => 'awsm_select_page_listing'
@@ -179,7 +179,7 @@ class AWSM_Job_Openings_Settings {
 
             'specifications' => array(
                 array(
-                    'option_name' => 'awsm_current_specifications_subtab' /** @since 1.2.2 */
+                    'option_name' => 'awsm_current_specifications_subtab' /** @since 1.3 */
                 ),
                 array(
                     'option_name' => 'awsm_jobs_filter',
@@ -221,7 +221,7 @@ class AWSM_Job_Openings_Settings {
 
             'notification' => array(
                 array(
-                    'option_name' => 'awsm_current_notification_subtab' /** @since 1.2.2 */
+                    'option_name' => 'awsm_current_notification_subtab' /** @since 1.3 */
                 ),
                 array(
                     'option_name' => 'awsm_jobs_applicant_notification'
