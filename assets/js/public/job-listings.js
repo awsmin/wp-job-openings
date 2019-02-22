@@ -4,7 +4,7 @@ jQuery(function ($) {
 	var $filter = $('#awsm-job-filter');
 	var $filter_option = $filter.find('.awsm-filter-option');
 	var currentUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
-
+	
 	function awsm_job_filters() {
 		$.ajax({
 			url: $filter.attr('action'),
@@ -43,13 +43,22 @@ jQuery(function ($) {
 		e.preventDefault();
 		var currentSpec = $(this).parents('.awsm-filter-item').data('filter');
 		var termId = $(this).val();
-
-		if (history.pushState) {
-			var queryParam = currentSpec + '=' + termId;
-			queryStr = queryStr.length > 0 ? queryStr + '&' + queryParam : queryParam;
-			var modURL = currentUrl + '?' + queryStr;
-			window.history.pushState({ path: modURL }, '', modURL);
-		}
+	
+		if (window.location.search.indexOf(currentSpec) > -1) {
+			if (history.replaceState) {
+			   		var queryParam = currentSpec + '=' + termId;
+			   		queryStr = queryStr.length > 0 ? queryStr + '&' + queryParam : queryParam;
+			   		var modURL = currentUrl + '?' + queryStr;
+			   		window.history.replaceState({ path: modURL }, '', modURL);
+			   	}
+		} else {
+		   	if (history.pushState) {
+		   		var queryParam = currentSpec + '=' + termId;
+		   		queryStr = queryStr.length > 0 ? queryStr + '&' + queryParam : queryParam;
+		   		var modURL = currentUrl + '?' + queryStr;
+		   		window.history.pushState({ path: modURL }, '', modURL);
+			}
+		}	
 		awsm_job_filters();
 	});
 
