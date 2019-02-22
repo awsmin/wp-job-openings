@@ -882,7 +882,7 @@ class AWSM_Job_Openings {
         return apply_filters( 'awsm_job_expiry_details_content', $content );
     }
 
-    public static function get_specifications_content( $post_id, $display_label, $filter_data = array(), $enabled_specs = 'all' ) {
+    public static function get_specifications_content( $post_id, $display_label, $filter_data = array(), $listing_specs = array() ) {
         $spec_content = '';
         $filter_data = ! empty( $filter_data ) ? $filter_data : get_option( 'awsm_jobs_filter' );
         if ( ! empty( $filter_data ) ) {
@@ -895,9 +895,9 @@ class AWSM_Job_Openings {
 					continue;
 				}
                 $display = true;
-                if( $enabled_specs !== 'all' ) {
+                if( ! empty( $listing_specs ) ) {
                     $display = false;
-                    if( is_array( $enabled_specs ) && in_array( $taxonomy, $enabled_specs ) ) {
+                    if( isset( $listing_specs['specs'] ) && is_array( $listing_specs['specs'] ) && in_array( $taxonomy, $listing_specs['specs'] ) ) {
                         $display = true;
                     }
                 }

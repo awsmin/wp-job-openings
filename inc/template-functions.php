@@ -102,7 +102,7 @@ if( ! function_exists( 'awsm_job_spec_content' ) ) {
 
 if( ! function_exists( 'awsm_job_listing_spec_content' ) ) {
     function awsm_job_listing_spec_content( $job_id, $awsm_filters, $listing_specs ) {
-        echo AWSM_Job_Openings::get_specifications_content( $job_id, false, $awsm_filters, $listing_specs );
+        echo AWSM_Job_Openings::get_specifications_content( $job_id, false, $awsm_filters, array( 'specs' => $listing_specs ) );
     }
 }
 
