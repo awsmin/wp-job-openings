@@ -29,7 +29,7 @@ class AWSM_Job_Openings_Filters {
             return;
         }
         $filter_content = '';
-        $filter_suffix = '_filter';
+        $filter_suffix = '_spec';
         $taxonomies = get_object_taxonomies( 'awsm_job_openings', 'objects' );
         $available_filters = get_option( 'awsm_jobs_listing_available_filters' );
         $selected_filters = array();
