@@ -13,7 +13,7 @@
  * Description: Super simple Job Listing plugin to manage Job Openings and Applicants on your WordPress site.
  * Author: AWSM Innovations
  * Author URI: https://awsm.in/
- * Version: 1.2.2
+ * Version: 1.3
  * Licence: GPLv2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text domain: wp-job-openings
@@ -36,7 +36,7 @@ if( ! defined( 'AWSM_JOBS_PLUGIN_URL' ) ) {
     define( 'AWSM_JOBS_PLUGIN_URL', untrailingslashit( plugin_dir_url(__FILE__) ) );
 }
 if( ! defined( 'AWSM_JOBS_PLUGIN_VERSION' ) ) {
-    define( 'AWSM_JOBS_PLUGIN_VERSION', '1.2.2' );
+    define( 'AWSM_JOBS_PLUGIN_VERSION', '1.3' );
 }
 if( ! defined( 'AWSM_JOBS_UPLOAD_DIR_NAME' ) ) {
     define( 'AWSM_JOBS_UPLOAD_DIR_NAME', 'awsm-job-openings' );
@@ -208,7 +208,7 @@ class AWSM_Job_Openings {
         }
 
         ob_start();
-        require_once self::get_template_path( 'job-openings-view.php' );
+        include self::get_template_path( 'job-openings-view.php' );
         return ob_get_clean();
     }
 
@@ -568,7 +568,7 @@ class AWSM_Job_Openings {
         }
 
         ob_start();
-        require_once self::get_template_path( 'job-content.php' );
+        include_once self::get_template_path( 'job-content.php' );
         return ob_get_clean();
     }
 
@@ -882,7 +882,7 @@ class AWSM_Job_Openings {
         return apply_filters( 'awsm_job_expiry_details_content', $content );
     }
 
-    public static function get_specifications_content( $post_id, $display_label, $filter_data = array(), $enabled_specs = 'all' ) {
+    public static function get_specifications_content( $post_id, $display_label, $filter_data = array(), $listing_specs = array() ) {
         $spec_content = '';
         $filter_data = ! empty( $filter_data ) ? $filter_data : get_option( 'awsm_jobs_filter' );
         if ( ! empty( $filter_data ) ) {
@@ -895,9 +895,9 @@ class AWSM_Job_Openings {
 					continue;
 				}
                 $display = true;
-                if( $enabled_specs !== 'all' ) {
+                if( ! empty( $listing_specs ) ) {
                     $display = false;
-                    if( is_array( $enabled_specs ) && in_array( $taxonomy, $enabled_specs ) ) {
+                    if( isset( $listing_specs['specs'] ) && is_array( $listing_specs['specs'] ) && in_array( $taxonomy, $listing_specs['specs'] ) ) {
                         $display = true;
                     }
                 }
