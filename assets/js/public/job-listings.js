@@ -38,27 +38,29 @@ jQuery(function ($) {
 		awsm_job_filters();
 	}
 
+	var updateQuery = function (key, value) {
+	var urlQueryString = document.location.search; 
+	var newParam = key + '=' + value;
+	var params = '?' + newParam;
+	
+	if (urlQueryString) {
+		keyRegex = new RegExp('([\?&])' + key + '[^&]*');
+		if (urlQueryString.match(keyRegex) !== null) {
+			params = urlQueryString.replace(keyRegex, "$1" + newParam);
+		} else {
+			params = urlQueryString + '&' + newParam;
+		}
+	}
+	window.history.replaceState({}, "", currentUrl + params);
+	};
+
+
 	var queryStr = '';
 	$('#awsm-job-filter .awsm-filter-option').on('change', function (e) {
 		e.preventDefault();
 		var currentSpec = $(this).parents('.awsm-filter-item').data('filter');
 		var termId = $(this).val();
-	
-		if (window.location.search.indexOf(currentSpec) > -1) {
-			if (history.replaceState) {
-			   		var queryParam = currentSpec + '=' + termId;
-			   		queryStr = queryStr.length > 0 ? queryStr + '&' + queryParam : queryParam;
-			   		var modURL = currentUrl + '?' + queryStr;
-			   		window.history.replaceState({ path: modURL }, '', modURL);
-			   	}
-		} else {
-		   	if (history.pushState) {
-		   		var queryParam = currentSpec + '=' + termId;
-		   		queryStr = queryStr.length > 0 ? queryStr + '&' + queryParam : queryParam;
-		   		var modURL = currentUrl + '?' + queryStr;
-		   		window.history.pushState({ path: modURL }, '', modURL);
-			}
-		}	
+		updateQuery( currentSpec, termId );
 		awsm_job_filters();
 	});
 
