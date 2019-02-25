@@ -29,13 +29,14 @@ class AWSM_Job_Openings_Filters {
             return;
         }
         $filter_content = '';
+        $filter_suffix = '_filter';
         $taxonomies = get_object_taxonomies( 'awsm_job_openings', 'objects' );
         $available_filters = get_option( 'awsm_jobs_listing_available_filters' );
         $selected_filters = array();
         foreach( $available_filters as $available_filter ) {
-            $current_filter_key = str_replace( '-', '__', $available_filter );
+            $current_filter_key = str_replace( '-', '__', $available_filter ) . $filter_suffix;
             if( isset( $_GET[$current_filter_key] ) ) {
-                $selected_filters[$available_filter] = intval($_GET[$current_filter_key]);                
+                $selected_filters[$available_filter] = intval( $_GET[$current_filter_key] );
             }
         }
         $available_filters_arr = array();
@@ -54,7 +55,7 @@ class AWSM_Job_Openings_Filters {
                                 $options_content .= sprintf( '<option value="%1$s"%3$s>%2$s</option>', esc_attr( $term->term_id ), esc_html( $term->name ), esc_attr( $selected ) );
                             }
                             $filter_key = str_replace( '-', '__', $taxonomy );
-                            $filter_content .= sprintf( '<div class="awsm-filter-item" data-filter="%2$s"><select name="awsm_job_spec[%1$s]" class="awsm-filter-option" id="awsm-%1$s-filter-option"><option value="">%3$s</option>%4$s</select></div>', esc_attr( $taxonomy ), esc_attr( $filter_key ), esc_html__( 'All ', 'wp-job-openings' ) . esc_html( $tax_details->label ), $options_content );
+                            $filter_content .= sprintf( '<div class="awsm-filter-item" data-filter="%2$s"><select name="awsm_job_spec[%1$s]" class="awsm-filter-option" id="awsm-%1$s-filter-option"><option value="">%3$s</option>%4$s</select></div>', esc_attr( $taxonomy ), esc_attr( $filter_key . $filter_suffix ), esc_html__( 'All ', 'wp-job-openings' ) . esc_html( $tax_details->label ), $options_content );
                     }
                 }
             }
