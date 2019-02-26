@@ -17,8 +17,8 @@ if( ! function_exists( 'get_awsm_jobs_template_path' ) ) {
 }
 
 if( ! function_exists( 'awsm_jobs_query' ) ) {
-    function awsm_jobs_query() {
-        $args = AWSM_Job_Openings::awsm_job_query_args();
+    function awsm_jobs_query( $shortcode_atts = array() ) {
+        $args = AWSM_Job_Openings::awsm_job_query_args( array(), $shortcode_atts );
         $query = new WP_Query( $args );
         return $query;
     }

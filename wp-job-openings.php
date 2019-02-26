@@ -206,11 +206,19 @@ class AWSM_Job_Openings {
         if( ! function_exists( 'awsm_jobs_query' ) ) {
             return;
         }
-
+        $shortcode_atts = shortcode_atts(
+            array(
+                'filter'   => true,
+                'listings' => get_option( 'awsm_jobs_list_per_page' ),
+            ),
+            $atts
+        );
         ob_start();
         include self::get_template_path( 'job-openings-view.php' );
         return ob_get_clean();
     }
+    
+
 
     public function awsm_quick_settings( $links ) {
         $links[] = sprintf( '<a href="%1$s">%2$s</a>', esc_url( admin_url( 'edit.php?post_type=awsm_job_openings&page=awsm-jobs-settings' ) ), esc_html__( 'Settings', 'wp-job-openings' ) );
@@ -784,7 +792,7 @@ class AWSM_Job_Openings {
         }
     }
 
-    public static function awsm_job_query_args( $filters = array() ) {
+    public static function awsm_job_query_args( $filters = array(), $shortcode_attrs = array() ) {
         $args = array();
         if( is_tax() ) {
             $q_obj = get_queried_object();
@@ -804,7 +812,8 @@ class AWSM_Job_Openings {
                 }
             }
         }
-        $list_per_page = get_option( 'awsm_jobs_list_per_page' );
+
+        $list_per_page = isset( $shortcode_attrs['listings'] ) ? intval( $shortcode_attrs['listings'] ) : get_option( 'awsm_jobs_list_per_page' );
         $hide_expired_jobs = get_option( 'awsm_jobs_expired_jobs_listings' );
         $args['post_type'] = 'awsm_job_openings';
         $args['posts_per_page'] = $list_per_page;

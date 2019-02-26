@@ -21,7 +21,7 @@ if( ! defined( 'ABSPATH' ) ) {
  */
 do_action( 'before_awsm_jobs_listing' );
 
-$query = awsm_jobs_query();
+$query = awsm_jobs_query( $shortcode_atts );
 
 if( $query->have_posts() ) : ?>
 	<div class="awsm-job-wrap">
