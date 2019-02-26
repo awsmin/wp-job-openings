@@ -60,7 +60,7 @@ class AWSM_Job_Openings_Filters {
                 }
             }
             if( ! empty( $filter_content ) ) {
-                $filter_content = sprintf( '<div class="awsm-filter-wrap"><form action="%2$s/wp-admin/admin-ajax.php" method="POST" id="awsm-job-filter">%1$s<input type="hidden" name="action" value="jobfilter"></form></div>', $filter_content, site_url() );
+                $filter_content = sprintf( '<div class="awsm-filter-wrap"><form action="%2$s/wp-admin/admin-ajax.php" method="POST">%1$s<input type="hidden" name="action" value="jobfilter"></form></div>', $filter_content, site_url() );
             }
         }
         echo apply_filters( 'awsm_filter_content', $filter_content, $available_filters_arr );

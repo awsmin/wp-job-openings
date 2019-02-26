@@ -841,7 +841,8 @@ class AWSM_Job_Openings {
             }
             $view_class .= ' ' . $column_class;
         }
-        return apply_filters( 'awsm_job_listing_view_class', $view_class );
+        $view_class = apply_filters( 'awsm_job_listing_view_class', $view_class );
+        return sprintf( 'awsm-job-listings %s', $view_class );
     }
 
     public static function get_job_listing_data_attrs() {
