@@ -21,7 +21,7 @@ class AWSM_Job_Openings_Filters {
         return self::$_instance;
     }
 
-    public function display_filter_form( $shortcode_attrs ) {    
+    public function display_filter_form( $shortcode_attrs ) {
         if( get_option( 'awsm_enable_job_filter_listing' ) !== 'enabled' ) {
             return;
         }

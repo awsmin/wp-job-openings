@@ -323,7 +323,7 @@ ul.awsm-error-message li {
 .awsm-jobs-loading{
     position: relative;
 }
-#awsm-job-response::after{
+.awsm-job-listings::after{
     content: "";
     position: absolute;
     left: 0;
@@ -339,7 +339,7 @@ ul.awsm-error-message li {
     -o-transition: all 0.3s ease;
     transition: all 0.3s ease;
 }
-#awsm-job-response.awsm-jobs-loading::after{
+.awsm-job-listings.awsm-jobs-loading::after{
     opacity: 1;
     visibility: visible;
 }

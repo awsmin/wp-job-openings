@@ -221,7 +221,7 @@ class AWSM_Job_Openings_Core {
         global $post, $post_ID;
 
         $permalink = get_permalink( $post_ID );
-        $preview_url = get_preview_post_link( $post );
+        $preview_url = function_exists( 'get_preview_post_link' ) ? get_preview_post_link( $post ) : add_query_arg( 'preview', 'true', $permalink );
 
         // Preview job link.
         $preview_post_link_html = sprintf( ' <a target="_blank" href="%1$s">%2$s</a>',
