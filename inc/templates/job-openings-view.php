@@ -36,7 +36,7 @@ if( $query->have_posts() ) : ?>
 			 * 
 			 * @since 1.0
 			 */
-			do_action( 'awsm_filter_form' );
+			do_action( 'awsm_filter_form', $shortcode_atts );
 		?>
 
 		<div <?php awsm_jobs_view_class(); awsm_jobs_data_attrs(); ?> id="awsm-job-response">
