@@ -10,12 +10,15 @@ jQuery(function ($) {
 	function awsmJobFilters($elem) {
 		var $wrapper = typeof $elem !== 'undefined' ? $elem.parents(rootWrapperSelector).find(wrapperSelector) : $(wrapperSelector);
 		var $filterForm = typeof $elem !== 'undefined' ? $elem.parents(filterSelector).find('form') : $(filterSelector).find('form');
+		var formData = $filterForm.serializeArray();
+		var listings = $wrapper.data('listings');
+		formData.push({ name: 'listings_per_page', value: listings });
 		$.ajax({
 			url: $filterForm.attr('action'),
 			beforeSend: function(xhr) {
 				$wrapper.addClass('awsm-jobs-loading');
 			},
-			data: $filterForm.serialize(),
+			data: formData,
 			type: $filterForm.attr('method')
 		}).done(function (data) {
 			$wrapper.html(data);
@@ -80,6 +83,7 @@ jQuery(function ($) {
 		var wp_data = [];
 		var paged = $button.data('page');
 		paged = (typeof paged == 'undefined') ? 1 : paged;
+		var listings = $listingsContainer.data('listings');
 
 		// filters
 		var $filterForm = $mainContainer.find(filterSelector + ' form');
@@ -103,6 +107,9 @@ jQuery(function ($) {
 		}
 
 		wp_data.push({ name: 'action', value: 'loadmore' }, { name: 'paged', value: paged });
+		if(typeof listings !== 'undefined') {
+			wp_data.push({ name: 'listings_per_page', value: listings });
+		}
 
 		// now, handle ajax
 		$.ajax({

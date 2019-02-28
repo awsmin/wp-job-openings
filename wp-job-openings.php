@@ -210,8 +210,10 @@ class AWSM_Job_Openings {
             array(
                 'filter'   => true,
                 'listings' => get_option( 'awsm_jobs_list_per_page' ),
+                'loadmore' => true,
             ),
-            $atts
+            $atts,
+            'awsmjobs'
         );
         ob_start();
         include self::get_template_path( 'job-openings-view.php' );
@@ -792,7 +794,11 @@ class AWSM_Job_Openings {
         }
     }
 
-    public static function awsm_job_query_args( $filters = array(), $shortcode_attrs = array() ) {
+    public static function get_listings_per_page( $shortcode_atts ) {
+        return ( isset( $shortcode_atts['listings'] ) && is_numeric( $shortcode_atts['listings'] ) && $shortcode_atts['listings'] > 0 ) ? intval( $shortcode_atts['listings'] ) : get_option( 'awsm_jobs_list_per_page' );
+    }
+
+    public static function awsm_job_query_args( $filters = array(), $shortcode_atts = array() ) {
         $args = array();
         if( is_tax() ) {
             $q_obj = get_queried_object();
@@ -813,7 +819,7 @@ class AWSM_Job_Openings {
             }
         }
 
-        $list_per_page = isset( $shortcode_attrs['listings'] ) ? intval( $shortcode_attrs['listings'] ) : get_option( 'awsm_jobs_list_per_page' );
+        $list_per_page = self::get_listings_per_page( $shortcode_atts );
         $hide_expired_jobs = get_option( 'awsm_jobs_expired_jobs_listings' );
         $args['post_type'] = 'awsm_job_openings';
         $args['posts_per_page'] = $list_per_page;
@@ -854,8 +860,9 @@ class AWSM_Job_Openings {
         return sprintf( 'awsm-job-listings %s', $view_class );
     }
 
-    public static function get_job_listing_data_attrs() {
+    public static function get_job_listing_data_attrs( $shortcode_atts = array() ) {
         $attrs = array();
+        $attrs['listings'] = self::get_listings_per_page( $shortcode_atts );
         if( is_tax() ) {
             $q_obj = get_queried_object();
             $attrs['taxonomy'] = $q_obj->taxonomy;

@@ -5,7 +5,7 @@
  * Override this by copying it to currenttheme/wp-job-openings/job-openings/main.php
  * 
  * @package wp-job-openings
- * @version 1.1
+ * @version 1.3
  */
 
 if( ! defined( 'ABSPATH' ) ) {
@@ -15,6 +15,7 @@ if( ! defined( 'ABSPATH' ) ) {
 $view = awsm_jobs_view();
 $awsm_filters = get_option( 'awsm_jobs_filter' );
 $listing_specs = get_option( 'awsm_jobs_listing_specs' );
+$shortcode_atts = isset( $shortcode_atts ) ? $shortcode_atts : array();
 
 /**
  * before_awsm_jobs_listing_loop hook
@@ -95,4 +96,4 @@ wp_reset_postdata();
  */
 do_action( 'after_awsm_jobs_listing_loop' );
 
-awsm_jobs_load_more( $query );
+awsm_jobs_load_more( $query, $shortcode_atts );

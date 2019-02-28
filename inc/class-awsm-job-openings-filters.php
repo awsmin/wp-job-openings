@@ -21,14 +21,14 @@ class AWSM_Job_Openings_Filters {
         return self::$_instance;
     }
 
-    public function display_filter_form( $shortcode_attrs ) {
+    public function display_filter_form( $shortcode_atts ) {
         if( get_option( 'awsm_enable_job_filter_listing' ) !== 'enabled' ) {
             return;
         }
         if( is_archive() && ! is_post_type_archive( 'awsm_job_openings' ) ) {
             return;
         }
-        $display = isset( $shortcode_attrs['filter'] ) && $shortcode_attrs['filter'] === 'false' ? false : true;
+        $display = isset( $shortcode_atts['filter'] ) && $shortcode_atts['filter'] === 'false' ? false : true;
         if ( $display ) {
             $filter_content = '';
             $filter_suffix = '_spec';
@@ -70,7 +70,7 @@ class AWSM_Job_Openings_Filters {
     }
 
     public function awsm_posts_filters() {
-        $filters = array();
+        $filters = $shortcode_atts = array();
         if( isset( $_POST['awsm_job_spec'] ) && ! empty( $_POST['awsm_job_spec'] ) ) {
             $job_specs = $_POST['awsm_job_spec'];
             foreach( $job_specs as $taxonomy => $term_id ) {
@@ -79,7 +79,11 @@ class AWSM_Job_Openings_Filters {
             }
         }
 
-        $args = AWSM_Job_Openings::awsm_job_query_args( $filters );
+        if ( isset( $_POST['listings_per_page'] ) ) {
+            $shortcode_atts['listings'] = intval( $_POST['listings_per_page'] );
+        }
+
+        $args = AWSM_Job_Openings::awsm_job_query_args( $filters, $shortcode_atts );
 
         if( isset( $_POST['paged'] ) ) {
             $args['paged'] = intval( $_POST['paged'] ) + 1;

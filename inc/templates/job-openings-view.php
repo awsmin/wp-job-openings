@@ -21,6 +21,7 @@ if( ! defined( 'ABSPATH' ) ) {
  */
 do_action( 'before_awsm_jobs_listing' );
 
+$shortcode_atts = isset( $shortcode_atts ) ? $shortcode_atts : array();
 $query = awsm_jobs_query( $shortcode_atts );
 
 if( $query->have_posts() ) : ?>
@@ -39,7 +40,7 @@ if( $query->have_posts() ) : ?>
 			do_action( 'awsm_filter_form', $shortcode_atts );
 		?>
 
-		<div <?php awsm_jobs_view_class(); awsm_jobs_data_attrs(); ?>>
+		<div <?php awsm_jobs_view_class(); awsm_jobs_data_attrs( array(), $shortcode_atts ); ?>>
 			<?php include get_awsm_jobs_template_path( 'main', 'job-openings' ); ?>
 		</div>
 
