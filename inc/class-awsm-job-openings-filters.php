@@ -51,7 +51,7 @@ class AWSM_Job_Openings_Filters {
                                 $options_content = '';
                                 foreach ( $terms as $term ) {
                                     $selected = '';
-                                    if( in_array( $taxonomy, array_keys( $selected_filters ) ) && $selected_filters[$taxonomy] === $term->term_id ) {
+                                    if( in_array( $taxonomy, array_keys( $selected_filters ) ) && $selected_filters[$taxonomy] === intval( $term->term_id ) ) {
                                         $selected = ' selected';
                                     }
                                     $options_content .= sprintf( '<option value="%1$s"%3$s>%2$s</option>', esc_attr( $term->term_id ), esc_html( $term->name ), esc_attr( $selected ) );
