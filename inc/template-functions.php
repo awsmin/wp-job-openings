@@ -3,7 +3,7 @@
  * Template specific functions
  * 
  * @package wp-job-openings
- * @version 1.1
+ * @version 1.3
  */
 
 if( ! defined( 'ABSPATH' ) ) {

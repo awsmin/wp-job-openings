@@ -5,7 +5,7 @@
  * This template can be overridden by copying it to currenttheme/wp-job-openings/archive-job.php
  * 
  * @package wp-job-openings
- * @version 1.1
+ * @version 1.3
  */
 
 if( ! defined( 'ABSPATH' ) ) {

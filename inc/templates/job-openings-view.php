@@ -5,7 +5,7 @@
  * Override this by copying it to currenttheme/wp-job-openings/job-openings-view.php
  * 
  * @package wp-job-openings
- * @version 1.1
+ * @version 1.3
  */
 
 if( ! defined( 'ABSPATH' ) ) {
@@ -39,7 +39,7 @@ if( $query->have_posts() ) : ?>
 			do_action( 'awsm_filter_form', $shortcode_atts );
 		?>
 
-		<div <?php awsm_jobs_view_class(); awsm_jobs_data_attrs(); ?> id="awsm-job-response">
+		<div <?php awsm_jobs_view_class(); awsm_jobs_data_attrs(); ?>>
 			<?php include get_awsm_jobs_template_path( 'main', 'job-openings' ); ?>
 		</div>
 
