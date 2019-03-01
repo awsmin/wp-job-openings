@@ -21,7 +21,7 @@ class AWSM_Job_Openings_Widget extends WP_Widget {
 		$title = ( ! empty( $instance['title'] ) ) ? $instance['title'] : __( 'Recent Jobs', 'wp-job-openings' );
 		$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
 		$number = ( ! empty( $instance['number'] ) ) ? absint( $instance['number'] ) : get_option( 'awsm_jobs_list_per_page' );
-		$jobs = new WP_Query( array(
+		$query = new WP_Query( array(
             'post_type'           => 'awsm_job_openings',
 			'posts_per_page'      => $number,
 			'no_found_rows'       => true,
@@ -29,7 +29,7 @@ class AWSM_Job_Openings_Widget extends WP_Widget {
 			'ignore_sticky_posts' => true,
 		) );
 
-		if ( ! $jobs->have_posts() ) {
+		if ( ! $query->have_posts() ) {
 			return;
 		}
 		echo $args['before_widget'];
@@ -38,19 +38,11 @@ class AWSM_Job_Openings_Widget extends WP_Widget {
 			echo $args['before_title'] . $title . $args['after_title'];
 		}
 		?>
-		<ul>
-            <?php 
-                foreach ( $jobs->posts as $recent_jobs ) :
-            		$job_title = get_the_title( $recent_jobs->ID );
-					$title     = ( ! empty( $job_title ) ) ? $job_title : __( '(no title)', 'wp-job-openings' );
-			?>
-				<li>
-					<a href="<?php echo the_permalink( $recent_jobs->ID ); ?>"><?php echo esc_html( $title ); ?></a>
-				</li>
-            <?php 
-                endforeach; 
-            ?>
-		</ul>
+		<div class="awsm-job-wrap">
+			<div <?php awsm_jobs_view_class(); awsm_jobs_data_attrs(); ?>>
+				<?php include get_awsm_jobs_template_path( 'main', 'job-openings' ); ?>
+			</div>
+		</div>
 		<?php
         echo $args['after_widget'];
     }
