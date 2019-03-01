@@ -70,17 +70,17 @@ class AWSM_Job_Openings {
         add_action( 'wp_loaded', array( $this, 'register_scripts' ) );
         add_action( 'wp_enqueue_scripts', array( $this, 'awsm_enqueue_scripts' ) );
         add_action( 'template_redirect', array( $this, 'redirect_attachment_page' ) );
+        add_action( 'widgets_init', array( $this, 'register_widgets' ) );
+        add_action( 'wp_ajax_awsm_view_count', array( $this, 'job_views_handler' ) );
+        add_action( 'wp_ajax_nopriv_awsm_view_count', array( $this, 'job_views_handler' ) );
+        add_action( 'wp_footer', array( $this, 'display_structured_data' ) );
         $this->admin_actions();
 
         add_filter( 'body_class', array( $this, 'body_classes' ) );
         add_filter( 'the_content', array( $this, 'awsm_jobs_content' ), 100 );
         add_filter( 'single_template', array( $this, 'jobs_single_template' ) );
         add_filter( 'archive_template', array( $this, 'jobs_archive_template' ) );
-        add_action( 'wp_ajax_awsm_view_count', array( $this, 'job_views_handler' ) );
-        add_action( 'wp_ajax_nopriv_awsm_view_count', array( $this, 'job_views_handler' ) );
-        add_action( 'wp_footer', array( $this, 'display_structured_data' ) );
         $this->admin_filters();
-
         add_shortcode( 'awsmjobs', array( $this, 'awsm_jobs_shortcode' ) );
     }
 
@@ -90,10 +90,11 @@ class AWSM_Job_Openings {
         }
         return self::$_instance;
     }
+   
 
     public static function load_classes() {
         $prefix = 'class-awsm-job-openings';
-        $classes = array( 'core', 'filters', 'form' );
+        $classes = array( 'core', 'filters', 'form', 'widget' );
         foreach( $classes as $class ) {
             require_once AWSM_JOBS_PLUGIN_DIR . "/inc/{$prefix}-{$class}.php";
         }
@@ -217,8 +218,10 @@ class AWSM_Job_Openings {
         include self::get_template_path( 'job-openings-view.php' );
         return ob_get_clean();
     }
-    
 
+    public function register_widgets() {
+        register_widget( 'AWSM_Job_Openings_Widget' );
+    }
 
     public function awsm_quick_settings( $links ) {
         $links[] = sprintf( '<a href="%1$s">%2$s</a>', esc_url( admin_url( 'edit.php?post_type=awsm_job_openings&page=awsm-jobs-settings' ) ), esc_html__( 'Settings', 'wp-job-openings' ) );
