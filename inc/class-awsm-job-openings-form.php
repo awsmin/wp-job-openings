@@ -184,7 +184,15 @@ class AWSM_Job_Openings_Form {
                     $form_output .= sprintf( '<div class="%2$s">%1$s</div>', $form_content . wp_kses( $extra_content, $allowed_html ), esc_attr( $form_group_class ) );
                 }
             }
-            echo $form_output;
+            /**
+             * Filters the dynamic form fields content of the job application form.
+             *
+             * @since 1.3
+             * 
+             * @param string $form_output The content
+             * @param array $dynamic_form_fields Dynamic form fields
+             */
+            echo apply_filters( 'awsm_application_dynamic_form_fields_content', $form_output, $dynamic_form_fields );
         }
     }
 
