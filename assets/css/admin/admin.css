@@ -525,6 +525,22 @@ a.awsm-text-red:hover {
 	font-size: 12px;
 	line-height: 2;
 }
+.awsm-job-description-table,
+.awsm-job-description-table td {
+	vertical-align: top;
+}
+.awsm-job-description-table td {
+	padding: 15px 10px 15px 5px;
+}
+.awsm-job-description-table td:first-child {
+	padding-top: 19px;
+}
+.awsm-job-description-table tr:last-child td {
+    padding-bottom: 0;
+}
+.awsm-job-description-table td p:last-child {
+    margin-bottom: 0;
+}
 
 .awsm-author-details {
 	background: #fcfcfc;
