@@ -45,7 +45,7 @@ class AWSM_Job_Openings_Widget extends WP_Widget {
 					$title     = ( ! empty( $job_title ) ) ? $job_title : __( '(no title)', 'wp-job-openings' );
 			?>
 				<li>
-					<a href="<?php the_permalink( $recent_jobs->ID ); ?>"><?php echo esc_html( $title ); ?></a>
+					<a href="<?php echo the_permalink( $recent_jobs->ID ); ?>"><?php echo esc_html( $title ); ?></a>
 				</li>
             <?php 
                 endforeach; 
