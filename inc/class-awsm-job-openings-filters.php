@@ -22,13 +22,14 @@ class AWSM_Job_Openings_Filters {
     }
 
     public function display_filter_form( $shortcode_atts ) {
-        if( get_option( 'awsm_enable_job_filter_listing' ) !== 'enabled' ) {
+        $filters_attr = isset( $shortcode_atts['filters'] ) ? $shortcode_atts['filters'] : '';
+        if ( get_option( 'awsm_enable_job_filter_listing' ) !== 'enabled' && $filters_attr !== 'yes' ) {
             return;
         }
-        if( is_archive() && ! is_post_type_archive( 'awsm_job_openings' ) ) {
+        if ( is_archive() && ! is_post_type_archive( 'awsm_job_openings' ) ) {
             return;
         }
-        $display = isset( $shortcode_atts['filter'] ) && $shortcode_atts['filter'] === 'false' ? false : true;
+        $display = $filters_attr === 'no' ? false : true;
         if ( $display ) {
             $filter_content = '';
             $filter_suffix = '_spec';

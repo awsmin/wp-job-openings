@@ -208,9 +208,9 @@ class AWSM_Job_Openings {
         }
         $shortcode_atts = shortcode_atts(
             array(
-                'filter'   => true,
+                'filters'  => get_option( 'awsm_enable_job_filter_listing' ) !== 'enabled' ? 'no' : 'yes',
                 'listings' => get_option( 'awsm_jobs_list_per_page' ),
-                'loadmore' => true,
+                'loadmore' => 'yes',
             ),
             $atts,
             'awsmjobs'

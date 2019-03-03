@@ -12,6 +12,8 @@ if( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+$shortcode_atts = isset( $shortcode_atts ) ? $shortcode_atts : array();
+
 /**
  * before_awsm_jobs_listing hook
  * 
@@ -21,7 +23,6 @@ if( ! defined( 'ABSPATH' ) ) {
  */
 do_action( 'before_awsm_jobs_listing' );
 
-$shortcode_atts = isset( $shortcode_atts ) ? $shortcode_atts : array();
 $query = awsm_jobs_query( $shortcode_atts );
 
 if( $query->have_posts() ) : ?>

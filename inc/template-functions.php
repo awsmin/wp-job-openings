@@ -115,7 +115,7 @@ if( ! function_exists( 'awsm_job_more_details' ) ) {
 
 if( ! function_exists( 'awsm_jobs_load_more' ) ) {
     function awsm_jobs_load_more( $query, $shortcode_atts = array() ) {
-        $loadmore = isset( $shortcode_atts['loadmore'] ) && $shortcode_atts['loadmore'] === 'false' ? false : true;
+        $loadmore = isset( $shortcode_atts['loadmore'] ) && $shortcode_atts['loadmore'] === 'no' ? false : true;
         if ( $loadmore ) :
             $max_num_pages = $query->max_num_pages;
             $paged = ( $query->query_vars['paged'] ) ? $query->query_vars['paged'] : 1;
