@@ -39,8 +39,8 @@ class AWSM_Job_Openings_Widget extends WP_Widget {
 		}
 		?>
 		<div class="awsm-job-wrap">
-			<div <?php awsm_jobs_view_class(); awsm_jobs_data_attrs(); ?>>
-				<?php include get_awsm_jobs_template_path( 'main', 'job-openings' ); ?>
+			<div class="awsm-job-listings awsm-lists">
+				<?php include get_awsm_jobs_template_path( 'recent-jobs', 'widgets' ); ?>
 			</div>
 		</div>
 		<?php
