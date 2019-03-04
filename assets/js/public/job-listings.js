@@ -71,11 +71,13 @@ jQuery(function ($) {
 	$(filterSelector + ' .awsm-filter-option').on('change', function (e) {
 		e.preventDefault();
 		var $elem = $(this);
+		var $selected = $elem.find('option:selected');
 		var $rootWrapper = $elem.parents(rootWrapperSelector);
 		var currentSpec = $elem.parents('.awsm-filter-item').data('filter');
-		var termId = $elem.val();
+		var slug = $selected.data('slug');
+		slug = typeof slug !== 'undefined' ? slug : '';
 		awsmJobFilters($rootWrapper);
-		updateQuery(currentSpec, termId);
+		updateQuery(currentSpec, slug);
 	});
 
 	/* ========== Job Listings Load More ========== */

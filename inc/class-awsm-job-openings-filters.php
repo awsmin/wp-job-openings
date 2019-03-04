@@ -39,7 +39,7 @@ class AWSM_Job_Openings_Filters {
             foreach( $available_filters as $available_filter ) {
                 $current_filter_key = str_replace( '-', '__', $available_filter ) . $filter_suffix;
                 if( isset( $_GET[$current_filter_key] ) ) {
-                    $selected_filters[$available_filter] = intval( $_GET[$current_filter_key] );
+                    $selected_filters[$available_filter] = sanitize_title( $_GET[$current_filter_key] );
                 }
             }
             $available_filters_arr = array();
@@ -52,10 +52,10 @@ class AWSM_Job_Openings_Filters {
                                 $options_content = '';
                                 foreach ( $terms as $term ) {
                                     $selected = '';
-                                    if( in_array( $taxonomy, array_keys( $selected_filters ) ) && $selected_filters[$taxonomy] === intval( $term->term_id ) ) {
+                                    if( in_array( $taxonomy, array_keys( $selected_filters ) ) && $selected_filters[$taxonomy] === $term->slug ) {
                                         $selected = ' selected';
                                     }
-                                    $options_content .= sprintf( '<option value="%1$s"%3$s>%2$s</option>', esc_attr( $term->term_id ), esc_html( $term->name ), esc_attr( $selected ) );
+                                    $options_content .= sprintf( '<option value="%1$s" data-slug="%3$s"%4$s>%2$s</option>', esc_attr( $term->term_id ), esc_html( $term->name ), esc_attr( $term->slug ), esc_attr( $selected ) );
                                 }
                                 $filter_key = str_replace( '-', '__', $taxonomy );
                                 $filter_content .= sprintf( '<div class="awsm-filter-item" data-filter="%2$s"><select name="awsm_job_spec[%1$s]" class="awsm-filter-option" id="awsm-%1$s-filter-option"><option value="">%3$s</option>%4$s</select></div>', esc_attr( $taxonomy ), esc_attr( $filter_key . $filter_suffix ), esc_html__( 'All ', 'wp-job-openings' ) . esc_html( $tax_details->label ), $options_content );
