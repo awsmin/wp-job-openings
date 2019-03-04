@@ -189,7 +189,7 @@ jQuery(document).ready(function ($) {
 		var title = $specElem.val();
 		var $row = $specElem.parents('.awsm-job-specifications-settings-row');
 		if (title.length > 0) {
-			title = $.trim(title).replace(/\s/g, '-').toLowerCase();
+			title = $.trim(title).replace(/\s+/g, '-').toLowerCase();
 			if (! specRegEx.test(title)) {
 				tlText = transliterate(title);
 				title = tlText !== title ? tlText : '';
