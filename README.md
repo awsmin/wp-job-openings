@@ -3,8 +3,8 @@
 **Contributors:** awsmin  
 **Tags:** jobs, job listing, job openings, job board, careers page, jobs page, wp job opening, jobs plugin  
 **Requires at least:** 4.1  
-**Tested up to:** 4.9.8  
-**Stable tag:** 1.2.1  
+**Tested up to:** 5.1  
+**Stable tag:** 1.3  
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -88,6 +88,19 @@ The first version of the plugin comes with two layouts - Grid and List which are
 
 ## Changelog
 
+**V 1.3 - 2019-03-04**
+* Added: Shortcode attributes - `filters`, `listings`, and `loadmore` for `[awsmjobs]` shortcode. Template files need to be updated if overridden in theme.
+* Added: Job/Application updated messages.
+* Added: Shareable filters. Now, you can share the link to display filtered job results.
+* Added: New hooks for customizing Application Form. Template files need to be updated if overridden in theme.
+* Added: Specification Key option to Job Specifications settings.
+* Fixed: Conflict with Polylang plugin.
+* Fixed: Shortcode returning blank screen with some page builder plugins. Template files need to be updated if overridden in theme.
+* Fixed: Job specification settings validation issues.
+* Fixed: Localization issues.
+* Improved: Templating for Job Specifications settings based on Underscore.js.
+* Other bug fixes and code improvements.
+
 **V 1.2.1 - 2018-11-16**
 * Fixed: Job Application submission error when caching plugin is used
 * Fixed: Application feedback mail issue when Non-English characters are used
@@ -107,14 +120,5 @@ The first version of the plugin comes with two layouts - Grid and List which are
 * Fixed: Plugin activation is terminated when plugin is activated through WP-CLI
 * Fixed: Invalid error messages when reCAPTCHA is not enabled in Form settings
 * Code improvements
-
-**V 1.1 - 2018-09-12**
-* Added: Custom template support.
-* Added: New hooks for better templating
-* Added: reCAPTCHA feature for job application form
-* Added: New job specifications display option on job detail page appearance settings
-* Fixed: Job view count issue when caching plugin is used
-* Minor bug fixes
-* Overall code and performance improvement
 
 View complete Changelog in [CHANGELOG.MD](https://github.com/awsmin/wp-job-openings/blob/master/CHANGELOG.md)

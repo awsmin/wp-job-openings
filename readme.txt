@@ -59,6 +59,19 @@ The first version of the plugin comes with two layouts - Grid and List which are
 
 == Changelog ==
 
+= V 1.3 - 2019-03-04 =
+* Added: Shortcode attributes - `filters`, `listings`, and `loadmore` for `[awsmjobs]` shortcode. Template files need to be updated if overridden in theme.
+* Added: Job/Application updated messages.
+* Added: Shareable filters. Now, you can share the link to display filtered job results.
+* Added: New hooks for customizing Application Form. Template files need to be updated if overridden in theme.
+* Added: Specification Key option to Job Specifications settings.
+* Fixed: Conflict with Polylang plugin.
+* Fixed: Shortcode returning blank screen with some page builder plugins. Template files need to be updated if overridden in theme.
+* Fixed: Job specification settings validation issues.
+* Fixed: Localization issues.
+* Improved: Templating for Job Specifications settings based on Underscore.js.
+* Other bug fixes and code improvements.
+
 = V 1.2.1 - 2018-11-16 =
 * Fixed: Job Application submission error when caching plugin is used
 * Fixed: Application feedback mail issue when Non-English characters are used
@@ -98,5 +111,5 @@ The first version of the plugin comes with two layouts - Grid and List which are
 
 == Upgrade Notice ==
 
-= 1.2.1 =
-Bug fixes
+= 1.3 =
+Added New Features
