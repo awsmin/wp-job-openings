@@ -12,11 +12,11 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Super simple Job Listing plugin to manage Job Openings and Applicants on your WordPress site. 
 
 == Description ==
-Are you looking for setting up a job listing page for a website? WP Job Openings plugin is the most simple yet powerful plugin for you. 
+WP Job Openings plugin is the most simple yet powerful plugin for setting up a job listing page for a website. 
 
 The plugin is designed after carefully analysing hundreds of job listing layouts and methods. We just picked the best features out of the all and built a plugin that’s super simple to use and extensible to a high performing recruitment tool. 
 
-The first version of the plugin comes with two layouts - Grid and List which are designed carefully according to the modern design and User Experience principles. Highlight of the plugin is its totally flexible filter options. You will not realise its power until you start using it. 
+The first version of the plugin comes with two layouts - Grid and List which are designed carefully according to the modern design and User Experience principles. Highlight of the plugin is its totally flexible filter options. 
 
 
 [View Demo](https://demo.awsm.in/wp-job-openings/)
@@ -59,6 +59,20 @@ The first version of the plugin comes with two layouts - Grid and List which are
 
 == Changelog ==
 
+= V 1.3 - 2019-03-04 =
+* Added: Shortcode attributes - `filters`, `listings`, and `loadmore` for `[awsmjobs]` shortcode. Template files need to be updated if overridden in theme.
+* Added: Job/Application updated messages.
+* Added: Shareable filters. Now, you can share the link to display filtered job results.
+* Added: New hooks for customizing Application Form. Template files need to be updated if overridden in theme.
+* Added: Specification Key option to Job Specifications settings.
+* Added: Jetpack publicize feature support.
+* Fixed: Conflict with Polylang plugin.
+* Fixed: Shortcode returning blank screen with some page builder plugins. Template files need to be updated if overridden in theme.
+* Fixed: Job specification settings validation issues.
+* Fixed: Localization issues.
+* Improved: Templating for Job Specifications settings based on Underscore.js.
+* Other bug fixes and code improvements.
+
 = V 1.2.1 - 2018-11-16 =
 * Fixed: Job Application submission error when caching plugin is used
 * Fixed: Application feedback mail issue when Non-English characters are used
@@ -98,5 +112,5 @@ The first version of the plugin comes with two layouts - Grid and List which are
 
 == Upgrade Notice ==
 
-= 1.2.1 =
-Bug fixes
+= 1.3 =
+Added New Features

@@ -7,15 +7,18 @@ jQuery(function ($) {
 	var filterSelector = '.awsm-filter-wrap';
 	var currentUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
 	
-	function awsmJobFilters($elem) {
-		var $wrapper = typeof $elem !== 'undefined' ? $elem.parents(rootWrapperSelector).find(wrapperSelector) : $(wrapperSelector);
-		var $filterForm = typeof $elem !== 'undefined' ? $elem.parents(filterSelector).find('form') : $(filterSelector).find('form');
+	function awsmJobFilters($rootWrapper) {
+		var $wrapper = $rootWrapper.find(wrapperSelector);
+		var $filterForm = $rootWrapper.find(filterSelector + ' form');
+		var formData = $filterForm.serializeArray();
+		var listings = $wrapper.data('listings');
+		formData.push({ name: 'listings_per_page', value: listings });
 		$.ajax({
 			url: $filterForm.attr('action'),
 			beforeSend: function(xhr) {
 				$wrapper.addClass('awsm-jobs-loading');
 			},
-			data: $filterForm.serialize(),
+			data: formData,
 			type: $filterForm.attr('method')
 		}).done(function (data) {
 			$wrapper.html(data);
@@ -28,7 +31,6 @@ jQuery(function ($) {
 
 	function filterCheck($filterForm) {
 		var check = false;
-		$filterForm = typeof $filterForm !== 'undefined' ? $filterForm : $(filterSelector).find('form');
 		if ($filterForm.length > 0) {
 			var $filterOption = $filterForm.find('.awsm-filter-option');
 			$filterOption.each(function (i) {
@@ -40,8 +42,14 @@ jQuery(function ($) {
 		return check;
 	}
 
-	if (filterCheck()) {
-		awsmJobFilters();
+	if($(rootWrapperSelector).length > 0) {
+		$(rootWrapperSelector).each(function(i) {
+			$currentWrapper = $(this);
+			var $filterForm = $currentWrapper.find(filterSelector + ' form');
+			if(filterCheck($filterForm)) {
+				awsmJobFilters($currentWrapper);
+			}
+		});
 	}
 
 	var updateQuery = function (key, value) {
@@ -63,10 +71,13 @@ jQuery(function ($) {
 	$(filterSelector + ' .awsm-filter-option').on('change', function (e) {
 		e.preventDefault();
 		var $elem = $(this);
+		var $selected = $elem.find('option:selected');
+		var $rootWrapper = $elem.parents(rootWrapperSelector);
 		var currentSpec = $elem.parents('.awsm-filter-item').data('filter');
-		var termId = $elem.val();
-		updateQuery(currentSpec, termId);
-		awsmJobFilters($elem);
+		var slug = $selected.data('slug');
+		slug = typeof slug !== 'undefined' ? slug : '';
+		awsmJobFilters($rootWrapper);
+		updateQuery(currentSpec, slug);
 	});
 
 	/* ========== Job Listings Load More ========== */
@@ -80,14 +91,13 @@ jQuery(function ($) {
 		var wp_data = [];
 		var paged = $button.data('page');
 		paged = (typeof paged == 'undefined') ? 1 : paged;
+		var listings = $listingsContainer.data('listings');
 
 		// filters
 		var $filterForm = $mainContainer.find(filterSelector + ' form');
-		if ($filterForm.length > 0) {
-			if (filterCheck($filterForm)) {
-				var $filterOption = $filterForm.find('.awsm-filter-option');
-				wp_data = $filterOption.serializeArray();
-			}
+		if (filterCheck($filterForm)) {
+			var $filterOption = $filterForm.find('.awsm-filter-option');
+			wp_data = $filterOption.serializeArray();
 		}
 
 		// taxonomy archives
@@ -103,6 +113,9 @@ jQuery(function ($) {
 		}
 
 		wp_data.push({ name: 'action', value: 'loadmore' }, { name: 'paged', value: paged });
+		if(typeof listings !== 'undefined') {
+			wp_data.push({ name: 'listings_per_page', value: listings });
+		}
 
 		// now, handle ajax
 		$.ajax({

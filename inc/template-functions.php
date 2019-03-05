@@ -41,9 +41,9 @@ if( ! function_exists( 'awsm_jobs_view_class' ) ) {
 }
 
 if( ! function_exists( 'awsm_jobs_data_attrs' ) ) {
-    function awsm_jobs_data_attrs( $attrs = array() ) {
+    function awsm_jobs_data_attrs( $attrs = array(), $shortcode_atts = array() ) {
         $content = '';
-        $attrs = array_merge( AWSM_Job_Openings::get_job_listing_data_attrs(), $attrs );
+        $attrs = array_merge( AWSM_Job_Openings::get_job_listing_data_attrs( $shortcode_atts ), $attrs );
         if( ! empty( $attrs ) ) {
             foreach( $attrs as $name => $value ) {
                 if( ! empty( $value ) ) {
@@ -114,13 +114,16 @@ if( ! function_exists( 'awsm_job_more_details' ) ) {
 }
 
 if( ! function_exists( 'awsm_jobs_load_more' ) ) {
-    function awsm_jobs_load_more( $query ) {
-        $max_num_pages = $query->max_num_pages;
-        $paged = ( $query->query_vars['paged'] ) ? $query->query_vars['paged'] : 1;
-        if( $max_num_pages > 1 && $paged < $max_num_pages ) : ?>
-                <div class="awsm-load-more-main">
-                    <a href="#" class="awsm-load-more awsm-load-more-btn" data-page="<?php echo $paged; ?>"><?php esc_html_e( 'Load more...', 'wp-job-openings' ); ?></a>
-                </div><?php
+    function awsm_jobs_load_more( $query, $shortcode_atts = array() ) {
+        $loadmore = isset( $shortcode_atts['loadmore'] ) && $shortcode_atts['loadmore'] === 'no' ? false : true;
+        if ( $loadmore ) :
+            $max_num_pages = $query->max_num_pages;
+            $paged = ( $query->query_vars['paged'] ) ? $query->query_vars['paged'] : 1;
+            if( $max_num_pages > 1 && $paged < $max_num_pages ) : ?>
+                    <div class="awsm-load-more-main">
+                        <a href="#" class="awsm-load-more awsm-load-more-btn" data-page="<?php echo $paged; ?>"><?php esc_html_e( 'Load more...', 'wp-job-openings' ); ?></a>
+                    </div><?php
+            endif;
         endif;
     }
 }

@@ -74,7 +74,7 @@ class AWSM_Job_Openings_Core {
             'rewrite'         => array( 'slug' => get_option( 'awsm_permalink_slug', 'jobs' ) ),
             'capability_type' => 'job',
             'menu_icon'       => esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/nav-icon.png'),
-            'supports'        => array( 'title', 'editor' )
+            'supports'        => array( 'title', 'editor', 'publicize' )
         );
 
         register_post_type( 'awsm_job_openings', $args );

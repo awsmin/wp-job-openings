@@ -16,7 +16,41 @@
 			<div class="awsm-help-section">
 				<h2><?php esc_html_e( 'Short codes', 'wp-job-openings' ); ?></h2>
 				<p><?php esc_html_e( 'We like to keep things simple. WP Job Openings Plugin has only one shortcode you have to note. The shortcode will display the list of job openings you have in your website. ', 'wp-job-openings' ); ?></p>
-				<?php printf('<p><code>[awsmjobs]</code><button id="awsm-copy-clip" type="button" data-clipboard-text="[awsmjobs]" class="button">%1$s</button></p>', __("Copy", 'wp-job-openings'));?>
+
+				<p><?php esc_html_e( 'Example of a shortcode supported by WP Job Openings plugin is below', 'wp-job-openings' ); ?></p>
+				<?php printf('<p><code>%1$s</code><button id="awsm-copy-clip" type="button" data-clipboard-text="%1$s" class="button">%2$s</button></p>', htmlentities( '[awsmjobs listings="5" filters="no" loadmore="no"]' ), __("Copy", 'wp-job-openings')); ?>
+				<p><?php esc_html_e( 'Attributes are explained below', 'wp-job-openings' ); ?></p>
+				<?php
+					$shortcode_atts = array(
+						'filters'   => array(
+							'description' => esc_html__( 'Whether to Show or Hide Job filters.', 'wp-job-openings' ),
+							'arguments'   => 'yes/no ' . sprintf( '(yes - %s, no - %s)', esc_html__( 'Show filters', 'wp-job-openings' ), esc_html__( 'Hide filters', 'wp-job-openings' ) ),
+							'default'     => esc_html__( "'Enable job filters in job listing' option in Settings", "wp-job-openings" ),
+						),
+                		'listings' => array(
+							'description' => esc_html__( 'Default Number of Job Listings to display.', 'wp-job-openings' ),
+							'arguments'   => esc_html__( "Value that is no less than 1.", "wp-job-openings" ),
+							'default'     => esc_html__( "'Listings per page' option in Settings", "wp-job-openings" ),
+						),
+                		'loadmore' => array(
+							'description' => esc_html__( "Whether to Show or Hide 'Load more...' button in Job Listings.", "wp-job-openings" ),
+							'arguments'   => 'yes/no ' . sprintf( '(yes - %s, no - %s)', esc_html__( 'Show button', 'wp-job-openings' ), esc_html__( 'Hide button', 'wp-job-openings' ) ),
+							'default'     => 'yes',
+						),
+					);
+				?>
+				<table class="awsm-job-description-table">
+					<?php foreach( $shortcode_atts as $attr => $attr_details ) : ?>
+							<tr>
+								<td><code><?php echo esc_html( $attr ); ?></code></td>
+								<td>
+									<p><?php printf( '<strong>%s:</strong> %s', esc_html__( 'Description', 'wp-job-openings' ), esc_html( $attr_details['description'] ) ); ?></p>
+									<p><?php printf( '<strong>%s:</strong> %s', esc_html__( 'Accepted Arguments', 'wp-job-openings' ), esc_html( $attr_details['arguments'] ) ); ?></p>
+									<p><?php printf( '<strong>%s:</strong> %s', esc_html__( 'Default', 'wp-job-openings' ), esc_html( $attr_details['default'] ) ); ?></p>
+								</td>
+							</tr>
+					<?php endforeach; ?>
+				</table>
 			</div><!-- .awsm-help-section -->
 			<div class="awsm-help-section">
 				<h2><?php esc_html_e( 'Have a feature request?', 'wp-job-openings' ); ?></h2>
