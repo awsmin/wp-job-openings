@@ -6,6 +6,7 @@
 * Added: Shareable filters. Now, you can share the link to display filtered job results.
 * Added: New hooks for customizing Application Form. Template files need to be updated if overridden in theme.
 * Added: Specification Key option to Job Specifications settings.
+* Added: Jetpack publicize feature support.
 * Fixed: Conflict with Polylang plugin.
 * Fixed: Shortcode returning blank screen with some page builder plugins. Template files need to be updated if overridden in theme.
 * Fixed: Job specification settings validation issues.

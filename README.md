@@ -14,15 +14,13 @@ Super simple Job Listing plugin to manage Job Openings and Applicants on your Wo
 
 ## Description
 
-Are you looking for setting up a job listing page for a website? WP Job Openings plugin is the most simple yet powerful plugin for you. 
+WP Job Openings plugin is the most simple yet powerful plugin for setting up a job listing page for a website. 
 
 The plugin is designed after carefully analysing hundreds of job listing layouts and methods. We just picked the best features out of the all and built a plugin that’s super simple to use and extensible to a high performing recruitment tool. 
 
-The first version of the plugin comes with two layouts - Grid and List which are designed carefully according to the modern design and User Experience principles. Highlight of the plugin is its totally flexible filter options. You will not realise its power until you start using it. 
-
+The first version of the plugin comes with two layouts - Grid and List which are designed carefully according to the modern design and User Experience principles. Highlight of the plugin is its totally flexible filter options.
 
 [View Demo](https://demo.awsm.in/wp-job-openings/)
-
 
 ## Key Features
 
@@ -94,6 +92,7 @@ The first version of the plugin comes with two layouts - Grid and List which are
 * Added: Shareable filters. Now, you can share the link to display filtered job results.
 * Added: New hooks for customizing Application Form. Template files need to be updated if overridden in theme.
 * Added: Specification Key option to Job Specifications settings.
+* Added: Jetpack publicize feature support.
 * Fixed: Conflict with Polylang plugin.
 * Fixed: Shortcode returning blank screen with some page builder plugins. Template files need to be updated if overridden in theme.
 * Fixed: Job specification settings validation issues.
