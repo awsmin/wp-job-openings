@@ -94,15 +94,19 @@ class AWSM_Job_Openings_Meta {
                     }
                     if( ! empty( $value ) ) {
                         $meta_content = ( empty( $multi_line ) ) ? esc_html( $value ) : wp_kses( wpautop( $value ), array( 'p' => array(), 'br' => array() ) );
-                        if( isset( $meta_options['type'] ) && $meta_options['type'] === 'file' ) {
-                            $meta_content = sprintf( '<a href="%2$s" rel="nofollow"><strong>%1$s</strong></a>', esc_html__( 'Download File', 'wp-job-openings' ), $this->get_attached_file_download_url( $value, 'file', $label ) );
+                        if ( isset( $meta_options['type'] ) ) {
+                            if ( $meta_options['type'] === 'file' ) {
+                                $meta_content = sprintf( '<a href="%2$s" rel="nofollow"><strong>%1$s</strong></a>', esc_html__( 'Download File', 'wp-job-openings' ), $this->get_attached_file_download_url( $value, 'file', $label ) );
+                            } elseif ( $meta_options['type'] === 'url' ) {
+                                $meta_content = sprintf( '<a href="%s" target="_blank" rel="nofollow">%s</a>', esc_url( $value ), esc_html( $value ) );
+                            }
                         }
                         $list .= sprintf( '<li><label>%1$s</label><span>%2$s</span></li>', esc_html( $label ), $meta_content );
                     }
                 }
             }
         }
-        return apply_filters( 'awsm_jobs_applicant_meta_details_list', $list );
+        return apply_filters( 'awsm_jobs_applicant_meta_details_list', $list, $applicant_meta, $post_id );
     }
 
     public function get_attached_file_details( $attachment_id ) {
