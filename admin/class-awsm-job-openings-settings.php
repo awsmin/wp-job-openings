@@ -586,6 +586,89 @@ class AWSM_Job_Openings_Settings {
         endif;
     }
 
+    public function display_settings_fields( $settings_fields, $container = 'table', $echo = true ) {
+        $content = '';
+        if ( ! empty( $settings_fields ) && is_array( $settings_fields ) ) {
+            $allowed_html = array(
+                'br' => array(),
+                'em' => array(),
+                'span' => array(),
+                'strong' => array(),
+                'small' => array()
+            );
+            foreach( $settings_fields as $settings_field ) {
+                $field_type = isset( $settings_field['type'] ) ? $settings_field['type'] : 'text';
+                $label = isset( $settings_field['label'] ) ? $settings_field['label'] : '';
+                $field_name = isset( $settings_field['name'] ) ? $settings_field['name'] : '';
+                $class_name = isset( $settings_field['class'] ) ? $settings_field['class'] : 'regular-text';
+                $id = isset( $settings_field['id'] ) ? $settings_field['id'] : $field_name;
+                $value = isset( $settings_field['value'] ) ? $settings_field['value'] : '';
+                $description = isset( $settings_field['description'] ) ? $settings_field['description'] : '';
+                $help_button = isset( $settings_field['help_button'] ) && is_array( $settings_field['help_button'] ) ? $settings_field['help_button'] : '';
+
+                $field_label = '';
+                if ( $field_type === 'checkbox' ) {
+                    $field_label = esc_html( $label );
+                } else {
+                    $field_label = sprintf( '<label for="%2$s">%1$s</label>', esc_html( $label ), esc_attr( $id ) );
+                }
+                $field_content = '';
+                if ( $field_type === 'raw' ) {
+                    $field_content = $value;
+                } else {
+                    $required = isset( $settings_field['required'] ) ? $settings_field['required'] : false;
+                    $extra_attrs = $required === true ? ' required' : '';
+                    if ( isset( $settings_field['choices'] ) && is_array( $settings_field['choices'] ) ) {
+                        $choices = $settings_field['choices'];
+                        if ( $field_type === 'checkbox' && count( $choices ) > 1 ) {
+                            $field_name .= '[]';
+                        }
+                        $choices_count = 1;
+                        foreach ( $choices as $choice => $choice_details ) {
+                            $choice_text = isset( $choice_details['text'] ) ? $choice_details['text'] : '';
+                            $choice_text_class = isset( $choice_details['text_class'] ) ? $choice_details['text_class'] : '';
+                            $choice_id = isset( $choice_details['id'] ) ? $choice_details['id'] : $id . '-' . $choices_count;
+                            $choice_attrs = '';
+                            if ( $field_type === 'checkbox' ) {
+                                $choice_attrs = ' ' . checked( $value, $choice, false );
+                            }
+                            $current_field = sprintf( '<input type="%1$s" class="%2$s" name="%3$s" id="%4$s" value="%5$s"%6$s />', esc_attr( $field_type ), esc_attr( $class_name ), esc_attr( $field_name ), esc_attr( $choice_id ), esc_attr( $choice ), $choice_attrs );
+                            $field_content .= sprintf( '<label for="%2$s" class="%3$s">%1$s</label>', $current_field . esc_html( $choice_text ), esc_attr( $choice_id ), esc_attr( $choice_text_class ) );
+                            $choices_count++;
+                        }
+                    } else {
+                        $field_content = sprintf( '<input type="%1$s" class="%2$s" name="%3$s" id="%4$s" value="%5$s"%6$s />', esc_attr( $field_type ), esc_attr( $class_name ), esc_attr( $field_name ), esc_attr( $id ), esc_attr( $value ), $extra_attrs );
+                    } 
+                }
+                if( ! empty( $help_button ) ) {
+                    $visible = isset( $help_button['visible'] ) ? $help_button['visible'] : true;
+                    if ( $visible ) {
+                        $btn_url = isset( $help_button['url'] ) ? $help_button['url'] : '';
+                        $btn_class = 'button';
+                        $btn_class .= isset( $help_button['class'] ) ? ' ' . $help_button['class'] : '';
+                        $btn_text = isset( $help_button['text'] ) ? $help_button['text'] : '';
+                        $btn_extras = '';
+                        if ( isset( $help_button['target'] ) ) {
+                            $btn_extras = sprintf( ' target="%s"', esc_attr( $help_button['target'] ) );
+                        }
+                        $field_content .= sprintf( '<a href="%2$s" class="%3$s"%4$s>%1$s</a>', esc_html( $btn_text ), esc_url( $btn_url ), esc_attr( $btn_class ), $btn_extras );
+                    }
+                }
+                if ( ! empty( $description ) ) {
+                    $field_content .= sprintf( '<p class="description">%s</p>', wp_kses( $description, $allowed_html ) );
+                }
+                if ( $container === 'table' ) {
+                    $content .= sprintf( '<tr><th scope="row">%s</th><td>%s</td></tr>', $field_label, $field_content );
+                }
+            }
+        }
+        if ( $echo === true ) {
+            echo $content;
+        } else {
+            return $content;
+        }
+    }
+
     public function display_check_list( $label, $option_name, $value, $saved_data ) {
         $checked = '';
         if( ! empty( $saved_data ) ) {
