@@ -596,15 +596,14 @@ class AWSM_Job_Openings_Settings {
                 'strong' => array(),
                 'small' => array()
             );
-            foreach( $settings_fields as $settings_field ) {
-                $field_type = isset( $settings_field['type'] ) ? $settings_field['type'] : 'text';
-                $label = isset( $settings_field['label'] ) ? $settings_field['label'] : '';
-                $field_name = isset( $settings_field['name'] ) ? $settings_field['name'] : '';
-                $class_name = isset( $settings_field['class'] ) ? $settings_field['class'] : 'regular-text';
-                $id = isset( $settings_field['id'] ) ? $settings_field['id'] : $field_name;
-                $value = isset( $settings_field['value'] ) ? $settings_field['value'] : '';
-                $description = isset( $settings_field['description'] ) ? $settings_field['description'] : '';
-                $help_button = isset( $settings_field['help_button'] ) && is_array( $settings_field['help_button'] ) ? $settings_field['help_button'] : '';
+            foreach( $settings_fields as $field_name => $field_details ) {
+                $field_type = isset( $field_details['type'] ) ? $field_details['type'] : 'text';
+                $label = isset( $field_details['label'] ) ? $field_details['label'] : '';
+                $class_name = isset( $field_details['class'] ) ? $field_details['class'] : 'regular-text';
+                $id = isset( $field_details['id'] ) ? $field_details['id'] : $field_name;
+                $value = isset( $field_details['value'] ) ? $field_details['value'] : '';
+                $description = isset( $field_details['description'] ) ? $field_details['description'] : '';
+                $help_button = isset( $field_details['help_button'] ) && is_array( $field_details['help_button'] ) ? $field_details['help_button'] : '';
 
                 $field_label = '';
                 if ( $field_type === 'checkbox' ) {
@@ -616,10 +615,10 @@ class AWSM_Job_Openings_Settings {
                 if ( $field_type === 'raw' ) {
                     $field_content = $value;
                 } else {
-                    $required = isset( $settings_field['required'] ) ? $settings_field['required'] : false;
+                    $required = isset( $field_details['required'] ) ? $field_details['required'] : false;
                     $extra_attrs = $required === true ? ' required' : '';
-                    if ( isset( $settings_field['choices'] ) && is_array( $settings_field['choices'] ) ) {
-                        $choices = $settings_field['choices'];
+                    if ( isset( $field_details['choices'] ) && is_array( $field_details['choices'] ) ) {
+                        $choices = $field_details['choices'];
                         if ( $field_type === 'checkbox' && count( $choices ) > 1 ) {
                             $field_name .= '[]';
                         }

@@ -33,9 +33,8 @@
     $settings_fields = apply_filters( 'awsm_jobs_settings_fields', array(
         'general' => array(
             'default' => array(
-                array(
+                'awsm_select_page_listing' => array(
                     'label'        => __( 'Job listing page', 'wp-job-openings' ),
-                    'name'         => 'awsm_select_page_listing',
                     'type'         => 'raw',
                     'value'        => wp_dropdown_pages( $args ),
                     'description'  => __( 'The job listing shortcode will be added to  the page you select', 'wp-job-openings' ),
@@ -46,37 +45,32 @@
                         'text'     => __( 'View Page', 'wp-job-openings' ),
                     ),
                 ),
-                array(
+                'awsm_job_company_name' => array(
                     'label'        => __( 'Name of the Company', 'wp-job-openings' ),
-                    'name'         => 'awsm_job_company_name',
                     'id'           => 'awsm-job-company-name',
                     'value'        => get_option( 'awsm_job_company_name', '' ),
                 ),
-                array(
+                'awsm_hr_email_address' => array(
                     'label'        => __( 'HR Email Address', 'wp-job-openings' ),
-                    'name'         => 'awsm_hr_email_address',
                     'type'         => 'email',
                     'id'           => 'awsm-hr-email-address',
                     'value'        => get_option( 'awsm_hr_email_address', '' ),
                     'description'  => __( 'Email for HR notifications', 'wp-job-openings' ),
                 ),
-                array(
+                'awsm_permalink_slug' => array(
                     'label'        => __( 'URL slug', 'wp-job-openings' ),
-                    'name'         => 'awsm_permalink_slug',
                     'value'        => get_option( 'awsm_permalink_slug' ),
                     'required'     => true,
                     'description'  => __( 'URL slug for job posts', 'wp-job-openings' ),
                 ),
-                array(
+                'awsm_default_msg' => array(
                     'label'        => __( "Default 'No Jobs' message "  , 'wp-job-openings' ),
-                    'name'         => 'awsm_default_msg',
                     'value'        => get_option( 'awsm_default_msg' ),
                     'required'     => true,
                     'description'  => __( 'Default message when there are no active job openings', 'wp-job-openings' ),
                 ),
-                array(
+                'awsm_delete_data_on_uninstall' => array(
                     'label'        => __( 'Delete data on uninstall', 'wp-job-openings' ),
-                    'name'         => 'awsm_delete_data_on_uninstall',
                     'type'         => 'checkbox',
                     'choices'      => array( 
                         'delete_data' => array(
@@ -88,7 +82,7 @@
                     'value'        => get_option( 'awsm_delete_data_on_uninstall' ),
                     'description'  => sprintf( __( 'CAUTION: Checking this option will delete all the job listings, applications and %sconfigurations from your website %swhen you uninstall the plugin%s.', 'wp-job-openings' ), '<br />', '<span>', '</span>' ),
                 ), 
-            )
+            ),
         ),
     ), 'general' );
 ?>
