@@ -4,11 +4,6 @@
     }
     $default_listing_page_id = get_option( 'awsm_jobs_default_listing_page_id' );
     $selected_listing_page_id = get_option( 'awsm_select_page_listing', $default_listing_page_id );
-    $permalink_slug = get_option( 'awsm_permalink_slug' );
-    $hr_email_address = get_option( 'awsm_hr_email_address', '' );
-    $awsm_company_name = get_option( 'awsm_job_company_name', '' );
-    $default_message = get_option( 'awsm_default_msg' );
-
     $selected_page_status = get_post_status( $selected_listing_page_id );
     $page_exists = ( $selected_page_status === 'publish' ) ? true : false;
     $args = array(
@@ -22,6 +17,7 @@
         $args['selected'] = '';
         $args['show_option_none'] = esc_html__( 'Select a page', 'wp-job-openings' );
     }
+    
     /**
      * Filters the settings fields.
      *
