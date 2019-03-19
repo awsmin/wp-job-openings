@@ -19,68 +19,67 @@
     }
     
     /**
-     * Filters the settings fields.
+     * Filters the general settings fields.
      *
      * @since 1.4
      * 
-     * @param array $settings_fields Settings fields
-     * @param string $settings_section Settings section
+     * @param array $settings_fields General Settings fields
      */
-    $settings_fields = apply_filters( 'awsm_jobs_settings_fields', array(
-        'general' => array(
-            'default' => array(
-                'awsm_select_page_listing' => array(
-                    'label'        => __( 'Job listing page', 'wp-job-openings' ),
-                    'type'         => 'raw',
-                    'value'        => wp_dropdown_pages( $args ),
-                    'description'  => __( 'The job listing shortcode will be added to  the page you select', 'wp-job-openings' ),
-                    'help_button'  => array(
-                        'visible'  => $page_exists,
-                        'url'      => get_page_link( $selected_listing_page_id ),
-                        'class'    => 'awsm-view-page-btn',
-                        'text'     => __( 'View Page', 'wp-job-openings' ),
-                    ),
+    $settings_fields = apply_filters( 'awsm_jobs_general_settings_fields', array( 
+        'default' => array(
+            'awsm_select_page_listing' => array(
+                'label'        => __( 'Job listing page', 'wp-job-openings' ),
+                'type'         => 'raw',
+                'value'        => wp_dropdown_pages( $args ),
+                'description'  => __( 'The job listing shortcode will be added to  the page you select', 'wp-job-openings' ),
+                'help_button'  => array(
+                    'visible'  => $page_exists,
+                    'url'      => get_page_link( $selected_listing_page_id ),
+                    'class'    => 'awsm-view-page-btn',
+                    'text'     => __( 'View Page', 'wp-job-openings' ),
                 ),
-                'awsm_job_company_name' => array(
-                    'label'        => __( 'Name of the Company', 'wp-job-openings' ),
-                    'id'           => 'awsm-job-company-name',
-                    'value'        => get_option( 'awsm_job_company_name', '' ),
-                ),
-                'awsm_hr_email_address' => array(
-                    'label'        => __( 'HR Email Address', 'wp-job-openings' ),
-                    'type'         => 'email',
-                    'id'           => 'awsm-hr-email-address',
-                    'value'        => get_option( 'awsm_hr_email_address', '' ),
-                    'description'  => __( 'Email for HR notifications', 'wp-job-openings' ),
-                ),
-                'awsm_permalink_slug' => array(
-                    'label'        => __( 'URL slug', 'wp-job-openings' ),
-                    'value'        => get_option( 'awsm_permalink_slug' ),
-                    'required'     => true,
-                    'description'  => __( 'URL slug for job posts', 'wp-job-openings' ),
-                ),
-                'awsm_default_msg' => array(
-                    'label'        => __( "Default 'No Jobs' message "  , 'wp-job-openings' ),
-                    'value'        => get_option( 'awsm_default_msg' ),
-                    'required'     => true,
-                    'description'  => __( 'Default message when there are no active job openings', 'wp-job-openings' ),
-                ),
-                'awsm_delete_data_on_uninstall' => array(
-                    'label'        => __( 'Delete data on uninstall', 'wp-job-openings' ),
-                    'type'         => 'checkbox',
-                    'choices'      => array( 
-                        'delete_data' => array(
-                            'text'        => __( 'Delete PLUGIN DATA on uninstall', 'wp-job-openings' ),
-                            'text_class'  => 'awsm-text-danger',
-                            'id'          => 'awsm-delete-data-on-uninstall'
-                        ),
-                    ),
-                    'value'        => get_option( 'awsm_delete_data_on_uninstall' ),
-                    'description'  => sprintf( __( 'CAUTION: Checking this option will delete all the job listings, applications and %sconfigurations from your website %swhen you uninstall the plugin%s.', 'wp-job-openings' ), '<br />', '<span>', '</span>' ),
-                ), 
             ),
+            'awsm_job_company_name' => array(
+                'label'        => __( 'Name of the Company', 'wp-job-openings' ),
+                'id'           => 'awsm-job-company-name',
+                'value'        => get_option( 'awsm_job_company_name', '' ),
+            ),
+            'awsm_hr_email_address' => array(
+                'label'        => __( 'HR Email Address', 'wp-job-openings' ),
+                'type'         => 'email',
+                'id'           => 'awsm-hr-email-address',
+                'value'        => get_option( 'awsm_hr_email_address', '' ),
+                'description'  => __( 'Email for HR notifications', 'wp-job-openings' ),
+            ),
+            'awsm_permalink_slug' => array(
+                'label'        => __( 'URL slug', 'wp-job-openings' ),
+                'value'        => get_option( 'awsm_permalink_slug' ),
+                'required'     => true,
+                'description'  => __( 'URL slug for job posts', 'wp-job-openings' ),
+            ),
+            'awsm_default_msg' => array(
+                'label'        => __( "Default 'No Jobs' message "  , 'wp-job-openings' ),
+                'value'        => get_option( 'awsm_default_msg' ),
+                'required'     => true,
+                'description'  => __( 'Default message when there are no active job openings', 'wp-job-openings' ),
+            ),
+            'awsm_delete_data_on_uninstall' => array(
+                'label'        => __( 'Delete data on uninstall', 'wp-job-openings' ),
+                'type'         => 'checkbox',
+                'class'        => '',
+                'choices'      => array( 
+                    array(
+                        'value'       => 'delete_data',
+                        'text'        => __( 'Delete PLUGIN DATA on uninstall', 'wp-job-openings' ),
+                        'text_class'  => 'awsm-text-danger',
+                        'id'          => 'awsm-delete-data-on-uninstall',
+                    ),
+                ),
+                'value'        => get_option( 'awsm_delete_data_on_uninstall' ),
+                'description'  => sprintf( __( 'CAUTION: Checking this option will delete all the job listings, applications and %sconfigurations from your website %swhen you uninstall the plugin%s.', 'wp-job-openings' ), '<br />', '<span>', '</span>' ),
+            ), 
         ),
-    ), 'general' );
+    ) );
 ?>
 
 <div id="settings-awsm-settings-general" class="awsm-admin-settings">
@@ -101,7 +100,7 @@
                     <?php
                         do_action( 'before_awsm_general_settings' );
 
-                        $this->display_settings_fields( $settings_fields['general']['default'] );
+                        $this->display_settings_fields( $settings_fields['default'] );
 
                         do_action( 'after_awsm_general_settings' );
                     ?>
