@@ -650,10 +650,18 @@ class AWSM_Job_Openings_Settings {
                                         $choice_attrs .= sprintf( ' data-%1$s="%2$s"', esc_attr( $choice_data_attr['attr'] ), esc_attr( $choice_data_attr['value'] ) );
                                     }
                                 }
-
                                 if ( $field_type === 'checkbox' || $field_type === 'radio' ) {
                                     $choice_id = isset( $choice_details['id'] ) ? $choice_details['id'] : ( $choices_count > 1 ? $id . '-' . $choice_fields : $id );
                                     $choice_text_class = isset( $choice_details['text_class'] ) ? $choice_details['text_class'] : '';
+                                    if ( $field_type === 'checkbox' && isset( $choice_details['name'] ) ) {
+                                        $field_name = $choice_details['name'];
+                                        if ( ! isset( $choice_details['id'] ) ) {
+                                            $choice_id = $field_name;
+                                        }
+                                        if ( isset( $choice_details['checked_value'] ) ) {
+                                            $value = $choice_details['checked_value'];
+                                        }
+                                    }
                                     if ( $field_type === 'checkbox' || $field_type === 'radio' ) {
                                         if ( is_array( $value ) ) {
                                             $choice_attrs .= ' ' . checked( in_array( $choice, $value ), true, false );
@@ -721,6 +729,16 @@ class AWSM_Job_Openings_Settings {
                 }
             }
         }
+        /**
+         * Filters the settings fields content.
+         *
+         * @since 1.4
+         * 
+         * @param string $content Settings fields content
+         * @param array $settings_fields Settings fields
+         * @param string $container Container for settings fields
+         */
+        $content = apply_filters( 'awsm_jobs_settings_fields_content', $content, $settings_fields, $container );
         if ( $echo === true ) {
             echo $content;
         } else {
