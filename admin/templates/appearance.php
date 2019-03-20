@@ -4,20 +4,17 @@
         exit;
     }
 
+    $no_columns_choices = $job_specs_choices = $available_filters_choices = $listing_specs_choices = array();
     $listing_view = get_option( 'awsm_jobs_listing_view' );
-    $list_page = get_option( 'awsm_jobs_list_per_page' );
-    $number_list_columns = get_option( 'awsm_jobs_number_of_columns' );
     $specifications = get_option( 'awsm_jobs_filter' );
     $hidden_class = 'awsm-hide';
     $enable_filters = get_option( 'awsm_enable_job_filter_listing' );
-    $spec_position = get_option( 'awsm_jobs_specs_position', 'below_content' );
+    $no_columns_options = apply_filters( 'awsm_jobs_number_of_columns_options', array( 1, 2, 3, 4 ) );
     $job_specs_positions = apply_filters( 'awsm_jobs_specifications_position', array(
         'below_content'    => 'Below job description',
         'above_content'    => 'Above job description'
     ) );
-
-    $no_columns_options = apply_filters( 'awsm_jobs_number_of_columns_options', array( 1, 2, 3, 4 ) );
-    $no_columns_choices = array();
+    
     if( ! empty( $no_columns_options ) ) {
         foreach( $no_columns_options as $column ) {
             $text = sprintf( _n( '%d Column', '%d Columns', $column, 'wp-job-openings' ), $column );
@@ -28,7 +25,6 @@
         }
     }
 
-    $available_filters_choices = $listing_specs_choices = array();
     if( ! empty( $specifications ) ) {
         foreach ( $specifications as $spec ) {
             $general_choice = array(
@@ -41,6 +37,15 @@
             $listing_specs_choices[] = array_merge( $general_choice, array(
                 'id'          => 'awsm_jobs_listing_specs' . '-' . $spec['taxonomy']
             ) );
+        }
+    }
+
+    if( ! empty( $job_specs_positions ) ) {
+        foreach( $job_specs_positions as $position => $label ) {
+            $job_specs_choices[] = array(
+                'value'       => $position,
+                'text'        => $label,
+            );
         }
     }
 
@@ -167,17 +172,17 @@
                 'label'        => __( 'Expired Jobs', 'wp-job-openings' ),
                 'type'         => 'checkbox',
                 'class'        => '',
-                'id'           => 'awsm-hide-jobs',
                 'choices'      => array( 
                     array(
                         'value'       => 'expired',
                         'text'        => __( 'Hide expired jobs from listing page', 'wp-job-openings' ),
+                        'id'          => 'awsm-hide-jobs',
                     ),
                 ),
                 'value'        => get_option( 'awsm_jobs_expired_jobs_listings' ),
             )
         ),
-        'detail' => array(
+        'details' => array(
             'job_detail_layout_title' => array(
                 'label'        => __( 'Job detail page layout options', 'wp-job-openings' ),
                 'type'         => 'title',
@@ -218,6 +223,65 @@
                 ),
                 'value'        => get_option( 'awsm_jobs_details_page_layout' ),
             ),
+            'job_specifications_group' => array(
+                'label'        => __( 'Job specifications', 'wp-job-openings' ),
+                'type'         => 'checkbox',
+                'class'        => '',
+                'multiple'     => true,
+                'choices'      => array( 
+                    array(
+                        'value'       => 'show_in_detail',
+                        'name'        => 'awsm_jobs_specification_job_detail',
+                        'text'        => __( 'Show job specifications in job detail page', 'wp-job-openings' ),
+                        'checked_value' => get_option( 'awsm_jobs_specification_job_detail', 'show_in_detail' ),
+                    ),
+                    array(
+                        'value'       => 'show_icon',
+                        'name'        => 'awsm_jobs_show_specs_icon',
+                        'text'        => __( 'Show icons for job specifications in job detail page', 'wp-job-openings' ),
+                        'checked_value' => get_option( 'awsm_jobs_show_specs_icon', 'show_icon' ),
+                    ),
+                    array(
+                        'value'       => 'make_clickable',
+                        'name'        => 'awsm_jobs_make_specs_clickable',
+                        'text'        => __( 'Make job specifications clickable in job detail page', 'wp-job-openings' ),
+                        'checked_value' => get_option( 'awsm_jobs_make_specs_clickable' ),
+                    ),
+                ),
+            ),
+            'awsm_jobs_specs_position' => array(
+                'label'           => __( 'Job spec position ', 'wp-job-openings' ),
+                'type'            => 'select',
+                'class'           => 'awsm-select-control regular-text',
+                'choices'         => $job_specs_choices,
+                'value'           => get_option( 'awsm_jobs_specs_position', 'below_content' ),
+            ),
+            'other_options_group' => array(
+                'label'        => __( 'Other display options', 'wp-job-openings' ),
+                'type'         => 'checkbox',
+                'class'        => '',
+                'multiple'     => true,
+                'choices'      => array( 
+                    array(
+                        'value'       => 'content',
+                        'name'        => 'awsm_jobs_expired_jobs_content_details',
+                        'text'        => __( 'Hide content of expired listing from job detail page ', 'wp-job-openings' ),
+                        'checked_value' => get_option( 'awsm_jobs_expired_jobs_content_details' ),
+                    ),
+                    array(
+                        'value'       => 'block_expired',
+                        'name'        => 'awsm_jobs_expired_jobs_block_search',
+                        'text'        => __( 'Block search engine robots to expired jobs', 'wp-job-openings' ),
+                        'checked_value' => get_option( 'awsm_jobs_expired_jobs_block_search' ),
+                    ),
+                    array(
+                        'value'       => 'hide_date',
+                        'name'        => 'awsm_jobs_hide_expiry_date',
+                        'text'        => __( 'Hide expiry date from job detail page', 'wp-job-openings' ),
+                        'checked_value' => get_option( 'awsm_jobs_hide_expiry_date' ),
+                    ),
+                ),
+            ),
         ),
     ) );
 ?>
@@ -252,80 +316,13 @@
         <div class="awsm-form-section-main awsm-sub-options-container" id="awsm-job-details-options-container" style="display: none;">
             <table class="form-table">
                 <tbody>
-                    <?php do_action( 'before_awsm_appearance_details_settings' ); ?>
+                    <?php
+                        do_action( 'before_awsm_appearance_details_settings' );
 
-                    <?php $this->display_settings_fields( $settings_fields['detail'] ); ?>
+                        $this->display_settings_fields( $settings_fields['details'] );
 
-                    <tr>
-                        <th scope="row">
-                            <?php esc_html_e( 'Job specifications', 'wp-job-openings' ); ?>
-                        </th>
-                        <td>
-                            <ul class="awsm-check-list">
-                                <li>
-                                    <label for="awsm_jobs_specification_job_detail">
-                                        <input type="checkbox" id="awsm_jobs_specification_job_detail"  name="awsm_jobs_specification_job_detail" value="show_in_detail" <?php echo esc_attr( $this->is_settings_field_checked( get_option( 'awsm_jobs_specification_job_detail', 'show_in_detail' ), 'show_in_detail' ) ); ?> /><?php esc_html_e( 'Show job specifications in job detail page', 'wp-job-openings' ); ?>
-                                    </label>
-                                </li>
-                                <li>
-                                    <label for="awsm_jobs_show_specs_icon">
-                                        <input type="checkbox" id="awsm_jobs_show_specs_icon" name="awsm_jobs_show_specs_icon" value="show_icon" <?php echo esc_attr( $this->is_settings_field_checked( get_option( 'awsm_jobs_show_specs_icon', 'show_icon' ), 'show_icon' ) ); ?> /><?php esc_html_e( 'Show icons for job specifications in job detail page', 'wp-job-openings' ); ?>
-                                    </label>
-                                </li>
-                                <li>
-                                    <label for="awsm_jobs_make_specs_clickable">
-                                        <input type="checkbox" name="awsm_jobs_make_specs_clickable" id="awsm_jobs_make_specs_clickable" value="make_clickable" <?php echo esc_attr( $this->is_settings_field_checked( get_option( 'awsm_jobs_make_specs_clickable' ), 'make_clickable' ) ); ?> /><?php esc_html_e( 'Make job specifications clickable in job detail page', 'wp-job-openings' ); ?>
-                                    </label>
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
-                    <tr id="awsm_jobs_specification_position">
-                        <th scope="row">
-                            <label for="awsm_jobs_specs_position"><?php esc_html_e( 'Job spec position ', 'wp-job-openings' ); ?></label>
-                        </th>
-                        <td>
-                            <select name="awsm_jobs_specs_position" class="awsm-select-control regular-text" id="awsm_jobs_specs_position">
-                                <?php
-                                    if( ! empty( $job_specs_positions ) ) {
-                                        foreach( $job_specs_positions as $position => $label ) {
-                                            $selected = '';
-                                            if( $spec_position == $position ) {
-                                                $selected = ' selected';
-                                            }
-                                            printf( '<option value="%1$s"%3$s>%2$s</option>', esc_attr( $position ), esc_html( $label ), $selected );
-                                        }
-                                    }
-                                ?>
-
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">
-                            <?php esc_html_e( 'Other display options', 'wp-job-openings' ); ?>
-                        </th>
-                        <td>
-                            <ul class="awsm-check-list">
-                                <li>
-                                    <label for="awsm-hide-content">
-                                        <input type="checkbox" id="awsm-hide-content"  name="awsm_jobs_expired_jobs_content_details" value="content" <?php echo esc_attr( $this->is_settings_field_checked( get_option( 'awsm_jobs_expired_jobs_content_details' ), 'content' ) ); ?> /><?php esc_html_e( 'Hide content of expired listing from job detail page ', 'wp-job-openings' ); ?>
-                                    </label>
-                                </li>
-                                <li>
-                                    <label for="awsm_jobs_expired_jobs_block_search">
-                                        <input type="checkbox" id="awsm_jobs_expired_jobs_block_search"  name="awsm_jobs_expired_jobs_block_search" value="block_expired" <?php echo esc_attr( $this->is_settings_field_checked( get_option( 'awsm_jobs_expired_jobs_block_search' ), 'block_expired' ) ); ?> /><?php esc_html_e( 'Block search engine robots to expired jobs', 'wp-job-openings' ); ?>
-                                    </label>
-                                </li>
-                                <li>
-                                    <label for="awsm_jobs_hide_expiry_date">
-                                        <input type="checkbox" id="awsm_jobs_hide_expiry_date"  name="awsm_jobs_hide_expiry_date" value="hide_date" <?php echo esc_attr( $this->is_settings_field_checked( get_option( 'awsm_jobs_hide_expiry_date' ), 'hide_date' ) ); ?> /><?php esc_html_e( 'Hide expiry date from job detail page', 'wp-job-openings' ); ?>
-                                    </label>
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
-                    <?php do_action( 'after_awsm_appearance_details_settings' ); ?>
+                        do_action( 'after_awsm_appearance_details_settings' );
+                    ?>
                 </tbody>
             </table>
         </div><!-- #awsm-job-details-options-container -->
