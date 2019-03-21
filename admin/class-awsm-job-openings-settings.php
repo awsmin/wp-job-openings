@@ -686,6 +686,9 @@ class AWSM_Job_Openings_Settings {
                             }
                             if ( $field_type === 'radio' || ( $field_type === 'checkbox' && $multiple === true ) ) {
                                 $list_class = ( $field_type === 'checkbox' && $multiple === true ) ? 'awsm-check-list' : 'awsm-list-inline';
+                                if ( isset( $field_details['list_class'] ) ) {
+                                    $list_class = $field_details['list_class'];
+                                }
                                 $field_content = sprintf( '<ul class="%2$s">%1$s</ul>', $field_content, esc_attr( $list_class ) );
                             } elseif ( $field_type === 'select' ) {
                                 $field_content = sprintf( '<select name="%2$s" id="%3$s"%4$s>%1$s</select>', $field_content, esc_attr( $field_name ), esc_attr( $id ), $extra_attrs );
@@ -702,10 +705,13 @@ class AWSM_Job_Openings_Settings {
                             $btn_class .= isset( $help_button['class'] ) ? ' ' . $help_button['class'] : '';
                             $btn_text = isset( $help_button['text'] ) ? $help_button['text'] : '';
                             $btn_extras = '';
-                            if ( isset( $help_button['target'] ) ) {
-                                $btn_extras = sprintf( ' target="%s"', esc_attr( $help_button['target'] ) );
+                            if ( isset( $help_button['other_attrs'] ) && is_array( $help_button['other_attrs'] ) ) {
+                                $btn_other_attrs = $help_button['other_attrs'];
+                                foreach( $btn_other_attrs as $btn_other_attr => $btn_other_attr_val ) {
+                                    $btn_extras .= sprintf( ' %s="%s"', esc_attr( $btn_other_attr ), esc_attr( $btn_other_attr_val ) );
+                                }
                             }
-                            $field_content .= sprintf( '<a href="%2$s" class="%3$s"%4$s>%1$s</a>', esc_html( $btn_text ), esc_url( $btn_url ), esc_attr( $btn_class ), $btn_extras );
+                            $field_content .= sprintf( ' <a href="%2$s" class="%3$s"%4$s>%1$s</a>', esc_html( $btn_text ), esc_url( $btn_url ), esc_attr( $btn_class ), $btn_extras );
                         }
                     }
                     if ( ! empty( $description ) ) {
