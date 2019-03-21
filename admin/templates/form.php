@@ -94,10 +94,6 @@
                 'label'           => __( 'Site key', 'wp-job-openings' ),
                 'value'           => get_option( 'awsm_jobs_recaptcha_site_key' ),
             ),
-            'awsm_jobs_recaptcha_site_key' => array(
-                'label'           => __( 'Site key', 'wp-job-openings' ),
-                'value'           => get_option( 'awsm_jobs_recaptcha_site_key' ),
-            ),
             'awsm_jobs_recaptcha_secret_key' => array(
                 'label'           => __( 'Secret key', 'wp-job-openings' ),
                 'value'           => get_option( 'awsm_jobs_recaptcha_secret_key' ),
