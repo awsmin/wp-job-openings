@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<ruleset name="WP Job Openings">
+    <description>WP Job Openings coding standard.</description>
+    
+    <config name="installed_paths" value="vendor/wp-coding-standards/wpcs" />
+    <config name="minimum_supported_wp_version" value="4.1" />
+
+    <arg name="extensions" value="php" />
+
+    <!-- Exclude the Composer Vendor directory. -->
+	<exclude-pattern>/vendor/*</exclude-pattern>
+
+	<!-- Exclude the Node Modules directory. -->
+	<exclude-pattern>/node_modules/*</exclude-pattern>
+
+    <!-- Exclude build directory. -->
+	<exclude-pattern>/build/*</exclude-pattern>
+
+    <!-- Exclude libraries. -->
+	<exclude-pattern>/lib/*</exclude-pattern>
+
+    <rule ref="WordPress-Core" />
+    
+    <rule ref="WordPress.Files.FileName.InvalidClassFileName">
+        <exclude-pattern>wp-job-openings.php</exclude-pattern>
+    </rule>
+
+    <rule ref="WordPress-Extra">
+        <exclude name="WordPress.WhiteSpace.PrecisionAlignment.Found" />
+        <exclude name="WordPress.PHP.YodaConditions" />
+    </rule>
+
+    <rule ref="Generic.CodeAnalysis.UnusedFunctionParameter" />
+
+    <rule ref="WordPress.WP.I18n">
+        <properties>
+            <property name="text_domain" type="array">
+                <element value="default" />
+                <element value="wp-job-openings" />
+            </property>
+        </properties>
+    </rule>
+</ruleset>
