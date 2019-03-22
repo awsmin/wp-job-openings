@@ -2,10 +2,14 @@
 .gitignore export-ignore
 package.json export-ignore
 package-lock.json export-ignore
+composer.json export-ignore
+composer.lock export-ignore
 config.js export-ignore
 gulpfile.js export-ignore
+phpcs.xml export-ignore
 README.md export-ignore
 CHANGELOG.md export-ignore
 assets/fonts/icomoon.json export-ignore
+.editorconfig export-ignore
 .prettierrc export-ignore
 *.map export-ignore

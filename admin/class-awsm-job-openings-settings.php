@@ -586,6 +586,172 @@ class AWSM_Job_Openings_Settings {
         endif;
     }
 
+    public function display_settings_fields( $settings_fields, $container = 'table', $echo = true ) {
+        $content = '';
+        if ( ! empty( $settings_fields ) && is_array( $settings_fields ) ) {
+            $allowed_html = array(
+                'br' => array(),
+                'em' => array(),
+                'span' => array(),
+                'strong' => array(),
+                'small' => array()
+            );
+            foreach( $settings_fields as $field_name => $field_details ) {
+                if ( isset( $field_details['visible'] ) && $field_details['visible'] === false ) {
+                    continue;
+                }
+                
+                $field_type = isset( $field_details['type'] ) ? $field_details['type'] : 'text';
+                $label = isset( $field_details['label'] ) ? $field_details['label'] : '';
+
+                if ( $field_type !== 'title' ) {
+                    $class_name = isset( $field_details['class'] ) ? $field_details['class'] : 'regular-text';
+                    $class_attr = ! empty( $class_name ) ? sprintf( ' class="%s"', esc_attr( $class_name ) ) : '';
+                    $id = isset( $field_details['id'] ) ? $field_details['id'] : $field_name;
+                    $value = isset( $field_details['value'] ) ? $field_details['value'] : '';
+                    $description = isset( $field_details['description'] ) ? $field_details['description'] : '';
+                    $help_button = isset( $field_details['help_button'] ) && is_array( $field_details['help_button'] ) ? $field_details['help_button'] : '';
+
+                    $field_label = '';
+                    if ( $field_type === 'checkbox' ) {
+                        $field_label = esc_html( $label );
+                    } else {
+                        $field_label = sprintf( '<label for="%2$s">%1$s</label>', esc_html( $label ), esc_attr( $id ) );
+                    }
+                    $field_content = '';
+                    if ( $field_type === 'raw' ) {
+                        $field_content = $value;
+                    } else {
+                        $multiple = isset( $field_details['multiple'] ) ? $field_details['multiple'] : false;
+                        $extra_attrs = $class_attr;
+                        if ( isset( $field_details['required'] ) && $field_details['required'] === true ) {
+                            $extra_attrs .= ' required';
+                        }
+                        if ( isset( $field_details['other_attrs'] ) && is_array( $field_details['other_attrs'] ) ) {
+                            $other_attrs = $field_details['other_attrs'];
+                            foreach( $other_attrs as $other_attr => $other_attr_val ) {
+                                $extra_attrs .= sprintf( ' %s="%s"', esc_attr( $other_attr ), esc_attr( $other_attr_val ) );
+                            }
+                        }
+                        if ( isset( $field_details['choices'] ) && is_array( $field_details['choices'] ) ) {
+                            $choices = $field_details['choices'];
+                            $choices_count = count( $choices );
+                            if ( $field_type === 'checkbox' && $choices_count > 1 ) {
+                                $field_name .= '[]';
+                            }
+                            $choice_fields = 1;
+                            foreach ( $choices as $choice_details ) {
+                                $choice_attrs = $field_type !== 'select' ? $extra_attrs : '';
+                                $choice = isset( $choice_details['value'] ) ? $choice_details['value'] : '';
+                                $choice_text = isset( $choice_details['text'] ) ? $choice_details['text'] : '';
+                                if ( isset( $choice_details['data_attrs'] ) && is_array( $choice_details['data_attrs'] ) ) {
+                                    $choice_data_attrs = $choice_details['data_attrs'];
+                                    foreach( $choice_data_attrs as $choice_data_attr ) {
+                                        $choice_attrs .= sprintf( ' data-%1$s="%2$s"', esc_attr( $choice_data_attr['attr'] ), esc_attr( $choice_data_attr['value'] ) );
+                                    }
+                                }
+                                if ( $field_type === 'checkbox' || $field_type === 'radio' ) {
+                                    $choice_id = isset( $choice_details['id'] ) ? $choice_details['id'] : ( $choices_count > 1 ? $id . '-' . $choice_fields : $id );
+                                    $choice_text_class = isset( $choice_details['text_class'] ) ? $choice_details['text_class'] : '';
+                                    if ( $field_type === 'checkbox' && isset( $choice_details['name'] ) ) {
+                                        $field_name = $choice_details['name'];
+                                        if ( ! isset( $choice_details['id'] ) ) {
+                                            $choice_id = $field_name;
+                                        }
+                                        if ( isset( $choice_details['checked_value'] ) ) {
+                                            $value = $choice_details['checked_value'];
+                                        }
+                                    }
+                                    if ( $field_type === 'checkbox' || $field_type === 'radio' ) {
+                                        if ( is_array( $value ) ) {
+                                            $choice_attrs .= ' ' . checked( in_array( $choice, $value ), true, false );
+                                        } else {
+                                            $choice_attrs .= ' ' . checked( $value, $choice, false );
+                                        }
+                                    }
+                                    $text_extra_attrs = ! empty( $choice_text_class ) ? sprintf( ' class="%s"', esc_attr( $choice_text_class ) ) : '';
+                                    $choice_field = sprintf( '<input type="%1$s" name="%2$s" id="%3$s" value="%4$s"%5$s />', esc_attr( $field_type ), esc_attr( $field_name ), esc_attr( $choice_id ), esc_attr( $choice ), $choice_attrs );
+                                    $choice_field_content = sprintf( '<label for="%2$s"%3$s>%1$s</label>', $choice_field . esc_html( $choice_text ), esc_attr( $choice_id ), $text_extra_attrs );
+                                    
+                                    if ( $field_type === 'radio' || ( $field_type === 'checkbox' && $multiple === true ) ) {
+                                        $field_content .= sprintf( '<li>%s</li>', $choice_field_content );
+                                    } else {
+                                        $field_content .= $choice_field_content;
+                                    }
+                                    $choice_fields++;
+                                } elseif ( $field_type === 'select' ) {
+                                    $choice_attrs .= ' ' . selected( $value, $choice, false );
+                                    $field_content .= sprintf( '<option value="%1$s"%3$s>%2$s</option>', esc_attr( $choice ), esc_html( $choice_text ), $choice_attrs );
+                                }
+                            }
+                            if ( $field_type === 'radio' || ( $field_type === 'checkbox' && $multiple === true ) ) {
+                                $list_class = ( $field_type === 'checkbox' && $multiple === true ) ? 'awsm-check-list' : 'awsm-list-inline';
+                                if ( isset( $field_details['list_class'] ) ) {
+                                    $list_class = $field_details['list_class'];
+                                }
+                                $field_content = sprintf( '<ul class="%2$s">%1$s</ul>', $field_content, esc_attr( $list_class ) );
+                            } elseif ( $field_type === 'select' ) {
+                                $field_content = sprintf( '<select name="%2$s" id="%3$s"%4$s>%1$s</select>', $field_content, esc_attr( $field_name ), esc_attr( $id ), $extra_attrs );
+                            }
+                        } else {
+                            $field_content = sprintf( '<input type="%1$s" name="%2$s" id="%3$s" value="%4$s"%5$s />', esc_attr( $field_type ), esc_attr( $field_name ), esc_attr( $id ), esc_attr( $value ), $extra_attrs );
+                        } 
+                    }
+                    if( ! empty( $help_button ) ) {
+                        $btn_visible = isset( $help_button['visible'] ) ? $help_button['visible'] : true;
+                        if ( $btn_visible ) {
+                            $btn_url = isset( $help_button['url'] ) ? $help_button['url'] : '';
+                            $btn_class = 'button';
+                            $btn_class .= isset( $help_button['class'] ) ? ' ' . $help_button['class'] : '';
+                            $btn_text = isset( $help_button['text'] ) ? $help_button['text'] : '';
+                            $btn_extras = '';
+                            if ( isset( $help_button['other_attrs'] ) && is_array( $help_button['other_attrs'] ) ) {
+                                $btn_other_attrs = $help_button['other_attrs'];
+                                foreach( $btn_other_attrs as $btn_other_attr => $btn_other_attr_val ) {
+                                    $btn_extras .= sprintf( ' %s="%s"', esc_attr( $btn_other_attr ), esc_attr( $btn_other_attr_val ) );
+                                }
+                            }
+                            $field_content .= sprintf( ' <a href="%2$s" class="%3$s"%4$s>%1$s</a>', esc_html( $btn_text ), esc_url( $btn_url ), esc_attr( $btn_class ), $btn_extras );
+                        }
+                    }
+                    if ( ! empty( $description ) ) {
+                        $field_content .= sprintf( '<p class="description">%s</p>', wp_kses( $description, $allowed_html ) );
+                    }
+                }
+
+                $container_attrs = '';
+                if ( isset( $field_details['container_class'] ) && ! empty( $field_details['container_class'] ) ) {
+                    $container_attrs = sprintf( ' class="%s"', esc_attr( $field_details['container_class'] ) );
+                }
+                if ( isset( $field_details['container_id'] ) && ! empty( $field_details['container_id'] ) ) {
+                    $container_attrs .= sprintf( ' id="%s"', esc_attr( $field_details['container_id'] ) );
+                }
+                if ( $container === 'table' ) {
+                    if ( $field_type === 'title' ) {
+                        $content .= sprintf( '<tr%2$s><th scope="row" colspan="2" class="awsm-form-head-title"><h2>%1$s</h2></th></tr>', esc_html( $label ), $container_attrs );
+                    } else {
+                        $content .= sprintf( '<tr%3$s><th scope="row">%1$s</th><td>%2$s</td></tr>', $field_label, $field_content, $container_attrs );
+                    }
+                }
+            }
+        }
+        /**
+         * Filters the settings fields content.
+         *
+         * @since 1.4
+         * 
+         * @param string $content Settings fields content
+         * @param array $settings_fields Settings fields
+         * @param string $container Container for settings fields
+         */
+        $content = apply_filters( 'awsm_jobs_settings_fields_content', $content, $settings_fields, $container );
+        if ( $echo === true ) {
+            echo $content;
+        } else {
+            return $content;
+        }
+    }
+
     public function display_check_list( $label, $option_name, $value, $saved_data ) {
         $checked = '';
         if( ! empty( $saved_data ) ) {
