@@ -24,24 +24,27 @@
     $settings_fields = apply_filters( 'awsm_jobs_form_settings_fields', array(
         'general' => array(
             'application_form_title' => array(
+                'id'           => 'awsm-form-options-title',
                 'label'        => __( 'Application form options', 'wp-job-openings'),
                 'type'         => 'title',
             ),
-            'awsm_jobs_admin_upload_file_ext' => array(
+            array(
+                'name'            => 'awsm_jobs_admin_upload_file_ext',
                 'label'           => __( 'Supported upload file types', 'wp-job-openings' ),
                 'type'            => 'checkbox',
                 'multiple'        => true,
                 'class'           => '',
                 'list_class'      => 'awsm-check-list awsm-check-list-small',
                 'choices'         => $extns_choices,
-                'value'           => get_option( 'awsm_jobs_admin_upload_file_ext' ),
                 'description'     => __( 'Select the supported file types for CV upload field', 'wp-job-openings' ),
             ),
-            'gdpr_compliance_title' => array(
+            array(
+                'id'           => 'awsm-form-gdpr-compliance-title',
                 'label'        => __( 'GDPR Compliance', 'wp-job-openings' ),
                 'type'         => 'title',
             ),
-            'awsm_enable_gdpr_cb' => array(
+            array(
+                'name'            => 'awsm_enable_gdpr_cb',
                 'label'           => __( 'The checkbox', 'wp-job-openings' ),
                 'type'            => 'checkbox',
                 'class'           => 'awsm-check-control-field',
@@ -57,20 +60,21 @@
                         ),
                     ),
                 ),
-                'value'           => get_option( 'awsm_enable_gdpr_cb' ),
             ),
-            'awsm_gdpr_cb_text' => array(
+            array(
+                'name'            => 'awsm_gdpr_cb_text',
                 'label'           => __( 'Checkbox text', 'wp-job-openings' ),
                 'class'           => 'medium-text',
-                'value'           => get_option( 'awsm_gdpr_cb_text' ),
             ),
         ),
         'recaptcha' => array(
-            'recaptcha_title' => array(
+            array(
+                'id'           => 'awsm-form-recaptcha-options-title',
                 'label'        => __( 'reCAPTCHA options', 'wp-job-openings' ),
                 'type'         => 'title',
             ),
-            'awsm_jobs_enable_recaptcha' => array(
+            array(
+                'name'         => 'awsm_jobs_enable_recaptcha',
                 'label'        => __( 'Enable reCAPTCHA', 'wp-job-openings' ),
                 'type'         => 'checkbox',
                 'class'        => '',
@@ -80,7 +84,6 @@
                         'text'        => __( 'Enable reCAPTCHA on the form', 'wp-job-openings' ),
                     ),
                 ),
-                'value'        => get_option( 'awsm_jobs_enable_recaptcha' ),
                 'help_button'  => array(
                     'url'      => 'https://www.google.com/recaptcha/intro/index.html',
                     'class'    => 'awsm-view-captcha-btn',
@@ -90,13 +93,13 @@
                     )
                 ),
             ),
-            'awsm_jobs_recaptcha_site_key' => array(
+            array(
+                'name'            => 'awsm_jobs_recaptcha_site_key',
                 'label'           => __( 'Site key', 'wp-job-openings' ),
-                'value'           => get_option( 'awsm_jobs_recaptcha_site_key' ),
             ),
-            'awsm_jobs_recaptcha_secret_key' => array(
+            array(
+                'name'            => 'awsm_jobs_recaptcha_secret_key',
                 'label'           => __( 'Secret key', 'wp-job-openings' ),
-                'value'           => get_option( 'awsm_jobs_recaptcha_secret_key' ),
             ),
         ),
     ) );

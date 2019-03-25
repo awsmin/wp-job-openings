@@ -596,18 +596,24 @@ class AWSM_Job_Openings_Settings {
                 'strong' => array(),
                 'small' => array()
             );
-            foreach( $settings_fields as $field_name => $field_details ) {
+            foreach( $settings_fields as $field_details ) {
                 if ( isset( $field_details['visible'] ) && $field_details['visible'] === false ) {
                     continue;
                 }
-                
+
+                $field_name = isset( $field_details['name'] ) ? $field_details['name'] : '';
+                $id = isset( $field_details['id'] ) ? $field_details['id'] : $field_name;
+                // name or id must exist, else continue to next iteration.
+                if ( empty( $field_name ) && empty( $id ) ) {
+                    continue;
+                }
+
                 $field_type = isset( $field_details['type'] ) ? $field_details['type'] : 'text';
                 $label = isset( $field_details['label'] ) ? $field_details['label'] : '';
-
+                
                 if ( $field_type !== 'title' ) {
                     $class_name = isset( $field_details['class'] ) ? $field_details['class'] : 'regular-text';
                     $class_attr = ! empty( $class_name ) ? sprintf( ' class="%s"', esc_attr( $class_name ) ) : '';
-                    $id = isset( $field_details['id'] ) ? $field_details['id'] : $field_name;
                     $value = isset( $field_details['value'] ) ? $field_details['value'] : '';
                     $description = isset( $field_details['description'] ) ? $field_details['description'] : '';
                     $help_button = isset( $field_details['help_button'] ) && is_array( $field_details['help_button'] ) ? $field_details['help_button'] : '';
@@ -622,6 +628,10 @@ class AWSM_Job_Openings_Settings {
                     if ( $field_type === 'raw' ) {
                         $field_content = $value;
                     } else {
+                        if ( isset( $field_details['name'] ) && ! isset( $field_details['value'] ) ) {
+                            $default_value = isset( $field_details['default_value'] ) ? $field_details['default_value'] : '';
+                            $value = get_option( $field_name, $default_value );
+                        }
                         $multiple = isset( $field_details['multiple'] ) ? $field_details['multiple'] : false;
                         $extra_attrs = $class_attr;
                         if ( isset( $field_details['required'] ) && $field_details['required'] === true ) {
@@ -660,6 +670,9 @@ class AWSM_Job_Openings_Settings {
                                         }
                                         if ( isset( $choice_details['checked_value'] ) ) {
                                             $value = $choice_details['checked_value'];
+                                        } else {
+                                            $default_value = isset( $choice_details['default_value'] ) ? $choice_details['default_value'] : '';
+                                            $value = get_option( $field_name, $default_value );
                                         }
                                     }
                                     if ( $field_type === 'checkbox' || $field_type === 'radio' ) {
@@ -728,7 +741,7 @@ class AWSM_Job_Openings_Settings {
                 }
                 if ( $container === 'table' ) {
                     if ( $field_type === 'title' ) {
-                        $content .= sprintf( '<tr%2$s><th scope="row" colspan="2" class="awsm-form-head-title"><h2>%1$s</h2></th></tr>', esc_html( $label ), $container_attrs );
+                        $content .= sprintf( '<tr%2$s><th scope="row" colspan="2" class="awsm-form-head-title"><h2 id="%2$s">%1$s</h2></th></tr>', esc_html( $label ), esc_attr( $id ), $container_attrs );
                     } else {
                         $content .= sprintf( '<tr%3$s><th scope="row">%1$s</th><td>%2$s</td></tr>', $field_label, $field_content, $container_attrs );
                     }

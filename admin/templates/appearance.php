@@ -58,19 +58,20 @@
      */
     $settings_fields = apply_filters( 'awsm_jobs_appearance_settings_fields', array(
         'listing' => array(
-            'job_listing_layout_title' => array(
+            array(
+                'id'           => 'awsm-appearance-listing-layout-title',
                 'label'        => __( 'Job listing layout options', 'wp-job-openings' ),
                 'type'         => 'title',
             ),
-            'awsm_jobs_listing_view' => array(
+            array(
+                'name'         => 'awsm_jobs_listing_view',
                 'label'        => __( 'Layout of job listing page', 'wp-job-openings' ),
                 'type'         => 'radio',
                 'class'        => 'awsm-check-toggle-control',
-                'choices'      => array( 
+                'choices'      => array(
                     array(
                         'value'       => 'list-view',
                         'text'        => __( 'List view ', 'wp-job-openings' ),
-                        'id'          => 'awsm-list-view',
                         'data_attrs'  => array(
                             array(
                                 'attr'  => 'toggle-target',
@@ -81,7 +82,6 @@
                     array(
                         'value'       => 'grid-view',
                         'text'        => __( 'Grid view ', 'wp-job-openings' ),
-                        'id'          => 'awsm-grid-view',
                         'data_attrs'  => array(
                             array(
                                 'attr'  => 'toggle',
@@ -96,29 +96,31 @@
                 ),
                 'value'        => $listing_view,
             ),
-            'awsm_jobs_number_of_columns' => array(
+            array(
+                'name'            => 'awsm_jobs_number_of_columns',
                 'label'           => __( 'Number of columns ', 'wp-job-openings' ),
                 'type'            => 'select',
                 'container_id'    => 'awsm_jobs_number_of_columns_row',
                 'container_class' => $listing_view === 'list-view' ? $hidden_class : '',
                 'class'           => 'awsm-select-control regular-text',
                 'choices'         => $no_columns_choices,
-                'value'           => get_option( 'awsm_jobs_number_of_columns' ),
             ),
-            'awsm_jobs_list_per_page' => array(
+            array(
+                'name'            => 'awsm_jobs_list_per_page',
                 'label'           => __( 'Listings per page ', 'wp-job-openings' ),
                 'type'            => 'number',
-                'value'           => get_option( 'awsm_jobs_list_per_page' ),
                 'other_attrs'     => array(
                     'min' => "1",
                 ),
             ),
-            'job_filter_title' => array(
+            array(
+                'id'           => 'awsm-appearance-listing-filter-title',
                 'visible'      => ! empty( $specifications ),
                 'label'        => __( 'Job filter options', 'wp-job-openings' ),
                 'type'         => 'title',
             ),
-            'awsm_enable_job_filter_listing' => array(
+            array(
+                'name'         => 'awsm_enable_job_filter_listing',
                 'visible'      => ! empty( $specifications ),
                 'label'        => __( 'Job filters', 'wp-job-openings' ),
                 'type'         => 'checkbox',
@@ -142,8 +144,9 @@
                 'value'        => $enable_filters,
                 'description'  => __( 'Check this option to show job filter options in the job listing page', 'wp-job-openings' ),
             ),
-            'awsm_jobs_listing_available_filters' => array(
-                'visible'      => ! empty( $specifications ),
+            array(
+                'name'            => 'awsm_jobs_listing_available_filters',
+                'visible'         => ! empty( $specifications ),
                 'label'           => __( 'Available filters', 'wp-job-openings' ),
                 'type'            => 'checkbox',
                 'multiple'        => true,
@@ -151,24 +154,25 @@
                 'container_class' => $enable_filters !== 'enabled' ? $hidden_class : '',
                 'class'           => '',
                 'choices'         => $available_filters_choices,
-                'value'           => get_option( 'awsm_jobs_listing_available_filters' ),
                 'description'     => __( 'Check the job specs you want to enable as filters', 'wp-job-openings' ),
             ),
-            'other_options_title' => array(
+            array(
+                'id'           => 'awsm-appearance-listing-other-options-title',
                 'label'        => __( 'Other options', 'wp-job-openings' ),
                 'type'         => 'title',
             ),
-            'awsm_jobs_listing_specs' => array(
+            array(
+                'name'            => 'awsm_jobs_listing_specs',
                 'visible'         => ! empty( $specifications ),
                 'label'           => __( 'Job specs in the listing', 'wp-job-openings' ),
                 'type'            => 'checkbox',
                 'multiple'        => true,
                 'class'           => '',
                 'choices'         => $listing_specs_choices,
-                'value'           => get_option( 'awsm_jobs_listing_specs' ),
                 'description'     => __( 'Check the job specs you want to show along with the listing view', 'wp-job-openings' ),
             ),
-            'awsm_jobs_expired_jobs_listings' => array(
+            array(
+                'name'         => 'awsm_jobs_expired_jobs_listings',
                 'label'        => __( 'Expired Jobs', 'wp-job-openings' ),
                 'type'         => 'checkbox',
                 'class'        => '',
@@ -176,87 +180,85 @@
                     array(
                         'value'       => 'expired',
                         'text'        => __( 'Hide expired jobs from listing page', 'wp-job-openings' ),
-                        'id'          => 'awsm-hide-jobs',
                     ),
                 ),
-                'value'        => get_option( 'awsm_jobs_expired_jobs_listings' ),
             )
         ),
         'details' => array(
-            'job_detail_layout_title' => array(
+            array(
+                'id'           => 'awsm-appearance-detail-page-layout-title',
                 'label'        => __( 'Job detail page layout options', 'wp-job-openings' ),
                 'type'         => 'title',
             ),
-            'awsm_jobs_details_page_template' => array(
+            array(
+                'name'         => 'awsm_jobs_details_page_template',
                 'label'        => __( 'Job detail page template', 'wp-job-openings' ),
                 'type'         => 'radio',
                 'class'        => '',
-                'choices'      => array( 
+                'choices'      => array(
                     array(
                         'value'       => 'default',
                         'text'        => __( 'Theme Template', 'wp-job-openings' ),
-                        'id'          => 'awsm_jobs_default_template',
                     ),
                     array(
                         'value'       => 'custom',
                         'text'        => __( 'Plugin Template', 'wp-job-openings' ),
-                        'id'          => 'awsm_jobs_custom_template',
                     ),
                 ),
-                'value'        => get_option( 'awsm_jobs_details_page_template', 'default' ),
+                'default_value' => 'default',
             ),
-            'awsm_jobs_details_page_layout' => array(
+            array(
+                'name'         => 'awsm_jobs_details_page_layout',
                 'label'        => __( 'Layout of job detail page', 'wp-job-openings' ),
                 'type'         => 'radio',
                 'class'        => '',
-                'choices'      => array( 
+                'choices'      => array(
                     array(
                         'value'       => 'single',
                         'text'        => __( 'Single Column ', 'wp-job-openings' ),
-                        'id'          => 'awsm-job-single-layout',
                     ),
                     array(
                         'value'       => 'two',
                         'text'        => __( 'Two Columns ', 'wp-job-openings' ),
-                        'id'          => 'awsm-job-two-columns-layout',
                     ),
                 ),
-                'value'        => get_option( 'awsm_jobs_details_page_layout' ),
             ),
-            'job_specifications_group' => array(
+            array(
+                'id'           => 'awsm-appearance-detail-page-specifications-group',
                 'label'        => __( 'Job specifications', 'wp-job-openings' ),
                 'type'         => 'checkbox',
                 'class'        => '',
                 'multiple'     => true,
-                'choices'      => array( 
+                'choices'      => array(
                     array(
                         'value'       => 'show_in_detail',
                         'name'        => 'awsm_jobs_specification_job_detail',
                         'text'        => __( 'Show job specifications in job detail page', 'wp-job-openings' ),
-                        'checked_value' => get_option( 'awsm_jobs_specification_job_detail', 'show_in_detail' ),
+                        'default_value' => 'show_in_detail',
                     ),
                     array(
                         'value'       => 'show_icon',
                         'name'        => 'awsm_jobs_show_specs_icon',
                         'text'        => __( 'Show icons for job specifications in job detail page', 'wp-job-openings' ),
-                        'checked_value' => get_option( 'awsm_jobs_show_specs_icon', 'show_icon' ),
+                        'default_value' => 'show_icon',
                     ),
                     array(
                         'value'       => 'make_clickable',
                         'name'        => 'awsm_jobs_make_specs_clickable',
                         'text'        => __( 'Make job specifications clickable in job detail page', 'wp-job-openings' ),
-                        'checked_value' => get_option( 'awsm_jobs_make_specs_clickable' ),
                     ),
                 ),
             ),
-            'awsm_jobs_specs_position' => array(
+            array(
+                'name'            => 'awsm_jobs_specs_position',
                 'label'           => __( 'Job spec position ', 'wp-job-openings' ),
                 'type'            => 'select',
                 'class'           => 'awsm-select-control regular-text',
                 'choices'         => $job_specs_choices,
-                'value'           => get_option( 'awsm_jobs_specs_position', 'below_content' ),
+                'default_value'   => 'below_content',
             ),
-            'other_options_group' => array(
+            array(
+                'id'           => 'awsm-appearance-detail-page-other-options-group',
                 'label'        => __( 'Other display options', 'wp-job-openings' ),
                 'type'         => 'checkbox',
                 'class'        => '',
@@ -266,19 +268,16 @@
                         'value'       => 'content',
                         'name'        => 'awsm_jobs_expired_jobs_content_details',
                         'text'        => __( 'Hide content of expired listing from job detail page ', 'wp-job-openings' ),
-                        'checked_value' => get_option( 'awsm_jobs_expired_jobs_content_details' ),
                     ),
                     array(
                         'value'       => 'block_expired',
                         'name'        => 'awsm_jobs_expired_jobs_block_search',
                         'text'        => __( 'Block search engine robots to expired jobs', 'wp-job-openings' ),
-                        'checked_value' => get_option( 'awsm_jobs_expired_jobs_block_search' ),
                     ),
                     array(
                         'value'       => 'hide_date',
                         'name'        => 'awsm_jobs_hide_expiry_date',
                         'text'        => __( 'Hide expiry date from job detail page', 'wp-job-openings' ),
-                        'checked_value' => get_option( 'awsm_jobs_hide_expiry_date' ),
                     ),
                 ),
             ),
