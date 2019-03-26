@@ -1,156 +1,159 @@
 <?php
-    if( ! defined( 'ABSPATH' ) ) {
-        exit;
-    }
-    
-    $upload_file_extns = $this->file_upload_extensions();
-    $extns_choices = array();
-    if( ! empty( $upload_file_extns ) ) {
-        foreach( $upload_file_extns as $extension ) {
-            $extns_choices[] = array(
-                'value'       => $extension,
-                'text'        => $extension,
-            );
-        }
-    }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
-    /**
-     * Filters the form settings fields.
-     *
-     * @since 1.4
-     * 
-     * @param array $settings_fields Form Settings fields
-     */
-    $settings_fields = apply_filters( 'awsm_jobs_form_settings_fields', array(
-        'general' => array(
-            'application_form_title' => array(
-                'id'           => 'awsm-form-options-title',
-                'label'        => __( 'Application form options', 'wp-job-openings'),
-                'type'         => 'title',
-            ),
-            array(
-                'name'            => 'awsm_jobs_admin_upload_file_ext',
-                'label'           => __( 'Supported upload file types', 'wp-job-openings' ),
-                'type'            => 'checkbox',
-                'multiple'        => true,
-                'class'           => '',
-                'list_class'      => 'awsm-check-list awsm-check-list-small',
-                'choices'         => $extns_choices,
-                'description'     => __( 'Select the supported file types for CV upload field', 'wp-job-openings' ),
-            ),
-            array(
-                'id'           => 'awsm-form-gdpr-compliance-title',
-                'label'        => __( 'GDPR Compliance', 'wp-job-openings' ),
-                'type'         => 'title',
-            ),
-            array(
-                'name'            => 'awsm_enable_gdpr_cb',
-                'label'           => __( 'The checkbox', 'wp-job-openings' ),
-                'type'            => 'checkbox',
-                'class'           => 'awsm-check-control-field',
-                'choices'         => array( 
-                    array(
-                        'value'       => 'true',
-                        'text'        => __( 'Enable the GDPR compliance checkbox', 'wp-job-openings' ),
-                        'data_attrs'  => array(
-                            array(
-                                'attr'  => 'req-target',
-                                'value' => '#awsm_gdpr_cb_text',
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-            array(
-                'name'            => 'awsm_gdpr_cb_text',
-                'label'           => __( 'Checkbox text', 'wp-job-openings' ),
-                'class'           => 'medium-text',
-            ),
-        ),
-        'recaptcha' => array(
-            array(
-                'id'           => 'awsm-form-recaptcha-options-title',
-                'label'        => __( 'reCAPTCHA options', 'wp-job-openings' ),
-                'type'         => 'title',
-            ),
-            array(
-                'name'         => 'awsm_jobs_enable_recaptcha',
-                'label'        => __( 'Enable reCAPTCHA', 'wp-job-openings' ),
-                'type'         => 'checkbox',
-                'class'        => '',
-                'choices'         => array( 
-                    array(
-                        'value'       => 'enable',
-                        'text'        => __( 'Enable reCAPTCHA on the form', 'wp-job-openings' ),
-                    ),
-                ),
-                'help_button'  => array(
-                    'url'      => 'https://www.google.com/recaptcha/intro/index.html',
-                    'class'    => 'awsm-view-captcha-btn',
-                    'text'     => __( 'Get your keys', 'wp-job-openings' ),
-                    'other_attrs' => array(
-                        'target' => '_blank',
-                    )
-                ),
-            ),
-            array(
-                'name'            => 'awsm_jobs_recaptcha_site_key',
-                'label'           => __( 'Site key', 'wp-job-openings' ),
-            ),
-            array(
-                'name'            => 'awsm_jobs_recaptcha_secret_key',
-                'label'           => __( 'Secret key', 'wp-job-openings' ),
-            ),
-        ),
-    ) );
-?>
+	$upload_file_extns = $this->file_upload_extensions();
+	$extns_choices     = array();
+if ( ! empty( $upload_file_extns ) ) {
+	foreach ( $upload_file_extns as $extension ) {
+		$extns_choices[] = array(
+			'value' => $extension,
+			'text'  => $extension,
+		);
+	}
+}
+
+	/**
+	 * Filters the form settings fields.
+	 *
+	 * @since 1.4
+	 *
+	 * @param array $settings_fields Form Settings fields
+	 */
+	$settings_fields = apply_filters(
+		'awsm_jobs_form_settings_fields',
+		array(
+			'general'   => array(
+				'application_form_title' => array(
+					'id'    => 'awsm-form-options-title',
+					'label' => __( 'Application form options', 'wp-job-openings' ),
+					'type'  => 'title',
+				),
+				array(
+					'name'        => 'awsm_jobs_admin_upload_file_ext',
+					'label'       => __( 'Supported upload file types', 'wp-job-openings' ),
+					'type'        => 'checkbox',
+					'multiple'    => true,
+					'class'       => '',
+					'list_class'  => 'awsm-check-list awsm-check-list-small',
+					'choices'     => $extns_choices,
+					'description' => __( 'Select the supported file types for CV upload field', 'wp-job-openings' ),
+				),
+				array(
+					'id'    => 'awsm-form-gdpr-compliance-title',
+					'label' => __( 'GDPR Compliance', 'wp-job-openings' ),
+					'type'  => 'title',
+				),
+				array(
+					'name'    => 'awsm_enable_gdpr_cb',
+					'label'   => __( 'The checkbox', 'wp-job-openings' ),
+					'type'    => 'checkbox',
+					'class'   => 'awsm-check-control-field',
+					'choices' => array(
+						array(
+							'value'      => 'true',
+							'text'       => __( 'Enable the GDPR compliance checkbox', 'wp-job-openings' ),
+							'data_attrs' => array(
+								array(
+									'attr'  => 'req-target',
+									'value' => '#awsm_gdpr_cb_text',
+								),
+							),
+						),
+					),
+				),
+				array(
+					'name'  => 'awsm_gdpr_cb_text',
+					'label' => __( 'Checkbox text', 'wp-job-openings' ),
+					'class' => 'medium-text',
+				),
+			),
+			'recaptcha' => array(
+				array(
+					'id'    => 'awsm-form-recaptcha-options-title',
+					'label' => __( 'reCAPTCHA options', 'wp-job-openings' ),
+					'type'  => 'title',
+				),
+				array(
+					'name'        => 'awsm_jobs_enable_recaptcha',
+					'label'       => __( 'Enable reCAPTCHA', 'wp-job-openings' ),
+					'type'        => 'checkbox',
+					'class'       => '',
+					'choices'     => array(
+						array(
+							'value' => 'enable',
+							'text'  => __( 'Enable reCAPTCHA on the form', 'wp-job-openings' ),
+						),
+					),
+					'help_button' => array(
+						'url'         => 'https://www.google.com/recaptcha/intro/index.html',
+						'class'       => 'awsm-view-captcha-btn',
+						'text'        => __( 'Get your keys', 'wp-job-openings' ),
+						'other_attrs' => array(
+							'target' => '_blank',
+						),
+					),
+				),
+				array(
+					'name'  => 'awsm_jobs_recaptcha_site_key',
+					'label' => __( 'Site key', 'wp-job-openings' ),
+				),
+				array(
+					'name'  => 'awsm_jobs_recaptcha_secret_key',
+					'label' => __( 'Secret key', 'wp-job-openings' ),
+				),
+			),
+		)
+	);
+	?>
 
 <!-- Upload File Extensions -->
 <div id="settings-awsm-settings-form" class="awsm-admin-settings">
-    <?php do_action( 'awsm_settings_form_elem_start', 'form' ); ?>
-    <form method="POST" action="options.php" id="upload-file-form">
-        <?php
-            settings_fields( 'awsm-jobs-form-settings' );
+	<?php do_action( 'awsm_settings_form_elem_start', 'form' ); ?>
+	<form method="POST" action="options.php" id="upload-file-form">
+		<?php
+			settings_fields( 'awsm-jobs-form-settings' );
 
-            // display form subtabs.
-            $this->display_subtabs( 'form', 'awsm-general-form-nav-subtab' );
+			// display form subtabs.
+			$this->display_subtabs( 'form', 'awsm-general-form-nav-subtab' );
 
-            do_action( 'before_awsm_settings_main_content', 'form' );
-        ?>
+			do_action( 'before_awsm_settings_main_content', 'form' );
+		?>
 
-        <div class="awsm-form-section-main awsm-sub-options-container" id="awsm-general-form-options-container">
-            <table class="form-table">
-                <tbody>
-                    <?php
-                        do_action( 'before_awsm_form_settings' );
+		<div class="awsm-form-section-main awsm-sub-options-container" id="awsm-general-form-options-container">
+			<table class="form-table">
+				<tbody>
+					<?php
+						do_action( 'before_awsm_form_settings' );
 
-                        $this->display_settings_fields( $settings_fields['general'] );
+						$this->display_settings_fields( $settings_fields['general'] );
 
-                        do_action( 'after_awsm_form_settings' );
-                    ?>
-                </tbody>
-            </table>
-        </div><!-- .awsm-form-section-main -->
+						do_action( 'after_awsm_form_settings' );
+					?>
+				</tbody>
+			</table>
+		</div><!-- .awsm-form-section-main -->
 
-        <div class="awsm-form-section-main awsm-sub-options-container" id="awsm-recaptcha-form-options-container" style="display: none;">
-            <table class="form-table">
-                <tbody>
-                    <?php
-                        do_action( 'before_awsm_form_recaptcha_settings' );
+		<div class="awsm-form-section-main awsm-sub-options-container" id="awsm-recaptcha-form-options-container" style="display: none;">
+			<table class="form-table">
+				<tbody>
+					<?php
+						do_action( 'before_awsm_form_recaptcha_settings' );
 
-                        $this->display_settings_fields( $settings_fields['recaptcha'] );
+						$this->display_settings_fields( $settings_fields['recaptcha'] );
 
-                        do_action( 'after_awsm_form_recaptcha_settings' );
-                    ?>
-                </tbody>
-            </table>
-        </div><!-- .awsm-form-section-main -->
+						do_action( 'after_awsm_form_recaptcha_settings' );
+					?>
+				</tbody>
+			</table>
+		</div><!-- .awsm-form-section-main -->
 
-        <?php do_action( 'after_awsm_settings_main_content', 'form' ); ?>
+		<?php do_action( 'after_awsm_settings_main_content', 'form' ); ?>
 
-        <div class="awsm-form-footer">
-        <?php echo apply_filters( 'awsm_job_settings_submit_btn', get_submit_button(), 'form' ); ?>
-        </div><!-- .awsm-form-footer -->
-    </form>
-    <?php do_action( 'awsm_settings_form_elem_end', 'form' ); ?>
+		<div class="awsm-form-footer">
+		<?php echo apply_filters( 'awsm_job_settings_submit_btn', get_submit_button(), 'form' ); ?>
+		</div><!-- .awsm-form-footer -->
+	</form>
+	<?php do_action( 'awsm_settings_form_elem_end', 'form' ); ?>
 </div><!-- .awsm-admin-settings -->
