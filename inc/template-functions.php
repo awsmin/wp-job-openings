@@ -3,7 +3,7 @@
  * Template specific functions
  *
  * @package wp-job-openings
- * @version 1.3
+ * @version 1.4
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -26,7 +26,7 @@ if ( ! function_exists( 'awsm_jobs_query' ) ) {
 
 if ( ! function_exists( 'awsm_jobs_view' ) ) {
 	function awsm_jobs_view() {
-		return esc_attr( AWSM_Job_Openings::get_job_listing_view() );
+		return AWSM_Job_Openings::get_job_listing_view();
 	}
 }
 
@@ -51,7 +51,7 @@ if ( ! function_exists( 'awsm_jobs_data_attrs' ) ) {
 				}
 			}
 		}
-		echo $content;
+		echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 }
 
@@ -79,8 +79,8 @@ if ( ! function_exists( 'get_awsm_job_details' ) ) {
 	function get_awsm_job_details() {
 		return array(
 			'id'        => get_the_ID(),
-			'title'     => esc_html( get_the_title() ),
-			'permalink' => esc_url( get_permalink() ),
+			'title'     => get_the_title(),
+			'permalink' => get_permalink(),
 		);
 	}
 }
@@ -89,7 +89,7 @@ if ( ! function_exists( 'awsm_job_expiry_details' ) ) {
 	function awsm_job_expiry_details( $before = '', $after = '' ) {
 		$expiry_details = AWSM_Job_Openings::get_job_expiry_details( get_the_ID(), get_post_status() );
 		if ( ! empty( $expiry_details ) ) {
-			echo $before . $expiry_details . $after;
+			echo $before . $expiry_details . $after; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 	}
 }
@@ -102,14 +102,14 @@ if ( ! function_exists( 'awsm_job_spec_content' ) ) {
 
 if ( ! function_exists( 'awsm_job_listing_spec_content' ) ) {
 	function awsm_job_listing_spec_content( $job_id, $awsm_filters, $listing_specs ) {
-		echo AWSM_Job_Openings::get_specifications_content( $job_id, false, $awsm_filters, array( 'specs' => $listing_specs ) );
+		echo AWSM_Job_Openings::get_specifications_content( $job_id, false, $awsm_filters, array( 'specs' => $listing_specs ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 }
 
 if ( ! function_exists( 'awsm_job_more_details' ) ) {
 	function awsm_job_more_details( $link, $view ) {
-		$more_dtls_link = sprintf( '<div class="awsm-job-more-container"><%1$s class="awsm-job-more"%3$s>%2$s <span></span></%1$s></div>', ( $view === 'grid' ) ? 'span' : 'a', esc_html__( 'More Details', 'wp-job-openings' ), ( $view === 'grid' ) ? '' : ' href="' . $link . '"' );
-		echo apply_filters( 'awsm_jobs_listing_details_link', $more_dtls_link, $view );
+		$more_dtls_link = sprintf( '<div class="awsm-job-more-container"><%1$s class="awsm-job-more"%3$s>%2$s <span></span></%1$s></div>', ( $view === 'grid' ) ? 'span' : 'a', esc_html__( 'More Details', 'wp-job-openings' ), ( $view === 'grid' ) ? '' : ' href="' . esc_url( $link ) . '"' );
+		echo apply_filters( 'awsm_jobs_listing_details_link', $more_dtls_link, $view ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 }
 
@@ -121,7 +121,7 @@ if ( ! function_exists( 'awsm_jobs_load_more' ) ) {
 			$paged         = ( $query->query_vars['paged'] ) ? $query->query_vars['paged'] : 1;
 			if ( $max_num_pages > 1 && $paged < $max_num_pages ) : ?>
 					<div class="awsm-load-more-main">
-						<a href="#" class="awsm-load-more awsm-load-more-btn" data-page="<?php echo $paged; ?>"><?php esc_html_e( 'Load more...', 'wp-job-openings' ); ?></a>
+						<a href="#" class="awsm-load-more awsm-load-more-btn" data-page="<?php echo esc_attr( $paged ); ?>"><?php esc_html_e( 'Load more...', 'wp-job-openings' ); ?></a>
 					</div>
 					<?php
 			endif;
@@ -131,14 +131,15 @@ if ( ! function_exists( 'awsm_jobs_load_more' ) ) {
 
 if ( ! function_exists( 'awsm_no_jobs_msg' ) ) {
 	function awsm_no_jobs_msg() {
-		echo get_option( 'awsm_default_msg', esc_html__( 'We currently have no job openings', 'wp-job-openings' ) );
+		$msg = get_option( 'awsm_default_msg', __( 'We currently have no job openings', 'wp-job-openings' ) );
+		echo esc_html( $msg );
 	}
 }
 
 if ( ! function_exists( 'awsm_jobs_expired_msg' ) ) {
 	function awsm_jobs_expired_msg( $before = '', $after = '' ) {
 		$msg = esc_html__( 'Sorry! This job is expired.', 'wp-job-openings' );
-		echo $before . $msg . $after;
+		echo $before . $msg . $after; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 }
 

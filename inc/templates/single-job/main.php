@@ -30,7 +30,7 @@ awsm_job_spec_content( 'above_content' );
 ?>
 
 <div class="awsm-job-entry-content entry-content">
-	<?php echo $content; ?>
+	<?php echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 </div><!-- .awsm-job-entry-content -->
 
 <?php

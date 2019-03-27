@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class AWSM_Job_Openings_Core {
-	private static $_instance = null;
+	private static $instance = null;
 
 	public function __construct() {
 		add_action( 'init', array( $this, 'register_post_types' ) );
@@ -14,10 +14,10 @@ class AWSM_Job_Openings_Core {
 	}
 
 	public static function init() {
-		if ( is_null( self::$_instance ) ) {
-			self::$_instance = new self();
+		if ( is_null( self::$instance ) ) {
+			self::$instance = new self();
 		}
-		return self::$_instance;
+		return self::$instance;
 	}
 
 	public function register() {
@@ -171,7 +171,7 @@ class AWSM_Job_Openings_Core {
 		$caps            = $this->get_caps();
 		$hr_caps         = array_merge( $caps['level_1'], $caps['level_2'], $caps['level_3'], $caps['level_4'] );
 		$hr_caps['read'] = true;
-		add_role( 'hr', __( 'HR' ), $hr_caps );
+		add_role( 'hr', __( 'HR', 'wp-job-openings' ), $hr_caps );
 	}
 
 	private function remove_custom_role() {
@@ -242,7 +242,7 @@ class AWSM_Job_Openings_Core {
 			__( 'View Job listing', 'wp-job-openings' )
 		);
 
-		$scheduled_date = date_i18n( __( 'M j, Y @ H:i' ), strtotime( $post->post_date ) );
+		$scheduled_date = date_i18n( __( 'M j, Y @ H:i', 'default' ), strtotime( $post->post_date ) );
 
 		$messages['awsm_job_openings'] = array(
 			0  => '', // Unused. Messages start at index 1.
@@ -251,10 +251,11 @@ class AWSM_Job_Openings_Core {
 			3  => __( 'Custom field deleted.', 'default' ),
 			4  => __( 'Job listing updated.', 'wp-job-openings' ),
 			/* translators: %s: date and time of the revision */
-			5  => isset( $_GET['revision'] ) ? sprintf( __( 'Job listing restored to revision from %s.', 'wp-job-openings' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
+			5  => isset( $_GET['revision'] ) ? sprintf( __( 'Job listing restored to revision from %s.', 'wp-job-openings' ), wp_post_revision_title( intval( $_GET['revision'] ), false ) ) : false,
 			6  => __( 'Job listing published.', 'wp-job-openings' ) . $view_post_link_html,
 			7  => __( 'Job listing saved.', 'wp-job-openings' ),
 			8  => __( 'Job listing submitted.', 'wp-job-openings' ) . $preview_post_link_html,
+			/* translators: %s: scheduled date */
 			9  => sprintf( __( 'Job listing scheduled for: %s.', 'wp-job-openings' ), '<strong>' . $scheduled_date . '</strong>' ) . $scheduled_post_link_html,
 			10 => __( 'Job listing draft updated.', 'wp-job-openings' ) . $preview_post_link_html,
 		);
@@ -266,10 +267,11 @@ class AWSM_Job_Openings_Core {
 			3  => __( 'Custom field deleted.', 'default' ),
 			4  => __( 'Application updated.', 'wp-job-openings' ),
 			/* translators: %s: date and time of the revision */
-			5  => isset( $_GET['revision'] ) ? sprintf( __( 'Application restored to revision from %s.', 'wp-job-openings' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
+			5  => isset( $_GET['revision'] ) ? sprintf( __( 'Application restored to revision from %s.', 'wp-job-openings' ), wp_post_revision_title( intval( $_GET['revision'] ), false ) ) : false,
 			6  => __( 'Application published.', 'wp-job-openings' ),
 			7  => __( 'Application saved.', 'wp-job-openings' ),
 			8  => __( 'Application submitted.', 'wp-job-openings' ),
+			/* translators: %s: scheduled date */
 			9  => sprintf( __( 'Application scheduled for: %s.', 'wp-job-openings' ), '<strong>' . $scheduled_date . '</strong>' ),
 			10 => __( 'Application draft updated.', 'wp-job-openings' ),
 		);
@@ -278,18 +280,28 @@ class AWSM_Job_Openings_Core {
 
 	public function jobs_bulk_updated_messages( $bulk_messages, $bulk_counts ) {
 		$bulk_messages['awsm_job_openings'] = array(
+			/* translators: %s: job count */
 			'updated'   => _n( '%s job listing updated.', '%s job listings updated.', $bulk_counts['updated'], 'wp-job-openings' ),
+			/* translators: %s: job count */
 			'locked'    => _n( '%s job listing not updated, somebody is editing it.', '%s job listings not updated, somebody is editing them.', $bulk_counts['locked'], 'wp-job-openings' ),
+			/* translators: %s: job count */
 			'deleted'   => _n( '%s job listing permanently deleted.', '%s job listings permanently deleted.', $bulk_counts['deleted'], 'wp-job-openings' ),
+			/* translators: %s: job count */
 			'trashed'   => _n( '%s job listing moved to the Trash.', '%s job listings moved to the Trash.', $bulk_counts['trashed'], 'wp-job-openings' ),
+			/* translators: %s: job count */
 			'untrashed' => _n( '%s job listing restored from the Trash.', '%s job listings restored from the Trash.', $bulk_counts['untrashed'], 'wp-job-openings' ),
 		);
 
 		$bulk_messages['awsm_job_application'] = array(
+			/* translators: %s: job application count */
 			'updated'   => _n( '%s application updated.', '%s applications updated.', $bulk_counts['updated'], 'wp-job-openings' ),
+			/* translators: %s: job application count */
 			'locked'    => _n( '%s application not updated, somebody is editing it.', '%s applications not updated, somebody is editing them.', $bulk_counts['locked'], 'wp-job-openings' ),
+			/* translators: %s: job application count */
 			'deleted'   => _n( '%s application permanently deleted.', '%s applications permanently deleted.', $bulk_counts['deleted'], 'wp-job-openings' ),
+			/* translators: %s: job application count */
 			'trashed'   => _n( '%s application moved to the Trash.', '%s applications moved to the Trash.', $bulk_counts['trashed'], 'wp-job-openings' ),
+			/* translators: %s: job application count */
 			'untrashed' => _n( '%s application restored from the Trash.', '%s applications restored from the Trash.', $bulk_counts['untrashed'], 'wp-job-openings' ),
 		);
 		return $bulk_messages;

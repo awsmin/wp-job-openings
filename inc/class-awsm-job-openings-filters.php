@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class AWSM_Job_Openings_Filters {
-	private static $_instance = null;
+	private static $instance = null;
 
 	public function __construct() {
 		add_action( 'awsm_filter_form', array( $this, 'display_filter_form' ) );
@@ -15,10 +15,10 @@ class AWSM_Job_Openings_Filters {
 	}
 
 	public static function init() {
-		if ( is_null( self::$_instance ) ) {
-			self::$_instance = new self();
+		if ( is_null( self::$instance ) ) {
+			self::$instance = new self();
 		}
-		return self::$_instance;
+		return self::$instance;
 	}
 
 	public function display_filter_form( $shortcode_atts ) {
@@ -63,15 +63,16 @@ class AWSM_Job_Openings_Filters {
 					}
 				}
 				if ( ! empty( $filter_content ) ) {
-					$filter_content = sprintf( '<div class="awsm-filter-wrap"><form action="%2$s/wp-admin/admin-ajax.php" method="POST" id="awsm-job-filter">%1$s<input type="hidden" name="action" value="jobfilter"></form></div>', $filter_content, site_url() );
+					$filter_content = sprintf( '<div class="awsm-filter-wrap"><form action="%2$s/wp-admin/admin-ajax.php" method="POST" id="awsm-job-filter">%1$s<input type="hidden" name="action" value="jobfilter"></form></div>', $filter_content, esc_url( site_url() ) );
 				}
 			}
-			echo apply_filters( 'awsm_filter_content', $filter_content, $available_filters_arr );
+			echo apply_filters( 'awsm_filter_content', $filter_content, $available_filters_arr ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 	}
 
 	public function awsm_posts_filters() {
-		$filters = $shortcode_atts = array();
+		// phpcs:disable WordPress.Security.NonceVerification.Missing
+		$filters = $shortcode_atts = array(); // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
 		if ( isset( $_POST['awsm_job_spec'] ) && ! empty( $_POST['awsm_job_spec'] ) ) {
 			$job_specs = $_POST['awsm_job_spec'];
 			foreach ( $job_specs as $taxonomy => $term_id ) {
@@ -110,5 +111,6 @@ class AWSM_Job_Openings_Filters {
 			endif;
 		endif;
 		wp_die();
+		// phpcs:enable
 	}
 }

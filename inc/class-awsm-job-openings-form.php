@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class AWSM_Job_Openings_Form {
-	private static $_instance   = null;
+	private static $instance    = null;
 	public $form_fields_order   = array( 'awsm_applicant_name', 'awsm_applicant_email', 'awsm_applicant_phone', 'awsm_applicant_letter', 'awsm_file' );
 	public static $allowed_html = array(
 		'a'      => array(
@@ -28,17 +28,18 @@ class AWSM_Job_Openings_Form {
 	}
 
 	public static function init() {
-		if ( is_null( self::$_instance ) ) {
-			self::$_instance = new self();
+		if ( is_null( self::$instance ) ) {
+			self::$instance = new self();
 		}
-		return self::$_instance;
+		return self::$instance;
 	}
 
 	public function dynamic_form_fields() {
 		$allowed_file_types   = get_option( 'awsm_jobs_admin_upload_file_ext' );
 		$allowed_file_content = '';
 		if ( is_array( $allowed_file_types ) && ! empty( $allowed_file_types ) ) {
-			$allowed_file_types   = '.' . join( ', .', $allowed_file_types );
+			$allowed_file_types = '.' . join( ', .', $allowed_file_types );
+			/* translators: %1$s: comma-separated list of allowed file types */
 			$allowed_file_content = '<small>' . sprintf( esc_html__( 'Allowed Type(s): %1$s', 'wp-job-openings' ), $allowed_file_types ) . '</small>';
 		}
 
@@ -141,7 +142,7 @@ class AWSM_Job_Openings_Form {
 						}
 					}
 
-					$form_content = $label_content = '';
+					$form_content = $label_content = ''; // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
 					if ( ! empty( $label ) ) {
 						$label_content = sprintf( '<label for="%2$s">%1$s</label>', wp_kses( $label, $allowed_html ) . $required_label, esc_attr( $field_id ) );
 					}
@@ -192,7 +193,7 @@ class AWSM_Job_Openings_Form {
 			 * @param string $form_output The content
 			 * @param array $dynamic_form_fields Dynamic form fields
 			 */
-			echo apply_filters( 'awsm_application_dynamic_form_fields_content', $form_output, $dynamic_form_fields );
+			echo apply_filters( 'awsm_application_dynamic_form_fields_content', $form_output, $dynamic_form_fields ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 	}
 
@@ -250,7 +251,8 @@ class AWSM_Job_Openings_Form {
 	}
 
 	public function upload_dir( $param ) {
-		if ( isset( $_POST['action'] ) && $_POST['action'] == 'awsm_applicant_form_submission' ) {
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing
+		if ( isset( $_POST['action'] ) && $_POST['action'] === 'awsm_applicant_form_submission' ) {
 			$subdir = '/' . AWSM_JOBS_UPLOAD_DIR_NAME;
 			if ( empty( $param['subdir'] ) ) {
 				$param['path']   = $param['path'] . $subdir;
@@ -272,6 +274,7 @@ class AWSM_Job_Openings_Form {
 	}
 
 	public function insert_application() {
+		// phpcs:disable WordPress.Security.NonceVerification.Missing
 		global $awsm_response;
 
 		$awsm_response = array(
@@ -279,7 +282,7 @@ class AWSM_Job_Openings_Form {
 			'error'   => array(),
 		);
 
-		if ( 'POST' == $_SERVER['REQUEST_METHOD'] && ! empty( $_POST['action'] ) && $_POST['action'] == 'awsm_applicant_form_submission' ) {
+		if ( $_SERVER['REQUEST_METHOD'] === 'POST' && ! empty( $_POST['action'] ) && $_POST['action'] === 'awsm_applicant_form_submission' ) {
 			$job_id               = intval( $_POST['awsm_job_id'] );
 			$applicant_name       = sanitize_text_field( $_POST['awsm_applicant_name'] );
 			$applicant_email      = sanitize_email( $_POST['awsm_applicant_email'] );
@@ -437,6 +440,7 @@ class AWSM_Job_Openings_Form {
 			add_action( 'awsm_application_form_notices', array( $this, 'awsm_form_submit_notices' ) );
 		}
 		return $awsm_response;
+		// phpcs:enable
 	}
 
 	public function is_recaptcha_set() {
@@ -444,7 +448,7 @@ class AWSM_Job_Openings_Form {
 		$enable_recaptcha = get_option( 'awsm_jobs_enable_recaptcha' );
 		$site_key         = get_option( 'awsm_jobs_recaptcha_site_key' );
 		$secret_key       = get_option( 'awsm_jobs_recaptcha_secret_key' );
-		if ( $enable_recaptcha == 'enable' && ! empty( $site_key ) && ! empty( $secret_key ) ) {
+		if ( $enable_recaptcha === 'enable' && ! empty( $site_key ) && ! empty( $secret_key ) ) {
 			$is_set = true;
 		}
 		return $is_set;
@@ -499,9 +503,9 @@ class AWSM_Job_Openings_Form {
 			}
 		}
 		foreach ( $msg_array as $msg ) {
-			$content .= '<li>' . $msg . '</li>';
+			$content .= '<li>' . esc_html( $msg ) . '</li>';
 		}
-		printf( '<ul class="%1$s">%2$s</ul>', $class_name, $content );
+		printf( '<ul class="%1$s">%2$s</ul>', esc_attr( $class_name ), $content ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	public function get_mail_template_tags( $applicant_details, $options = array() ) {
@@ -509,7 +513,7 @@ class AWSM_Job_Openings_Form {
 		$company_name   = isset( $options['company_name'] ) ? $options['company_name'] : get_option( 'awsm_job_company_name' );
 		$hr_email       = isset( $options['hr_email'] ) ? $options['hr_email'] : get_option( 'awsm_hr_email_address', '' );
 		$job_expiry     = get_post_meta( $applicant_details['awsm_job_id'], 'awsm_job_expiry', true );
-		$job_expiry     = ( ! empty( $job_expiry ) ) ? date_i18n( __( get_option( 'date_format' ) ), strtotime( $job_expiry ) ) : '';
+		$job_expiry     = ( ! empty( $job_expiry ) ) ? date_i18n( get_option( 'date_format' ), strtotime( $job_expiry ) ) : '';
 		$attachment_url = isset( $applicant_details['awsm_attachment_id'] ) ? wp_get_attachment_url( $applicant_details['awsm_attachment_id'] ) : '';
 		$tags           = array(
 			'{applicant}'        => $applicant_details['awsm_applicant_name'],
@@ -530,7 +534,7 @@ class AWSM_Job_Openings_Form {
 	protected function notification_email( $applicant_details ) {
 		$enable_acknowledgement = get_option( 'awsm_jobs_acknowledgement' );
 		$enable_admin           = get_option( 'awsm_jobs_enable_admin_notification' );
-		if ( $enable_acknowledgement == 'acknowledgement' || $enable_admin == 'enable' ) {
+		if ( $enable_acknowledgement === 'acknowledgement' || $enable_admin === 'enable' ) {
 			$admin_email    = get_option( 'admin_email' );
 			$applicant_cc   = get_option( 'awsm_jobs_hr_notification' );
 			$notifi_subject = get_option( 'awsm_jobs_notification_subject' );
@@ -549,7 +553,7 @@ class AWSM_Job_Openings_Form {
 			);
 			$tag_names      = array_keys( $tags );
 			$tag_values     = array_values( $tags );
-			if ( $enable_acknowledgement == 'acknowledgement' && ! empty( $notifi_subject ) && ! empty( $notifi_content ) ) {
+			if ( $enable_acknowledgement === 'acknowledgement' && ! empty( $notifi_subject ) && ! empty( $notifi_content ) ) {
 				$to           = $applicant_details['awsm_applicant_email'];
 				$from         = ( ! empty( $company_name ) ) ? $company_name : get_option( 'blogname' );
 				$subject      = str_replace( $tag_names, $tag_values, $notifi_subject );
@@ -574,7 +578,7 @@ class AWSM_Job_Openings_Form {
 					update_post_meta( $applicant_details['application_id'], 'awsm_application_mails', $mails_data );
 				}
 			}
-			if ( $enable_admin == 'enable' && ! empty( $admin_subject ) && ! empty( $admin_content ) ) {
+			if ( $enable_admin === 'enable' && ! empty( $admin_subject ) && ! empty( $admin_content ) ) {
 				$to              = $admin_to;
 				$subject         = str_replace( $tag_names, $tag_values, $admin_subject );
 				$message         = str_replace( $tag_names, $tag_values, $admin_content );

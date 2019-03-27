@@ -5,7 +5,7 @@
  * Override this by copying it to currenttheme/wp-job-openings/job-openings/main.php
  *
  * @package wp-job-openings
- * @version 1.3
+ * @version 1.4
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -29,12 +29,12 @@ do_action( 'before_awsm_jobs_listing_loop' );
 while ( $query->have_posts() ) {
 	$query->the_post();
 	$job_details = get_awsm_job_details();
-	$attrs       = sprintf( 'class="awsm-%1$s-item" id="awsm-%1$s-item-%2$s"', $view, $job_details['id'] );
+	$attrs       = sprintf( 'class="awsm-%1$s-item" id="awsm-%1$s-item-%2$s"', esc_attr( $view ), esc_attr( $job_details['id'] ) );
 
-	echo ( $view === 'grid' ) ? sprintf( '<a href="%1$s" %2$s>', $job_details['permalink'], $attrs ) : '<div ' . $attrs . '>';
+	echo ( $view === 'grid' ) ? sprintf( '<a href="%1$s" %2$s>', esc_url( $job_details['permalink'] ), $attrs ) : '<div ' . $attrs . '>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	?>
 		<div class="awsm-job-item">
-			<div class="awsm-<?php echo $view; ?>-left-col">
+			<div class="awsm-<?php echo esc_attr( $view ); ?>-left-col">
 				<?php
 					/**
 					 * before_awsm_jobs_listing_left_col_content hook
@@ -46,8 +46,8 @@ while ( $query->have_posts() ) {
 
 				<h2 class="awsm-job-post-title">
 					<?php
-						$title = ( $view === 'grid' ) ? $job_details['title'] : sprintf( '<a href="%2$s">%1$s</a>', $job_details['title'], $job_details['permalink'] );
-						echo apply_filters( 'awsm_jobs_listing_title', $title, $view );
+						$job_title = ( $view === 'grid' ) ? esc_html( $job_details['title'] ) : sprintf( '<a href="%2$s">%1$s</a>', esc_html( $job_details['title'] ), esc_url( $job_details['permalink'] ) );
+						echo apply_filters( 'awsm_jobs_listing_title', $job_title, $view ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					?>
 				</h2>
 
@@ -61,7 +61,7 @@ while ( $query->have_posts() ) {
 				?>
 			</div>
 
-			<div class="awsm-<?php echo $view; ?>-right-col">
+			<div class="awsm-<?php echo esc_attr( $view ); ?>-right-col">
 				<?php
 					/**
 					 * before_awsm_jobs_listing_right_col_content hook

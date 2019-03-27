@@ -55,10 +55,10 @@ class AWSM_Job_Openings_Widget extends WP_Widget {
 			return;
 		}
 
-		echo $args['before_widget'];
+		echo $args['before_widget']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 		if ( $title ) {
-			echo $args['before_title'] . $title . $args['after_title'];
+			echo $args['before_title'] . $title . $args['after_title']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 
 		do_action( 'before_awsm_recent_jobs_widget_content', $args, $instance );
@@ -67,30 +67,26 @@ class AWSM_Job_Openings_Widget extends WP_Widget {
 
 		do_action( 'after_awsm_recent_jobs_widget_content', $args, $instance );
 
-		echo $args['after_widget'];
+		echo $args['after_widget']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	public function form( $instance ) {
-		$title          = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : '';
-		$num_jobs       = isset( $instance['number'] ) ? $instance['number'] : get_option( 'awsm_jobs_list_per_page' );
-		$show_spec      = isset( $instance['show_spec'] ) ? (bool) $instance['show_spec'] : true;
-		$show_more      = isset( $instance['show_more'] ) ? (bool) $instance['show_more'] : true;
-		$title_field_id = esc_attr( $this->get_field_id( 'title' ) );
-		$num_field_id   = esc_attr( $this->get_field_id( 'number' ) );
-		$spec_field_id  = esc_attr( $this->get_field_id( 'show_spec' ) );
-		$more_field_id  = esc_attr( $this->get_field_id( 'show_more' ) );
+		$title     = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : '';
+		$num_jobs  = isset( $instance['number'] ) ? $instance['number'] : get_option( 'awsm_jobs_list_per_page' );
+		$show_spec = isset( $instance['show_spec'] ) ? (bool) $instance['show_spec'] : true;
+		$show_more = isset( $instance['show_more'] ) ? (bool) $instance['show_more'] : true;
 		?>
-			<p><label for="<?php echo $title_field_id; ?>"><?php esc_html_e( 'Title:', 'wp-job-openings' ); ?></label>
-			<input class="widefat" id="<?php echo $title_field_id; ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" /></p>
+			<p><label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_html_e( 'Title:', 'wp-job-openings' ); ?></label>
+			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" /></p>
 
-			<p><label for="<?php echo $num_field_id; ?>"><?php esc_html_e( 'Number of jobs to show:', 'wp-job-openings' ); ?></label>
-			<input class="tiny-text" id="<?php echo $num_field_id; ?>" name="<?php echo esc_attr( $this->get_field_name( 'number' ) ); ?>" type="number" step="1" min="1" value="<?php echo absint( $num_jobs ); ?>" size="3" /></p>
+			<p><label for="<?php echo esc_attr( $this->get_field_id( 'number' ) ); ?>"><?php esc_html_e( 'Number of jobs to show:', 'wp-job-openings' ); ?></label>
+			<input class="tiny-text" id="<?php echo esc_attr( $this->get_field_id( 'number' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'number' ) ); ?>" type="number" step="1" min="1" value="<?php echo absint( $num_jobs ); ?>" size="3" /></p>
 
-			<p><input class="checkbox" type="checkbox"<?php checked( $show_spec ); ?> id="<?php echo $spec_field_id; ?>" name="<?php echo esc_attr( $this->get_field_name( 'show_spec' ) ); ?>" />
-			<label for="<?php echo $spec_field_id; ?>"><?php _e( 'Display Job Specifications?' ); ?></label></p>
+			<p><input class="checkbox" type="checkbox"<?php checked( $show_spec ); ?> id="<?php echo esc_attr( $this->get_field_id( 'show_spec' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'show_spec' ) ); ?>" />
+			<label for="<?php echo esc_attr( $this->get_field_id( 'show_spec' ) ); ?>"><?php esc_html_e( 'Display Job Specifications?', 'wp-job-openings' ); ?></label></p>
 
-			<p><input class="checkbox" type="checkbox"<?php checked( $show_more ); ?> id="<?php echo $more_field_id; ?>" name="<?php echo esc_attr( $this->get_field_name( 'show_more' ) ); ?>" />
-			<label for="<?php echo $more_field_id; ?>"><?php _e( "Display 'More Details' link?" ); ?></label></p>
+			<p><input class="checkbox" type="checkbox"<?php checked( $show_more ); ?> id="<?php echo esc_attr( $this->get_field_id( 'show_more' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'show_more' ) ); ?>" />
+			<label for="<?php echo esc_attr( $this->get_field_id( 'show_more' ) ); ?>"><?php esc_html_e( "Display 'More Details' link?", 'wp-job-openings' ); ?></label></p>
 		<?php
 	}
 
