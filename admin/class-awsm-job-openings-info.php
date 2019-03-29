@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class AWSM_Job_Openings_Info {
-	private static $_instance = null;
+	private static $instance = null;
 
 	public function __construct() {
 		$this->cpath = untrailingslashit( plugin_dir_path( __FILE__ ) );
@@ -15,10 +15,10 @@ class AWSM_Job_Openings_Info {
 	}
 
 	public static function init() {
-		if ( is_null( self::$_instance ) ) {
-			self::$_instance = new self();
+		if ( is_null( self::$instance ) ) {
+			self::$instance = new self();
 		}
-		return self::$_instance;
+		return self::$instance;
 	}
 
 	public function welcome_page_redirect() {
@@ -54,9 +54,9 @@ class AWSM_Job_Openings_Info {
 				</div><!-- .awsm-job-welcome-inner -->
 			</div><!-- .awsm-job-welcome-main -->
 			<h2 class="nav-tab-wrapper"><!-- nav-tab-active -->
-				<a href="<?php echo esc_url( add_query_arg( array( 'page' => 'awsm-jobs-welcome-page' ), admin_url( 'edit.php?post_type=awsm_job_openings' ) ) ); ?>" class="nav-tab<?php echo ( $page == 'welcome' ) ? ' nav-tab-active' : ''; ?>"><?php esc_html_e( 'Getting started', 'wp-job-openings' ); ?></a>
-				<a href="<?php echo esc_url( add_query_arg( array( 'page' => 'awsm-jobs-help-page' ), admin_url( 'edit.php?post_type=awsm_job_openings' ) ) ); ?>" class="nav-tab<?php echo ( $page == 'help' ) ? ' nav-tab-active' : ''; ?>"><?php esc_html_e( 'Help', 'wp-job-openings' ); ?></a>
-				<a href="<?php echo esc_url( add_query_arg( array( 'page' => 'awsm-jobs-add-ons' ), admin_url( 'edit.php?post_type=awsm_job_openings' ) ) ); ?>" class="nav-tab<?php echo ( $page == 'add-ons' ) ? ' nav-tab-active' : ''; ?>"><?php esc_html_e( 'Add-ons', 'wp-job-openings' ); ?></a>
+				<a href="<?php echo esc_url( add_query_arg( array( 'page' => 'awsm-jobs-welcome-page' ), admin_url( 'edit.php?post_type=awsm_job_openings' ) ) ); ?>" class="nav-tab<?php echo ( $page === 'welcome' ) ? ' nav-tab-active' : ''; ?>"><?php esc_html_e( 'Getting started', 'wp-job-openings' ); ?></a>
+				<a href="<?php echo esc_url( add_query_arg( array( 'page' => 'awsm-jobs-help-page' ), admin_url( 'edit.php?post_type=awsm_job_openings' ) ) ); ?>" class="nav-tab<?php echo ( $page === 'help' ) ? ' nav-tab-active' : ''; ?>"><?php esc_html_e( 'Help', 'wp-job-openings' ); ?></a>
+				<a href="<?php echo esc_url( add_query_arg( array( 'page' => 'awsm-jobs-add-ons' ), admin_url( 'edit.php?post_type=awsm_job_openings' ) ) ); ?>" class="nav-tab<?php echo ( $page === 'add-ons' ) ? ' nav-tab-active' : ''; ?>"><?php esc_html_e( 'Add-ons', 'wp-job-openings' ); ?></a>
 			</h2>
 		<?php
 	}
@@ -86,29 +86,29 @@ class AWSM_Job_Openings_Info {
 	}
 
 	public function get_add_on_btn_content( $plugin ) {
-		$content          = $btn_action = $action_url = $btn_class = $btn_attrs = '';
+		$content          = $btn_action = $action_url = $btn_class = $btn_attrs = ''; // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
 		$plugin_arr       = explode( '/', esc_html( $plugin ) );
 		$plugin_slug      = $plugin_arr[0];
 		$installed_plugin = get_plugins( '/' . $plugin_slug );
 		if ( empty( $installed_plugin ) ) {
 			if ( get_filesystem_method( array(), WP_PLUGIN_DIR ) === 'direct' ) {
-				$btn_action = esc_html__( 'Get it now', 'wp-job-openings' );
+				$btn_action = __( 'Get it now', 'wp-job-openings' );
 				$action_url = wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=' . $plugin_slug ), 'install-plugin_' . $plugin_slug );
 				$btn_class  = ' install-now';
 			}
 		} else {
 			if ( is_plugin_active( $plugin ) ) {
-				$btn_action = esc_html__( 'Activated', 'wp-job-openings' );
+				$btn_action = __( 'Activated', 'wp-job-openings' );
 				$action_url = '#';
 				$btn_attrs  = ' disabled';
 			} else {
-				$btn_action = esc_html__( 'Activate', 'wp-job-openings' );
+				$btn_action = __( 'Activate', 'wp-job-openings' );
 				$action_url = wp_nonce_url( self_admin_url( 'plugins.php?action=activate&plugin=' . $plugin ), 'activate-plugin_' . $plugin );
 				$btn_class  = ' activate-now';
 			}
 		}
 		if ( ! empty( $btn_action ) ) {
-			$content = sprintf( '<a href="%2$s" class="button button-large%3$s"%4$s>%1$s</a>', $btn_action, esc_url( $action_url ), esc_attr( $btn_class ), $btn_attrs );
+			$content = sprintf( '<a href="%2$s" class="button button-large%3$s"%4$s>%1$s</a>', esc_html( $btn_action ), esc_url( $action_url ), esc_attr( $btn_class ), esc_attr( $btn_attrs ) );
 		}
 		return $content;
 	}

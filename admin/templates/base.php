@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<?php
 			$settings_tabs = apply_filters( 'awsm_jobs_settings_tab_menus', $tab_menus );
 		foreach ( $settings_tabs as $key => $tab_name ) {
-			$active_tab = ( $current_tab == $key ) ? ' nav-tab-active' : '';
+			$active_tab = ( $current_tab === $key ) ? ' nav-tab-active' : '';
 			printf(
 				'<a href="%2$s" class="nav-tab%3$s">%1$s</a>',
 				esc_html( $tab_name ),

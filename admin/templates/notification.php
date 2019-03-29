@@ -50,17 +50,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 											<input type="text" class="awsm-form-control" name="awsm_jobs_hr_notification" id="awsm_jobs_hr_notification" value="<?php echo esc_attr( $hr_notification ); ?>" />
 									</div><!-- .col -->
 									<div class="awsm-col awsm-form-group awsm-col-full">
-										<label for="awsm-notification-subject"><?php _e( 'Subject ', 'wp-job-openings' ); ?></label>
+										<label for="awsm-notification-subject"><?php esc_html_e( 'Subject ', 'wp-job-openings' ); ?></label>
 											<input type="text" class="awsm-form-control" id="awsm-notification-subject" name="awsm_jobs_notification_subject" value="<?php echo esc_attr( $admin_subject ); ?>" required />
 									</div><!-- .col -->
 									<div class="awsm-col awsm-form-group awsm-col-full">
-										<label for="awsm_jobs_notification_content"><?php _e( 'Content ', 'wp-job-openings' ); ?></label>
+										<label for="awsm_jobs_notification_content"><?php esc_html_e( 'Content ', 'wp-job-openings' ); ?></label>
 											<textarea class="awsm-form-control" id="awsm-notification-content" name="awsm_jobs_notification_content" rows="5" cols="50" required><?php echo esc_textarea( $appplicant_notification_content ); ?></textarea>
 									</div><!-- .col -->
 								</div><!-- row -->
 								<ul class="awsm-list-inline">
-									<li><?php echo apply_filters( 'awsm_job_settings_submit_btn', get_submit_button( esc_html__( 'Save', 'wp-job-openings' ) ), 'notification' ); ?></li>
-									<!-- <li><a href="#" class="awsm-text-red">Delete template</a></li> -->
+									<li><?php echo apply_filters( 'awsm_job_settings_submit_btn', get_submit_button( esc_html__( 'Save', 'wp-job-openings' ) ), 'notification' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></li>
 								</ul>
 							</div><!-- .awsm-acc-content -->
 						</div><!-- .awsm-acc-main -->
@@ -84,17 +83,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 											<input type="text" class="awsm-form-control" name="awsm_jobs_admin_hr_notification" id="awsm_jobs_admin_hr_notification" value="<?php echo esc_attr( $admin_hr_mail ); ?>" />
 									</div><!-- .col -->
 									<div class="awsm-col awsm-form-group awsm-col-full">
-										<label for="awsm_jobs_admin_notification_subject"><?php _e( 'Subject ', 'wp-job-openings' ); ?></label>
+										<label for="awsm_jobs_admin_notification_subject"><?php esc_html_e( 'Subject ', 'wp-job-openings' ); ?></label>
 											<input type="text" class="awsm-form-control" id="awsm_jobs_admin_notification_subject" name="awsm_jobs_admin_notification_subject" value="<?php echo esc_attr( $admin_notification_subject ); ?>" required />
 									</div><!-- .col -->
 									<div class="awsm-col awsm-form-group awsm-col-full">
-										<label for="awsm_jobs_admin_notification_content"><?php _e( 'Content ', 'wp-job-openings' ); ?></label>
+										<label for="awsm_jobs_admin_notification_content"><?php esc_html_e( 'Content ', 'wp-job-openings' ); ?></label>
 											<textarea class="awsm-form-control" id="awsm_jobs_admin_notification_content" name="awsm_jobs_admin_notification_content" rows="5" cols="50" required><?php echo esc_textarea( $admin_notification_content ); ?></textarea>
 									</div><!-- .col -->
 								</div><!-- row -->
 								<ul class="awsm-list-inline">
-									<li><?php echo apply_filters( 'awsm_job_settings_submit_btn', get_submit_button( esc_html__( 'Save', 'wp-job-openings' ) ), 'notification' ); ?></li>
-									<!-- <li><a href="#" class="awsm-text-red">Delete template</a></li> -->
+									<li><?php echo apply_filters( 'awsm_job_settings_submit_btn', get_submit_button( esc_html__( 'Save', 'wp-job-openings' ) ), 'notification' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></li>
 								</ul>
 							</div><!-- .awsm-acc-content -->
 						</div><!-- .awsm-acc-main -->
@@ -132,8 +130,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<h3><?php echo esc_html__( 'Template Tags', 'wp-job-openings' ); ?></h3>
 			<ul class="awsm-job-template-tag-list">
 				<?php
-				foreach ( $template_tags as $tag => $tag_label ) {
-					printf( '<li><span>%s</span><span>%s</span></li>', esc_html( $tag_label ), $tag );
+				foreach ( $template_tags as $template_tag => $tag_label ) {
+					printf( '<li><span>%s</span><span>%s</span></li>', esc_html( $tag_label ), esc_html( $template_tag ) );
 				}
 				?>
 			</ul>

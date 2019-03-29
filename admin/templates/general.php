@@ -35,7 +35,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'id'          => 'awsm-general-select-page-listing',
 					'label'       => __( 'Job listing page', 'wp-job-openings' ),
 					'type'        => 'raw',
-					'value'       => wp_dropdown_pages( $args ),
+					'value'       => wp_dropdown_pages( $args ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					'description' => __( 'The job listing shortcode will be added to  the page you select', 'wp-job-openings' ),
 					'help_button' => array(
 						'visible' => $page_exists,
@@ -78,6 +78,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							'text_class' => 'awsm-text-danger',
 						),
 					),
+					/* translators: %1$s: line break element, %2$s: opening span tag, %3$s: closing span tag */
 					'description' => sprintf( __( 'CAUTION: Checking this option will delete all the job listings, applications and %1$sconfigurations from your website %2$swhen you uninstall the plugin%3$s.', 'wp-job-openings' ), '<br />', '<span>', '</span>' ),
 				),
 			),
@@ -114,7 +115,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<?php do_action( 'after_awsm_settings_main_content', 'general' ); ?>
 
 		<div class="awsm-form-footer">
-		<?php echo apply_filters( 'awsm_job_settings_submit_btn', get_submit_button(), 'general' ); ?>
+		<?php echo apply_filters( 'awsm_job_settings_submit_btn', get_submit_button(), 'general' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 		</div><!-- .awsm-form-footer -->
 	</form>
 	<?php do_action( 'awsm_settings_form_elem_end', 'general' ); ?>

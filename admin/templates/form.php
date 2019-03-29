@@ -152,7 +152,7 @@ if ( ! empty( $upload_file_extns ) ) {
 		<?php do_action( 'after_awsm_settings_main_content', 'form' ); ?>
 
 		<div class="awsm-form-footer">
-		<?php echo apply_filters( 'awsm_job_settings_submit_btn', get_submit_button(), 'form' ); ?>
+		<?php echo apply_filters( 'awsm_job_settings_submit_btn', get_submit_button(), 'form' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 		</div><!-- .awsm-form-footer -->
 	</form>
 	<?php do_action( 'awsm_settings_form_elem_end', 'form' ); ?>

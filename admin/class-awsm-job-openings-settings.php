@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class AWSM_Job_Openings_Settings {
-	private static $_instance = null;
+	private static $instance = null;
 
 	public function __construct( $awsm_core ) {
 		$this->cpath     = untrailingslashit( plugin_dir_path( __FILE__ ) );
@@ -22,10 +22,10 @@ class AWSM_Job_Openings_Settings {
 	}
 
 	public static function init( $awsm_core ) {
-		if ( is_null( self::$_instance ) ) {
-			self::$_instance = new self( $awsm_core );
+		if ( is_null( self::$instance ) ) {
+			self::$instance = new self( $awsm_core );
 		}
-		return self::$_instance;
+		return self::$instance;
 	}
 
 	public function settings_page_capability( $capability ) {
@@ -328,7 +328,7 @@ class AWSM_Job_Openings_Settings {
 	private function set_settings_capability() {
 		$settings = $this->settings();
 		foreach ( $settings as $group => $settings_args ) {
-			add_filter( 'option_page_capability_' . 'awsm-jobs-' . $group . '-settings', array( $this, 'settings_page_capability' ), 11 );
+			add_filter( 'option_page_capability_awsm-jobs-' . $group . '-settings', array( $this, 'settings_page_capability' ), 11 );
 		}
 
 	}
@@ -356,7 +356,7 @@ class AWSM_Job_Openings_Settings {
 	public function sanitize_site_key( $input ) {
 		$old_value = get_option( 'awsm_jobs_recaptcha_site_key' );
 		$enable    = get_option( 'awsm_jobs_enable_recaptcha' );
-		if ( empty( $input ) && $enable == 'enable' ) {
+		if ( empty( $input ) && $enable === 'enable' ) {
 			add_settings_error( 'awsm_jobs_recaptcha_site_key', 'awsm-recaptcha-site-key', esc_html__( 'Invalid site key provided.', 'wp-job-openings' ) );
 			$input = $old_value;
 		}
@@ -366,7 +366,7 @@ class AWSM_Job_Openings_Settings {
 	public function sanitize_secret_key( $input ) {
 		$old_value = get_option( 'awsm_jobs_recaptcha_secret_key' );
 		$enable    = get_option( 'awsm_jobs_enable_recaptcha' );
-		if ( empty( $input ) && $enable == 'enable' ) {
+		if ( empty( $input ) && $enable === 'enable' ) {
 			add_settings_error( 'awsm_jobs_recaptcha_secret_key', 'awsm-recaptcha-secret-key', esc_html__( 'Invalid secret key provided.', 'wp-job-openings' ) );
 			$input = $old_value;
 		}
@@ -411,6 +411,7 @@ class AWSM_Job_Openings_Settings {
 				}
 				if ( isset( $filter['register'] ) ) {
 					if ( taxonomy_exists( $spec_key ) ) {
+						/* translators: %1$s: job specification key, %2$s: specific error message */
 						add_settings_error( 'awsm_jobs_filter', 'awsm-jobs-filter', sprintf( esc_html__( 'Error in registering Job Specification with key: %1$s. %2$s', 'wp-job-openings' ), '<em>' . $spec_key . '</em>', esc_html__( 'Taxonomy already exist!', 'wp-job-openings' ) ) );
 						unset( $filters[ $index ] );
 						continue;
@@ -473,7 +474,7 @@ class AWSM_Job_Openings_Settings {
 		$valid     = true;
 		$all_extns = $this->file_upload_extensions();
 		foreach ( $input as $ext ) {
-			if ( ! in_array( $ext, $all_extns ) ) {
+			if ( ! in_array( $ext, $all_extns, true ) ) {
 				$valid = false;
 				break;
 			}
@@ -531,12 +532,25 @@ class AWSM_Job_Openings_Settings {
 			wp_die( esc_html__( 'You do not have sufficient permissions to manage options.', 'wp-job-openings' ) );
 		}
 		if ( isset( $_POST['option'], $_POST['option_value'] ) ) {
-			$option       = sanitize_text_field( $_POST['option'] );
-			$option_value = sanitize_text_field( $_POST['option_value'] );
+			/**
+			 * Filters the allowed options for switchable settings.
+			 *
+			 * @since 1.4
+			 *
+			 * @param array $allowed_options Allowed options.
+			 */
+			$allowed_options = apply_filters( 'awsm_jobs_switchable_settings_options', array( 'awsm_jobs_acknowledgement', 'awsm_jobs_enable_admin_notification' ) );
+			$option          = sanitize_text_field( $_POST['option'] );
+			$option_value    = sanitize_text_field( $_POST['option_value'] );
 			if ( ! empty( $option ) ) {
-				update_option( $option, $option_value );
+				if ( in_array( $option, $allowed_options, true ) ) {
+					update_option( $option, $option_value );
+				} else {
+					/* translators: %s: option name */
+					wp_die( sprintf( esc_html__( "Error in updating option: '%s'", 'wp-job-openings' ), esc_html( $option ) ) );
+				}
 			}
-			echo $option_value;
+			echo $option_value; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 		wp_die();
 	}
@@ -761,20 +775,10 @@ class AWSM_Job_Openings_Settings {
 		 */
 		$content = apply_filters( 'awsm_jobs_settings_fields_content', $content, $settings_fields, $container );
 		if ( $echo === true ) {
-			echo $content;
+			echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		} else {
 			return $content;
 		}
-	}
-
-	public function display_check_list( $label, $option_name, $value, $saved_data ) {
-		$checked = '';
-		if ( ! empty( $saved_data ) ) {
-			if ( in_array( $value, $saved_data ) ) {
-				$checked = ' checked';
-			}
-		}
-		printf( '<li><label for="%1$s-%2$s"><input type="checkbox" name="%1$s[]" id="%1$s-%2$s" value="%2$s"%4$s />%3$s</label></li>', $option_name, $value, $label, $checked );
 	}
 
 	public function spec_template( $index, $tax_details = array(), $filters = array() ) {
@@ -782,17 +786,16 @@ class AWSM_Job_Openings_Settings {
 			return;
 		}
 
-		$i             = esc_attr( $index );
-		$spec_title    = $row_data = $del_btn_data = $icon_option = $tag_options = '';
-		$spec_key_html = sprintf( '<input type="text" class="widefat awsm-jobs-spec-key" name="awsm_jobs_filter[%1$s][taxonomy]" value="" maxlength="32" placeholder="%2$s" title="%3$s" required /><input type="hidden" name="awsm_jobs_filter[%1$s][register]" value="true" />', $i, esc_attr__( 'Specification key', 'wp-job-openings' ), esc_attr__( 'The job specification key should only contain alphanumeric, latin characters separated by hyphen/underscore, and cannot begin or end with a hyphen/underscore.', 'wp-job-openings' ) );
+		$spec_title    = $row_data = $del_btn_data = $icon_option = $tag_options = ''; // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
+		$spec_key_html = sprintf( '<input type="text" class="widefat awsm-jobs-spec-key" name="awsm_jobs_filter[%1$s][taxonomy]" value="" maxlength="32" placeholder="%2$s" title="%3$s" required /><input type="hidden" name="awsm_jobs_filter[%1$s][register]" value="true" />', esc_attr( $index ), esc_attr__( 'Specification key', 'wp-job-openings' ), esc_attr__( 'The job specification key should only contain alphanumeric, latin characters separated by hyphen/underscore, and cannot begin or end with a hyphen/underscore.', 'wp-job-openings' ) );
 
 		if ( ! empty( $tax_details ) && isset( $tax_details['key'] ) && isset( $tax_details['options'] ) ) {
 			$spec_key      = $tax_details['key'];
 			$spec_options  = $tax_details['options'];
-			$row_data      = sprintf( ' data-index="%s"', $i );
+			$row_data      = sprintf( ' data-index="%s"', esc_attr( $index ) );
 			$del_btn_data  = sprintf( ' data-taxonomy="%s"', esc_attr( $spec_key ) );
-			$spec_title    = esc_attr( $spec_options->label );
-			$spec_key_html = sprintf( '<input type="text" class="widefat" value="%2$s" disabled /><input type="hidden" name="awsm_jobs_filter[%1$s][taxonomy]" value="%2$s" />', $i, esc_attr( $spec_key ) );
+			$spec_title    = $spec_options->label;
+			$spec_key_html = sprintf( '<input type="text" class="widefat" value="%2$s" disabled /><input type="hidden" name="awsm_jobs_filter[%1$s][taxonomy]" value="%2$s" />', esc_attr( $index ), esc_attr( $spec_key ) );
 			foreach ( $filters as $filter ) {
 				if ( $spec_key === $filter['taxonomy'] ) {
 					if ( ! empty( $filter['icon'] ) ) {
@@ -808,20 +811,20 @@ class AWSM_Job_Openings_Settings {
 			}
 		}
 		?>
-			<tr class="awsm-job-specifications-settings-row"<?php echo $row_data; ?>>
+			<tr class="awsm-job-specifications-settings-row"<?php echo $row_data; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 				<td>
-					<input type="text" class="widefat awsm-jobs-spec-title" name="awsm_jobs_filter[<?php echo $i; ?>][filter]" value="<?php echo $spec_title; ?>" placeholder="<?php esc_html_e( 'Enter a specification', 'wp-job-openings' ); ?>" required />
+					<input type="text" class="widefat awsm-jobs-spec-title" name="awsm_jobs_filter[<?php echo esc_attr( $index ); ?>][filter]" value="<?php echo esc_attr( $spec_title ); ?>" placeholder="<?php esc_html_e( 'Enter a specification', 'wp-job-openings' ); ?>" required />
 				</td>
 				<td>
-					<?php echo $spec_key_html; ?>
+					<?php echo $spec_key_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 				</td>
 				<td>
-					<select class="awsm-font-icon-selector awsm-icon-select-control" name="awsm_jobs_filter[<?php echo $i; ?>][icon]" style="width: 100%;" data-placeholder="<?php esc_html_e( 'Select icon', 'wp-job-openings' ); ?>"><?php echo $icon_option; ?></select>
+					<select class="awsm-font-icon-selector awsm-icon-select-control" name="awsm_jobs_filter[<?php echo esc_attr( $index ); ?>][icon]" style="width: 100%;" data-placeholder="<?php esc_html_e( 'Select icon', 'wp-job-openings' ); ?>"><?php echo $icon_option; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></select>
 				</td>
 				<td>
-					<select class="awsm_jobs_filter_tags" name="awsm_jobs_filter[<?php echo $i; ?>][tags][]" multiple="multiple" style="width: 100%;" data-placeholder="<?php esc_html_e( 'Enter options', 'wp-job-openings' ); ?>"><?php echo $tag_options; ?></select>
+					<select class="awsm_jobs_filter_tags" name="awsm_jobs_filter[<?php echo esc_attr( $index ); ?>][tags][]" multiple="multiple" style="width: 100%;" data-placeholder="<?php esc_html_e( 'Enter options', 'wp-job-openings' ); ?>"><?php echo $tag_options; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></select>
 				</td>
-				<td><a class="button awsm-text-red awsm-filters-remove-row" href="#"<?php echo $del_btn_data; ?>><?php esc_html_e( 'Delete', 'wp-job-openings' ); ?></a>
+				<td><a class="button awsm-text-red awsm-filters-remove-row" href="#"<?php echo $del_btn_data; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>><?php esc_html_e( 'Delete', 'wp-job-openings' ); ?></a>
 				</td>
 			</tr>
 		<?php

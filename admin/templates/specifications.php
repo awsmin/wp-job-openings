@@ -26,17 +26,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<thead>
 						 <tr>
 						   <th scope="row" colspan="2" class="awsm-form-head-title">
-								<h2><?php _e( 'Manage Job Specifications', 'wp-job-openings' ); ?></h2>
+								<h2><?php esc_html_e( 'Manage Job Specifications', 'wp-job-openings' ); ?></h2>
 							</th>
 						</tr>
 					</thead>
 					<tbody class="awsm_job_specifications_settings_body">
 						<?php do_action( 'before_awsm_specifications_settings' ); ?>
 						<tr>
-							<td><?php _e( 'Specifications', 'wp-job-openings' ); ?></td>
-							<td><?php _e( 'Key', 'wp-job-openings' ); ?></td>
-							<td><?php _e( 'Icon (Optional)', 'wp-job-openings' ); ?></td>
-							<td><?php _e( 'Options', 'wp-job-openings' ); ?></td></td>
+							<td><?php esc_html_e( 'Specifications', 'wp-job-openings' ); ?></td>
+							<td><?php esc_html_e( 'Key', 'wp-job-openings' ); ?></td>
+							<td><?php esc_html_e( 'Icon (Optional)', 'wp-job-openings' ); ?></td>
+							<td><?php esc_html_e( 'Options', 'wp-job-openings' ); ?></td></td>
 							<td></td>
 						</tr>
 						<?php
@@ -45,16 +45,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 							$this->spec_template( $index );
 						} else {
 							$spec_keys = wp_list_pluck( $awsm_filters, 'taxonomy' );
-							foreach ( $taxonomy_objects as $taxonomy => $taxonomy_options ) {
-								if ( ! in_array( $taxonomy, $spec_keys, true ) ) {
+							foreach ( $taxonomy_objects as $spec => $spec_options ) {
+								if ( ! in_array( $spec, $spec_keys, true ) ) {
 									continue;
 								}
 
 								$this->spec_template(
 									$index,
 									array(
-										'key'     => $taxonomy,
-										'options' => $taxonomy_options,
+										'key'     => $spec,
+										'options' => $spec_options,
 									),
 									$awsm_filters
 								);
@@ -96,7 +96,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<?php do_action( 'after_awsm_settings_main_content', 'specifications' ); ?>
 
 		<div class="awsm-form-footer">
-			<?php echo apply_filters( 'awsm_job_settings_submit_btn', get_submit_button(), 'specifications' ); ?>
+			<?php echo apply_filters( 'awsm_job_settings_submit_btn', get_submit_button(), 'specifications' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 		</div><!-- .awsm-form-footer -->
 	</form>
 	<?php do_action( 'awsm_settings_form_elem_end', 'specifications' ); ?>

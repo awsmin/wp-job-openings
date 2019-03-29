@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-	$no_columns_choices  = $job_specs_choices = $available_filters_choices = $listing_specs_choices = array();
+	$no_columns_choices  = $job_specs_choices = $available_filters_choices = $listing_specs_choices = array(); // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
 	$listing_view        = get_option( 'awsm_jobs_listing_view' );
 	$specifications      = get_option( 'awsm_jobs_filter' );
 	$hidden_class        = 'awsm-hide';
@@ -20,6 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	if ( ! empty( $no_columns_options ) ) {
 		foreach ( $no_columns_options as $column ) {
+			/* translators: %d: number of columns in grid view layout */
 			$text                 = sprintf( _n( '%d Column', '%d Columns', $column, 'wp-job-openings' ), $column );
 			$no_columns_choices[] = array(
 				'value' => $column,
@@ -30,20 +31,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	if ( ! empty( $specifications ) ) {
 		foreach ( $specifications as $spec ) {
+			$spec_key                    = $spec['taxonomy'];
 			$general_choice              = array(
-				'value' => $spec['taxonomy'],
+				'value' => $spec_key,
 				'text'  => $spec['filter'],
 			);
 			$available_filters_choices[] = array_merge(
 				$general_choice,
 				array(
-					'id' => 'awsm_jobs_listing_available_filters' . '-' . $spec['taxonomy'],
+					'id' => "awsm_jobs_listing_available_filters-{$spec_key}",
 				)
 			);
 			$listing_specs_choices[]     = array_merge(
 				$general_choice,
 				array(
-					'id' => 'awsm_jobs_listing_specs' . '-' . $spec['taxonomy'],
+					'id' => "awsm_jobs_listing_specs-{$spec_key}",
 				)
 			);
 		}
@@ -341,7 +343,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<?php do_action( 'after_awsm_settings_main_content', 'appearance' ); ?>
 
 		<div class="awsm-form-footer">
-			<?php echo apply_filters( 'awsm_job_settings_submit_btn', get_submit_button(), 'appearance' ); ?>
+			<?php echo apply_filters( 'awsm_job_settings_submit_btn', get_submit_button(), 'appearance' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 		</div><!-- .awsm-form-footer -->
 	</form>
 	<?php do_action( 'awsm_settings_form_elem_end', 'appearance' ); ?>

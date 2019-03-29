@@ -37,7 +37,7 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 			foreach ( $add_ons_data as $add_on ) :
 				?>
 				<div class="awsm-job-addon-item">
-					<img src="<?php echo ( ! empty( $add_on['image_src'] ) ) ? esc_url( $add_on['image_src'] ) : esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/placeholder.gif' ); ?>" alt="<?php esc_attr( $add_on['name'] ); ?>" />
+					<img src="<?php echo ! empty( $add_on['image_src'] ) ? esc_url( $add_on['image_src'] ) : esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/placeholder.gif' ); ?>" alt="<?php echo esc_attr( $add_on['name'] ); ?>" />
 					<div class="awsm-job-addon-item-inner">
 						<h2 class="awsm-add-ons-name"><?php echo esc_html( $add_on['name'] ); ?></h2>
 						<div class="awsm-job-addon-item-content">		
@@ -59,13 +59,19 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 						<div class="awsm-job-addon-item-info">
 							<ul>
 								<li>
-									<p class="awsm-job-addon-price"><?php echo ( $add_on['pricing']['type'] == 'free' || empty( $add_on['pricing']['price'] ) ) ? esc_html__( 'Free', 'wp-job-openings' ) : sprintf( esc_html__( 'Price: %s', 'wp-job-openings' ), $add_on['pricing']['price'] ); ?></p>
+									<p class="awsm-job-addon-price">
+										<?php
+											/* translators: %s: price of the add-on */
+											$price_label = ( $add_on['pricing']['type'] === 'free' || empty( $add_on['pricing']['price'] ) ) ? __( 'Free', 'wp-job-openings' ) : sprintf( __( 'Price: %s', 'wp-job-openings' ), $add_on['pricing']['price'] );
+											echo esc_html( $price_label );
+										?>
+									</p>
 								</li>
 								<li>
 									<?php
 									if ( current_user_can( 'install_plugins' ) ) {
 										if ( ! empty( $add_on['wp_plugin'] ) ) {
-											echo $this->get_add_on_btn_content( $add_on['wp_plugin'] );
+											echo $this->get_add_on_btn_content( $add_on['wp_plugin'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 										} else {
 											printf( '<p>%s</p>', esc_html__( 'Coming soon!', 'wp-job-openings' ) );
 										}
@@ -91,5 +97,10 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 				</div><!-- .awsm-welcome-point-image -->
 			</div><!-- .col-->
 	<?php endif; ?>
-	<p><?php printf( esc_html__( 'More add-ons are being developed by our team. If you have any suggestions or feature request, please feel free to reach us through %1$s our website %2$s. ' ), '<a href="https://awsm.in/support/" target="_blank">', '</a>' ); ?></p>
+	<p>
+		<?php
+			/* translators: %1$s: opening anchor tag, %2$s: closing anchor tag */
+			printf( esc_html__( 'More add-ons are being developed by our team. If you have any suggestions or feature request, please feel free to reach us through %1$s our website %2$s.', 'wp-job-openings' ), '<a href="https://awsm.in/support/" target="_blank">', '</a>' );
+		?>
+	</p>
 </div><!-- .awsm-job-addon -->

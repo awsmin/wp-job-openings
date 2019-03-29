@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class AWSM_Job_Openings_Meta {
-	private static $_instance = null;
+	private static $instance = null;
 
 	public function __construct() {
 		$this->cpath = untrailingslashit( plugin_dir_path( __FILE__ ) );
@@ -20,15 +20,15 @@ class AWSM_Job_Openings_Meta {
 	}
 
 	public static function init() {
-		if ( is_null( self::$_instance ) ) {
-			self::$_instance = new self();
+		if ( is_null( self::$instance ) ) {
+			self::$instance = new self();
 		}
-		return self::$_instance;
+		return self::$instance;
 	}
 
 	public function awsm_register_meta_boxes() {
 		global $action;
-		if ( $action == 'edit' ) {
+		if ( $action === 'edit' ) {
 			add_meta_box( 'awsm-status-meta', esc_html__( 'Job Status', 'wp-job-openings' ), array( $this, 'awsm_job_status' ), 'awsm_job_openings', 'side', 'low' );
 			add_meta_box( 'awsm-status-meta-applicant', esc_html__( 'Job Status', 'wp-job-openings' ), array( $this, 'awsm_job_status' ), 'awsm_job_application', 'side', 'low' );
 		}
