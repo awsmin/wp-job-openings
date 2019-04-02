@@ -53,7 +53,8 @@ if ( $post->post_type === 'awsm_job_application' ) {
 	<td>
 		<?php
 		if ( $post_count > 0 ) {
-			$recent_application = array_values( $applications )[0];
+			$applications       = array_values( $applications );
+			$recent_application = $applications[0];
 			$edit_link          = get_edit_post_link( $recent_application->ID );
 			printf( '<a href="%1$s">%2$s %3$s</a>', esc_url( $edit_link ), esc_html( human_time_diff( get_the_time( 'U', $recent_application->ID ), current_time( 'timestamp' ) ) ), esc_html__( 'ago', 'wp-job-openings' ) );
 		} else {

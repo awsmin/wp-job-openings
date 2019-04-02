@@ -1,9 +1,10 @@
 <?xml version="1.0"?>
 <ruleset name="WP Job Openings">
     <description>WP Job Openings coding standard.</description>
-    
-    <config name="installed_paths" value="vendor/wp-coding-standards/wpcs" />
+
     <config name="minimum_supported_wp_version" value="4.1" />
+    <!-- Check for cross-version support for PHP 5.2 and higher. -->
+    <config name="testVersion" value="5.2-" />
 
     <arg name="extensions" value="php" />
 
@@ -18,6 +19,8 @@
 
     <!-- Exclude libraries. -->
 	<exclude-pattern>/lib/*</exclude-pattern>
+
+    <rule ref="PHPCompatibilityWP" />
 
     <rule ref="WordPress-Core" />
     

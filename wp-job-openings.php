@@ -685,6 +685,15 @@ class AWSM_Job_Openings {
 		}
 	}
 
+	public function sanitize_term( $term ) {
+		if ( is_numeric( $term ) ) {
+			$term = intval( $term );
+		} else {
+			$term = sanitize_text_field( $term );
+		}
+		return $term;
+	}
+
 	public function awsm_job_save_post( $post_id, $post ) {
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 			return;
@@ -709,17 +718,7 @@ class AWSM_Job_Openings {
 				if ( ! empty( $specs ) ) {
 					foreach ( $specs as $taxonomy => $spec_terms ) {
 						if ( taxonomy_exists( $taxonomy ) ) {
-							$terms = array_map(
-								function( $value ) {
-									if ( is_numeric( $value ) ) {
-										$value = intval( $value );
-									} else {
-										$value = sanitize_text_field( $value );
-									}
-									return $value;
-								},
-								$spec_terms
-							);
+							$terms = array_map( array( $this, 'sanitize_term' ), $spec_terms );
 							wp_set_object_terms( $post_id, $terms, $taxonomy, false );
 						}
 					}
@@ -783,7 +782,7 @@ class AWSM_Job_Openings {
 	}
 
 	public function awsm_job_application_action_links( $views ) {
-		$remove_views = [ 'publish', 'mine', 'future', 'sticky', 'draft', 'pending', 'reject', 'shortlist' ];
+		$remove_views = array( 'publish', 'mine', 'future', 'sticky', 'draft', 'pending' );
 		foreach ( $remove_views as $view ) {
 			if ( isset( $views[ $view ] ) ) {
 				unset( $views[ $view ] );
