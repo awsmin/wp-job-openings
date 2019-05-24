@@ -540,7 +540,7 @@ class AWSM_Job_Openings_Form {
 			$notifi_subject = get_option( 'awsm_jobs_notification_subject' );
 			$notifi_content = get_option( 'awsm_jobs_notification_content' );
 			$company_name   = get_option( 'awsm_job_company_name', '' );
-			$admin_to       = get_option( 'awsm_jobs_admin_to_notification' );
+			$admin_to       = get_option( 'awsm_jobs_admin_to_notification', $admin_email );
 			$admin_cc       = get_option( 'awsm_jobs_admin_hr_notification' );
 			$admin_subject  = get_option( 'awsm_jobs_admin_notification_subject' );
 			$admin_content  = get_option( 'awsm_jobs_admin_notification_content' );
