@@ -268,23 +268,21 @@ ul.awsm-list-inline label {
 .awsm-acc-main:first-child .awsm-acc-content {
 	display: block;
 }
-.awsm-text-red {
-	color: #a00 !important;
+.awsm-text-red,
+.awsm-text-danger {
+	color: #a92222 !important;
 }
 .awsm-text-green {
-	color: #80c676 !important;
+	color: #1ea508 !important;
 }
 .awsm-text-yellow {
-	color: #ffc039 !important;
-}
-.awsm-text-danger {
-	color: #a60101 !important;
+	color: #e3c600 !important;
 }
 a.awsm-text-red {
 	text-decoration: none;
 }
 a.awsm-text-red:hover {
-	color: #dc3232 !important;
+	color: #db4c4c !important;
 	text-decoration: none;
 }
 .awsm-job-stat-table td:first-child {
@@ -714,7 +712,7 @@ a.awsm-text-red:hover {
 }
 .awsm-jobs-error {
 	background: #fff;
-	border-left: 4px solid #dc3232;
+	border-left: 4px solid #db4c4c;
 	box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
 	padding: 7px 12px;
 }

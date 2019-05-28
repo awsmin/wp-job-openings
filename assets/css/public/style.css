@@ -341,7 +341,7 @@ a.awsm-grid-item .awsm-job-specification-item {
 }
 
 .awsm-job-form-error {
-    color: red;
+    color: #db4c4c;
     font-weight: 500
 }
 
@@ -362,11 +362,11 @@ a.awsm-grid-item .awsm-job-specification-item {
 }
 
 .awsm-success-message {
-    border: 1px solid green;
+    border: 1px solid #1ea508;
 }
 
 .awsm-error-message {
-    border: 1px solid red;
+    border: 1px solid #db4c4c;
 }
 
 ul.awsm-error-message li {
