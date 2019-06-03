@@ -345,6 +345,11 @@ a.awsm-grid-item .awsm-job-specification-item {
     font-weight: 500
 }
 
+.awsm-job-form-control.awsm-job-form-error,
+.awsm-job-form-control.awsm-job-form-error:focus {
+	border: 1px solid #db4c4c;
+}
+
 .awsm-success-message,
 .awsm-error-message {
     padding: 12px 25px;
