@@ -85,30 +85,38 @@ class AWSM_Job_Openings_Info {
 		self::get_info_footer();
 	}
 
-	public function get_add_on_btn_content( $plugin ) {
-		$content          = $btn_action = $action_url = $btn_class = $btn_attrs = ''; // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
-		$plugin_arr       = explode( '/', esc_html( $plugin ) );
-		$plugin_slug      = $plugin_arr[0];
-		$installed_plugin = get_plugins( '/' . $plugin_slug );
+	public function get_add_on_btn_content( $plugin, $add_on_details = array() ) {
+		$plugin_slug = $installed_plugin = $content = $btn_attrs = ''; // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
+		$action_url  = $add_on_details['url'];
+		$btn_action  = __( 'Get it now', 'wp-job-openings' );
+		$btn_class   = 'button button-large';
+		$btn_target  = '_self';
+		if ( ! empty( $plugin ) ) {
+			$plugin_arr       = explode( '/', esc_html( $plugin ) );
+			$plugin_slug      = $plugin_arr[0];
+			$installed_plugin = get_plugins( '/' . $plugin_slug );
+		}
 		if ( empty( $installed_plugin ) ) {
-			if ( get_filesystem_method( array(), WP_PLUGIN_DIR ) === 'direct' ) {
-				$btn_action = __( 'Get it now', 'wp-job-openings' );
+			if ( get_filesystem_method( array(), WP_PLUGIN_DIR ) === 'direct' && $add_on_details['type'] === 'free' ) {
+				$btn_class .= ' install-now';
 				$action_url = wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=' . $plugin_slug ), 'install-plugin_' . $plugin_slug );
-				$btn_class  = ' install-now';
+			} else {
+				$btn_target = '_blank';
 			}
 		} else {
 			if ( is_plugin_active( $plugin ) ) {
 				$btn_action = __( 'Activated', 'wp-job-openings' );
 				$action_url = '#';
+				$btn_class .= ' button-disabled';
 				$btn_attrs  = ' disabled';
 			} else {
 				$btn_action = __( 'Activate', 'wp-job-openings' );
 				$action_url = wp_nonce_url( self_admin_url( 'plugins.php?action=activate&plugin=' . $plugin ), 'activate-plugin_' . $plugin );
-				$btn_class  = ' activate-now';
+				$btn_class .= ' activate-now';
 			}
 		}
-		if ( ! empty( $btn_action ) ) {
-			$content = sprintf( '<a href="%2$s" class="button button-large%3$s"%4$s>%1$s</a>', esc_html( $btn_action ), esc_url( $action_url ), esc_attr( $btn_class ), esc_attr( $btn_attrs ) );
+		if ( ! empty( $action_url ) ) {
+			$content = sprintf( '<a href="%2$s" class="%3$s" target="%4$s"%5$s>%1$s</a>', esc_html( $btn_action ), esc_url( $action_url ), esc_attr( $btn_class ), esc_attr( $btn_target ), esc_attr( $btn_attrs ) );
 		}
 		return $content;
 	}

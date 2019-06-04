@@ -35,12 +35,13 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 		$add_ons_data = json_decode( $json, true );
 		if ( ! empty( $add_ons_data ) && is_array( $add_ons_data ) ) :
 			foreach ( $add_ons_data as $add_on ) :
+				$add_on_type = $add_on['pricing']['type'];
 				?>
 				<div class="awsm-job-addon-item">
 					<img src="<?php echo ! empty( $add_on['image_src'] ) ? esc_url( $add_on['image_src'] ) : esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/placeholder.gif' ); ?>" alt="<?php echo esc_attr( $add_on['name'] ); ?>" />
 					<div class="awsm-job-addon-item-inner">
 						<h2 class="awsm-add-ons-name"><?php echo esc_html( $add_on['name'] ); ?></h2>
-						<div class="awsm-job-addon-item-content">		
+						<div class="awsm-job-addon-item-content">
 							<?php echo wp_kses( $add_on['content'], $allowed_html ); ?>
 						</div><!-- .awsm-job-addon-item-content -->
 						<div class="awsm-job-addon-item-features">
@@ -61,8 +62,7 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 								<li>
 									<p class="awsm-job-addon-price">
 										<?php
-											/* translators: %s: price of the add-on */
-											$price_label = ( $add_on['pricing']['type'] === 'free' || empty( $add_on['pricing']['price'] ) ) ? __( 'Free', 'wp-job-openings' ) : sprintf( __( 'Price: %s', 'wp-job-openings' ), $add_on['pricing']['price'] );
+											$price_label = ( $add_on_type === 'free' || empty( $add_on['pricing']['price'] ) ) ? __( 'Free', 'wp-job-openings' ) : $add_on['pricing']['price'];
 											echo esc_html( $price_label );
 										?>
 									</p>
@@ -70,8 +70,12 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 								<li>
 									<?php
 									if ( current_user_can( 'install_plugins' ) ) {
-										if ( ! empty( $add_on['wp_plugin'] ) ) {
-											echo $this->get_add_on_btn_content( $add_on['wp_plugin'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+										if ( ! empty( $add_on['wp_plugin'] ) || ! empty( $add_on['url'] ) ) {
+											$add_on_details = array(
+												'type' => $add_on_type,
+												'url'  => $add_on['url'],
+											);
+											echo $this->get_add_on_btn_content( $add_on['wp_plugin'], $add_on_details ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 										} else {
 											printf( '<p>%s</p>', esc_html__( 'Coming soon!', 'wp-job-openings' ) );
 										}
@@ -79,11 +83,11 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 									?>
 								</li>
 								<?php
-								if ( ! empty( $add_on['url'] ) ) {
+								if ( ! empty( $add_on['url'] ) && $add_on_type === 'free' ) {
 									printf( '<a href="%2$s" target="_blank">%1$s</a>', esc_html__( 'More Details', 'wp-job-openings' ), esc_url( $add_on['url'] ) );
 								}
 								?>
-							</ul>		
+							</ul>
 						</div><!-- .awsm-job-addon-item-info -->
 					</div><!-- .awsm-job-addon-item-inner -->
 				</div><!-- .awsm-job-addon-item -->
