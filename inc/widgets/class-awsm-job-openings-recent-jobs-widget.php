@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class AWSM_Job_Openings_Widget extends WP_Widget {
+class AWSM_Job_Openings_Recent_Jobs_Widget extends WP_Widget {
 	public function __construct() {
 		$widget_ops = array(
 			'classname'                   => 'awsm_widget_recent_jobs',
@@ -45,7 +45,8 @@ class AWSM_Job_Openings_Widget extends WP_Widget {
 			),
 			$instance
 		);
-		$query      = new WP_Query( $query_args );
+
+		$query = new WP_Query( $query_args );
 
 		if ( ! $query->have_posts() ) {
 			return;
@@ -58,7 +59,7 @@ class AWSM_Job_Openings_Widget extends WP_Widget {
 		echo $args['before_widget']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 		if ( $title ) {
-			echo $args['before_title'] . $title . $args['after_title']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo $args['before_title'] . esc_html( $title ) . $args['after_title']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 
 		do_action( 'before_awsm_recent_jobs_widget_content', $args, $instance );
@@ -99,3 +100,5 @@ class AWSM_Job_Openings_Widget extends WP_Widget {
 		return $instance;
 	}
 }
+
+register_widget( 'AWSM_Job_Openings_Recent_Jobs_Widget' );

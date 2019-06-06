@@ -94,7 +94,7 @@ class AWSM_Job_Openings {
 
 	public static function load_classes() {
 		$prefix  = 'class-awsm-job-openings';
-		$classes = array( 'core', 'filters', 'form', 'widget' );
+		$classes = array( 'core', 'filters', 'form' );
 		foreach ( $classes as $class ) {
 			require_once AWSM_JOBS_PLUGIN_DIR . "/inc/{$prefix}-{$class}.php";
 		}
@@ -222,7 +222,10 @@ class AWSM_Job_Openings {
 	}
 
 	public function register_widgets() {
-		register_widget( 'AWSM_Job_Openings_Widget' );
+		$widgets = array( 'recent-jobs' );
+		foreach ( $widgets as $widget ) {
+			include_once AWSM_JOBS_PLUGIN_DIR . "/inc/widgets/class-awsm-job-openings-{$widget}-widget.php";
+		}
 	}
 
 	public function awsm_quick_settings( $links ) {
@@ -712,7 +715,7 @@ class AWSM_Job_Openings {
 		}
 
 		if ( $post->post_type === 'awsm_job_openings' ) {
-			$job_expiry_meta = '';
+			// handle job specifications.
 			if ( isset( $_POST['awsm_job_spec_terms'] ) ) {
 				$specs = $_POST['awsm_job_spec_terms'];
 				if ( ! empty( $specs ) ) {
@@ -725,6 +728,7 @@ class AWSM_Job_Openings {
 				}
 			}
 
+			// handle job expiry.
 			$expiry_on_list  = isset( $_POST['awsm_set_exp_list'] ) ? sanitize_text_field( $_POST['awsm_set_exp_list'] ) : '';
 			$awsm_job_expiry = isset( $_POST['awsm_job_expiry'] ) ? sanitize_text_field( $_POST['awsm_job_expiry'] ) : '';
 			$display_list    = isset( $_POST['awsm_exp_list_display'] ) ? sanitize_text_field( $_POST['awsm_exp_list_display'] ) : '';
