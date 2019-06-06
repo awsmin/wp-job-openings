@@ -225,6 +225,7 @@ jQuery(document).ready(function ($) {
 		var $current_target_container = $(current_target);
 		if ($current_target_container.length > 0) {
 			var $main_tab = $current_subtab.closest('.awsm-admin-settings');
+			$current_target_container.find("[data-required='required']").prop('required', true);
 			$main_tab.find('.awsm-sub-options-container').hide();
 			$main_tab.find('.awsm-nav-subtab').removeClass('current');
 			$current_subtab.addClass('current');
@@ -251,6 +252,7 @@ jQuery(document).ready(function ($) {
 		var current_subtab_id = $current_subtab.attr('id');
 		var $main_tab = $current_subtab.closest('.awsm-admin-settings');
 		if (!$current_subtab.hasClass('current')) {
+			$main_tab.find("[data-required='required']").prop('required', false);
 			awsm_subtab_toggle($current_subtab, true);
 			$main_tab.find(subtabs_selector).val(current_subtab_id);
 		}
