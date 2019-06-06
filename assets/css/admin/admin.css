@@ -486,6 +486,8 @@ a.awsm-text-red:hover {
 }
 
 .awsm-jobs-datepicker+button {
+	background: none;
+	border: none;
 	height: 30px;
 	vertical-align: top;
 }
