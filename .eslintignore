@@ -1,0 +1,13 @@
+# Ignore dev files
+config.js
+gulpfile.js
+
+# Ignore composer vendor directory
+vendor/
+
+# Ignore all minified files
+*.min.js
+
+# Ignore vendor js files
+assets/js/admin/vendors/*.js
+assets/js/public/vendors/*.js

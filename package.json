@@ -6,7 +6,9 @@
   "scripts": {
     "start": "gulp",
     "watch": "cross-env NODE_ENV=development gulp watch",
-    "build": "cross-env NODE_ENV=production gulp build",
+		"build": "cross-env NODE_ENV=production gulp build",
+		"eslint": "cross-env ./node_modules/.bin/eslint .",
+		"translate": "gulp translate",
     "archive": "cross-env git archive --format=zip --prefix=wp-job-openings/ --output=./build/wp-job-openings.zip --worktree-attributes master",
     "dev-archive": "cross-env git archive --format=zip --prefix=wp-job-openings/ --output=./build/wp-job-openings.zip --worktree-attributes dev-branch"
   },
@@ -32,6 +34,8 @@
   "devDependencies": {
     "browser-sync": "^2.26.3",
     "cross-env": "^5.2.0",
+    "eslint": "^5.16.0",
+    "eslint-config-wordpress": "^2.0.0",
     "gulp": "^4.0.0",
     "gulp-autoprefixer": "^5.0.0",
     "gulp-clean-css": "^3.10.0",
