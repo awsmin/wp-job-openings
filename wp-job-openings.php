@@ -866,7 +866,7 @@ class AWSM_Job_Openings {
 		} else {
 			$args['post_status'] = array( 'publish', 'expired' );
 		}
-		return $args;
+		return apply_filters( 'awsm_job_query_args', $args, $filters, $shortcode_atts );
 	}
 
 	public static function get_job_listing_view() {
