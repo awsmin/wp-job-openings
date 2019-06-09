@@ -61,20 +61,23 @@ class AWSM_Job_Openings_Core {
 			'item_updated'             => __( 'Job listing updated.', 'wp-job-openings' ),
 		);
 
-		$args = array(
-			'has_archive'     => true,
-			'labels'          => $labels,
-			'hierarchical'    => false,
-			'map_meta_cap'    => true,
-			'taxonomies'      => array(),
-			'public'          => true,
-			'show_ui'         => true,
-			'show_in_rest'    => true,
-			'show_in_menu'    => true,
-			'rewrite'         => array( 'slug' => get_option( 'awsm_permalink_slug', 'jobs' ) ),
-			'capability_type' => 'job',
-			'menu_icon'       => esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/nav-icon.png' ),
-			'supports'        => array( 'title', 'editor', 'publicize' ),
+		$args = apply_filters(
+			'awsm_job_openings_args',
+			array(
+				'has_archive'     => true,
+				'labels'          => $labels,
+				'hierarchical'    => false,
+				'map_meta_cap'    => true,
+				'taxonomies'      => array(),
+				'public'          => true,
+				'show_ui'         => true,
+				'show_in_rest'    => true,
+				'show_in_menu'    => true,
+				'rewrite'         => array( 'slug' => get_option( 'awsm_permalink_slug', 'jobs' ) ),
+				'capability_type' => 'job',
+				'menu_icon'       => esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/nav-icon.png' ),
+				'supports'        => array( 'title', 'editor', 'publicize' ),
+			)
 		);
 
 		register_post_type( 'awsm_job_openings', $args );
@@ -83,31 +86,34 @@ class AWSM_Job_Openings_Core {
 			return;
 		}
 
-		 $labels = array(
-			 'name'               => __( 'Applications', 'wp-job-openings' ),
-			 'singular_name'      => __( 'Application', 'wp-job-openings' ),
-			 'menu_name'          => __( 'Applications', 'wp-job-openings' ),
-			 'edit_item'          => __( 'Applications', 'wp-job-openings' ),
-			 'search_items'       => __( 'Search Applications', 'wp-job-openings' ),
-			 'not_found'          => __( 'No Applications found', 'wp-job-openings' ),
-			 'not_found_in_trash' => __( 'No Applications found in Trash', 'wp-job-openings' ),
-		 );
+		$labels = array(
+			'name'               => __( 'Applications', 'wp-job-openings' ),
+			'singular_name'      => __( 'Application', 'wp-job-openings' ),
+			'menu_name'          => __( 'Applications', 'wp-job-openings' ),
+			'edit_item'          => __( 'Applications', 'wp-job-openings' ),
+			'search_items'       => __( 'Search Applications', 'wp-job-openings' ),
+			'not_found'          => __( 'No Applications found', 'wp-job-openings' ),
+			'not_found_in_trash' => __( 'No Applications found in Trash', 'wp-job-openings' ),
+		);
 
-		 $args = array(
-			 'labels'          => $labels,
-			 'public'          => false,
-			 'show_ui'         => true,
-			 'map_meta_cap'    => true,
-			 'show_in_menu'    => 'edit.php?post_type=awsm_job_openings',
-			 'capability_type' => 'application',
-			 'capabilities'    => array(
-				 'create_posts' => false,
-			 ),
-			 'supports'        => false,
-			 'rewrite'         => false,
-		 );
+		$args = apply_filters(
+			'awsm_job_application_args',
+			array(
+				'labels'          => $labels,
+				'public'          => false,
+				'show_ui'         => true,
+				'map_meta_cap'    => true,
+				'show_in_menu'    => 'edit.php?post_type=awsm_job_openings',
+				'capability_type' => 'application',
+				'capabilities'    => array(
+					'create_posts' => false,
+				),
+				'supports'        => false,
+				'rewrite'         => false,
+			)
+		);
 
-		 register_post_type( 'awsm_job_application', $args );
+		register_post_type( 'awsm_job_application', $args );
 	}
 
 	private function get_caps() {
