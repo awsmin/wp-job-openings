@@ -12,6 +12,7 @@ class AWSM_Job_Openings_Info {
 		add_action( 'admin_init', array( $this, 'welcome_page_redirect' ) );
 		add_action( 'admin_head', array( $this, 'remove_menu' ) );
 		add_action( 'admin_menu', array( $this, 'custom_admin_menu' ) );
+		add_action( 'admin_footer', array( $this, 'admin_add_js' ) );
 	}
 
 	public static function init() {
@@ -37,6 +38,17 @@ class AWSM_Job_Openings_Info {
 		add_submenu_page( 'edit.php?post_type=awsm_job_openings', esc_html__( 'Welcome to Job Openings Plugin by Awsm.in', 'wp-job-openings' ), esc_html__( 'Getting started', 'wp-job-openings' ), 'manage_awsm_jobs', 'awsm-jobs-welcome-page', array( $this, 'welcome_page' ) );
 		add_submenu_page( 'edit.php?post_type=awsm_job_openings', esc_html__( 'Help', 'wp-job-openings' ), esc_html__( 'Help', 'wp-job-openings' ), 'manage_awsm_jobs', 'awsm-jobs-help-page', array( $this, 'help_page' ) );
 		add_submenu_page( 'edit.php?post_type=awsm_job_openings', esc_html__( 'Add-ons', 'wp-job-openings' ), esc_html__( 'Add-ons', 'wp-job-openings' ), 'manage_awsm_jobs', 'awsm-jobs-add-ons', array( $this, 'add_ons_page' ) );
+
+		// Add Get PRO link in submenu.
+		if ( ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) {
+			global $submenu;
+			// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+			$submenu['edit.php?post_type=awsm_job_openings'][] = array(
+				sprintf( '<span class="awsm-jobs-get-pro" style="color: #00d1d4;">%s</span>', esc_html__( 'Get PRO', 'wp-job-openings' ) ),
+				'manage_awsm_jobs',
+				esc_url( 'https://1.envato.market/jjbEP' ),
+			);
+		}
 	}
 
 	public function remove_menu() {
@@ -119,5 +131,15 @@ class AWSM_Job_Openings_Info {
 			$content = sprintf( '<a href="%2$s" class="%3$s" target="%4$s"%5$s>%1$s</a>', esc_html( $btn_action ), esc_url( $action_url ), esc_attr( $btn_class ), esc_attr( $btn_target ), esc_attr( $btn_attrs ) );
 		}
 		return $content;
+	}
+
+	public function admin_add_js() {
+		?>
+			<script type="text/javascript">
+				jQuery(document).ready(function($) {
+					$('#adminmenu .awsm-jobs-get-pro').parent('a').attr('target', '_blank');
+				});
+			</script>
+		<?php
 	}
 }

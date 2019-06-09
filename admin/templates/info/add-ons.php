@@ -40,7 +40,9 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 				<div class="awsm-job-addon-item">
 					<img src="<?php echo ! empty( $add_on['image_src'] ) ? esc_url( $add_on['image_src'] ) : esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/placeholder.gif' ); ?>" alt="<?php echo esc_attr( $add_on['name'] ); ?>" />
 					<div class="awsm-job-addon-item-inner">
-						<h2 class="awsm-add-ons-name"><?php echo esc_html( $add_on['name'] ); ?></h2>
+						<h2 class="awsm-add-ons-name">
+							<?php echo ! empty( $add_on['url'] ) ? sprintf( '<a href="%2$s" target="_blank">%1$s</a>', esc_html( $add_on['name'] ), esc_url( $add_on['url'] ) ) : esc_html( $add_on['name'] ); ?>
+						</h2>
 						<div class="awsm-job-addon-item-content">
 							<?php echo wp_kses( $add_on['content'], $allowed_html ); ?>
 						</div><!-- .awsm-job-addon-item-content -->
@@ -70,6 +72,10 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 								<li>
 									<?php
 									if ( current_user_can( 'install_plugins' ) ) {
+										if ( empty( $add_on['wp_plugin'] ) && sanitize_title( $add_on['name'] ) === 'wp-job-openings-pro-pack' ) {
+											$add_on['wp_plugin'] = 'pro-pack-for-wp-job-openings/pro-pack.php';
+										}
+
 										if ( ! empty( $add_on['wp_plugin'] ) || ! empty( $add_on['url'] ) ) {
 											$add_on_details = array(
 												'type' => $add_on_type,
@@ -83,7 +89,7 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 									?>
 								</li>
 								<?php
-								if ( ! empty( $add_on['url'] ) && $add_on_type === 'free' ) {
+								if ( ! empty( $add_on['url'] ) ) {
 									printf( '<a href="%2$s" target="_blank">%1$s</a>', esc_html__( 'More Details', 'wp-job-openings' ), esc_url( $add_on['url'] ) );
 								}
 								?>

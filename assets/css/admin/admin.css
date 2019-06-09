@@ -847,6 +847,14 @@ a.awsm-text-red:hover {
 	box-sizing: border-box;
 }
 
+.awsm-job-addon-item .awsm-add-ons-name a {
+	text-decoration: none;
+}
+
+.awsm-job-addon-item .awsm-add-ons-name a:focus {
+    box-shadow: none;
+}
+
 .awsm-job-addon-item img {
 	float: left;
 	max-width: 115px;
