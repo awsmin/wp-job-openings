@@ -1,3 +1,7 @@
+/* global awsmJobsAdmin, Clipboard */
+
+'use strict';
+
 /**
  * for generic select2 initialization
  */
@@ -70,7 +74,7 @@ jQuery(document).ready(function($) {
 	/*================ Job Expiry ================*/
 
 	var dateToday = new Date();
-	var dates = $('#awsm-jobs-datepicker').datepicker({
+	$('#awsm-jobs-datepicker').datepicker({
 		altField: '#awsm-jobs-datepicker-alt',
 		altFormat: 'yy-mm-d',
 		showOn: 'both',
@@ -88,7 +92,7 @@ jQuery(document).ready(function($) {
 	var specRegEx = new RegExp('^([a-z0-9]+(-|_))*[a-z0-9]+$');
 	var $specWrapper = $('#awsm-job-specifications-options-container');
 
-	var tlData = { 'а': 'a', 'А': 'a', 'б': 'b', 'Б': 'B', 'в': 'v', 'В': 'V', 'ґ': 'g', 'г': 'g', 'Г': 'G', 'д': 'd', 'Д': 'D', 'е': 'e', 'ё': 'e', 'Е': 'E', 'є': 'ye', 'э': 'e', 'Э': 'E', 'и': 'i', 'і': 'i', 'ї': 'yi', 'й': 'i', 'И': 'I', 'Й': 'I', 'к': 'k', 'К': 'K', 'л': 'l', 'Л': 'L', 'м': 'm', 'М': 'M', 'н': 'n', 'Н': 'N', 'о': 'o', 'О': 'O', 'п': 'p', 'П': 'P', 'р': 'r', 'Р': 'R', 'с': 's', 'С': 'S', 'т': 't', 'Т': 'T', 'у': 'u', 'У': 'U', 'ф': 'f', 'Ф': 'F', 'х': 'h', 'Х': 'H', 'ц': 'c', 'ч': 'ch', 'Ч': 'CH', 'ш': 'sh', 'Ш': 'SH', 'щ': 'sch', 'Щ': 'SCH', 'ж': 'zh', 'Ж': 'ZH', 'з': 'z', 'З': 'Z', 'Ъ': '\'', 'ь': '\'', 'ъ': '\'', 'Ь': '\'', 'ы': 'i', 'Ы': 'I', 'ю': 'yu', 'Ю': 'YU', 'я': 'ya', 'Я': 'Ya', 'ё': 'yo', 'Ё': 'YO', 'ц': 'ts', 'Ц': 'TS' };
+	var tlData = { 'а': 'a', 'А': 'a', 'б': 'b', 'Б': 'B', 'в': 'v', 'В': 'V', 'ґ': 'g', 'г': 'g', 'Г': 'G', 'д': 'd', 'Д': 'D', 'е': 'e', 'Е': 'E', 'є': 'ye', 'э': 'e', 'Э': 'E', 'и': 'i', 'і': 'i', 'ї': 'yi', 'й': 'i', 'И': 'I', 'Й': 'I', 'к': 'k', 'К': 'K', 'л': 'l', 'Л': 'L', 'м': 'm', 'М': 'M', 'н': 'n', 'Н': 'N', 'о': 'o', 'О': 'O', 'п': 'p', 'П': 'P', 'р': 'r', 'Р': 'R', 'с': 's', 'С': 'S', 'т': 't', 'Т': 'T', 'у': 'u', 'У': 'U', 'ф': 'f', 'Ф': 'F', 'х': 'h', 'Х': 'H', 'ц': 'c', 'ч': 'ch', 'Ч': 'CH', 'ш': 'sh', 'Ш': 'SH', 'щ': 'sch', 'Щ': 'SCH', 'ж': 'zh', 'Ж': 'ZH', 'з': 'z', 'З': 'Z', 'Ъ': '\'', 'ь': '\'', 'ъ': '\'', 'Ь': '\'', 'ы': 'i', 'Ы': 'I', 'ю': 'yu', 'Ю': 'YU', 'я': 'ya', 'Я': 'Ya', 'ё': 'yo', 'Ё': 'YO', 'Ц': 'TS' };
 
 	// Spec icons select
 	var iconData = [ {
@@ -112,11 +116,11 @@ jQuery(document).ready(function($) {
 	}
 
 	function awsmSpecIconSelect($elem, data) {
-		var placeholder_text = $elem.data('placeholder');
+		var placeholderText = $elem.data('placeholder');
 		$elem.select2({
 			placeholder: {
 				id: '',
-				text: placeholder_text
+				text: placeholderText
 			},
 			allowClear: true,
 			data: data,
@@ -191,7 +195,7 @@ jQuery(document).ready(function($) {
 		if (title.length > 0) {
 			title = $.trim(title).replace(/\s+/g, '-').toLowerCase();
 			if (! specRegEx.test(title)) {
-				tlText = transliterate(title);
+				var tlText = transliterate(title);
 				title = tlText !== title ? tlText : '';
 			}
 			$row.find('.awsm-jobs-spec-key').val(title);
@@ -202,7 +206,7 @@ jQuery(document).ready(function($) {
 		if ($specWrapper.is(':visible')) {
 			var isValid = true;
 			$('.awsm-jobs-error-container').remove();
-			$('.awsm-jobs-spec-key').each(function(index) {
+			$('.awsm-jobs-spec-key').each(function() {
 				var key = $(this).val();
 				if (! specRegEx.test(key)) {
 					isValid = false;
@@ -219,42 +223,42 @@ jQuery(document).ready(function($) {
 
 	/*================ Settings Navigation ================*/
 
-	function awsm_subtab_toggle($current_subtab, enableFadeIn) {
-		var enableFadeIn = (typeof enableFadeIn !== 'undefined') ? enableFadeIn : false;
-		var current_target = $current_subtab.data('target');
-		var $current_target_container = $(current_target);
-		if ($current_target_container.length > 0) {
-			var $main_tab = $current_subtab.closest('.awsm-admin-settings');
-			$current_target_container.find('[data-required="required"]').prop('required', true);
-			$main_tab.find('.awsm-sub-options-container').hide();
-			$main_tab.find('.awsm-nav-subtab').removeClass('current');
-			$current_subtab.addClass('current');
+	function awsmSubtabToggle($currentSubtab, enableFadeIn) {
+		enableFadeIn = (typeof enableFadeIn !== 'undefined') ? enableFadeIn : false;
+		var currentTarget = $currentSubtab.data('target');
+		var $currentTargetContainer = $(currentTarget);
+		if ($currentTargetContainer.length > 0) {
+			var $mainTab = $currentSubtab.closest('.awsm-admin-settings');
+			$currentTargetContainer.find('[data-required="required"]').prop('required', true);
+			$mainTab.find('.awsm-sub-options-container').hide();
+			$mainTab.find('.awsm-nav-subtab').removeClass('current');
+			$currentSubtab.addClass('current');
 			if (enableFadeIn) {
-				$current_target_container.fadeIn();
+				$currentTargetContainer.fadeIn();
 			} else {
-				$current_target_container.show();
+				$currentTargetContainer.show();
 			}
 		}
 	}
 
-	var subtabs_selector = '.awsm_current_settings_subtab';
-	var $subtabs = $(subtabs_selector);
+	var subtabsSelector = '.awsm_current_settings_subtab';
+	var $subtabs = $(subtabsSelector);
 	if ($subtabs.length > 0) {
-		$($subtabs).each(function(i) {
-			var current_subtab_id = $(this).val();
-			var $current_subtab = $('#' + current_subtab_id);
-			awsm_subtab_toggle($current_subtab, true);
+		$($subtabs).each(function() {
+			var currentSubtabId = $(this).val();
+			var $currentSubtab = $('#' + currentSubtabId);
+			awsmSubtabToggle($currentSubtab, true);
 		});
 	}
 	$('#awsm-job-settings-wrap').on('click', '.awsm-nav-subtab', function(e) {
 		e.preventDefault();
-		var $current_subtab = $(this);
-		var current_subtab_id = $current_subtab.attr('id');
-		var $main_tab = $current_subtab.closest('.awsm-admin-settings');
-		if (! $current_subtab.hasClass('current')) {
-			$main_tab.find('[data-required="required"]').prop('required', false);
-			awsm_subtab_toggle($current_subtab, true);
-			$main_tab.find(subtabs_selector).val(current_subtab_id);
+		var $currentSubtab = $(this);
+		var currentSubtabId = $currentSubtab.attr('id');
+		var $mainTab = $currentSubtab.closest('.awsm-admin-settings');
+		if (! $currentSubtab.hasClass('current')) {
+			$mainTab.find('[data-required="required"]').prop('required', false);
+			awsmSubtabToggle($currentSubtab, true);
+			$mainTab.find(subtabsSelector).val(currentSubtabId);
 		}
 	});
 
@@ -287,24 +291,25 @@ jQuery(document).ready(function($) {
 
 	/*================ Settings Switch ================*/
 
-	$('.awsm-settings-switch').on('change', function(e) {
-		$settings_switch = $(this);
-		var option = $settings_switch.attr('id');
-		var option_value = $settings_switch.val();
-		if (! $settings_switch.is(':checked')) {
-			option_value = '';
+	$('.awsm-settings-switch').on('change', function() {
+		var $settingsSwitch = $(this);
+		var option = $settingsSwitch.attr('id');
+		var optionValue = $settingsSwitch.val();
+		if (! $settingsSwitch.is(':checked')) {
+			optionValue = '';
 		}
-		var options_data = {
+		var optionsData = {
 			action: 'settings_switch',
 			nonce: awsmJobsAdmin.nonce,
 			option: option,
-			option_value: option_value
+			'option_value': optionValue
 		};
 		$.ajax({
 			url: awsmJobsAdmin.ajaxurl,
-			data: options_data,
+			data: optionsData,
 			type: 'POST'
 		}).fail(function(xhr) {
+			// eslint-disable-next-line no-console
 			console.log(xhr);
 		});
 	});
