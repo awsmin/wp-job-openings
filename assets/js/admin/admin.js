@@ -2,11 +2,11 @@
  * for generic select2 initialization
  */
 function awsmJobSelectControl($elem, placeholder) {
-	var placeholder = (typeof placeholder !== 'undefined') ? placeholder : '';
+	placeholder = (typeof placeholder !== 'undefined') ? placeholder : '';
 	var options = {
 		minimumResultsForSearch: 25,
 		theme: 'awsm-job'
-	}
+	};
 	if (placeholder.length > 0) {
 		options.placeholder = placeholder;
 	}
@@ -17,22 +17,22 @@ function awsmJobSelectControl($elem, placeholder) {
  * for select2 initialization with tags input
  */
 function awsmJobTagSelect($elem, dropdownHidden) {
-	var dropdownHidden = (typeof dropdownHidden !== 'undefined') ? dropdownHidden : true;
+	dropdownHidden = (typeof dropdownHidden !== 'undefined') ? dropdownHidden : true;
 	if ($elem.length > 0) {
 		$elem.select2({
 			tags: true,
-			tokenSeparators: [','],
+			tokenSeparators: [ ',' ],
 			theme: 'awsm-job',
 			dropdownCssClass: (dropdownHidden ? 'awsm-hidden-control' : 'awsm-select2-dropdown-control')
 		});
 	}
 }
 
-jQuery(document).ready(function ($) {
+jQuery(document).ready(function($) {
 
 	/*================ General ================*/
 
-	$(".awsm-check-control-field").on('change', function () {
+	$('.awsm-check-control-field').on('change', function() {
 		var $checkControl = $(this);
 		var targetSelector = $checkControl.data('reqTarget');
 		if (typeof targetSelector !== 'undefined') {
@@ -46,7 +46,7 @@ jQuery(document).ready(function ($) {
 		}
 	});
 
-	$('.awsm-check-toggle-control').on('change', function () {
+	$('.awsm-check-toggle-control').on('change', function() {
 		var $toggleControl = $(this);
 		var targetSelector = $toggleControl.data('toggleTarget');
 		if (typeof targetSelector !== 'undefined') {
@@ -70,10 +70,10 @@ jQuery(document).ready(function ($) {
 	/*================ Job Expiry ================*/
 
 	var dateToday = new Date();
-	var dates = $("#awsm-jobs-datepicker").datepicker({
+	var dates = $('#awsm-jobs-datepicker').datepicker({
 		altField: '#awsm-jobs-datepicker-alt',
-		altFormat: "yy-mm-d",
-		showOn: "both",
+		altFormat: 'yy-mm-d',
+		showOn: 'both',
 		buttonText: '<span class="dashicons dashicons-calendar-alt"></span>',
 		changeMonth: true,
 		numberOfMonths: 1,
@@ -86,18 +86,18 @@ jQuery(document).ready(function ($) {
 	awsmJobTagSelect($('.awsm_job_specification_terms'), false);
 
 	var specRegEx = new RegExp('^([a-z0-9]+(-|_))*[a-z0-9]+$');
-	var $specWrapper = $("#awsm-job-specifications-options-container");
+	var $specWrapper = $('#awsm-job-specifications-options-container');
 
-	var tlData = { "а":"a", "А":"a", "б":"b", "Б":"B", "в":"v", "В":"V", "ґ":"g","г":"g", "Г":"G", "д":"d", "Д":"D", "е":"e", "ё":"e", "Е":"E", "є":"ye", "э":"e", "Э":"E", "и":"i", "і":"i", "ї":"yi", "й":"i", "И":"I", "Й":"I", "к":"k", "К":"K", "л":"l", "Л":"L", "м":"m", "М":"M", "н":"n", "Н":"N", "о":"o", "О":"O", "п":"p", "П":"P", "р":"r", "Р":"R", "с":"s", "С":"S", "т":"t", "Т":"T", "у":"u", "У":"U", "ф":"f", "Ф":"F", "х":"h", "Х":"H", "ц":"c", "ч":"ch", "Ч":"CH", "ш":"sh", "Ш":"SH", "щ":"sch", "Щ":"SCH", "ж":"zh", "Ж":"ZH", "з":"z", "З":"Z", "Ъ":"'", "ь":"'", "ъ":"'", "Ь":"'", "ы":"i", "Ы":"I", "ю":"yu", "Ю":"YU", "я":"ya", "Я":"Ya", "ё":"yo", "Ё":"YO", "ц":"ts", "Ц":"TS" };
+	var tlData = { 'а': 'a', 'А': 'a', 'б': 'b', 'Б': 'B', 'в': 'v', 'В': 'V', 'ґ': 'g', 'г': 'g', 'Г': 'G', 'д': 'd', 'Д': 'D', 'е': 'e', 'ё': 'e', 'Е': 'E', 'є': 'ye', 'э': 'e', 'Э': 'E', 'и': 'i', 'і': 'i', 'ї': 'yi', 'й': 'i', 'И': 'I', 'Й': 'I', 'к': 'k', 'К': 'K', 'л': 'l', 'Л': 'L', 'м': 'm', 'М': 'M', 'н': 'n', 'Н': 'N', 'о': 'o', 'О': 'O', 'п': 'p', 'П': 'P', 'р': 'r', 'Р': 'R', 'с': 's', 'С': 'S', 'т': 't', 'Т': 'T', 'у': 'u', 'У': 'U', 'ф': 'f', 'Ф': 'F', 'х': 'h', 'Х': 'H', 'ц': 'c', 'ч': 'ch', 'Ч': 'CH', 'ш': 'sh', 'Ш': 'SH', 'щ': 'sch', 'Щ': 'SCH', 'ж': 'zh', 'Ж': 'ZH', 'з': 'z', 'З': 'Z', 'Ъ': '\'', 'ь': '\'', 'ъ': '\'', 'Ь': '\'', 'ы': 'i', 'Ы': 'I', 'ю': 'yu', 'Ю': 'YU', 'я': 'ya', 'Я': 'Ya', 'ё': 'yo', 'Ё': 'YO', 'ц': 'ts', 'Ц': 'TS' };
 
 	// Spec icons select
-	var iconData = [{
+	var iconData = [ {
 		id: '',
 		text: ''
-	}];
+	} ];
 
 	function formatIconSelectState(state) {
-		if (!state.id) {
+		if (! state.id) {
 			return state.text;
 		}
 		var $state = $('<span><i class="awsm-job-icon-' + state.id + '"></i> ' + state.id + '</span>');
@@ -127,8 +127,8 @@ jQuery(document).ready(function ($) {
 	}
 
 	function awsmIconData() {
-		$.getJSON(awsmJobsAdmin.plugin_url + '/assets/fonts/awsm-icons.json', function (data) {
-			$.each(data.icons, function (index, icon) {
+		$.getJSON(awsmJobsAdmin.plugin_url + '/assets/fonts/awsm-icons.json', function(data) {
+			$.each(data.icons, function(index, icon) {
 				iconData.push({
 					id: icon,
 					text: icon
@@ -139,7 +139,7 @@ jQuery(document).ready(function ($) {
 	}
 	awsmIconData();
 
-	$('.awsm_jobs_filter_tags').on('select2:unselect', function (e) {
+	$('.awsm_jobs_filter_tags').on('select2:unselect', function(e) {
 		var $row = $(this).parents('.awsm-job-specifications-settings-row');
 		var index = $row.data('index');
 		var unselected = e.params.data.id;
@@ -148,10 +148,10 @@ jQuery(document).ready(function ($) {
 		}
 	});
 
-	$('.awsm-add-filter-row').on('click', function (e) {
+	$('.awsm-add-filter-row').on('click', function(e) {
 		e.preventDefault();
 		var enableRow = true;
-		$('.awsm-job-specifications-settings-row .awsm-jobs-spec-title').each(function () {
+		$('.awsm-job-specifications-settings-row .awsm-jobs-spec-title').each(function() {
 			if ($(this).val().length == 0) {
 				$(this).focus();
 				enableRow = false;
@@ -169,7 +169,7 @@ jQuery(document).ready(function ($) {
 		}
 	});
 
-	$('#awsm-repeatable-specifications').on('click', '.awsm-filters-remove-row', function (e) {
+	$('#awsm-repeatable-specifications').on('click', '.awsm-filters-remove-row', function(e) {
 		e.preventDefault();
 		var $deleteBtn = $(this);
 		var $wrapper = $('#awsm-repeatable-specifications');
@@ -198,11 +198,11 @@ jQuery(document).ready(function ($) {
 		}
 	});
 
-	$specWrapper.parents("#settings-awsm-settings-specifications").find("form").submit(function(e) {
-		if ($specWrapper.is(":visible")) {
+	$specWrapper.parents('#settings-awsm-settings-specifications').find('form').submit(function(e) {
+		if ($specWrapper.is(':visible')) {
 			var isValid = true;
-			$(".awsm-jobs-error-container").remove();
-			$(".awsm-jobs-spec-key").each(function(index) {
+			$('.awsm-jobs-error-container').remove();
+			$('.awsm-jobs-spec-key').each(function(index) {
 				var key = $(this).val();
 				if (! specRegEx.test(key)) {
 					isValid = false;
@@ -212,7 +212,7 @@ jQuery(document).ready(function ($) {
 				e.preventDefault();
 				var errorTemplate = wp.template('awsm-job-spec-settings-error');
 				var templateData = {isInvalidKey: true};
-				$specWrapper.find(".awsm-form-section").append(errorTemplate(templateData));
+				$specWrapper.find('.awsm-form-section').append(errorTemplate(templateData));
 			}
 		}
 	});
@@ -225,7 +225,7 @@ jQuery(document).ready(function ($) {
 		var $current_target_container = $(current_target);
 		if ($current_target_container.length > 0) {
 			var $main_tab = $current_subtab.closest('.awsm-admin-settings');
-			$current_target_container.find("[data-required='required']").prop('required', true);
+			$current_target_container.find('[data-required="required"]').prop('required', true);
 			$main_tab.find('.awsm-sub-options-container').hide();
 			$main_tab.find('.awsm-nav-subtab').removeClass('current');
 			$current_subtab.addClass('current');
@@ -239,20 +239,20 @@ jQuery(document).ready(function ($) {
 
 	var subtabs_selector = '.awsm_current_settings_subtab';
 	var $subtabs = $(subtabs_selector);
-	if($subtabs.length > 0) {
+	if ($subtabs.length > 0) {
 		$($subtabs).each(function(i) {
 			var current_subtab_id = $(this).val();
 			var $current_subtab = $('#' + current_subtab_id);
 			awsm_subtab_toggle($current_subtab, true);
 		});
 	}
-	$('#awsm-job-settings-wrap').on('click', '.awsm-nav-subtab', function (e) {
+	$('#awsm-job-settings-wrap').on('click', '.awsm-nav-subtab', function(e) {
 		e.preventDefault();
 		var $current_subtab = $(this);
 		var current_subtab_id = $current_subtab.attr('id');
 		var $main_tab = $current_subtab.closest('.awsm-admin-settings');
-		if (!$current_subtab.hasClass('current')) {
-			$main_tab.find("[data-required='required']").prop('required', false);
+		if (! $current_subtab.hasClass('current')) {
+			$main_tab.find('[data-required="required"]').prop('required', false);
 			awsm_subtab_toggle($current_subtab, true);
 			$main_tab.find(subtabs_selector).val(current_subtab_id);
 		}
@@ -260,22 +260,22 @@ jQuery(document).ready(function ($) {
 
 	/*================ Settings Loader ================*/
 
-	$(".awsm-jobs-settings-loader-container").fadeOut(function() {
-		$("#awsm-jobs-settings-section").css('visibility', 'visible').addClass('awsm-visible');
+	$('.awsm-jobs-settings-loader-container').fadeOut(function() {
+		$('#awsm-jobs-settings-section').css('visibility', 'visible').addClass('awsm-visible');
 	});
 
 	/*================ Settings: Notifications ================*/
 
-	$("#awsm-jobs-settings-section").on('click', '.awsm-acc-head', function(e) {
+	$('#awsm-jobs-settings-section').on('click', '.awsm-acc-head', function(e) {
 		var check = true;
 		var $elem = $(this);
 		var $switch = $('.awsm-toggle-switch');
-		if($switch.length > 0) {
-			if($switch.is(e.target) || $switch.has(e.target).length > 0) {
+		if ($switch.length > 0) {
+			if ($switch.is(e.target) || $switch.has(e.target).length > 0) {
 				check = false;
 			}
 		}
-		if(check) {
+		if (check) {
 			$('.awsm-acc-head').removeClass('on');
 			$('.awsm-acc-content').slideUp('normal');
 			if ($elem.next('.awsm-acc-content').is(':hidden') == true) {
@@ -287,11 +287,11 @@ jQuery(document).ready(function ($) {
 
 	/*================ Settings Switch ================*/
 
-	$('.awsm-settings-switch').on('change', function (e) {
+	$('.awsm-settings-switch').on('change', function(e) {
 		$settings_switch = $(this);
 		var option = $settings_switch.attr('id');
 		var option_value = $settings_switch.val();
-		if (!$settings_switch.is(':checked')) {
+		if (! $settings_switch.is(':checked')) {
 			option_value = '';
 		}
 		var options_data = {
@@ -304,7 +304,7 @@ jQuery(document).ready(function ($) {
 			url: awsmJobsAdmin.ajaxurl,
 			data: options_data,
 			type: 'POST'
-		}).fail(function (xhr) {
+		}).fail(function(xhr) {
 			console.log(xhr);
 		});
 	});
@@ -313,21 +313,21 @@ jQuery(document).ready(function ($) {
 
 	if ($('#awsm-copy-clip').length > 0) {
 		var copyCode = new Clipboard('#awsm-copy-clip');
-		copyCode.on('success', function (event) {
+		copyCode.on('success', function(event) {
 			event.clearSelection();
 			event.trigger.textContent = 'Copied';
-			window.setTimeout(function () {
+			window.setTimeout(function() {
 				event.trigger.textContent = 'Copy';
 			}, 2000);
 		});
-		copyCode.on('error', function (event) {
+		copyCode.on('error', function(event) {
 			event.trigger.textContent = 'Press "Ctrl + C" to copy';
-			window.setTimeout(function () {
+			window.setTimeout(function() {
 				event.trigger.textContent = 'Copy';
 			}, 2000);
 		});
 	}
-	$('#awsm-copy-clip').on('click', function (e) {
+	$('#awsm-copy-clip').on('click', function(e) {
 		e.preventDefault();
 	});
 });
