@@ -2,21 +2,21 @@
 Contributors: awsmin
 Tags: jobs, job listing, job openings, job board, careers page, jobs page, wp job opening, jobs plugin
 Requires at least: 4.1
-Tested up to: 5.1
+Tested up to: 5.2.1
 Stable tag: trunk
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 == Summary ==
 
-Super simple Job Listing plugin to manage Job Openings and Applicants on your WordPress site. 
+Super simple Job Listing plugin to manage Job Openings and Applicants on your WordPress site.
 
 == Description ==
-WP Job Openings plugin is the most simple yet powerful plugin for setting up a job listing page for a website. 
+WP Job Openings plugin is the most simple yet powerful plugin for setting up a job listing page for a website.
 
-The plugin is designed after carefully analysing hundreds of job listing layouts and methods. We just picked the best features out of the all and built a plugin that’s super simple to use and extensible to a high performing recruitment tool. 
+The plugin is designed after carefully analysing hundreds of job listing layouts and methods. We just picked the best features out of the all and built a plugin that’s super simple to use and extensible to a high performing recruitment tool.
 
-The first version of the plugin comes with two layouts - Grid and List which are designed carefully according to the modern design and User Experience principles. Highlight of the plugin is its totally flexible filter options. 
+The first version of the plugin comes with two layouts - Grid and List which are designed carefully according to the modern design and User Experience principles. Highlight of the plugin is its totally flexible filter options.
 
 
 [View Demo](https://demo.awsm.in/wp-job-openings/)
@@ -27,7 +27,7 @@ The first version of the plugin comes with two layouts - Grid and List which are
 * Super Simple and Easy to Set Up and See
 * Two Different Modern Layouts
 * Clean and User Friendly Designs
-* Unlimited Job Specifications 
+* Unlimited Job Specifications
 * Unlimited Filtering Options
 * AJAX Powered Job Listing and Filtering
 * Comes with Default Form to Submit Applications
@@ -40,6 +40,19 @@ The first version of the plugin comes with two layouts - Grid and List which are
 = Add-ons =
 
 * [Docs Viewer](https://wordpress.org/plugins/docs-viewer-add-on-for-wp-job-openings/)
+* [PRO Pack](https://1.envato.market/jjbEP)
+
+= WP Job Openings PRO Features =
+
+Power-up your job listing with the PRO pack
+
+* Build your own application form
+* Shortlist, Reject and Select Applicants
+* Rate and Filter Applications
+* Custom Email Notifications & Templates
+* Notes and Activity Log
+
+[Get PRO Pack](https://1.envato.market/jjbEP)
 
 == Installation ==
 1. Upload the plugin folder to the `/wp-content/plugins/` directory, or install the plugin through the WordPress plugins screen directly.
