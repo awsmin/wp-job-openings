@@ -528,7 +528,17 @@ class AWSM_Job_Openings_Form {
 			'{applicant-cover}'  => isset( $applicant_details['awsm_applicant_letter'] ) ? $applicant_details['awsm_applicant_letter'] : '',
 			'{applicant-resume}' => ( ! empty( $attachment_url ) ) ? esc_url( $attachment_url ) : '',
 		);
-		return $tags;
+
+		/**
+		 * Filters the mail template tags.
+		 *
+		 * @since 1.4
+		 *
+		 * @param array $tags Mail template tags
+		 * @param array $applicant_details Applicant Details
+		 * @param array $options Settings values
+		 */
+		return apply_filters( 'awsm_jobs_mail_template_tags', $tags, $applicant_details, $options );
 	}
 
 	protected function notification_email( $applicant_details ) {
@@ -568,6 +578,13 @@ class AWSM_Job_Openings_Form {
 				$mail_content = nl2br( $message );
 				$applicant_cc = str_replace( $email_tag_names, $email_tag_values, $applicant_cc );
 
+				/**
+				 * Filters the applicant notification mail headers.
+				 *
+				 * @since 1.4
+				 *
+				 * @param array $headers Additional headers
+				 */
 				$headers = apply_filters(
 					'awsm_jobs_applicant_notification_mail_headers',
 					array(
@@ -578,7 +595,17 @@ class AWSM_Job_Openings_Form {
 					)
 				);
 
-				$is_mail_send = wp_mail( $applicant_email, $subject, $mail_content, array_values( $headers ) );
+				/**
+				 * Filters the applicant notification mail attachments.
+				 *
+				 * @since 1.4
+				 *
+				 * @param array $attachments Mail attachments.
+				 */
+				$attachments = apply_filters( 'awsm_jobs_applicant_notification_mail_attachments', array() );
+
+				// Now, send mail to the applicant.
+				$is_mail_send = wp_mail( $applicant_email, $subject, $mail_content, array_values( $headers ), $attachments );
 
 				if ( $is_mail_send ) {
 					$current_time = current_time( 'timestamp' );
@@ -592,6 +619,24 @@ class AWSM_Job_Openings_Form {
 						),
 					);
 					update_post_meta( $applicant_details['application_id'], 'awsm_application_mails', $mails_data );
+
+					/**
+					 * Fires when applicant notification mail is successfully sent.
+					 *
+					 * @since 1.4
+					 *
+					 * @param array $applicant_details Applicant details.
+					 */
+					do_action( 'awsm_job_applicant_mail_sent', $applicant_details );
+				} else {
+					/**
+					 * Fires when applicant notification mail is failed to send.
+					 *
+					 * @since 1.4
+					 *
+					 * @param array $applicant_details Applicant details.
+					 */
+					do_action( 'awsm_job_applicant_mail_failed', $applicant_details );
 				}
 			}
 
@@ -601,6 +646,14 @@ class AWSM_Job_Openings_Form {
 				$message  = str_replace( $tag_names, $tag_values, $admin_content );
 				$admin_cc = str_replace( $email_tag_names, $email_tag_values, $admin_cc );
 
+				/**
+				 * Filters the admin notification mail headers.
+				 *
+				 * @since 1.4
+				 *
+				 * @param array $headers Additional headers
+				 * @param array $applicant_details Applicant details
+				 */
 				$admin_headers = apply_filters(
 					'awsm_jobs_admin_notification_mail_headers',
 					array(
@@ -612,7 +665,46 @@ class AWSM_Job_Openings_Form {
 					$applicant_details
 				);
 
-				wp_mail( $to, $subject, nl2br( $message ), array_values( $admin_headers ) );
+				/**
+				 * Filters the admin notification mail attachments.
+				 *
+				 * @since 1.4
+				 *
+				 * @param array $attachments_details Attachments details.
+				 * @param array $applicant_details Applicant details.
+				 */
+				$attachments_details = apply_filters( 'awsm_jobs_admin_notification_mail_attachments', array(), $applicant_details );
+				$attachments         = ! empty( $attachment_details ) ? wp_list_pluck( $attachments_details, 'file' ) : array();
+
+				// Now, send mail to the admin.
+				$is_mail_send = wp_mail( $to, $subject, nl2br( $message ), array_values( $admin_headers ), $attachments );
+
+				if ( $is_mail_send ) {
+					foreach ( $attachments_details as $attachment_details ) {
+						// Now, delete temporarily created files after mail is send.
+						if ( isset( $attachment_details['temp'] ) && $attachment_details['temp'] === true ) {
+							unlink( $attachment_details['file'] );
+						}
+					}
+
+					/**
+					 * Fires when admin notification mail is successfully sent.
+					 *
+					 * @since 1.4
+					 *
+					 * @param array $applicant_details Applicant details.
+					 */
+					do_action( 'awsm_job_admin_mail_sent', $applicant_details );
+				} else {
+					/**
+					 * Fires when admin notification mail is failed to send.
+					 *
+					 * @since 1.4
+					 *
+					 * @param array $applicant_details Applicant details.
+					 */
+					do_action( 'awsm_job_admin_mail_failed', $applicant_details );
+				}
 			}
 		}
 	}
