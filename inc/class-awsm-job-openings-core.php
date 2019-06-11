@@ -61,6 +61,13 @@ class AWSM_Job_Openings_Core {
 			'item_updated'             => __( 'Job listing updated.', 'wp-job-openings' ),
 		);
 
+		/**
+		 * Filters 'awsm_job_openings' post type arguments.
+		 *
+		 * @since 1.4
+		 *
+		 * @param array $args arguments.
+		 */
 		$args = apply_filters(
 			'awsm_job_openings_args',
 			array(
@@ -96,6 +103,13 @@ class AWSM_Job_Openings_Core {
 			'not_found_in_trash' => __( 'No Applications found in Trash', 'wp-job-openings' ),
 		);
 
+		/**
+		 * Filters 'awsm_job_application' post type arguments.
+		 *
+		 * @since 1.4
+		 *
+		 * @param array $args arguments.
+		 */
 		$args = apply_filters(
 			'awsm_job_application_args',
 			array(

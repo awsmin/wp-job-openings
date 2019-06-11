@@ -866,6 +866,16 @@ class AWSM_Job_Openings {
 		} else {
 			$args['post_status'] = array( 'publish', 'expired' );
 		}
+
+		/**
+		 * Filters the arguments for the jobs query.
+		 *
+		 * @since 1.4
+		 *
+		 * @param array $args arguments.
+		 * @param array $filters Applicable filters.
+		 * @param array $shortcode_atts Shortcode attributes.
+		 */
 		return apply_filters( 'awsm_job_query_args', $args, $filters, $shortcode_atts );
 	}
 
