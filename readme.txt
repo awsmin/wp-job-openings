@@ -72,6 +72,20 @@ Power-up your job listing with the PRO pack
 
 == Changelog ==
 
+= V 1.4 - 2019-06-12 =
+* Added: Recent Jobs Widget.
+* Added: Application ID template tag support for Application Notifications.
+* Fixed: Job application notification mail delivery issues.
+* Fixed: Job expiry datepicker button styling issues.
+* Fixed: Required fields in sub tabs preventing settings form submission.
+* Improved: Settings page functionality.
+* Improved: Job application form validation styles.
+* Improved: Add-ons listing page.
+* Code improvements and other bug fixes.
+* Dev: New hooks for customizing the registered post type arguments.
+* Dev: New hook for customizing the arguments for the jobs query.
+* Dev: New hooks for managing job application notification mails.
+
 = V 1.3 - 2019-03-04 =
 * Added: Shortcode attributes - `filters`, `listings`, and `loadmore` for `[awsmjobs]` shortcode. Template files need to be updated if overridden in theme.
 * Added: Job/Application updated messages.
@@ -125,5 +139,5 @@ Power-up your job listing with the PRO pack
 
 == Upgrade Notice ==
 
-= 1.3 =
-Added New Features
+= 1.4 =
+New Features and Bug fixes
