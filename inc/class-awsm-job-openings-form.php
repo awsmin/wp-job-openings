@@ -517,6 +517,7 @@ class AWSM_Job_Openings_Form {
 		$attachment_url = isset( $applicant_details['awsm_attachment_id'] ) ? wp_get_attachment_url( $applicant_details['awsm_attachment_id'] ) : '';
 		$tags           = array(
 			'{applicant}'        => $applicant_details['awsm_applicant_name'],
+			'{application-id}'   => $applicant_details['application_id'],
 			'{applicant-email}'  => $applicant_details['awsm_applicant_email'],
 			'{applicant-phone}'  => isset( $applicant_details['awsm_applicant_phone'] ) ? $applicant_details['awsm_applicant_phone'] : '',
 			'{job-id}'           => $applicant_details['awsm_job_id'],

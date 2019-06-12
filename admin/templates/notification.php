@@ -102,7 +102,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</div><!-- #awsm-job-notification-options-container -->
 
 			<?php do_action( 'after_awsm_settings_main_content', 'notification' ); ?>
-			
+
 		</form>
 		<?php do_action( 'awsm_settings_form_elem_end', 'notification' ); ?>
 	</div><!-- .awsm-settings-col-left -->
@@ -112,6 +112,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			'awsm_job_template_tags',
 			array(
 				'{applicant}'        => __( 'Applicant Name:', 'wp-job-openings' ),
+				'{application-id}'   => __( 'Application ID:', 'wp-job-openings' ),
 				'{applicant-email}'  => __( 'Applicant Email:', 'wp-job-openings' ),
 				'{applicant-phone}'  => __( 'Applicant Phone:', 'wp-job-openings' ),
 				'{applicant-resume}' => __( 'Applicant Resume:', 'wp-job-openings' ),
