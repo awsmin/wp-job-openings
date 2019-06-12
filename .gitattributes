@@ -11,5 +11,7 @@ README.md export-ignore
 CHANGELOG.md export-ignore
 assets/fonts/icomoon.json export-ignore
 .editorconfig export-ignore
+.eslintignore export-ignore
+.eslintrc.yml export-ignore
 .prettierrc export-ignore
 *.map export-ignore
