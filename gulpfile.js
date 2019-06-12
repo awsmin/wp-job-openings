@@ -99,7 +99,7 @@ for (let type in config.scripts) {
 		];
 		let outputName = config.scripts[type].outputName;
 		let dest = config.scripts[type].dest;
-	
+
 		let stream = gulp.src(src, {sourcemaps: config.debug ? true : false});
 		if (!config.debug) {
 			stream = stream.pipe(stripDebug());
@@ -121,7 +121,7 @@ for (let type in config.scripts) {
 
 let i18n = () => {
 	return gulp
-		.src(["./**/*.php", "!./build/**/*.php"])
+		.src(["./**/*.php", "!./build/**/*.php", "!./vendor/**/*.php"])
 		.pipe(sort())
 		.pipe(
 			wpPot({
