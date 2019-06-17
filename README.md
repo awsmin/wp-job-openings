@@ -3,8 +3,8 @@
 **Contributors:** awsmin  
 **Tags:** jobs, job listing, job openings, job board, careers page, jobs page, wp job opening, jobs plugin  
 **Requires at least:** 4.1  
-**Tested up to:** 5.1  
-**Stable tag:** 1.3  
+**Tested up to:** 5.2.1  
+**Stable tag:** 1.4  
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -40,6 +40,19 @@ The first version of the plugin comes with two layouts - Grid and List which are
 ## Add-ons
 
 * [Docs Viewer](https://wordpress.org/plugins/docs-viewer-add-on-for-wp-job-openings/)
+* [PRO Pack](https://1.envato.market/jjbEP)
+
+## WP Job Openings PRO Features
+
+Power-up your job listing with the PRO pack
+
+* Build your own application form
+* Shortlist, Reject and Select Applicants
+* Rate and Filter Applications
+* Custom Email Notifications & Templates
+* Notes and Activity Log
+
+[Get PRO Pack](https://1.envato.market/jjbEP)
 
 ## Installation
 
@@ -86,6 +99,20 @@ The first version of the plugin comes with two layouts - Grid and List which are
 
 ## Changelog
 
+**V 1.4 - 2019-06-12**
+* Added: Recent Jobs Widget.
+* Added: Application ID template tag support for Application Notifications.
+* Fixed: Job application notification mail delivery issues.
+* Fixed: Job expiry datepicker button styling issues.
+* Fixed: Required fields in sub tabs preventing settings form submission.
+* Improved: Settings page functionality.
+* Improved: Job application form validation styles.
+* Improved: Add-ons listing page.
+* Code improvements and other bug fixes.
+* Dev: New hooks for customizing the registered post type arguments.
+* Dev: New hook for customizing the arguments for the jobs query.
+* Dev: New hooks for managing job application notification mails.
+
 **V 1.3 - 2019-03-04**
 * Added: Shortcode attributes - `filters`, `listings`, and `loadmore` for `[awsmjobs]` shortcode. Template files need to be updated if overridden in theme.
 * Added: Job/Application updated messages.
@@ -114,10 +141,5 @@ The first version of the plugin comes with two layouts - Grid and List which are
 
 **V 1.1.2 - 2018-09-23**
 * Fixed: Plugin activation error due to conflict with other plugins, especially Yoast SEO
-
-**V 1.1.1 - 2018-09-21**
-* Fixed: Plugin activation is terminated when plugin is activated through WP-CLI
-* Fixed: Invalid error messages when reCAPTCHA is not enabled in Form settings
-* Code improvements
 
 View complete Changelog in [CHANGELOG.MD](https://github.com/awsmin/wp-job-openings/blob/master/CHANGELOG.md)
