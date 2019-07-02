@@ -469,6 +469,11 @@ a.awsm-text-red:hover {
 
 .awsm-job-expiry-main {
 	display: none;
+	margin-top: 12px;
+}
+
+.awsm-job-expiry-items {
+    margin: 16px 0px 4px 0px;
 }
 
 #awsm-job-expiry:checked~.awsm-job-expiry-main {
