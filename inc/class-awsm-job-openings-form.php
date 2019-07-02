@@ -675,16 +675,18 @@ class AWSM_Job_Openings_Form {
 				 * @param array $applicant_details Applicant details.
 				 */
 				$attachments_details = apply_filters( 'awsm_jobs_admin_notification_mail_attachments', array(), $applicant_details );
-				$attachments         = ! empty( $attachment_details ) ? wp_list_pluck( $attachments_details, 'file' ) : array();
+				$attachments         = ! empty( $attachments_details ) ? wp_list_pluck( $attachments_details, 'file' ) : array();
 
 				// Now, send mail to the admin.
 				$is_mail_send = wp_mail( $to, $subject, nl2br( $message ), array_values( $admin_headers ), $attachments );
 
 				if ( $is_mail_send ) {
-					foreach ( $attachments_details as $attachment_details ) {
-						// Now, delete temporarily created files after mail is send.
-						if ( isset( $attachment_details['temp'] ) && $attachment_details['temp'] === true ) {
-							unlink( $attachment_details['file'] );
+					if ( ! empty( $attachments_details ) ) {
+						foreach ( $attachments_details as $attachment_details ) {
+							// Now, delete temporarily created files after mail is send.
+							if ( isset( $attachment_details['temp'] ) && $attachment_details['temp'] === true ) {
+								unlink( $attachment_details['file'] );
+							}
 						}
 					}
 
