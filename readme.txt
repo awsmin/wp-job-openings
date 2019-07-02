@@ -72,6 +72,9 @@ Power-up your job listing with the PRO pack
 
 == Changelog ==
 
+= V 1.4.1 - 2019-07-02 =
+* Minor bug fixes and style improvements.
+
 = V 1.4 - 2019-06-12 =
 * Added: Recent Jobs Widget.
 * Added: Application ID template tag support for Application Notifications.
@@ -139,5 +142,5 @@ Power-up your job listing with the PRO pack
 
 == Upgrade Notice ==
 
-= 1.4 =
-New Features and Bug fixes
+= 1.4.1 =
+Bug fixes
