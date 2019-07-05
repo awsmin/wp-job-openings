@@ -179,6 +179,8 @@ class AWSM_Job_Openings {
 			add_action( 'before_delete_post', array( $this, 'delete_attachment_post' ) );
 			add_action( 'restrict_manage_posts', array( $this, 'awsm_admin_filtering_posts' ) );
 			add_action( 'before_awsm_job_settings_init', array( $this, 'no_script_msg' ) );
+			add_action( 'wp_ajax_plugin_rating', array( $this, 'awsm_rating_option_update' ) );
+			add_action( 'admin_notices', array( $this, 'awsm_plugin_rating_notice' ) );
 		}
 	}
 
@@ -493,6 +495,33 @@ class AWSM_Job_Openings {
 			</div>
 		</noscript>
 		<?php
+	}
+	
+	public function awsm_plugin_rating_notice() {
+		$jobs_count = wp_count_posts( 'awsm_job_openings' );
+		$jobs = $jobs_count->publish;
+		$rating = get_option( 'awsm_jobs_plugin_rating' ) == '';
+		if ( $jobs >= '10' && $rating) {
+		?>
+		<div class='awsm-jobs-plugin-rating'>
+		<?php echo esc_html__( "That's awesome! You have just published 10th job posting on your wesbite using WP Job Openings. Could you please do me a BIG favor and give it a 5-star rating on WordPress/CodeCanyon? Just to help us spread the word and boost our motivation.", 'wp-job-openings'); ?>
+			<ul>
+				<li><a href='https://wordpress.org/support/plugin/wp-job-openings/reviews/?filter=5' target="_blank"><?php echo esc_html__( 'Ok, you deserve it', 'pro-pack-for-wp-job-openings' ); ?></a></li>
+				<li><a href='#' class='awsm-job-hide-rating' data-confirm="did"><?php echo esc_html__( 'I already did', 'pro-pack-for-wp-job-openings' ); ?></a></li>
+				<li><a href='#' class='awsm-job-hide-rating' data-confirm="later"><?php echo esc_html__( 'Maybe later', 'pro-pack-for-wp-job-openings' ); ?></a></li>
+			</ul>	
+		</div>
+		<?php 
+		}
+	}
+
+	public function awsm_rating_option_update() {
+		if( $_POST['value'] === 'later' ) {
+			set_transient( '_awsm_job_plugin_rating', 'later', MINUTE_IN_SECONDS );
+		}
+		update_option( 'awsm_jobs_plugin_rating', 1 );
+		echo json_encode( array("success") );
+		exit();	
 	}
 
 	public function register_scripts() {

@@ -335,4 +335,25 @@ jQuery(document).ready(function($) {
 	$('#awsm-copy-clip').on('click', function(e) {
 		e.preventDefault();
 	});
+
+	/*================ Plugin Rating ================*/
+
+	$('.awsm-job-hide-rating').on('click', function(e){
+		e.preventDefault();
+		var confirm = $(this).data('confirm');
+        var data = {
+            nonce: awsmJobsAdmin.nonce,
+			action: 'plugin_rating',
+			value: confirm,
+        };
+        $.ajax({
+            url: awsmJobsAdmin.ajaxurl,
+            data: data,
+            type: 'POST'
+        }).done(function(response) {
+            if (response) {
+            	$('.awsm-jobs-plugin-rating').slideUp('fast'); 
+            }      
+        });
+    });
 });
