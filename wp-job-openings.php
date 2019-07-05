@@ -499,9 +499,12 @@ class AWSM_Job_Openings {
 	
 	public function awsm_plugin_rating_notice() {
 		$jobs_count = wp_count_posts( 'awsm_job_openings' );
-		$jobs = $jobs_count->publish;
-		$rating = get_option( 'awsm_jobs_plugin_rating' ) == '';
-		if ( $jobs >= '10' && $rating) {
+		$jobs       = $jobs_count->publish;
+		$rating     = get_option( 'awsm_jobs_plugin_rating' ) == '';
+		$user_id    = get_current_user_id();
+		$maybe      = get_transient( '_awsm_job_rate_plugin_later_' . $user_id ); 
+		if ( $jobs >= '10' && $rating ) {
+			if( $maybe !== 'later') {		
 		?>
 		<div class='awsm-jobs-plugin-rating'>
 		<?php echo esc_html__( "That's awesome! You have just published 10th job posting on your wesbite using WP Job Openings. Could you please do me a BIG favor and give it a 5-star rating on WordPress/CodeCanyon? Just to help us spread the word and boost our motivation.", 'wp-job-openings'); ?>
@@ -512,14 +515,17 @@ class AWSM_Job_Openings {
 			</ul>	
 		</div>
 		<?php 
+			}
 		}
 	}
 
 	public function awsm_rating_option_update() {
+		$user_id = get_current_user_id();
 		if( $_POST['value'] === 'later' ) {
-			set_transient( '_awsm_job_plugin_rating', 'later', MINUTE_IN_SECONDS );
+			set_transient( '_awsm_job_rate_plugin_later_' . $user_id, 'later', MINUTE_IN_SECONDS );
+		} else {
+			update_option( 'awsm_jobs_plugin_rating', 1 );
 		}
-		update_option( 'awsm_jobs_plugin_rating', 1 );
 		echo json_encode( array("success") );
 		exit();	
 	}
