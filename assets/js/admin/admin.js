@@ -338,12 +338,12 @@ jQuery(document).ready(function($) {
 
 	/*================ Plugin Rating ================*/
 
-	$('.awsm-job-hide-rating').on('click', function(e){
+	$('.awsm-job-hide-rating-notice').on('click', function(e){
 		e.preventDefault();
 		var confirm = $(this).data('confirm');
         var data = {
             nonce: awsmJobsAdmin.nonce,
-			action: 'plugin_rating',
+			action: 'rating',
 			value: confirm,
         };
         $.ajax({
@@ -352,7 +352,26 @@ jQuery(document).ready(function($) {
             type: 'POST'
         }).done(function(response) {
             if (response) {
-            	$('.awsm-jobs-plugin-rating').slideUp('fast'); 
+            	$('.awsm-job-fivestar-rating-notice').slideUp('fast'); 
+            }      
+        });
+	});
+	
+	$('.awsm-application-hide-rating-notice').on('click', function(e){
+		e.preventDefault();
+		var confirm = $(this).data('confirm');
+        var data = {
+            nonce: awsmJobsAdmin.nonce,
+			action: 'later',
+			value: confirm,
+        };
+        $.ajax({
+            url: awsmJobsAdmin.ajaxurl,
+            data: data,
+            type: 'POST'
+        }).done(function(response) {
+            if (response) {
+            	$('.awsm-application-fivestar-rating-notice').slideUp('fast'); 
             }      
         });
     });

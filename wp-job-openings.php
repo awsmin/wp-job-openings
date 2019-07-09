@@ -179,7 +179,8 @@ class AWSM_Job_Openings {
 			add_action( 'before_delete_post', array( $this, 'delete_attachment_post' ) );
 			add_action( 'restrict_manage_posts', array( $this, 'awsm_admin_filtering_posts' ) );
 			add_action( 'before_awsm_job_settings_init', array( $this, 'no_script_msg' ) );
-			add_action( 'wp_ajax_plugin_rating', array( $this, 'awsm_rating_option_update' ) );
+			add_action( 'wp_ajax_rating', array( $this, 'awsm_jobs_rating_option_update' ) );
+			add_action( 'wp_ajax_later', array( $this, 'awsm_application_rating_option_update' ) );
 			add_action( 'admin_notices', array( $this, 'awsm_plugin_rating_notice' ) );
 		}
 	}
@@ -498,36 +499,76 @@ class AWSM_Job_Openings {
 	}
 	
 	public function awsm_plugin_rating_notice() {
-		$jobs_count = wp_count_posts( 'awsm_job_openings' );
-		$jobs       = $jobs_count->publish;
-		$rating     = get_option( 'awsm_jobs_plugin_rating' ) == '';
+		$jobs       = wp_count_posts( 'awsm_job_openings' );
+		$jobs_count = $jobs->publish;
 		$user_id    = get_current_user_id();
-		$maybe      = get_transient( '_awsm_job_rate_plugin_later_' . $user_id ); 
-		if ( $jobs >= '10' && $rating ) {
-			if( $maybe !== 'later') {		
-		?>
-		<div class='awsm-jobs-plugin-rating'>
-		<?php echo esc_html__( "That's awesome! You have just published 10th job posting on your wesbite using WP Job Openings. Could you please do me a BIG favor and give it a 5-star rating on WordPress/CodeCanyon? Just to help us spread the word and boost our motivation.", 'wp-job-openings'); ?>
-			<ul>
-				<li><a href='https://wordpress.org/support/plugin/wp-job-openings/reviews/?filter=5' target="_blank"><?php echo esc_html__( 'Ok, you deserve it', 'pro-pack-for-wp-job-openings' ); ?></a></li>
-				<li><a href='#' class='awsm-job-hide-rating' data-confirm="did"><?php echo esc_html__( 'I already did', 'pro-pack-for-wp-job-openings' ); ?></a></li>
-				<li><a href='#' class='awsm-job-hide-rating' data-confirm="later"><?php echo esc_html__( 'Maybe later', 'pro-pack-for-wp-job-openings' ); ?></a></li>
-			</ul>	
-		</div>
-		<?php 
+		$maybe      = get_transient( '_awsm_job_plugin_rating_maybe_later_' . $user_id ); 
+		if( $jobs_count >= '10' ) {
+			if( get_option( 'awsm_job_fivestar_rating_notice' ) == '' ) {
+				if( $maybe !== 'later' ) {
+					?>
+						<div class='awsm-job-fivestar-rating-notice'>
+							<?php echo sprintf( __( 'That\'s awesome! You have just published %3$sth job posting on your wesbite using %1$sWP Job Openings%2$s. Could you please do me a BIG favor and give it a %1$s5-star%2$s rating on WordPress/CodeCanyon? Just to help us spread the word and boost our motivation.', 'wp-job-opeings' ), '<strong>', '</strong>', $jobs_count ); ?>
+							<ul>
+								<li><a href='https://wordpress.org/support/plugin/wp-job-openings/reviews/?filter=5' target="_blank"><?php echo esc_html__( 'Ok, you deserve it', 'wp-job-openings' ); ?></a></li>
+								<li><a href='#' class='awsm-job-hide-rating-notice' data-confirm="did"><?php echo esc_html__( 'I already did', 'wp-job-openings' ); ?></a></li>
+								<li><a href='#' class='awsm-job-hide-rating-notice' data-confirm="later"><?php echo esc_html__( 'Maybe later', 'wp-job-openings' ); ?></a></li>
+							</ul>	
+						</div>
+					<?php
+				}
+			}
+		}
+		$this->awsm_application_plugin_rating_notice();
+	}
+
+	public function awsm_application_plugin_rating_notice() {
+		$args = array(
+			'post_type'   => 'awsm_job_application',
+			'numberposts' => -1,
+		);
+		$applications       = get_posts( $args );
+		$applications_count = count( $applications );
+		$user_id = get_current_user_id();
+		$maybe = get_transient( '_awsm_application_plugin_rating_maybe_later_' . $user_id );
+		if( $applications_count == '10' || $applications_count == '25' || $applications_count == '50' || $applications_count >= '100' ) {
+			if( get_option( 'awsm_application_fivestar_rating_notice' ) == '' ) {
+				if( $maybe !== 'later' ) {
+					?>
+					<div class='awsm-application-fivestar-rating-notice'>
+						<?php echo sprintf( __('You have received over job %1$s%3$s%2$s applications through %1$sWP Job Openings%2$s. That\'s awesome! May we ask you to give it a %1$s5-Star%2$s rating on WordPress / CodeCanyon. It will help us spread the word and boost our motivation.', 'wp-job-openings' ), '<strong>', '</strong>', $applications_count ); ?>
+						<ul>
+							<li><a href='https://wordpress.org/support/plugin/wp-job-openings/reviews/?filter=5' target="_blank"><?php echo esc_html__( 'Ok, you deserve it', 'pro-pack-for-wp-job-openings' ); ?></a></li>	
+							<li><a href='#' class='awsm-application-hide-rating-notice' data-confirm="did"><?php echo esc_html__( 'I already did', 'wp-job-openings' ); ?></a></li>
+							<li><a href='#' class='awsm-application-hide-rating-notice' data-confirm="later"><?php echo esc_html__( 'Maybe later', 'wp-job-openings' ); ?></a></li>			
+						</ul>
+					</div>
+					<?php 
+				}
 			}
 		}
 	}
 
-	public function awsm_rating_option_update() {
+	public function awsm_jobs_rating_option_update() {
 		$user_id = get_current_user_id();
 		if( $_POST['value'] === 'later' ) {
-			set_transient( '_awsm_job_rate_plugin_later_' . $user_id, 'later', MINUTE_IN_SECONDS );
+			set_transient( '_awsm_job_plugin_rating_maybe_later_' . $user_id, 'later', WEEK_IN_SECONDS );
 		} else {
-			update_option( 'awsm_jobs_plugin_rating', 1 );
+			update_option( 'awsm_job_fivestar_rating_notice', 1 );
 		}
 		echo json_encode( array("success") );
 		exit();	
+	}
+
+	public function awsm_application_rating_option_update() {
+		$user_id = get_current_user_id();
+		if( $_POST['value'] === 'later' ) {
+			set_transient( '_awsm_application_plugin_rating_maybe_later_' . $user_id, 'later', WEEK_IN_SECONDS );
+		} else {
+			update_option( 'awsm_application_fivestar_rating_notice', 1 );
+		}
+		echo json_encode( array("success") );
+		exit();
 	}
 
 	public function register_scripts() {
