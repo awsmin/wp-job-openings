@@ -499,16 +499,15 @@ class AWSM_Job_Openings {
 	}
 	
 	public function awsm_plugin_rating_notice() {
-		$jobs       = wp_count_posts( 'awsm_job_openings' );
-		$jobs_count = $jobs->publish;
 		$user_id    = get_current_user_id();
 		$maybe      = get_transient( '_awsm_job_plugin_rating_maybe_later_' . $user_id ); 
-		if( $jobs_count >= '10' ) {
+		$jobs_count  = get_option( 'awsm_job_fivestar_rating' );  
+		if( ! empty( $jobs_count ) ) {
 			if( get_option( 'awsm_job_fivestar_rating_notice' ) == '' ) {
 				if( $maybe !== 'later' ) {
 					?>
 						<div class='awsm-job-fivestar-rating-notice'>
-							<?php echo sprintf( __( 'That\'s awesome! You have just published %3$sth job posting on your wesbite using %1$sWP Job Openings%2$s. Could you please do me a BIG favor and give it a %1$s5-star%2$s rating on WordPress/CodeCanyon? Just to help us spread the word and boost our motivation.', 'wp-job-opeings' ), '<strong>', '</strong>', $jobs_count ); ?>
+							<?php echo sprintf( __( 'That\'s awesome! You have just publish %3$sth job posting on your wesbite using %1$sWP Job Openings%2$s. Could you please do me a BIG favor and give it a %1$s5-star%2$s rating on WordPress/CodeCanyon? Just to help us spread the word and boost our motivation.', 'wp-job-opeings' ), '<strong>', '</strong>', $jobs_count ); ?>
 							<ul>
 								<li><a href='https://wordpress.org/support/plugin/wp-job-openings/reviews/?filter=5' target="_blank"><?php echo esc_html__( 'Ok, you deserve it', 'wp-job-openings' ); ?></a></li>
 								<li><a href='#' class='awsm-job-hide-rating-notice' data-confirm="did"><?php echo esc_html__( 'I already did', 'wp-job-openings' ); ?></a></li>
@@ -825,6 +824,14 @@ class AWSM_Job_Openings {
 					delete_post_meta( $post_id, $meta_key, $olddata );
 				}
 			}
+			$count = wp_count_posts( 'awsm_job_openings' );
+			$jobs = $count->publish;
+			if( $jobs >= '10') {
+				update_option( 'awsm_job_fivestar_rating', $jobs );
+			} else {
+				delete_option( 'awsm_job_fivestar_rating' );
+			}
+
 			if ( $expiry_on_list === 'set_listing' && ! empty( $awsm_job_expiry ) ) {
 				$expiration_time = strtotime( $awsm_job_expiry );
 				if ( $expiration_time < ( time() - ( 24 * 60 * 60 ) ) ) {
