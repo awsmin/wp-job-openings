@@ -662,7 +662,7 @@ class AWSM_Job_Openings_Settings {
 						if ( isset( $field_details['choices'] ) && is_array( $field_details['choices'] ) ) {
 							$choices       = $field_details['choices'];
 							$choices_count = count( $choices );
-							if ( $field_type === 'checkbox' && $choices_count > 1 ) {
+							if ( $field_type === 'checkbox' && $choices_count > 0 && $multiple ) {
 								$field_name .= '[]';
 							}
 							$choice_fields = 1;
