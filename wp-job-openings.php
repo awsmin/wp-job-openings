@@ -417,9 +417,10 @@ class AWSM_Job_Openings {
 				$jobs_post_filter = intval( $_GET['awsm_filter_posts'] );
 			}
 			$custom_posts = array(
-				'posts_per_page' => -1,
-				'post_type'      => 'awsm_job_openings',
-				'post_status'    => array( 'publish', 'expired' ),
+				'posts_per_page'   => -1,
+				'post_type'        => 'awsm_job_openings',
+				'post_status'      => array( 'publish', 'expired' ),
+				'suppress_filters' => false,
 			);
 			$job_posts    = get_posts( $custom_posts );
 
