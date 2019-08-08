@@ -72,6 +72,9 @@ Power-up your job listing with the PRO pack
 
 == Changelog ==
 
+= V 1.4.2 - 2019-08-08 =
+* Minor bug fixes.
+
 = V 1.4.1 - 2019-07-02 =
 * Minor bug fixes and style improvements.
 
@@ -142,5 +145,5 @@ Power-up your job listing with the PRO pack
 
 == Upgrade Notice ==
 
-= 1.4.1 =
+= 1.4.2 =
 Bug fixes
