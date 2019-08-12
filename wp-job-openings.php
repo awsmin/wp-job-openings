@@ -503,7 +503,7 @@ class AWSM_Job_Openings {
 		$maybe_later  = get_transient( '_awsm_job_plugin_rating_maybe_later' );
 		$rated        = get_option( 'awsm_job_fivestar_rating_notice' ); 
 		$main_url     = esc_url( 'https://wordpress.org/support/plugin/wp-job-openings/reviews/?filter=5' );
-		$url          = apply_filters( 'awsm_jobs_plugin_rating', $main_url );
+		$url          = apply_filters( 'awsm_jobs_review_url', $main_url );
 		if ( ! empty( $jobs_count ) && $maybe_later !== 'later' ) {
 			if( empty( $rated ) ) {
 				?>
