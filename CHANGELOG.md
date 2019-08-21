@@ -1,5 +1,11 @@
 ## Changelog
 
+### V 1.4.2 - 2019-08-08
+* Minor bug fixes.
+
+### V 1.4.1 - 2019-07-02
+* Minor bug fixes and style improvements.
+
 ### V 1.4 - 2019-06-12
 * Added: Recent Jobs Widget.
 * Added: Application ID template tag support for Application Notifications.
