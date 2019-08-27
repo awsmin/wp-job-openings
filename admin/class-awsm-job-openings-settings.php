@@ -226,6 +226,10 @@ class AWSM_Job_Openings_Settings {
 					'option_name' => 'awsm_current_notification_subtab', /** @since 1.3 */
 				),
 				array(
+					'option_name' => 'awsm_jobs_from_email_notification',
+					'callback'    => array( $this, 'sanitize_from_email_id' ),
+				),
+				array(
 					'option_name' => 'awsm_jobs_applicant_notification',
 				),
 				array(
@@ -371,6 +375,31 @@ class AWSM_Job_Openings_Settings {
 			$input = $old_value;
 		}
 		return $input;
+	}
+
+	public function is_localhost() {
+		$server_name = strtolower( $_SERVER['SERVER_NAME'] );
+		return in_array( $server_name, array( 'localhost', '127.0.0.1' ) );
+	}
+
+	public function sanitize_from_email_id() {
+		$admin_email = get_option( 'admin_email' );
+		$sitename    = strtolower( $_SERVER['SERVER_NAME'] );
+		$data        = $this->is_localhost();
+
+		if ( isset( $data ) ) {
+			return $admin_email;
+		}
+
+		if ( substr( $sitename, 0, 4 ) == 'www.' ) {
+			$sitename = substr( $sitename, 4 );
+		}
+
+		if ( strpbrk( $admin_email, '@' ) == '@' . $sitename ) {
+			return $admin_email;
+		}
+
+		return $admin_email;
 	}
 
 	public function sanitize_list_per_page( $input ) {
