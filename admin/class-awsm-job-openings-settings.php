@@ -829,4 +829,25 @@ class AWSM_Job_Openings_Settings {
 			</tr>
 		<?php
 	}
+	
+	 public function awsm_jobs_template_tags() {
+		$template_tags = apply_filters(
+			'awsm_job_template_tags',
+			array(
+				'{applicant}'        => __( 'Applicant Name:', 'wp-job-openings' ),
+				'{application-id}'   => __( 'Application ID:', 'wp-job-openings' ),
+				'{applicant-email}'  => __( 'Applicant Email:', 'wp-job-openings' ),
+				'{applicant-phone}'  => __( 'Applicant Phone:', 'wp-job-openings' ),
+				'{applicant-resume}' => __( 'Applicant Resume:', 'wp-job-openings' ),
+				'{applicant-cover}'  => __( 'Cover letter:', 'wp-job-openings' ),
+				'{job-title}'        => __( 'Job Title:', 'wp-job-openings' ),
+				'{job-id}'           => __( 'Job ID:', 'wp-job-openings' ),
+				'{job-expiry}'       => __( 'Job Expiry Date:', 'wp-job-openings' ),
+				'{admin-email}'      => __( 'Site admin email:', 'wp-job-openings' ),
+				'{hr-email}'         => __( 'HR Email:', 'wp-job-openings' ),
+				'{company}'          => __( 'Company Name:', 'wp-job-openings' ),
+			)
+		);
+		return $template_tags;
+	 }
 }
