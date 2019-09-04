@@ -829,8 +829,8 @@ class AWSM_Job_Openings_Settings {
 			</tr>
 		<?php
 	}
-	
-	 public function awsm_jobs_template_tags() {
+
+	 public function get_template_tags() {
 		$template_tags = apply_filters(
 			'awsm_job_template_tags',
 			array(

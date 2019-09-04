@@ -107,7 +107,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<?php do_action( 'awsm_settings_form_elem_end', 'notification' ); ?>
 	</div><!-- .awsm-settings-col-left -->
 
-	<?php $template_tags = $this->awsm_jobs_template_tags(); ?>
+	<?php $template_tags = $this->get_template_tags(); ?>
 
 	<div class="awsm-settings-col-right">
 		<div class="awsm-settings-aside">
