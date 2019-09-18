@@ -230,6 +230,9 @@ class AWSM_Job_Openings_Settings {
 					'callback'    => array( $this, 'sanitize_from_email_id' ),
 				),
 				array(
+					'option_name' => 'awsm_jobs_reply_to_notification',
+				),
+				array(
 					'option_name' => 'awsm_jobs_applicant_notification',
 				),
 				array(
@@ -382,23 +385,21 @@ class AWSM_Job_Openings_Settings {
 		return in_array( $server_name, array( 'localhost', '127.0.0.1' ) );
 	}
 
-	public function sanitize_from_email_id() {
+	public function sanitize_from_email_id( $input ) {
 		$admin_email = get_option( 'admin_email' );
-		$sitename    = strtolower( $_SERVER['SERVER_NAME'] );
-		$data        = $this->is_localhost();
-
-		if ( isset( $data ) ) {
-			return $admin_email;
+		$hostname    = strtolower( $_SERVER['SERVER_NAME'] );
+		if ( $this->is_localhost() ) {			
+			return $input;
 		}
-
-		if ( substr( $sitename, 0, 4 ) == 'www.' ) {
-			$sitename = substr( $sitename, 4 );
+		if ( substr( $hostname, 0, 4 ) === 'www.' ) {	
+			$hostname = substr( $hostname, 4 );
 		}
-
-		if ( strpbrk( $admin_email, '@' ) == '@' . $sitename ) {
-			return $admin_email;
+		$site_hostname = '@' . $hostname;
+		$brk_input     =  strpbrk( $input, '@' );
+		if ( $site_hostname !== $brk_input ) {			
+			add_settings_error( 'awsm_jobs_from_email_notification', 'awsm_jobs_from_email', esc_html__( 'Sender email address does not belong to site domain.', 'wp-job-openings' ) );
+			return $input;
 		}
-
 		return $admin_email;
 	}
 
