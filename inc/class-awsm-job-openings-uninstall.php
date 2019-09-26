@@ -62,6 +62,8 @@ class AWSM_Job_Openings_Uninstall {
 			'awsm_jobs_default_listing_page_id',
 			'awsm_register_default_settings',
 			'awsm_gdpr_policies',
+			'awsm_jobs_from_email_notification', /*  */
+			'awsm_jobs_reply_to_notification',
 		);
 		return $options;
 	}

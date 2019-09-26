@@ -305,6 +305,7 @@ class AWSM_Job_Openings_Settings {
 			'awsm_jobs_enable_admin_notification'  => 'enable',
 			'awsm_jobs_admin_notification_subject' => 'New application received for the position {job-title} [{job-id}]',
 			'awsm_jobs_admin_notification_content' => "Job Opening: {job-title} [{job-id}]\nName: {applicant}\nEmail: {applicant-email}\nPhone: {applicant-phone}\nResume: {applicant-resume}\nCover letter: {applicant-cover}\n\nPowered by WP Job Openings Plugin",
+			'awsm_jobs_from_email_notification'    => get_option( 'admin_email'),
 		);
 		if ( ! empty( $options ) ) {
 			foreach ( $options as $option => $value ) {
@@ -432,7 +433,7 @@ class AWSM_Job_Openings_Settings {
 				return $email;
 			}
 		}
-		return $admin_email;
+		return $email;
 	}
 
 	public function sanitize_list_per_page( $input ) {
