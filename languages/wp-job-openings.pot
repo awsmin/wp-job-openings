@@ -93,85 +93,85 @@ msgstr ""
 msgid "Inactive"
 msgstr ""
 
-#: wp-job-openings.php:427
+#: wp-job-openings.php:428
 msgid "All Jobs"
 msgstr ""
 
-#: wp-job-openings.php:492
+#: wp-job-openings.php:493
 msgid "JavaScript is required! Please enable it in your browser."
 msgstr ""
 
-#: wp-job-openings.php:521
+#: wp-job-openings.php:522
 msgid "Loading..."
 msgstr ""
 
-#: wp-job-openings.php:523
+#: wp-job-openings.php:524
 msgid "Error in submitting your application. Please try again later!"
 msgstr ""
 
-#: wp-job-openings.php:524
+#: wp-job-openings.php:525
 msgid "The file you have selected is too large."
 msgstr ""
 
-#: wp-job-openings.php:554, admin/templates/general.php:20
+#: wp-job-openings.php:555, admin/templates/general.php:20
 msgid "Select a page"
 msgstr ""
 
 #. translators: %1$s: application id, %2$s: job title
-#: wp-job-openings.php:628
+#: wp-job-openings.php:629
 msgid "Application #%1$s for %2$s"
 msgstr ""
 
 #. translators: %s: application submission time
-#: wp-job-openings.php:636
+#: wp-job-openings.php:637
 msgid "Submitted on %s"
 msgstr ""
 
-#: wp-job-openings.php:640
+#: wp-job-openings.php:641
 msgid "from IP "
 msgstr ""
 
-#: wp-job-openings.php:805
+#: wp-job-openings.php:806
 msgid "View Applications"
 msgstr ""
 
-#: wp-job-openings.php:936
+#: wp-job-openings.php:937
 msgid "Closing on"
 msgstr ""
 
-#: wp-job-openings.php:938
+#: wp-job-openings.php:939
 msgid "Expired on"
 msgstr ""
 
-#: wp-job-openings.php:1016
+#: wp-job-openings.php:1017
 msgid "Full Time"
 msgstr ""
 
-#: wp-job-openings.php:1017
+#: wp-job-openings.php:1018
 msgid "Part Time"
 msgstr ""
 
-#: wp-job-openings.php:1018
+#: wp-job-openings.php:1019
 msgid "Freelance"
 msgstr ""
 
-#: wp-job-openings.php:1019
+#: wp-job-openings.php:1020
 msgid "Temporary"
 msgstr ""
 
-#: wp-job-openings.php:1020
+#: wp-job-openings.php:1021
 msgid "Intern"
 msgstr ""
 
-#: wp-job-openings.php:1021
+#: wp-job-openings.php:1022
 msgid "Volunteer"
 msgstr ""
 
-#: wp-job-openings.php:1022
+#: wp-job-openings.php:1023
 msgid "Per Diem"
 msgstr ""
 
-#: wp-job-openings.php:1023
+#: wp-job-openings.php:1024
 msgid "Other"
 msgstr ""
 

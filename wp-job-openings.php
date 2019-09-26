@@ -13,7 +13,7 @@
  * Description: Super simple Job Listing plugin to manage Job Openings and Applicants on your WordPress site.
  * Author: AWSM Innovations
  * Author URI: https://awsm.in/
- * Version: 1.4.1
+ * Version: 1.4.2
  * Licence: GPLv2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text domain: wp-job-openings
@@ -36,7 +36,7 @@ if ( ! defined( 'AWSM_JOBS_PLUGIN_URL' ) ) {
 	define( 'AWSM_JOBS_PLUGIN_URL', untrailingslashit( plugin_dir_url( __FILE__ ) ) );
 }
 if ( ! defined( 'AWSM_JOBS_PLUGIN_VERSION' ) ) {
-	define( 'AWSM_JOBS_PLUGIN_VERSION', '1.4.1' );
+	define( 'AWSM_JOBS_PLUGIN_VERSION', '1.4.2' );
 }
 if ( ! defined( 'AWSM_JOBS_UPLOAD_DIR_NAME' ) ) {
 	define( 'AWSM_JOBS_UPLOAD_DIR_NAME', 'awsm-job-openings' );
@@ -420,9 +420,10 @@ class AWSM_Job_Openings {
 				$jobs_post_filter = intval( $_GET['awsm_filter_posts'] );
 			}
 			$custom_posts = array(
-				'posts_per_page' => -1,
-				'post_type'      => 'awsm_job_openings',
-				'post_status'    => array( 'publish', 'expired' ),
+				'posts_per_page'   => -1,
+				'post_type'        => 'awsm_job_openings',
+				'post_status'      => array( 'publish', 'expired' ),
+				'suppress_filters' => false,
 			);
 			$job_posts    = get_posts( $custom_posts );
 

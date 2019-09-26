@@ -107,25 +107,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<?php do_action( 'awsm_settings_form_elem_end', 'notification' ); ?>
 	</div><!-- .awsm-settings-col-left -->
 
-	<?php
-		$template_tags = apply_filters(
-			'awsm_job_template_tags',
-			array(
-				'{applicant}'        => __( 'Applicant Name:', 'wp-job-openings' ),
-				'{application-id}'   => __( 'Application ID:', 'wp-job-openings' ),
-				'{applicant-email}'  => __( 'Applicant Email:', 'wp-job-openings' ),
-				'{applicant-phone}'  => __( 'Applicant Phone:', 'wp-job-openings' ),
-				'{applicant-resume}' => __( 'Applicant Resume:', 'wp-job-openings' ),
-				'{applicant-cover}'  => __( 'Cover letter:', 'wp-job-openings' ),
-				'{job-title}'        => __( 'Job Title:', 'wp-job-openings' ),
-				'{job-id}'           => __( 'Job ID:', 'wp-job-openings' ),
-				'{job-expiry}'       => __( 'Job Expiry Date:', 'wp-job-openings' ),
-				'{admin-email}'      => __( 'Site admin email:', 'wp-job-openings' ),
-				'{hr-email}'         => __( 'HR Email:', 'wp-job-openings' ),
-				'{company}'          => __( 'Company Name:', 'wp-job-openings' ),
-			)
-		);
-		?>
+	<?php $template_tags = $this->get_template_tags(); ?>
+
 	<div class="awsm-settings-col-right">
 		<div class="awsm-settings-aside">
 			<h3><?php echo esc_html__( 'Template Tags', 'wp-job-openings' ); ?></h3>

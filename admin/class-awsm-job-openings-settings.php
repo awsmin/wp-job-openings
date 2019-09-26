@@ -662,7 +662,7 @@ class AWSM_Job_Openings_Settings {
 						if ( isset( $field_details['choices'] ) && is_array( $field_details['choices'] ) ) {
 							$choices       = $field_details['choices'];
 							$choices_count = count( $choices );
-							if ( $field_type === 'checkbox' && $choices_count > 1 ) {
+							if ( $field_type === 'checkbox' && $choices_count > 0 && $multiple ) {
 								$field_name .= '[]';
 							}
 							$choice_fields = 1;
@@ -829,4 +829,25 @@ class AWSM_Job_Openings_Settings {
 			</tr>
 		<?php
 	}
+
+	 public function get_template_tags() {
+		$template_tags = apply_filters(
+			'awsm_job_template_tags',
+			array(
+				'{applicant}'        => __( 'Applicant Name:', 'wp-job-openings' ),
+				'{application-id}'   => __( 'Application ID:', 'wp-job-openings' ),
+				'{applicant-email}'  => __( 'Applicant Email:', 'wp-job-openings' ),
+				'{applicant-phone}'  => __( 'Applicant Phone:', 'wp-job-openings' ),
+				'{applicant-resume}' => __( 'Applicant Resume:', 'wp-job-openings' ),
+				'{applicant-cover}'  => __( 'Cover letter:', 'wp-job-openings' ),
+				'{job-title}'        => __( 'Job Title:', 'wp-job-openings' ),
+				'{job-id}'           => __( 'Job ID:', 'wp-job-openings' ),
+				'{job-expiry}'       => __( 'Job Expiry Date:', 'wp-job-openings' ),
+				'{admin-email}'      => __( 'Site admin email:', 'wp-job-openings' ),
+				'{hr-email}'         => __( 'HR Email:', 'wp-job-openings' ),
+				'{company}'          => __( 'Company Name:', 'wp-job-openings' ),
+			)
+		);
+		return $template_tags;
+	 }
 }
