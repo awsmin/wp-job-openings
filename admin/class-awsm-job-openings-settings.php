@@ -385,20 +385,52 @@ class AWSM_Job_Openings_Settings {
 		return in_array( $server_name, array( 'localhost', '127.0.0.1' ) );
 	}
 
-	public function sanitize_from_email_id( $input ) {
+	public function awsm_is_email_in_domain( $email, $domain ) {
+		$email_list[] = $email; 
+		$domain       = strtolower( $domain );
+		foreach ( $email_list as $email ) {
+			$email_domain = substr( $email, strrpos( $email, '@' ) + 1 );
+			$email_domain = strtolower( $email_domain );
+			$domain_parts = explode( '.', $domain );
+			do {
+				$site_domain = implode( '.', $domain_parts );
+				if ( $site_domain === $email_domain ) {
+					continue 2;
+				}
+				array_shift( $domain_parts );
+			} while ( $domain_parts );
+			return false;
+		}
+		return true;
+	}
+	
+	public function sanitize_from_email_id( $email ) {
 		$admin_email = get_option( 'admin_email' );
-		$hostname    = strtolower( $_SERVER['SERVER_NAME'] );
-		if ( $this->is_localhost() ) {			
-			return $input;
+		$site_domain = strtolower( $_SERVER['SERVER_NAME'] );
+		if ( $this->is_localhost() ) {
+			return $email;
 		}
-		if ( substr( $hostname, 0, 4 ) === 'www.' ) {	
-			$hostname = substr( $hostname, 4 );
+
+		if ( preg_match( '/^[0-9.]+$/', $site_domain ) ) {
+			return true;
 		}
-		$site_hostname = '@' . $hostname;
-		$brk_input     =  strpbrk( $input, '@' );
-		if ( $site_hostname !== $brk_input ) {			
-			add_settings_error( 'awsm_jobs_from_email_notification', 'awsm_jobs_from_email', esc_html__( 'Sender email address does not belong to site domain.', 'wp-job-openings' ) );
-			return $input;
+	
+		if ( $this->awsm_is_email_in_domain( $email, $site_domain ) ) {
+			return $email;
+		}
+	
+		$home_url = home_url();
+		if ( preg_match( '%^https?://([^/]+)%', $home_url, $matches ) ) {
+			$site_domain = strtolower( $matches[1] );
+	
+			if ( $site_domain !== strtolower( $_SERVER['SERVER_NAME'] )
+			and $this->awsm_is_email_in_domain( $email, $site_domain ) ) {
+				return $email;
+			}
+			else  {
+				add_settings_error( 'awsm_jobs_from_email_notification', 'awsm-jobs-from-email-notifi', esc_html__( 'Given email address does not belongs to site domain.', 'wp-job-openings' ) );
+				return $email;
+			}
 		}
 		return $admin_email;
 	}
