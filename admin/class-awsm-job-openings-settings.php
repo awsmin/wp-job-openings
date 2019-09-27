@@ -433,7 +433,7 @@ class AWSM_Job_Openings_Settings {
 				return $email;
 			}
 		}
-		return $email;
+		return $admin_email;
 	}
 
 	public function sanitize_list_per_page( $input ) {
