@@ -4,7 +4,7 @@
 **Tags:** jobs, job listing, job openings, job board, careers page, jobs page, wp job opening, jobs plugin  
 **Requires at least:** 4.1  
 **Tested up to:** 5.2.1  
-**Stable tag:** 1.4  
+**Stable tag:** 1.4.2  
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -99,6 +99,12 @@ Power-up your job listing with the PRO pack
 
 ## Changelog
 
+**V 1.4.2 - 2019-08-08**
+* Minor bug fixes.
+
+**V 1.4.1 - 2019-07-02**
+* Minor bug fixes and style improvements.
+
 **V 1.4 - 2019-06-12**
 * Added: Recent Jobs Widget.
 * Added: Application ID template tag support for Application Notifications.
@@ -131,15 +137,5 @@ Power-up your job listing with the PRO pack
 * Fixed: Job Application submission error when caching plugin is used
 * Fixed: Application feedback mail issue when Non-English characters are used
 * Fixed: Settings UI issues
-
-**V 1.2 - 2018-10-17**
-* Added: Job posting structured data for better SEO
-* Added: New hooks for managing job application form
-* Fixed: Validation issue for Full Name field in job application form
-* Improved: Functionality of the Settings page
-* Other minor fixes and improvements
-
-**V 1.1.2 - 2018-09-23**
-* Fixed: Plugin activation error due to conflict with other plugins, especially Yoast SEO
 
 View complete Changelog in [CHANGELOG.MD](https://github.com/awsmin/wp-job-openings/blob/master/CHANGELOG.md)
