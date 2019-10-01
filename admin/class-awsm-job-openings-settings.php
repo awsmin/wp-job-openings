@@ -226,6 +226,13 @@ class AWSM_Job_Openings_Settings {
 					'option_name' => 'awsm_current_notification_subtab', /** @since 1.3 */
 				),
 				array(
+					'option_name' => 'awsm_jobs_from_email_notification',
+					'callback'    => array( $this, 'sanitize_from_email_id' ),
+				),
+				array(
+					'option_name' => 'awsm_jobs_reply_to_notification',
+				),
+				array(
 					'option_name' => 'awsm_jobs_applicant_notification',
 				),
 				array(
@@ -298,6 +305,7 @@ class AWSM_Job_Openings_Settings {
 			'awsm_jobs_enable_admin_notification'  => 'enable',
 			'awsm_jobs_admin_notification_subject' => 'New application received for the position {job-title} [{job-id}]',
 			'awsm_jobs_admin_notification_content' => "Job Opening: {job-title} [{job-id}]\nName: {applicant}\nEmail: {applicant-email}\nPhone: {applicant-phone}\nResume: {applicant-resume}\nCover letter: {applicant-cover}\n\nPowered by WP Job Openings Plugin",
+			'awsm_jobs_from_email_notification'    => get_option( 'admin_email'),
 		);
 		if ( ! empty( $options ) ) {
 			foreach ( $options as $option => $value ) {
@@ -371,6 +379,61 @@ class AWSM_Job_Openings_Settings {
 			$input = $old_value;
 		}
 		return $input;
+	}
+
+	public function is_localhost() {
+		$server_name = strtolower( $_SERVER['SERVER_NAME'] );
+		return in_array( $server_name, array( 'localhost', '127.0.0.1' ) );
+	}
+
+	public function awsm_is_email_in_domain( $email, $domain ) {
+		$email_list[] = $email; 
+		$domain       = strtolower( $domain );
+		foreach ( $email_list as $email ) {
+			$email_domain = substr( $email, strrpos( $email, '@' ) + 1 );
+			$email_domain = strtolower( $email_domain );
+			$domain_parts = explode( '.', $domain );
+			do {
+				$site_domain = implode( '.', $domain_parts );
+				if ( $site_domain === $email_domain ) {
+					continue 2;
+				}
+				array_shift( $domain_parts );
+			} while ( $domain_parts );
+			return false;
+		}
+		return true;
+	}
+	
+	public function sanitize_from_email_id( $email ) {
+		$admin_email = get_option( 'admin_email' );
+		$site_domain = strtolower( $_SERVER['SERVER_NAME'] );
+		if ( $this->is_localhost() ) {
+			return $email;
+		}
+
+		if ( preg_match( '/^[0-9.]+$/', $site_domain ) ) {
+			return true;
+		}
+	
+		if ( $this->awsm_is_email_in_domain( $email, $site_domain ) ) {
+			return $email;
+		}
+	
+		$home_url = home_url();
+		if ( preg_match( '%^https?://([^/]+)%', $home_url, $matches ) ) {
+			$site_domain = strtolower( $matches[1] );
+	
+			if ( $site_domain !== strtolower( $_SERVER['SERVER_NAME'] )
+			and $this->awsm_is_email_in_domain( $email, $site_domain ) ) {
+				return $email;
+			}
+			else  {
+				add_settings_error( 'awsm_jobs_from_email_notification', 'awsm-jobs-from-email-notifi', esc_html__( 'Given email address does not belongs to site domain.', 'wp-job-openings' ) );
+				return $email;
+			}
+		}
+		return $admin_email;
 	}
 
 	public function sanitize_list_per_page( $input ) {

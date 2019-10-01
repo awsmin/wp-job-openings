@@ -65,6 +65,8 @@ class AWSM_Job_Openings_Uninstall {
 			'awsm_job_fivestar_rating',
 			'awsm_job_fivestar_rating_notice',
 			'awsm_application_fivestar_rating_notice',
+			'awsm_jobs_from_email_notification', 
+			'awsm_jobs_reply_to_notification',
 		);
 		return $options;
 	}
