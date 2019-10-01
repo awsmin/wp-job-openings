@@ -49,7 +49,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 									</div><!-- .col -->
 									<div class="awsm-col awsm-form-group awsm-col-half">
 										<label for="awsm_jobs_reply_to_notification"><?php esc_html_e( 'Reply To', 'wp-job-openings' ); ?></label>
-											<input type="email" class="awsm-form-control" name="awsm_jobs_reply_to_notification" id="awsm_jobs_reply_to_notification" value="<?php echo esc_attr( $reply_to ); ?>" required />
+											<input type="email" class="awsm-form-control" name="awsm_jobs_reply_to_notification" id="awsm_jobs_reply_to_notification" value="<?php echo esc_attr( $reply_to ); ?>" />
 									</div><!-- .col -->
 									<div class="awsm-col awsm-form-group awsm-col-half">
 										<label for="awsm_jobs_applicant_notification"><?php esc_html_e( 'To', 'wp-job-openings' ); ?></label>

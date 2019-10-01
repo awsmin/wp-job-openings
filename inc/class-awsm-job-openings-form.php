@@ -557,10 +557,11 @@ class AWSM_Job_Openings_Form {
 			$admin_subject   = get_option( 'awsm_jobs_admin_notification_subject' );
 			$admin_content   = get_option( 'awsm_jobs_admin_notification_content' );
 			$from            = ( ! empty( $company_name ) ) ? $company_name : get_option( 'blogname' );
-			$from_mail       = get_option( 'awsm_jobs_from_email_notification' );
+			$from_email      = get_option( 'awsm_jobs_from_email_notification' );
 			$applicant_name  = $applicant_details['awsm_applicant_name'];
 			$applicant_email = $applicant_details['awsm_applicant_email'];
-			$reply_to        = get_option( 'awsm_jobs_reply_to_notification' );
+			$reply_mail      = get_option( 'awsm_jobs_reply_to_notification' ); 
+			$reply_to        = ( ! empty( $reply_mail ) ) ? $reply_mail : $from_email;
 			$tags            = $this->get_mail_template_tags(
 				$applicant_details,
 				array(
@@ -591,7 +592,7 @@ class AWSM_Job_Openings_Form {
 					'awsm_jobs_applicant_notification_mail_headers',
 					array(
 						'content_type' => 'Content-Type: text/html; charset=UTF-8',
-						'from'         => sprintf( 'From: %1$s <%2$s>', $from, $from_mail ),
+						'from'         => sprintf( 'From: %1$s <%2$s>', $from, $from_email ),
 						'reply_to'     => sprintf( 'Reply-To: %1$s <%2$s>', $from, $reply_to ),
 						'cc'           => 'Cc: ' . $applicant_cc,
 					)
