@@ -531,7 +531,7 @@ class AWSM_Job_Openings {
 		$applications_count = count( $applications );
 		$maybe              = get_transient( '_awsm_application_plugin_rating_maybe_later' );
 		$rated              = get_option( 'awsm_application_fivestar_rating_notice' );
-		if( $applications_count == '10' || $applications_count == '25' || $applications_count == '50' || $applications_count >= '100' ) {
+		if( $applications_count === 10 || $applications_count === 25 || $applications_count === 50 || $applications_count >= 100 ) {
 			if( $maybe !== 'later' ) {
 				if( empty( $rated ) ) {
 					?>
