@@ -42,7 +42,7 @@ jQuery(document).ready(function($) {
 			if ($fileControl.length > 0) {
 				$('.awsm-form-file-control').each(function() {
 					var $fileField = $(this);
-					var fileSize = (typeof $fileField.prop('files')[0] !== 'undefined') ? $fileField.prop('files')[0].size : 0;
+					var fileSize = (typeof $fileField.prop('files')[0] !== 'undefined' && $fileField.prop('files')[0]) ? $fileField.prop('files')[0].size : 0;
 					if (fileSize > maxSize) {
 						fileCheck = false;
 					}
