@@ -1,0 +1,26 @@
+{
+    "WP Job Openings: Error Log": {
+		"scope": "php",
+		"prefix": "job:log",
+		"body": [
+			"error_log( json_encode( $1 ) );"
+		],
+		"description": "Error log function"
+	},
+	"WP Job Openings: Translation": {
+		"scope": "php",
+		"prefix": "job:_",
+		"body": [
+			"__( '$1', 'wp-job-openings' )"
+		],
+		"description": "Translation function"
+	},
+	"WP Job Openings: Translation Extended": {
+		"scope": "php",
+		"prefix": "job:__",
+		"body": [
+			"esc_html__( '$1', 'wp-job-openings' )"
+		],
+		"description": "Translation function extended"
+	},
+}

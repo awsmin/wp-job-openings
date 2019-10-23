@@ -10,6 +10,7 @@ phpcs.xml export-ignore
 README.md export-ignore
 CHANGELOG.md export-ignore
 assets/fonts/icomoon.json export-ignore
+.vscode/ export-ignore
 .editorconfig export-ignore
 .eslintignore export-ignore
 .eslintrc.yml export-ignore
