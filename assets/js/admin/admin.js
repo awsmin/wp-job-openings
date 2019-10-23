@@ -14,7 +14,7 @@ function awsmJobSelectControl($elem, placeholder) {
 	if (placeholder.length > 0) {
 		options.placeholder = placeholder;
 	}
-	$elem.select2(options);
+	$elem.awsmSelect2(options);
 }
 
 /**
@@ -23,7 +23,7 @@ function awsmJobSelectControl($elem, placeholder) {
 function awsmJobTagSelect($elem, dropdownHidden) {
 	dropdownHidden = (typeof dropdownHidden !== 'undefined') ? dropdownHidden : true;
 	if ($elem.length > 0) {
-		$elem.select2({
+		$elem.awsmSelect2({
 			tags: true,
 			tokenSeparators: [ ',' ],
 			theme: 'awsm-job',
@@ -117,7 +117,7 @@ jQuery(document).ready(function($) {
 
 	function awsmSpecIconSelect($elem, data) {
 		var placeholderText = $elem.data('placeholder');
-		$elem.select2({
+		$elem.awsmSelect2({
 			placeholder: {
 				id: '',
 				text: placeholderText
