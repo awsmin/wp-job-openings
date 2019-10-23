@@ -2,15 +2,16 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+	$admin_email                     = get_option( 'admin_email' );
 	$hr_email                        = get_option( 'awsm_hr_email_address', '' );
 	$hr_notification                 = get_option( 'awsm_jobs_hr_notification', $hr_email );
 	$admin_subject                   = get_option( 'awsm_jobs_notification_subject', '' );
 	$appplicant_notification_content = get_option( 'awsm_jobs_notification_content', '' );
-	$admin_to_mail                   = get_option( 'awsm_jobs_admin_to_notification', get_option( 'admin_email' ) );
+	$admin_to_mail                   = get_option( 'awsm_jobs_admin_to_notification', $admin_email );
 	$admin_hr_mail                   = get_option( 'awsm_jobs_admin_hr_notification', $hr_email );
 	$admin_notification_subject      = get_option( 'awsm_jobs_admin_notification_subject', '' );
 	$admin_notification_content      = get_option( 'awsm_jobs_admin_notification_content', '' );
-	$from_email                      = get_option( 'awsm_jobs_from_email_notification' );	
+	$from_email                      = get_option( 'awsm_jobs_from_email_notification', $admin_email );
 	$reply_to                        = get_option( 'awsm_jobs_reply_to_notification' );
 ?>
 

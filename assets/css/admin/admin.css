@@ -62,6 +62,10 @@
 	visibility: visible;
 }
 
+.settings-error.awsm-jobs-warning {
+    border-left-color: #ffb900;
+}
+
 .awsm-nav-subtab-container ul.subsubsub {
 	margin: 18px 0 10px;
 }

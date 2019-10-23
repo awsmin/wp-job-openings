@@ -546,23 +546,23 @@ class AWSM_Job_Openings_Form {
 		$enable_acknowledgement = get_option( 'awsm_jobs_acknowledgement' );
 		$enable_admin           = get_option( 'awsm_jobs_enable_admin_notification' );
 		if ( $enable_acknowledgement === 'acknowledgement' || $enable_admin === 'enable' ) {
-			$admin_email     = get_option( 'admin_email' );
-			$hr_mail         = get_option( 'awsm_hr_email_address', '' );
-			$company_name    = get_option( 'awsm_job_company_name', '' );
-			$applicant_cc    = get_option( 'awsm_jobs_hr_notification' );
-			$notifi_subject  = get_option( 'awsm_jobs_notification_subject' );
-			$notifi_content  = get_option( 'awsm_jobs_notification_content' );
-			$admin_to        = get_option( 'awsm_jobs_admin_to_notification', $admin_email );
-			$admin_cc        = get_option( 'awsm_jobs_admin_hr_notification' );
-			$admin_subject   = get_option( 'awsm_jobs_admin_notification_subject' );
-			$admin_content   = get_option( 'awsm_jobs_admin_notification_content' );
-			$from            = ( ! empty( $company_name ) ) ? $company_name : get_option( 'blogname' );
-			$from_email      = get_option( 'awsm_jobs_from_email_notification' );
-			$applicant_name  = $applicant_details['awsm_applicant_name'];
-			$applicant_email = $applicant_details['awsm_applicant_email'];
-			$reply_mail      = get_option( 'awsm_jobs_reply_to_notification' ); 
-			$reply_to        = ( ! empty( $reply_mail ) ) ? $reply_mail : $from_email;
-			$tags            = $this->get_mail_template_tags(
+			$admin_email      = get_option( 'admin_email' );
+			$hr_mail          = get_option( 'awsm_hr_email_address', '' );
+			$company_name     = get_option( 'awsm_job_company_name', '' );
+			$applicant_cc     = get_option( 'awsm_jobs_hr_notification' );
+			$notifi_subject   = get_option( 'awsm_jobs_notification_subject' );
+			$notifi_content   = get_option( 'awsm_jobs_notification_content' );
+			$admin_to         = get_option( 'awsm_jobs_admin_to_notification', $admin_email );
+			$admin_cc         = get_option( 'awsm_jobs_admin_hr_notification' );
+			$admin_subject    = get_option( 'awsm_jobs_admin_notification_subject' );
+			$admin_content    = get_option( 'awsm_jobs_admin_notification_content' );
+			$from             = ( ! empty( $company_name ) ) ? $company_name : get_option( 'blogname' );
+			$from_email       = get_option( 'awsm_jobs_from_email_notification', $admin_email );
+			$applicant_name   = $applicant_details['awsm_applicant_name'];
+			$applicant_email  = $applicant_details['awsm_applicant_email'];
+			$reply_mail       = get_option( 'awsm_jobs_reply_to_notification' );
+			$reply_to         = ( ! empty( $reply_mail ) ) ? $reply_mail : $from_email;
+			$tags             = $this->get_mail_template_tags(
 				$applicant_details,
 				array(
 					'admin_email'  => $admin_email,
