@@ -539,6 +539,9 @@ class AWSM_Job_Openings_Settings {
 				break;
 			}
 		}
+		if( empty( $input) ) {
+			$input =  array( 'pdf', 'doc', 'docx' );
+		}
 		if ( ! $valid ) {
 			add_settings_error( 'awsm_jobs_admin_upload_file_ext', 'awsm-upload-file-extension', esc_html__( 'Error in saving file upload types!', 'wp-job-openings' ) );
 			return false;
