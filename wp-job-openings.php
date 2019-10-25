@@ -48,6 +48,8 @@ require_once AWSM_JOBS_PLUGIN_DIR . '/inc/helper-functions.php';
 class AWSM_Job_Openings {
 	private static $instance = null;
 
+	private static $rating_notice_active = false;
+
 	public function __construct() {
 		// Require Classes
 		self::load_classes();
@@ -67,9 +69,10 @@ class AWSM_Job_Openings {
 		add_action( 'wp', array( $this, 'awsm_openings_cron_job' ) );
 		add_action( 'wp_head', array( $this, 'awsm_wp_head' ) );
 		add_action( 'awsm_check_for_expired_jobs', array( $this, 'check_date_and_change_status' ) );
+		add_action( 'awsm_job_application_submitted', array( $this, 'plugin_rating_check' ) );
 		add_action( 'wp_loaded', array( $this, 'register_scripts' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'awsm_enqueue_scripts' ) );
-		add_action( 'template_redirect', array( $this, 'redirect_attachment_page' ) );
+		add_action( 'template_redirect', array( $this, 'redirect_attachment_page' ), 1 );
 		add_action( 'widgets_init', array( $this, 'register_widgets' ) );
 		add_action( 'wp_ajax_awsm_view_count', array( $this, 'job_views_handler' ) );
 		add_action( 'wp_ajax_nopriv_awsm_view_count', array( $this, 'job_views_handler' ) );
@@ -179,9 +182,8 @@ class AWSM_Job_Openings {
 			add_action( 'before_delete_post', array( $this, 'delete_attachment_post' ) );
 			add_action( 'restrict_manage_posts', array( $this, 'awsm_admin_filtering_posts' ) );
 			add_action( 'before_awsm_job_settings_init', array( $this, 'no_script_msg' ) );
-			add_action( 'wp_ajax_rating', array( $this, 'plugin_rating_option_update' ) );
-			add_action( 'wp_ajax_later', array( $this, 'application_rating_option_update' ) );
-			add_action( 'admin_notices', array( $this, 'plugin_rating_notice' ) );
+			add_action( 'wp_ajax_awsm_plugin_rating', array( $this, 'plugin_rating' ) );
+			add_action( 'admin_notices', array( $this, 'plugin_rating_notice_handler' ) );
 		}
 	}
 
@@ -498,78 +500,123 @@ class AWSM_Job_Openings {
 		</noscript>
 		<?php
 	}
-	
-	public function plugin_rating_notice() {
-		$jobs_count   = get_option( 'awsm_job_fivestar_rating' );
-		$maybe_later  = get_transient( '_awsm_job_plugin_rating_maybe_later' );
-		$rated        = get_option( 'awsm_job_fivestar_rating_notice' ); 
-		$main_url     = esc_url( 'https://wordpress.org/support/plugin/wp-job-openings/reviews/?filter=5' );
-		if( class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) {
-			$main_url = esc_url( 'https://codecanyon.net/item/wp-job-openings-pro/reviews/23889418' );
-		}
-		$review_url   = apply_filters( 'awsm_jobs_review_url', $main_url );
-		if ( ! empty( $jobs_count ) && $maybe_later !== 'later' ) {
-			if( empty( $rated ) ) {
+
+	public static function plugin_rating_notice( $rating_url, $rating_env, $context = 'job' ) {
+		if ( ! self::$rating_notice_active ) :
+			$posts_count = get_option( "awsm_plugin_rating_{$context}_count" );
+			$rate_later  = get_transient( "_awsm_{$context}_ctx_plugin_rate_later" );
+
+			if ( is_array( $posts_count ) && $posts_count['active'] && $rate_later !== 'later' ) :
+				self::$rating_notice_active = true;
+				/* translators: %1$s: opening html tag, %2$s: closing html tag, %3$s: Jobs count, %4$s: Plugin rating site */
+				$notice = esc_html__( 'That\'s awesome! You have just published %3$sth job posting on your wesbite using %1$sWP Job Openings%2$s. Could you please do me a BIG favor and give it a %1$s5-star%2$s rating on %4$s? Just to help us spread the word and boost our motivation.', 'wp-job-openings' );
+				if ( $context === 'application' ) {
+					/* translators: %1$s: opening html tag, %2$s: closing html tag, %3$s: Applications count, %4$s: Plugin rating site */
+					$notice = esc_html__( 'You have received over %1$s%3$s%2$s job applications through %1$sWP Job Openings%2$s. That\'s awesome! May we ask you to give it a %1$s5-Star%2$s rating on %4$s. It will help us spread the word and boost our motivation.', 'wp-job-openings' );
+				}
 				?>
-				<div class='awsm-job-fivestar-rating-notice'>
-					<?php echo sprintf( __( 'That\'s awesome! You have just publish %3$sth job posting on your wesbite using %1$sWP Job Openings%2$s. Could you please do me a BIG favor and give it a %1$s5-star%2$s rating on WordPress/CodeCanyon? Just to help us spread the word and boost our motivation.', 'wp-job-opeings' ), '<strong>', '</strong>', $jobs_count ); ?>
-					<ul>
-						<li><a href='<?php echo $review_url; ?>' target="_blank"><?php echo esc_html__( 'Ok, you deserve it', 'wp-job-openings' ); ?></a></li>
-						<li><a href='#' class='awsm-job-hide-rating-notice' data-confirm="did"><?php echo esc_html__( 'I already did', 'wp-job-openings' ); ?></a></li>
-						<li><a href='#' class='awsm-job-hide-rating-notice' data-confirm="later"><?php echo esc_html__( 'Maybe later', 'wp-job-openings' ); ?></a></li>
-					</ul>	
+				<div class='awsm-job-plugin-rating-wrapper notice notice-info notice'>
+					<?php printf( '<p>' . $notice . '</p>', '<strong>', '</strong>', esc_html( $posts_count['current'] ), esc_html( $rating_env ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+					<p>
+						<a class="button button-primary" href='<?php echo esc_url( $rating_url ); ?>' target="_blank"><?php echo esc_html__( 'Ok, you deserve it', 'wp-job-openings' ); ?></a>
+						<a class="awsm-job-plugin-rating-action button button-secondary" href='#' data-status="done" data-context="<?php echo esc_attr( $context ); ?>"><?php echo esc_html__( 'I already did', 'wp-job-openings' ); ?></a>
+						<a class="awsm-job-plugin-rating-action button button-secondary" href='#' data-status="later" data-context="<?php echo esc_attr( $context ); ?>"><?php echo esc_html__( 'Maybe later', 'wp-job-openings' ); ?></a>
+					</p>
 				</div>
-				<?php 
-			}		
-		}
-		$this->awsm_application_plugin_rating_notice( $review_url );
+				<?php
+			endif;
+		endif;
 	}
 
-	public function awsm_application_plugin_rating_notice( $review_url ) {
-		$args = array(
-			'post_type'   => 'awsm_job_application',
-			'numberposts' => -1,
-		);
-		$applications       = get_posts( $args );
-		$applications_count = count( $applications );
-		$maybe_later        = get_transient( '_awsm_application_plugin_rating_maybe_later' );
-		$rated              = get_option( 'awsm_application_fivestar_rating_notice' );
-		if( $applications_count === 10 || $applications_count === 25 || $applications_count === 50 || $applications_count >= 100 ) {
-			if( $maybe_later !== 'later' ) {
-				if( empty( $rated ) ) {
-					?>
-					<div class='awsm-application-fivestar-rating-notice'>
-						<?php echo sprintf( __('You have received over job %1$s%3$s%2$s applications through %1$sWP Job Openings%2$s. That\'s awesome! May we ask you to give it a %1$s5-Star%2$s rating on WordPress / CodeCanyon. It will help us spread the word and boost our motivation.', 'wp-job-openings' ), '<strong>', '</strong>', $applications_count ); ?>
-						<ul>
-						<li><a href=' <?php echo $review_url; ?> ' target="_blank"><?php echo esc_html__( 'Ok, you deserve it', 'pro-pack-for-wp-job-openings' ); ?></a></li>	
-							<li><a href='#' class='awsm-application-hide-rating-notice' data-confirm="did"><?php echo esc_html__( 'I already did', 'wp-job-openings' ); ?></a></li>
-							<li><a href='#' class='awsm-application-hide-rating-notice' data-confirm="later"><?php echo esc_html__( 'Maybe later', 'wp-job-openings' ); ?></a></li>			
-						</ul>
-					</div>
-					<?php 
+	public function plugin_rating_notice_handler() {
+		$rating_url = 'https://wordpress.org/support/plugin/wp-job-openings/reviews/?filter=5';
+		$rating_env = 'WordPress';
+		if ( class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) {
+			$rating_env = 'CodeCanyon';
+			$rating_url = 'https://codecanyon.net/item/wp-job-openings-pro/reviews/23889418';
+		}
+		$rating_url = apply_filters( 'awsm_jobs_plugin_rating_url', $rating_url );
+
+		$rated = intval( get_option( 'awsm_jobs_plugin_rating' ) );
+		if ( $rated !== 1 ) {
+			// Job Context.
+			self::plugin_rating_notice( $rating_url, $rating_env );
+
+			// Application context.
+			self::plugin_rating_notice( $rating_url, $rating_env, 'application' );
+		}
+	}
+
+	public function enable_plugin_rating( $posts_count, $context = 'job' ) {
+		if ( $posts_count >= 10 ) {
+			$ctx_count = get_option( "awsm_plugin_rating_{$context}_count" );
+			if ( empty( $ctx_count ) || ! is_array( $ctx_count ) ) {
+				$count_details = array(
+					'active'   => true,
+					'current'  => $posts_count,
+					'previous' => $posts_count,
+				);
+				update_option( "awsm_plugin_rating_{$context}_count", $count_details );
+			} else {
+				$ctx_count['current'] = $posts_count;
+				$rate_later           = get_transient( "_awsm_{$context}_ctx_plugin_rate_later" );
+				if ( $rate_later !== 'later' ) {
+					$prev_count = intval( $ctx_count['previous'] );
+					if ( ( $posts_count - $prev_count ) >= 25 || $posts_count < $prev_count ) {
+						$ctx_count['active']   = true;
+						$ctx_count['previous'] = $posts_count;
+					}
+				} else {
+					$ctx_count['active'] = false;
 				}
+				update_option( "awsm_plugin_rating_{$context}_count", $ctx_count );
 			}
 		}
 	}
 
-	public function plugin_rating_option_update() {
-		if( $_POST['value'] === 'later' ) {
-			set_transient( '_awsm_job_plugin_rating_maybe_later', 'later', WEEK_IN_SECONDS );
-		} else {
-			update_option( 'awsm_job_fivestar_rating_notice', 1 );
+	public function plugin_rating_check() {
+		$rated_status = intval( get_option( 'awsm_jobs_plugin_rating' ) );
+		if ( $rated_status !== 1 ) {
+			$count_details      = wp_count_posts( 'awsm_job_application' );
+			$applications_count = $count_details->publish;
+			$other_status       = array( 'progress', 'shortlist', 'reject', 'select' );
+			foreach ( $other_status as $status ) {
+				$applications_count += isset( $count_details->$status ) ? $count_details->$status : 0;
+			}
+			$this->enable_plugin_rating( $applications_count, 'application' );
 		}
-		echo json_encode( array("success") );
-		exit();	
 	}
 
-	public function application_rating_option_update() {
-		if( $_POST['value'] === 'later' ) {
-			set_transient( '_awsm_application_plugin_rating_maybe_later', 'later', WEEK_IN_SECONDS );
-		} else {
-			update_option( 'awsm_application_fivestar_rating_notice', 1 );
+	public function plugin_rating() {
+		$response = array(
+			'code'   => 'error',
+			'errors' => array(),
+		);
+
+		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'awsm-admin-nonce' ) ) {
+			$response['errors'][] = esc_html__( 'Invalid request!', 'wp-job-openings' );
 		}
-		echo json_encode( array("success") );
-		exit();
+
+		$contexts = array( 'job', 'application' );
+		$context  = isset( $_POST['context'] ) ? sanitize_text_field( $_POST['context'] ) : '';
+		if ( empty( $context ) || ! in_array( $context, $contexts ) ) {
+			$response['errors'][] = esc_html__( 'Invalid context!', 'wp-job-openings' );
+		}
+
+		if ( count( $response['errors'] ) === 0 ) {
+			if ( isset( $_POST['status'] ) && $_POST['status'] === 'done' ) {
+				update_option( 'awsm_jobs_plugin_rating', 1 );
+			} else {
+				set_transient( "_awsm_{$context}_ctx_plugin_rate_later", 'later', WEEK_IN_SECONDS );
+				$ctx_count = get_option( "awsm_plugin_rating_{$context}_count" );
+				if ( is_array( $ctx_count ) ) {
+					$ctx_count['active'] = false;
+					update_option( "awsm_plugin_rating_{$context}_count", $ctx_count );
+				}
+			}
+			$response['code'] = 'success';
+		}
+		wp_send_json( $response );
 	}
 
 	public function register_scripts() {
@@ -826,13 +873,6 @@ class AWSM_Job_Openings {
 					delete_post_meta( $post_id, $meta_key, $olddata );
 				}
 			}
-			$count = wp_count_posts( 'awsm_job_openings' );
-			$jobs = $count->publish;
-			if( $jobs >= 10 ) {
-				update_option( 'awsm_job_fivestar_rating', $jobs );
-			} else {
-				delete_option( 'awsm_job_fivestar_rating' );
-			}
 
 			if ( $expiry_on_list === 'set_listing' && ! empty( $awsm_job_expiry ) ) {
 				$expiration_time = strtotime( $awsm_job_expiry );
@@ -846,6 +886,13 @@ class AWSM_Job_Openings {
 					// now, re-hook this function
 					add_action( 'save_post', array( $this, 'awsm_job_save_post' ), 100, 2 );
 				}
+			}
+
+			$rated_status = intval( get_option( 'awsm_jobs_plugin_rating' ) );
+			if ( $rated_status !== 1 ) {
+				$count      = wp_count_posts( 'awsm_job_openings' );
+				$jobs_count = $count->publish + $count->expired;
+				$this->enable_plugin_rating( $jobs_count );
 			}
 		}
 	}
@@ -864,7 +911,7 @@ class AWSM_Job_Openings {
 			global $post;
 			$post_parent = $post->post_parent;
 			if ( ! empty( $post_parent ) && get_post_type( $post_parent ) === 'awsm_job_application' ) {
-				wp_redirect( esc_url( home_url( '/' ) ), 301 );
+				wp_safe_redirect( esc_url( home_url( '/' ) ), 301 );
 				exit;
 			}
 		}

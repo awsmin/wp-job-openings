@@ -62,10 +62,10 @@ class AWSM_Job_Openings_Uninstall {
 			'awsm_jobs_default_listing_page_id',
 			'awsm_register_default_settings',
 			'awsm_gdpr_policies',
-			'awsm_job_fivestar_rating',
-			'awsm_job_fivestar_rating_notice',
-			'awsm_application_fivestar_rating_notice',
-			'awsm_jobs_from_email_notification', 
+			'awsm_plugin_rating_job_count',
+			'awsm_plugin_rating_application_count',
+			'awsm_jobs_plugin_rating',
+			'awsm_jobs_from_email_notification',
 			'awsm_jobs_reply_to_notification',
 		);
 		return $options;

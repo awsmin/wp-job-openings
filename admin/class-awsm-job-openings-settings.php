@@ -533,18 +533,21 @@ class AWSM_Job_Openings_Settings {
 	public function sanitize_upload_file_extns( $input ) {
 		$valid     = true;
 		$all_extns = $this->file_upload_extensions();
-		foreach ( $input as $ext ) {
-			if ( ! in_array( $ext, $all_extns, true ) ) {
-				$valid = false;
-				break;
+		if ( is_array( $input ) ) {
+			foreach ( $input as $ext ) {
+				if ( ! in_array( $ext, $all_extns, true ) ) {
+					$valid = false;
+					break;
+				}
 			}
 		}
-		if( empty( $input) ) {
-			$input =  array( 'pdf', 'doc', 'docx' );
+		$default_extns = array( 'pdf', 'doc', 'docx' );
+		if ( empty( $input ) ) {
+			return $default_extns;
 		}
 		if ( ! $valid ) {
 			add_settings_error( 'awsm_jobs_admin_upload_file_ext', 'awsm-upload-file-extension', esc_html__( 'Error in saving file upload types!', 'wp-job-openings' ) );
-			return false;
+			return $default_extns;
 		}
 		return array_map( 'sanitize_text_field', $input );
 	}

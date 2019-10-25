@@ -338,41 +338,25 @@ jQuery(document).ready(function($) {
 
 	/*================ Plugin Rating ================*/
 
-	$('.awsm-job-hide-rating-notice').on('click', function(e){
+	$('.awsm-job-plugin-rating-action').on('click', function(e) {
 		e.preventDefault();
-		var confirm = $(this).data('confirm');
-        var data = {
-            nonce: awsmJobsAdmin.nonce,
-			action: 'rating',
-			value: confirm,
-        };
-        $.ajax({
-            url: awsmJobsAdmin.ajaxurl,
-            data: data,
-            type: 'POST'
-        }).done(function(response) {
-            if (response) {
-            	$('.awsm-job-fivestar-rating-notice').slideUp('fast'); 
-            }      
-        });
+		var $elem = $(this);
+		var status = $elem.data('status');
+		var context = $elem.data('context');
+		var data = {
+			nonce: awsmJobsAdmin.nonce,
+			action: 'awsm_plugin_rating',
+			context: context,
+			status: status
+		};
+		$.ajax({
+			url: awsmJobsAdmin.ajaxurl,
+			data: data,
+			type: 'POST'
+		}).done(function(response) {
+			if (response && response.code === 'success') {
+				$('.awsm-job-plugin-rating-wrapper').slideUp('fast');
+			}
+		});
 	});
-	
-	$('.awsm-application-hide-rating-notice').on('click', function(e){
-		e.preventDefault();
-		var confirm = $(this).data('confirm');
-        var data = {
-            nonce: awsmJobsAdmin.nonce,
-			action: 'later',
-			value: confirm,
-        };
-        $.ajax({
-            url: awsmJobsAdmin.ajaxurl,
-            data: data,
-            type: 'POST'
-        }).done(function(response) {
-            if (response) {
-            	$('.awsm-application-fivestar-rating-notice').slideUp('fast'); 
-            }      
-        });
-    });
 });
