@@ -509,7 +509,7 @@ class AWSM_Job_Openings {
 			if ( is_array( $posts_count ) && $posts_count['active'] && $rate_later !== 'later' ) :
 				self::$rating_notice_active = true;
 				/* translators: %1$s: opening html tag, %2$s: closing html tag, %3$s: Jobs count, %4$s: Plugin rating site */
-				$notice = esc_html__( 'That\'s awesome! You have just published %3$sth job posting on your wesbite using %1$sWP Job Openings%2$s. Could you please do me a BIG favor and give it a %1$s5-star%2$s rating on %4$s? Just to help us spread the word and boost our motivation.', 'wp-job-openings' );
+				$notice = esc_html__( 'That\'s awesome! You have just published %3$sth job posting on your wesbite using %1$sWP Job Openings%2$s. Could you please do us a BIG favor and give it a %1$s5-star%2$s rating on %4$s? Just to help us spread the word and boost our motivation.', 'wp-job-openings' );
 				if ( $context === 'application' ) {
 					/* translators: %1$s: opening html tag, %2$s: closing html tag, %3$s: Applications count, %4$s: Plugin rating site */
 					$notice = esc_html__( 'You have received over %1$s%3$s%2$s job applications through %1$sWP Job Openings%2$s. That\'s awesome! May we ask you to give it a %1$s5-Star%2$s rating on %4$s. It will help us spread the word and boost our motivation.', 'wp-job-openings' );
