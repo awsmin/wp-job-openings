@@ -1047,7 +1047,7 @@ msgid "From"
 msgstr ""
 
 #: admin/templates/notification.php:52
-msgid "Reply To"
+msgid "Reply-To"
 msgstr ""
 
 #: admin/templates/notification.php:56, admin/templates/notification.php:89
