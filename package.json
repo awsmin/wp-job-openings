@@ -1,6 +1,6 @@
 {
   "name": "wp-job-openings",
-  "version": "1.3.0",
+  "version": "1.5.0",
   "description": "Super simple Job Listing plugin to manage Job Openings and Applicants on your WordPress site.",
   "main": "gulpfile.js",
   "scripts": {
