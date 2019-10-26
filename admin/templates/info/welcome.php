@@ -54,7 +54,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<h2><?php esc_html_e( 'More plugins from our house!', 'wp-job-openings' ); ?></h2>
 		<div class="awsm-row">
 			<div class="awsm-col awsm-col-half">
-				<a href="https://goo.gl/A8Rmxn" class="awsm-plugin-item" target="_blank">
+				<a href="https://1.envato.market/team" class="awsm-plugin-item" target="_blank">
 					<div class="awsm-plugin-item-inner">
 						<img src="<?php echo esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/team.png' ); ?>" alt="">
 						<div class="awsm-plugin-item-info">
@@ -65,7 +65,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				</a>
 			</div><!-- .col -->
 			<div class="awsm-col awsm-col-half">
-				<a href="http://goo.gl/wJTQlc" class="awsm-plugin-item" target="_blank">
+				<a href="https://1.envato.market/eadpro" class="awsm-plugin-item" target="_blank">
 					<div class="awsm-plugin-item-inner">
 						<img src="<?php echo esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/ead.png' ); ?>" alt="">
 						<div class="awsm-plugin-item-info">
@@ -76,7 +76,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				</a>
 			</div><!-- .col -->
 			<div class="awsm-col awsm-col-half">
-				<a href="http://goo.gl/1emFRf" class="awsm-plugin-item" target="_blank">
+				<a href="https://1.envato.market/dropr" class="awsm-plugin-item" target="_blank">
 					<div class="awsm-plugin-item-inner">
 						<img src="<?php echo esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/dropr.png' ); ?>" alt="">
 						<div class="awsm-plugin-item-info">
@@ -87,7 +87,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				</a>
 			</div><!-- .col -->
 			<div class="awsm-col awsm-col-half">
-				<a href="https://goo.gl/y4Uf2w" class="awsm-plugin-item" target="_blank">
+				<a href="https://1.envato.market/drivr" class="awsm-plugin-item" target="_blank">
 					<div class="awsm-plugin-item-inner">
 						<img src="<?php echo esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/drive.png' ); ?>" alt="">
 						<div class="awsm-plugin-item-info">
