@@ -4,7 +4,7 @@
 **Tags:** jobs, job listing, job openings, job board, careers page, jobs page, wp job opening, jobs plugin  
 **Requires at least:** 4.1  
 **Tested up to:** 5.2.1  
-**Stable tag:** 1.4.2  
+**Stable tag:** 1.5.0  
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -99,6 +99,12 @@ Power-up your job listing with the PRO pack
 
 ## Changelog
 
+**V 1.5.0 - 2019-10-26**
+* Added: Ability to add 'From' and 'Reply-To' mail addresses for Applicant notifications in settings.
+* Fixed: Select2 library compatibility issues with other plugins.
+* Fixed: Application submission issue in Internet Explorer.
+* Fixed: Upload file extensions empty state issue in settings.
+
 **V 1.4.2 - 2019-08-08**
 * Minor bug fixes.
 
@@ -132,10 +138,5 @@ Power-up your job listing with the PRO pack
 * Fixed: Localization issues.
 * Improved: Templating for Job Specifications settings based on Underscore.js.
 * Other bug fixes and code improvements.
-
-**V 1.2.1 - 2018-11-16**
-* Fixed: Job Application submission error when caching plugin is used
-* Fixed: Application feedback mail issue when Non-English characters are used
-* Fixed: Settings UI issues
 
 View complete Changelog in [CHANGELOG.MD](https://github.com/awsmin/wp-job-openings/blob/master/CHANGELOG.md)

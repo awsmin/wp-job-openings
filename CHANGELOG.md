@@ -1,5 +1,11 @@
 ## Changelog
 
+### V 1.5.0 - 2019-10-26
+* Added: Ability to add 'From' and 'Reply-To' mail addresses for Applicant notifications in settings.
+* Fixed: Select2 library compatibility issues with other plugins.
+* Fixed: Application submission issue in Internet Explorer.
+* Fixed: Upload file extensions empty state issue in settings.
+
 ### V 1.4.2 - 2019-08-08
 * Minor bug fixes.
 
