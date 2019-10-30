@@ -910,9 +910,22 @@ class AWSM_Job_Openings {
 		if ( is_attachment() ) {
 			global $post;
 			$post_parent = $post->post_parent;
-			if ( ! empty( $post_parent ) && get_post_type( $post_parent ) === 'awsm_job_application' ) {
-				wp_safe_redirect( esc_url( home_url( '/' ) ), 301 );
-				exit;
+			if ( ! empty( $post_parent ) ) {
+				$post_type = get_post_type( $post_parent );
+				if ( $post_type === 'awsm_job_openings' || $post_type === 'awsm_job_application' ) {
+					$redirect = true;
+					if ( $post_type === 'awsm_job_openings' ) {
+						$redirect       = false;
+						$attachment_url = wp_get_attachment_url( $post->ID );
+						if ( ! empty( $attachment_url ) && strpos( $attachment_url, 'awsm-job-openings/' ) !== false ) {
+							$redirect = true;
+						}
+					}
+					if ( $redirect ) {
+						wp_safe_redirect( esc_url( home_url( '/' ) ), 301 );
+						exit;
+					}
+				}
 			}
 		}
 	}
