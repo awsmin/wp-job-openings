@@ -507,6 +507,10 @@ class AWSM_Job_Openings {
 			$rate_later  = get_transient( "_awsm_{$context}_ctx_plugin_rate_later" );
 
 			if ( is_array( $posts_count ) && $posts_count['active'] && $rate_later !== 'later' ) :
+				if ( ! wp_script_is( 'awsm-job-admin' ) ) {
+					wp_enqueue_script( 'awsm-job-admin' );
+				}
+				
 				self::$rating_notice_active = true;
 				/* translators: %1$s: opening html tag, %2$s: closing html tag, %3$s: Jobs count, %4$s: Plugin rating site */
 				$notice = esc_html__( 'That\'s awesome! You have just published %3$sth job posting on your wesbite using %1$sWP Job Openings%2$s. Could you please do us a BIG favor and give it a %1$s5-star%2$s rating on %4$s? Just to help us spread the word and boost our motivation.', 'wp-job-openings' );
