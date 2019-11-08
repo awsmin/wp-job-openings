@@ -102,106 +102,106 @@ msgid "JavaScript is required! Please enable it in your browser."
 msgstr ""
 
 #. translators: %1$s: opening html tag, %2$s: closing html tag, %3$s: Jobs count, %4$s: Plugin rating site
-#: wp-job-openings.php:512
+#: wp-job-openings.php:516
 msgid "That's awesome! You have just published %3$sth job posting on your wesbite using %1$sWP Job Openings%2$s. Could you please do us a BIG favor and give it a %1$s5-star%2$s rating on %4$s? Just to help us spread the word and boost our motivation."
 msgstr ""
 
 #. translators: %1$s: opening html tag, %2$s: closing html tag, %3$s: Applications count, %4$s: Plugin rating site
-#: wp-job-openings.php:515
+#: wp-job-openings.php:519
 msgid "You have received over %1$s%3$s%2$s job applications through %1$sWP Job Openings%2$s. That's awesome! May we ask you to give it a %1$s5-Star%2$s rating on %4$s. It will help us spread the word and boost our motivation."
 msgstr ""
 
-#: wp-job-openings.php:521
+#: wp-job-openings.php:525
 msgid "Ok, you deserve it"
 msgstr ""
 
-#: wp-job-openings.php:522
+#: wp-job-openings.php:526
 msgid "I already did"
 msgstr ""
 
-#: wp-job-openings.php:523
+#: wp-job-openings.php:527
 msgid "Maybe later"
 msgstr ""
 
-#: wp-job-openings.php:597
+#: wp-job-openings.php:601
 msgid "Invalid request!"
 msgstr ""
 
-#: wp-job-openings.php:603
+#: wp-job-openings.php:607
 msgid "Invalid context!"
 msgstr ""
 
-#: wp-job-openings.php:645
+#: wp-job-openings.php:649
 msgid "Loading..."
 msgstr ""
 
-#: wp-job-openings.php:647
+#: wp-job-openings.php:651
 msgid "Error in submitting your application. Please try again later!"
 msgstr ""
 
-#: wp-job-openings.php:648
+#: wp-job-openings.php:652
 msgid "The file you have selected is too large."
 msgstr ""
 
-#: wp-job-openings.php:678, admin/templates/general.php:20
+#: wp-job-openings.php:682, admin/templates/general.php:20
 msgid "Select a page"
 msgstr ""
 
 #. translators: %1$s: application id, %2$s: job title
-#: wp-job-openings.php:752
+#: wp-job-openings.php:756
 msgid "Application #%1$s for %2$s"
 msgstr ""
 
 #. translators: %s: application submission time
-#: wp-job-openings.php:760
+#: wp-job-openings.php:764
 msgid "Submitted on %s"
 msgstr ""
 
-#: wp-job-openings.php:764
+#: wp-job-openings.php:768
 msgid "from IP "
 msgstr ""
 
-#: wp-job-openings.php:937
+#: wp-job-openings.php:954
 msgid "View Applications"
 msgstr ""
 
-#: wp-job-openings.php:1068
+#: wp-job-openings.php:1085
 msgid "Closing on"
 msgstr ""
 
-#: wp-job-openings.php:1070
+#: wp-job-openings.php:1087
 msgid "Expired on"
 msgstr ""
 
-#: wp-job-openings.php:1148
+#: wp-job-openings.php:1165
 msgid "Full Time"
 msgstr ""
 
-#: wp-job-openings.php:1149
+#: wp-job-openings.php:1166
 msgid "Part Time"
 msgstr ""
 
-#: wp-job-openings.php:1150
+#: wp-job-openings.php:1167
 msgid "Freelance"
 msgstr ""
 
-#: wp-job-openings.php:1151
+#: wp-job-openings.php:1168
 msgid "Temporary"
 msgstr ""
 
-#: wp-job-openings.php:1152
+#: wp-job-openings.php:1169
 msgid "Intern"
 msgstr ""
 
-#: wp-job-openings.php:1153
+#: wp-job-openings.php:1170
 msgid "Volunteer"
 msgstr ""
 
-#: wp-job-openings.php:1154
+#: wp-job-openings.php:1171
 msgid "Per Diem"
 msgstr ""
 
-#: wp-job-openings.php:1155
+#: wp-job-openings.php:1172
 msgid "Other"
 msgstr ""
 

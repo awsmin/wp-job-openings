@@ -2,7 +2,7 @@
 Contributors: awsmin
 Tags: jobs, job listing, job openings, job board, careers page, jobs page, wp job opening, jobs plugin
 Requires at least: 4.1
-Tested up to: 5.2.1
+Tested up to: 5.2.4
 Stable tag: trunk
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -71,6 +71,10 @@ Power-up your job listing with the PRO pack
 9. Application View
 
 == Changelog ==
+
+= V 1.5.1 - 2019-11-08 =
+* Fixed: Job application-related attachments security issue in some installations.
+* Fixed: Unable to dismiss the admin notices.
 
 = V 1.5.0 - 2019-10-26 =
 * Added: Ability to add 'From' and 'Reply-To' mail addresses for Applicant notifications in settings.
@@ -151,5 +155,5 @@ Power-up your job listing with the PRO pack
 
 == Upgrade Notice ==
 
-= 1.5.0 =
-New Features and Bug Fixes
+= 1.5.1 =
+Bug Fixes
