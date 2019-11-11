@@ -88,6 +88,37 @@ jQuery(function($) {
 		updateQuery(currentSpec, slug);
 	});
 
+	/* ========== Job Search ========== */
+
+	$(filterSelector + ' .awsm-job-search').keypress(function(e) {
+		if (e.which == 13) {
+			e.preventDefault();
+			var search_value = $(this).val();
+			searchJobs(search_value);
+			updateQuery('job_search', search_value);
+		}
+	});
+
+	function searchJobs(search_value) {
+		var search_value = $.trim(search_value);
+		if (search_value.length > 0) {
+			var wp_data = [
+				{name: "job_search", value: search_value},
+				{name: "action", value: "jobfilter"},
+			];
+			$.ajax({
+				url: awsmJobsPublic.ajaxurl,
+				type: "POST",
+				data: $.param(wp_data),
+				dataType: "text"
+			}).done(function(response) {
+				if (response) {
+					$(wrapperSelector).html(response);
+				}
+			})
+		}
+	}
+
 	/* ========== Job Listings Load More ========== */
 
 	$(wrapperSelector).on('click', '.awsm-load-more-btn', function(e) {

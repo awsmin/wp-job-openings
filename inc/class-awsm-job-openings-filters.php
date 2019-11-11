@@ -41,7 +41,15 @@ class AWSM_Job_Openings_Filters {
 				if ( isset( $_GET[ $current_filter_key ] ) ) {
 					$selected_filters[ $available_filter ] = sanitize_title( $_GET[ $current_filter_key ] );
 				}
-			}
+            }
+            $search_suffix  = 'job_search';
+            if ( isset( $_GET[$search_suffix] ) ) {
+                $search_value = $_GET[$search_suffix];
+            }
+            $search_keywords = isset ( $search_value  ) ? $search_value : '';
+            $filter_content .= sprintf( '<div class="awsm-filter-item"><input type="text" name="search_jobs" value="%2$s" placeholder="%1$s" id="awsm-job-search" class="awsm-job-search"></div>', esc_html__( 'Search jobs', 'wp-job-openings' ), esc_attr( $search_keywords ) );
+            $available_filters_arr = array();
+
 			$available_filters_arr = array();
 			if ( ! empty( $taxonomies ) && ! empty( $available_filters ) ) {
 				foreach ( $taxonomies as $taxonomy => $tax_details ) {
@@ -71,21 +79,28 @@ class AWSM_Job_Openings_Filters {
 	}
 
 	public function awsm_posts_filters() {
-		// phpcs:disable WordPress.Security.NonceVerification.Missing
+        // phpcs:disable WordPress.Security.NonceVerification.Missing
 		$filters = $shortcode_atts = array(); // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
 		if ( isset( $_POST['awsm_job_spec'] ) && ! empty( $_POST['awsm_job_spec'] ) ) {
-			$job_specs = $_POST['awsm_job_spec'];
+            $job_specs = $_POST['awsm_job_spec'];
 			foreach ( $job_specs as $taxonomy => $term_id ) {
-				$taxonomy             = sanitize_text_field( $taxonomy );
+                $taxonomy             = sanitize_text_field( $taxonomy );
 				$filters[ $taxonomy ] = intval( $term_id );
 			}
 		}
+        $search_keywords = ( isset($_POST[ 'job_search' ] ) ) ? $_POST[ 'job_search' ] : '';
+        $search_text     = sanitize_text_field( $search_keywords );
+        $loadmore        = ( isset( $_POST['action'] ) ) ? $_POST['action'] : '';
 
 		if ( isset( $_POST['listings_per_page'] ) ) {
 			$shortcode_atts['listings'] = intval( $_POST['listings_per_page'] );
 		}
 
-		$args = AWSM_Job_Openings::awsm_job_query_args( $filters, $shortcode_atts );
+        $args = AWSM_Job_Openings::awsm_job_query_args( $filters, $shortcode_atts );
+        
+        if( ! empty( $search_text ) ) {
+            $args['s'] = $search_text;
+        }
 
 		if ( isset( $_POST['paged'] ) ) {
 			$args['paged'] = intval( $_POST['paged'] ) + 1;
@@ -96,7 +111,7 @@ class AWSM_Job_Openings_Filters {
 		if ( $query->have_posts() ) :
 			include AWSM_Job_Openings::get_template_path( 'main.php', 'job-openings' );
 		else :
-			if ( $_POST['action'] !== 'loadmore' ) :
+			if( $loadmore !== 'loadmore' ) :
 				?>
 				<div class="awsm-jobs-none-container">
 					<p><?php esc_html_e( 'Sorry! No jobs to show.', 'wp-job-openings' ); ?></p>
