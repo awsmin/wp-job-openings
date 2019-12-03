@@ -216,7 +216,7 @@ class AWSM_Job_Openings {
 			array(
 				'filters'  => get_option( 'awsm_enable_job_filter_listing' ) !== 'enabled' ? 'no' : 'yes',
 				'listings' => get_option( 'awsm_jobs_list_per_page' ),
-				'loadmore' => 'yes',
+				'spec'     => '',
 			),
 			$atts,
 			'awsmjobs'
@@ -510,7 +510,7 @@ class AWSM_Job_Openings {
 				if ( ! wp_script_is( 'awsm-job-admin' ) ) {
 					wp_enqueue_script( 'awsm-job-admin' );
 				}
-				
+
 				self::$rating_notice_active = true;
 				/* translators: %1$s: opening html tag, %2$s: closing html tag, %3$s: Jobs count, %4$s: Plugin rating site */
 				$notice = esc_html__( 'That\'s awesome! You have just published %3$sth job posting on your wesbite using %1$sWP Job Openings%2$s. Could you please do us a BIG favor and give it a %1$s5-star%2$s rating on %4$s? Just to help us spread the word and boost our motivation.', 'wp-job-openings' );
@@ -982,6 +982,9 @@ class AWSM_Job_Openings {
 	}
 
 	public static function awsm_job_query_args( $filters = array(), $shortcode_atts = array() ) {
+		// dump($shortcode_atts);
+		// dump($filters);
+		// wp_die();
 		$args = array();
 		if ( is_tax() ) {
 			$q_obj    = get_queried_object();
@@ -999,6 +1002,22 @@ class AWSM_Job_Openings {
 					);
 					$args['tax_query'][] = $spec;
 				}
+			}
+		}
+
+		$spec_details = isset( $shortcode_atts['spec'] ) ? $shortcode_atts['spec'] : '';
+		if ( ! empty ( $spec_details ) ) {
+			$specs = explode( ',', $spec_details );
+			foreach( $specs as $spec ) {
+				list( $taxonomy, $spec_terms ) = explode( ':', $spec );
+				$term = get_term_by( 'slug', $spec_terms, $taxonomy );
+				$term_id = $term->term_id;
+				$spec = array(
+					'taxonomy' => $taxonomy,
+					'field'    => 'id',
+					'terms'    => $term_id,
+				);
+				$args['tax_query'][] = $spec;
 			}
 		}
 

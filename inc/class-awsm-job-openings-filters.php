@@ -22,6 +22,10 @@ class AWSM_Job_Openings_Filters {
 	}
 
 	public function display_filter_form( $shortcode_atts ) {
+
+		if ( ! empty( $shortcode_atts['spec'] ) ) {
+			return false;
+		}
 		$filters_attr = isset( $shortcode_atts['filters'] ) ? $shortcode_atts['filters'] : '';
 		if ( get_option( 'awsm_enable_job_filter_listing' ) !== 'enabled' && $filters_attr !== 'yes' ) {
 			return;
