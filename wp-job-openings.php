@@ -216,7 +216,8 @@ class AWSM_Job_Openings {
 			array(
 				'filters'  => get_option( 'awsm_enable_job_filter_listing' ) !== 'enabled' ? 'no' : 'yes',
 				'listings' => get_option( 'awsm_jobs_list_per_page' ),
-				'spec'     => '',
+				'loadmore' => 'yes',
+				'specs'     => '',
 			),
 			$atts,
 			'awsmjobs'
@@ -982,42 +983,37 @@ class AWSM_Job_Openings {
 	}
 
 	public static function awsm_job_query_args( $filters = array(), $shortcode_atts = array() ) {
-		// dump($shortcode_atts);
-		// dump($filters);
-		// wp_die();
 		$args = array();
-		if ( is_tax() ) {
-			$q_obj    = get_queried_object();
-			$taxonomy = $q_obj->taxonomy;
-			$term_id  = $q_obj->term_id;
-			$filters  = array( $taxonomy => $term_id );
-		}
-		if ( ! empty( $filters ) ) {
-			foreach ( $filters as $taxonomy => $term_id ) {
-				if ( ! empty( $term_id ) ) {
-					$spec                = array(
-						'taxonomy' => $taxonomy,
-						'field'    => 'id',
-						'terms'    => $term_id,
-					);
-					$args['tax_query'][] = $spec;
-				}
-			}
-		}
 
-		$spec_details = isset( $shortcode_atts['spec'] ) ? $shortcode_atts['spec'] : '';
+		$spec_details = isset( $shortcode_atts['specs'] ) ? $shortcode_atts['specs'] : '';
 		if ( ! empty ( $spec_details ) ) {
 			$specs = explode( ',', $spec_details );
 			foreach( $specs as $spec ) {
 				list( $taxonomy, $spec_terms ) = explode( ':', $spec );
-				$term = get_term_by( 'slug', $spec_terms, $taxonomy );
-				$term_id = $term->term_id;
-				$spec = array(
+				$args['tax_query'][] = array(
 					'taxonomy' => $taxonomy,
 					'field'    => 'id',
-					'terms'    => $term_id,
+					'terms'    => array_map( 'intval', explode( ' ', $spec_terms ) ),
 				);
-				$args['tax_query'][] = $spec;
+			}
+		} else {
+			if ( is_tax() ) {
+				$q_obj    = get_queried_object();
+				$taxonomy = $q_obj->taxonomy;
+				$term_id  = $q_obj->term_id;
+				$filters  = array( $taxonomy => $term_id );
+			}
+			if ( ! empty( $filters ) ) {
+				foreach ( $filters as $taxonomy => $term_id ) {
+					if ( ! empty( $term_id ) ) {
+						$spec                = array(
+							'taxonomy' => $taxonomy,
+							'field'    => 'id',
+							'terms'    => $term_id,
+						);
+						$args['tax_query'][] = $spec;
+					}
+				}
 			}
 		}
 

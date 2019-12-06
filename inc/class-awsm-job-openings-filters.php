@@ -26,6 +26,7 @@ class AWSM_Job_Openings_Filters {
 		if ( ! empty( $shortcode_atts['spec'] ) ) {
 			return false;
 		}
+
 		$filters_attr = isset( $shortcode_atts['filters'] ) ? $shortcode_atts['filters'] : '';
 		if ( get_option( 'awsm_enable_job_filter_listing' ) !== 'enabled' && $filters_attr !== 'yes' ) {
 			return;
@@ -83,6 +84,10 @@ class AWSM_Job_Openings_Filters {
 				$taxonomy             = sanitize_text_field( $taxonomy );
 				$filters[ $taxonomy ] = intval( $term_id );
 			}
+		}
+
+		if ( ! empty( $_POST['specifications'] ) ) {
+			$shortcode_atts['specs'] = $_POST['specifications'];
 		}
 
 		if ( isset( $_POST['listings_per_page'] ) ) {
