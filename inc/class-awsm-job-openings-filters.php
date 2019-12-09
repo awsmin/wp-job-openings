@@ -42,10 +42,6 @@ class AWSM_Job_Openings_Filters {
 					$selected_filters[ $available_filter ] = sanitize_title( $_GET[ $current_filter_key ] );
 				}
             }
-            $search_suffix  = 'job_search';
-            if ( isset( $_GET[$search_suffix] ) ) {
-                $search_value = $_GET[$search_suffix];
-            }
             $search_keywords = isset ( $search_value  ) ? $search_value : '';
             $filter_content .= sprintf( '<div class="awsm-filter-item"><input type="text" name="search_jobs" value="%2$s" placeholder="%1$s" id="awsm-job-search" class="awsm-job-search"></div>', esc_html__( 'Search jobs', 'wp-job-openings' ), esc_attr( $search_keywords ) );
             $available_filters_arr = array();
@@ -88,8 +84,11 @@ class AWSM_Job_Openings_Filters {
 				$filters[ $taxonomy ] = intval( $term_id );
 			}
 		}
-        $search_keywords = ( isset($_POST[ 'job_search' ] ) ) ? $_POST[ 'job_search' ] : '';
-        $search_text     = sanitize_text_field( $search_keywords );
+
+		if ( ! empty( $_POST['job_search'] ) ) {
+			$filters['job_search'] = $_POST['job_search'];
+		}
+
         $loadmore        = ( isset( $_POST['action'] ) ) ? $_POST['action'] : '';
 
 		if ( isset( $_POST['listings_per_page'] ) ) {
@@ -97,10 +96,7 @@ class AWSM_Job_Openings_Filters {
 		}
 
         $args = AWSM_Job_Openings::awsm_job_query_args( $filters, $shortcode_atts );
-        
-        if( ! empty( $search_text ) ) {
-            $args['s'] = $search_text;
-        }
+
 
 		if ( isset( $_POST['paged'] ) ) {
 			$args['paged'] = intval( $_POST['paged'] ) + 1;

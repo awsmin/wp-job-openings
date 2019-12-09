@@ -95,7 +95,6 @@ jQuery(function($) {
 			e.preventDefault();
 			var search_value = $(this).val();
 			searchJobs(search_value);
-			updateQuery('job_search', search_value);
 		}
 	});
 
