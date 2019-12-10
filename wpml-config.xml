@@ -1,0 +1,10 @@
+<wpml-config>
+  <custom-types>
+    <custom-type translate="1">awsm_job_openings</custom-type>
+  </custom-types>
+  <taxonomies>
+    <taxonomy translate="1">job-category</taxonomy>
+    <taxonomy translate="1">job-location</taxonomy>
+    <taxonomy translate="1">job-type</taxonomy>
+  </taxonomies>
+</wpml-config>
