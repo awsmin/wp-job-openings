@@ -23,7 +23,7 @@ class AWSM_Job_Openings_Filters {
 
 	public function display_filter_form( $shortcode_atts ) {
 
-		if ( ! empty( $shortcode_atts['specs'] ) ) {
+		if ( class_exists( 'AWSM_Job_Openings_Pro_Pack' ) &&  ! empty( $shortcode_atts['specs'] ) ) {
 			return false;
 		}
 

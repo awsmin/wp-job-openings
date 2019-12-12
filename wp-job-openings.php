@@ -212,19 +212,19 @@ class AWSM_Job_Openings {
 		if ( ! function_exists( 'awsm_jobs_query' ) ) {
 			return;
 		}
-		$shortcode_atts = shortcode_atts(
+		$pairs = apply_filters(
+			'awsm_jobs_default_shortcodes',
 			array(
 				'filters'  => get_option( 'awsm_enable_job_filter_listing' ) !== 'enabled' ? 'no' : 'yes',
 				'listings' => get_option( 'awsm_jobs_list_per_page' ),
 				'loadmore' => 'yes',
-				'specs'     => '',
-			),
-			$atts,
-			'awsmjobs'
+				'specs'    => '',
+			)
 		);
+		$shortcode_atts = shortcode_atts( $pairs, $atts, 'awsmjobs' );
 		ob_start();
 		include self::get_template_path( 'job-openings-view.php' );
-		return ob_get_clean();
+		return apply_filters( 'awsm_jobs_shortcode_output_content', ob_get_clean() );
 	}
 
 	public function register_widgets() {
@@ -984,19 +984,6 @@ class AWSM_Job_Openings {
 
 	public static function awsm_job_query_args( $filters = array(), $shortcode_atts = array() ) {
 		$args = array();
-
-		$spec_details = isset( $shortcode_atts['specs'] ) ? $shortcode_atts['specs'] : '';
-		if ( ! empty ( $spec_details ) ) {
-			$specs = explode( ',', $spec_details );
-			foreach( $specs as $spec ) {
-				list( $taxonomy, $spec_terms ) = explode( ':', $spec );
-				$args['tax_query'][] = array(
-					'taxonomy' => $taxonomy,
-					'field'    => 'id',
-					'terms'    => array_map( 'intval', explode( ' ', $spec_terms ) ),
-				);
-			}
-		} else {
 			if ( is_tax() ) {
 				$q_obj    = get_queried_object();
 				$taxonomy = $q_obj->taxonomy;
@@ -1015,7 +1002,6 @@ class AWSM_Job_Openings {
 					}
 				}
 			}
-		}
 
 		$list_per_page          = self::get_listings_per_page( $shortcode_atts );
 		$hide_expired_jobs      = get_option( 'awsm_jobs_expired_jobs_listings' );
