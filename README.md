@@ -3,8 +3,8 @@
 **Contributors:** awsmin  
 **Tags:** jobs, job listing, job openings, job board, careers page, jobs page, wp job opening, jobs plugin  
 **Requires at least:** 4.1  
-**Tested up to:** 5.2.1  
-**Stable tag:** 1.5.0  
+**Tested up to:** 5.2.4  
+**Stable tag:** 1.5.1  
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -99,6 +99,10 @@ Power-up your job listing with the PRO pack
 
 ## Changelog
 
+**V 1.5.1 - 2019-11-08**
+* Fixed: Job application-related attachments security issue in some installations.
+* Fixed: Unable to dismiss the admin notices.
+
 **V 1.5.0 - 2019-10-26**
 * Added: Ability to add 'From' and 'Reply-To' mail addresses for Applicant notifications in settings.
 * Fixed: Select2 library compatibility issues with other plugins.
@@ -124,19 +128,5 @@ Power-up your job listing with the PRO pack
 * Dev: New hooks for customizing the registered post type arguments.
 * Dev: New hook for customizing the arguments for the jobs query.
 * Dev: New hooks for managing job application notification mails.
-
-**V 1.3 - 2019-03-04**
-* Added: Shortcode attributes - `filters`, `listings`, and `loadmore` for `[awsmjobs]` shortcode. Template files need to be updated if overridden in theme.
-* Added: Job/Application updated messages.
-* Added: Shareable filters. Now, you can share the link to display filtered job results.
-* Added: New hooks for customizing Application Form. Template files need to be updated if overridden in theme.
-* Added: Specification Key option to Job Specifications settings.
-* Added: Jetpack publicize feature support.
-* Fixed: Conflict with Polylang plugin.
-* Fixed: Shortcode returning blank screen with some page builder plugins. Template files need to be updated if overridden in theme.
-* Fixed: Job specification settings validation issues.
-* Fixed: Localization issues.
-* Improved: Templating for Job Specifications settings based on Underscore.js.
-* Other bug fixes and code improvements.
 
 View complete Changelog in [CHANGELOG.MD](https://github.com/awsmin/wp-job-openings/blob/master/CHANGELOG.md)
