@@ -63,7 +63,16 @@ class AWSM_Job_Openings_Filters {
 								$options_content .= sprintf( '<option value="%1$s" data-slug="%3$s"%4$s>%2$s</option>', esc_attr( $term->term_id ), esc_html( $term->name ), esc_attr( $term->slug ), esc_attr( $selected ) );
 							}
 								$filter_key      = str_replace( '-', '__', $taxonomy );
-								$filter_content .= sprintf( '<div class="awsm-filter-item" data-filter="%2$s"><select name="awsm_job_spec[%1$s]" class="awsm-filter-option" id="awsm-%1$s-filter-option"><option value="">%3$s</option>%4$s</select></div>', esc_attr( $taxonomy ), esc_attr( $filter_key . $filter_suffix ), esc_html__( 'All ', 'wp-job-openings' ) . esc_html( $tax_details->label ), $options_content );
+								/**
+								 * Filters the default label for the job filter.
+								 *
+								 * @since 1.6.0
+								 *
+								 * @param string $taxonomy Taxonomy key.
+								 * @param array  $tax_details Taxonomy details.
+								 */
+								$filter_label    = apply_filters( 'awsm_filter_label', esc_html_x( 'All', 'job filter', 'wp-job-openings' ) . ' ' . esc_html_x( $tax_details->label, 'taxonomy general name' ), $taxonomy, $tax_details );
+								$filter_content .= sprintf( '<div class="awsm-filter-item" data-filter="%2$s"><select name="awsm_job_spec[%1$s]" class="awsm-filter-option" id="awsm-%1$s-filter-option"><option value="">%3$s</option>%4$s</select></div>', esc_attr( $taxonomy ), esc_attr( $filter_key . $filter_suffix ), $filter_label, $options_content );
 						}
 					}
 				}
