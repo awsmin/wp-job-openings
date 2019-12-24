@@ -101,6 +101,7 @@ jQuery(function($) {
 		paged = (typeof paged == 'undefined') ? 1 : paged;
 		var listings = $listingsContainer.data('listings');
 		var specs = $listingsContainer.data('specs');
+		var language = $listingsContainer.data('language');
 
 		// filters
 		var $filterForm = $mainContainer.find(filterSelector + ' form');
@@ -138,6 +139,12 @@ jQuery(function($) {
 			wpData.push({
 				name: 'shortcode_specs',
 				value: specs
+			});
+		}
+		if (typeof language !== 'undefined') {
+			wpData.push({
+				name: 'language',
+				value: language
 			});
 		}
 

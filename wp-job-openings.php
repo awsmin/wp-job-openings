@@ -1072,10 +1072,32 @@ class AWSM_Job_Openings {
 		return sprintf( 'awsm-job-listings %s', $view_class );
 	}
 
+	public static function get_current_language() {
+		$current_lang = null;
+		// WPML support.
+		if ( defined( 'ICL_SITEPRESS_VERSION' ) ) {
+			$current_lang = apply_filters( 'wpml_current_language', null );
+		}
+		return $current_lang;
+	}
+
+	public static function set_current_language( $language ) {
+		// WPML support.
+		if ( defined( 'ICL_SITEPRESS_VERSION' ) ) {
+			do_action( 'wpml_switch_language', $language );
+		}
+	}
+
 	public static function get_job_listing_data_attrs( $shortcode_atts = array() ) {
 		$attrs             = array();
 		$attrs['listings'] = self::get_listings_per_page( $shortcode_atts );
 		$attrs['specs']    = $shortcode_atts['specs'];
+
+		$current_lang = self::get_current_language();
+		if ( ! empty( $current_lang ) ) {
+			$attrs['language'] = $current_lang;
+		}
+
 		if ( is_tax() ) {
 			$q_obj             = get_queried_object();
 			$attrs['taxonomy'] = $q_obj->taxonomy;

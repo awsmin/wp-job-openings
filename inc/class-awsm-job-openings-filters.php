@@ -77,6 +77,10 @@ class AWSM_Job_Openings_Filters {
 					}
 				}
 				if ( ! empty( $filter_content ) ) {
+					$current_lang = AWSM_Job_Openings::get_current_language();
+					if ( ! empty( $current_lang ) ) {
+						$filter_content .= sprintf( '<input type="hidden" name="language" value="%s">', esc_attr( $current_lang ) );
+					}
 					$filter_content = sprintf( '<div class="awsm-filter-wrap"><form action="%2$s/wp-admin/admin-ajax.php" method="POST" id="awsm-job-filter">%1$s<input type="hidden" name="action" value="jobfilter"></form></div>', $filter_content, esc_url( site_url() ) );
 				}
 			}
@@ -101,6 +105,10 @@ class AWSM_Job_Openings_Filters {
 
 		if ( isset( $_POST['listings_per_page'] ) ) {
 			$shortcode_atts['listings'] = intval( $_POST['listings_per_page'] );
+		}
+
+		if ( isset( $_POST['language'] ) ) {
+			AWSM_Job_Openings::set_current_language( $_POST['language'] );
 		}
 
 		$args = AWSM_Job_Openings::awsm_job_query_args( $filters, $shortcode_atts );
