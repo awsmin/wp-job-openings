@@ -212,8 +212,16 @@ class AWSM_Job_Openings {
 		if ( ! function_exists( 'awsm_jobs_query' ) ) {
 			return;
 		}
+		
+		/**
+		 * Filters the shortcode attributes and their defaults.
+		 *
+		 * @since 1.6.0
+		 *
+		 * @param array $pairs List of supported attributes and their defaults.
+		 */
 		$pairs = apply_filters(
-			'awsm_jobs_default_shortcodes',
+			'awsm_jobs_shortcode_defaults',
 			array(
 				'filters'  => get_option( 'awsm_enable_job_filter_listing' ) !== 'enabled' ? 'no' : 'yes',
 				'listings' => get_option( 'awsm_jobs_list_per_page' ),
@@ -222,9 +230,19 @@ class AWSM_Job_Openings {
 			)
 		);
 		$shortcode_atts = shortcode_atts( $pairs, $atts, 'awsmjobs' );
+
 		ob_start();
 		include self::get_template_path( 'job-openings-view.php' );
-		return apply_filters( 'awsm_jobs_shortcode_output_content', ob_get_clean() );
+		$content = ob_get_clean();
+
+		/**
+		 * Filters the shortcode output content.
+		 *
+		 * @since 1.6.0
+		 *
+		 * @param string $content Shortcode content.
+		 */
+		return apply_filters( 'awsm_jobs_shortcode_output_content', $content );
 	}
 
 	public function register_widgets() {
