@@ -44,7 +44,6 @@ if ( ! function_exists( 'awsm_jobs_data_attrs' ) ) {
 	function awsm_jobs_data_attrs( $attrs = array(), $shortcode_atts = array() ) {
 		$content = '';
 		$attrs   = array_merge( AWSM_Job_Openings::get_job_listing_data_attrs( $shortcode_atts ), $attrs );
-		$attrs['specs']  = $shortcode_atts['specs'];
 		if ( ! empty( $attrs ) ) {
 			foreach ( $attrs as $name => $value ) {
 				if ( ! empty( $value ) ) {

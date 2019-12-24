@@ -1002,24 +1002,24 @@ class AWSM_Job_Openings {
 
 	public static function awsm_job_query_args( $filters = array(), $shortcode_atts = array() ) {
 		$args = array();
-			if ( is_tax() ) {
-				$q_obj    = get_queried_object();
-				$taxonomy = $q_obj->taxonomy;
-				$term_id  = $q_obj->term_id;
-				$filters  = array( $taxonomy => $term_id );
-			}
-			if ( ! empty( $filters ) ) {
-				foreach ( $filters as $taxonomy => $term_id ) {
-					if ( ! empty( $term_id ) ) {
-						$spec                = array(
-							'taxonomy' => $taxonomy,
-							'field'    => 'id',
-							'terms'    => $term_id,
-						);
-						$args['tax_query'][] = $spec;
-					}
+		if ( is_tax() ) {
+			$q_obj    = get_queried_object();
+			$taxonomy = $q_obj->taxonomy;
+			$term_id  = $q_obj->term_id;
+			$filters  = array( $taxonomy => $term_id );
+		}
+		if ( ! empty( $filters ) ) {
+			foreach ( $filters as $taxonomy => $term_id ) {
+				if ( ! empty( $term_id ) ) {
+					$spec                = array(
+						'taxonomy' => $taxonomy,
+						'field'    => 'id',
+						'terms'    => $term_id,
+					);
+					$args['tax_query'][] = $spec;
 				}
 			}
+		}
 
 		$list_per_page          = self::get_listings_per_page( $shortcode_atts );
 		$hide_expired_jobs      = get_option( 'awsm_jobs_expired_jobs_listings' );
@@ -1075,6 +1075,7 @@ class AWSM_Job_Openings {
 	public static function get_job_listing_data_attrs( $shortcode_atts = array() ) {
 		$attrs             = array();
 		$attrs['listings'] = self::get_listings_per_page( $shortcode_atts );
+		$attrs['specs']    = $shortcode_atts['specs'];
 		if ( is_tax() ) {
 			$q_obj             = get_queried_object();
 			$attrs['taxonomy'] = $q_obj->taxonomy;

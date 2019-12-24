@@ -22,11 +22,6 @@ class AWSM_Job_Openings_Filters {
 	}
 
 	public function display_filter_form( $shortcode_atts ) {
-
-		if ( class_exists( 'AWSM_Job_Openings_Pro_Pack' ) &&  ! empty( $shortcode_atts['specs'] ) ) {
-			return false;
-		}
-
 		$filters_attr = isset( $shortcode_atts['filters'] ) ? $shortcode_atts['filters'] : '';
 		if ( get_option( 'awsm_enable_job_filter_listing' ) !== 'enabled' && $filters_attr !== 'yes' ) {
 			return;
@@ -34,6 +29,11 @@ class AWSM_Job_Openings_Filters {
 		if ( is_archive() && ! is_post_type_archive( 'awsm_job_openings' ) ) {
 			return;
 		}
+		// Hide filters if specs shortcode attribute is applied.
+		if ( ! empty( $shortcode_atts['specs'] ) ) {
+			return;
+		}
+
 		$display = $filters_attr === 'no' ? false : true;
 		if ( $display ) {
 			$filter_content    = '';
@@ -95,8 +95,8 @@ class AWSM_Job_Openings_Filters {
 			}
 		}
 
-		if ( ! empty( $_POST['specifications'] ) ) {
-			$shortcode_atts['specs'] = $_POST['specifications'];
+		if ( ! empty( $_POST['shortcode_specs'] ) ) {
+			$shortcode_atts['specs'] = sanitize_text_field( $_POST['shortcode_specs'] );
 		}
 
 		if ( isset( $_POST['listings_per_page'] ) ) {

@@ -136,7 +136,7 @@ jQuery(function($) {
 		}
 		if (typeof specs !== 'undefined') {
 			wpData.push({
-				name: 'specifications',
+				name: 'shortcode_specs',
 				value: specs
 			});
 		}
