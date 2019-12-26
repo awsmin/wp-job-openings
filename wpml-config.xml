@@ -7,4 +7,8 @@
     <taxonomy translate="1">job-location</taxonomy>
     <taxonomy translate="1">job-type</taxonomy>
   </taxonomies>
+  <admin-texts>
+    <key name="awsm_default_msg" />
+    <key name="awsm_gdpr_cb_text" />
+  </admin-texts>
 </wpml-config>
