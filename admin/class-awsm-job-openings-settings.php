@@ -84,7 +84,7 @@ class AWSM_Job_Openings_Settings {
 		/**
 		 * Filters the Settings Subtabs.
 		 *
-		 * @since 1.3
+		 * @since 1.3.0
 		 *
 		 * @param array $subtabs Subtabs data.
 		 * @param string $section Current settings section.
@@ -96,7 +96,7 @@ class AWSM_Job_Openings_Settings {
 		$settings = array(
 			'general'        => array(
 				array(
-					'option_name' => 'awsm_current_general_subtab', /** @since 1.3 */
+					'option_name' => 'awsm_current_general_subtab', /** @since 1.3.0 */
 				),
 				array(
 					'option_name' => 'awsm_select_page_listing',
@@ -146,7 +146,7 @@ class AWSM_Job_Openings_Settings {
 					'callback'    => array( $this, 'sanitize_array_fields' ),
 				),
 				array(
-					'option_name' => 'awsm_jobs_details_page_template', /** @since 1.1 */
+					'option_name' => 'awsm_jobs_details_page_template', /** @since 1.1.0 */
 				),
 				array(
 					'option_name' => 'awsm_jobs_details_page_layout',
@@ -179,7 +179,7 @@ class AWSM_Job_Openings_Settings {
 
 			'specifications' => array(
 				array(
-					'option_name' => 'awsm_current_specifications_subtab', /** @since 1.3 */
+					'option_name' => 'awsm_current_specifications_subtab', /** @since 1.3.0 */
 				),
 				array(
 					'option_name' => 'awsm_jobs_filter',
@@ -193,7 +193,7 @@ class AWSM_Job_Openings_Settings {
 
 			'form'           => array(
 				array(
-					'option_name' => 'awsm_current_form_subtab', /** @since 1.1 */
+					'option_name' => 'awsm_current_form_subtab', /** @since 1.1.0 */
 				),
 				array(
 					'option_name' => 'awsm_jobs_admin_upload_file_ext',
@@ -207,39 +207,37 @@ class AWSM_Job_Openings_Settings {
 					'callback'    => array( $this, 'awsm_gdpr_cb_text_handle' ),
 				),
 				array(
-					'option_name' => 'awsm_jobs_enable_recaptcha', /** @since 1.1 */
+					'option_name' => 'awsm_jobs_enable_recaptcha', /** @since 1.1.0 */
 				),
 				array(
-					'option_name'                          => 'awsm_jobs_recaptcha_site_key',
-					/** @since 1.1 */
-												'callback' => array( $this, 'sanitize_site_key' ),
+					'option_name' => 'awsm_jobs_recaptcha_site_key', /** @since 1.1.0 */
+					'callback'    => array( $this, 'sanitize_site_key' ),
 				),
 				array(
-					'option_name'                          => 'awsm_jobs_recaptcha_secret_key',
-					/** @since 1.1 */
-												'callback' => array( $this, 'sanitize_secret_key' ),
+					'option_name' => 'awsm_jobs_recaptcha_secret_key', /** @since 1.1.0 */
+					'callback'    => array( $this, 'sanitize_secret_key' ),
 				),
 			),
 
 			'notification'   => array(
 				array(
-					'option_name' => 'awsm_current_notification_subtab', /** @since 1.3 */
+					'option_name' => 'awsm_current_notification_subtab', /** @since 1.3.0 */
 				),
 				array(
-					'option_name' => 'awsm_jobs_from_email_notification',
+					'option_name' => 'awsm_jobs_acknowledgement',
+				),
+				array(
+					'option_name' => 'awsm_jobs_from_email_notification', /** @since 1.5.0 */
 					'callback'    => array( $this, 'sanitize_from_email_id' ),
 				),
 				array(
-					'option_name' => 'awsm_jobs_reply_to_notification',
+					'option_name' => 'awsm_jobs_reply_to_notification', /** @since 1.5.0 */
 				),
 				array(
 					'option_name' => 'awsm_jobs_applicant_notification',
 				),
 				array(
 					'option_name' => 'awsm_jobs_hr_notification',
-				),
-				array(
-					'option_name' => 'awsm_jobs_acknowledgement',
 				),
 				array(
 					'option_name' => 'awsm_jobs_notification_subject',
@@ -249,10 +247,17 @@ class AWSM_Job_Openings_Settings {
 					'callback'    => 'awsm_jobs_sanitize_textarea',
 				),
 				array(
-					'option_name' => 'awsm_jobs_admin_to_notification',
+					'option_name' => 'awsm_jobs_enable_admin_notification',
 				),
 				array(
-					'option_name' => 'awsm_jobs_enable_admin_notification',
+					'option_name' => 'awsm_jobs_admin_from_email_notification', /** @since 1.6.0 */
+					'callback'    => array( $this, 'sanitize_admin_from_email_id' ),
+				),
+				array(
+					'option_name' => 'awsm_jobs_admin_reply_to_notification', /** @since 1.6.0 */
+				),
+				array(
+					'option_name' => 'awsm_jobs_admin_to_notification',
 				),
 				array(
 					'option_name' => 'awsm_jobs_admin_hr_notification',
@@ -306,6 +311,7 @@ class AWSM_Job_Openings_Settings {
 			'awsm_jobs_admin_notification_subject' => 'New application received for the position {job-title} [{job-id}]',
 			'awsm_jobs_admin_notification_content' => "Job Opening: {job-title} [{job-id}]\nName: {applicant}\nEmail: {applicant-email}\nPhone: {applicant-phone}\nResume: {applicant-resume}\nCover letter: {applicant-cover}\n\nPowered by WP Job Openings Plugin",
 			'awsm_jobs_from_email_notification'    => get_option( 'admin_email' ),
+			'awsm_jobs_admin_from_email_notification' => get_option( 'admin_email' ),
 		);
 		if ( ! empty( $options ) ) {
 			foreach ( $options as $option => $value ) {
@@ -403,10 +409,9 @@ class AWSM_Job_Openings_Settings {
 		return $match;
 	}
 
-	public function sanitize_from_email_id( $email ) {
+	public function validate_from_email_id( $email, $option_name ) {
 		$admin_email = get_option( 'admin_email' );
 		$site_domain = strtolower( $_SERVER['SERVER_NAME'] );
-		$email       = sanitize_email( $email );
 		if ( $this->is_localhost() ) {
 			return $email;
 		}
@@ -426,11 +431,21 @@ class AWSM_Job_Openings_Settings {
 			if ( $current_domain !== $site_domain && $this->is_email_in_domain( $email, $current_domain ) ) {
 				return $email;
 			} else {
-				add_settings_error( 'awsm_jobs_from_email_notification', 'awsm-jobs-from-email-notification', esc_html__( 'The provided email address does not belong to this site domain and may lead to issues in email delivery.', 'wp-job-openings' ), 'awsm-jobs-warning' );
+				add_settings_error( $option_name, str_replace( '_', '-', $option_name ), esc_html__( "The provided 'From' email address does not belong to this site domain and may lead to issues in email delivery.", 'wp-job-openings' ), 'awsm-jobs-warning' );
 				return $email;
 			}
 		}
 		return $admin_email;
+	}
+
+	public function sanitize_from_email_id( $email ) {
+		$email = sanitize_email( $email );
+		return $this->validate_from_email_id( $email, 'awsm_jobs_from_email_notification' );
+	}
+
+	public function sanitize_admin_from_email_id( $email ) {
+		$email = sanitize_email( $email );
+		return $this->validate_from_email_id( $email, 'awsm_jobs_admin_from_email_notification' );
 	}
 
 	public function sanitize_list_per_page( $input ) {
