@@ -4,10 +4,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 	$awsm_filters     = get_option( 'awsm_jobs_filter' );
 	$taxonomy_objects = get_object_taxonomies( 'awsm_job_openings', 'objects' );
+
+	/**
+	 * Initialize job specifications meta box.
+	 *
+	 * @since 1.6.0
+	 */
+	do_action( 'awsm_job_specs_mb_init', $post->ID );
 ?>
 
 <div class="awsm-job-specifications-section" id="awsm_job_specifications">
 	<?php
+	/**
+	 * Fires before job specifications meta box content.
+	 *
+	 * @since 1.6.0
+	 */
+	do_action( 'before_awsm_job_specs_mb_content', $post->ID );
+
 	if ( ! empty( $taxonomy_objects ) && ! empty( $awsm_filters ) ) :
 		$spec_keys = wp_list_pluck( $awsm_filters, 'taxonomy' );
 
@@ -43,6 +57,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<?php
 			endforeach;
 		echo '</ul><!-- .awsm-job-specification-wrapper -->';
-		endif;
+	endif;
+
+	/**
+	 * Fires after job specifications meta box content.
+	 *
+	 * @since 1.6.0
+	 */
+	do_action( 'after_awsm_job_specs_mb_content', $post->ID );
 	?>
 </div><!-- #awsm_job_specifications -->
