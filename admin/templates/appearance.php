@@ -133,6 +133,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'type'    => 'title',
 				),
 				array(
+					'name'         => 'awsm_enable_job_search',
+					'label'        => __( 'Job Search ', 'wp-job-openings' ),
+					'type'         => 'checkbox',
+					'class'        => '',
+					'choices'      => array(
+						array(
+							'value'      => 'enable',
+							'text'       => __( 'Enable job search field in job listing', 'wp-job-openings' ),
+						),
+					),
+					'description'  => __( 'Check this option to show job search field in the job listing page', 'wp-job-openings' ),
+				),
+				array(
 					'name'        => 'awsm_enable_job_filter_listing',
 					'visible'     => ! empty( $specifications ),
 					'label'       => __( 'Job filters', 'wp-job-openings' ),

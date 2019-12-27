@@ -90,19 +90,25 @@ jQuery(function($) {
 
 	/* ========== Job Search ========== */
 
+	if (awsmJobsPublic.is_search.length > 0) {			
+		searchJobs(awsmJobsPublic.is_search);
+	}
+
 	$(filterSelector + ' .awsm-job-search').keypress(function(e) {
 		if (e.which == 13) {
 			e.preventDefault();
 			var search_value = $(this).val();
 			searchJobs(search_value);
+			updateQuery('jq', search_value);
 		}
 	});
 
 	function searchJobs(search_value) {
+		$(wrapperSelector).addClass('awsm-jobs-loading');
 		var search_value = $.trim(search_value);
 		if (search_value.length > 0) {
 			var wp_data = [
-				{name: "job_search", value: search_value},
+				{name: "search_jobs", value: search_value},
 				{name: "action", value: "jobfilter"},
 			];
 			$.ajax({
@@ -114,7 +120,9 @@ jQuery(function($) {
 				if (response) {
 					$(wrapperSelector).html(response);
 				}
-			})
+			}).always(function() {
+				$(wrapperSelector).removeClass('awsm-jobs-loading');
+			});
 		}
 	}
 

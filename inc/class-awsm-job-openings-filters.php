@@ -35,15 +35,20 @@ class AWSM_Job_Openings_Filters {
 			$filter_suffix     = '_spec';
 			$taxonomies        = get_object_taxonomies( 'awsm_job_openings', 'objects' );
 			$available_filters = get_option( 'awsm_jobs_listing_available_filters' );
+			$enable_search     = get_option( 'awsm_enable_job_search' );
 			$selected_filters  = array();
 			foreach ( $available_filters as $available_filter ) {
 				$current_filter_key = str_replace( '-', '__', $available_filter ) . $filter_suffix;
 				if ( isset( $_GET[ $current_filter_key ] ) ) {
 					$selected_filters[ $available_filter ] = sanitize_title( $_GET[ $current_filter_key ] );
 				}
-            }
-            $search_keywords = isset ( $search_value  ) ? $search_value : '';
-            $filter_content .= sprintf( '<div class="awsm-filter-item"><input type="text" name="search_jobs" value="%2$s" placeholder="%1$s" id="awsm-job-search" class="awsm-job-search"></div>', esc_html__( 'Search jobs', 'wp-job-openings' ), esc_attr( $search_keywords ) );
+			}
+
+			if( $enable_search === 'enable' ) {
+				$search_keywords = isset ( $_GET['jq']  ) ? $_GET['jq'] : '';
+				$filter_content .= sprintf( '<div class="awsm-filter-item"><input type="text" name="search_jobs" value="%2$s" placeholder="%1$s" id="awsm-job-search" class="awsm-job-search"></div>', esc_html__( 'Search jobs', 'wp-job-openings' ), esc_attr( $search_keywords ) );
+			}
+
             $available_filters_arr = array();
 
 			$available_filters_arr = array();
@@ -85,18 +90,18 @@ class AWSM_Job_Openings_Filters {
 			}
 		}
 
-		if ( ! empty( $_POST['job_search'] ) ) {
-			$filters['job_search'] = $_POST['job_search'];
-		}
-
         $loadmore        = ( isset( $_POST['action'] ) ) ? $_POST['action'] : '';
 
 		if ( isset( $_POST['listings_per_page'] ) ) {
 			$shortcode_atts['listings'] = intval( $_POST['listings_per_page'] );
 		}
 
-        $args = AWSM_Job_Openings::awsm_job_query_args( $filters, $shortcode_atts );
-
+		
+		$args = AWSM_Job_Openings::awsm_job_query_args( $filters, $shortcode_atts );
+		
+		if( isset( $_POST['search_jobs'] ) && ! empty( $_POST['search_jobs'] ) ) {
+			$args['s'] = $_POST['search_jobs'];
+		} 
 
 		if ( isset( $_POST['paged'] ) ) {
 			$args['paged'] = intval( $_POST['paged'] ) + 1;

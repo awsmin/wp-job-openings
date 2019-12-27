@@ -135,6 +135,9 @@ class AWSM_Job_Openings_Settings {
 					'callback'    => 'intval',
 				),
 				array(
+					'option_name' => 'awsm_enable_job_search',
+				),
+				array(
 					'option_name' => 'awsm_enable_job_filter_listing',
 				),
 				array(

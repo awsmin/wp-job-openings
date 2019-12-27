@@ -636,6 +636,8 @@ class AWSM_Job_Openings {
 			wp_enqueue_script( 'g-recaptcha', 'https://www.google.com/recaptcha/api.js', array(), '2.0', false );
 		}
 		wp_enqueue_script( 'awsm-job-scripts', AWSM_JOBS_PLUGIN_URL . '/assets/js/script.min.js', array( 'jquery' ), AWSM_JOBS_PLUGIN_VERSION, true );
+
+		$enable_search = get_option( 'awsm_enable_job_search' ) === 'enable' && isset( $_GET['jq'] );
 		global $post;
 		wp_localize_script(
 			'awsm-job-scripts',
@@ -643,6 +645,7 @@ class AWSM_Job_Openings {
 			array(
 				'ajaxurl'            => admin_url( 'admin-ajax.php' ),
 				'is_tax_archive'     => is_tax(),
+				'is_search'          => $enable_search ? sanitize_text_field( $_GET['jq'] ) : '',
 				'job_id'             => is_singular( 'awsm_job_openings' ) ? $post->ID : 0,
 				'wp_max_upload_size' => ( wp_max_upload_size() ) ? ( wp_max_upload_size() ) : 0,
 				'i18n'               => array(
@@ -990,10 +993,6 @@ class AWSM_Job_Openings {
 			$filters  = array( $taxonomy => $term_id );
 		}
 
-
-		if( ! empty( $filters['job_search'] ) ) {
-			$args['s'] = $filters['job_search'];
-        }
 		if ( ! empty( $filters ) ) {
 			foreach ( $filters as $taxonomy => $term_id ) {
 				if ( ! empty( $term_id ) ) {
