@@ -67,6 +67,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'description' => __( 'Default message when there are no active job openings', 'wp-job-openings' ),
 				),
 				array(
+					'name'        => 'awsm_hide_uploaded_files',
+					'label'       => __( 'File uploads', 'wp-job-openings' ),
+					'type'        => 'checkbox',
+					'class'       => '',
+					'choices'     => array(
+						array(
+							'value'      => 'hide_files',
+							'text'       => __( 'Hide uploaded files in Media Library', 'wp-job-openings' ),
+						),
+					),
+					'description' => __( 'Checking this option will stop displaying the files uploaded through WP Job Openings form in your Media Library', 'wp-job-openings' ),
+				),
+				array(
 					'name'        => 'awsm_delete_data_on_uninstall',
 					'label'       => __( 'Delete data on uninstall', 'wp-job-openings' ),
 					'type'        => 'checkbox',
