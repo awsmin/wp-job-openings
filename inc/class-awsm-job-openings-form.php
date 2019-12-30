@@ -515,7 +515,10 @@ class AWSM_Job_Openings_Form {
 		$job_expiry     = get_post_meta( $applicant_details['awsm_job_id'], 'awsm_job_expiry', true );
 		$job_expiry     = ( ! empty( $job_expiry ) ) ? date_i18n( get_option( 'date_format' ), strtotime( $job_expiry ) ) : '';
 		$attachment_url = isset( $applicant_details['awsm_attachment_id'] ) ? wp_get_attachment_url( $applicant_details['awsm_attachment_id'] ) : '';
-		$tags           = array(
+		if ( get_option( 'awsm_hide_uploaded_files' ) === 'hide_files' ) {
+			$attachment_url = get_edit_post_link( $applicant_details['application_id'] );
+		}
+		$tags = array(
 			'{applicant}'        => $applicant_details['awsm_applicant_name'],
 			'{application-id}'   => $applicant_details['application_id'],
 			'{applicant-email}'  => $applicant_details['awsm_applicant_email'],

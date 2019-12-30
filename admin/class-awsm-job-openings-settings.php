@@ -952,6 +952,9 @@ class AWSM_Job_Openings_Settings {
 				'{company}'          => __( 'Company Name:', 'wp-job-openings' ),
 			)
 		);
+		if ( get_option( 'awsm_hide_uploaded_files' ) === 'hide_files' ) {
+			unset( $template_tags['{applicant-resume}'] );
+		}
 		return $template_tags;
 	}
 }
