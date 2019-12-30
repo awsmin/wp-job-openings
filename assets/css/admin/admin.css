@@ -78,6 +78,11 @@
 	content: "";
 }
 
+/* Hide WPML subtab in Settings page */
+.awsm-job-settings-wrap .awsm-nav-subtab-container .icl_subsubsub {
+	display: none !important;
+}
+
 .form-table th.awsm-form-head-title {
 	padding: 10px 10px 10px 0;
 }

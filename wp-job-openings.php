@@ -212,18 +212,37 @@ class AWSM_Job_Openings {
 		if ( ! function_exists( 'awsm_jobs_query' ) ) {
 			return;
 		}
-		$shortcode_atts = shortcode_atts(
+		
+		/**
+		 * Filters the shortcode attributes and their defaults.
+		 *
+		 * @since 1.6.0
+		 *
+		 * @param array $pairs List of supported attributes and their defaults.
+		 */
+		$pairs = apply_filters(
+			'awsm_jobs_shortcode_defaults',
 			array(
 				'filters'  => get_option( 'awsm_enable_job_filter_listing' ) !== 'enabled' ? 'no' : 'yes',
 				'listings' => get_option( 'awsm_jobs_list_per_page' ),
 				'loadmore' => 'yes',
-			),
-			$atts,
-			'awsmjobs'
+				'specs'    => '',
+			)
 		);
+		$shortcode_atts = shortcode_atts( $pairs, $atts, 'awsmjobs' );
+
 		ob_start();
 		include self::get_template_path( 'job-openings-view.php' );
-		return ob_get_clean();
+		$content = ob_get_clean();
+
+		/**
+		 * Filters the shortcode output content.
+		 *
+		 * @since 1.6.0
+		 *
+		 * @param string $content Shortcode content.
+		 */
+		return apply_filters( 'awsm_jobs_shortcode_output_content', $content );
 	}
 
 	public function register_widgets() {
@@ -1057,9 +1076,32 @@ class AWSM_Job_Openings {
 		return sprintf( 'awsm-job-listings %s', $view_class );
 	}
 
+	public static function get_current_language() {
+		$current_lang = null;
+		// WPML support.
+		if ( defined( 'ICL_SITEPRESS_VERSION' ) ) {
+			$current_lang = apply_filters( 'wpml_current_language', null );
+		}
+		return $current_lang;
+	}
+
+	public static function set_current_language( $language ) {
+		// WPML support.
+		if ( defined( 'ICL_SITEPRESS_VERSION' ) ) {
+			do_action( 'wpml_switch_language', $language );
+		}
+	}
+
 	public static function get_job_listing_data_attrs( $shortcode_atts = array() ) {
 		$attrs             = array();
 		$attrs['listings'] = self::get_listings_per_page( $shortcode_atts );
+		$attrs['specs']    = isset( $shortcode_atts['specs'] ) ? $shortcode_atts['specs'] : '';
+
+		$current_lang = self::get_current_language();
+		if ( ! empty( $current_lang ) ) {
+			$attrs['language'] = $current_lang;
+		}
+
 		if ( is_tax() ) {
 			$q_obj             = get_queried_object();
 			$attrs['taxonomy'] = $q_obj->taxonomy;
@@ -1119,7 +1161,7 @@ class AWSM_Job_Openings {
 					if ( ! empty( $terms ) ) {
 						$spec_label = $spec_icon = $spec_terms = ''; // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
 						if ( $display_label ) {
-							$spec_label = '<span class="awsm-job-specification-label"><strong>' . esc_html( $options->label ) . ': </strong></span>';
+							$spec_label = '<span class="awsm-job-specification-label"><strong>' . esc_html_x( $options->label, 'taxonomy general name' ) . ': </strong></span>';
 						}
 						foreach ( $filter_data as $filter ) {
 							if ( $taxonomy === $filter['taxonomy'] ) {

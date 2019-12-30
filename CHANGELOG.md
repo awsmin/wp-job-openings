@@ -1,5 +1,9 @@
 ## Changelog
 
+### V 1.5.1 - 2019-11-08
+* Fixed: Job application-related attachments security issue in some installations.
+* Fixed: Unable to dismiss the admin notices.
+
 ### V 1.5.0 - 2019-10-26
 * Added: Ability to add 'From' and 'Reply-To' mail addresses for Applicant notifications in settings.
 * Fixed: Select2 library compatibility issues with other plugins.

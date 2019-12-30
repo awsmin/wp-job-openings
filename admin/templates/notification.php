@@ -13,6 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	$admin_notification_content      = get_option( 'awsm_jobs_admin_notification_content', '' );
 	$from_email                      = get_option( 'awsm_jobs_from_email_notification', $admin_email );
 	$reply_to                        = get_option( 'awsm_jobs_reply_to_notification' );
+	$admin_from_email                = get_option( 'awsm_jobs_admin_from_email_notification', $admin_email );
 ?>
 
 <div id="settings-awsm-settings-notification" class="awsm-admin-settings">
@@ -85,6 +86,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 							</div><!-- .awsm-acc-head -->
 							<div class="awsm-acc-content">
 								<div class="awsm-row">
+									<div class="awsm-col awsm-form-group awsm-col-half">
+										<label for="awsm_jobs_admin_from_email_notification"><?php esc_html_e( 'From', 'wp-job-openings' ); ?></label>
+											<input type="email" class="awsm-form-control" name="awsm_jobs_admin_from_email_notification" id="awsm_jobs_admin_from_email_notification" value="<?php echo esc_attr( $admin_from_email ); ?>" required />
+									</div><!-- .col -->
+									<div class="awsm-col awsm-form-group awsm-col-half">
+										<label for="awsm_jobs_admin_reply_to_notification"><?php esc_html_e( 'Reply-To', 'wp-job-openings' ); ?></label>
+											<input type="email" class="awsm-form-control" name="awsm_jobs_admin_reply_to_notification" id="awsm_jobs_admin_reply_to_notification" value="<?php echo esc_attr( '{applicant-email}' ); ?>" disabled />
+									</div><!-- .col -->
 									<div class="awsm-col awsm-form-group awsm-col-half">
 										<label for="awsm_jobs_admin_to_notification"><?php esc_html_e( 'To', 'wp-job-openings' ); ?></label>
 											<input type="text" class="awsm-form-control" name="awsm_jobs_admin_to_notification" id="awsm_jobs_admin_to_notification" value="<?php echo esc_attr( $admin_to_mail ); ?>" placeholder="<?php esc_html__( 'Admin Email', 'wp-job-openings' ); ?>" required />

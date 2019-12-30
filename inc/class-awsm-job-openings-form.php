@@ -556,12 +556,13 @@ class AWSM_Job_Openings_Form {
 			$admin_cc         = get_option( 'awsm_jobs_admin_hr_notification' );
 			$admin_subject    = get_option( 'awsm_jobs_admin_notification_subject' );
 			$admin_content    = get_option( 'awsm_jobs_admin_notification_content' );
-			$from             = ( ! empty( $company_name ) ) ? $company_name : get_option( 'blogname' );
-			$from_email       = get_option( 'awsm_jobs_from_email_notification', $admin_email );
 			$applicant_name   = $applicant_details['awsm_applicant_name'];
 			$applicant_email  = $applicant_details['awsm_applicant_email'];
-			$reply_mail       = get_option( 'awsm_jobs_reply_to_notification' );
-			$reply_to         = ( ! empty( $reply_mail ) ) ? $reply_mail : $from_email;
+			$from             = ( ! empty( $company_name ) ) ? $company_name : get_option( 'blogname' );
+			$from_email       = get_option( 'awsm_jobs_from_email_notification', $admin_email );
+			$reply_to         = get_option( 'awsm_jobs_reply_to_notification', '' );
+			$admin_from_email = get_option( 'awsm_jobs_admin_from_email_notification', $admin_email );
+
 			$tags             = $this->get_mail_template_tags(
 				$applicant_details,
 				array(
@@ -597,6 +598,13 @@ class AWSM_Job_Openings_Form {
 						'cc'           => 'Cc: ' . $applicant_cc,
 					)
 				);
+
+				if ( empty( $reply_to ) ) {
+					unset( $headers['reply_to'] );
+				}
+				if ( empty( $applicant_cc ) ) {
+					unset( $headers['cc'] );
+				}
 
 				/**
 				 * Filters the applicant notification mail attachments.
@@ -661,12 +669,16 @@ class AWSM_Job_Openings_Form {
 					'awsm_jobs_admin_notification_mail_headers',
 					array(
 						'content_type' => 'Content-Type: text/html; charset=UTF-8',
-						'from'         => sprintf( 'From: %1$s <%2$s>', $from, $admin_email ),
+						'from'         => sprintf( 'From: %1$s <%2$s>', $from, $admin_from_email ),
 						'reply_to'     => sprintf( 'Reply-To: %1$s <%2$s>', $applicant_name, $applicant_email ),
 						'cc'           => 'Cc: ' . $admin_cc,
 					),
 					$applicant_details
 				);
+
+				if ( empty( $admin_cc ) ) {
+					unset( $admin_headers['cc'] );
+				}
 
 				/**
 				 * Filters the admin notification mail attachments.
