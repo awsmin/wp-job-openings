@@ -17,6 +17,7 @@ class AWSM_Job_Openings_Settings {
 
 		add_action( 'update_option_awsm_select_page_listing', array( $this, 'update_awsm_page_listing' ), 10, 2 );
 		add_action( 'update_option_awsm_permalink_slug', array( $this, 'update_awsm_permalink_slug' ), 10, 2 );
+		add_action( 'update_option_awsm_hide_uploaded_files', array( $this, 'update_awsm_hide_uploaded_files' ), 10, 2 );
 		add_action( 'update_option_awsm_jobs_remove_filters', array( $this, 'update_awsm_jobs_remove_filters' ), 10, 2 );
 		add_action( 'update_option_awsm_jobs_make_specs_clickable', array( $this, 'update_awsm_jobs_make_specs_clickable' ), 10, 2 );
 	}
@@ -113,10 +114,13 @@ class AWSM_Job_Openings_Settings {
 					'callback'    => array( $this, 'sanitize_permalink_slug' ),
 				),
 				array(
-					'option_name' => 'awsm_delete_data_on_uninstall',
+					'option_name' => 'awsm_default_msg',
 				),
 				array(
-					'option_name' => 'awsm_default_msg',
+					'option_name' => 'awsm_hide_uploaded_files', /** @since 1.6.0 */
+				),
+				array(
+					'option_name' => 'awsm_delete_data_on_uninstall',
 				),
 			),
 			'appearance'     => array(
@@ -135,7 +139,7 @@ class AWSM_Job_Openings_Settings {
 					'callback'    => 'intval',
 				),
 				array(
-					'option_name' => 'awsm_enable_job_search',
+					'option_name' => 'awsm_enable_job_search', /** @since 1.6.0 */
 				),
 				array(
 					'option_name' => 'awsm_enable_job_filter_listing',
@@ -600,6 +604,22 @@ class AWSM_Job_Openings_Settings {
 		$this->awsm_core->unregister_awsm_job_openings_post_type();
 		$this->awsm_core->register_post_types();
 		flush_rewrite_rules();
+	}
+
+	public function update_awsm_hide_uploaded_files( $old_value, $value ) {
+		$upload_dir   = wp_upload_dir();
+		$base_dir     = trailingslashit( $upload_dir['basedir'] );
+		$upload_dir   = $base_dir . AWSM_JOBS_UPLOAD_DIR_NAME;
+		$file_name    = trailingslashit( $upload_dir ) . '.htaccess';
+		$file_content = 'Options -Indexes';
+		if ( $value === 'hide_files' ) {
+			$file_content = 'deny from all';
+		}
+		$handle = @fopen( $file_name, 'w' );
+		if ( $handle ) {
+			fwrite( $handle, $file_content );
+			fclose( $handle );
+		}
 	}
 
 	public function update_awsm_jobs_make_specs_clickable( $old_value, $value ) {
