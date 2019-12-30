@@ -51,7 +51,7 @@ class AWSM_Job_Openings_Filters {
 
 			if( $enable_search === 'enable' ) {
 				$search_keywords = isset ( $_GET['jq']  ) ? $_GET['jq'] : '';
-				$filter_content .= sprintf( '<div class="awsm-filter-item"><input type="text" name="search_jobs" value="%2$s" placeholder="%1$s" id="awsm-job-search" class="awsm-job-search"></div>', esc_html__( 'Search jobs', 'wp-job-openings' ), esc_attr( $search_keywords ) );
+				$filter_content .= sprintf( '<div class="awsm-filter-item"><div class="awsm-filter-item-search"><input type="text" name="search_jobs" value="%2$s" placeholder="%1$s" id="awsm-job-search" class="awsm-job-search awsm-job-form-control"><span class="awsm-job-search-btn"><i class="awsm-job-icon-search"></i></span></div></div>', esc_html__( 'Search jobs', 'wp-job-openings' ), esc_attr( $search_keywords ) );
 			}
 
             $available_filters_arr = array();
