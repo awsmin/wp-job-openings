@@ -97,25 +97,24 @@ jQuery(function($) {
 	$(filterSelector + ' .awsm-job-search').keypress(function(e) {
 		if (e.which == 13) {
 			e.preventDefault();
-			var search_value = $(this).val();
-			searchJobs(search_value);
-			updateQuery('jq', search_value);
+			var searchQuery = $(this).val();
+			updateQuery('jq', searchQuery);
+			searchJobs(searchQuery);
 		}
 	});
 
-	function searchJobs(search_value) {
+	function searchJobs(searchQuery) {
 		$(wrapperSelector).addClass('awsm-jobs-loading');
-		var search_value = $.trim(search_value);
-		if (search_value.length > 0) {
-			var wp_data = [
-				{name: "search_jobs", value: search_value},
+		searchQuery = $.trim(searchQuery);
+		if (searchQuery.length > 0) {
+			var wpData = [
+				{name: "search_jobs", value: searchQuery},
 				{name: "action", value: "jobfilter"},
 			];
 			$.ajax({
 				url: awsmJobsPublic.ajaxurl,
 				type: "POST",
-				data: $.param(wp_data),
-				dataType: "text"
+				data: $.param(wpData),
 			}).done(function(response) {
 				if (response) {
 					$(wrapperSelector).html(response);
@@ -140,6 +139,7 @@ jQuery(function($) {
 		var listings = $listingsContainer.data('listings');
 		var specs = $listingsContainer.data('specs');
 		var language = $listingsContainer.data('language');
+		var searchQuery = $listingsContainer.data('search');
 
 		// filters
 		var $filterForm = $mainContainer.find(filterSelector + ' form');
@@ -183,6 +183,12 @@ jQuery(function($) {
 			wpData.push({
 				name: 'language',
 				value: language
+			});
+		}
+		if (typeof searchQuery !== 'undefined') {
+			wpData.push({
+				name: 'search_jobs',
+				value: searchQuery
 			});
 		}
 

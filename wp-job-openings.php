@@ -1101,6 +1101,10 @@ class AWSM_Job_Openings {
 		if ( ! empty( $current_lang ) ) {
 			$attrs['language'] = $current_lang;
 		}
+		
+		if ( isset( $_GET['jq'] ) ) {
+			$attrs['search'] = $_GET['jq'];
+		}
 
 		if ( is_tax() ) {
 			$q_obj             = get_queried_object();
