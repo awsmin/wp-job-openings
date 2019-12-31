@@ -156,7 +156,11 @@ if ( ! function_exists( 'awsm_job_form_submit_btn' ) ) {
 if ( ! function_exists( 'awsm_jobs_archive_title' ) ) {
 	function awsm_jobs_archive_title() {
 		if ( is_archive() ) {
-			the_archive_title( '<h1 class="page-title awsm-jobs-archive-title">', '</h1>' );
+			$title = get_the_archive_title();
+			if ( is_post_type_archive( 'awsm_job_openings' ) ) {
+				$title = post_type_archive_title( '', false );
+			}
+			printf( '<h1 class="page-title awsm-jobs-archive-title">%s</h1>', $title );
 		}
 	}
 }
