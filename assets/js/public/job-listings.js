@@ -6,10 +6,11 @@ jQuery(function($) {
 	var rootWrapperSelector = '.awsm-job-wrap';
 	var wrapperSelector = '.awsm-job-listings';
 
-	/* ========== Job Filters ========== */
+	/* ========== Job Search and Filtering ========== */
 
 	var filterSelector = '.awsm-filter-wrap';
 	var currentUrl = window.location.protocol + '//' + window.location.host + window.location.pathname;
+	var triggerFilter = true;
 
 	function awsmJobFilters($rootWrapper) {
 		var $wrapper = $rootWrapper.find(wrapperSelector);
@@ -20,21 +21,29 @@ jQuery(function($) {
 			name: 'listings_per_page',
 			value: listings
 		});
-		$.ajax({
-			url: $filterForm.attr('action'),
-			beforeSend: function() {
-				$wrapper.addClass('awsm-jobs-loading');
-			},
-			data: formData,
-			type: $filterForm.attr('method')
-		}).done(function(data) {
-			$wrapper.html(data);
-		}).fail(function(xhr) {
-			// eslint-disable-next-line no-console
-			console.log(xhr);
-		}).always(function() {
-			$wrapper.removeClass('awsm-jobs-loading');
-		});
+		if (triggerFilter) {
+
+			// stop the duplicate requests.
+			triggerFilter = false;
+
+			// now, make the request.
+			$.ajax({
+				url: $filterForm.attr('action'),
+				beforeSend: function() {
+					$wrapper.addClass('awsm-jobs-loading');
+				},
+				data: formData,
+				type: $filterForm.attr('method')
+			}).done(function(data) {
+				$wrapper.html(data);
+			}).fail(function(xhr) {
+				// eslint-disable-next-line no-console
+				console.log(xhr);
+			}).always(function() {
+				$wrapper.removeClass('awsm-jobs-loading');
+				triggerFilter = true;
+			});
+		}
 	}
 
 	function filterCheck($filterForm) {
@@ -50,11 +59,19 @@ jQuery(function($) {
 		return check;
 	}
 
+	function searchJobs($elem) {
+		var $rootWrapper = $elem.parents(rootWrapperSelector);
+		var searchQuery = $rootWrapper.find('.awsm-job-search').val();
+		awsmJobFilters($rootWrapper);
+		updateQuery('jq', searchQuery);
+	}
+
 	if ($(rootWrapperSelector).length > 0) {
 		$(rootWrapperSelector).each(function() {
 			var $currentWrapper = $(this);
 			var $filterForm = $currentWrapper.find(filterSelector + ' form');
-			if (filterCheck($filterForm)) {
+			if (awsmJobsPublic.is_search.length > 0 || filterCheck($filterForm)) {
+				triggerFilter = true;
 				awsmJobFilters($currentWrapper);
 			}
 		});
@@ -88,42 +105,16 @@ jQuery(function($) {
 		updateQuery(currentSpec, slug);
 	});
 
-	/* ========== Job Search ========== */
-
-	if (awsmJobsPublic.is_search.length > 0) {			
-		searchJobs(awsmJobsPublic.is_search);
-	}
-
-	$(filterSelector + ' .awsm-job-search').keypress(function(e) {
-		if (e.which == 13) {
-			e.preventDefault();
-			var searchQuery = $(this).val();
-			updateQuery('jq', searchQuery);
-			searchJobs(searchQuery);
-		}
+	$(filterSelector + ' .awsm-job-search-btn').on('click', function() {
+		searchJobs($(this));
 	});
 
-	function searchJobs(searchQuery) {
-		$(wrapperSelector).addClass('awsm-jobs-loading');
-		searchQuery = $.trim(searchQuery);
-		if (searchQuery.length > 0) {
-			var wpData = [
-				{name: "search_jobs", value: searchQuery},
-				{name: "action", value: "jobfilter"},
-			];
-			$.ajax({
-				url: awsmJobsPublic.ajaxurl,
-				type: "POST",
-				data: $.param(wpData),
-			}).done(function(response) {
-				if (response) {
-					$(wrapperSelector).html(response);
-				}
-			}).always(function() {
-				$(wrapperSelector).removeClass('awsm-jobs-loading');
-			});
+	$(filterSelector + ' .awsm-job-search').on('keypress', function(e) {
+		if (e.which == 13) {
+			e.preventDefault();
+			searchJobs($(this));
 		}
-	}
+	});
 
 	/* ========== Job Listings Load More ========== */
 
@@ -187,7 +178,7 @@ jQuery(function($) {
 		}
 		if (typeof searchQuery !== 'undefined') {
 			wpData.push({
-				name: 'search_jobs',
+				name: 'jq',
 				value: searchQuery
 			});
 		}

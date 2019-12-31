@@ -39,8 +39,9 @@ class AWSM_Job_Openings_Filters {
 			$filter_content    = '';
 			$filter_suffix     = '_spec';
 			$taxonomies        = get_object_taxonomies( 'awsm_job_openings', 'objects' );
-			$available_filters = get_option( 'awsm_jobs_listing_available_filters' );
 			$enable_search     = get_option( 'awsm_enable_job_search' );
+			$available_filters = get_option( 'awsm_jobs_listing_available_filters' );
+			
 			$selected_filters  = array();
 			foreach ( $available_filters as $available_filter ) {
 				$current_filter_key = str_replace( '-', '__', $available_filter ) . $filter_suffix;
@@ -50,8 +51,9 @@ class AWSM_Job_Openings_Filters {
 			}
 
 			if( $enable_search === 'enable' ) {
-				$search_keywords = isset ( $_GET['jq']  ) ? $_GET['jq'] : '';
-				$filter_content .= sprintf( '<div class="awsm-filter-item"><div class="awsm-filter-item-search"><input type="text" name="search_jobs" value="%2$s" placeholder="%1$s" id="awsm-job-search" class="awsm-job-search awsm-job-form-control"><span class="awsm-job-search-btn"><i class="awsm-job-icon-search"></i></span></div></div>', esc_html__( 'Search jobs', 'wp-job-openings' ), esc_attr( $search_keywords ) );
+				$search_query     = isset ( $_GET['jq']  ) ? $_GET['jq'] : '';
+				$placeholder_text = apply_filters( 'awsm_jobs_search_field_placeholder', __( 'Search', 'wp-job-openings' ) );
+				$filter_content .= sprintf( '<div class="awsm-filter-item"><div class="awsm-filter-item-search"><input type="text" name="jq" value="%2$s" placeholder="%1$s" class="awsm-job-search awsm-job-form-control"><span class="awsm-job-search-btn"><i class="awsm-job-icon-search"></i></span></div></div>', esc_attr( $placeholder_text ), esc_attr( $search_query ) );
 			}
 
             $available_filters_arr = array();
@@ -125,8 +127,8 @@ class AWSM_Job_Openings_Filters {
 
 		$args = AWSM_Job_Openings::awsm_job_query_args( $filters, $shortcode_atts );
 		
-		if( isset( $_POST['search_jobs'] ) && ! empty( $_POST['search_jobs'] ) ) {
-			$args['s'] = $_POST['search_jobs'];
+		if( isset( $_POST['jq'] ) && ! empty( $_POST['jq'] ) ) {
+			$args['s'] = sanitize_text_field( $_POST['jq'] );
 		} 
 
 		if ( isset( $_POST['paged'] ) ) {
