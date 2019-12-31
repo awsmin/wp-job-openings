@@ -72,6 +72,16 @@ Power-up your job listing with the PRO pack
 
 == Changelog ==
 
+= V 1.6.0 - 2019-12-31 =
+* Added: Jobs Search
+* Added: Option to hide and restrict files uploaded through application form.
+* Added: Ability to add 'From' mail address for Admin notifications in settings.
+* Added: WPML Support.
+* Improved: Job archive page title.
+* Dev: Added hooks for customizing the meta box content.
+* Dev: Added hooks for customizing shortcode attributes and content.
+* Code improvements and minor bug fixes.
+
 = V 1.5.1 - 2019-11-08 =
 * Fixed: Job application-related attachments security issue in some installations.
 * Fixed: Unable to dismiss the admin notices.
@@ -155,5 +165,5 @@ Power-up your job listing with the PRO pack
 
 == Upgrade Notice ==
 
-= 1.5.1 =
-Bug Fixes
+= 1.6.0 =
+Added New Features
