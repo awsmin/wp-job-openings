@@ -73,8 +73,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'class'       => '',
 					'choices'     => array(
 						array(
-							'value'      => 'hide_files',
-							'text'       => __( 'Hide uploaded files in Media Library', 'wp-job-openings' ),
+							'value' => 'hide_files',
+							'text'  => __( 'Hide uploaded files in Media Library', 'wp-job-openings' ),
 						),
 					),
 					'description' => __( 'Checking this option will stop displaying the files uploaded through WP Job Openings form in your Media Library', 'wp-job-openings' ),

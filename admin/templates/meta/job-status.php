@@ -16,7 +16,7 @@ if ( $post->post_type === 'awsm_job_application' ) {
 	 * Initialize job status meta box.
 	 *
 	 * @since 1.6.0
-	 * 
+	 *
 	 * @param int $job_id  The Job ID.
 	 * @param int $post_id Current Post ID (Job or Application).
 	 */
@@ -26,28 +26,28 @@ if ( $post->post_type === 'awsm_job_application' ) {
 <table class="awsm-job-stat-table">
 	<?php
 		$data_rows = array(
-			'job_title' => array(
+			'job_title'       => array(
 				esc_html__( 'Job Title', 'wp-job-openings' ),
 				wp_strip_all_tags( $job_title ),
 			),
-			'current_status' => array(
+			'current_status'  => array(
 				esc_html__( 'Current Status:', 'wp-job-openings' ),
 				'',
 			),
-			'views' => array(
+			'views'           => array(
 				esc_html__( 'Views:', 'wp-job-openings' ),
 				! empty( $views_count ) ? esc_html( $views_count ) : 0,
 			),
-			'applications' => array(
+			'applications'    => array(
 				esc_html__( 'Applications:', 'wp-job-openings' ),
 				'',
 			),
 			'last_submission' => array(
 				esc_html__( 'Last Submission:', 'wp-job-openings' ),
 				'',
-			)
+			),
 		);
-	
+
 		if ( $check_status === 'publish' ) {
 			$data_rows['current_status'][1] = '<span class="awsm-text-green">' . esc_html__( 'Active', 'wp-job-openings' ) . '</span>';
 		} elseif ( $check_status === 'expired' ) {
@@ -63,9 +63,9 @@ if ( $post->post_type === 'awsm_job_application' ) {
 		}
 
 		if ( $post_count > 0 ) {
-			$applications       = array_values( $applications );
-			$recent_application = $applications[0];
-			$edit_link          = get_edit_post_link( $recent_application->ID );
+			$applications                    = array_values( $applications );
+			$recent_application              = $applications[0];
+			$edit_link                       = get_edit_post_link( $recent_application->ID );
 			$data_rows['last_submission'][1] = sprintf( '<a href="%1$s">%2$s %3$s</a>', esc_url( $edit_link ), esc_html( human_time_diff( get_the_time( 'U', $recent_application->ID ), current_time( 'timestamp' ) ) ), esc_html__( 'ago', 'wp-job-openings' ) );
 		} else {
 			$data_rows['last_submission'][1] = esc_html__( 'NA', 'wp-job-openings' );
@@ -104,7 +104,7 @@ if ( $post->post_type === 'awsm_job_application' ) {
 		$data_rows = apply_filters( 'awsm_job_status_mb_data_rows', $data_rows, $job_id, $post->ID );
 
 		foreach ( $data_rows as $data_row ) {
-			printf( '<tr><td>%1$s</td><td>%2$s</td></tr>', isset( $data_row[0] ) ? $data_row[0] : '', isset( $data_row[1] ) ? $data_row[1] : '' );
+			printf( '<tr><td>%1$s</td><td>%2$s</td></tr>', isset( $data_row[0] ) ? $data_row[0] : '', isset( $data_row[1] ) ? $data_row[1] : '' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
-	?>
+		?>
 </table>

@@ -248,13 +248,16 @@ class AWSM_Job_Openings_Core {
 		if ( is_admin() && $query->is_main_query() ) {
 			$screen = get_current_screen();
 			if ( ! empty( $screen ) && $screen->id === 'upload' && $screen->post_type === 'attachment' ) {
-				$query->set( 'meta_query', array(
+				$query->set(
+					'meta_query',
 					array(
-						'key'     => '_wp_attached_file',
-						'compare' => 'NOT LIKE',
-						'value'   => 'awsm-job-openings',
-					),
-				) );
+						array(
+							'key'     => '_wp_attached_file',
+							'compare' => 'NOT LIKE',
+							'value'   => 'awsm-job-openings',
+						),
+					)
+				);
 			}
 		}
 	}

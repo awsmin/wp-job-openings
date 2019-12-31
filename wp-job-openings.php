@@ -212,7 +212,7 @@ class AWSM_Job_Openings {
 		if ( ! function_exists( 'awsm_jobs_query' ) ) {
 			return;
 		}
-		
+
 		/**
 		 * Filters the shortcode attributes and their defaults.
 		 *
@@ -220,7 +220,7 @@ class AWSM_Job_Openings {
 		 *
 		 * @param array $pairs List of supported attributes and their defaults.
 		 */
-		$pairs = apply_filters(
+		$pairs          = apply_filters(
 			'awsm_jobs_shortcode_defaults',
 			array(
 				'filters'  => get_option( 'awsm_enable_job_filter_listing' ) !== 'enabled' ? 'no' : 'yes',
@@ -1101,7 +1101,7 @@ class AWSM_Job_Openings {
 		if ( ! empty( $current_lang ) ) {
 			$attrs['language'] = $current_lang;
 		}
-		
+
 		if ( isset( $_GET['jq'] ) ) {
 			$attrs['search'] = $_GET['jq'];
 		}
@@ -1165,7 +1165,7 @@ class AWSM_Job_Openings {
 					if ( ! empty( $terms ) ) {
 						$spec_label = $spec_icon = $spec_terms = ''; // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
 						if ( $display_label ) {
-							$spec_label = '<span class="awsm-job-specification-label"><strong>' . esc_html_x( $options->label, 'taxonomy general name' ) . ': </strong></span>';
+							$spec_label = '<span class="awsm-job-specification-label"><strong>' . esc_html_x( $options->label, 'Job Specifications', 'wp-job-openings' ) . ': </strong></span>'; // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
 						}
 						foreach ( $filter_data as $filter ) {
 							if ( $taxonomy === $filter['taxonomy'] ) {

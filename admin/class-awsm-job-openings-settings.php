@@ -97,7 +97,8 @@ class AWSM_Job_Openings_Settings {
 		$settings = array(
 			'general'        => array(
 				array(
-					'option_name' => 'awsm_current_general_subtab', /** @since 1.3.0 */
+					/** @since 1.3.0 */
+					'option_name' => 'awsm_current_general_subtab',
 				),
 				array(
 					'option_name' => 'awsm_select_page_listing',
@@ -117,7 +118,8 @@ class AWSM_Job_Openings_Settings {
 					'option_name' => 'awsm_default_msg',
 				),
 				array(
-					'option_name' => 'awsm_hide_uploaded_files', /** @since 1.6.0 */
+					/** @since 1.6.0 */
+					'option_name' => 'awsm_hide_uploaded_files',
 				),
 				array(
 					'option_name' => 'awsm_delete_data_on_uninstall',
@@ -139,7 +141,8 @@ class AWSM_Job_Openings_Settings {
 					'callback'    => 'intval',
 				),
 				array(
-					'option_name' => 'awsm_enable_job_search', /** @since 1.6.0 */
+					/** @since 1.6.0 */
+					'option_name' => 'awsm_enable_job_search',
 				),
 				array(
 					'option_name' => 'awsm_enable_job_filter_listing',
@@ -153,7 +156,8 @@ class AWSM_Job_Openings_Settings {
 					'callback'    => array( $this, 'sanitize_array_fields' ),
 				),
 				array(
-					'option_name' => 'awsm_jobs_details_page_template', /** @since 1.1.0 */
+					/** @since 1.1.0 */
+					'option_name' => 'awsm_jobs_details_page_template',
 				),
 				array(
 					'option_name' => 'awsm_jobs_details_page_layout',
@@ -162,16 +166,20 @@ class AWSM_Job_Openings_Settings {
 					'option_name' => 'awsm_jobs_expired_jobs_listings',
 				),
 				array(
-					'option_name' => 'awsm_jobs_specification_job_detail', /** @since 1.0.1 */
+					/** @since 1.0.1 */
+					'option_name' => 'awsm_jobs_specification_job_detail',
 				),
 				array(
-					'option_name' => 'awsm_jobs_show_specs_icon', /** @since 1.0.1 */
+					/** @since 1.0.1 */
+					'option_name' => 'awsm_jobs_show_specs_icon',
 				),
 				array(
-					'option_name' => 'awsm_jobs_make_specs_clickable', /** @since 1.0.1 */
+					/** @since 1.0.1 */
+					'option_name' => 'awsm_jobs_make_specs_clickable',
 				),
 				array(
-					'option_name' => 'awsm_jobs_specs_position', /** @since 1.0.1 */
+					/** @since 1.0.1 */
+					'option_name' => 'awsm_jobs_specs_position',
 				),
 				array(
 					'option_name' => 'awsm_jobs_expired_jobs_content_details',
@@ -186,7 +194,8 @@ class AWSM_Job_Openings_Settings {
 
 			'specifications' => array(
 				array(
-					'option_name' => 'awsm_current_specifications_subtab', /** @since 1.3.0 */
+					/** @since 1.3.0 */
+					'option_name' => 'awsm_current_specifications_subtab',
 				),
 				array(
 					'option_name' => 'awsm_jobs_filter',
@@ -200,7 +209,8 @@ class AWSM_Job_Openings_Settings {
 
 			'form'           => array(
 				array(
-					'option_name' => 'awsm_current_form_subtab', /** @since 1.1.0 */
+					/** @since 1.1.0 */
+					'option_name' => 'awsm_current_form_subtab',
 				),
 				array(
 					'option_name' => 'awsm_jobs_admin_upload_file_ext',
@@ -214,31 +224,37 @@ class AWSM_Job_Openings_Settings {
 					'callback'    => array( $this, 'awsm_gdpr_cb_text_handle' ),
 				),
 				array(
-					'option_name' => 'awsm_jobs_enable_recaptcha', /** @since 1.1.0 */
+					/** @since 1.1.0 */
+					'option_name' => 'awsm_jobs_enable_recaptcha',
 				),
 				array(
-					'option_name' => 'awsm_jobs_recaptcha_site_key', /** @since 1.1.0 */
+					/** @since 1.1.0 */
+					'option_name' => 'awsm_jobs_recaptcha_site_key',
 					'callback'    => array( $this, 'sanitize_site_key' ),
 				),
 				array(
-					'option_name' => 'awsm_jobs_recaptcha_secret_key', /** @since 1.1.0 */
+					/** @since 1.1.0 */
+					'option_name' => 'awsm_jobs_recaptcha_secret_key',
 					'callback'    => array( $this, 'sanitize_secret_key' ),
 				),
 			),
 
 			'notification'   => array(
 				array(
-					'option_name' => 'awsm_current_notification_subtab', /** @since 1.3.0 */
+					/** @since 1.3.0 */
+					'option_name' => 'awsm_current_notification_subtab',
 				),
 				array(
 					'option_name' => 'awsm_jobs_acknowledgement',
 				),
 				array(
-					'option_name' => 'awsm_jobs_from_email_notification', /** @since 1.5.0 */
+					/** @since 1.5.0 */
+					'option_name' => 'awsm_jobs_from_email_notification',
 					'callback'    => array( $this, 'sanitize_from_email_id' ),
 				),
 				array(
-					'option_name' => 'awsm_jobs_reply_to_notification', /** @since 1.5.0 */
+					/** @since 1.5.0 */
+					'option_name' => 'awsm_jobs_reply_to_notification',
 				),
 				array(
 					'option_name' => 'awsm_jobs_applicant_notification',
@@ -257,11 +273,13 @@ class AWSM_Job_Openings_Settings {
 					'option_name' => 'awsm_jobs_enable_admin_notification',
 				),
 				array(
-					'option_name' => 'awsm_jobs_admin_from_email_notification', /** @since 1.6.0 */
+					/** @since 1.6.0 */
+					'option_name' => 'awsm_jobs_admin_from_email_notification',
 					'callback'    => array( $this, 'sanitize_admin_from_email_id' ),
 				),
 				array(
-					'option_name' => 'awsm_jobs_admin_reply_to_notification', /** @since 1.6.0 */
+					/** @since 1.6.0 */
+					'option_name' => 'awsm_jobs_admin_reply_to_notification',
 				),
 				array(
 					'option_name' => 'awsm_jobs_admin_to_notification',
@@ -283,14 +301,14 @@ class AWSM_Job_Openings_Settings {
 
 	private static function default_settings() {
 		$options = array(
-			'awsm_permalink_slug'                  => 'jobs',
-			'awsm_default_msg'                     => esc_html__( 'We currently have no job openings', 'wp-job-openings' ),
-			'awsm_jobs_listing_view'               => 'list-view',
-			'awsm_jobs_list_per_page'              => 10,
-			'awsm_jobs_number_of_columns'          => 3,
-			'awsm_current_appearance_subtab'       => 'awsm-job-listing-nav-subtab',
-			'awsm_jobs_details_page_layout'        => 'single',
-			'awsm_jobs_filter'                     => array(
+			'awsm_permalink_slug'                     => 'jobs',
+			'awsm_default_msg'                        => esc_html__( 'We currently have no job openings', 'wp-job-openings' ),
+			'awsm_jobs_listing_view'                  => 'list-view',
+			'awsm_jobs_list_per_page'                 => 10,
+			'awsm_jobs_number_of_columns'             => 3,
+			'awsm_current_appearance_subtab'          => 'awsm-job-listing-nav-subtab',
+			'awsm_jobs_details_page_layout'           => 'single',
+			'awsm_jobs_filter'                        => array(
 				array(
 					'taxonomy' => 'job-category',
 					'filter'   => esc_html( 'Job Category', 'wp-job-openings' ),
@@ -305,19 +323,19 @@ class AWSM_Job_Openings_Settings {
 					'filter'   => esc_html( 'Job Location', 'wp-job-openings' ),
 				),
 			),
-			'awsm_enable_job_filter_listing'       => 'enabled',
-			'awsm_jobs_listing_available_filters'  => array( 'job-category', 'job-type', 'job-location' ),
-			'awsm_jobs_listing_specs'              => array( 'job-category', 'job-location' ),
-			'awsm_jobs_admin_upload_file_ext'      => array( 'pdf', 'doc', 'docx' ),
-			'awsm_enable_gdpr_cb'                  => 'true',
-			'awsm_gdpr_cb_text'                    => esc_html__( 'By using this form you agree with the storage and handling of your data by this website.', 'wp-job-openings' ),
-			'awsm_jobs_acknowledgement'            => 'acknowledgement',
-			'awsm_jobs_notification_subject'       => 'Thanks for submitting your application for a job at {company}',
-			'awsm_jobs_notification_content'       => "Dear {applicant},\n\nThis is to let you know that we have received your application.We appreciate your interest in {company} and the position of {job-title} for which you applied.  If you are selected for an interview, you can expect a phone call from our Human Resources staff shortly.\n\n Thank you, again, for your interest in our company. We do appreciate the time that you invested in this application.\n\nSincerely\n\nHR Manager\n{company}",
-			'awsm_jobs_enable_admin_notification'  => 'enable',
-			'awsm_jobs_admin_notification_subject' => 'New application received for the position {job-title} [{job-id}]',
-			'awsm_jobs_admin_notification_content' => "Job Opening: {job-title} [{job-id}]\nName: {applicant}\nEmail: {applicant-email}\nPhone: {applicant-phone}\nResume: {applicant-resume}\nCover letter: {applicant-cover}\n\nPowered by WP Job Openings Plugin",
-			'awsm_jobs_from_email_notification'    => get_option( 'admin_email' ),
+			'awsm_enable_job_filter_listing'          => 'enabled',
+			'awsm_jobs_listing_available_filters'     => array( 'job-category', 'job-type', 'job-location' ),
+			'awsm_jobs_listing_specs'                 => array( 'job-category', 'job-location' ),
+			'awsm_jobs_admin_upload_file_ext'         => array( 'pdf', 'doc', 'docx' ),
+			'awsm_enable_gdpr_cb'                     => 'true',
+			'awsm_gdpr_cb_text'                       => esc_html__( 'By using this form you agree with the storage and handling of your data by this website.', 'wp-job-openings' ),
+			'awsm_jobs_acknowledgement'               => 'acknowledgement',
+			'awsm_jobs_notification_subject'          => 'Thanks for submitting your application for a job at {company}',
+			'awsm_jobs_notification_content'          => "Dear {applicant},\n\nThis is to let you know that we have received your application.We appreciate your interest in {company} and the position of {job-title} for which you applied.  If you are selected for an interview, you can expect a phone call from our Human Resources staff shortly.\n\n Thank you, again, for your interest in our company. We do appreciate the time that you invested in this application.\n\nSincerely\n\nHR Manager\n{company}",
+			'awsm_jobs_enable_admin_notification'     => 'enable',
+			'awsm_jobs_admin_notification_subject'    => 'New application received for the position {job-title} [{job-id}]',
+			'awsm_jobs_admin_notification_content'    => "Job Opening: {job-title} [{job-id}]\nName: {applicant}\nEmail: {applicant-email}\nPhone: {applicant-phone}\nResume: {applicant-resume}\nCover letter: {applicant-cover}\n\nPowered by WP Job Openings Plugin",
+			'awsm_jobs_from_email_notification'       => get_option( 'admin_email' ),
 			'awsm_jobs_admin_from_email_notification' => get_option( 'admin_email' ),
 		);
 		if ( ! empty( $options ) ) {

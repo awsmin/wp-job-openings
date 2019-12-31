@@ -160,7 +160,7 @@ if ( ! function_exists( 'awsm_jobs_archive_title' ) ) {
 			if ( is_post_type_archive( 'awsm_job_openings' ) ) {
 				$title = post_type_archive_title( '', false );
 			}
-			printf( '<h1 class="page-title awsm-jobs-archive-title">%s</h1>', $title );
+			printf( '<h1 class="page-title awsm-jobs-archive-title">%s</h1>', $title ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 	}
 }

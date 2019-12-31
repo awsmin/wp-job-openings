@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			$file_size_display = ! empty( $resume_details['file_size']['display'] ) ? '(' . $resume_details['file_size']['display'] . ')' : '';
 			?>
 				<a href="<?php echo $this->get_attached_file_download_url( $attachment_id ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>" class="button awsm-applicant-resume-btn" rel="nofollow"><strong><?php esc_html_e( 'Download Resume', 'wp-job-openings' ); ?></strong><span><?php echo esc_html( $resume_details['file_type']['ext'] . $file_size_display ); ?></span></a>
-		<?php
+			<?php
 		endif;
 
 			/**
