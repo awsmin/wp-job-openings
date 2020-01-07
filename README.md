@@ -3,8 +3,8 @@
 **Contributors:** awsmin  
 **Tags:** jobs, job listing, job openings, job board, careers page, jobs page, wp job opening, jobs plugin  
 **Requires at least:** 4.1  
-**Tested up to:** 5.2.4  
-**Stable tag:** 1.5.1  
+**Tested up to:** 5.3.2  
+**Stable tag:** 1.6.0  
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -99,6 +99,16 @@ Power-up your job listing with the PRO pack
 
 ## Changelog
 
+**V 1.6.0 - 2019-12-31**
+* Added: Jobs Search
+* Added: Option to hide and restrict files uploaded through application form.
+* Added: Ability to add 'From' mail address for Admin notifications in settings.
+* Added: WPML Support.
+* Improved: Job archive page title.
+* Dev: Added hooks for customizing the meta box content.
+* Dev: Added hooks for customizing shortcode attributes and content.
+* Code improvements and minor bug fixes.
+
 **V 1.5.1 - 2019-11-08**
 * Fixed: Job application-related attachments security issue in some installations.
 * Fixed: Unable to dismiss the admin notices.
@@ -114,19 +124,5 @@ Power-up your job listing with the PRO pack
 
 **V 1.4.1 - 2019-07-02**
 * Minor bug fixes and style improvements.
-
-**V 1.4 - 2019-06-12**
-* Added: Recent Jobs Widget.
-* Added: Application ID template tag support for Application Notifications.
-* Fixed: Job application notification mail delivery issues.
-* Fixed: Job expiry datepicker button styling issues.
-* Fixed: Required fields in sub tabs preventing settings form submission.
-* Improved: Settings page functionality.
-* Improved: Job application form validation styles.
-* Improved: Add-ons listing page.
-* Code improvements and other bug fixes.
-* Dev: New hooks for customizing the registered post type arguments.
-* Dev: New hook for customizing the arguments for the jobs query.
-* Dev: New hooks for managing job application notification mails.
 
 View complete Changelog in [CHANGELOG.MD](https://github.com/awsmin/wp-job-openings/blob/master/CHANGELOG.md)

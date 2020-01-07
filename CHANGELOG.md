@@ -1,5 +1,15 @@
 ## Changelog
 
+### V 1.6.0 - 2019-12-31
+* Added: Jobs Search
+* Added: Option to hide and restrict files uploaded through application form.
+* Added: Ability to add 'From' mail address for Admin notifications in settings.
+* Added: WPML Support.
+* Improved: Job archive page title.
+* Dev: Added hooks for customizing the meta box content.
+* Dev: Added hooks for customizing shortcode attributes and content.
+* Code improvements and minor bug fixes.
+
 ### V 1.5.1 - 2019-11-08
 * Fixed: Job application-related attachments security issue in some installations.
 * Fixed: Unable to dismiss the admin notices.
@@ -16,7 +26,7 @@
 ### V 1.4.1 - 2019-07-02
 * Minor bug fixes and style improvements.
 
-### V 1.4 - 2019-06-12
+### V 1.4.0 - 2019-06-12
 * Added: Recent Jobs Widget.
 * Added: Application ID template tag support for Application Notifications.
 * Fixed: Job application notification mail delivery issues.
@@ -30,7 +40,7 @@
 * Dev: New hook for customizing the arguments for the jobs query.
 * Dev: New hooks for managing job application notification mails.
 
-### V 1.3 - 2019-03-04
+### V 1.3.0 - 2019-03-04
 * Added: Shortcode attributes - `filters`, `listings`, and `loadmore` for `[awsmjobs]` shortcode. Template files need to be updated if overridden in theme.
 * Added: Job/Application updated messages.
 * Added: Shareable filters. Now, you can share the link to display filtered job results.
@@ -49,7 +59,7 @@
 * Fixed: Application feedback mail issue when Non-English characters are used
 * Fixed: Settings UI issues
 
-### V 1.2 - 2018-10-17
+### V 1.2.0 - 2018-10-17
 * Added: Job posting structured data for better SEO
 * Added: New hooks for managing job application form
 * Fixed: Validation issue for Full Name field in job application form
@@ -64,7 +74,7 @@
 * Fixed: Invalid error messages when reCAPTCHA is not enabled in Form settings
 * Code improvements
 
-### V 1.1 - 2018-09-12
+### V 1.1.0 - 2018-09-12
 * Added: Custom template support.
 * Added: New hooks for better templating
 * Added: reCAPTCHA feature for job application form
@@ -78,5 +88,5 @@
 * Added: Job status meta box on application detail screen
 * Minor fixes and improvements
 
-### V 1.0 - 2018-08-12
+### V 1.0.0 - 2018-08-12
 * Initial Release
