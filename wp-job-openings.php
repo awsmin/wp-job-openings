@@ -241,8 +241,9 @@ class AWSM_Job_Openings {
 		 * @since 1.6.0
 		 *
 		 * @param string $content Shortcode content.
+		 * @param array $shortcode_atts Combined and filtered shortcode attribute list.
 		 */
-		return apply_filters( 'awsm_jobs_shortcode_output_content', $content );
+		return apply_filters( 'awsm_jobs_shortcode_output_content', $content, $shortcode_atts );
 	}
 
 	public function register_widgets() {
