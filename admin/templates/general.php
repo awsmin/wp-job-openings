@@ -74,10 +74,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'choices'     => array(
 						array(
 							'value' => 'hide_files',
-							'text'  => __( 'Hide uploaded files in Media Library', 'wp-job-openings' ),
+							'text'  => __( 'Secure uploaded files', 'wp-job-openings' ),
 						),
 					),
-					'description' => __( 'Checking this option will stop displaying the files uploaded through WP Job Openings form in your Media Library', 'wp-job-openings' ),
+					/* translators: %1$s: line break element */
+					'description' => sprintf( __( 'Checking this option will affect URLs of all your files uploaded through WP Job Openings Plugin form.%1$s 1. The files will not be displayed in Media Library.%1$s 2. Publicly accessible file URL will be disabled.%1$s 3. \'Resume Preview\' option will not work anymore (Resume Viewer Addon).', 'wp-job-openings' ), '<br />' ),
 				),
 				array(
 					'name'        => 'awsm_delete_data_on_uninstall',
