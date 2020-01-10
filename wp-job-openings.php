@@ -1165,7 +1165,8 @@ class AWSM_Job_Openings {
 					if ( ! empty( $terms ) ) {
 						$spec_label = $spec_icon = $spec_terms = ''; // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
 						if ( $display_label ) {
-							$spec_label = '<span class="awsm-job-specification-label"><strong>' . esc_html_x( $options->label, 'Job Specifications', 'wp-job-openings' ) . ': </strong></span>'; // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
+							$spec_name  = apply_filters( 'wpml_translate_single_string', $options->label, 'WordPress', sprintf( 'taxonomy general name: %s', $options->label ) );
+							$spec_label = '<span class="awsm-job-specification-label"><strong>' . $spec_name . ': </strong></span>';
 						}
 						foreach ( $filter_data as $filter ) {
 							if ( $taxonomy === $filter['taxonomy'] ) {
