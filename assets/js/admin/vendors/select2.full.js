@@ -1536,7 +1536,7 @@ S2.define('select2/selection/base',[
 
         var $element = Utils.GetData(this, 'element');
 
-        $element.select2('close');
+        $element.awsmSelect2('close');
       });
     });
   };
