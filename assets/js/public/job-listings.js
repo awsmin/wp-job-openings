@@ -17,10 +17,17 @@ jQuery(function($) {
 		var $filterForm = $rootWrapper.find(filterSelector + ' form');
 		var formData = $filterForm.serializeArray();
 		var listings = $wrapper.data('listings');
+		var specs = $wrapper.data('specs');
 		formData.push({
 			name: 'listings_per_page',
 			value: listings
 		});
+		if (typeof specs !== 'undefined') {
+			formData.push({
+				name: 'shortcode_specs',
+				value: specs
+			});
+		}
 		if (triggerFilter) {
 
 			// stop the duplicate requests.
