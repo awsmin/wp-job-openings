@@ -69,6 +69,7 @@ jQuery(function($) {
 	function searchJobs($elem) {
 		var $rootWrapper = $elem.parents(rootWrapperSelector);
 		var searchQuery = $rootWrapper.find('.awsm-job-search').val();
+		$rootWrapper.find(wrapperSelector).data('search', searchQuery);
 		awsmJobFilters($rootWrapper);
 		updateQuery('jq', searchQuery);
 	}
