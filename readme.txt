@@ -72,7 +72,8 @@ Power-up your job listing with the PRO pack
 
 == Changelog ==
 
-= V 1.6.1 - 2020-01-13 =
+= V 1.6.1 - 2020-01-14 =
+* Fixed: Job search results showing invalid listings when 'Load more' button is clicked.
 * Fixed: An issue that prevents user from closing the job specification dropdown.
 * Fixed: Job specification based translations not working in WPML.
 * Other minor fixes and improvements.
