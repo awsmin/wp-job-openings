@@ -62,7 +62,7 @@ class AWSM_Job_Openings_Info {
 				<img src="<?php echo esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/job.png' ); ?>" alt="WP Job Openings">
 				<div class="awsm-job-welcome-inner">
 					<h1><?php esc_html_e( 'Welcome to Job Openings Plugin by Awsm.in', 'wp-job-openings' ); ?></h1>
-					<p class="awsm-job-welcome-message"><?php esc_html_e( 'Thank you for trying WP Job Openings Plugin by AWSM Innovations. The plugin will help you setup the jobs page for in a few minutes. We encourage you to check out the plugin documentation and getting started guide below.', 'wp-job-openings' ); ?></p>
+					<p class="awsm-job-welcome-message"><?php esc_html_e( 'Thank you for trying WP Job Openings Plugin by AWSM Innovations. The plugin will help you set up jobs page for your site in a few minutes. We encourage you to check out the plugin documentation and getting started guide below.', 'wp-job-openings' ); ?></p>
 				</div><!-- .awsm-job-welcome-inner -->
 			</div><!-- .awsm-job-welcome-main -->
 			<h2 class="nav-tab-wrapper"><!-- nav-tab-active -->
