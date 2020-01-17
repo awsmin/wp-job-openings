@@ -4,7 +4,7 @@
 **Tags:** jobs, job listing, job openings, job board, careers page, jobs page, wp job opening, jobs plugin  
 **Requires at least:** 4.1  
 **Tested up to:** 5.3.2  
-**Stable tag:** 1.6.0  
+**Stable tag:** 1.6.1  
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -99,6 +99,12 @@ Power-up your job listing with the PRO pack
 
 ## Changelog
 
+**V 1.6.1 - 2020-01-14**
+* Fixed: Job search results showing invalid listings when 'Load more' button is clicked.
+* Fixed: An issue that prevents user from closing the job specification dropdown.
+* Fixed: Job specification based translations not working in WPML.
+* Other minor fixes and improvements.
+
 **V 1.6.0 - 2019-12-31**
 * Added: Jobs Search
 * Added: Option to hide and restrict files uploaded through application form.
@@ -121,8 +127,5 @@ Power-up your job listing with the PRO pack
 
 **V 1.4.2 - 2019-08-08**
 * Minor bug fixes.
-
-**V 1.4.1 - 2019-07-02**
-* Minor bug fixes and style improvements.
 
 View complete Changelog in [CHANGELOG.MD](https://github.com/awsmin/wp-job-openings/blob/master/CHANGELOG.md)
