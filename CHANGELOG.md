@@ -1,5 +1,11 @@
 ## Changelog
 
+### V 1.6.1 - 2020-01-14
+* Fixed: Job search results showing invalid listings when 'Load more' button is clicked.
+* Fixed: An issue that prevents user from closing the job specification dropdown.
+* Fixed: Job specification based translations not working in WPML.
+* Other minor fixes and improvements.
+
 ### V 1.6.0 - 2019-12-31
 * Added: Jobs Search
 * Added: Option to hide and restrict files uploaded through application form.
