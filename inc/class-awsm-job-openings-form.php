@@ -608,9 +608,6 @@ class AWSM_Job_Openings_Form {
 				if ( empty( $reply_to ) ) {
 					unset( $headers['reply_to'] );
 				}
-				if ( empty( $applicant_cc ) ) {
-					unset( $headers['cc'] );
-				}
 
 				/**
 				 * Filters the applicant notification mail attachments.
@@ -681,10 +678,6 @@ class AWSM_Job_Openings_Form {
 					),
 					$applicant_details
 				);
-
-				if ( empty( $admin_cc ) ) {
-					unset( $admin_headers['cc'] );
-				}
 
 				/**
 				 * Filters the admin notification mail attachments.
