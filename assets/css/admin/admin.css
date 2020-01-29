@@ -152,6 +152,11 @@ ul.awsm-list-inline label {
 	min-width: 200px;
 }
 
+.wp-core-ui .awsm-view-captcha-btn {
+	margin-left: 7px;
+    vertical-align: middle;
+}
+
 .awsm-col-max-800 {
 	max-width: 800px;
 }
@@ -437,10 +442,9 @@ a.awsm-text-red:hover {
 }
 
 .awsm-applicant-details {
-	overflow-x: hidden;
-	overflow-y: auto;
-	padding: 10px 30px;
-	max-height: 270px;
+	overflow: hidden;
+    padding: 10px 30px;
+    min-height: 180px;
 }
 
 .awsm-applicant-details-list {
