@@ -226,7 +226,7 @@ msgid "Get PRO"
 msgstr ""
 
 #: admin/class-awsm-job-openings-info.php:65
-msgid "Thank you for trying WP Job Openings Plugin by AWSM Innovations. The plugin will help you setup the jobs page for in a few minutes. We encourage you to check out the plugin documentation and getting started guide below."
+msgid "Thank you for trying WP Job Openings Plugin by AWSM Innovations. The plugin will help you set up jobs page for your site in a few minutes. We encourage you to check out the plugin documentation and getting started guide below."
 msgstr ""
 
 #: admin/class-awsm-job-openings-info.php:103
@@ -968,7 +968,7 @@ msgid "Checkbox text"
 msgstr ""
 
 #: admin/templates/form.php:75
-msgid "reCAPTCHA options"
+msgid "reCAPTCHA v2 options"
 msgstr ""
 
 #: admin/templates/form.php:80
@@ -976,11 +976,11 @@ msgid "Enable reCAPTCHA"
 msgstr ""
 
 #: admin/templates/form.php:86
-msgid "Enable reCAPTCHA on the form"
+msgid "Enable reCAPTCHA v2 on the form"
 msgstr ""
 
 #: admin/templates/form.php:92
-msgid "Get your keys"
+msgid "Get reCAPTCHA v2 keys"
 msgstr ""
 
 #: admin/templates/form.php:100
@@ -1298,7 +1298,7 @@ msgid "Envato"
 msgstr ""
 
 #: admin/templates/info/welcome.php:7
-msgid "Getting started is easy! We put together this quick start guide to help first time users of the plugin. Our goal is to get you up and running in no time. Let's begin!"
+msgid "Getting started is easy! We put together this quick start guide to help first-time users of the plugin. Our goal is to get you up and running in no time. Let's begin!"
 msgstr ""
 
 #: admin/templates/info/welcome.php:19
@@ -1306,7 +1306,7 @@ msgid "Step 1: Configure the settings"
 msgstr ""
 
 #: admin/templates/info/welcome.php:20
-msgid "Well, there is nothing to be worried there. You just hve to setup some basic stuff like, filling in the company name, HR email address and all. You can come back there later and make modifications as you like."
+msgid "Well, there is nothing to be worried there. You just have to set up some basic stuff like filling in the company name, HR email address and all. You can come back there later and make modifications as you like."
 msgstr ""
 
 #: admin/templates/info/welcome.php:21
@@ -1318,7 +1318,7 @@ msgid "Step 2: Create your first Job Opening"
 msgstr ""
 
 #: admin/templates/info/welcome.php:34
-msgid "Super straight-forward. It’s like any other post, with the extra fields only you require. The job specs can be created right from the job creation page itself and the values are resuable. The best part? You can make search filters out of any job spec you add. No limitation, at all!"
+msgid "Super straight-forward. It’s like any other post, with the extra fields only you require. The job specs can be created right from the job creation page itself and the values are reusable. The best part? You can make search filters out of any job spec you add. No limitation, at all!"
 msgstr ""
 
 #: admin/templates/info/welcome.php:35
@@ -1330,7 +1330,7 @@ msgid "Step 3: Start hunting talents!"
 msgstr ""
 
 #: admin/templates/info/welcome.php:48
-msgid "That’s literally it! Go ahead and start exploring the settings evein more once you are done adding the job openings. Even the first version of the plugin comes with most of the features you would need to setup a careers page. "
+msgid "That’s it! Go ahead and start exploring the settings even more once you are done adding the job openings. Even the first version of the plugin comes with most of the features you would need to set up a careers page."
 msgstr ""
 
 #: admin/templates/info/welcome.php:54

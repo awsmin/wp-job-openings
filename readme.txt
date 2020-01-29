@@ -1,5 +1,5 @@
 === WP Job Openings ===
-Contributors: awsmin, aravindajith, anantajitjg, sarathar, adhun
+Contributors: awsmin, aravindajith, anantajitjg, sarathar, adhun, nithi22
 Tags: jobs, job listing, job openings, job board, careers page, jobs page, wp job opening, jobs plugin
 Requires at least: 4.1
 Tested up to: 5.3.2
@@ -88,6 +88,9 @@ The first version of the plugin comes with two layouts - Grid and List which are
 9. Application View
 
 == Changelog ==
+
+= V 1.6.2 - 2020-01-29 =
+* Bug fixes and improvements.
 
 = V 1.6.1 - 2020-01-14 =
 * Fixed: Job search results showing invalid listings when 'Load more' button is clicked.
@@ -188,5 +191,5 @@ The first version of the plugin comes with two layouts - Grid and List which are
 
 == Upgrade Notice ==
 
-= 1.6.1 =
-Bug fixes
+= 1.6.2 =
+Bug fixes and improvements
