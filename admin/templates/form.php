@@ -72,7 +72,7 @@ if ( ! empty( $upload_file_extns ) ) {
 			'recaptcha' => array(
 				array(
 					'id'    => 'awsm-form-recaptcha-options-title',
-					'label' => __( 'reCAPTCHA options', 'wp-job-openings' ),
+					'label' => __( 'reCAPTCHA v2 options', 'wp-job-openings' ),
 					'type'  => 'title',
 				),
 				array(
@@ -83,13 +83,13 @@ if ( ! empty( $upload_file_extns ) ) {
 					'choices'     => array(
 						array(
 							'value' => 'enable',
-							'text'  => __( 'Enable reCAPTCHA on the form', 'wp-job-openings' ),
+							'text'  => __( 'Enable reCAPTCHA v2 on the form', 'wp-job-openings' ),
 						),
 					),
 					'help_button' => array(
 						'url'         => 'https://www.google.com/recaptcha/intro/index.html',
 						'class'       => 'awsm-view-captcha-btn',
-						'text'        => __( 'Get your keys', 'wp-job-openings' ),
+						'text'        => __( 'Get reCAPTCHA v2 keys', 'wp-job-openings' ),
 						'other_attrs' => array(
 							'target' => '_blank',
 						),
