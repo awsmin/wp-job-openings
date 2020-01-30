@@ -1,5 +1,8 @@
 ## Changelog
 
+### V 1.6.2 - 2020-01-29
+* Bug fixes and improvements.
+
 ### V 1.6.1 - 2020-01-14
 * Fixed: Job search results showing invalid listings when 'Load more' button is clicked.
 * Fixed: An issue that prevents user from closing the job specification dropdown.

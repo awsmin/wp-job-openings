@@ -4,6 +4,7 @@
 **Tags:** jobs, job listing, job openings, job board, careers page, jobs page, wp job opening, jobs plugin  
 **Requires at least:** 4.1  
 **Tested up to:** 5.3.2  
+**Requires PHP:** 5.6  
 **Stable tag:** 1.6.1  
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html
@@ -14,27 +15,32 @@ Super simple Job Listing plugin to manage Job Openings and Applicants on your Wo
 
 ## Description
 
-WP Job Openings plugin is the most simple yet powerful plugin for setting up a job listing page for a website. 
+**WP Job Openings plugin is the most simple yet powerful plugin for setting up a job listing page for a website.**
 
-The plugin is designed after carefully analysing hundreds of job listing layouts and methods. We just picked the best features out of the all and built a plugin that’s super simple to use and extensible to a high performing recruitment tool. 
+The plugin is designed after carefully analysing hundreds of job listing layouts and methods. We just picked the best features out of the all and built a plugin that’s super simple to use and extensible to a high performing recruitment tool.
 
 The first version of the plugin comes with two layouts - Grid and List which are designed carefully according to the modern design and User Experience principles. Highlight of the plugin is its totally flexible filter options.
 
-[View Demo](https://demo.awsm.in/wp-job-openings/)
+**[View Demo](https://demo.awsm.in/wp-job-openings/)**
 
 ## Key Features
 
 * Super Simple and Easy to Set Up and See
 * Two Different Modern Layouts
 * Clean and User Friendly Designs
-* Unlimited Job Specifications 
+* Unlimited Job Specifications
 * Unlimited Filtering Options
+* Search Option to find jobs
 * AJAX Powered Job Listing and Filtering
 * Comes with Default Form to Submit Applications
 * HR Role for setting up HR user
 * Options to Customise Email Notifications
+* Custom Email Notification Templates
 * Application Listings in Plugin
 * Job Expiry Options
+* Job posting structured data for better SEO
+* Recent Jobs Widget
+* WPML Support
 * Detailed documentation
 
 ## Add-ons
@@ -44,15 +50,26 @@ The first version of the plugin comes with two layouts - Grid and List which are
 
 ## WP Job Openings PRO Features
 
-Power-up your job listing with the PRO pack
+**Power-up your job listing with the PRO pack Add-on**
 
-* Build your own application form
+* Form Builder - Make your own application form
 * Shortlist, Reject and Select Applicants
 * Rate and Filter Applications
 * Custom Email Notifications & Templates
+* Email CC option for job submission notifications
 * Notes and Activity Log
+* Option to Filter and Export Applications
+* Attach uploaded file with email notifications
+* Shortcode generator for generating customised job lists
 
-[Get PRO Pack](https://1.envato.market/jjbEP)
+
+**[Get PRO Pack](https://1.envato.market/jjbEP)**
+
+## Contribute
+
+**You can contribute to the community by translating the plugin to your language.** Believe us, it's super-easy. Click on the link below, choose your language and start translating the strings in Development (trunk).
+
+* **[Translate plugin to your language](https://translate.wordpress.org/projects/wp-plugins/wp-job-openings/)**
 
 ## Installation
 
@@ -99,6 +116,9 @@ Power-up your job listing with the PRO pack
 
 ## Changelog
 
+**V 1.6.2 - 2020-01-29**
+* Bug fixes and improvements.
+
 **V 1.6.1 - 2020-01-14**
 * Fixed: Job search results showing invalid listings when 'Load more' button is clicked.
 * Fixed: An issue that prevents user from closing the job specification dropdown.
@@ -124,8 +144,5 @@ Power-up your job listing with the PRO pack
 * Fixed: Select2 library compatibility issues with other plugins.
 * Fixed: Application submission issue in Internet Explorer.
 * Fixed: Upload file extensions empty state issue in settings.
-
-**V 1.4.2 - 2019-08-08**
-* Minor bug fixes.
 
 View complete Changelog in [CHANGELOG.MD](https://github.com/awsmin/wp-job-openings/blob/master/CHANGELOG.md)
