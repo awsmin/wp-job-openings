@@ -751,7 +751,7 @@ class AWSM_Job_Openings {
 		}
 
 		ob_start();
-		include_once self::get_template_path( 'job-content.php' );
+		include self::get_template_path( 'job-content.php' );
 		return ob_get_clean();
 	}
 
