@@ -1186,7 +1186,7 @@ class AWSM_Job_Openings {
 								$spec_terms .= sprintf( '<a href="%2$s" class="awsm-job-specification-term">%1$s</a> ', esc_html( $term->name ), esc_url( $term_link ) );
 							}
 						}
-						$spec_content .= sprintf( '<div class="awsm-job-specification-item">%1$s</div>', $spec_icon . $spec_label . $spec_terms );
+						$spec_content .= sprintf( '<div class="awsm-job-specification-item awsm-job-specification-%2$s">%1$s</div>', $spec_icon . $spec_label . $spec_terms, esc_attr( $taxonomy ) );
 					}
 				}
 			}
