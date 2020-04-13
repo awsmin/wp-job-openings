@@ -13,6 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	$admin_notification_content      = get_option( 'awsm_jobs_admin_notification_content', '' );
 	$from_email                      = get_option( 'awsm_jobs_from_email_notification', $admin_email );
 	$reply_to                        = get_option( 'awsm_jobs_reply_to_notification' );
+	$admin_reply_to                  = get_option( 'awsm_jobs_admin_reply_to_notification', '{applicant-email}' );
 	$admin_from_email                = get_option( 'awsm_jobs_admin_from_email_notification', $admin_email );
 ?>
 
@@ -51,7 +52,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 									</div><!-- .col -->
 									<div class="awsm-col awsm-form-group awsm-col-half">
 										<label for="awsm_jobs_reply_to_notification"><?php esc_html_e( 'Reply-To', 'wp-job-openings' ); ?></label>
-											<input type="email" class="awsm-form-control" name="awsm_jobs_reply_to_notification" id="awsm_jobs_reply_to_notification" value="<?php echo esc_attr( $reply_to ); ?>" />
+											<input type="text" class="awsm-form-control" name="awsm_jobs_reply_to_notification" id="awsm_jobs_reply_to_notification" value="<?php echo esc_attr( $reply_to ); ?>" />
 									</div><!-- .col -->
 									<div class="awsm-col awsm-form-group awsm-col-half">
 										<label for="awsm_jobs_applicant_notification"><?php esc_html_e( 'To', 'wp-job-openings' ); ?></label>
@@ -92,7 +93,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 									</div><!-- .col -->
 									<div class="awsm-col awsm-form-group awsm-col-half">
 										<label for="awsm_jobs_admin_reply_to_notification"><?php esc_html_e( 'Reply-To', 'wp-job-openings' ); ?></label>
-											<input type="email" class="awsm-form-control" name="awsm_jobs_admin_reply_to_notification" id="awsm_jobs_admin_reply_to_notification" value="<?php echo esc_attr( '{applicant-email}' ); ?>" disabled />
+											<input type="text" class="awsm-form-control" name="awsm_jobs_admin_reply_to_notification" id="awsm_jobs_admin_reply_to_notification" value="<?php echo esc_attr( $admin_reply_to ); ?>" />
 									</div><!-- .col -->
 									<div class="awsm-col awsm-form-group awsm-col-half">
 										<label for="awsm_jobs_admin_to_notification"><?php esc_html_e( 'To', 'wp-job-openings' ); ?></label>

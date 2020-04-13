@@ -562,11 +562,11 @@ class AWSM_Job_Openings_Form {
 			$admin_cc         = get_option( 'awsm_jobs_admin_hr_notification' );
 			$admin_subject    = get_option( 'awsm_jobs_admin_notification_subject' );
 			$admin_content    = get_option( 'awsm_jobs_admin_notification_content' );
-			$applicant_name   = $applicant_details['awsm_applicant_name'];
 			$applicant_email  = $applicant_details['awsm_applicant_email'];
 			$from             = ( ! empty( $company_name ) ) ? $company_name : get_option( 'blogname' );
 			$from_email       = get_option( 'awsm_jobs_from_email_notification', $admin_email );
 			$reply_to         = get_option( 'awsm_jobs_reply_to_notification', '' );
+			$admin_reply_to   = get_option( 'awsm_jobs_admin_reply_to_notification', '{applicant-email}' );
 			$admin_from_email = get_option( 'awsm_jobs_admin_from_email_notification', $admin_email );
 
 			$tags             = $this->get_mail_template_tags(
@@ -579,13 +579,14 @@ class AWSM_Job_Openings_Form {
 			);
 			$tag_names        = array_keys( $tags );
 			$tag_values       = array_values( $tags );
-			$email_tag_names  = array( '{admin-email}', '{hr-email}' );
-			$email_tag_values = array( $admin_email, $hr_mail );
+			$email_tag_names  = array( '{admin-email}', '{hr-email}', '{applicant-email}' );
+			$email_tag_values = array( $admin_email, $hr_mail, $applicant_email );
 
 			if ( $enable_acknowledgement === 'acknowledgement' && ! empty( $notifi_subject ) && ! empty( $notifi_content ) ) {
 				$subject      = str_replace( $tag_names, $tag_values, $notifi_subject );
 				$message      = str_replace( $tag_names, $tag_values, $notifi_content );
 				$mail_content = nl2br( $message );
+				$reply_to     = str_replace( $email_tag_names, $email_tag_values, $reply_to );
 				$applicant_cc = str_replace( $email_tag_names, $email_tag_values, $applicant_cc );
 
 				/**
@@ -600,11 +601,12 @@ class AWSM_Job_Openings_Form {
 					array(
 						'content_type' => 'Content-Type: text/html; charset=UTF-8',
 						'from'         => sprintf( 'From: %1$s <%2$s>', $from, $from_email ),
-						'reply_to'     => sprintf( 'Reply-To: %1$s <%2$s>', $from, $reply_to ),
+						'reply_to'     => 'Reply-To: ' . $reply_to,
 						'cc'           => 'Cc: ' . $applicant_cc,
 					)
 				);
 
+				$reply_to = trim( str_replace( 'Reply-To:', '', $headers['reply_to'] ) );
 				if ( empty( $reply_to ) ) {
 					unset( $headers['reply_to'] );
 				}
@@ -663,6 +665,7 @@ class AWSM_Job_Openings_Form {
 				$to       = str_replace( $email_tag_names, $email_tag_values, $admin_to );
 				$subject  = str_replace( $tag_names, $tag_values, $admin_subject );
 				$message  = str_replace( $tag_names, $tag_values, $admin_content );
+				$reply_to = str_replace( $email_tag_names, $email_tag_values, $admin_reply_to );
 				$admin_cc = str_replace( $email_tag_names, $email_tag_values, $admin_cc );
 
 				/**
@@ -678,11 +681,16 @@ class AWSM_Job_Openings_Form {
 					array(
 						'content_type' => 'Content-Type: text/html; charset=UTF-8',
 						'from'         => sprintf( 'From: %1$s <%2$s>', $from, $admin_from_email ),
-						'reply_to'     => sprintf( 'Reply-To: %1$s <%2$s>', $applicant_name, $applicant_email ),
+						'reply_to'     => 'Reply-To: ' . $reply_to,
 						'cc'           => 'Cc: ' . $admin_cc,
 					),
 					$applicant_details
 				);
+
+				$reply_to = trim( str_replace( 'Reply-To:', '', $admin_headers['reply_to'] ) );
+				if ( empty( $reply_to ) ) {
+					unset( $admin_headers['reply_to'] );
+				}
 
 				$cc = trim( str_replace( 'Cc:', '', $admin_headers['cc'] ) );
 				if ( empty( $cc ) ) {
