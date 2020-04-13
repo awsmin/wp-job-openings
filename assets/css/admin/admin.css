@@ -851,6 +851,32 @@ a.awsm-text-red:hover {
 	padding: 2px;
 }
 
+/*
+* Admin Navigation
+*/
+.awsm-job-admin-nav-header {
+	display: flex;
+    position: fixed;
+    background: #fff;
+    width: 100%;
+    height: 55px;
+	border-bottom: 1px solid #ccd0d4;
+	z-index: 1;
+}
+.awsm-job-admin-nav {
+	list-style: none;
+	margin-left: 25px;
+}
+.awsm-job-admin-nav li {
+	display: inline-block;
+	padding: 0px 10px;
+}
+
+.awsm-job-admin-nav li a {
+	text-decoration: none;
+}
+
+
 .awsm-job-addon-item {
 	background: #fff;
 	padding: 30px 25px;
