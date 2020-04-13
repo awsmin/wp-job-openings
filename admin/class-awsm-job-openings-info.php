@@ -14,6 +14,8 @@ class AWSM_Job_Openings_Info {
 		add_action( 'in_admin_header', array( $this, 'nav_header' ) );
 		add_action( 'admin_menu', array( $this, 'custom_admin_menu' ) );
 		add_action( 'admin_footer', array( $this, 'admin_add_js' ) );
+
+		add_filter( 'admin_body_class', array( $this, 'admin_body_class' ) );
 	}
 
 	public static function init() {
@@ -134,26 +136,45 @@ class AWSM_Job_Openings_Info {
 		return $content;
 	}
 
-	public function nav_header() {
+	public static function is_admin_nav_page() {
+		$is_page = false;
 		$screen = get_current_screen();
-		if ( ! empty( $screen ) ) :
+		if ( ! empty( $screen ) ) {
 			$post_type = $screen->post_type;
-			if ( ( $post_type === 'awsm_job_openings' ) || ( $post_type === 'awsm_job_application' ) ) :
-				?>
-					<div class="awsm-job-admin-nav-header">
-						<div class="awsm-job-admin-nav-logo">
-							<h1><img src="<?php echo esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/job.png' ); ?>" alt="WP Job Openings" width="32" height="32"></h1>
-						</div>
-						<ul class="awsm-job-admin-nav">
-							<li><a href="#"><?php esc_html_e( 'Openings', 'wp-job-openings' ); ?></a></li>
-							<li><a href="#"><?php esc_html_e( 'Applications', 'wp-job-openings' ); ?></a></li>
-							<li><a href="#"><?php esc_html_e( 'Settings', 'wp-job-openings' ); ?></a></li>
-							<li><a href="#"><?php esc_html_e( 'Add-Ons', 'wp-job-openings' ); ?></a></li>
-							<li><a href="#" class="button"><?php esc_html_e( 'Get PRO', 'wp-job-openings' ); ?></a></li>
-						</ul>
+			if ( ( $post_type === 'awsm_job_openings' ) || ( $post_type === 'awsm_job_application' ) ) {
+				$is_page = true;
+				// Check if the page have the block editor (Gutenberg) active.
+				if ( method_exists( $screen, 'is_block_editor' ) && $screen->is_block_editor() ) {
+					$is_page = false;
+				}
+			}
+		}
+		return $is_page;
+	}
+
+	public function admin_body_class( $classes ) {
+		if ( self::is_admin_nav_page() ) {
+			$classes = ' awsm-job-admin-nav-page ';
+		}
+		return $classes;
+	}
+
+	public function nav_header() {
+		if ( self::is_admin_nav_page() ) :
+			?>
+				<div class="awsm-job-admin-nav-header">
+					<div class="awsm-job-admin-nav-logo">
+						<h1><span><img src="<?php echo esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/job.png' ); ?>" width="25" height="25"></span><span><?php esc_html_e( 'WP Job Openings', 'wp-job-openings' ); ?></span></h1>
 					</div>
-				<?php
-			endif;
+					<ul class="awsm-job-admin-nav">
+						<li><a href="#"><?php esc_html_e( 'Openings', 'wp-job-openings' ); ?></a></li>
+						<li><a href="#"><?php esc_html_e( 'Applications', 'wp-job-openings' ); ?></a></li>
+						<li><a href="#"><?php esc_html_e( 'Settings', 'wp-job-openings' ); ?></a></li>
+						<li><a href="#"><?php esc_html_e( 'Add-Ons', 'wp-job-openings' ); ?></a></li>
+						<li><a href="#" class="button"><?php esc_html_e( 'Get PRO', 'wp-job-openings' ); ?></a></li>
+					</ul>
+				</div>
+			<?php
 		endif;
 	}
 
