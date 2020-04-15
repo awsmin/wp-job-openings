@@ -47,7 +47,7 @@ class AWSM_Job_Openings_Info {
 			global $submenu;
 			// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 			$submenu['edit.php?post_type=awsm_job_openings'][] = array(
-				sprintf( '<span class="awsm-jobs-get-pro" style="color: #00d1d4;">%s</span>', esc_html__( 'Get PRO', 'wp-job-openings' ) ),
+				sprintf( '<span class="awsm-jobs-get-pro">%s</span>', esc_html__( 'Get PRO', 'wp-job-openings' ) ),
 				'manage_awsm_jobs',
 				esc_url( 'https://1.envato.market/jjbEP' ),
 			);
