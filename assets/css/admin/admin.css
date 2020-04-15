@@ -727,15 +727,7 @@ a.awsm-text-red:hover {
 	flex-wrap: wrap;
 	align-items: center;
 	margin-left: -20px;
-}
-.awsm-job-welcome::before{
-	content: "";
-	width: 50%;
-	height: 100%;
-	position: absolute;
-	left: 0;
-	top: 0;
-	background-color: #00D5AF;
+	background-color: #fff;
 }
 .awsm-job-welcome-col{
 	-ms-flex: 0 0 100%;
@@ -745,13 +737,91 @@ a.awsm-text-red:hover {
 	position: relative;
 	box-sizing: border-box;
 }
-.awsm-job-welcome-col:first-child{
-	background-color: #00D5AF;
-}
 .awsm-job-welcome-l{
 	color: #fff;
 }
-
+.awsm-job-welcome-l h1{
+	margin: 0 0 45px;
+	
+}
+.awsm-job-welcome-l h1 a{
+	background: url('../img/wp-jo-branding.png') no-repeat;
+	background-size: 253px 111px;
+	width: 253px;
+	height: 111px;
+	text-indent: -99999px;
+	display: block
+}
+.awsm-job-welcome-l p{
+	font-size: 16px;
+	margin-bottom: 40px;
+}
+.awsm-job-welcome-l ul{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	counter-reset: no-counter;
+}
+.awsm-job-welcome-l ul li{
+	padding-left: 44px;
+	position: relative;
+	padding-bottom: 13px;
+	min-height: 26px;
+	font-size: 16px;
+	line-height: 26px;
+}
+.awsm-job-welcome-l ul li:last-child{
+	padding-bottom: 0;
+}
+.awsm-job-welcome-l ul li::before{
+	content: "";
+	width: 2px;
+	height: 100%;
+	position: absolute;
+	left: 12px;
+	top: 0;
+	background: #04B8B2;
+}
+.awsm-job-welcome-l ul li::after{
+	counter-increment: no-counter;
+	content: counter(no-counter);
+	width: 26px;
+	height: 26px;
+	font-weight: bold;
+	line-height: 26px;
+	text-align: center;
+	position: absolute;
+	left: 0;
+	top: 0;
+	background: #04B8B2;
+	border-radius: 50%;
+}
+.awsm-job-welcome-r h2{
+	margin: 0 0 30px;
+	font-size: 24px;	
+}
+.awsm-job-form-group{
+	margin-bottom: 30px;
+}
+.awsm-job-form-group label{
+	display: block;
+	margin-bottom: 5px;
+	font-size: 14px;
+}
+.awsm-job-form-control{
+	display: block;
+	width: 100%;
+	height: 38px;
+	padding: 5px 12px;
+	border-radius: 3px;
+	border: 1px solid #7E8993;
+	font-style: 20px;
+}
+.awsm-job-form-group p{
+	font-size: 14px;
+	opacity: 0.6;
+	margin: 5px 0 0;
+}
 
 /*-----*/
 
@@ -1044,8 +1114,18 @@ a.awsm-plugin-item p {
 		max-width: 50%;
 	}
 	.awsm-job-welcome-col-in{
-		max-width: 500px;
+		max-width: 322px;
 		margin: 0 auto;
+	}
+	.awsm-job-welcome::before{
+		content: "";
+		width: 50%;
+		height: 100%;
+		position: absolute;
+		left: 0;
+		top: 0;
+		background-color: #00D5AF;
+		background-image: linear-gradient(180deg, #05BC9C 0%, #06D4CF 99%);
 	}
 }
 
@@ -1082,6 +1162,9 @@ a.awsm-plugin-item p {
 	.awsm-job-welcome-main img {
 		float: none;
 		margin: 0 0 30px;
+	}
+	.awsm-job-welcome-col:first-child{
+		background-color: #00D5AF;
 	}
 
 	.awsm-welcome-points .awsm-col,

@@ -7,9 +7,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<div class="awsm-job-welcome-col">
 			<div class="awsm-job-welcome-col-in awsm-job-welcome-l">
 				<h1>
-					<span></span>
-					<?php esc_html_e( 'WP Job Openings', 'wp-job-openings' );?>
-					<strong>by AWSM INNOVATIONS</strong>
+					<a heref="#" target="_blanl">
+						<span></span>
+						<?php esc_html_e( 'WP Job Openings', 'wp-job-openings' );?>
+						<strong>by AWSM INNOVATIONS</strong>
+					</a>
 				</h1>
 				<p><?php esc_html_e( 'Thank you for trying WP Job Openings Plugin by AWSM Innovations. The plugin will help you setup the jobs page for in a few minutes.', 'wp-job-openings' );?></p>
 				<ul class="awsm-job-welcome-step-list">
@@ -38,6 +40,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<select class="awsm-job-form-control"></select>
 						<p><?php esc_html_e( 'The page you want to display the listing. You an choose it later also.', 'wp-job-openings' );?></p>
 					</div><!-- .awsm-job-form-group -->
+					<button class="button button-primary">Get Started</button>
 				</form>
 			</div><!-- .awsm-job-welcome-r -->
 		</div><!-- .awsm-job-welcome-col -->
