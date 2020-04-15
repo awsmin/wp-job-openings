@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( $post->post_type === 'awsm_job_application' ) {
 	$job_id = $post->post_parent;
 }
-	$applications = AWSM_Job_Openings::get_applications( $job_id );
+	$applications = AWSM_Job_Openings::get_applications( $job_id, 'ids' );
 	$post_count   = count( $applications );
 	$check_status = get_post_status( $job_id );
 	$views_count  = get_post_meta( $job_id, 'awsm_views_count', true );
@@ -64,9 +64,8 @@ if ( $post->post_type === 'awsm_job_application' ) {
 
 		if ( $post_count > 0 ) {
 			$applications                    = array_values( $applications );
-			$recent_application              = $applications[0];
-			$edit_link                       = get_edit_post_link( $recent_application->ID );
-			$data_rows['last_submission'][1] = sprintf( '<a href="%1$s">%2$s %3$s</a>', esc_url( $edit_link ), esc_html( human_time_diff( get_the_time( 'U', $recent_application->ID ), current_time( 'timestamp' ) ) ), esc_html__( 'ago', 'wp-job-openings' ) );
+			$edit_link                       = get_edit_post_link( $applications[0] );
+			$data_rows['last_submission'][1] = sprintf( '<a href="%1$s">%2$s %3$s</a>', esc_url( $edit_link ), esc_html( human_time_diff( get_the_time( 'U', $applications[0] ), current_time( 'timestamp' ) ) ), esc_html__( 'ago', 'wp-job-openings' ) );
 		} else {
 			$data_rows['last_submission'][1] = esc_html__( 'NA', 'wp-job-openings' );
 		}
@@ -76,6 +75,10 @@ if ( $post->post_type === 'awsm_job_application' ) {
 			$job_submission_date = date_i18n( $date_format, strtotime( get_the_date( '', $job_id ) ) );
 			$expiry_date         = get_post_meta( $job_id, 'awsm_job_expiry', true );
 			$formatted_date      = ! empty( $expiry_date ) ? date_i18n( $date_format, strtotime( $expiry_date ) ) : esc_html__( 'NA', 'wp-job-openings' );
+
+			if ( current_user_can( 'edit_post', $job_id ) ) {
+				$data_rows['job_title'][1] = sprintf( '<a href="%2$s">%1$s</a>', $data_rows['job_title'][1], esc_url( get_edit_post_link( $job_id ) ) );
+			}
 
 			$data_rows['date_posted'] = array(
 				esc_html__( 'Date Posted:', 'wp-job-openings' ),
@@ -87,8 +90,27 @@ if ( $post->post_type === 'awsm_job_application' ) {
 				esc_html( $formatted_date ),
 			);
 
-			if ( current_user_can( 'edit_post', $job_id ) ) {
-				$data_rows['actions'][0] = sprintf( '<div class="awsm-job-edit-btn-wrapper"><a class="button awsm-job-edit-btn" href="%2$s">%1$s</a></div>', esc_html__( 'Edit Job', 'wp-job-openings' ), esc_url( get_edit_post_link( $job_id ) ) );
+			if ( $post_count > 1 ) {
+				$next = $prev = 0;
+				$prev_btn = $next_btn = '';
+				foreach ( $applications as $index => $application_id ) {
+					if ( intval( $post->ID ) === $application_id ) {
+						if ( isset( $applications[ $index + 1 ] ) ) {
+							$prev = $applications[ $index + 1 ];
+						}
+						if ( isset( $applications[ $index - 1 ] ) ) {
+							$next = $applications[ $index - 1 ];
+						}
+					}
+				}
+				if ( $prev ) {
+					$prev_btn = sprintf( '<a class="button awsm-job-prev-application-btn" href="%2$s">&larr; %1$s</a>', esc_html__( 'Prev Application', 'wp-job-openings' ), esc_url( get_edit_post_link( $prev ) ) );
+				}
+				if ( $next ) {
+					$next_btn = sprintf( '<a class="button awsm-job-next-application-btn" href="%2$s">%1$s &rarr;</a>', esc_html__( 'Next Application', 'wp-job-openings' ), esc_url( get_edit_post_link( $next ) ) );
+				}
+
+				$data_rows['actions'][0] = '<div class="awsm-job-status-btn-wrapper">' . $prev_btn . $next_btn . '</div>';
 			}
 		}
 
@@ -104,7 +126,14 @@ if ( $post->post_type === 'awsm_job_application' ) {
 		$data_rows = apply_filters( 'awsm_job_status_mb_data_rows', $data_rows, $job_id, $post->ID );
 
 		foreach ( $data_rows as $data_row ) {
-			printf( '<tr><td>%1$s</td><td>%2$s</td></tr>', isset( $data_row[0] ) ? $data_row[0] : '', isset( $data_row[1] ) ? $data_row[1] : '' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			$column_content = '';
+			if ( isset( $data_row[0] ) && ! isset( $data_row[1] ) ) {
+				$column_content = '<td colspan="2">' . $data_row[0] . '</td>';
+			} else {
+				$column_content = sprintf( '<td>%1$s</td><td>%2$s</td>', isset( $data_row[0] ) ? $data_row[0] : '', isset( $data_row[1] ) ? $data_row[1] : '' );
+			}
+
+			echo '<tr>' . $column_content . '</tr>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 		?>
 </table>

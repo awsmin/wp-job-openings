@@ -271,7 +271,7 @@ class AWSM_Job_Openings {
 		return $columns;
 	}
 
-	public static function get_applications( $job_id ) {
+	public static function get_applications( $job_id, $fields = 'all' ) {
 		$applications = get_children(
 			array(
 				'post_parent' => $job_id,
@@ -279,13 +279,14 @@ class AWSM_Job_Openings {
 				'numberposts' => -1,
 				'orderby'     => 'date',
 				'order'       => 'DESC',
+				'fields'      => $fields,
 			)
 		);
 		return $applications;
 	}
 
 	public function awsm_job_custom_column_member_data( $column, $post_id ) {
-		$application_count = count( self::get_applications( $post_id ) );
+		$application_count = count( self::get_applications( $post_id, 'ids' ) );
 		$job_views         = get_post_meta( $post_id, 'awsm_views_count', true );
 		$default_display   = '<span aria-hidden="true">—</span>';
 

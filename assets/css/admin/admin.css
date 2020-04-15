@@ -338,14 +338,6 @@ a.awsm-text-red:hover {
 	text-decoration: none;
 }
 
-.awsm-job-stat-table td:first-child {
-	padding-right: 10px;
-}
-
-.awsm-job-stat-table td:last-child {
-	padding-left: 10px;
-}
-
 .awsm-admin-settings::after {
 	content: "";
 	display: table;
@@ -409,6 +401,11 @@ a.awsm-text-red:hover {
 #awsm-job-details-meta .inside {
 	margin: 0;
 	padding: 0;
+}
+
+#awsm-job-details-meta .handlediv,
+#awsm-job-details-meta .hndle {
+    display: none;
 }
 
 .post-type-awsm_job_application #post-body-content {
@@ -476,7 +473,11 @@ a.awsm-text-red:hover {
 	margin-top: 0;
 }
 
-.awsm-job-edit-btn-wrapper {
+.awsm-job-stat-table {
+	width: 100%;
+}
+
+.awsm-job-status-btn-wrapper {
 	margin-top: 10px;
 }
 
