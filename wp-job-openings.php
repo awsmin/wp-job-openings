@@ -247,7 +247,7 @@ class AWSM_Job_Openings {
 	}
 
 	public function register_widgets() {
-		$widgets = array( 'recent-jobs' );
+		$widgets = array( 'recent-jobs', 'dashboard' );
 		foreach ( $widgets as $widget ) {
 			include_once AWSM_JOBS_PLUGIN_DIR . "/inc/widgets/class-awsm-job-openings-{$widget}-widget.php";
 		}
