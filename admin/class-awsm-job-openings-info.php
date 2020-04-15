@@ -139,11 +139,11 @@ class AWSM_Job_Openings_Info {
 			?>
 				<div class="awsm-job-admin-nav-header">
 					<div class="awsm-job-admin-nav-logo">
-						<h1><span><img src="<?php echo esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/job.png' ); ?>" width="25" height="25"></span><span><?php esc_html_e( 'WP Job Openings', 'wp-job-openings' ); ?></span></h1>
+						<h1><?php esc_html_e( 'WP Job Openings', 'wp-job-openings' ); ?></h1>
 					</div>
 					<ul class="awsm-job-admin-nav">
 						<li><a href="#"><?php esc_html_e( 'Openings', 'wp-job-openings' ); ?></a></li>
-						<li><a href="#"><?php esc_html_e( 'Applications', 'wp-job-openings' ); ?></a></li>
+						<li><a class="active" href="#"><?php esc_html_e( 'Applications', 'wp-job-openings' ); ?></a></li>
 						<li><a href="#"><?php esc_html_e( 'Settings', 'wp-job-openings' ); ?></a></li>
 						<li><a href="#"><?php esc_html_e( 'Add-Ons', 'wp-job-openings' ); ?></a></li>
 						<li><a href="#" class="button"><?php esc_html_e( 'Get PRO', 'wp-job-openings' ); ?></a></li>
