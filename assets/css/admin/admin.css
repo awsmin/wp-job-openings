@@ -742,7 +742,6 @@ a.awsm-text-red:hover {
 }
 .awsm-job-welcome-l h1{
 	margin: 0 0 45px;
-	
 }
 .awsm-job-welcome-l h1 a{
 	background: url('../img/wp-jo-branding.png') no-repeat;
@@ -798,7 +797,7 @@ a.awsm-text-red:hover {
 }
 .awsm-job-welcome-r h2{
 	margin: 0 0 30px;
-	font-size: 24px;	
+	font-size: 24px;
 }
 .awsm-job-form-group{
 	margin-bottom: 30px;
@@ -877,7 +876,7 @@ a.awsm-text-red:hover {
     background: #fff;
     width: 100%;
 	border-bottom: 1px solid #ccd0d4;
-	z-index: 9990;
+	z-index: 9989;
 	padding: 10px 20px;
 	align-items: center;
 	height: 30px;
