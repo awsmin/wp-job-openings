@@ -18,97 +18,97 @@ class AWSM_Job_Openings_Dashboard_Widget {
 		);
 		$total_applications = count( get_posts( $args ) );
 		?>
-		<div class="awsm-job-dashboard-wdiget-cotainer">
-			<div class="awsm-job-dashboard-widget-overview awsm-job-dashboard-widget-wrapper">
-				<div class="awsm-job-dashboard-widget-row">
-					<div class="awsm-job-dashboard-widget-cell">
+		<div class="awsm-job-overview-wdiget-container">
+			<div class="awsm-job-overview-widget awsm-job-overview-widget-wrapper">
+				<div class="awsm-job-overview-widget-row">
+					<div class="awsm-job-overview-widget-cell">
 						<p><?php echo esc_attr( $jobs_count ); ?></p>
 					</div>
-					<div class="awsm-job-dashboard-widget-cell">
+					<div class="awsm-job-overview-widget-cell">
 						<p><?php echo esc_attr( $new_applications ); ?></p>
 					</div>
-					<div class="awsm-job-dashboard-widget-cell">
+					<div class="awsm-job-overview-widget-cell">
 						<p><?php echo esc_attr( $total_applications ); ?></p>
 					</div>
 				</div>
-				<div class="awsm-job-dashboard-widget-row">
-					<div class="awsm-job-dashboard-widget-cell">
+				<div class="awsm-job-overview-widget-row">
+					<div class="awsm-job-overview-widget-cell">
 						<p><?php echo esc_html_e( 'Active Jobs', 'wp-job-openings'); ?></p>
 					</div>
-					<div class="awsm-job-dashboard-widget-cell">
+					<div class="awsm-job-overview-widget-cell">
 						<p><?php echo esc_html_e( 'New Applications', 'wp-job-openings'); ?></p>
 					</div>
-					<div class="awsm-job-dashboard-widget-cell">
+					<div class="awsm-job-overview-widget-cell">
 						<p><?php echo esc_html_e( 'Total Applications', 'wp-job-openings'); ?></p>
 					</div>
 				</div>
 			</div>
-			<div class="awsm-job-dashboard-widget-overview awsm-job-dashboard-widget-list">
-				<div class="awsm-job-dashboard-title">
+			<?php
+				if( ! empty( $job_data ) ) {
+			?>
+			<div class="awsm-job-overview-widget awsm-job-overview-widget-list">
+				<div class="awsm-job-overview-title">
 					<p><?php echo esc_html_e( 'Active jobs', 'wp-job-openings'); ?></p>
 				</div>
-				<?php if( ! empty( $job_data ) ) { ?>
-				<div class="awsm-job-dashboard-heading">
-					<div class="awsm-job-dashboard-widget-cell">
+				<div class="awsm-job-overview-heading">
+					<div class="awsm-job-overview-widget-cell">
 						<p><?php echo esc_html_e( 'Job Title', 'wp-job-openings'); ?></p>
 					</div>
-					<div class="awsm-job-dashboard-widget-cell">
+					<div class="awsm-job-overview-widget-cell">
 						<p><?php echo esc_html_e( 'Applications', 'wp-job-openings'); ?></p>
 					</div>
-					<div class="awsm-job-dashboard-widget-cell">
+					<div class="awsm-job-overview-widget-cell">
 						<p><?php echo esc_html_e( 'Views', 'wp-job-openings'); ?></p>
 					</div>
-					<div class="awsm-job-dashboard-widget-cell">
+					<div class="awsm-job-overview-widget-cell">
 						<p><?php echo esc_html_e( 'Expiry', 'wp-job-openings'); ?></p>
 					</div>
 				</div>
 				<?php 
 				foreach ( $job_data as $value ) {
 				?>
-				<div class="awsm-job-dashboard-widget-row">
-					<div class="awsm-job-dashboard-widget-cell">
+				<div class="awsm-job-overview-widget-row">
+					<div class="awsm-job-overview-widget-cell">
 						<p><?php echo esc_attr( $value['title'] ); ?></p>
 					</div>
-					<div class="awsm-job-dashboard-widget-cell">
+					<div class="awsm-job-overview-widget-cell">
 						<p><?php echo esc_attr( $value['appplication_count'] ); ?></p>
 					</div>
-					<div class="awsm-job-dashboard-widget-cell">
+					<div class="awsm-job-overview-widget-cell">
 						<p><?php echo esc_attr( $value['views'] ); ?></p>
 					</div>
-					<div class="awsm-job-dashboard-widget-cell">
+					<div class="awsm-job-overview-widget-cell">
 						<p><?php echo esc_attr( $value['expiry'] );?></p>
 					</div>
 				</div>
 				<?php  }?>
-			</div> 
-			<div class="awsm-job-dashboard-widget-buttons">
+			</div>
+			<?php
+				}
+			?>
+			<div class="awsm-job-overview-widget-buttons">
 				<?php
 				if ( ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) {
 				?>
-				<div class="awsm-job-dashboard-widget-cell">
+				<div class="awsm-job-overview-widget-cell">
 					<p><a href="<?php  ?>" class="button awsm-export-applications-btn button-primary"><strong><?php esc_html_e( 'Get Pro', 'wp-job-openings' ); ?></strong></a></p>
 				</div>
 				<?php
 				}
 				?>
-				<div class="awsm-job-dashboard-widget-cell">
+				<div class="awsm-job-overview-widget-cell">
 					<p><a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_application' ) ); ?>" class="button awsm-export-applications-btn button-primary"><strong><?php esc_html_e( 'View Applications', 'wp-job-openings' ); ?></strong></a></p>
 				</div>
-				<div class="awsm-job-dashboard-widget-cell">
+				<div class="awsm-job-overview-widget-cell">
 					<p><a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_openings' ) ); ?>" class="button awsm-export-applications-btn button-primary"><strong><?php esc_html_e( 'View all Jobs', 'wp-job-openings' ); ?></strong></a></p>
 				</div>
 			</div>
-			<?php
-			} else {
-				echo esc_html_e( 'Currently no openings', 'wp-job-openings' );
-			} 
-			?>
 		</div>
 		<?php
 	}
 
 	public function jobs_overview_dashboard_widget() {
-		wp_add_dashboard_widget('awsm_widget_dashboard', 'Wp Job Openings - Overview', array( $this,'display_widget') );  
+		wp_add_dashboard_widget('awsm_job_overview_widget', 'Wp Job Openings - Overview', array( $this,'display_widget') );  
 	}
 
 	public function get_job_data( ) {
