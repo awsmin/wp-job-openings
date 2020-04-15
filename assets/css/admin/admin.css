@@ -856,7 +856,7 @@ a.awsm-text-red:hover {
 }
 
 .awsm-job-admin-nav-page #wpbody-content {
-	margin-top: 55px;
+	margin-top: 51px;
 }
 
 .awsm-job-admin-nav-page .wrap {
@@ -872,6 +872,7 @@ a.awsm-text-red:hover {
 	z-index: 1;
 	padding: 10px 20px;
 	align-items: center;
+	height: 30px;
 }
 
 .awsm-job-admin-nav-logo h1 {
@@ -897,7 +898,7 @@ a.awsm-text-red:hover {
 
 .awsm-job-admin-nav li a {
 	text-decoration: none;
-	line-height: 27px;
+	line-height: 30px;
 	display: block
 }
 .awsm-job-admin-nav li a.active{
@@ -907,12 +908,13 @@ a.awsm-text-red:hover {
 	background-color: #00D5AF;
 	border-color: #00AC8D;
 	padding: 0 15px;
-	line-height: 27px;
+	line-height: 28px;
 	display: block;
 	color: #fff;
 	font-weight: bold;
 	box-shadow: none;
 	outline: none;
+	min-height: 30px;
 }
 .awsm-job-admin-nav li a.button:hover, .awsm-job-admin-nav li a.button:focus, .awsm-job-admin-nav li a.button:active{
 	background-color: #00AC8D;
