@@ -59,45 +59,16 @@ class AWSM_Job_Openings_Info {
 		remove_submenu_page( 'edit.php?post_type=awsm_job_openings', 'awsm-jobs-help-page' );
 	}
 
-	public static function get_info_header( $page ) { ?>
-		<div class="awsm-job-welcome">
-			<div class="awsm-job-welcome-main">
-				<img src="<?php echo esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/job.png' ); ?>" alt="WP Job Openings">
-				<div class="awsm-job-welcome-inner">
-					<h1><?php esc_html_e( 'Welcome to Job Openings Plugin by Awsm.in', 'wp-job-openings' ); ?></h1>
-					<p class="awsm-job-welcome-message"><?php esc_html_e( 'Thank you for trying WP Job Openings Plugin by AWSM Innovations. The plugin will help you set up jobs page for your site in a few minutes. We encourage you to check out the plugin documentation and getting started guide below.', 'wp-job-openings' ); ?></p>
-				</div><!-- .awsm-job-welcome-inner -->
-			</div><!-- .awsm-job-welcome-main -->
-			<h2 class="nav-tab-wrapper"><!-- nav-tab-active -->
-				<a href="<?php echo esc_url( add_query_arg( array( 'page' => 'awsm-jobs-welcome-page' ), admin_url( 'edit.php?post_type=awsm_job_openings' ) ) ); ?>" class="nav-tab<?php echo ( $page === 'welcome' ) ? ' nav-tab-active' : ''; ?>"><?php esc_html_e( 'Getting started', 'wp-job-openings' ); ?></a>
-				<a href="<?php echo esc_url( add_query_arg( array( 'page' => 'awsm-jobs-help-page' ), admin_url( 'edit.php?post_type=awsm_job_openings' ) ) ); ?>" class="nav-tab<?php echo ( $page === 'help' ) ? ' nav-tab-active' : ''; ?>"><?php esc_html_e( 'Help', 'wp-job-openings' ); ?></a>
-				<a href="<?php echo esc_url( add_query_arg( array( 'page' => 'awsm-jobs-add-ons' ), admin_url( 'edit.php?post_type=awsm_job_openings' ) ) ); ?>" class="nav-tab<?php echo ( $page === 'add-ons' ) ? ' nav-tab-active' : ''; ?>"><?php esc_html_e( 'Add-ons', 'wp-job-openings' ); ?></a>
-			</h2>
-		<?php
-	}
-
-	public static function get_info_footer() {
-		?>
-		</div><!-- .awsm-job-welcome -->
-		<?php
-	}
-
 	public function welcome_page() {
-		self::get_info_header( 'welcome' );
 		include_once $this->cpath . '/templates/info/welcome.php';
-		self::get_info_footer();
 	}
 
 	public function help_page() {
-		self::get_info_header( 'help' );
 		include_once $this->cpath . '/templates/info/help.php';
-		self::get_info_footer();
 	}
 
 	public function add_ons_page() {
-		self::get_info_header( 'add-ons' );
 		include_once $this->cpath . '/templates/info/add-ons.php';
-		self::get_info_footer();
 	}
 
 	public function get_add_on_btn_content( $plugin, $add_on_details = array() ) {
@@ -143,6 +114,10 @@ class AWSM_Job_Openings_Info {
 			$post_type = $screen->post_type;
 			if ( ( $post_type === 'awsm_job_openings' ) || ( $post_type === 'awsm_job_application' ) ) {
 				$is_page = true;
+				// Check if page is the welcome page.
+				if ( isset( $_GET['page'] ) && $_GET['page'] === 'awsm-jobs-welcome-page' ) {
+					$is_page = false;
+				}
 				// Check if the page have the block editor (Gutenberg) active.
 				if ( method_exists( $screen, 'is_block_editor' ) && $screen->is_block_editor() ) {
 					$is_page = false;
