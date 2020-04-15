@@ -89,7 +89,7 @@ class AWSM_Job_Openings_Core {
 				'show_in_menu'    => true,
 				'rewrite'         => array( 'slug' => get_option( 'awsm_permalink_slug', 'jobs' ) ),
 				'capability_type' => 'job',
-				'menu_icon'       => esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/nav-icon.png' ),
+				'menu_icon'       => esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/nav-icon.svg' ),
 				'supports'        => array( 'title', 'editor', 'publicize' ),
 			)
 		);
