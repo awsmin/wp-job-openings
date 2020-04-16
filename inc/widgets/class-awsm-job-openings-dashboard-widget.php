@@ -5,139 +5,152 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class AWSM_Job_Openings_Dashboard_Widget {
+	private static $instance = null;
+
+	public function __construct() {
+		add_action( 'wp_dashboard_setup', array( $this, 'dashboard_setup' ) );
+	}
+
+	public static function init() {
+		if ( is_null( self::$instance ) ) {
+			self::$instance = new self();
+		}
+		return self::$instance;
+	}
+
+	public function dashboard_setup() {
+		wp_add_dashboard_widget( 'awsm-jobs-overview-dashboard', esc_html__( 'WP Job Openings - Overview', 'wp-job-openings' ), array( $this, 'display_widget' ) );
+	}
+
 	public function display_widget() {
-		$job_data = $this->get_job_data();
-		$count = wp_count_posts( 'awsm_job_openings' );
-		$jobs_count = $count->publish;
-		$count_details = wp_count_posts( 'awsm_job_application' );
-		$new_applications = $count_details->publish;
-		$args = array(
-			'post_type' => 'awsm_job_application',
-			'post_status' => array('publish', 'progress', 'shortlist', 'reject', 'select' ),
+		$job_data           = $this->get_job_data();
+		$count              = wp_count_posts( 'awsm_job_openings' );
+		$jobs_count         = $count->publish;
+		$count_details      = wp_count_posts( 'awsm_job_application' );
+		$new_applications   = $count_details->publish;
+		$args               = array(
+			'post_type'   => 'awsm_job_application',
+			'post_status' => array( 'publish', 'progress', 'shortlist', 'reject', 'select' ),
 			'numberposts' => -1,
 		);
 		$total_applications = count( get_posts( $args ) );
 		?>
-		<div class="awsm-job-overview-wdiget-container">
-			<table class="widefat">
-				<tr>
-					<td>
-						<p><?php echo esc_attr( $jobs_count ); ?></p>
-					</td>
-					<td>
-						<p><?php echo esc_attr( $new_applications ); ?></p>
-					</td>
-					<td>
-						<p><?php echo esc_attr( $total_applications ); ?></p>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<p><?php echo esc_html_e( 'Active Jobs', 'wp-job-openings'); ?></p>
-					</td>
-					<td>
-						<p><?php echo esc_html_e( 'New Applications', 'wp-job-openings'); ?></p>
-					</td>
-					<td>
-						<p><?php echo esc_html_e( 'Total Applications', 'wp-job-openings'); ?></p>
-					</td>
-				</tr>
-			</table>
+
+		<div class="awsm-jobs-dashboard-wrapper">
+			<div class="awsm-jobs-statistics">
+				<div class="awsm-jobs-statistic">
+					<div class="awsm-jobs-statistic-value"><?php echo esc_html( $jobs_count ); ?></div>
+					<div class="awsm-jobs-statistic-label"><?php esc_html_e( 'Active Jobs', 'wp-job-openings' ); ?></div>
+				</div>
+				<?php if ( current_user_can( 'edit_applications' ) ) : ?>
+						<div class="awsm-jobs-statistic">
+							<div class="awsm-jobs-statistic-value"><?php echo esc_html( $new_applications ); ?></div>
+							<div class="awsm-jobs-statistic-label"><?php esc_html_e( 'New Applications', 'wp-job-openings' ); ?></div>
+						</div>
+						<div class="awsm-jobs-statistic">
+							<div class="awsm-jobs-statistic-value"><?php echo esc_html( $total_applications ); ?></div>
+							<div class="awsm-jobs-statistic-label"><?php esc_html_e( 'Total Applications', 'wp-job-openings' ); ?></div>
+						</div>
+				<?php endif; ?>
+			</div>
+
 			<?php
-				if( ! empty( $job_data ) ) {
-			?>
-			<h3><?php echo esc_html_e( 'Active jobs', 'wp-job-openings'); ?></h3>
-			<table width="100%" class="widefat">
-				<tbody>
-					<tr class="awsm-job-overview-widget-heading">
-						<td>
-							<p><?php echo esc_html_e( 'Job Title', 'wp-job-openings'); ?></p>
-						</td>
-						<td>
-							<p><?php echo esc_html_e( 'Applications', 'wp-job-openings'); ?></p>
-						</td>
-						<td>
-							<p><?php echo esc_html_e( 'Views', 'wp-job-openings'); ?></p>
-						</td>
-						<td>
-							<p><?php echo esc_html_e( 'Expiry', 'wp-job-openings'); ?></p>
-						</td>
-					</tr>
-					<?php 
-					foreach ( $job_data as $value ) {
-					?>
-					<tr>
-						<td>
-							<p><?php echo esc_attr( $value['title'] ); ?></p>
-						</td>
-						<td>
-							<p><?php echo esc_attr( $value['appplication_count'] ); ?></p>
-						</td>
-						<td>
-							<p><?php echo esc_attr( $value['views'] ); ?></p>
-						</td>
-						<td>
-							<p><?php echo esc_attr( $value['expiry'] );?></p>
-						</td>
-					</tr>
-					<?php  }?>
-				</tbody>
-			</table>
-			<div class="awsm-job-overview-widget-buttons">
-				<?php
-				if ( ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) {
+			if ( ! empty( $job_data ) ) :
 				?>
-					<p><a href="<?php echo esc_url( 'https://1.envato.market/jjbEP' ); ?>" target="_blank" class="button awsm-export-applications-btn button-primary"><strong><?php esc_html_e( 'Get Pro', 'wp-job-openings' ); ?></strong></a></p>
-				<?php
-				}
-				?>
-					<p><a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_application' ) ); ?>" class="button awsm-export-applications-btn button-primary"><strong><?php esc_html_e( 'View Applications', 'wp-job-openings' ); ?></strong></a></p>
-					<p><a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_openings' ) ); ?>" class="button awsm-export-applications-btn button-primary"><strong><?php esc_html_e( 'View all Jobs', 'wp-job-openings' ); ?></strong></a></p>
-				
+				<h3><?php echo esc_html_e( 'Active Jobs', 'wp-job-openings' ); ?></h3>
+				<table class="awsm-jobs-dashboard-table widefat">
+					<thead>
+						<tr>
+							<th><?php esc_html_e( 'Job Title', 'wp-job-openings' ); ?></th>
+							<?php
+								if ( current_user_can( 'edit_applications' ) ) {
+									echo '<th>' . esc_html__( 'Applications', 'wp-job-openings' ) . '</th>';
+								}
+							?>
+							<?php
+								if ( current_user_can( 'edit_jobs' ) ) {
+									echo '<th>' . esc_html__( 'Views', 'wp-job-openings' ) . '</th>';
+								}
+							?>
+							<th><?php esc_html_e( 'Expiry', 'wp-job-openings' ); ?></th>
+						</tr>
+					</thead>
+					<tbody>
+					<?php
+					foreach ( $job_data as $data ) :
+						?>
+							<tr>
+								<td>
+									<?php
+										if ( current_user_can( 'edit_post', $data['id'] ) ) {
+											printf( '<a href="%2$s">%1$s</a>', esc_html( $data['title'] ), esc_url( get_edit_post_link( $data['id'] ) ) );
+										} else {
+											echo esc_html( $data['title'] );
+										}
+									?>
+								</td>
+								<?php
+									if ( current_user_can( 'edit_applications' ) ) {
+										printf( '<td><a href="%2$s">%1$s</a></td>', esc_html( $data['count'] ), esc_url( admin_url( 'edit.php?post_type=awsm_job_application&awsm_filter_posts=' . $data['id'] ) ) );
+									}
+
+									if ( current_user_can( 'edit_jobs' ) ) {
+										echo '<td>' . esc_html( $data['views'] ) . '</td>';
+									}
+								?>
+								<td><?php echo ! empty( $data['expiry'] ) ? esc_html( $data['expiry'] ) : '<span aria-hidden="true">—</span>'; ?></td>
+							</tr>
+						<?php endforeach; ?>
+					</tbody>
+				</table>
+			<?php endif; ?>
+
+			<div class="awsm-jobs-dashboard-btn-wrapper">
+				<?php if ( ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) : ?>
+					<a href="<?php echo esc_url( 'https://1.envato.market/jjbEP' ); ?>" class="awsm-jobs-dashboard-btn awsm-jobs-get-pro-btn button"><?php esc_html_e( 'Get Pro', 'wp-job-openings' ); ?></a>
+				<?php endif; ?>
+				<?php if ( current_user_can( 'edit_applications' ) ) : ?>
+					<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_application' ) ); ?>" class="awsm-jobs-dashboard-btn button button-primary"><?php esc_html_e( 'View Applications', 'wp-job-openings' ); ?></a>
+				<?php endif; ?>
+				<?php if ( current_user_can( 'edit_jobs' ) ) : ?>
+					<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_openings' ) ); ?>" class="awsm-jobs-dashboard-btn button button-primary"><?php esc_html_e( 'View All Jobs', 'wp-job-openings' ); ?></a>
+				<?php endif; ?>
 			</div>
 		</div>
 		<?php
-		}
 	}
 
-	public function jobs_overview_dashboard_widget() {
-		wp_add_dashboard_widget('awsm_job_overview_widget', 'Wp Job Openings - Overview', array( $this,'display_widget') );  
+	public static function get_active_jobs( $numberjobs = 5 ) {
+		global $wpdb;
+		$results = $wpdb->get_results( $wpdb->prepare( "SELECT {$wpdb->posts}.ID, count(applications.ID) as applications_count FROM {$wpdb->posts} INNER JOIN {$wpdb->posts} as applications ON {$wpdb->posts}.ID = applications.post_parent WHERE {$wpdb->posts}.post_type = 'awsm_job_openings' AND applications.post_type = 'awsm_job_application' AND {$wpdb->posts}.post_status = 'publish' group by applications.post_parent ORDER BY applications_count DESC LIMIT 0, %d", $numberjobs ), OBJECT );
+		return $results;
 	}
 
-	public function get_job_data( ) {
-		$jobs = get_posts(
-			array(
-			'numberposts' => 5,
-			'post_status' => 'any',
-			'post_type' => 'awsm_job_openings',
-			)
-		);
+	public function get_job_data() {
+		$job_data    = array();
+		$active_jobs = self::get_active_jobs();
+		if ( ! empty( $active_jobs ) ) {
+			foreach ( $active_jobs as $job ) {
+				$views          = intval( get_post_meta( $job->ID, 'awsm_views_count', true ) );
+				$expiry         = '';
+				$expiry_on_list = get_post_meta( $job->ID, 'awsm_set_exp_list', true );
+				$job_expiry     = get_post_meta( $job->ID, 'awsm_job_expiry', true );
 
-		$job_details = array();
-		foreach ( $jobs as $job ) {
-			$job_id =  $job->ID;
-			$applications = AWSM_Job_Openings::get_applications( $job_id );
-			$application_count = count( $applications );
-			$job_details['application_id'] = $job_id;
-			$job_details['title']  =  $job->post_title;
-			$job_details['appplication_count'] = $application_count;
-			$job_details['views']  = get_post_meta($job_id, 'awsm_views_count', true );
-			$job_details['expiry'] = get_post_meta($job_id, 'awsm_job_expiry', true );
-			$job_data[] = $job_details;
-		}
-		if( ! empty( $job_data ) ) {
-			usort( $job_data, function( $a,$b ){ 
-			return $a['appplication_count'] < $b['appplication_count']; 
-			} );
+				if ( $expiry_on_list === 'set_listing' && ! empty( $job_expiry ) ) {
+					$expiry = date_i18n( __( 'M j, Y', 'default' ), strtotime( $job_expiry ) );
+				}
+
+				$job_data[] = array(
+					'id'     => $job->ID,
+					'title'  => get_the_title( $job->ID ),
+					'count'  => $job->applications_count,
+					'views'  => $views,
+					'expiry' => $expiry,
+				);
+			}
 		}
 		return $job_data;
 	}
 }
 
-if( class_exists( "AWSM_Job_Openings_Dashboard_Widget" ) ) {
-	$widget_class = new AWSM_Job_Openings_Dashboard_Widget();
-}
-
-if( isset( $widget_class ) ) {
-	add_action('wp_dashboard_setup', array( &$widget_class, 'jobs_overview_dashboard_widget'), 100 );
-}
+AWSM_Job_Openings_Dashboard_Widget::init();
