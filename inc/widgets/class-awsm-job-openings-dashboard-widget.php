@@ -87,18 +87,13 @@ class AWSM_Job_Openings_Dashboard_Widget {
 				<?php
 				if ( ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) {
 				?>
-				<div class="awsm-job-overview-widget-cell">
-					<p><a href="<?php  ?>" class="button awsm-export-applications-btn button-primary"><strong><?php esc_html_e( 'Get Pro', 'wp-job-openings' ); ?></strong></a></p>
-				</div>
+					<p><a href="<?php echo esc_url( 'https://1.envato.market/jjbEP' ); ?>" target="_blank" class="button awsm-export-applications-btn button-primary"><strong><?php esc_html_e( 'Get Pro', 'wp-job-openings' ); ?></strong></a></p>
 				<?php
 				}
 				?>
-				<div class="awsm-job-overview-widget-cell">
 					<p><a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_application' ) ); ?>" class="button awsm-export-applications-btn button-primary"><strong><?php esc_html_e( 'View Applications', 'wp-job-openings' ); ?></strong></a></p>
-				</div>
-				<div class="awsm-job-overview-widget-cell">
 					<p><a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_openings' ) ); ?>" class="button awsm-export-applications-btn button-primary"><strong><?php esc_html_e( 'View all Jobs', 'wp-job-openings' ); ?></strong></a></p>
-				</div>
+				
 			</div>
 		</div>
 		<?php

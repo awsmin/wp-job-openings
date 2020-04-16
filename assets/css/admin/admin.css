@@ -396,17 +396,6 @@ a.awsm-text-red:hover {
 	user-select: all;
 }
 
-.awsm-job-overview-widget-cell {
-    display: table-cell;
-    border-width: thin;
-    padding-left: 5px;
-    padding-right: 5px;
-    
-}
-
-.awsm-job-overview-widget-buttons {
-	display: flex;
-}
 
 /* Job Applications */
 /* to fix application meta box styling issue */
