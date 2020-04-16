@@ -404,53 +404,16 @@ a.awsm-text-red:hover {
 	user-select: all;
 }
 
-.awsm-job-overview-widget {
-    display: table;
-    width: -webkit-fill-available;
-}
-.awsm-job-overview-widget-wrapper {
-    border: solid;
-    border-width: 1px;
-    padding: 10px;
-}
-.awsm-job-overview-widget-wrapper p {
-    font-weight: 600;
-}
-.awsm-job-overview-title {
-    display: table-caption;
-    text-align: left;
-    font-weight: bold;
-    font-size: larger;
-}
-.awsm-job-overview-widget-heading {
-   border: solid;
-}
-.awsm-job-overview-widget-row {
-    display: table-row;
-    border-width: thin;
-    border: solid;
-}
-.awsm-job-overview-widget-wrapper .awsm-job-overview-widget-cell {
+.awsm-job-overview-widget-cell {
     display: table-cell;
     border-width: thin;
     padding-left: 5px;
     padding-right: 5px;
     
 }
-.awsm-job-overview-widget-list .awsm-job-overview-widget-cell {
-    border: solid;
-    display: table-cell;
-    border-width: thin;
-    padding-left: 5px;
-    padding-right: 5px;
-}
 
 .awsm-job-overview-widget-buttons {
 	display: flex;
-}
-
-p {
-    padding:5px;
 }
 
 /* Job Applications */

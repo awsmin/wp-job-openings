@@ -19,7 +19,7 @@ class AWSM_Job_Openings_Dashboard_Widget {
 		$total_applications = count( get_posts( $args ) );
 		?>
 		<div class="awsm-job-overview-wdiget-container">
-			<table class="awsm-job-overview-widget awsm-job-overview-widget-wrapper">
+			<table class="widefat">
 				<tr>
 					<td>
 						<p><?php echo esc_attr( $jobs_count ); ?></p>
@@ -47,7 +47,7 @@ class AWSM_Job_Openings_Dashboard_Widget {
 				if( ! empty( $job_data ) ) {
 			?>
 			<h3><?php echo esc_html_e( 'Active jobs', 'wp-job-openings'); ?></h3>
-			<table width="100%" class="awsm-job-overview-widget awsm-job-overview-widget-wrapper">
+			<table width="100%" class="widefat">
 				<tbody>
 					<tr class="awsm-job-overview-widget-heading">
 						<td>
