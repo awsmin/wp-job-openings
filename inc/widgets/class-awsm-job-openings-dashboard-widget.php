@@ -19,73 +19,70 @@ class AWSM_Job_Openings_Dashboard_Widget {
 		$total_applications = count( get_posts( $args ) );
 		?>
 		<div class="awsm-job-overview-wdiget-container">
-			<div class="awsm-job-overview-widget awsm-job-overview-widget-wrapper">
-				<div class="awsm-job-overview-widget-row">
-					<div class="awsm-job-overview-widget-cell">
+			<table class="awsm-job-overview-widget awsm-job-overview-widget-wrapper">
+				<tr>
+					<td>
 						<p><?php echo esc_attr( $jobs_count ); ?></p>
-					</div>
-					<div class="awsm-job-overview-widget-cell">
+					</td>
+					<td>
 						<p><?php echo esc_attr( $new_applications ); ?></p>
-					</div>
-					<div class="awsm-job-overview-widget-cell">
+					</td>
+					<td>
 						<p><?php echo esc_attr( $total_applications ); ?></p>
-					</div>
-				</div>
-				<div class="awsm-job-overview-widget-row">
-					<div class="awsm-job-overview-widget-cell">
+					</td>
+				</tr>
+				<tr>
+					<td>
 						<p><?php echo esc_html_e( 'Active Jobs', 'wp-job-openings'); ?></p>
-					</div>
-					<div class="awsm-job-overview-widget-cell">
+					</td>
+					<td>
 						<p><?php echo esc_html_e( 'New Applications', 'wp-job-openings'); ?></p>
-					</div>
-					<div class="awsm-job-overview-widget-cell">
+					</td>
+					<td>
 						<p><?php echo esc_html_e( 'Total Applications', 'wp-job-openings'); ?></p>
-					</div>
-				</div>
-			</div>
+					</td>
+				</tr>
+			</table>
 			<?php
 				if( ! empty( $job_data ) ) {
 			?>
-			<div class="awsm-job-overview-widget awsm-job-overview-widget-list">
-				<div class="awsm-job-overview-title">
-					<p><?php echo esc_html_e( 'Active jobs', 'wp-job-openings'); ?></p>
-				</div>
-				<div class="awsm-job-overview-heading">
-					<div class="awsm-job-overview-widget-cell">
-						<p><?php echo esc_html_e( 'Job Title', 'wp-job-openings'); ?></p>
-					</div>
-					<div class="awsm-job-overview-widget-cell">
-						<p><?php echo esc_html_e( 'Applications', 'wp-job-openings'); ?></p>
-					</div>
-					<div class="awsm-job-overview-widget-cell">
-						<p><?php echo esc_html_e( 'Views', 'wp-job-openings'); ?></p>
-					</div>
-					<div class="awsm-job-overview-widget-cell">
-						<p><?php echo esc_html_e( 'Expiry', 'wp-job-openings'); ?></p>
-					</div>
-				</div>
-				<?php 
-				foreach ( $job_data as $value ) {
-				?>
-				<div class="awsm-job-overview-widget-row">
-					<div class="awsm-job-overview-widget-cell">
-						<p><?php echo esc_attr( $value['title'] ); ?></p>
-					</div>
-					<div class="awsm-job-overview-widget-cell">
-						<p><?php echo esc_attr( $value['appplication_count'] ); ?></p>
-					</div>
-					<div class="awsm-job-overview-widget-cell">
-						<p><?php echo esc_attr( $value['views'] ); ?></p>
-					</div>
-					<div class="awsm-job-overview-widget-cell">
-						<p><?php echo esc_attr( $value['expiry'] );?></p>
-					</div>
-				</div>
-				<?php  }?>
-			</div>
-			<?php
-				}
-			?>
+			<h3><?php echo esc_html_e( 'Active jobs', 'wp-job-openings'); ?></h3>
+			<table width="100%" class="awsm-job-overview-widget awsm-job-overview-widget-wrapper">
+				<tbody>
+					<tr class="awsm-job-overview-widget-heading">
+						<td>
+							<p><?php echo esc_html_e( 'Job Title', 'wp-job-openings'); ?></p>
+						</td>
+						<td>
+							<p><?php echo esc_html_e( 'Applications', 'wp-job-openings'); ?></p>
+						</td>
+						<td>
+							<p><?php echo esc_html_e( 'Views', 'wp-job-openings'); ?></p>
+						</td>
+						<td>
+							<p><?php echo esc_html_e( 'Expiry', 'wp-job-openings'); ?></p>
+						</td>
+					</tr>
+					<?php 
+					foreach ( $job_data as $value ) {
+					?>
+					<tr>
+						<td>
+							<p><?php echo esc_attr( $value['title'] ); ?></p>
+						</td>
+						<td>
+							<p><?php echo esc_attr( $value['appplication_count'] ); ?></p>
+						</td>
+						<td>
+							<p><?php echo esc_attr( $value['views'] ); ?></p>
+						</td>
+						<td>
+							<p><?php echo esc_attr( $value['expiry'] );?></p>
+						</td>
+					</tr>
+					<?php  }?>
+				</tbody>
+			</table>
 			<div class="awsm-job-overview-widget-buttons">
 				<?php
 				if ( ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) {
@@ -105,6 +102,7 @@ class AWSM_Job_Openings_Dashboard_Widget {
 			</div>
 		</div>
 		<?php
+		}
 	}
 
 	public function jobs_overview_dashboard_widget() {

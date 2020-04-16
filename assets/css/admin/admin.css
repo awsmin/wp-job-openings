@@ -422,11 +422,8 @@ a.awsm-text-red:hover {
     font-weight: bold;
     font-size: larger;
 }
-.awsm-job-overview-heading {
-    display: table-row;
-    font-weight: bold;
-    text-align: left;
-    background: lightgray;
+.awsm-job-overview-widget-heading {
+   border: solid;
 }
 .awsm-job-overview-widget-row {
     display: table-row;
