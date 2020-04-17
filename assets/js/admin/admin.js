@@ -359,4 +359,7 @@ jQuery(document).ready(function($) {
 			}
 		});
 	});
+	$(window).on('load', function(e){
+		$('.awsm-job-welcome').addClass('loaded');
+	});
 });
