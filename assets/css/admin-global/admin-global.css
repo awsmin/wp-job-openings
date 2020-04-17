@@ -77,6 +77,12 @@
 	box-shadow: none;
 	outline: none;
 }
+.wp-core-ui .awsm-jobs-get-pro-btn:disabled, .wp-core-ui .awsm-jobs-get-pro-btn[disabled] {
+	background-color: #00D5AF !important;
+	border-color: #00AC8D !important;
+	color: #fff !important;
+	text-shadow: none !important;
+}
 .wp-core-ui .button-link {
 	background: none;
 	border: none;
