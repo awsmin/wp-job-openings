@@ -399,6 +399,14 @@ a.awsm-text-red:hover {
 
 /* Job Applications */
 /* to fix application meta box styling issue */
+.awsm-application-submission-date{
+	display: block;
+	color: #72777C;
+	font-size: 14px;
+}
+#awsm-job-details-meta{
+	border-color: #DADFE5;
+}
 #awsm-job-details-meta .inside {
 	margin: 0;
 	padding: 0;
@@ -414,35 +422,46 @@ a.awsm-text-red:hover {
 }
 
 .awsm-application-container {
-	padding: 20px 0 20px 14px;
+	
 }
 
 .awsm-applicant-image-container {
 	float: left;
-	max-width: 130px;
+	max-width: 213px;
 	margin: 0;
+	text-align: center;
+	padding: 20px 23px;
 }
 
 .awsm-applicant-image {
 	padding-bottom: 20px;
 	text-align: center;
 }
-
+.awsm-applicant-image img{
+	border-radius: 50%;
+}
 .awsm-applicant-image-container .button {
 	padding: 5px 7px;
 	height: auto;
 	line-height: 1.3;
+	background-color: #D1F1FF;
+	border-color: #0271A1;
+	color: #0271A1;
+	padding: 10px;
+	width: 166px;
+	font-size: 14px;
 }
 
 .awsm-applicant-image-container .button span {
 	display: block;
 	text-transform: uppercase;
+	font-size: 12px;
 }
 
 .awsm-applicant-details {
 	overflow: hidden;
-    padding: 10px 30px;
     min-height: 180px;
+    border-left: 1px solid #DADFE5;
 }
 
 .awsm-applicant-details-list {
@@ -452,22 +471,21 @@ a.awsm-text-red:hover {
 }
 
 .awsm-applicant-details-list li {
-	margin-bottom: 10px;
-	overflow: hidden;
+	padding: 15px 15px 15px 30px;
+	border-bottom: 1px solid #DADFE5;
+	font-size: 14px;
+	margin: 0;
+}
+.awsm-applicant-details-list li:last-child{
+	border-bottom: none;
 }
 
 .awsm-applicant-details-list li label {
-	float: left;
-	max-width: 120px;
-	width: 100%;
-	padding-right: 20px;
 	font-weight: 600;
 }
 
 .awsm-applicant-details-list li span {
-	float: left;
-	width: calc(100% - 150px);
-	overflow: hidden;
+	display: block;
 }
 
 .awsm-applicant-details-list li span p:first-child {
@@ -477,9 +495,35 @@ a.awsm-text-red:hover {
 .awsm-job-stat-table {
 	width: 100%;
 }
+.awsm-job-stat-table a{
+	text-decoration: none;	
+}
+.awsm-job-stat-table td{
+	padding: 3px 0;
+}
+.awsm-job-stat-table td:not(:first-child){
+	font-weight: bold;
+}
 
 .awsm-job-status-btn-wrapper {
-	margin-top: 10px;
+	margin: 10px -15px 0;
+	padding: 10px 15px 0;
+	border-top: 1px solid #DADFE5;
+	text-align: center;
+}
+.awsm-job-status-btn-wrapper a{
+	margin: 0 5px;
+	float: left;
+}
+.awsm-job-status-btn-wrapper a:last-child{
+	float: right;
+}
+.awsm-job-status-btn-wrapper span{
+	display: inline-block;
+	vertical-align: middle;
+	color: #72777C;
+	font-size: 13px;
+	margin: 0 5px;
 }
 
 .awsm-job-expiry-main {
