@@ -101,17 +101,19 @@ class AWSM_Job_Openings_Dashboard_Widget {
 				</table>
 			<?php endif; ?>
 
-			<div class="awsm-jobs-dashboard-btn-wrapper">
-				<?php if ( ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) : ?>
-					<a href="<?php echo esc_url( 'https://1.envato.market/jjbEP' ); ?>" class="awsm-jobs-dashboard-btn awsm-jobs-get-pro-btn button"><?php esc_html_e( 'Get Pro', 'wp-job-openings' ); ?></a>
-				<?php endif; ?>
-				<?php if ( current_user_can( 'edit_applications' ) ) : ?>
-					<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_application' ) ); ?>" class="awsm-jobs-dashboard-btn button button-primary"><?php esc_html_e( 'View Applications', 'wp-job-openings' ); ?></a>
-				<?php endif; ?>
-				<?php if ( current_user_can( 'edit_jobs' ) ) : ?>
-					<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_openings' ) ); ?>" class="awsm-jobs-dashboard-btn button button-link"><?php esc_html_e( 'View All Jobs', 'wp-job-openings' ); ?></a>
-				<?php endif; ?>
-			</div>
+			<?php if ( current_user_can( 'edit_jobs' ) || current_user_can( 'edit_applications' ) ) : ?>
+					<div class="awsm-jobs-dashboard-btn-wrapper">
+						<?php if ( ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) && current_user_can( 'edit_others_applications' ) ) : ?>
+							<a href="<?php echo esc_url( 'https://1.envato.market/jjbEP' ); ?>" class="awsm-jobs-dashboard-btn awsm-jobs-get-pro-btn button" target="_blank"><?php esc_html_e( 'Get Pro', 'wp-job-openings' ); ?></a>
+						<?php endif; ?>
+						<?php if ( current_user_can( 'edit_applications' ) ) : ?>
+							<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_application' ) ); ?>" class="awsm-jobs-dashboard-btn button button-primary"><?php esc_html_e( 'View Applications', 'wp-job-openings' ); ?></a>
+						<?php endif; ?>
+						<?php if ( current_user_can( 'edit_jobs' ) ) : ?>
+							<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_openings' ) ); ?>" class="awsm-jobs-dashboard-btn button button-link"><?php esc_html_e( 'View All Jobs', 'wp-job-openings' ); ?></a>
+						<?php endif; ?>
+					</div>
+			<?php endif; ?>
 		</div>
 		<?php
 	}
