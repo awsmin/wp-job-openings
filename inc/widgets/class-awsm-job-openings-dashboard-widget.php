@@ -24,27 +24,23 @@ class AWSM_Job_Openings_Dashboard_Widget {
 
 	public function display_widget() {
 		$job_data           = $this->get_job_data();
-		$count              = wp_count_posts( 'awsm_job_openings' );
-		$jobs_count         = $count->publish;
-		$count_details      = wp_count_posts( 'awsm_job_application' );
-		$new_applications   = $count_details->publish;
-		$args               = array(
-			'post_type'   => 'awsm_job_application',
-			'post_status' => array( 'publish', 'progress', 'shortlist', 'reject', 'select' ),
-			'numberposts' => -1,
-		);
-		$total_applications = count( get_posts( $args ) );
+		$jobs_count         = wp_count_posts( 'awsm_job_openings' );
+		$applications_count = wp_count_posts( 'awsm_job_application' );
+		$total_applications = 0;
+		foreach ( $applications_count as $count_by_status ) {
+			$total_applications += intval( $count_by_status );
+		}
 		?>
 
 		<div class="awsm-jobs-dashboard-wrapper">
 			<div class="awsm-jobs-statistics">
 				<div class="awsm-jobs-statistic">
-					<span><?php echo esc_html( $jobs_count ); ?></span>
+					<span><?php echo esc_html( $jobs_count->publish ); ?></span>
 					<?php esc_html_e( 'Active Jobs', 'wp-job-openings' ); ?>
 				</div>
 				<?php if ( current_user_can( 'edit_applications' ) ) : ?>
 						<div class="awsm-jobs-statistic">
-							<span><?php echo esc_html( $new_applications ); ?></span>
+							<span><?php echo esc_html( $applications_count->publish ); ?></span>
 							<?php esc_html_e( 'New Applications', 'wp-job-openings' ); ?>
 						</div>
 						<div class="awsm-jobs-statistic">
@@ -63,14 +59,14 @@ class AWSM_Job_Openings_Dashboard_Widget {
 						<tr>
 							<th><?php esc_html_e( 'Job Title', 'wp-job-openings' ); ?></th>
 							<?php
-								if ( current_user_can( 'edit_applications' ) ) {
-									echo '<th>' . esc_html__( 'Applications', 'wp-job-openings' ) . '</th>';
-								}
+							if ( current_user_can( 'edit_applications' ) ) {
+								echo '<th>' . esc_html__( 'Applications', 'wp-job-openings' ) . '</th>';
+							}
 							?>
 							<?php
-								if ( current_user_can( 'edit_jobs' ) ) {
-									echo '<th>' . esc_html__( 'Views', 'wp-job-openings' ) . '</th>';
-								}
+							if ( current_user_can( 'edit_jobs' ) ) {
+								echo '<th>' . esc_html__( 'Views', 'wp-job-openings' ) . '</th>';
+							}
 							?>
 							<th><?php esc_html_e( 'Expiry', 'wp-job-openings' ); ?></th>
 						</tr>
@@ -82,21 +78,21 @@ class AWSM_Job_Openings_Dashboard_Widget {
 							<tr>
 								<td>
 									<?php
-										if ( current_user_can( 'edit_post', $data['id'] ) ) {
-											printf( '<a href="%2$s">%1$s</a>', esc_html( $data['title'] ), esc_url( get_edit_post_link( $data['id'] ) ) );
-										} else {
-											echo esc_html( $data['title'] );
-										}
+									if ( current_user_can( 'edit_post', $data['id'] ) ) {
+										printf( '<a href="%2$s">%1$s</a>', esc_html( $data['title'] ), esc_url( get_edit_post_link( $data['id'] ) ) );
+									} else {
+										echo esc_html( $data['title'] );
+									}
 									?>
 								</td>
 								<?php
-									if ( current_user_can( 'edit_applications' ) ) {
-										printf( '<td><a href="%2$s">%1$s</a></td>', esc_html( $data['count'] ), esc_url( admin_url( 'edit.php?post_type=awsm_job_application&awsm_filter_posts=' . $data['id'] ) ) );
-									}
+								if ( current_user_can( 'edit_applications' ) ) {
+									printf( '<td><a href="%2$s">%1$s</a></td>', esc_html( $data['count'] ), esc_url( admin_url( 'edit.php?post_type=awsm_job_application&awsm_filter_posts=' . $data['id'] ) ) );
+								}
 
-									if ( current_user_can( 'edit_jobs' ) ) {
-										echo '<td>' . esc_html( $data['views'] ) . '</td>';
-									}
+								if ( current_user_can( 'edit_jobs' ) ) {
+									echo '<td>' . esc_html( $data['views'] ) . '</td>';
+								}
 								?>
 								<td><?php echo ! empty( $data['expiry'] ) ? esc_html( $data['expiry'] ) : '<span aria-hidden="true">—</span>'; ?></td>
 							</tr>
