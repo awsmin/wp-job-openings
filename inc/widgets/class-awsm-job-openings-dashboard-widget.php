@@ -39,17 +39,17 @@ class AWSM_Job_Openings_Dashboard_Widget {
 		<div class="awsm-jobs-dashboard-wrapper">
 			<div class="awsm-jobs-statistics">
 				<div class="awsm-jobs-statistic">
-					<div class="awsm-jobs-statistic-value"><?php echo esc_html( $jobs_count ); ?></div>
-					<div class="awsm-jobs-statistic-label"><?php esc_html_e( 'Active Jobs', 'wp-job-openings' ); ?></div>
+					<span><?php echo esc_html( $jobs_count ); ?></span>
+					<?php esc_html_e( 'Active Jobs', 'wp-job-openings' ); ?>
 				</div>
 				<?php if ( current_user_can( 'edit_applications' ) ) : ?>
 						<div class="awsm-jobs-statistic">
-							<div class="awsm-jobs-statistic-value"><?php echo esc_html( $new_applications ); ?></div>
-							<div class="awsm-jobs-statistic-label"><?php esc_html_e( 'New Applications', 'wp-job-openings' ); ?></div>
+							<span><?php echo esc_html( $new_applications ); ?></span>
+							<?php esc_html_e( 'New Applications', 'wp-job-openings' ); ?>
 						</div>
 						<div class="awsm-jobs-statistic">
-							<div class="awsm-jobs-statistic-value"><?php echo esc_html( $total_applications ); ?></div>
-							<div class="awsm-jobs-statistic-label"><?php esc_html_e( 'Total Applications', 'wp-job-openings' ); ?></div>
+							<span><?php echo esc_html( $total_applications ); ?></span>
+							<?php esc_html_e( 'Total Applications', 'wp-job-openings' ); ?>
 						</div>
 				<?php endif; ?>
 			</div>
@@ -113,7 +113,7 @@ class AWSM_Job_Openings_Dashboard_Widget {
 					<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_application' ) ); ?>" class="awsm-jobs-dashboard-btn button button-primary"><?php esc_html_e( 'View Applications', 'wp-job-openings' ); ?></a>
 				<?php endif; ?>
 				<?php if ( current_user_can( 'edit_jobs' ) ) : ?>
-					<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_openings' ) ); ?>" class="awsm-jobs-dashboard-btn button button-primary"><?php esc_html_e( 'View All Jobs', 'wp-job-openings' ); ?></a>
+					<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_openings' ) ); ?>" class="awsm-jobs-dashboard-btn button button-link"><?php esc_html_e( 'View All Jobs', 'wp-job-openings' ); ?></a>
 				<?php endif; ?>
 			</div>
 		</div>
