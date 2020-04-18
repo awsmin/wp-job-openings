@@ -422,7 +422,7 @@ a.awsm-text-red:hover {
 }
 
 .awsm-application-container {
-	
+
 }
 
 .awsm-applicant-image-container {
@@ -492,11 +492,24 @@ a.awsm-text-red:hover {
 	margin-top: 0;
 }
 
+#awsm-application-actions-meta .inside {
+    margin: 0;
+    padding: 0;
+}
+
+.awsm-application-rating-pub-section-disabled {
+	display: flex;
+}
+
+.awsm-application-rating-disabled {
+	flex: 1;
+}
+
 .awsm-job-stat-table {
 	width: 100%;
 }
 .awsm-job-stat-table a{
-	text-decoration: none;	
+	text-decoration: none;
 }
 .awsm-job-stat-table td{
 	padding: 3px 0;

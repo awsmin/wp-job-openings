@@ -37,7 +37,12 @@ class AWSM_Job_Openings_Meta {
 			add_meta_box( 'awsm-job-meta', esc_html__( 'Job Specifications', 'wp-job-openings' ), array( $this, 'awsm_job_handle' ), 'awsm_job_openings', 'normal', 'high' );
 		}
 		add_meta_box( 'awsm-expiry-meta', esc_html__( 'Job Expiry', 'wp-job-openings' ), array( $this, 'awsm_job_expiration' ), 'awsm_job_openings', 'side', 'low' );
+
 		add_meta_box( 'awsm-job-details-meta', esc_html__( 'Applicant Details', 'wp-job-openings' ), array( $this, 'awsm_job_application_handle' ), 'awsm_job_application', 'normal', 'high' );
+		if ( ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) {
+			add_meta_box( 'awsm-application-actions-meta', esc_html__( 'Actions', 'wp-job-openings' ), array( $this, 'application_actions_meta_handler' ), 'awsm_job_application', 'side', 'high' );
+			add_meta_box( 'awsm-get-the-pro-pack-meta', esc_html__( 'Get the Pro Pack', 'wp-job-openings' ), array( $this, 'get_pro_meta_handler' ), 'awsm_job_application', 'side', 'low' );
+		}
 	}
 
 	public function awsm_job_status( $post ) {
@@ -54,6 +59,14 @@ class AWSM_Job_Openings_Meta {
 
 	public function awsm_job_application_handle( $post ) {
 		include $this->cpath . '/templates/meta/applicant-single.php';
+	}
+
+	public function application_actions_meta_handler( $post ) {
+		include $this->cpath . '/templates/meta/application-actions.php';
+	}
+
+	public function get_pro_meta_handler() {
+		include $this->cpath . '/templates/meta/get-pro.php';
 	}
 
 	public function remove_meta_boxes() {
@@ -186,5 +199,22 @@ class AWSM_Job_Openings_Meta {
 	public function download_file_handle() {
 		$suffix = isset( $_GET['attachment_label'] ) ? '-' . $_GET['attachment_label'] : '';
 		$this->attached_file_download_handler( 'file', $suffix );
+	}
+
+	public function application_delete_action( $application_id ) {
+		?>
+			<div id="delete-action">
+				<?php
+				if ( current_user_can( 'delete_post', $application_id ) ) {
+					if ( ! EMPTY_TRASH_DAYS ) {
+						$delete_text = __( 'Delete Permanently', 'default' );
+					} else {
+						$delete_text = __( 'Move to Trash', 'default' );
+					}
+					printf( '<a class="submitdelete deletion" href="%2$s">%1$s</a>', esc_html( $delete_text ), esc_url( get_delete_post_link( $application_id ) ) );
+				}
+				?>
+			</div>
+		<?php
 	}
 }
