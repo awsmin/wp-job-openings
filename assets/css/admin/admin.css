@@ -785,6 +785,10 @@ a.awsm-text-red:hover {
 .awsm-job-welcome-col{	
 	width: 50%;
 	min-height: 100%;
+	display: flex;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+	align-items:  center;
 }
 .awsm-job-welcome-col:last-child{
 	background-color: #fff;
@@ -862,11 +866,11 @@ a.awsm-text-red:hover {
 	background: #04B8B2;
 	border-radius: 50%;
 }
-.awsm-job-welcome-l h1, .awsm-job-welcome-l p, .awsm-job-welcome-l ul{
+.awsm-job-welcome-l h1, .awsm-job-welcome-l p, .awsm-job-welcome-l ul, .awsm-job-welcome-col:last-child{
 	opacity: 0;
 	transform: translateY(-30px);
 }
-.loaded .awsm-job-welcome-l h1, .loaded .awsm-job-welcome-l p, .loaded .awsm-job-welcome-l ul{
+.loaded .awsm-job-welcome-l h1, .loaded .awsm-job-welcome-l p, .loaded .awsm-job-welcome-l ul, .loaded .awsm-job-welcome-col:last-child{
 	opacity: 1;
 	transform: none;
 }
@@ -1191,13 +1195,18 @@ a.awsm-plugin-item p {
 .awsm-plugin-item-info {
 	overflow: hidden;
 }
+@media (min-width: 1400px) {
+	.awsm-job-welcome{
+		position: fixed;
+		width: calc(100% - 160px);
+	}
+
+}
 @media (min-width: 701px) {
 	.awsm-job-welcome-col:last-child{
 		transform: translateX(100%);
 		opacity: 1;
-	}
-	.loaded .awsm-job-welcome-col:last-child{
-		transform: none;
+		transition: all 0.6s cubic-bezier(0.33, 1, 0.68, 1) 0.8s;
 	}
 	.awsm-job-welcome-col-in{
 		max-width: 370px;
