@@ -399,10 +399,11 @@ a.awsm-text-red:hover {
 
 /* Job Applications */
 /* to fix application meta box styling issue */
-.awsm-application-submission-date{
+.awsm-application-submission-info{
 	display: block;
 	color: #72777C;
 	font-size: 14px;
+	margin: 0;
 }
 #awsm-job-details-meta{
 	border-color: #DADFE5;
@@ -460,7 +461,7 @@ a.awsm-text-red:hover {
 
 .awsm-applicant-details {
 	overflow: hidden;
-    min-height: 180px;
+    min-height: 200px;
     border-left: 1px solid #DADFE5;
 }
 
@@ -500,6 +501,9 @@ a.awsm-text-red:hover {
 .awsm-application-rating-pub-section-disabled {
 	display: flex;
 }
+.awsm-application-rating-pub-section-disabled .awsm-jobs-get-pro-btn{
+	pointer-events: none;
+}
 
 .awsm-application-rating-disabled {
 	flex: 1;
@@ -528,7 +532,10 @@ a.awsm-text-red:hover {
 	margin: 0 5px;
 	float: left;
 }
-.awsm-job-status-btn-wrapper a:last-child{
+.awsm-job-prev-application-btn{
+	float: left;
+}
+.awsm-job-next-application-btn{
 	float: right;
 }
 .awsm-job-status-btn-wrapper span{
@@ -1208,6 +1215,73 @@ a.awsm-plugin-item p {
 .awsm-plugin-item-info {
 	overflow: hidden;
 }
+.awsm-job-get-pro-meta-container{
+	padding: 10px 10px 20px;
+}
+.awsm-job-get-pro-meta-container h3{
+	line-height: 1.4666;
+	margin: 0 0 5px;
+	font-weight: 700;
+	display: inline-block;
+	position: relative;
+	z-index: 1;
+	font-size: 28px;
+}
+.awsm-job-get-pro-meta-container h3::before{
+	content: "";
+	width: 100%;
+	height: 8px;
+	background: rgba(0,213,175,.33);
+	position: absolute;
+	left: 0;
+	bottom: 7px;
+	z-index: -1;
+}
+.awsm-job-get-pro-meta-container p{
+	margin: 0 0 10px;
+}
+.awsm-job-get-pro-features{
+	padding: 0;
+	margin-bottom: 30px;
+	list-style: none;
+}
+.awsm-job-get-pro-features li{
+	position: relative;
+	padding-left: 25px;
+	font-weight: 700;
+	line-height: 1.5;
+	margin-bottom: 10px;
+	font-weight: bold;
+}
+.awsm-job-get-pro-features li::before {
+    content: "";
+    background: url(../img/check.svg) no-repeat;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    left: 0;
+    top: 5px;
+    background-size: 16px;
+}
+.wp-core-ui .awsm-job-get-pro-meta-container .button{
+	font-size: 16px;
+	line-height: 1.2778;
+	font-weight: 700;
+	border-radius: 32px;
+	color: #fff;
+	padding: 13px 34px;
+	background: #000;
+	box-shadow: 0 3px 24px 6px rgba(0,0,0,.18);
+}
+.wp-core-ui .awsm-job-get-pro-meta-container .button:hover, .wp-core-ui .awsm-job-get-pro-meta-container .button:focus, .wp-core-ui .awsm-job-get-pro-meta-container .button:active{
+	background: #000;
+	box-shadow: 0 3px 24px 6px rgba(0,0,0,.18);
+	color: #fff;
+}
+.awsm-application-post-status-disabled, .awsm-application-rating-disabled{
+	opacity: 0.5;
+}
+
 @media (min-width: 1400px) {
 	.awsm-job-welcome{
 		position: fixed;

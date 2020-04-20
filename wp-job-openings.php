@@ -793,7 +793,7 @@ class AWSM_Job_Openings {
 			if ( ! empty( $user_ip ) ) {
 				$subtitle .= ' <span class="awsm-applicant-ip">' . esc_html( __( 'from IP ', 'wp-job-openings' ) . $user_ip ) . '</span>';
 			}
-			echo $subtitle; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo '<p class="awsm-application-submission-info">'.$subtitle.'</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 	}
 

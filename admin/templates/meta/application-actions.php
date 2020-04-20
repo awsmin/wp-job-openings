@@ -49,7 +49,7 @@ $application_id = $post->ID;
 					?>
 				</div>
 				<div class="awsm-application-pro-features-btn-wrapper">
-					<button type="button" class="awsm-jobs-get-pro-btn button" disabled><?php esc_html_e( 'Pro Features', 'wp-job-openings' ); ?></button>
+					<span class="awsm-jobs-get-pro-btn button"><?php esc_html_e( 'Pro Features', 'wp-job-openings' ); ?></span>
 				</div>
 			</div>
 			<!-- End of Rating -->

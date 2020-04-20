@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="16px" viewBox="0 0 20 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 62 (91390) - https://sketch.com -->
+    <title>check</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Home" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Desktop-HD" transform="translate(-1000.000000, -6103.000000)" fill="#00D5AF" fill-rule="nonzero">
+            <g id="Group-8" transform="translate(495.000000, 6040.000000)">
+                <g id="Group-7" transform="translate(54.000000, 3.000000)">
+                    <g id="Group-6" transform="translate(451.000000, 50.000000)">
+                        <g id="check" transform="translate(0.000000, 10.000000)">
+                            <path d="M7.65837695,15.6917631 C7.46746447,15.8896127 7.20699328,16 6.93642483,16 C6.66585638,16 6.40538519,15.8896127 6.21447271,15.6917631 L0.448765894,9.75049667 C-0.149588631,9.13402285 -0.149588631,8.13437203 0.448765894,7.51905413 L1.17071801,6.77504726 C1.76925956,6.15857345 2.73840687,6.15857345 3.33676139,6.77504726 L6.93642483,10.4839079 L16.6632386,0.462355364 C17.2617801,-0.154118455 18.2318624,-0.154118455 18.829282,0.462355364 L19.5512341,1.20636223 C20.1495886,1.82283605 20.1495886,2.82229418 19.5512341,3.43780477 L7.65837695,15.6917631 Z" id="Path"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
