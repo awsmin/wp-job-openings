@@ -366,9 +366,9 @@ jQuery(document).ready(function($) {
 	$('.awsm-job-welcome').on('keyup change', '#awsm-jobs-company-name-field', function() {
 		var $companyName = $(this).val();
 		if ($companyName.length > 0) {
-			$('#awsm-jobs-get-started').attr('disabled', false);
+			$('#awsm-jobs-get-started').prop('disabled', false);
 		} else {
-			$('#awsm-jobs-get-started').attr('disabled', true);
+			$('#awsm-jobs-get-started').prop('disabled', true);
 		}
 	});
 
@@ -393,7 +393,6 @@ jQuery(document).ready(function($) {
 			data: formData,
 			type: 'POST'
 		}).done(function(response) {
-			console.log(response);
 			if (response.success.length > 0) {
 				window.location = 'edit.php?post_type=awsm_job_openings';
   			}

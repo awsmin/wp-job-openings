@@ -1324,10 +1324,6 @@ class AWSM_Job_Openings {
 			$response['error'][] = __( 'Failed to verify nonce!', 'wp-job-openings' );
 		}
 
-		if ( ! current_user_can( 'edit_post' ) ) {
-			return;
-		}
-
 		if ( isset( $_POST['awsm_jobs_listing_setup'] ) ) {
 			$options = $_POST['awsm_jobs_listing_setup'];
 			foreach ( $options as $option => $option_value) {

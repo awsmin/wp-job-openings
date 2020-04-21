@@ -55,7 +55,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						  <?php wp_dropdown_pages( $args ); ?>
 						<p><?php esc_html_e( 'The page you want to display the listing. You an choose it later also.', 'wp-job-openings' );?></p>
 					</div><!-- .awsm-job-form-group -->
-					<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_openings' ) ); ?>" class="button button-primary button-large awsm-jobs-get-started" id="awsm-jobs-get-started" data-nonce="<?php echo wp_create_nonce( 'awsm-job-setup-page-nonce' ); ?>" disabled><?php esc_html_e( 'Get Started', 'wp-job-openings' ); ?></a>
+					<button class="button button-primary  awsm-jobs-get-started" id="awsm-jobs-get-started" data-nonce="<?php echo wp_create_nonce( 'awsm-job-setup-page-nonce' ); ?>" disabled ><?php esc_html_e( 'Get Started', 'wp-job-openings' ); ?></button>
 				</form>
 			</div><!-- .awsm-job-welcome-r -->
 		</div><!-- .awsm-job-welcome-col -->
