@@ -67,6 +67,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'description' => __( 'Default message when there are no active job openings', 'wp-job-openings' ),
 				),
 				array(
+					'name'          => 'awsm_jobs_email_digest',
+					'label'         => __( 'Email digest', 'wp-job-openings' ),
+					'type'          => 'checkbox',
+					'class'         => '',
+					'default_value' => 'enable',
+					'choices'       => array(
+						array(
+							'value' => 'enable',
+							'text'  => __( 'Send daily email digest', 'wp-job-openings' ),
+						),
+					),
+				),
+				array(
 					'name'        => 'awsm_hide_uploaded_files',
 					'label'       => __( 'File uploads', 'wp-job-openings' ),
 					'type'        => 'checkbox',
@@ -111,7 +124,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		   do_action( 'before_awsm_settings_main_content', 'general' );
 		?>
-		
+
 		<div class="awsm-form-section-main awsm-sub-options-container" id="awsm-general-options-container">
 			<table class="form-table">
 				<tbody>

@@ -66,9 +66,9 @@ class AWSM_Job_Openings {
 		add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
 		add_action( 'after_setup_theme', array( $this, 'template_functions' ) );
 		add_action( 'init', array( $this, 'init_actions' ) );
-		add_action( 'wp', array( $this, 'awsm_openings_cron_job' ) );
 		add_action( 'wp_head', array( $this, 'awsm_wp_head' ) );
 		add_action( 'awsm_check_for_expired_jobs', array( $this, 'check_date_and_change_status' ) );
+		add_action( 'awsm_jobs_email_digest', array( $this, 'send_email_digest' ) );
 		add_action( 'awsm_job_application_submitted', array( $this, 'plugin_rating_check' ) );
 		add_action( 'wp_loaded', array( $this, 'register_scripts' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'awsm_enqueue_scripts' ) );
@@ -168,6 +168,7 @@ class AWSM_Job_Openings {
 	}
 
 	public function init_actions() {
+		$this->awsm_openings_cron_job();
 		$this->unregister_awsm_jobs_taxonomies();
 		$this->awsm_jobs_taxonomies();
 		$this->awsm_custom_expired_status();
@@ -269,6 +270,28 @@ class AWSM_Job_Openings {
 			'awsm_job_conversion'   => esc_attr__( 'Conversion', 'wp-job-openings' ),
 		);
 		return $columns;
+	}
+
+	public static function get_application_edit_link( $id ) {
+		$link             = '';
+		$post_type_object = get_post_type_object( 'awsm_job_application' );
+		if ( ! empty( $post_type_object ) && $post_type_object->_edit_link ) {
+			$link = admin_url( sprintf( $post_type_object->_edit_link . '&action=edit', $id ) );
+		}
+		return $link;
+	}
+
+	public static function get_recent_applications( $number_posts = 5, $fields = 'all' ) {
+		$applications = get_posts(
+			array(
+				'post_type'   => 'awsm_job_application',
+				'numberposts' => $number_posts,
+				'orderby'     => 'date',
+				'order'       => 'DESC',
+				'fields'      => $fields,
+			)
+		);
+		return $applications;
 	}
 
 	public static function get_applications( $job_id, $fields = 'all' ) {
@@ -381,10 +404,16 @@ class AWSM_Job_Openings {
 		if ( ! wp_next_scheduled( 'awsm_check_for_expired_jobs' ) ) {
 			wp_schedule_event( time(), 'hourly', 'awsm_check_for_expired_jobs' );
 		}
+		// Email digest.
+		$email_digest = get_option( 'awsm_jobs_email_digest', 'enable' );
+		if ( $email_digest === 'enable' && ! wp_next_scheduled( 'awsm_jobs_email_digest' ) ) {
+			wp_schedule_event( time(), 'daily', 'awsm_jobs_email_digest' );
+		}
 	}
 
 	public function clear_cron_jobs() {
 		wp_clear_scheduled_hook( 'awsm_check_for_expired_jobs' );
+		wp_clear_scheduled_hook( 'awsm_jobs_email_digest' );
 	}
 
 	public function check_date_and_change_status() {
@@ -423,6 +452,106 @@ class AWSM_Job_Openings {
 				}
 			}
 		}
+	}
+
+	public function send_email_digest() {
+		$to = get_option( 'awsm_hr_email_address' );
+		if ( ! empty( $to ) ) {
+			$company_name = get_option( 'awsm_job_company_name', '' );
+			$from         = ( ! empty( $company_name ) ) ? $company_name : get_option( 'blogname' );
+			$from_email   = get_option( 'admin_email' );
+			/**
+			 * Filters the daily email digest headers.
+			 *
+			 * @since 2.0.0
+			 *
+			 * @param array $headers Additional headers
+			 */
+			$headers = apply_filters(
+				'awsm_jobs_email_digest_mail_headers',
+				array(
+					'content_type' => 'Content-Type: text/html; charset=UTF-8',
+					'from'         => sprintf( 'From: %1$s <%2$s>', $from, $from_email ),
+				)
+			);
+
+			ob_start();
+			include self::get_template_path( 'email-digest.php', 'mail' );
+			$mail_content = ob_get_clean();
+
+			/**
+			 * Filters the daily email digest template content.
+			 *
+			 * @since 2.0.0
+			 *
+			 * @param string $mail_content Mail template content.
+			 */
+			$mail_content = apply_filters( 'awsm_jobs_email_digest_template_content', $mail_content );
+
+			if ( ! empty( $mail_content ) ) {
+				$tags         = self::get_mail_generic_template_tags(
+					array(
+						'admin_email'  => $from_email,
+						'hr_email'     => $to,
+						'company_name' => $company_name,
+					)
+				);
+				$tag_names    = array_keys( $tags );
+				$tag_values   = array_values( $tags );
+				$mail_content = str_replace( $tag_names, $tag_values, $mail_content );
+
+				/**
+				 * Filters the daily email digest subject.
+				 *
+				 * @since 2.0.0
+				 *
+				 * @param string $subject Email subject.
+				 */
+				$subject = apply_filters( 'awsm_jobs_email_digest_subject', esc_html__( 'Email Digest - WP Job Openings', 'wp-job-openings' ) );
+
+				wp_mail( $to, $subject, $mail_content, array_values( $headers ) );
+			}
+		}
+	}
+
+	public static function get_mail_generic_template_tags( $options = array() ) {
+		$company_name = isset( $options['company_name'] ) ? $options['company_name'] : get_option( 'awsm_job_company_name' );
+		$admin_email  = isset( $options['admin_email'] ) ? $options['admin_email'] : get_option( 'admin_email' );
+		$hr_email     = isset( $options['hr_email'] ) ? $options['hr_email'] : get_option( 'awsm_hr_email_address', '' );
+
+		$tags = array(
+			'{site-title}'   => esc_html( get_bloginfo( 'name' ) ),
+			'{site-tagline}' => esc_html( get_bloginfo( 'description' ) ),
+			'{site-url}'     => esc_url( site_url( '/' ) ),
+			'{company}'      => esc_html( $company_name ),
+			'{admin-email}'  => esc_html( $admin_email ),
+			'{hr-email}'     => esc_html( $hr_email ),
+		);
+
+		/**
+		 * Filters the mail generic template tags.
+		 *
+		 * @since 2.0.0
+		 *
+		 * @param array $tags Mail template tags.
+		 * @param array $options Settings values.
+		 */
+		return apply_filters( 'awsm_jobs_mail_generic_template_tags', $tags, $options );
+	}
+
+	public static function get_overview_data() {
+		$jobs_count         = wp_count_posts( 'awsm_job_openings' );
+		$applications_count = wp_count_posts( 'awsm_job_application' );
+		$total_applications = 0;
+		foreach ( $applications_count as $count_by_status ) {
+			$total_applications += intval( $count_by_status );
+		}
+		$data = array(
+			'active_jobs'        => $jobs_count->publish,
+			'new_applications'   => $applications_count->publish,
+			'total_applications' => $total_applications,
+		);
+		return $data;
 	}
 
 	public function modified_post_status_filter( $views ) {
@@ -793,7 +922,7 @@ class AWSM_Job_Openings {
 			if ( ! empty( $user_ip ) ) {
 				$subtitle .= ' <span class="awsm-applicant-ip">' . esc_html( __( 'from IP ', 'wp-job-openings' ) . $user_ip ) . '</span>';
 			}
-			echo '<p class="awsm-application-submission-info">'.$subtitle.'</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo '<p class="awsm-application-submission-info">' . $subtitle . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 	}
 

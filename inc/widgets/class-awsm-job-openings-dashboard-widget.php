@@ -23,28 +23,23 @@ class AWSM_Job_Openings_Dashboard_Widget {
 	}
 
 	public function display_widget() {
-		$job_data           = $this->get_job_data();
-		$jobs_count         = wp_count_posts( 'awsm_job_openings' );
-		$applications_count = wp_count_posts( 'awsm_job_application' );
-		$total_applications = 0;
-		foreach ( $applications_count as $count_by_status ) {
-			$total_applications += intval( $count_by_status );
-		}
+		$overview_data = AWSM_Job_Openings::get_overview_data();
+		$job_data      = $this->get_job_data();
 		?>
 
 		<div class="awsm-jobs-dashboard-wrapper">
 			<div class="awsm-jobs-statistics">
 				<div class="awsm-jobs-statistic">
-					<span><?php echo esc_html( $jobs_count->publish ); ?></span>
+					<span><?php echo esc_html( $overview_data['active_jobs'] ); ?></span>
 					<?php esc_html_e( 'Active Jobs', 'wp-job-openings' ); ?>
 				</div>
 				<?php if ( current_user_can( 'edit_applications' ) ) : ?>
 						<div class="awsm-jobs-statistic">
-							<span><?php echo esc_html( $applications_count->publish ); ?></span>
+							<span><?php echo esc_html( $overview_data['new_applications'] ); ?></span>
 							<?php esc_html_e( 'New Applications', 'wp-job-openings' ); ?>
 						</div>
 						<div class="awsm-jobs-statistic">
-							<span><?php echo esc_html( $total_applications ); ?></span>
+							<span><?php echo esc_html( $overview_data['total_applications'] ); ?></span>
 							<?php esc_html_e( 'Total Applications', 'wp-job-openings' ); ?>
 						</div>
 				<?php endif; ?>
