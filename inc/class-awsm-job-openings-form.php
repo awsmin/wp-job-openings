@@ -509,17 +509,11 @@ class AWSM_Job_Openings_Form {
 	}
 
 	public function get_mail_template_tags( $applicant_details, $options = array() ) {
-		$admin_email    = isset( $options['admin_email'] ) ? $options['admin_email'] : get_option( 'admin_email' );
-		$company_name   = isset( $options['company_name'] ) ? $options['company_name'] : get_option( 'awsm_job_company_name' );
-		$hr_email       = isset( $options['hr_email'] ) ? $options['hr_email'] : get_option( 'awsm_hr_email_address', '' );
 		$job_expiry     = get_post_meta( $applicant_details['awsm_job_id'], 'awsm_job_expiry', true );
 		$job_expiry     = ( ! empty( $job_expiry ) ) ? date_i18n( get_option( 'date_format' ), strtotime( $job_expiry ) ) : '';
 		$attachment_url = isset( $applicant_details['awsm_attachment_id'] ) ? wp_get_attachment_url( $applicant_details['awsm_attachment_id'] ) : '';
 		if ( get_option( 'awsm_hide_uploaded_files' ) === 'hide_files' ) {
-			$post_type_object = get_post_type_object( 'awsm_job_application' );
-			if ( ! empty( $post_type_object ) && $post_type_object->_edit_link ) {
-				$attachment_url = admin_url( sprintf( $post_type_object->_edit_link . '&action=edit', $applicant_details['application_id'] ) );
-			}
+			$attachment_url = AWSM_Job_Openings::get_application_edit_link( $applicant_details['application_id'] );
 		}
 		$tags = array(
 			'{applicant}'        => $applicant_details['awsm_applicant_name'],
@@ -528,13 +522,12 @@ class AWSM_Job_Openings_Form {
 			'{applicant-phone}'  => isset( $applicant_details['awsm_applicant_phone'] ) ? $applicant_details['awsm_applicant_phone'] : '',
 			'{job-id}'           => $applicant_details['awsm_job_id'],
 			'{job-expiry}'       => $job_expiry,
-			'{admin-email}'      => $admin_email,
-			'{hr-email}'         => $hr_email,
-			'{company}'          => $company_name,
 			'{job-title}'        => $applicant_details['awsm_apply_for'],
 			'{applicant-cover}'  => isset( $applicant_details['awsm_applicant_letter'] ) ? $applicant_details['awsm_applicant_letter'] : '',
 			'{applicant-resume}' => ( ! empty( $attachment_url ) ) ? esc_url( $attachment_url ) : '',
 		);
+
+		$tags = array_merge( $tags, AWSM_Job_Openings::get_mail_generic_template_tags( $options ) );
 
 		/**
 		 * Filters the mail template tags.

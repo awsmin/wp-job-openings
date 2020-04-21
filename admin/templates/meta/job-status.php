@@ -91,7 +91,7 @@ if ( $post->post_type === 'awsm_job_application' ) {
 			);
 
 			if ( $post_count > 1 ) {
-				$next = $prev = 0;
+				$next     = $prev = 0;
 				$prev_btn = $next_btn = '';
 				foreach ( $applications as $index => $application_id ) {
 					if ( intval( $post->ID ) === $application_id ) {

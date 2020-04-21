@@ -65,35 +65,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 	</div><!-- .awsm-applicant-details -->
 </div><!-- .awsm-application-container -->
 
-<div class="submitbox awsm-application-submitbox">
-	<div id="major-publishing-actions" class="awsm-application-major-actions clearfix">
-		<?php
-			/**
-			 * Fires before applicant meta box actions.
-			 *
-			 * @since 1.6.0
-			 */
-			do_action( 'before_awsm_job_applicant_mb_actions', $post->ID );
-		?>
-		<div id="delete-action">
-			<?php
-			if ( current_user_can( 'delete_post', $post->ID ) ) {
-				if ( ! EMPTY_TRASH_DAYS ) {
-					$delete_text = __( 'Delete Permanently', 'default' );
-				} else {
-					$delete_text = __( 'Move to Trash', 'default' );
-				}
-				printf( '<a class="submitdelete deletion" href="%2$s">%1$s</a>', esc_html( $delete_text ), esc_url( get_delete_post_link( $post->ID ) ) );
-			}
-			?>
-		</div>
-		<?php
-			/**
-			 * Fires after applicant meta box actions.
-			 *
-			 * @since 1.6.0
-			 */
-			do_action( 'after_awsm_job_applicant_mb_actions', $post->ID );
-		?>
-	</div><!-- #major-publishing-actions -->
-</div><!-- .awsm-application-submitbox -->
+<?php
+// Compatibility fix for Pro version.
+if ( defined( 'AWSM_JOBS_PRO_PLUGIN_VERSION' ) && version_compare( AWSM_JOBS_PRO_PLUGIN_VERSION, '1.4.0', '<' ) ) :
+	?>
+	<div class="submitbox awsm-application-submitbox">
+		<div id="major-publishing-actions" class="awsm-application-major-actions clearfix">
+			<?php $this->application_delete_action( $post->ID ); ?>
+		</div><!-- #major-publishing-actions -->
+	</div><!-- .awsm-application-submitbox -->
+	<?php
+	endif;
+?>

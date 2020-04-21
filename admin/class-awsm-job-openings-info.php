@@ -47,12 +47,12 @@ class AWSM_Job_Openings_Info {
 		add_submenu_page( 'edit.php?post_type=awsm_job_openings', esc_html__( 'Add-ons', 'wp-job-openings' ), esc_html__( 'Add-ons', 'wp-job-openings' ), 'manage_awsm_jobs', 'awsm-jobs-add-ons', array( $this, 'add_ons_page' ) );
 
 		// Add Get PRO link in submenu.
-		if ( ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) {
+		if ( ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) && current_user_can( 'edit_others_applications' ) ) {
 			global $submenu;
 			// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 			$submenu['edit.php?post_type=awsm_job_openings'][] = array(
 				sprintf( '<span class="awsm-jobs-get-pro">%s</span>', esc_html__( 'Get PRO', 'wp-job-openings' ) ),
-				'manage_awsm_jobs',
+				'edit_others_applications',
 				esc_url( 'https://1.envato.market/jjbEP' ),
 			);
 		}
@@ -144,27 +144,31 @@ class AWSM_Job_Openings_Info {
 		if ( ! empty( $nav_page ) ) :
 			$nav_items = array(
 				array(
-					'id'    => 'edit-awsm_job_openings',
-					'label' => __( 'Openings', 'wp-job-openings' ),
-					'url'   => admin_url( 'edit.php?post_type=awsm_job_openings' ),
+					'visible' => current_user_can( 'edit_jobs' ),
+					'id'      => 'edit-awsm_job_openings',
+					'label'   => __( 'Openings', 'wp-job-openings' ),
+					'url'     => admin_url( 'edit.php?post_type=awsm_job_openings' ),
 				),
 				array(
-					'id'    => 'edit-awsm_job_application',
-					'label' => __( 'Applications', 'wp-job-openings' ),
-					'url'   => admin_url( 'edit.php?post_type=awsm_job_application' ),
+					'visible' => current_user_can( 'edit_applications' ),
+					'id'      => 'edit-awsm_job_application',
+					'label'   => __( 'Applications', 'wp-job-openings' ),
+					'url'     => admin_url( 'edit.php?post_type=awsm_job_application' ),
 				),
 				array(
-					'id'    => 'awsm_job_openings_page_awsm-jobs-settings',
-					'label' => __( 'Settings', 'wp-job-openings' ),
-					'url'   => admin_url( 'edit.php?post_type=awsm_job_openings&page=awsm-jobs-settings' ),
+					'visible' => current_user_can( 'manage_awsm_jobs' ),
+					'id'      => 'awsm_job_openings_page_awsm-jobs-settings',
+					'label'   => __( 'Settings', 'wp-job-openings' ),
+					'url'     => admin_url( 'edit.php?post_type=awsm_job_openings&page=awsm-jobs-settings' ),
 				),
 				array(
-					'id'    => 'awsm_job_openings_page_awsm-jobs-add-ons',
-					'label' => __( 'Add-Ons', 'wp-job-openings' ),
-					'url'   => admin_url( 'edit.php?post_type=awsm_job_openings&page=awsm-jobs-add-ons' ),
+					'visible' => current_user_can( 'manage_awsm_jobs' ),
+					'id'      => 'awsm_job_openings_page_awsm-jobs-add-ons',
+					'label'   => __( 'Add-Ons', 'wp-job-openings' ),
+					'url'     => admin_url( 'edit.php?post_type=awsm_job_openings&page=awsm-jobs-add-ons' ),
 				),
 				array(
-					'visible' => ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ),
+					'visible' => ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) && current_user_can( 'edit_others_applications' ),
 					'label'   => __( 'Get PRO', 'wp-job-openings' ),
 					'url'     => 'https://1.envato.market/jjbEP',
 					'class'   => array( 'button' ),

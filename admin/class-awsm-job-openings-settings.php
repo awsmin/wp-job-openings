@@ -20,6 +20,7 @@ class AWSM_Job_Openings_Settings {
 		add_action( 'update_option_awsm_hide_uploaded_files', array( $this, 'update_awsm_hide_uploaded_files' ), 10, 2 );
 		add_action( 'update_option_awsm_jobs_remove_filters', array( $this, 'update_awsm_jobs_remove_filters' ), 10, 2 );
 		add_action( 'update_option_awsm_jobs_make_specs_clickable', array( $this, 'update_awsm_jobs_make_specs_clickable' ), 10, 2 );
+		add_action( 'update_option_awsm_jobs_email_digest', array( $this, 'update_awsm_jobs_email_digest' ), 10, 2 );
 	}
 
 	public static function init( $awsm_core ) {
@@ -116,6 +117,10 @@ class AWSM_Job_Openings_Settings {
 				),
 				array(
 					'option_name' => 'awsm_default_msg',
+				),
+				array(
+					/** @since 2.0.0 */
+					'option_name' => 'awsm_jobs_email_digest',
 				),
 				array(
 					/** @since 1.6.0 */
@@ -643,6 +648,12 @@ class AWSM_Job_Openings_Settings {
 	public function update_awsm_jobs_make_specs_clickable( $old_value, $value ) {
 		if ( ! empty( $value ) ) {
 			flush_rewrite_rules();
+		}
+	}
+
+	public function update_awsm_jobs_email_digest( $old_value, $value ) {
+		if ( empty( $value ) ) {
+			wp_clear_scheduled_hook( 'awsm_jobs_email_digest' );
 		}
 	}
 
