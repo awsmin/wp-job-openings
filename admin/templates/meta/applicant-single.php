@@ -68,12 +68,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 <?php
 // Compatibility fix for Pro version.
 if ( defined( 'AWSM_JOBS_PRO_PLUGIN_VERSION' ) && version_compare( AWSM_JOBS_PRO_PLUGIN_VERSION, '1.4.0', '<' ) ) :
-?>
+	?>
 	<div class="submitbox awsm-application-submitbox">
 		<div id="major-publishing-actions" class="awsm-application-major-actions clearfix">
 			<?php $this->application_delete_action( $post->ID ); ?>
 		</div><!-- #major-publishing-actions -->
 	</div><!-- .awsm-application-submitbox -->
-<?php
+	<?php
 	endif;
 ?>

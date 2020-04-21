@@ -46,7 +46,7 @@ $application_id = $post->ID;
 								'type'   => 'rating',
 							)
 						);
-					?>
+						?>
 				</div>
 				<div class="awsm-application-pro-features-btn-wrapper">
 					<span class="awsm-jobs-get-pro-btn button"><?php esc_html_e( 'Pro Features', 'wp-job-openings' ); ?></span>
