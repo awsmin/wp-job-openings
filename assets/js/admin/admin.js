@@ -362,4 +362,41 @@ jQuery(document).ready(function($) {
 	$(window).on('load', function(e){
 		$('.awsm-job-welcome').addClass('loaded');
 	});
+
+	$('.awsm-job-welcome').on('keyup change', '#awsm-jobs-company-name-field', function() {
+		var $companyName = $(this).val();
+		if ($companyName.length > 0) {
+			$('#awsm-jobs-get-started').attr('disabled', false);
+		} else {
+			$('#awsm-jobs-get-started').attr('disabled', true);
+		}
+	});
+
+	
+	$('.awsm-job-welcome').on('click', '#awsm-jobs-get-started', function(e) {
+		e.preventDefault();
+		var nonce = $(this).data('nonce');
+		var $form = $('.awsm-job-welcome').find('.awsm-job-welcome-page-form');
+		var formData = $form.serializeArray();
+		formData.push(
+			{
+				name: 'action',
+				value: 'awsm_jobs_listing_setup'
+			},
+			{
+				name: 'awsm_job_nonce',
+				value: nonce
+			}
+		);
+		$.ajax({
+			url: awsmJobsAdmin.ajaxurl,
+			data: formData,
+			type: 'POST'
+		}).done(function(response) {
+			console.log(response);
+			if (response.success.length > 0) {
+				window.location = 'edit.php?post_type=awsm_job_openings';
+  			}
+		});
+	});
 });

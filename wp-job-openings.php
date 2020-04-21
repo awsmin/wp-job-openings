@@ -85,6 +85,7 @@ class AWSM_Job_Openings {
 		add_filter( 'archive_template', array( $this, 'jobs_archive_template' ) );
 		$this->admin_filters();
 		add_shortcode( 'awsmjobs', array( $this, 'awsm_jobs_shortcode' ) );
+		add_action( 'wp_ajax_awsm_jobs_listing_setup', array( $this, 'welcome_page_setup' ) );
 	}
 
 	public static function init() {
@@ -1306,6 +1307,35 @@ class AWSM_Job_Openings {
 		if ( ! empty( $data ) ) {
 			printf( '<script type="application/ld+json">%s</script>', wp_json_encode( $data ) );
 		}
+	}
+
+	public function welcome_page_setup() {
+		$response = array(
+			'success' => array(),
+			'error'  => array(),
+		);
+
+		
+		if ( ! isset( $_POST['awsm_job_nonce'] ) ) {
+			return;
+		}
+
+		if ( ! wp_verify_nonce( $_POST['awsm_job_nonce'], 'awsm-job-setup-page-nonce' ) ) {
+			$response['error'][] = __( 'Failed to verify nonce!', 'wp-job-openings' );
+		}
+
+		if ( ! current_user_can( 'edit_post' ) ) {
+			return;
+		}
+
+		if ( isset( $_POST['awsm_jobs_listing_setup'] ) ) {
+			$options = $_POST['awsm_jobs_listing_setup'];
+			foreach ( $options as $option => $option_value) {
+				update_option( $option, sanitize_text_field( $option_value ) );
+			}
+			$response['success'][] = esc_html__( 'Job setup completed successfully!', 'wp-job-openings');
+		}
+		wp_send_json( $response );
 	}
 }
 

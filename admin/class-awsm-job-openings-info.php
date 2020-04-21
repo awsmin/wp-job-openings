@@ -33,6 +33,10 @@ class AWSM_Job_Openings_Info {
 		if ( is_network_admin() || isset( $_GET['activate-multi'] ) ) {
 			return;
 		}
+		$company_name = get_option('awsm_job_company_name');
+		if ( ! empty( $company_name ) ) {
+			return;
+		}
 		wp_safe_redirect( add_query_arg( array( 'page' => 'awsm-jobs-welcome-page' ), admin_url( 'edit.php?post_type=awsm_job_openings' ) ) );
 		exit;
 	}
