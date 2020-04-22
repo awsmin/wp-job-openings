@@ -275,6 +275,10 @@ class AWSM_Job_Openings_Settings {
 					'callback'    => 'awsm_jobs_sanitize_textarea',
 				),
 				array(
+					/** @since 2.0.0 */
+					'option_name' => 'awsm_jobs_notification_mail_template',
+				),
+				array(
 					'option_name' => 'awsm_jobs_enable_admin_notification',
 				),
 				array(
@@ -298,6 +302,10 @@ class AWSM_Job_Openings_Settings {
 				array(
 					'option_name' => 'awsm_jobs_admin_notification_content',
 					'callback'    => 'awsm_jobs_sanitize_textarea',
+				),
+				array(
+					/** @since 2.0.0 */
+					'option_name' => 'awsm_jobs_notification_admin_mail_template',
 				),
 			),
 		);
