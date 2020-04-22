@@ -30,7 +30,7 @@ class AWSM_Job_Openings_Meta {
 		global $action;
 		if ( $action === 'edit' ) {
 			add_meta_box( 'awsm-status-meta', esc_html__( 'Job Status', 'wp-job-openings' ), array( $this, 'awsm_job_status' ), 'awsm_job_openings', 'side', 'low' );
-			add_meta_box( 'awsm-status-meta-applicant', esc_html__( 'Job Status', 'wp-job-openings' ), array( $this, 'awsm_job_status' ), 'awsm_job_application', 'side', 'low' );
+			add_meta_box( 'awsm-status-meta-applicant', esc_html__( 'Job Details', 'wp-job-openings' ), array( $this, 'awsm_job_status' ), 'awsm_job_application', 'side', 'low' );
 		}
 		$awsm_filters = get_option( 'awsm_jobs_filter' );
 		if ( ! empty( $awsm_filters ) ) {
