@@ -359,7 +359,43 @@ jQuery(document).ready(function($) {
 			}
 		});
 	});
-	$(window).on('load', function(e){
-		$('.awsm-job-welcome').addClass('loaded');
+
+	$(window).on('load', function() {
+		$('.awsm-job-setup').addClass('loaded');
+	});
+
+	$('.awsm-job-setup').on('keyup change', '#awsm-jobs-company-name-field', function() {
+		var $companyName = $(this).val();
+		if ($companyName.length > 0) {
+			$('#awsm-jobs-get-started').prop('disabled', false);
+		} else {
+			$('#awsm-jobs-get-started').prop('disabled', true);
+		}
+	});
+
+	$('.awsm-job-setup').on('click', '#awsm-jobs-get-started', function(e) {
+		e.preventDefault();
+		var nonce = $(this).data('nonce');
+		var $form = $('.awsm-job-setup').find('.awsm-job-setup-page-form');
+		var formData = $form.serializeArray();
+		formData.push(
+			{
+				name: 'action',
+				value: 'awsm_jobs_listing_setup'
+			},
+			{
+				name: 'awsm_job_nonce',
+				value: nonce
+			}
+		);
+		$.ajax({
+			url: awsmJobsAdmin.ajaxurl,
+			data: formData,
+			type: 'POST'
+		}).done(function(response) {
+			if (response.success.length > 0) {
+				window.location = 'edit.php?post_type=awsm_job_openings';
+			}
+		});
 	});
 });

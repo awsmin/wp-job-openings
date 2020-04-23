@@ -114,7 +114,7 @@ class AWSM_Job_Openings {
 		$this->awsm_core->register();
 		$this->create_page_when_activate();
 		flush_rewrite_rules();
-		$this->activate_welcome_page();
+		$this->setup_page_init();
 	}
 
 	public function deactivate() {
@@ -131,32 +131,16 @@ class AWSM_Job_Openings {
 		AWSM_Job_Openings_Settings::register_defaults();
 	}
 
-	public function activate_welcome_page() {
-		set_transient( '_awsm_activation_redirect', true, MINUTE_IN_SECONDS );
+	public function setup_page_init() {
+		$company_name = get_option( 'awsm_job_company_name' );
+		if ( empty( $company_name ) ) {
+			set_transient( '_awsm_activation_redirect', true, MINUTE_IN_SECONDS );
+		}
 	}
 
 	private function clear_transients() {
 		delete_transient( '_awsm_activation_redirect' );
 		delete_transient( '_awsm_add_ons_data' );
-	}
-
-	public function create_page_when_activate() {
-		$default_page_id = get_option( 'awsm_jobs_default_listing_page_id' );
-		if ( empty( $default_page_id ) ) {
-			$user    = get_current_user_id();
-			$post    = array(
-				'post_author'  => $user,
-				'post_name'    => 'job-openings',
-				'post_status'  => 'publish',
-				'post_content' => '<p>[awsmjobs]</p>',
-				'post_title'   => esc_html__( 'Jobs', 'wp-job-openings' ),
-				'post_type'    => 'page',
-			);
-			$post_id = wp_insert_post( $post );
-			if ( ! empty( $post_id ) && ! is_wp_error( $post_id ) ) {
-				update_option( 'awsm_jobs_default_listing_page_id', $post_id );
-			}
-		}
 	}
 
 	public function load_textdomain() {
@@ -206,6 +190,25 @@ class AWSM_Job_Openings {
 			add_filter( 'views_edit-awsm_job_application', array( $this, 'awsm_job_application_action_links' ) );
 			add_filter( 'bulk_actions-edit-awsm_job_application', array( $this, 'awsm_job_application_bulk_actions' ) );
 			add_filter( 'post_row_actions', array( $this, 'awsm_posts_row_actions' ), 10, 2 );
+		}
+	}
+
+	public function create_page_when_activate() {
+		$default_page_id = get_option( 'awsm_jobs_default_listing_page_id' );
+		if ( empty( $default_page_id ) ) {
+			$user    = get_current_user_id();
+			$post    = array(
+				'post_author'  => $user,
+				'post_name'    => 'job-openings',
+				'post_status'  => 'publish',
+				'post_content' => '<p>[awsmjobs]</p>',
+				'post_title'   => esc_html__( 'Jobs', 'wp-job-openings' ),
+				'post_type'    => 'page',
+			);
+			$post_id = wp_insert_post( $post );
+			if ( ! empty( $post_id ) && ! is_wp_error( $post_id ) ) {
+				update_option( 'awsm_jobs_default_listing_page_id', $post_id );
+			}
 		}
 	}
 
@@ -540,15 +543,15 @@ class AWSM_Job_Openings {
 	}
 
 	public static function get_overview_data() {
-		$jobs_count         = wp_count_posts( 'awsm_job_openings' );
-		$applications_count = wp_count_posts( 'awsm_job_application' );
-		$total_applications = 0;
-		foreach ( $applications_count as $count_by_status ) {
-			$total_applications += intval( $count_by_status );
-		}
-		$data = array(
-			'active_jobs'        => $jobs_count->publish,
-			'new_applications'   => $applications_count->publish,
+		$jobs_count         = (array) wp_count_posts( 'awsm_job_openings' );
+		$applications_count = (array) wp_count_posts( 'awsm_job_application' );
+		unset( $jobs_count['auto-draft'], $applications_count['auto-draft'] );
+		$total_jobs         = array_sum( $jobs_count );
+		$total_applications = array_sum( $applications_count );
+		$data               = array(
+			'active_jobs'        => $jobs_count['publish'],
+			'total_jobs'         => $total_jobs,
+			'new_applications'   => $applications_count['publish'],
 			'total_applications' => $total_applications,
 		);
 		return $data;

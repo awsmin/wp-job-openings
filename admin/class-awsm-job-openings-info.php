@@ -9,11 +9,13 @@ class AWSM_Job_Openings_Info {
 
 	public function __construct() {
 		$this->cpath = untrailingslashit( plugin_dir_path( __FILE__ ) );
-		add_action( 'admin_init', array( $this, 'welcome_page_redirect' ) );
+		add_action( 'admin_init', array( $this, 'redirect_to_setup' ) );
 		add_action( 'admin_head', array( $this, 'remove_menu' ) );
 		add_action( 'in_admin_header', array( $this, 'nav_header' ) );
 		add_action( 'admin_menu', array( $this, 'custom_admin_menu' ) );
 		add_action( 'admin_footer', array( $this, 'admin_add_js' ) );
+		add_action( 'manage_posts_extra_tablenav', array( $this, 'empty_posts' ) );
+		add_action( 'wp_ajax_awsm_jobs_listing_setup', array( $this, 'handle_setup' ) );
 
 		add_filter( 'admin_body_class', array( $this, 'admin_body_class' ) );
 	}
@@ -25,7 +27,7 @@ class AWSM_Job_Openings_Info {
 		return self::$instance;
 	}
 
-	public function welcome_page_redirect() {
+	public function redirect_to_setup() {
 		if ( ! get_transient( '_awsm_activation_redirect' ) ) {
 			return;
 		}
@@ -33,12 +35,36 @@ class AWSM_Job_Openings_Info {
 		if ( is_network_admin() || isset( $_GET['activate-multi'] ) ) {
 			return;
 		}
-		wp_safe_redirect( add_query_arg( array( 'page' => 'awsm-jobs-welcome-page' ), admin_url( 'edit.php?post_type=awsm_job_openings' ) ) );
+		wp_safe_redirect( add_query_arg( array( 'page' => 'awsm-jobs-setup' ), admin_url( 'edit.php?post_type=awsm_job_openings' ) ) );
 		exit;
 	}
 
+	public function handle_setup() {
+		$response = array(
+			'success' => array(),
+			'error'   => array(),
+		);
+
+		if ( ! isset( $_POST['awsm_job_nonce'] ) ) {
+			return;
+		}
+
+		if ( ! wp_verify_nonce( $_POST['awsm_job_nonce'], 'awsm-job-setup-page-nonce' ) ) {
+			$response['error'][] = __( 'Failed to verify nonce!', 'wp-job-openings' );
+		}
+
+		if ( isset( $_POST['awsm_jobs_listing_setup'] ) ) {
+			$options = $_POST['awsm_jobs_listing_setup'];
+			foreach ( $options as $option => $option_value ) {
+				update_option( $option, sanitize_text_field( $option_value ) );
+			}
+			$response['success'][] = esc_html__( 'Job setup completed successfully!', 'wp-job-openings' );
+		}
+		wp_send_json( $response );
+	}
+
 	public function custom_admin_menu() {
-		add_submenu_page( 'edit.php?post_type=awsm_job_openings', esc_html__( 'Welcome to Job Openings Plugin by Awsm.in', 'wp-job-openings' ), esc_html__( 'Getting started', 'wp-job-openings' ), 'manage_awsm_jobs', 'awsm-jobs-welcome-page', array( $this, 'welcome_page' ) );
+		add_submenu_page( 'edit.php?post_type=awsm_job_openings', esc_html__( 'WP Job Openings Setup', 'wp-job-openings' ), esc_html__( 'Setup', 'wp-job-openings' ), 'manage_awsm_jobs', 'awsm-jobs-setup', array( $this, 'setup_page' ) );
 		add_submenu_page( 'edit.php?post_type=awsm_job_openings', esc_html__( 'Help', 'wp-job-openings' ), esc_html__( 'Help', 'wp-job-openings' ), 'manage_awsm_jobs', 'awsm-jobs-help-page', array( $this, 'help_page' ) );
 		add_submenu_page( 'edit.php?post_type=awsm_job_openings', esc_html__( 'Add-ons', 'wp-job-openings' ), esc_html__( 'Add-ons', 'wp-job-openings' ), 'manage_awsm_jobs', 'awsm-jobs-add-ons', array( $this, 'add_ons_page' ) );
 
@@ -55,12 +81,12 @@ class AWSM_Job_Openings_Info {
 	}
 
 	public function remove_menu() {
-		remove_submenu_page( 'edit.php?post_type=awsm_job_openings', 'awsm-jobs-welcome-page' );
+		remove_submenu_page( 'edit.php?post_type=awsm_job_openings', 'awsm-jobs-setup' );
 		remove_submenu_page( 'edit.php?post_type=awsm_job_openings', 'awsm-jobs-help-page' );
 	}
 
-	public function welcome_page() {
-		include_once $this->cpath . '/templates/info/welcome.php';
+	public function setup_page() {
+		include_once $this->cpath . '/templates/info/setup.php';
 	}
 
 	public function help_page() {
@@ -69,6 +95,33 @@ class AWSM_Job_Openings_Info {
 
 	public function add_ons_page() {
 		include_once $this->cpath . '/templates/info/add-ons.php';
+	}
+
+	public function empty_posts( $which ) {
+		global $post_type;
+
+		if ( $post_type === 'awsm_job_openings' && $which === 'bottom' ) {
+			$overview_data = AWSM_Job_Openings::get_overview_data();
+			if ( $overview_data['total_jobs'] === 0 ) {
+				$this->empty_jobs();
+			}
+		}
+	}
+
+	public static function empty_jobs() {
+		$user_obj = wp_get_current_user();
+		?>
+			<div class="awsm-jobs-empty-list">
+				<img src="<?php echo esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/create.gif' ); ?>" width="250" height="250" />
+				<h2><?php printf( esc_html__( 'Welcome, %s', 'wp-job-openings' ), esc_html( $user_obj->display_name ) ); ?></h2>
+				<div class="awsm-jobs-empty-list-msg">
+					<p><?php esc_html_e( 'Start adding job openings to your website', 'wp-job-openings' ); ?></p>
+				</div>
+				<div class="awsm-jobs-empty-list-btn-wrapper">
+					<a href="<?php echo esc_url( admin_url( 'post-new.php?post_type=awsm_job_openings' ) ); ?>" class="button button-primary button-large"><?php esc_html_e( 'New Job Opening', 'wp-job-openings' ); ?></a>
+				</div>
+			</div>
+		<?php
 	}
 
 	public function get_add_on_btn_content( $plugin, $add_on_details = array() ) {
@@ -114,8 +167,8 @@ class AWSM_Job_Openings_Info {
 			$post_type = $screen->post_type;
 			if ( ( $post_type === 'awsm_job_openings' ) || ( $post_type === 'awsm_job_application' ) ) {
 				$is_page = $screen->id;
-				// Check if page is the welcome page.
-				if ( isset( $_GET['page'] ) && $_GET['page'] === 'awsm-jobs-welcome-page' ) {
+				// Check if page is the setup page.
+				if ( isset( $_GET['page'] ) && $_GET['page'] === 'awsm-jobs-setup' ) {
 					$is_page = false;
 				}
 				// Check if the page have the block editor (Gutenberg) active.
@@ -130,7 +183,13 @@ class AWSM_Job_Openings_Info {
 	public function admin_body_class( $classes ) {
 		$nav_page = self::get_admin_nav_page();
 		if ( ! empty( $nav_page ) ) {
-			$classes = ' awsm-job-admin-nav-page ';
+			$classes .= ' awsm-job-admin-nav-page ';
+			if ( $nav_page === 'edit-awsm_job_openings' ) {
+				$overview_data = AWSM_Job_Openings::get_overview_data();
+				if ( $overview_data['total_jobs'] === 0 ) {
+					$classes .= 'awsm-jobs-empty-list-page ';
+				}
+			}
 		}
 		return $classes;
 	}
