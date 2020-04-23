@@ -359,11 +359,12 @@ jQuery(document).ready(function($) {
 			}
 		});
 	});
-	$(window).on('load', function(e){
-		$('.awsm-job-welcome').addClass('loaded');
+
+	$(window).on('load', function() {
+		$('.awsm-job-setup').addClass('loaded');
 	});
 
-	$('.awsm-job-welcome').on('keyup change', '#awsm-jobs-company-name-field', function() {
+	$('.awsm-job-setup').on('keyup change', '#awsm-jobs-company-name-field', function() {
 		var $companyName = $(this).val();
 		if ($companyName.length > 0) {
 			$('#awsm-jobs-get-started').prop('disabled', false);
@@ -372,11 +373,10 @@ jQuery(document).ready(function($) {
 		}
 	});
 
-	
-	$('.awsm-job-welcome').on('click', '#awsm-jobs-get-started', function(e) {
+	$('.awsm-job-setup').on('click', '#awsm-jobs-get-started', function(e) {
 		e.preventDefault();
 		var nonce = $(this).data('nonce');
-		var $form = $('.awsm-job-welcome').find('.awsm-job-welcome-page-form');
+		var $form = $('.awsm-job-setup').find('.awsm-job-setup-page-form');
 		var formData = $form.serializeArray();
 		formData.push(
 			{
@@ -395,7 +395,7 @@ jQuery(document).ready(function($) {
 		}).done(function(response) {
 			if (response.success.length > 0) {
 				window.location = 'edit.php?post_type=awsm_job_openings';
-  			}
+			}
 		});
 	});
 });
