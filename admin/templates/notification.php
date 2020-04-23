@@ -15,6 +15,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	$reply_to                        = get_option( 'awsm_jobs_reply_to_notification' );
 	$admin_reply_to                  = get_option( 'awsm_jobs_admin_reply_to_notification', '{applicant-email}' );
 	$admin_from_email                = get_option( 'awsm_jobs_admin_from_email_notification', $admin_email );
+	$applicant_mail_template         = get_option( 'awsm_jobs_notification_mail_template' );
+	$admin_mail_template             = get_option( 'awsm_jobs_notification_admin_mail_template' );
 ?>
 
 <div id="settings-awsm-settings-notification" class="awsm-admin-settings">
@@ -70,6 +72,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 										<label for="awsm_jobs_notification_content"><?php esc_html_e( 'Content ', 'wp-job-openings' ); ?></label>
 											<textarea class="awsm-form-control" id="awsm-notification-content" name="awsm_jobs_notification_content" rows="5" cols="50" required><?php echo esc_textarea( $appplicant_notification_content ); ?></textarea>
 									</div><!-- .col -->
+									<div class="awsm-col awsm-form-group awsm-col-full">
+										<label for="awsm_jobs_notification_mail_template"><input type="checkbox" name="awsm_jobs_notification_mail_template" id="awsm_jobs_notification_mail_template" value="enable" <?php checked( $applicant_mail_template, 'enable' ); ?>><?php esc_html_e( 'Use HTML Template', 'wp-job-openings' ); ?></label>
+									</div><!-- .col -->
 								</div><!-- row -->
 								<ul class="awsm-list-inline">
 									<li><?php echo apply_filters( 'awsm_job_settings_submit_btn', get_submit_button( esc_html__( 'Save', 'wp-job-openings' ) ), 'notification' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></li>
@@ -110,6 +115,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 									<div class="awsm-col awsm-form-group awsm-col-full">
 										<label for="awsm_jobs_admin_notification_content"><?php esc_html_e( 'Content ', 'wp-job-openings' ); ?></label>
 											<textarea class="awsm-form-control" id="awsm_jobs_admin_notification_content" name="awsm_jobs_admin_notification_content" rows="5" cols="50" required><?php echo esc_textarea( $admin_notification_content ); ?></textarea>
+									</div><!-- .col -->
+									<div class="awsm-col awsm-form-group awsm-col-full">
+										<label for="awsm_jobs_notification_admin_mail_template"><input type="checkbox" name="awsm_jobs_notification_admin_mail_template" id="awsm_jobs_notification_admin_mail_template" value="enable" <?php checked( $admin_mail_template, 'enable' ); ?>><?php esc_html_e( 'Use HTML Template', 'wp-job-openings' ); ?></label>
 									</div><!-- .col -->
 								</div><!-- row -->
 								<ul class="awsm-list-inline">
