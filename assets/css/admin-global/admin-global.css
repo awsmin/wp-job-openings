@@ -83,14 +83,14 @@
 	color: #fff !important;
 	text-shadow: none !important;
 }
-.wp-core-ui .button-link {
+.wp-core-ui .awsm-jobs-dashboard-btn.button-link {
 	background: none;
 	border: none;
 	padding: 0 15px;
 	line-height: 30px;
 	color: #016087;
 }
-.wp-core-ui .button-link:hover, .wp-core-ui .button-link:focus, .wp-core-ui .button-link:active{
+.wp-core-ui .awsm-jobs-dashboard-btn.button-link:hover, .wp-core-ui .awsm-jobs-dashboard-btn.button-link:focus, .wp-core-ui .awsm-jobs-dashboard-btn.button-link:active{
 	background: none;
 	color: #0071a1;
 	box-shadow: none;
