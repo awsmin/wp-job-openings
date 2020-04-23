@@ -530,7 +530,6 @@ a.awsm-text-red:hover {
 }
 .awsm-job-status-btn-wrapper a{
 	margin: 0 5px;
-	float: left;
 }
 .awsm-job-prev-application-btn{
 	float: left;
@@ -544,6 +543,7 @@ a.awsm-text-red:hover {
 	color: #72777C;
 	font-size: 13px;
 	margin: 0 5px;
+	line-height: 1.15;
 }
 
 .awsm-job-expiry-main {
