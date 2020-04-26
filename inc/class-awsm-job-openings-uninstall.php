@@ -15,6 +15,7 @@ class AWSM_Job_Openings_Uninstall {
 
 	private static function get_all_options() {
 		$options = array(
+			'awsm_jobs_plugin_version',
 			'awsm_current_general_subtab',
 			'awsm_select_page_listing',
 			'awsm_job_company_name',

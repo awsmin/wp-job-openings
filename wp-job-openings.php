@@ -132,8 +132,9 @@ class AWSM_Job_Openings {
 	}
 
 	public function setup_page_init() {
-		$company_name = get_option( 'awsm_job_company_name' );
-		if ( empty( $company_name ) ) {
+		$plugin_version = get_option( 'awsm_jobs_plugin_version' );
+		$company_name   = get_option( 'awsm_job_company_name' );
+		if ( empty( $plugin_version ) && empty( $company_name ) ) {
 			set_transient( '_awsm_activation_redirect', true, MINUTE_IN_SECONDS );
 		}
 	}

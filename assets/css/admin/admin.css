@@ -901,6 +901,9 @@ a.awsm-text-red:hover {
 	margin: 0 0 30px;
 	font-size: 24px;
 }
+.awsm-job-setup-notice.notice {
+	margin: 0 0 20px;
+}
 .awsm-job-form-group{
 	margin-bottom: 30px;
 }

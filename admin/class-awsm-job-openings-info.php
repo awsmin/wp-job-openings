@@ -15,7 +15,7 @@ class AWSM_Job_Openings_Info {
 		add_action( 'admin_menu', array( $this, 'custom_admin_menu' ) );
 		add_action( 'admin_footer', array( $this, 'admin_add_js' ) );
 		add_action( 'manage_posts_extra_tablenav', array( $this, 'empty_posts' ) );
-		add_action( 'wp_ajax_awsm_jobs_listing_setup', array( $this, 'handle_setup' ) );
+		add_action( 'wp_ajax_awsm_jobs_setup', array( $this, 'handle_setup' ) );
 
 		add_filter( 'admin_body_class', array( $this, 'admin_body_class' ) );
 	}
@@ -45,26 +45,66 @@ class AWSM_Job_Openings_Info {
 			'error'   => array(),
 		);
 
-		if ( ! isset( $_POST['awsm_job_nonce'] ) ) {
-			return;
+		if ( ! isset( $_POST['awsm_job_nonce'] ) || ! wp_verify_nonce( $_POST['awsm_job_nonce'], 'awsm-jobs-setup' ) ) {
+			$response['error'][] = esc_html__( 'Failed to verify nonce!', 'wp-job-openings' );
 		}
 
-		if ( ! wp_verify_nonce( $_POST['awsm_job_nonce'], 'awsm-job-setup-page-nonce' ) ) {
-			$response['error'][] = __( 'Failed to verify nonce!', 'wp-job-openings' );
+		if ( ! current_user_can( 'manage_options' ) ) {
+			$response['error'][] = esc_html__( 'You do not have sufficient permissions to make this request!', 'wp-job-openings' );
 		}
 
-		if ( isset( $_POST['awsm_jobs_listing_setup'] ) ) {
-			$options = $_POST['awsm_jobs_listing_setup'];
-			foreach ( $options as $option => $option_value ) {
-				update_option( $option, sanitize_text_field( $option_value ) );
+		if ( count( $response['error'] ) === 0 ) {
+			$update_options = array();
+			$options        = array(
+				'awsm_job_company_name'    => array(
+					'label'       => __( 'Name of company', 'wp-job-openings' ),
+					'sanitize_cb' => 'sanitize_text_field',
+				),
+				'awsm_hr_email_address'    => array(
+					'label'       => __( 'Recruiter Email Address', 'wp-job-openings' ),
+					'sanitize_cb' => 'sanitize_email',
+				),
+				'awsm_select_page_listing' => array(
+					'label'       => __( 'Job listing page', 'wp-job-openings' ),
+					'sanitize_cb' => 'intval',
+				),
+			);
+
+			foreach ( $options as $option => $option_details ) {
+				if ( ! isset( $_POST[ $option ] ) || empty( $_POST[ $option ] ) ) {
+					$response['error'][] = sprintf( esc_html__( '%s is required!', 'wp-job-openings' ), esc_html( $option_details['label'] ) );
+				} else {
+					$field_val = call_user_func( $option_details['sanitize_cb'], $_POST[ $option ] );
+					if ( $option === 'awsm_hr_email_address' ) {
+						if ( ! is_email( $field_val ) ) {
+							$response['error'][] = esc_html__( 'Recruiter Email Address is invalid!', 'wp-job-openings' );
+						}
+					}
+					if ( count( $response['error'] ) === 0 ) {
+						$update_options[ $option ] = $field_val;
+					}
+				}
 			}
-			$response['success'][] = esc_html__( 'Job setup completed successfully!', 'wp-job-openings' );
+
+			if ( count( $update_options ) === count( $options ) ) {
+				foreach ( $update_options as $update_option => $field_val ) {
+					update_option( $update_option, $field_val );
+					if ( $update_option === 'awsm_hr_email_address' ) {
+						update_option( 'awsm_jobs_hr_notification', $field_val );
+						update_option( 'awsm_jobs_admin_to_notification', $field_val );
+					}
+				}
+				update_option( 'awsm_jobs_plugin_version', AWSM_JOBS_PLUGIN_VERSION );
+				$response['redirect']  = esc_url( admin_url( 'edit.php?post_type=awsm_job_openings' ) );
+				$response['success'][] = esc_html__( 'Setup successfully completed!', 'wp-job-openings' );
+			}
 		}
+
 		wp_send_json( $response );
 	}
 
 	public function custom_admin_menu() {
-		add_submenu_page( 'edit.php?post_type=awsm_job_openings', esc_html__( 'WP Job Openings Setup', 'wp-job-openings' ), esc_html__( 'Setup', 'wp-job-openings' ), 'manage_awsm_jobs', 'awsm-jobs-setup', array( $this, 'setup_page' ) );
+		add_submenu_page( 'edit.php?post_type=awsm_job_openings', esc_html__( 'WP Job Openings Setup', 'wp-job-openings' ), esc_html__( 'Setup', 'wp-job-openings' ), 'manage_options', 'awsm-jobs-setup', array( $this, 'setup_page' ) );
 		add_submenu_page( 'edit.php?post_type=awsm_job_openings', esc_html__( 'Help', 'wp-job-openings' ), esc_html__( 'Help', 'wp-job-openings' ), 'manage_awsm_jobs', 'awsm-jobs-help-page', array( $this, 'help_page' ) );
 		add_submenu_page( 'edit.php?post_type=awsm_job_openings', esc_html__( 'Add-ons', 'wp-job-openings' ), esc_html__( 'Add-ons', 'wp-job-openings' ), 'manage_awsm_jobs', 'awsm-jobs-add-ons', array( $this, 'add_ons_page' ) );
 
