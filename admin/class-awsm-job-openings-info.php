@@ -112,7 +112,7 @@ class AWSM_Job_Openings_Info {
 		$user_obj = wp_get_current_user();
 		?>
 			<div class="awsm-jobs-empty-list">
-				<img src="<?php echo esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/empty-state.svg' ); ?>" width="250" height="250" />
+				<img src="<?php echo esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/empty-state.svg' ); ?>" width="113" height="113" />
 				<h2><?php printf( esc_html__( 'Welcome, %s', 'wp-job-openings' ), esc_html( $user_obj->display_name ) ); ?></h2>
 				<div class="awsm-jobs-empty-list-msg">
 					<p><?php esc_html_e( 'Start adding job openings to your website', 'wp-job-openings' ); ?></p>
