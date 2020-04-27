@@ -17,6 +17,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<li><?php esc_html_e( 'Notes and Activity Log and more!', 'wp-job-openings' ); ?></li>
 	</ul>
 	<div class="awsm-job-get-pro-now-btn-wrapper">
-		<a href="<?php echo esc_url( 'https://1.envato.market/jjbEP' ); ?>" class="button button-large"><?php esc_html_e( 'Get Now', 'wp-job-openings' ); ?></a>
+		<a href="<?php echo esc_url( 'https://awsm.in/get/wpjo-pro/' ); ?>" class="button button-large"><?php esc_html_e( 'Get Now', 'wp-job-openings' ); ?></a>
 	</div>
 </div>
