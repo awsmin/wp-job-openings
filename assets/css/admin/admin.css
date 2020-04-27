@@ -789,7 +789,6 @@ a.awsm-text-red:hover {
 	display: none;
 }
 .awsm-job-setup {
-	position: absolute;
 	min-height: 100%;
 	margin-left: -20px;
 	background-color: #00D5AF;
@@ -805,13 +804,12 @@ a.awsm-text-red:hover {
 .awsm-job-setup-in{
 
 }
-.awsm-job-setup-col{
-	width: 50%;
-	min-height: 100%;
+.awsm-job-setup-col{	
 	display: flex;
 	-ms-flex-wrap: wrap;
 	flex-wrap: wrap;
 	align-items:  center;
+	width: 100%;
 }
 .awsm-job-setup-col:last-child{
 	background-color: #fff;
@@ -1333,11 +1331,18 @@ a.awsm-plugin-item p {
 @media (min-width: 1400px) {
 	.awsm-job-setup{
 		position: fixed;
-		width: calc(100% - 160px);
+		/* width: calc(100% - 160px); */
 	}
 
 }
 @media (min-width: 701px) {
+	.awsm-job-setup {
+		position: absolute;
+	}
+	.awsm-job-setup-col{
+		width: 50%;
+		min-height: 100%;
+	}
 	.awsm-job-setup-col:last-child{
 		transform: translateX(100%);
 		opacity: 1;
@@ -1346,6 +1351,9 @@ a.awsm-plugin-item p {
 	.awsm-job-setup-col-in{
 		max-width: 460px;
 		margin: 0 auto;
+	}
+	.awsm-job-setup-col:first-child .awsm-job-setup-col-in{
+		margin-top: -188px;
 	}
 }
 
