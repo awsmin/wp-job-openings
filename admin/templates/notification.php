@@ -7,8 +7,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	$hr_notification                 = get_option( 'awsm_jobs_hr_notification', $hr_email );
 	$admin_subject                   = get_option( 'awsm_jobs_notification_subject', '' );
 	$appplicant_notification_content = get_option( 'awsm_jobs_notification_content', '' );
-	$admin_to_mail                   = get_option( 'awsm_jobs_admin_to_notification', $admin_email );
-	$admin_hr_mail                   = get_option( 'awsm_jobs_admin_hr_notification', $hr_email );
+	$admin_to_mail                   = get_option( 'awsm_jobs_admin_to_notification', $hr_email );
+	$admin_cc_mail                   = get_option( 'awsm_jobs_admin_hr_notification' );
 	$admin_notification_subject      = get_option( 'awsm_jobs_admin_notification_subject', '' );
 	$admin_notification_content      = get_option( 'awsm_jobs_admin_notification_content', '' );
 	$from_email                      = get_option( 'awsm_jobs_from_email_notification', $admin_email );
@@ -106,7 +106,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 									</div><!-- .col -->
 									<div class="awsm-col awsm-form-group awsm-col-half">
 										<label for="awsm_jobs_admin_hr_notification"><?php esc_html_e( 'CC:', 'wp-job-openings' ); ?></label>
-											<input type="text" class="awsm-form-control" name="awsm_jobs_admin_hr_notification" id="awsm_jobs_admin_hr_notification" value="<?php echo esc_attr( $admin_hr_mail ); ?>" />
+											<input type="text" class="awsm-form-control" name="awsm_jobs_admin_hr_notification" id="awsm_jobs_admin_hr_notification" value="<?php echo esc_attr( $admin_cc_mail ); ?>" />
 									</div><!-- .col -->
 									<div class="awsm-col awsm-form-group awsm-col-full">
 										<label for="awsm_jobs_admin_notification_subject"><?php esc_html_e( 'Subject ', 'wp-job-openings' ); ?></label>

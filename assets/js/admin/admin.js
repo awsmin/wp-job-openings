@@ -364,38 +364,30 @@ jQuery(document).ready(function($) {
 		$('.awsm-job-setup').addClass('loaded');
 	});
 
-	$('.awsm-job-setup').on('keyup change', '#awsm-jobs-company-name-field', function() {
-		var $companyName = $(this).val();
-		if ($companyName.length > 0) {
-			$('#awsm-jobs-get-started').prop('disabled', false);
-		} else {
-			$('#awsm-jobs-get-started').prop('disabled', true);
-		}
-	});
-
-	$('.awsm-job-setup').on('click', '#awsm-jobs-get-started', function(e) {
+	$('#awsm-job-setup-form').on('submit', function(e) {
 		e.preventDefault();
-		var nonce = $(this).data('nonce');
-		var $form = $('.awsm-job-setup').find('.awsm-job-setup-page-form');
+		$('#awsm-jobs-setup-btn').prop('disabled', true);
+		$('.awsm-job-setup-notice').addClass('awsm-hide');
+		var $form = $('#awsm-job-setup-form');
 		var formData = $form.serializeArray();
-		formData.push(
-			{
-				name: 'action',
-				value: 'awsm_jobs_listing_setup'
-			},
-			{
-				name: 'awsm_job_nonce',
-				value: nonce
-			}
-		);
 		$.ajax({
 			url: awsmJobsAdmin.ajaxurl,
 			data: formData,
 			type: 'POST'
-		}).done(function(response) {
-			if (response.success.length > 0) {
-				window.location = 'edit.php?post_type=awsm_job_openings';
+		}).done(function(res) {
+			if (typeof res.redirect !== 'undefined' && res.redirect) {
+				window.location.replace(res.redirect);
+			} else {
+				var msg = '';
+				$(res.error).each(function(index, value) {
+					msg += '<p>' + value + '</p>';
+				});
+				if (msg.length) {
+					$('.awsm-job-setup-notice').html(msg).removeClass('awsm-hide');
+				}
 			}
+		}).always(function() {
+			$('#awsm-jobs-setup-btn').prop('disabled', false);
 		});
 	});
 });

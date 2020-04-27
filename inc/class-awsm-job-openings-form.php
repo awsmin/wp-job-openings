@@ -548,7 +548,7 @@ class AWSM_Job_Openings_Form {
 			$admin_email             = get_option( 'admin_email' );
 			$hr_mail                 = get_option( 'awsm_hr_email_address', '' );
 			$company_name            = get_option( 'awsm_job_company_name', '' );
-			$applicant_cc            = get_option( 'awsm_jobs_hr_notification' );
+			$applicant_cc            = get_option( 'awsm_jobs_hr_notification', $hr_mail );
 			$notifi_subject          = get_option( 'awsm_jobs_notification_subject' );
 			$notifi_content          = get_option( 'awsm_jobs_notification_content' );
 			$admin_to                = get_option( 'awsm_jobs_admin_to_notification', $admin_email );

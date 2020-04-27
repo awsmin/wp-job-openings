@@ -46,7 +46,7 @@ The first version of the plugin comes with two layouts - Grid and List which are
 ## Add-ons
 
 * [Docs Viewer](https://wordpress.org/plugins/docs-viewer-add-on-for-wp-job-openings/)
-* [PRO Pack](https://1.envato.market/jjbEP)
+* [PRO Pack](https://awsm.in/get/wpjo-pro/)
 
 ## WP Job Openings PRO Features
 
@@ -63,7 +63,7 @@ The first version of the plugin comes with two layouts - Grid and List which are
 * Shortcode generator for generating customised job lists
 
 
-**[Get PRO Pack](https://1.envato.market/jjbEP)**
+**[Get PRO Pack](https://awsm.in/get/wpjo-pro/)**
 
 ## Contribute
 
