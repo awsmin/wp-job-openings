@@ -862,6 +862,7 @@ a.awsm-text-red:hover {
 	min-height: 26px;
 	font-size: 16px;
 	line-height: 26px;
+	margin: 0;
 }
 .awsm-job-setup-l ul li:last-child{
 	padding-bottom: 0;
@@ -911,6 +912,7 @@ a.awsm-text-red:hover {
 	display: block;
 	margin-bottom: 5px;
 	font-size: 14px;
+	font-weight: bold;
 }
 .awsm-job-form-control{
 	display: block;
@@ -922,9 +924,14 @@ a.awsm-text-red:hover {
 	font-style: 20px;
 }
 .awsm-job-form-group p{
-	font-size: 14px;
+	font-size: 12px;
 	opacity: 0.6;
 	margin: 5px 0 0;
+}
+.wp-core-ui #awsm-jobs-setup-btn{
+	padding: 3px 20px;
+	min-height: 32px;
+    line-height: 2.30769231;
 }
 
 /*-----*/
@@ -1039,7 +1046,7 @@ a.awsm-text-red:hover {
 
 .awsm-job-admin-nav li {
 	display: inline-block;
-	padding: 0px 10px;
+	padding: 0 20px;
 	margin: 0;
 }
 
@@ -1337,7 +1344,7 @@ a.awsm-plugin-item p {
 		transition: all 0.6s cubic-bezier(0.33, 1, 0.68, 1) 0.8s;
 	}
 	.awsm-job-setup-col-in{
-		max-width: 370px;
+		max-width: 460px;
 		margin: 0 auto;
 	}
 }
