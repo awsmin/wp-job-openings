@@ -503,6 +503,12 @@ a.awsm-text-red:hover {
 }
 .awsm-application-rating-pub-section-disabled .awsm-jobs-get-pro-btn{
 	pointer-events: none;
+	line-height: 1.8;
+	display: inline-block;
+	padding: 0 8px;
+	min-height: 20px;
+	border-radius: 3px;
+	font-size: 12px;
 }
 
 .awsm-application-rating-disabled {
@@ -536,6 +542,10 @@ a.awsm-text-red:hover {
 }
 .awsm-job-next-application-btn{
 	float: right;
+}
+.awsm-job-status-btn-wrapper a.btn-disabled{
+	opacity: 0.2;
+	pointer-events: none;
 }
 .awsm-job-status-btn-wrapper span{
 	display: inline-block;
