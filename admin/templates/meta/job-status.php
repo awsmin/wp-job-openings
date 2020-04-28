@@ -104,15 +104,12 @@ if ( $post->post_type === 'awsm_job_application' ) {
 						}
 					}
 				}
-				if ( $prev ) {
-					$prev_btn = sprintf( '<a class="button awsm-job-prev-application-btn" href="%2$s">&larr; %1$s</a>', esc_html__( 'Prev', 'wp-job-openings' ), esc_url( get_edit_post_link( $prev ) ) );
-				}
+
+				$prev_btn = sprintf( '<a class="button awsm-job-prev-application-btn%3$s" href="%2$s">&larr; %1$s</a>', esc_html__( 'Prev', 'wp-job-openings' ), $prev ? esc_url( get_edit_post_link( $prev ) ) : '#', ! $prev ? ' btn-disabled' : '' );
 
 				$pagination = sprintf( '<span class="awsm-job-status-pagination">%1$s<br />%2$s</span>', esc_html( "{$current}/{$post_count}" ), esc_html__( 'Applications', 'wp-job-openings' ) );
 
-				if ( $next ) {
-					$next_btn = sprintf( '<a class="button awsm-job-next-application-btn" href="%2$s">%1$s &rarr;</a>', esc_html__( 'Next', 'wp-job-openings' ), esc_url( get_edit_post_link( $next ) ) );
-				}
+				$next_btn = sprintf( '<a class="button awsm-job-next-application-btn%3$s" href="%2$s">%1$s &rarr;</a>', esc_html__( 'Next', 'wp-job-openings' ), $next ? esc_url( get_edit_post_link( $next ) ) : '#', ! $next ? ' btn-disabled' : '' );
 
 				$data_rows['actions'][0] = '<div class="awsm-job-status-btn-wrapper">' . $prev_btn . $pagination . $next_btn . '</div>';
 			}

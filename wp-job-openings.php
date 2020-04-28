@@ -411,7 +411,7 @@ class AWSM_Job_Openings {
 		// Email digest.
 		$email_digest = get_option( 'awsm_jobs_email_digest', 'enable' );
 		if ( $email_digest === 'enable' && ! wp_next_scheduled( 'awsm_jobs_email_digest' ) ) {
-			wp_schedule_event( time(), 'daily', 'awsm_jobs_email_digest' );
+			wp_schedule_event( time() + DAY_IN_SECONDS, 'daily', 'awsm_jobs_email_digest' );
 		}
 	}
 
