@@ -43,6 +43,15 @@ jQuery(function($) {
 				type: $filterForm.attr('method')
 			}).done(function(data) {
 				$wrapper.html(data);
+				var $searchControl = $rootWrapper.find('.awsm-job-search');
+				if ($searchControl.length > 0) {
+					if ($searchControl.val().length > 0) {
+						$rootWrapper.find('.awsm-job-search-btn').addClass('awsm-job-hide');
+						$rootWrapper.find('.awsm-job-search-close-btn').removeClass('awsm-job-hide');
+					} else {
+						$rootWrapper.find('.awsm-job-search-btn').removeClass('awsm-job-hide');
+					}
+				}
 			}).fail(function(xhr) {
 				// eslint-disable-next-line no-console
 				console.log(xhr);
@@ -70,6 +79,9 @@ jQuery(function($) {
 		var $rootWrapper = $elem.parents(rootWrapperSelector);
 		var searchQuery = $rootWrapper.find('.awsm-job-search').val();
 		$rootWrapper.find(wrapperSelector).data('search', searchQuery);
+		if (searchQuery.length === 0) {
+			$rootWrapper.find('.awsm-job-search-icon-wrapper').addClass('awsm-job-hide');
+		}
 		awsmJobFilters($rootWrapper);
 		updateQuery('jq', searchQuery);
 	}
@@ -115,6 +127,12 @@ jQuery(function($) {
 
 	$(filterSelector + ' .awsm-job-search-btn').on('click', function() {
 		searchJobs($(this));
+	});
+
+	$(filterSelector + ' .awsm-job-search-close-btn').on('click', function() {
+		var $elem = $(this);
+		$elem.parents(rootWrapperSelector).find('.awsm-job-search').val('');
+		searchJobs($elem);
 	});
 
 	$(filterSelector + ' .awsm-job-search').on('keypress', function(e) {

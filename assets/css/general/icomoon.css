@@ -1,12 +1,13 @@
 @font-face {
   font-family: 'awsm-jobs-icomoon';
-  src:  url('../fonts/awsm-icomoon.eot');
-  src:  url('../fonts/awsm-icomoon.eot#iefix') format('embedded-opentype'),
-    url('../fonts/awsm-icomoon.ttf') format('truetype'),
-    url('../fonts/awsm-icomoon.woff') format('woff'),
-    url('../fonts/awsm-icomoon.svg#icomoon') format('svg');
+  src:  url('../fonts/awsm-jobs-icomoon.eot?49gwka');
+  src:  url('../fonts/awsm-jobs-icomoon.eot?49gwka#iefix') format('embedded-opentype'),
+    url('../fonts/awsm-jobs-icomoon.ttf?49gwka') format('truetype'),
+    url('../fonts/awsm-jobs-icomoon.woff?49gwka') format('woff'),
+    url('../fonts/awsm-jobs-icomoon.svg?49gwka#awsm-jobs-icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
+  font-display: block;
 }
 
 [class^="awsm-job-icon-"], [class*=" awsm-job-icon-"] {
@@ -24,6 +25,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.awsm-job-icon-close-circle:before {
+  content: "\e900";
+  color: #a6a6a6;
+}
 .awsm-job-icon-asterisk:before {
   content: "\f069";
 }
@@ -717,7 +722,7 @@
 .awsm-job-icon-tachometer:before {
   content: "\f0e4";
 }
-.awsm-job-icon-tachometercomment-o:before {
+.awsm-job-icon-comment-o:before {
   content: "\f0e5";
 }
 .awsm-job-icon-comments-o:before {

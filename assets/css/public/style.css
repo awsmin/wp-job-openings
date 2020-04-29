@@ -50,6 +50,14 @@ a.awsm-grid-item {
 	width: 100%;
 }
 
+.awsm-job-hide {
+	display: none !important;
+}
+
+.awsm-job-show {
+	display: block !important;
+}
+
 .awsm-job-item {
 	background: #fff;
 	padding: 20px;
@@ -122,7 +130,7 @@ a.awsm-grid-item {
 	min-height: 48px;
 	padding-right: 58px;
 }
-.awsm-filter-item-search .awsm-job-search-btn{
+.awsm-filter-item-search .awsm-job-search-icon-wrapper {
 	position: absolute;
 	right: 0;
 	top: 0;
