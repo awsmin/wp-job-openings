@@ -83,7 +83,22 @@ class AWSM_Job_Openings_Filters {
 			}
 			foreach ( $taxonomies as $taxonomy => $tax_details ) {
 				if ( in_array( $taxonomy, $available_filters ) ) {
-					$terms = get_terms( $taxonomy, 'orderby=name&hide_empty=1' );
+					/**
+					 * Filter arguments for the specification terms in the job filter.
+					 *
+					 * @since 2.0.0
+					 *
+					 * @param array $terms_args Array of arguments.
+					 */
+					$terms_args = apply_filters(
+						'awsm_filter_spec_terms_args',
+						array(
+							'taxonomy'   => $taxonomy,
+							'orderby'    => 'name',
+							'hide_empty' => true,
+						)
+					);
+					$terms      = get_terms( $terms_args );
 					if ( ! empty( $terms ) ) {
 							$available_filters_arr[ $taxonomy ] = $tax_details->label;
 							$options_content                    = '';

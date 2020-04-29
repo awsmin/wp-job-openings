@@ -570,9 +570,16 @@ class AWSM_Job_Openings_Settings {
 	public function update_awsm_jobs_remove_filters( $old_value, $new_value ) {
 		$filters = $new_value;
 		if ( ! empty( $filters ) ) {
+			$taxonomy_objects = get_object_taxonomies( 'awsm_job_openings' );
 			foreach ( $filters as $filter ) {
-				if ( taxonomy_exists( $filter ) ) {
-					$terms = get_terms( $filter, 'orderby=id&hide_empty=0' );
+				if ( taxonomy_exists( $filter ) && in_array( $filter, $taxonomy_objects ) ) {
+					$terms = get_terms(
+						array(
+							'taxonomy'   => $filter,
+							'orderby'    => 'id',
+							'hide_empty' => false,
+						)
+					);
 					if ( ! is_wp_error( $terms ) && ! empty( $terms ) ) {
 						foreach ( $terms as $term ) {
 							wp_delete_term( $term->term_id, $filter );
@@ -944,7 +951,13 @@ class AWSM_Job_Openings_Settings {
 					}
 				}
 			}
-			$terms = get_terms( $spec_key, 'orderby=id&hide_empty=0' );
+			$terms = get_terms(
+				array(
+					'taxonomy'   => $spec_key,
+					'orderby'    => 'name',
+					'hide_empty' => false,
+				)
+			);
 			if ( ! empty( $terms ) ) {
 				foreach ( $terms as $term ) {
 					$tag_options .= sprintf( '<option value="%1$s" selected>%1$s</option>', esc_attr( $term->name ) );

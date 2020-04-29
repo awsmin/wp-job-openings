@@ -30,7 +30,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 			if ( ! in_array( $spec, $spec_keys, true ) ) {
 				continue;
 			}
-			$spec_terms     = get_terms( $spec, 'orderby=id&hide_empty=0' );
+			$spec_terms     = get_terms(
+				array(
+					'taxonomy'   => $spec,
+					'orderby'    => 'name',
+					'hide_empty' => false,
+				)
+			);
 			$post_terms     = get_the_terms( $post->ID, $spec );
 			$post_terms_ids = array();
 			if ( ! empty( $post_terms ) ) {
