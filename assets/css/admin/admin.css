@@ -664,6 +664,9 @@ a.awsm-text-red:hover {
 .form-table .description span {
 	text-decoration: underline;
 }
+.awsm-wpjo-form-group{
+	margin-bottom: 10px;
+}
 
 /*---- Help ---*/
 
