@@ -45,7 +45,7 @@ class AWSM_Job_Openings_Filters {
 			 * @param string $text Placeholder text.
 			 */
 			$placeholder_text = apply_filters( 'awsm_jobs_search_field_placeholder', _x( 'Search', 'job filter', 'wp-job-openings' ) );
-			$search_content   = sprintf( '<div class="awsm-filter-item"><div class="awsm-filter-item-search"><input type="text" name="jq" value="%2$s" placeholder="%1$s" class="awsm-job-search awsm-job-form-control"><span class="awsm-job-search-btn"><i class="awsm-job-icon-search"></i></span></div></div>', esc_attr( $placeholder_text ), esc_attr( $search_query ) );
+			$search_content   = sprintf( '<div class="awsm-filter-item"><div class="awsm-filter-item-search"><input type="text" name="jq" value="%2$s" placeholder="%1$s" class="awsm-job-search awsm-job-form-control"><span class="awsm-job-search-btn"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14"><title>  remove</title><desc>  Created with Sketch.</desc><g fill="none"><g fill="#A6A6A6"><path d="M7 0C3.1 0 0 3.1 0 7 0 10.9 3.1 14 7 14 10.9 14 14 10.9 14 7 14 3.1 10.9 0 7 0ZM9.6 8.8C9.8 9 9.8 9.3 9.6 9.6 9.5 9.7 9.3 9.7 9.2 9.7 9 9.7 8.9 9.7 8.8 9.6L7 7.8 5.2 9.6C5.1 9.7 5 9.7 4.8 9.7 4.7 9.7 4.5 9.7 4.4 9.6 4.2 9.3 4.2 9 4.4 8.8L6.2 7 4.4 5.2C4.2 5 4.2 4.7 4.4 4.4 4.7 4.2 5 4.2 5.2 4.4L7 6.2 8.8 4.4C9 4.2 9.3 4.2 9.6 4.4 9.8 4.7 9.8 5 9.6 5.2L7.8 7 9.6 8.8Z"/></g></g></svg></span></div></div>', esc_attr( $placeholder_text ), esc_attr( $search_query ) );
 			/**
 			 * Filters the search field content.
 			 *
