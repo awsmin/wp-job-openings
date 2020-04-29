@@ -667,6 +667,14 @@ a.awsm-text-red:hover {
 .awsm-wpjo-form-group{
 	margin-bottom: 10px;
 }
+.awsm-wpjo-form-group label{
+	margin-bottom: 4px;
+	display: block;
+}
+.awsm-wpjo-form-group input:not([type='checkbox']):not([type='radio']), .awsm-wpjo-form-group select, .awsm-wpjo-form-group textarea{
+	width: 100%;
+	box-sizing: border-box;
+}
 
 /*---- Help ---*/
 
