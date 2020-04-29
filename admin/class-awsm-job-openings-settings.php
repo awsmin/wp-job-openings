@@ -953,6 +953,9 @@ class AWSM_Job_Openings_Settings {
 		}
 		?>
 			<tr class="awsm-job-specifications-settings-row"<?php echo $row_data; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+				<td class="awsm-specs-drag-control-wrap">
+					<span class="awsm-specs-drag-control dashicons dashicons-move"></span>
+				</td>
 				<td>
 					<input type="text" class="widefat awsm-jobs-spec-title" name="awsm_jobs_filter[<?php echo esc_attr( $index ); ?>][filter]" value="<?php echo esc_attr( $spec_title ); ?>" placeholder="<?php esc_html_e( 'Enter a specification', 'wp-job-openings' ); ?>" required />
 				</td>

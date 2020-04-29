@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<table id="awsm-repeatable-specifications" width="100%" class="awsm-specs" data-next="<?php echo ( ! empty( $awsm_filters ) ) ? count( $awsm_filters ) : 1; ?>">
 					<thead>
 						 <tr>
-						   <th scope="row" colspan="2" class="awsm-form-head-title">
+						   <th scope="row" colspan="6" class="awsm-form-head-title">
 								<h2><?php esc_html_e( 'Manage Job Specifications', 'wp-job-openings' ); ?></h2>
 							</th>
 						</tr>
@@ -33,10 +33,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<tbody class="awsm_job_specifications_settings_body">
 						<?php do_action( 'before_awsm_specifications_settings' ); ?>
 						<tr>
+							<td class="awsm-specs-drag-control-wrap"></td>
 							<td><?php esc_html_e( 'Specifications', 'wp-job-openings' ); ?></td>
 							<td><?php esc_html_e( 'Key', 'wp-job-openings' ); ?></td>
 							<td><?php esc_html_e( 'Icon (Optional)', 'wp-job-openings' ); ?></td>
-							<td><?php esc_html_e( 'Options', 'wp-job-openings' ); ?></td></td>
+							<td><?php esc_html_e( 'Options', 'wp-job-openings' ); ?></td>
 							<td></td>
 						</tr>
 						<?php

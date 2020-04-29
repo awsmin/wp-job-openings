@@ -143,6 +143,16 @@ jQuery(document).ready(function($) {
 	}
 	awsmIconData();
 
+	function makeSpecSortable() {
+		$('#awsm-repeatable-specifications').sortable({
+			items: '.awsm-job-specifications-settings-row',
+			axis: 'y',
+			handle: '.awsm-specs-drag-control',
+			cursor: 'grabbing'
+		});
+	}
+	makeSpecSortable();
+
 	$('.awsm_jobs_filter_tags').on('select2:unselect', function(e) {
 		var $row = $(this).parents('.awsm-job-specifications-settings-row');
 		var index = $row.data('index');

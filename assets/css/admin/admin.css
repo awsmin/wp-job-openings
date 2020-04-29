@@ -617,7 +617,7 @@ a.awsm-text-red:hover {
 	padding-left: 0;
 }
 
-.awsm-specs tbody td:nth-child(4) {
+.awsm-specs tbody td:nth-child(5) {
 	width: 60%;
 }
 
@@ -631,6 +631,14 @@ a.awsm-text-red:hover {
 	display: block;
 	width: 100%;
 	height: 30px;
+}
+
+.awsm-specs td.awsm-specs-drag-control-wrap {
+	width: 20px;
+}
+
+.awsm-specs-drag-control {
+	cursor: grab;
 }
 
 .awsm-specs .select2-container--default.select2-container--open.select2-container--below .select2-selection--single,
@@ -814,7 +822,7 @@ a.awsm-text-red:hover {
 .awsm-job-setup-in{
 
 }
-.awsm-job-setup-col{	
+.awsm-job-setup-col{
 	display: flex;
 	-ms-flex-wrap: wrap;
 	flex-wrap: wrap;
