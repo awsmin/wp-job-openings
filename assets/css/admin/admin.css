@@ -615,6 +615,7 @@ a.awsm-text-red:hover {
 
 .awsm-specs tbody td:first-child {
 	padding-left: 0;
+	width: 20px;
 }
 
 .awsm-specs tbody td:nth-child(5) {
@@ -633,9 +634,6 @@ a.awsm-text-red:hover {
 	height: 30px;
 }
 
-.awsm-specs td.awsm-specs-drag-control-wrap {
-	width: 20px;
-}
 
 .awsm-specs-drag-control {
 	cursor: grab;
