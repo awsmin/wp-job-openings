@@ -171,7 +171,7 @@ jQuery(document).ready(function($) {
 	$('.awsm_jobs_filter_tags').on('select2:unselect', function(e) {
 		var $row = $(this).parents('.awsm-job-specifications-settings-row');
 		var index = $row.data('index');
-		var unselected = e.params.data.id;
+		var unselected = _.escape(e.params.data.id);
 		if (typeof index !== 'undefined' && typeof unselected !== 'undefined') {
 			$row.append('<input type="hidden" class="awsm_jobs_remove_filter_tags" name="awsm_jobs_filter[' + index + '][remove_tags][]" value="' + unselected + '" />');
 		}
