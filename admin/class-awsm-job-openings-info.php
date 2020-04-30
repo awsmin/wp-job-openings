@@ -72,6 +72,7 @@ class AWSM_Job_Openings_Info {
 
 			foreach ( $options as $option => $option_details ) {
 				if ( ! isset( $_POST[ $option ] ) || empty( $_POST[ $option ] ) ) {
+					/* translators: %s: Form field label */
 					$response['error'][] = sprintf( esc_html__( '%s is required!', 'wp-job-openings' ), esc_html( $option_details['label'] ) );
 				} else {
 					$field_val = call_user_func( $option_details['sanitize_cb'], $_POST[ $option ] );
@@ -153,7 +154,12 @@ class AWSM_Job_Openings_Info {
 		?>
 			<div class="awsm-jobs-empty-list">
 				<img src="<?php echo esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/empty-state.svg' ); ?>" width="113" height="113" />
-				<h2><?php printf( esc_html__( 'Welcome, %s', 'wp-job-openings' ), esc_html( $user_obj->display_name ) ); ?></h2>
+				<h2>
+					<?php
+						/* translators: %s: Current user name */
+						printf( esc_html__( 'Welcome, %s', 'wp-job-openings' ), esc_html( $user_obj->display_name ) );
+					?>
+				</h2>
 				<div class="awsm-jobs-empty-list-msg">
 					<p><?php esc_html_e( 'Start adding job openings to your website', 'wp-job-openings' ); ?></p>
 				</div>
@@ -300,6 +306,7 @@ class AWSM_Job_Openings_Info {
 								if ( isset( $nav_item['target'] ) ) {
 									$extra_atts .= ' target="' . esc_attr( $nav_item['target'] ) . '"';
 								}
+								// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 								printf( '<li><a href="%2$s"%3$s>%1$s</a></li>', esc_html( $nav_item['label'] ), esc_url( $nav_item['url'] ), $extra_atts );
 							}
 						}

@@ -46,7 +46,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 					</div><!-- .awsm-job-form-group -->
 					<div class="awsm-job-form-group">
 						<label for="awsm_select_page_listing"><?php esc_html_e( 'Job listing page', 'wp-job-openings' ); ?></label>
-							<?php wp_dropdown_pages( $args ); ?>
+						<?php
+							// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+							wp_dropdown_pages( $args );
+						?>
 						<p><?php esc_html_e( 'The page you want to display the listing. You an choose it later also.', 'wp-job-openings' ); ?></p>
 					</div><!-- .awsm-job-form-group -->
 					<input type="hidden" name="action" value="awsm_jobs_setup" />

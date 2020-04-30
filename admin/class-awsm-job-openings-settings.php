@@ -324,16 +324,16 @@ class AWSM_Job_Openings_Settings {
 			'awsm_jobs_filter'                        => array(
 				array(
 					'taxonomy' => 'job-category',
-					'filter'   => esc_html( 'Job Category', 'wp-job-openings' ),
+					'filter'   => esc_html__( 'Job Category', 'wp-job-openings' ),
 				),
 				array(
 					'taxonomy' => 'job-type',
-					'filter'   => esc_html( 'Job Type', 'wp-job-openings' ),
+					'filter'   => esc_html__( 'Job Type', 'wp-job-openings' ),
 					'tags'     => array( 'Full Time', 'Part Time', 'Freelance' ),
 				),
 				array(
 					'taxonomy' => 'job-location',
-					'filter'   => esc_html( 'Job Location', 'wp-job-openings' ),
+					'filter'   => esc_html__( 'Job Location', 'wp-job-openings' ),
 				),
 			),
 			'awsm_enable_job_filter_listing'          => 'enabled',

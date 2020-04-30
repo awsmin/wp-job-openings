@@ -91,7 +91,9 @@ if ( $post->post_type === 'awsm_job_application' ) {
 			);
 
 			if ( $post_count > 1 ) {
-				$next     = $prev = $current = 0;
+				// phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
+				$next = $prev = $current = 0;
+				// phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
 				$prev_btn = $next_btn = '';
 				foreach ( $applications as $index => $application_id ) {
 					if ( intval( $post->ID ) === $application_id ) {
