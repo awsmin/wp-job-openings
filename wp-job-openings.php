@@ -432,7 +432,7 @@ class AWSM_Job_Openings {
 				),
 				array(
 					'key'     => 'awsm_job_expiry',
-					'value'   => date( 'Y-m-d' ),
+					'value'   => gmdate( 'Y-m-d' ),
 					'type'    => 'DATE',
 					'compare' => '<',
 				),
@@ -631,7 +631,7 @@ class AWSM_Job_Openings {
 	}
 
 	public function job_views_handler() {
-		// phpcs:ignore WordPress.Security.NonceVerification.Missing
+		// phpcs:disable WordPress.Security.NonceVerification.Missing
 		if ( isset( $_POST['awsm_job_id'] ) ) {
 			$post_id = intval( $_POST['awsm_job_id'] );
 			if ( $post_id && get_post_type( $post_id ) === 'awsm_job_openings' ) {
@@ -644,6 +644,7 @@ class AWSM_Job_Openings {
 			}
 		}
 		wp_die();
+		// phpcs:enable
 	}
 
 	public function no_script_msg() { ?>
@@ -1003,7 +1004,7 @@ class AWSM_Job_Openings {
 				if ( ! empty( $specs ) ) {
 					foreach ( $specs as $taxonomy => $spec_terms ) {
 						if ( taxonomy_exists( $taxonomy ) ) {
-							$terms = array();
+							$terms      = array();
 							$spec_terms = array_unique( $spec_terms );
 							foreach ( $spec_terms as $spec_term ) {
 								$spec_term = wp_unslash( $spec_term );
@@ -1426,7 +1427,7 @@ class AWSM_Job_Openings {
 		$expiry_on_list  = get_post_meta( $post_id, 'awsm_set_exp_list', true );
 		$expiration_date = get_post_meta( $post_id, 'awsm_job_expiry', true );
 		if ( $expiry_on_list === 'set_listing' && ! empty( $expiration_date ) ) {
-			$data['validThrough'] = date( 'c', strtotime( $expiration_date ) );
+			$data['validThrough'] = gmdate( 'c', strtotime( $expiration_date ) );
 		}
 		$company_name = get_option( 'awsm_job_company_name' );
 		if ( ! empty( $company_name ) ) {
