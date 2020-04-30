@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<div class="awsm-job-setup-col">
 			<div class="awsm-job-setup-col-in awsm-job-setup-l">
 				<h1>
-					<a href="#" target="_blank">
+					<a href="https://wpjobopenings.com" target="_blank">
 						<span></span>
 						<?php esc_html_e( 'WP Job Openings', 'wp-job-openings' ); ?>
 						<strong><?php esc_html_e( 'by AWSM INNOVATIONS', 'wp-job-openings' ); ?></strong>
