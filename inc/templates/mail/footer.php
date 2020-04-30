@@ -19,7 +19,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 							<table style="width: 100%;">
 								<tr>
 									<td style="text-align: center; padding: 38px 0 50px;">
-										<p style="margin: 0;"><?php printf( esc_html__( 'Sent from %1$s by %2$s Plugin', 'wp-job-openings' ), '<a href="{site-url}">{site-title}</a>', '<a href="https://wpjobopenings.com">' . esc_html__( 'WP Job Openings', 'wp-job-openings' ) . '</a>' ); ?></p>
+										<p style="margin: 0;">
+											<?php
+												/* translators: %1$s: Site link, %2$s: Plugin website link */
+												printf( esc_html__( 'Sent from %1$s by %2$s Plugin', 'wp-job-openings' ), '<a href="{site-url}">{site-title}</a>', '<a href="https://wpjobopenings.com">' . esc_html__( 'WP Job Openings', 'wp-job-openings' ) . '</a>' );
+											?>
+										</p>
 									</td>
 								</tr>
 							</table>

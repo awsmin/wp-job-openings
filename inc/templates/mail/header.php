@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<meta name="x-apple-disable-message-reformatting">  <!-- Disable auto-scale in iOS 10 Mail entirely -->
 	<title></title> <!-- The title tag shows in email notifications, like Android 4.4. -->
 
-
+	<?php // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet ?>
 	<link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700,700i" rel="stylesheet">
 
 	<!-- CSS Reset : BEGIN -->

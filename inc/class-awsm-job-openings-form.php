@@ -269,7 +269,7 @@ class AWSM_Job_Openings_Form {
 	}
 
 	public function hashed_file_name( $dir, $name, $ext ) {
-		$file_name = hash( 'sha1', ( $name . uniqid( rand(), true ) ) ) . current_time( 'timestamp' );
+		$file_name = hash( 'sha1', ( $name . uniqid( rand(), true ) ) ) . time();
 		return sanitize_file_name( $file_name . $ext );
 	}
 
@@ -577,6 +577,7 @@ class AWSM_Job_Openings_Form {
 			$email_tag_names  = array( '{admin-email}', '{hr-email}', '{applicant-email}' );
 			$email_tag_values = array( $admin_email, $hr_mail, $applicant_email );
 
+			// phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
 			$header_template = $footer_template = '';
 			if ( $applicant_mail_template === 'enable' || $admin_mail_template === 'enable' ) {
 				// Header mail template.
@@ -664,7 +665,7 @@ class AWSM_Job_Openings_Form {
 				$is_mail_send = wp_mail( $applicant_email, $subject, $mail_content, array_values( $headers ), $attachments );
 
 				if ( $is_mail_send ) {
-					$current_time = current_time( 'timestamp' );
+					$current_time = current_time( 'mysql' );
 					$mails_data   = array(
 						array(
 							'send_by'      => 0,

@@ -22,7 +22,12 @@ $applications = AWSM_Job_Openings::get_recent_applications( 3 );
 		<td class="main-content-in-1">
 			<div style="padding: 0 10px; text-align: center; max-width: 576px; margin: 0 auto;">
 				<h2><?php esc_html_e( 'Here’s a quick overview of your job listings', 'wp-job-openings' ); ?></h2>
-				<p><?php printf( esc_html__( 'A snapshot of how your job listings in %s performed', 'wp-job-openings' ), '{site-title}' ); ?></p>
+				<p>
+					<?php
+						/* translators: %s: Site title */
+						printf( esc_html__( 'A snapshot of how your job listings in %s performed', 'wp-job-openings' ), '{site-title}' );
+					?>
+				</p>
 			</div>
 		</td>
 	</tr>
