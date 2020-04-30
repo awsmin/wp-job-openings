@@ -559,7 +559,7 @@ class AWSM_Job_Openings_Settings {
 				}
 				if ( isset( $filter['tags'] ) ) {
 					if ( ! empty( $filter['tags'] ) ) {
-						$filters[ $index ]['tags'] = array_map( 'sanitize_text_field', $filter['tags'] );
+						$filters[ $index ]['tags'] = array_map( array( AWSM_Job_Openings::init(), 'sanitize_term' ), $filter['tags'] );
 					}
 				}
 			}

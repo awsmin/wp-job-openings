@@ -976,12 +976,7 @@ class AWSM_Job_Openings {
 	}
 
 	public function sanitize_term( $term ) {
-		if ( is_numeric( $term ) ) {
-			$term = intval( $term );
-		} else {
-			$term = sanitize_text_field( $term );
-		}
-		return $term;
+		return trim( wp_strip_all_tags( $term ) );
 	}
 
 	public function awsm_job_save_post( $post_id, $post ) {
@@ -1008,7 +1003,25 @@ class AWSM_Job_Openings {
 				if ( ! empty( $specs ) ) {
 					foreach ( $specs as $taxonomy => $spec_terms ) {
 						if ( taxonomy_exists( $taxonomy ) ) {
-							$terms = array_map( array( $this, 'sanitize_term' ), $spec_terms );
+							$terms = array();
+							$spec_terms = array_unique( $spec_terms );
+							foreach ( $spec_terms as $spec_term ) {
+								$spec_term = wp_unslash( $spec_term );
+								if ( is_numeric( $spec_term ) ) {
+									$term = intval( $spec_term );
+									if ( ! empty( $term ) ) {
+										$terms[] = $term;
+									}
+								} else {
+									$term = $this->sanitize_term( $spec_term );
+									if ( strlen( $term ) > 0 ) {
+										if ( strpos( $spec_term, 'awsm-term-id-' ) !== false ) {
+											$term = str_replace( 'awsm-term-id-', '', $spec_term );
+										}
+										$terms[] = $term;
+									}
+								}
+							}
 							wp_set_object_terms( $post_id, $terms, $taxonomy, false );
 						}
 					}

@@ -20,15 +20,18 @@ function awsmJobSelectControl($elem, placeholder) {
 /**
  * for select2 initialization with tags input
  */
-function awsmJobTagSelect($elem, dropdownHidden) {
+function awsmJobTagSelect($elem, dropdownHidden, additionalConfig) {
 	dropdownHidden = (typeof dropdownHidden !== 'undefined') ? dropdownHidden : true;
+	additionalConfig = typeof additionalConfig !== 'undefined' ? additionalConfig : {};
 	if ($elem.length > 0) {
-		$elem.awsmSelect2({
+		var config = {
 			tags: true,
 			tokenSeparators: [ ',' ],
 			theme: 'awsm-job',
 			dropdownCssClass: (dropdownHidden ? 'awsm-hidden-control' : 'awsm-select2-dropdown-control')
-		});
+		};
+		jQuery.extend(config, additionalConfig);
+		$elem.awsmSelect2(config);
 	}
 }
 
@@ -87,7 +90,19 @@ jQuery(document).ready(function($) {
 	/*================ Job Specifications ================*/
 
 	awsmJobTagSelect($('.awsm_jobs_filter_tags'));
-	awsmJobTagSelect($('.awsm_job_specification_terms'), false);
+	awsmJobTagSelect($('.awsm_job_specification_terms'), false, {
+		createTag: function(params) {
+			var currentId = params.term;
+			if (! isNaN(currentId)) {
+				currentId = 'awsm-term-id-' + currentId;
+			}
+			return {
+				id: currentId,
+				text: params.term,
+				newItem: true
+			};
+		}
+	});
 
 	var specRegEx = new RegExp('^([a-z0-9]+(-|_))*[a-z0-9]+$');
 	var $specWrapper = $('#awsm-job-specifications-options-container');
