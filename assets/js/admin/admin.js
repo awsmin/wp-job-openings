@@ -92,8 +92,11 @@ jQuery(document).ready(function($) {
 	awsmJobTagSelect($('.awsm_jobs_filter_tags'));
 	awsmJobTagSelect($('.awsm_job_specification_terms'), false, {
 		createTag: function(params) {
-			var currentId = params.term;
-			if (! isNaN(currentId)) {
+			var currentId = $.trim(params.term);
+			if (currentId === '') {
+				return null;
+			}
+			if (! _.isNaN(currentId) && currentId.length > 0) {
 				currentId = 'awsm-term-id-' + currentId;
 			}
 			return {
