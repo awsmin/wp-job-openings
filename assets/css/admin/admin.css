@@ -815,6 +815,14 @@ a.awsm-text-red:hover {
 .awsm_job_openings_page_awsm-jobs-setup #wpfooter {
 	display: none;
 }
+.awsm_job_openings_page_awsm-jobs-setup .notice:not(.awsm-job-setup-notice),
+.awsm_job_openings_page_awsm-jobs-setup div.updated {
+	display: none;
+}
+.awsm_job_openings_page_awsm-jobs-setup #update-nag,
+.awsm_job_openings_page_awsm-jobs-setup .update-nag {
+	display: none;
+}
 .awsm-job-setup {
 	min-height: 100%;
 	margin-left: -20px;
