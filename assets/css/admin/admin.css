@@ -1354,14 +1354,6 @@ a.awsm-plugin-item p {
 .awsm-application-post-status-disabled, .awsm-application-rating-disabled{
 	opacity: 0.5;
 }
-
-@media (min-width: 1400px) {
-	.awsm-job-setup{
-		position: fixed;
-		/* width: calc(100% - 160px); */
-	}
-
-}
 @media (min-width: 701px) {
 	.awsm-job-setup {
 		position: absolute;
@@ -1383,6 +1375,15 @@ a.awsm-plugin-item p {
 		margin-top: -188px;
 	}
 }
+
+@media (min-width: 1400px) {
+	.awsm-job-setup{
+		position: fixed;
+		/* width: calc(100% - 160px); */
+	}
+
+}
+
 
 @media (max-width: 1250px) {
 	.awsm-settings-col-left {
