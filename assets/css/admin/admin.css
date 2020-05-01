@@ -1379,7 +1379,7 @@ a.awsm-plugin-item p {
 @media (min-width: 1400px) {
 	.awsm-job-setup{
 		position: fixed;
-		/* width: calc(100% - 160px); */
+		 width: calc(100% - 160px);
 	}
 
 }
