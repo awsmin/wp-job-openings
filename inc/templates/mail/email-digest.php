@@ -14,7 +14,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 require AWSM_Job_Openings::get_template_path( 'header.php', 'mail' );
 
-$applications = AWSM_Job_Openings::get_recent_applications( 3 );
 ?>
 
 <table style="width: 100%;">
