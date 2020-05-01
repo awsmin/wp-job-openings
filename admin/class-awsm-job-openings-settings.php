@@ -623,15 +623,7 @@ class AWSM_Job_Openings_Settings {
 	public function update_awsm_page_listing( $old_value, $value ) {
 		$page_id = $value;
 		if ( ! empty( $page_id ) ) {
-			$post_content = get_post_field( 'post_content', $page_id );
-			if ( ! has_shortcode( $post_content, 'awsmjobs' ) ) {
-				$post_content .= '<p>[awsmjobs]</p>';
-			}
-			$page_data = array(
-				'ID'           => $page_id,
-				'post_content' => $post_content,
-			);
-			wp_update_post( $page_data );
+			AWSM_Job_Openings::add_shortcode_to_page( $page_id );
 		}
 	}
 

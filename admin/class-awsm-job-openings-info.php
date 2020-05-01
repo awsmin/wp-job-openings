@@ -93,6 +93,8 @@ class AWSM_Job_Openings_Info {
 					if ( $update_option === 'awsm_hr_email_address' ) {
 						update_option( 'awsm_jobs_hr_notification', $field_val );
 						update_option( 'awsm_jobs_admin_to_notification', $field_val );
+					} elseif ( $update_option === 'awsm_select_page_listing' ) {
+						AWSM_Job_Openings::add_shortcode_to_page( $field_val );
 					}
 				}
 				update_option( 'awsm_jobs_plugin_version', AWSM_JOBS_PLUGIN_VERSION );

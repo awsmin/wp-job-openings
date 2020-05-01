@@ -213,6 +213,18 @@ class AWSM_Job_Openings {
 		}
 	}
 
+	public static function add_shortcode_to_page( $page_id ) {
+		$post_content = get_post_field( 'post_content', $page_id );
+		if ( ! has_shortcode( $post_content, 'awsmjobs' ) ) {
+			$post_content .= '<p>[awsmjobs]</p>';
+		}
+		$page_data = array(
+			'ID'           => $page_id,
+			'post_content' => $post_content,
+		);
+		wp_update_post( $page_data );
+	}
+
 	public function awsm_jobs_shortcode( $atts ) {
 		if ( ! function_exists( 'awsm_jobs_query' ) ) {
 			return;
