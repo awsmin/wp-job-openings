@@ -2,7 +2,7 @@
 Contributors: awsmin, aravindajith, anantajitjg, sarathar, adhun, nithi22
 Tags: jobs, job listing, job openings, job board, careers page, jobs page, wp job opening, jobs plugin
 Requires at least: 4.5
-Tested up to: 5.4
+Tested up to: 5.4.1
 Requires PHP: 5.6
 Stable tag: trunk
 License: GPLv2 or later
@@ -88,6 +88,25 @@ The first version of the plugin comes with two layouts - Grid and List which are
 9. Application View
 
 == Changelog ==
+
+= V 2.0.0 - 2020-05-01 =
+* Admin UI improvements.
+* Added: New Onboarding interface.
+* Added: Job Overview dashboard widget.
+* Added: Custom Admin navigation.
+* Added: HTML Template support for notification mails.
+* Added: Daily email digest if there are new applications.
+* Added: Drag and Drop sorting for Job Specifications.
+* Added: Functionality to clear searched value.
+* Added: 'Actions' meta box in application edit screen.
+* Added: Next and Previous navigation in application edit screen.
+* Added: Reply-To support in Admin notification mail.
+* Fixed: An issue that prevents user from adding numeric values for job specification in job edit screen.
+* Fixed: Job detail page returning empty content in some themes.
+* Fixed: Specification terms not removing from settings if it contains some special characters.
+* Dev: New hooks for customizing the form fields.
+* Dev: New hook for customizing the terms display in job specification filters.
+* Other minor fixes and code improvements.
 
 = V 1.6.2 - 2020-01-29 =
 * Bug fixes and improvements.
@@ -191,5 +210,5 @@ The first version of the plugin comes with two layouts - Grid and List which are
 
 == Upgrade Notice ==
 
-= 1.6.2 =
-Bug fixes and improvements
+= 2.0.0 =
+Major update. Please make sure to take a site backup before upgrading.
