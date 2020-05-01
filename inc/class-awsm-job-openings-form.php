@@ -142,7 +142,7 @@ class AWSM_Job_Openings_Form {
 						}
 					}
 
-					$form_content = $label_content = ''; // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
+					$field_content = $label_content = ''; // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
 					if ( ! empty( $label ) ) {
 						$label_content = sprintf( '<label for="%2$s">%1$s</label>', wp_kses( $label, $allowed_html ) . $required_label, esc_attr( $field_id ) );
 					}
@@ -158,7 +158,7 @@ class AWSM_Job_Openings_Form {
 									foreach ( $options as $option ) {
 										$options_content .= sprintf( '<option value="%s">%s</option>', esc_attr( $option ), esc_html( $option ) );
 									}
-									$form_content .= sprintf( '<select %2$s>%1$s</select>', $options_content, $common_attrs );
+									$field_content .= sprintf( '<select %2$s>%1$s</select>', $options_content, $common_attrs );
 								} else {
 									$id_suffix = 1;
 									foreach ( $options as $option ) {
@@ -168,21 +168,41 @@ class AWSM_Job_Openings_Form {
 										$options_content .= sprintf( '<span><input type="%s" value="%s" %s /> <label for="%s">%s</label></span>', esc_attr( $input_type ), esc_attr( $option ), $common_attrs, $current_field_id, esc_html( $option ) );
 										$id_suffix ++;
 									}
-									$form_content .= sprintf( '<div class="awsm-job-form-options-container">%s</div>', $options_content );
+									$field_content .= sprintf( '<div class="awsm-job-form-options-container">%s</div>', $options_content );
 								}
 							}
 						} else {
-							$form_content .= sprintf( '<input type="%1$s" %2$s />', esc_attr( $input_type ), $common_attrs );
+							$field_content .= sprintf( '<input type="%1$s" %2$s />', esc_attr( $input_type ), $common_attrs );
 						}
 					} elseif ( $tag === 'textarea' ) {
-						$form_content .= sprintf( '<textarea %1$s rows="5" cols="50"></textarea>', $common_attrs );
+						$field_content .= sprintf( '<textarea %1$s rows="5" cols="50"></textarea>', $common_attrs );
 					}
 					if ( isset( $field_args['label_inline'] ) && $field_args['label_inline'] === 'right' ) {
-						$form_content .= $label_content;
+						$field_content .= $label_content;
 					} else {
-						$form_content = $label_content . $form_content;
+						$field_content = $label_content . $field_content;
 					}
-					$form_output .= sprintf( '<div class="%2$s">%1$s</div>', $form_content . wp_kses( $extra_content, $allowed_html ), esc_attr( $form_group_class ) );
+					$field_type = $tag === 'input' ? $input_type : $tag;
+					/**
+					 * Filters the field content of a specific field type of the job application form.
+					 *
+					 * @since 2.0.0
+					 *
+					 * @param string $field_content The content.
+					 * @param array $field_args Form field options.
+					 */
+					$field_content = apply_filters( "awsm_application_dynamic_form_{$field_type}_field_content", $field_content, $field_args );
+					$field_output  = sprintf( '<div class="%2$s">%1$s</div>', $field_content . wp_kses( $extra_content, $allowed_html ), esc_attr( $form_group_class ) );
+					/**
+					 * Filters the form field content of the job application form.
+					 *
+					 * @since 2.0.0
+					 *
+					 * @param string $field_output The content.
+					 * @param string $field_type The field type.
+					 * @param array $field_args Form field options.
+					 */
+					$form_output .= apply_filters( 'awsm_application_dynamic_form_field_content', $field_output, $field_type, $field_args );
 				}
 			}
 			/**
@@ -190,8 +210,8 @@ class AWSM_Job_Openings_Form {
 			 *
 			 * @since 1.3
 			 *
-			 * @param string $form_output The content
-			 * @param array $dynamic_form_fields Dynamic form fields
+			 * @param string $form_output The content.
+			 * @param array $dynamic_form_fields Dynamic form fields.
 			 */
 			echo apply_filters( 'awsm_application_dynamic_form_fields_content', $form_output, $dynamic_form_fields ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
