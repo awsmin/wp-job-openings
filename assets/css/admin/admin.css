@@ -1357,6 +1357,7 @@ a.awsm-plugin-item p {
 @media (min-width: 701px) {
 	.awsm-job-setup {
 		position: absolute;
+		min-height: 100vh;
 	}
 	.awsm-job-setup-col{
 		width: 50%;
