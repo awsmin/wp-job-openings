@@ -1405,17 +1405,6 @@ a.awsm-plugin-item p {
 		max-width: 400px;
 	}
 }
-@media (max-width: 782px) {
-	.awsm-job-admin-nav-header{
-		top: 46px;
-	}
-	.awsm-job-admin-nav{
-		padding-left: 25px;
-	}
-	.awsm-job-admin-nav li{
-		padding: 0 14px;
-	}
-}
 
 @media (max-width: 1124px) {
 	.awsm-job-addon-item-content {
@@ -1431,6 +1420,22 @@ a.awsm-plugin-item p {
 
 	.awsm-job-addon-item-info {
 		margin-top: 0;
+	}
+}
+@media (max-width: 782px) {
+	.awsm-job-admin-nav-header{
+		top: 46px;
+	}
+	.awsm-job-admin-nav{
+		padding-left: 25px;
+	}
+	.awsm-job-admin-nav li{
+		padding: 0 14px;
+	}
+}
+@media (max-width: 600px) {
+	.awsm-job-admin-nav-header{
+		position: absolute;
 	}
 }
 
@@ -1470,6 +1475,23 @@ a.awsm-plugin-item p {
 		margin-top: 30px;
 		width: 100%;
 		text-align: left;
+	}
+	.awsm-job-admin-nav-logo h1{
+		width: 21px;
+	}
+	.awsm-job-admin-nav{
+		padding-left: 15px;
+	}
+	.awsm-job-admin-nav li{
+		padding: 0 10px;
+	}
+}
+@media (max-width: 510px) {
+	.awsm-job-admin-nav-logo h1{
+		display: none;
+	}
+	.awsm-job-admin-nav{
+		padding-left: 0;
 	}
 }
 
