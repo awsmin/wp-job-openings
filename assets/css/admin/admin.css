@@ -1405,6 +1405,17 @@ a.awsm-plugin-item p {
 		max-width: 400px;
 	}
 }
+@media (max-width: 782px) {
+	.awsm-job-admin-nav-header{
+		top: 46px;
+	}
+	.awsm-job-admin-nav{
+		padding-left: 25px;
+	}
+	.awsm-job-admin-nav li{
+		padding: 0 14px;
+	}
+}
 
 @media (max-width: 1124px) {
 	.awsm-job-addon-item-content {
