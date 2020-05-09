@@ -1,17 +1,18 @@
-[![WP Job Openings](https://ps.w.org/wp-job-openings/assets/banner-772x250.png)](https://wordpress.org/plugins/wp-job-openings/)
+[![WP Job Openings](https://ps.w.org/wp-job-openings/assets/banner-772x250.png?rev=2296666)](https://wordpress.org/plugins/wp-job-openings/)
 # WP Job Openings
 **Contributors:** awsmin  
 **Tags:** jobs, job listing, job openings, job board, careers page, jobs page, wp job opening, jobs plugin  
 **Requires at least:** 4.5  
 **Tested up to:** 5.4  
 **Requires PHP:** 5.6  
-**Stable tag:** 1.6.2  
+**Stable tag:** 2.0.0  
 **License:** GPLv2 or later  
-**License URI:** https://www.gnu.org/licenses/gpl-2.0.html
+**License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
+**Donate link:** https://www.buymeacoffee.com/awsm
 
 ## Summary
 
-Super simple Job Listing plugin to manage Job Openings and Applicants on your WordPress site. 
+Super simple Job Listing plugin to manage Job Openings and Applicants on your WordPress site.
 
 ## Description
 
@@ -19,9 +20,13 @@ Super simple Job Listing plugin to manage Job Openings and Applicants on your Wo
 
 The plugin is designed after carefully analysing hundreds of job listing layouts and methods. We just picked the best features out of the all and built a plugin that’s super simple to use and extensible to a high performing recruitment tool.
 
-The first version of the plugin comes with two layouts - Grid and List which are designed carefully according to the modern design and User Experience principles. Highlight of the plugin is its totally flexible filter options.
+The plugin comes with two layouts - Grid and List which are designed carefully according to the modern design and User Experience principles. Highlight of the plugin is its totally flexible filter options.
+
 
 **[View Demo](https://demo.awsm.in/wp-job-openings/)**
+
+**[Visit website - wpjobopenings.com](https://wpjobopenings.com/)**
+
 
 ## Key Features
 
@@ -78,43 +83,28 @@ The first version of the plugin comes with two layouts - Grid and List which are
 
 ## Screenshots
 
-* **Job listing - Grid View**
-
-  [![Grid View](https://ps.w.org/wp-job-openings/assets/screenshot-1.jpg)](https://wordpress.org/plugins/wp-job-openings/)
-
-* **Job listing - List View**
-
-  [![List View](https://ps.w.org/wp-job-openings/assets/screenshot-2.jpg)](https://wordpress.org/plugins/wp-job-openings/)
-
-* **General Settings**
-  
-  [![General Settings](https://ps.w.org/wp-job-openings/assets/screenshot-3.png)](https://wordpress.org/plugins/wp-job-openings/)
-
-* **Job Listing Page Appearance Settings**
-
-  [![Listing Appearance Settings](https://ps.w.org/wp-job-openings/assets/screenshot-4.png)](https://wordpress.org/plugins/wp-job-openings/)
-
-* **Job Details Page Appearance Settings**
-
-  [![Job Details Appearance Settings](https://ps.w.org/wp-job-openings/assets/screenshot-5.png)](https://wordpress.org/plugins/wp-job-openings/)
-
-* **Job Specifications Manager**
-
-  [![Specifications Manager](https://ps.w.org/wp-job-openings/assets/screenshot-6.png)](https://wordpress.org/plugins/wp-job-openings/)
-
-* **Application Form Settings**
-
-  [![Form Settings](https://ps.w.org/wp-job-openings/assets/screenshot-7.png)](https://wordpress.org/plugins/wp-job-openings/)
-
-* **Email Notification Settings**
-  
-  [![Notification Setting](https://ps.w.org/wp-job-openings/assets/screenshot-8.png)](https://wordpress.org/plugins/wp-job-openings/)
-
-* **Application View**
-  
-  [![Application View](https://ps.w.org/wp-job-openings/assets/screenshot-9.png)](https://wordpress.org/plugins/wp-job-openings/)
+<img src="https://ps.w.org/wp-job-openings/assets/screenshot-5.jpg?rev=2296666" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-4.png?rev=2296666" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-9.jpg?rev=2296666" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-6.png?rev=2296666" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-8.jpg?rev=2296666" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-11.png?rev=2296666" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-1.png?rev=2296666" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-2.png?rev=2296666" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-3.png?rev=2296666" width="30%"></img> 
 
 ## Changelog
+
+**V 2.0.0 - 2020-05-01**
+* Admin UI improvements.
+* Added: New Onboarding interface.
+* Added: Job Overview dashboard widget.
+* Added: Custom Admin navigation.
+* Added: HTML Template support for notification mails.
+* Added: Daily email digest if there are new applications.
+* Added: Drag and Drop sorting for Job Specifications.
+* Added: Functionality to clear searched value.
+* Added: 'Actions' meta box in application edit screen.
+* Added: Next and Previous navigation in application edit screen.
+* Added: Reply-To support in Admin notification mail.
+* Fixed: An issue that prevents user from adding numeric values for job specification in job edit screen.
+* Fixed: Job detail page returning empty content in some themes.
+* Fixed: Specification terms not removing from settings if it contains some special characters.
+* Dev: New hooks for customizing the form fields.
+* Dev: New hook for customizing the terms display in job specification filters.
+* Other minor fixes and code improvements.
 
 **V 1.6.2 - 2020-01-29**
 * Bug fixes and improvements.
@@ -138,11 +128,5 @@ The first version of the plugin comes with two layouts - Grid and List which are
 **V 1.5.1 - 2019-11-08**
 * Fixed: Job application-related attachments security issue in some installations.
 * Fixed: Unable to dismiss the admin notices.
-
-**V 1.5.0 - 2019-10-26**
-* Added: Ability to add 'From' and 'Reply-To' mail addresses for Applicant notifications in settings.
-* Fixed: Select2 library compatibility issues with other plugins.
-* Fixed: Application submission issue in Internet Explorer.
-* Fixed: Upload file extensions empty state issue in settings.
 
 View complete Changelog in [CHANGELOG.MD](https://github.com/awsmin/wp-job-openings/blob/master/CHANGELOG.md)

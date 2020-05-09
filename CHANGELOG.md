@@ -1,5 +1,24 @@
 ## Changelog
 
+### V 2.0.0 - 2020-05-01
+* Admin UI improvements.
+* Added: New Onboarding interface.
+* Added: Job Overview dashboard widget.
+* Added: Custom Admin navigation.
+* Added: HTML Template support for notification mails.
+* Added: Daily email digest if there are new applications.
+* Added: Drag and Drop sorting for Job Specifications.
+* Added: Functionality to clear searched value.
+* Added: 'Actions' meta box in application edit screen.
+* Added: Next and Previous navigation in application edit screen.
+* Added: Reply-To support in Admin notification mail.
+* Fixed: An issue that prevents user from adding numeric values for job specification in job edit screen.
+* Fixed: Job detail page returning empty content in some themes.
+* Fixed: Specification terms not removing from settings if it contains some special characters.
+* Dev: New hooks for customizing the form fields.
+* Dev: New hook for customizing the terms display in job specification filters.
+* Other minor fixes and code improvements.
+
 ### V 1.6.2 - 2020-01-29
 * Bug fixes and improvements.
 

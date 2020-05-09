@@ -18,10 +18,12 @@ Super simple Job Listing plugin to manage Job Openings and Applicants on your Wo
 
 The plugin is designed after carefully analysing hundreds of job listing layouts and methods. We just picked the best features out of the all and built a plugin that’s super simple to use and extensible to a high performing recruitment tool.
 
-The first version of the plugin comes with two layouts - Grid and List which are designed carefully according to the modern design and User Experience principles. Highlight of the plugin is its totally flexible filter options.
+The plugin comes with two layouts - Grid and List which are designed carefully according to the modern design and User Experience principles. Highlight of the plugin is its totally flexible filter options.
 
 
 **[View Demo](https://demo.awsm.in/wp-job-openings/)**
+
+**[Visit website - wpjobopenings.com](https://wpjobopenings.com/)**
 
 
 = Key Features =
@@ -79,13 +81,17 @@ The first version of the plugin comes with two layouts - Grid and List which are
 
 1. Job listing - Grid View
 2. Job listing - List View
-3. General Settings
-4. Job Listing Page Appearance Settings
-5. Job Details Page Appearance Settings
-6. Job Specifications Manager
-7. Application Form Settings
-8. Email Notification Settings
-9. Application View
+3. Job Detail View
+4. Dashboard Widget
+5. Plugin Welcome Page
+6. Add A Job Opening
+7. Application List
+8. Application Detail View
+9. Email Digest
+10. Job Openings List
+11. General Settings
+12. Job Specifications Settings
+13. Notifications Template Settings
 
 == Changelog ==
 
