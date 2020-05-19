@@ -25,7 +25,7 @@ if ( ! empty( $upload_file_extns ) ) {
 		'awsm_jobs_form_settings_fields',
 		array(
 			'general'   => array(
-				'application_form_title' => array(
+				array(
 					'id'    => 'awsm-form-options-title',
 					'label' => __( 'Application form options', 'wp-job-openings' ),
 					'type'  => 'title',
