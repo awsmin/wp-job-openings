@@ -667,6 +667,9 @@ a.awsm-text-red:hover {
 .awsm-wpjo-form-group{
 	margin-bottom: 10px;
 }
+.awsm-wpjo-form-group:last-child {
+	margin-bottom: 0;
+}
 .awsm-wpjo-form-group label{
 	margin-bottom: 4px;
 	display: block;
