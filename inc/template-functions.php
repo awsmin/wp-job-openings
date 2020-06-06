@@ -40,6 +40,29 @@ if ( ! function_exists( 'awsm_jobs_view_class' ) ) {
 	}
 }
 
+if ( ! function_exists( 'awsm_jobs_listing_item_class' ) ) {
+	function awsm_jobs_listing_item_class( $class = array() ) {
+		$job_id  = get_the_ID();
+		$classes = array( 'awsm-job-listing-item' );
+		if ( is_awsm_job_expired() ) {
+			$classes[] = 'awsm-job-expired-item';
+		}
+		if ( ! empty( $class ) ) {
+			$classes = array_merge( $classes, $class );
+		}
+		/**
+		 * Filters the classes for each job listing item.
+		 *
+		 * @since 2.1.0
+		 *
+		 * @param array $classes Array of class names.
+		 * @param int $job_id The Job ID.
+		 */
+		$classes = apply_filters( 'awsm_job_listing_item_class', $classes, $job_id );
+		return sprintf( 'class="%s"', esc_attr( join( ' ', $classes ) ) );
+	}
+}
+
 if ( ! function_exists( 'awsm_jobs_data_attrs' ) ) {
 	function awsm_jobs_data_attrs( $attrs = array(), $shortcode_atts = array() ) {
 		$content = '';

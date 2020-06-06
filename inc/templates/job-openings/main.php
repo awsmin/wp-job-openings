@@ -29,7 +29,9 @@ do_action( 'before_awsm_jobs_listing_loop' );
 while ( $query->have_posts() ) {
 	$query->the_post();
 	$job_details = get_awsm_job_details();
-	$attrs       = sprintf( 'class="awsm-%1$s-item" id="awsm-%1$s-item-%2$s"', esc_attr( $view ), esc_attr( $job_details['id'] ) );
+
+	$attrs  = awsm_jobs_listing_item_class( array( "awsm-{$view}-item" ) );
+	$attrs .= sprintf( ' id="awsm-%1$s-item-%2$s"', esc_attr( $view ), esc_attr( $job_details['id'] ) );
 
 	echo ( $view === 'grid' ) ? sprintf( '<a href="%1$s" %2$s>', esc_url( $job_details['permalink'] ), $attrs ) : '<div ' . $attrs . '>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	?>
