@@ -5,7 +5,7 @@
  * Override this by copying it to currenttheme/wp-job-openings/job-openings/main.php
  *
  * @package wp-job-openings
- * @version 1.4
+ * @version 2.1.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
