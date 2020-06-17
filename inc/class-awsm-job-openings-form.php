@@ -243,7 +243,7 @@ class AWSM_Job_Openings_Form {
 			$site_key     = get_option( 'awsm_jobs_recaptcha_site_key' );
 			$fallback_url = add_query_arg( 'k', $site_key, 'https://www.google.com/recaptcha/api/fallback' );
 			?>
-			<div class="awsm-job-form-group">
+			<div class="awsm-job-form-group awsm-job-g-recaptcha-group">
 				<div class="g-recaptcha" data-sitekey="<?php echo esc_attr( $site_key ); ?>"></div>
 				<noscript>
 					<div style="width: 302px; height: 422px; position: relative;">
