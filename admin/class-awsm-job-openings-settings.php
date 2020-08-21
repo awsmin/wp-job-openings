@@ -897,7 +897,7 @@ class AWSM_Job_Openings_Settings {
 				}
 				if ( $container === 'table' ) {
 					if ( $field_type === 'title' ) {
-						$content .= sprintf( '<tr%2$s><th scope="row" colspan="2" class="awsm-form-head-title"><h2 id="%2$s">%1$s</h2></th></tr>', esc_html( $label ), esc_attr( $id ), $container_attrs );
+						$content .= sprintf( '<tr%3$s><th scope="row" colspan="2" class="awsm-form-head-title"><h2 id="%2$s">%1$s</h2></th></tr>', esc_html( $label ), esc_attr( $id ), $container_attrs );
 					} else {
 						$content .= sprintf( '<tr%3$s><th scope="row">%1$s</th><td>%2$s</td></tr>', $field_label, $field_content, $container_attrs );
 					}
