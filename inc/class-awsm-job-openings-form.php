@@ -289,7 +289,7 @@ class AWSM_Job_Openings_Form {
 	}
 
 	public function hashed_file_name( $dir, $name, $ext ) {
-		$file_name = hash( 'sha1', ( $name . uniqid( rand(), true ) ) ) . time();
+		$file_name = hash( 'sha1', ( $name . uniqid( (string) rand(), true ) ) ) . time();
 		return sanitize_file_name( $file_name . $ext );
 	}
 
@@ -491,7 +491,7 @@ class AWSM_Job_Openings_Form {
 			);
 			if ( ! is_wp_error( $response ) ) {
 				$response_body = wp_remote_retrieve_body( $response );
-				if ( ! is_wp_error( $response_body ) ) {
+				if ( '' !== $response_body ) {
 					if ( wp_remote_retrieve_response_code( $response ) === 200 ) {
 						$response = json_decode( $response_body, true );
 						$is_valid = isset( $response['success'] ) && $response['success'] === true;

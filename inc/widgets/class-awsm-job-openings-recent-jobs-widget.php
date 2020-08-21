@@ -89,6 +89,7 @@ class AWSM_Job_Openings_Recent_Jobs_Widget extends WP_Widget {
 			<p><input class="checkbox" type="checkbox"<?php checked( $show_more ); ?> id="<?php echo esc_attr( $this->get_field_id( 'show_more' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'show_more' ) ); ?>" />
 			<label for="<?php echo esc_attr( $this->get_field_id( 'show_more' ) ); ?>"><?php esc_html_e( "Display 'More Details' link?", 'wp-job-openings' ); ?></label></p>
 		<?php
+		return 'form';
 	}
 
 	public function update( $new_instance, $old_instance ) {

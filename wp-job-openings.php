@@ -615,7 +615,7 @@ class AWSM_Job_Openings {
 				if ( $jobs_post_filter === $post_id ) {
 					$selected = ' selected';
 				}
-				printf( '<option value="%1$s"%3$s>%2$s</option>', esc_attr( $post_id ), esc_html( $post_title ), esc_attr( $selected ) );
+				printf( '<option value="%1$d"%3$s>%2$s</option>', $post_id, esc_html( $post_title ), esc_attr( $selected ) );
 			}
 			echo '</select>';
 		}
@@ -802,7 +802,7 @@ class AWSM_Job_Openings {
 	}
 
 	public function register_scripts() {
-		wp_register_style( 'awsm-jobs-general', AWSM_JOBS_PLUGIN_URL . '/assets/css/general.min.css', false, AWSM_JOBS_PLUGIN_VERSION, 'all' );
+		wp_register_style( 'awsm-jobs-general', AWSM_JOBS_PLUGIN_URL . '/assets/css/general.min.css', array(), AWSM_JOBS_PLUGIN_VERSION, 'all' );
 	}
 
 	public function awsm_enqueue_scripts() {
@@ -1081,7 +1081,7 @@ class AWSM_Job_Openings {
 					$post_data['ID']          = $post_id;
 					$post_data['post_status'] = 'expired';
 					// unhook this function so it doesn't loop infinitely
-					remove_action( 'save_post', array( $this, 'awsm_job_save_post' ), 100, 2 );
+					remove_action( 'save_post', array( $this, 'awsm_job_save_post' ), 100 );
 					wp_update_post( $post_data );
 					// now, re-hook this function
 					add_action( 'save_post', array( $this, 'awsm_job_save_post' ), 100, 2 );

@@ -398,7 +398,7 @@ class AWSM_Job_Openings_Settings {
 		}
 		$slug = sanitize_title( $input, 'jobs' );
 		$page = get_page_by_path( $slug, ARRAY_N );
-		if ( ! empty( $page ) && is_array( $page ) ) {
+		if ( is_array( $page ) ) {
 			add_settings_error( 'awsm_permalink_slug', 'awsm-permalink-slug', esc_html__( 'Slug cannot be updated. A page with same slug exists. Please choose a different URL slug.', 'wp-job-openings' ) );
 			$slug = $old_value;
 		}
@@ -545,7 +545,7 @@ class AWSM_Job_Openings_Settings {
 							foreach ( $remove_tags as $remove_tag ) {
 								$slug = sanitize_title( $remove_tag );
 								$term = get_term_by( 'slug', $slug, $spec_key );
-								if ( ! is_wp_error( $term ) && ! empty( $term ) ) {
+								if ( $term instanceof \WP_Term ) {
 									wp_delete_term( $term->term_id, $spec_key );
 								}
 							}
@@ -764,8 +764,10 @@ class AWSM_Job_Openings_Settings {
 					continue;
 				}
 
-				$field_type = isset( $field_details['type'] ) ? $field_details['type'] : 'text';
-				$label      = isset( $field_details['label'] ) ? $field_details['label'] : '';
+				$field_type    = isset( $field_details['type'] ) ? $field_details['type'] : 'text';
+				$label         = isset( $field_details['label'] ) ? $field_details['label'] : '';
+				$field_label   = '';
+				$field_content = '';
 
 				if ( $field_type !== 'title' ) {
 					$class_name  = isset( $field_details['class'] ) ? $field_details['class'] : 'regular-text';
@@ -774,13 +776,11 @@ class AWSM_Job_Openings_Settings {
 					$description = isset( $field_details['description'] ) ? $field_details['description'] : '';
 					$help_button = isset( $field_details['help_button'] ) && is_array( $field_details['help_button'] ) ? $field_details['help_button'] : '';
 
-					$field_label = '';
 					if ( $field_type === 'checkbox' ) {
 						$field_label = esc_html( $label );
 					} else {
 						$field_label = sprintf( '<label for="%2$s">%1$s</label>', esc_html( $label ), esc_attr( $id ) );
 					}
-					$field_content = '';
 					if ( $field_type === 'raw' ) {
 						$field_content = $value;
 					} else {
@@ -831,12 +831,10 @@ class AWSM_Job_Openings_Settings {
 											$value         = get_option( $field_name, $default_value );
 										}
 									}
-									if ( $field_type === 'checkbox' || $field_type === 'radio' ) {
-										if ( is_array( $value ) ) {
-											$choice_attrs .= ' ' . checked( in_array( $choice, $value ), true, false );
-										} else {
-											$choice_attrs .= ' ' . checked( $value, $choice, false );
-										}
+									if ( is_array( $value ) ) {
+										$choice_attrs .= ' ' . checked( in_array( $choice, $value ), true, false );
+									} else {
+										$choice_attrs .= ' ' . checked( $value, $choice, false );
 									}
 									$text_extra_attrs     = ! empty( $choice_text_class ) ? sprintf( ' class="%s"', esc_attr( $choice_text_class ) ) : '';
 									$choice_field         = sprintf( '<input type="%1$s" name="%2$s" id="%3$s" value="%4$s"%5$s />', esc_attr( $field_type ), esc_attr( $field_name ), esc_attr( $choice_id ), esc_attr( $choice ), $choice_attrs );
@@ -897,7 +895,7 @@ class AWSM_Job_Openings_Settings {
 				}
 				if ( $container === 'table' ) {
 					if ( $field_type === 'title' ) {
-						$content .= sprintf( '<tr%2$s><th scope="row" colspan="2" class="awsm-form-head-title"><h2 id="%2$s">%1$s</h2></th></tr>', esc_html( $label ), esc_attr( $id ), $container_attrs );
+						$content .= sprintf( '<tr%3$s><th scope="row" colspan="2" class="awsm-form-head-title"><h2 id="%2$s">%1$s</h2></th></tr>', esc_html( $label ), esc_attr( $id ), $container_attrs );
 					} else {
 						$content .= sprintf( '<tr%3$s><th scope="row">%1$s</th><td>%2$s</td></tr>', $field_label, $field_content, $container_attrs );
 					}
