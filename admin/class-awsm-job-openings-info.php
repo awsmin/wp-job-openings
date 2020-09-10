@@ -184,7 +184,7 @@ class AWSM_Job_Openings_Info {
 			$installed_plugin = get_plugins( '/' . $plugin_slug );
 		}
 		if ( empty( $installed_plugin ) ) {
-			if ( get_filesystem_method( array(), WP_PLUGIN_DIR ) === 'direct' && $add_on_details['type'] === 'free' ) {
+			if ( get_filesystem_method( array(), plugin_dir_path( dirname( dirname( __FILE__ ) ) ) ) === 'direct' && $add_on_details['type'] === 'free' ) {
 				$btn_class .= ' install-now';
 				$action_url = wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=' . $plugin_slug ), 'install-plugin_' . $plugin_slug );
 			} else {
