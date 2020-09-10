@@ -395,7 +395,7 @@ msgstr ""
 msgid "reCAPTCHA"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:318, inc/template-functions.php:134
+#: admin/class-awsm-job-openings-settings.php:318, inc/template-functions.php:157
 msgid "We currently have no job openings"
 msgstr ""
 
@@ -447,7 +447,7 @@ msgstr ""
 msgid "Job specification key must not exceed 32 characters."
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:522, admin/class-awsm-job-openings-settings.php:930, admin/templates/specifications.php:83
+#: admin/class-awsm-job-openings-settings.php:522, admin/class-awsm-job-openings-settings.php:928, admin/templates/specifications.php:83
 msgid "The job specification key should only contain alphanumeric, latin characters separated by hyphen/underscore, and cannot begin or end with a hyphen/underscore."
 msgstr ""
 
@@ -473,71 +473,71 @@ msgstr ""
 msgid "Error in updating option: '%s'"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:930
+#: admin/class-awsm-job-openings-settings.php:928
 msgid "Specification key"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:965, admin/templates/specifications.php:7
+#: admin/class-awsm-job-openings-settings.php:963, admin/templates/specifications.php:7
 msgid "Enter a specification"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:971, admin/templates/specifications.php:9
+#: admin/class-awsm-job-openings-settings.php:969, admin/templates/specifications.php:9
 msgid "Select icon"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:974, admin/templates/specifications.php:8
+#: admin/class-awsm-job-openings-settings.php:972, admin/templates/specifications.php:8
 msgid "Enter options"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:976
+#: admin/class-awsm-job-openings-settings.php:974
 msgid "Delete"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:986
+#: admin/class-awsm-job-openings-settings.php:984
 msgid "Applicant Name:"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:987
+#: admin/class-awsm-job-openings-settings.php:985
 msgid "Application ID:"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:988
+#: admin/class-awsm-job-openings-settings.php:986
 msgid "Applicant Email:"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:989
+#: admin/class-awsm-job-openings-settings.php:987
 msgid "Applicant Phone:"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:990
+#: admin/class-awsm-job-openings-settings.php:988
 msgid "Applicant Resume:"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:991
+#: admin/class-awsm-job-openings-settings.php:989
 msgid "Cover letter:"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:992
+#: admin/class-awsm-job-openings-settings.php:990
 msgid "Job Title:"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:993
+#: admin/class-awsm-job-openings-settings.php:991
 msgid "Job ID:"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:994
+#: admin/class-awsm-job-openings-settings.php:992
 msgid "Job Expiry Date:"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:995
+#: admin/class-awsm-job-openings-settings.php:993
 msgid "Site admin email:"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:996
+#: admin/class-awsm-job-openings-settings.php:994
 msgid "HR Email:"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:997
+#: admin/class-awsm-job-openings-settings.php:995
 msgid "Company Name:"
 msgstr ""
 
@@ -814,8 +814,8 @@ msgstr ""
 msgid "Error occurred: Invalid Job."
 msgstr ""
 
-#: inc/class-awsm-job-openings-form.php:334, inc/template-functions.php:141
-msgid "Sorry! This job is expired."
+#: inc/class-awsm-job-openings-form.php:334, inc/template-functions.php:164
+msgid "Sorry! This job has expired."
 msgstr ""
 
 #: inc/class-awsm-job-openings-form.php:337
@@ -854,19 +854,19 @@ msgstr ""
 msgid "The following errors have occurred:"
 msgstr ""
 
-#: inc/template-functions.php:111, admin/templates/info/add-ons.php:95
+#: inc/template-functions.php:134, admin/templates/info/add-ons.php:95
 msgid "More Details"
 msgstr ""
 
-#: inc/template-functions.php:124
+#: inc/template-functions.php:147
 msgid "Load more..."
 msgstr ""
 
-#: inc/template-functions.php:148
+#: inc/template-functions.php:171
 msgid "Submit"
 msgstr ""
 
-#: inc/template-functions.php:149
+#: inc/template-functions.php:172
 msgid "Submitting.."
 msgstr ""
 

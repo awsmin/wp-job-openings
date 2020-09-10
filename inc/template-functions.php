@@ -161,7 +161,7 @@ if ( ! function_exists( 'awsm_no_jobs_msg' ) ) {
 
 if ( ! function_exists( 'awsm_jobs_expired_msg' ) ) {
 	function awsm_jobs_expired_msg( $before = '', $after = '' ) {
-		$msg = esc_html__( 'Sorry! This job is expired.', 'wp-job-openings' );
+		$msg = esc_html__( 'Sorry! This job has expired.', 'wp-job-openings' );
 		echo $before . $msg . $after; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 }

@@ -331,7 +331,7 @@ class AWSM_Job_Openings_Form {
 				$awsm_response['error'][] = esc_html__( 'Error occurred: Invalid Job.', 'wp-job-openings' );
 			}
 			if ( get_post_status( $job_id ) === 'expired' ) {
-				$awsm_response['error'][] = esc_html__( 'Sorry! This job is expired.', 'wp-job-openings' );
+				$awsm_response['error'][] = esc_html__( 'Sorry! This job has expired.', 'wp-job-openings' );
 			}
 			if ( empty( $applicant_name ) ) {
 				$awsm_response['error'][] = esc_html__( 'Name is required.', 'wp-job-openings' );
