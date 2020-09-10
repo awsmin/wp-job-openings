@@ -14,7 +14,7 @@
  * Author: AWSM Innovations
  * Author URI: https://awsm.in/
  * Version: 2.0.0
- * Licence: GPLv2
+ * License: GPLv2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text domain: wp-job-openings
  * Domain Path: /languages
