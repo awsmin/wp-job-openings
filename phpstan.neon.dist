@@ -1,0 +1,32 @@
+includes:
+	- vendor/szepeviktor/phpstan-wordpress/extension.neon
+parameters:
+	level: 5
+	inferPrivatePropertyTypeFromConstructor: true
+	bootstrapFiles:
+		- inc/helper-functions.php
+		- inc/template-functions.php
+	paths:
+		- wp-job-openings.php
+		- inc/class-awsm-job-openings-form.php
+		- inc/class-awsm-job-openings-uninstall.php
+		- inc/class-awsm-job-openings-core.php
+		- inc/class-awsm-job-openings-filters.php
+		- inc/widgets/class-awsm-job-openings-recent-jobs-widget.php
+		- inc/widgets/class-awsm-job-openings-dashboard-widget.php
+		- admin/class-awsm-job-openings-meta.php
+		- admin/class-awsm-job-openings-info.php
+		- admin/class-awsm-job-openings-settings.php
+	ignoreErrors:
+		# Uses func_get_args()
+		- '#^Function apply_filters(_ref_array)? invoked with [34567] parameters, 2 required\.$#'
+		# Constants
+		- '#^Constant AWSM_JOBS_PLUGIN_URL not found\.$#'
+		# Properties
+		- '#^Access to an undefined property AWSM_Job_Openings::\$awsm_core\.$#'
+		- '#^Access to an undefined property AWSM_Job_Openings_Settings::\$awsm_core\.$#'
+		- '#^Access to an undefined property AWSM_Job_Openings::\$awsm_form\.$#'
+		- '#^Access to an undefined property AWSM_Job_Openings_Settings::\$cpath\.$#'
+		- '#^Access to an undefined property AWSM_Job_Openings_Meta::\$cpath\.$#'
+		- '#^Access to an undefined property AWSM_Job_Openings_Info::\$cpath\.$#'
+		- '#^Access to an undefined property AWSM_Job_Openings_Form::\$cpath\.$#'
