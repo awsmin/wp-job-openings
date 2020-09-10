@@ -1,16 +1,16 @@
-.clearfix::before,
-.clearfix::after {
+.awsm-clearfix::before,
+.awsm-clearfix::after {
 	content: "\0020";
 	display: block;
 	height: 0;
 	visibility: hidden;
 }
 
-.clearfix::after {
+.awsm-clearfix::after {
 	clear: both;
 }
 
-.clearfix {
+.awsm-clearfix {
 	zoom: 1;
 }
 

@@ -716,7 +716,7 @@ class AWSM_Job_Openings_Settings {
 			$current_tab_option = "awsm_current_{$section}_subtab";
 			$current_tab_id     = get_option( $current_tab_option, $subtab_id );
 			?>
-			<div class="awsm-nav-subtab-container clearfix">
+			<div class="awsm-nav-subtab-container awsm-clearfix">
 				<ul class="subsubsub">
 					<?php
 					foreach ( $subtabs as $key => $subtab ) :

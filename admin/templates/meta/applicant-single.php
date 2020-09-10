@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	do_action( 'awsm_job_applicant_mb_init', $post->ID );
 ?>
 
-<div class="awsm-application-container clearfix">
+<div class="awsm-application-container awsm-clearfix">
 	<div class="awsm-applicant-image-container">
 		<?php
 			/**
@@ -70,7 +70,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( defined( 'AWSM_JOBS_PRO_PLUGIN_VERSION' ) && version_compare( AWSM_JOBS_PRO_PLUGIN_VERSION, '1.4.0', '<' ) ) :
 	?>
 	<div class="submitbox awsm-application-submitbox">
-		<div id="major-publishing-actions" class="awsm-application-major-actions clearfix">
+		<div id="major-publishing-actions" class="awsm-application-major-actions awsm-clearfix">
 			<?php $this->application_delete_action( $post->ID ); ?>
 		</div><!-- #major-publishing-actions -->
 	</div><!-- .awsm-application-submitbox -->
