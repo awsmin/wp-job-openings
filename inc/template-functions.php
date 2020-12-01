@@ -176,6 +176,34 @@ if ( ! function_exists( 'awsm_job_form_submit_btn' ) ) {
 	}
 }
 
+if ( ! function_exists( 'awsm_jobs_featured_image' ) ) {
+	function awsm_jobs_featured_image( $echo = true, $size = 'thumbnail', $attr = '' ) {
+		$content = '';
+		$post_thumbnail_id = get_post_thumbnail_id();
+		$featured_image_support = get_option( 'awsm_jobs_enable_featured_image' );
+		if ( $featured_image_support === 'enable' && $post_thumbnail_id ) {
+			$content = wp_get_attachment_image( $post_thumbnail_id, $size, false, $attr );
+		}
+		/**
+		 * Filters the featured image content.
+		 *
+		 * @since 2.1.0
+		 *
+		 * @param string $content The image content.
+		 * @param int $post_thumbnail_id The post thumbnail ID.
+		 */
+		$content = apply_filters( 'awsm_jobs_featured_image_content', $content, $post_thumbnail_id );
+		if ( ! empty( $content ) ) {
+			$content = '<div class="awsm-job-featured-image">' . $content . '</div>';
+		}
+		if ( $echo ) {
+			echo $content;
+		} else {
+			return $content;
+		}
+	}
+}
+
 if ( ! function_exists( 'awsm_jobs_archive_title' ) ) {
 	function awsm_jobs_archive_title() {
 		if ( is_archive() ) {
@@ -195,3 +223,10 @@ if ( ! function_exists( 'awsm_jobs_single_title' ) ) {
 	}
 }
 add_action( 'before_awsm_jobs_single_content', 'awsm_jobs_single_title' );
+
+if ( ! function_exists( 'awsm_jobs_single_featured_image' ) ) {
+	function awsm_jobs_single_featured_image() {
+		awsm_jobs_featured_image( true, 'post-thumbnail' );
+	}
+}
+add_action( 'before_awsm_jobs_single_content', 'awsm_jobs_single_featured_image' );

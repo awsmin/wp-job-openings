@@ -123,6 +123,10 @@ class AWSM_Job_Openings_Settings {
 					'option_name' => 'awsm_jobs_email_digest',
 				),
 				array(
+					/** @since 2.1.0 */
+					'option_name' => 'awsm_jobs_enable_featured_image',
+				),
+				array(
 					/** @since 1.6.0 */
 					'option_name' => 'awsm_hide_uploaded_files',
 				),

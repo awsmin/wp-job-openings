@@ -41,6 +41,7 @@ do_action( 'before_awsm_jobs_main_content' );
 				 * before_awsm_jobs_single_content hook
 				 *
 				 * @hooked awsm_jobs_single_title
+				 * @hooked awsm_jobs_single_featured_image
 				 *
 				 * @since 1.1
 				 */

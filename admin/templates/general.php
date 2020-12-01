@@ -80,6 +80,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 					),
 				),
 				array(
+					'name'          => 'awsm_jobs_enable_featured_image',
+					'label'         => __( 'Featured image', 'wp-job-openings' ),
+					'type'          => 'checkbox',
+					'class'         => '',
+					'choices'       => array(
+						array(
+							'value' => 'enable',
+							'text'  => __( 'Enable Featured image support for Job Openings', 'wp-job-openings' ),
+						),
+					),
+				),
+				array(
 					'name'        => 'awsm_hide_uploaded_files',
 					'label'       => __( 'File uploads', 'wp-job-openings' ),
 					'type'        => 'checkbox',

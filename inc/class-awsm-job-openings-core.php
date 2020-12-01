@@ -68,6 +68,12 @@ class AWSM_Job_Openings_Core {
 			'item_updated'             => __( 'Job listing updated.', 'wp-job-openings' ),
 		);
 
+		$supports = array( 'title', 'editor', 'excerpt', 'author', 'custom-fields', 'publicize' );
+		$featured_image_support = get_option( 'awsm_jobs_enable_featured_image' );
+		if ( $featured_image_support === 'enable' ) {
+			$supports[] = 'thumbnail';
+		}
+
 		/**
 		 * Filters 'awsm_job_openings' post type arguments.
 		 *
@@ -90,7 +96,7 @@ class AWSM_Job_Openings_Core {
 				'rewrite'         => array( 'slug' => get_option( 'awsm_permalink_slug', 'jobs' ) ),
 				'capability_type' => 'job',
 				'menu_icon'       => esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/nav-icon.svg' ),
-				'supports'        => array( 'title', 'editor', 'excerpt', 'author', 'thumbnail', 'custom-fields', 'publicize' ),
+				'supports'        => $supports,
 			)
 		);
 

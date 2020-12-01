@@ -89,6 +89,10 @@ a.awsm-grid-item {
 	box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.23);
 }
 
+.awsm-grid-item .awsm-job-featured-image {
+	margin-bottom: 14px;
+}
+
 .awsm-job-item h2.awsm-job-post-title {
 	margin: 0 0 15px;
 	font-size: 18px;
@@ -195,6 +199,16 @@ a.awsm-grid-item {
 
 .awsm-list-item h2.awsm-job-post-title {
 	margin-bottom: 0;
+}
+
+.awsm-list-item .awsm-job-featured-image {
+	float: left;
+    margin-right: 10px;
+}
+
+.awsm-list-item .awsm-job-featured-image img {
+	width: 50px;
+    height: 50px;
 }
 
 .awsm-list-item .awsm-job-item {
