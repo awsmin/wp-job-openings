@@ -68,7 +68,7 @@ class AWSM_Job_Openings_Core {
 			'item_updated'             => __( 'Job listing updated.', 'wp-job-openings' ),
 		);
 
-		$supports = array( 'title', 'editor', 'excerpt', 'author', 'custom-fields', 'publicize' );
+		$supports               = array( 'title', 'editor', 'excerpt', 'author', 'custom-fields', 'publicize' );
 		$featured_image_support = get_option( 'awsm_jobs_enable_featured_image' );
 		if ( $featured_image_support === 'enable' ) {
 			$supports[] = 'thumbnail';

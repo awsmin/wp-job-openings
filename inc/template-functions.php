@@ -178,8 +178,8 @@ if ( ! function_exists( 'awsm_job_form_submit_btn' ) ) {
 
 if ( ! function_exists( 'awsm_jobs_featured_image' ) ) {
 	function awsm_jobs_featured_image( $echo = true, $size = 'thumbnail', $attr = '' ) {
-		$content = '';
-		$post_thumbnail_id = get_post_thumbnail_id();
+		$content                = '';
+		$post_thumbnail_id      = get_post_thumbnail_id();
 		$featured_image_support = get_option( 'awsm_jobs_enable_featured_image' );
 		if ( $featured_image_support === 'enable' && $post_thumbnail_id ) {
 			$content = wp_get_attachment_image( $post_thumbnail_id, $size, false, $attr );
