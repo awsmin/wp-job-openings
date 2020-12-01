@@ -21,8 +21,9 @@ $application_id = $post->ID;
 			<div class="misc-pub-section curtime misc-pub-curtime">
 				<span id="timestamp">
 					<?php
+						$formatted_date = date_i18n( get_awsm_jobs_date_format( 'application-actions' ) . ' @ ' . get_awsm_jobs_time_format( 'application-actions' ), strtotime( $post->post_date ) );
 						/* translators: %s: application submission time */
-						printf( esc_html__( 'Submitted on: %s', 'wp-job-openings' ), sprintf( '<strong>%s</strong>', esc_html( date_i18n( __( 'M j, Y @ H:i', 'default' ), strtotime( $post->post_date ) ) ) ) );
+						printf( esc_html__( 'Submitted on: %s', 'wp-job-openings' ), sprintf( '<strong>%s</strong>', esc_html( $formatted_date ) ) );
 					?>
 				</span>
 			</div>

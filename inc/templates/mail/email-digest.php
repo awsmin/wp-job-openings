@@ -76,7 +76,7 @@ require AWSM_Job_Openings::get_template_path( 'header.php', 'mail' );
 									<tr style="border-bottom: 1px solid #D7DFDF;">
 										<td><?php echo esc_html( $application->post_title ); ?></td>
 										<td><?php echo esc_html( get_the_title( $application->post_parent ) ); ?></td>
-										<td><?php echo esc_html( date_i18n( 'j F Y', strtotime( get_the_date( '', $application->ID ) ) ) ); ?></td>
+										<td><?php echo esc_html( date_i18n( get_awsm_jobs_date_format( 'email-digest', __( 'j F Y', 'wp-job-openings' ) ), get_post_time( 'U', false, $application->ID ) ) ); ?></td>
 										<td><a href="<?php echo esc_url( AWSM_Job_Openings::get_application_edit_link( $application->ID ) ); ?>"><strong><?php esc_html_e( 'View', 'wp-job-openings' ); ?></strong></a></td>
 									</tr>
 								<?php

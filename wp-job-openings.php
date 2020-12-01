@@ -353,7 +353,7 @@ class AWSM_Job_Openings {
 			case 'awsm_job_expiry':
 					$expiry_on_list = get_post_meta( $post_id, 'awsm_set_exp_list', true );
 					$job_expiry     = get_post_meta( $post_id, 'awsm_job_expiry', true );
-					echo ( $expiry_on_list === 'set_listing' && ! empty( $job_expiry ) ) ? esc_html( date_i18n( __( 'M j, Y', 'default' ), strtotime( $job_expiry ) ) ) : $default_display; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					echo ( $expiry_on_list === 'set_listing' && ! empty( $job_expiry ) ) ? esc_html( date_i18n( get_awsm_jobs_date_format( 'expiry-admin' ), strtotime( $job_expiry ) ) ) : $default_display; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				break;
 
 			case 'awsm_job_post_views':
@@ -943,8 +943,9 @@ class AWSM_Job_Openings {
 	public function awsm_admin_single_subtitle( $post ) {
 		global $action;
 		if ( $post->post_type === 'awsm_job_application' && $action === 'edit' ) {
+			$date = date_i18n( get_awsm_jobs_time_format( 'application-view' ) . ', ' . get_awsm_jobs_date_format( 'application-view' ), strtotime( $post->post_date ) );
 			/* translators: %s: application submission time */
-			$submitted_date = sprintf( __( 'Submitted on %s', 'wp-job-openings' ), date_i18n( __( 'g:ia, j F Y', 'default' ), strtotime( $post->post_date ) ) );
+			$submitted_date = sprintf( __( 'Submitted on %s', 'wp-job-openings' ), $date );
 			$subtitle       = '<span class="awsm-application-submission-date">' . esc_html( $submitted_date ) . '</span>';
 			$user_ip        = get_post_meta( $post->ID, 'awsm_applicant_ip', true );
 			if ( ! empty( $user_ip ) ) {
@@ -1310,7 +1311,7 @@ class AWSM_Job_Openings {
 			if ( $post_status === 'expired' ) {
 				$display_status = esc_html__( 'Expired on', 'wp-job-openings' );
 			}
-			$content = sprintf( '<div class="awsm-job-expiry-details"><span class="awsm-job-expiration-label">%1$s:</span> <span class="awsm-job-expiration-content">%2$s</span></div>', esc_html( $display_status ), esc_html( date_i18n( __( 'M j, Y', 'default' ), strtotime( $expiry_date ) ) ) );
+			$content = sprintf( '<div class="awsm-job-expiry-details"><span class="awsm-job-expiration-label">%1$s:</span> <span class="awsm-job-expiration-content">%2$s</span></div>', esc_html( $display_status ), esc_html( date_i18n( get_awsm_jobs_date_format( 'expiry', __( 'M j, Y', 'wp-job-openings' ) ), strtotime( $expiry_date ) ) ) );
 		}
 		return apply_filters( 'awsm_job_expiry_details_content', $content );
 	}

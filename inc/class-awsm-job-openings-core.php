@@ -300,7 +300,7 @@ class AWSM_Job_Openings_Core {
 			__( 'View Job listing', 'wp-job-openings' )
 		);
 
-		$scheduled_date = date_i18n( __( 'M j, Y @ H:i', 'default' ), strtotime( $post->post_date ) );
+		$scheduled_date = date_i18n( get_awsm_jobs_date_format( 'scheduled-date' ) . ' @ ' . get_awsm_jobs_time_format( 'scheduled-date' ), strtotime( $post->post_date ) );
 
 		$messages['awsm_job_openings'] = array(
 			0  => '', // Unused. Messages start at index 1.

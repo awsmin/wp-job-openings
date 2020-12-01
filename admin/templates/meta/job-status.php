@@ -71,8 +71,8 @@ if ( $post->post_type === 'awsm_job_application' ) {
 		}
 
 		if ( $post->post_type === 'awsm_job_application' ) {
-			$date_format         = get_option( 'date_format' );
-			$job_submission_date = date_i18n( $date_format, strtotime( get_the_date( '', $job_id ) ) );
+			$date_format         = get_awsm_jobs_date_format( 'job-status' );
+			$job_submission_date = date_i18n( $date_format, get_post_time( 'U', false, $job_id ) );
 			$expiry_date         = get_post_meta( $job_id, 'awsm_job_expiry', true );
 			$formatted_date      = ! empty( $expiry_date ) ? date_i18n( $date_format, strtotime( $expiry_date ) ) : esc_html__( 'NA', 'wp-job-openings' );
 

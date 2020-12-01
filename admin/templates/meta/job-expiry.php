@@ -29,7 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<div class="awsm-job-expiry-main">
 			<p>
 				<?php $awsm_job_expiry = get_post_meta( $post->ID, 'awsm_job_expiry', true ); ?>
-				<label for="awsm-jobs-datepicker"><input type="text" class="awsm-jobs-datepicker" id="awsm-jobs-datepicker" name="awsm_job_expiry_text_field" placeholder="MM d, yy" value="<?php echo ( ! empty( $awsm_job_expiry ) ) ? esc_attr( date_i18n( get_option( 'date_format' ), strtotime( $awsm_job_expiry ) ) ) : ''; ?>" /><input type="hidden" id="awsm-jobs-datepicker-alt" name="awsm_job_expiry" value="<?php echo esc_attr( $awsm_job_expiry ); ?>" /></label>
+				<label for="awsm-jobs-datepicker"><input type="text" class="awsm-jobs-datepicker" id="awsm-jobs-datepicker" name="awsm_job_expiry_text_field" placeholder="MM d, yy" value="<?php echo ( ! empty( $awsm_job_expiry ) ) ? esc_attr( date_i18n( get_awsm_jobs_date_format( 'expiry-admin' ), strtotime( $awsm_job_expiry ) ) ) : ''; ?>" /><input type="hidden" id="awsm-jobs-datepicker-alt" name="awsm_job_expiry" value="<?php echo esc_attr( $awsm_job_expiry ); ?>" /></label>
 			</p>
 			<p>
 				<label for="awsm-job-expiry-display"><input type="checkbox" name="awsm_exp_list_display" id="awsm-job-expiry-display" value="list_display"<?php echo ( $display_list === 'list_display' ) ? 'checked' : ''; ?>   /><?php esc_html_e( 'Display expiry date', 'wp-job-openings' ); ?></label>

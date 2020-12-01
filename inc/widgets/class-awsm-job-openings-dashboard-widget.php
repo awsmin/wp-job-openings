@@ -130,7 +130,7 @@ class AWSM_Job_Openings_Dashboard_Widget {
 				$job_expiry     = get_post_meta( $job->ID, 'awsm_job_expiry', true );
 
 				if ( $expiry_on_list === 'set_listing' && ! empty( $job_expiry ) ) {
-					$expiry = date_i18n( __( 'M j, Y', 'default' ), strtotime( $job_expiry ) );
+					$expiry = date_i18n( get_awsm_jobs_date_format( 'dashboard-widget' ), strtotime( $job_expiry ) );
 				}
 
 				$job_data[] = array(
