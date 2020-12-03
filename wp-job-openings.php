@@ -461,7 +461,7 @@ class AWSM_Job_Openings {
 			if ( ! empty( $selected ) ) {
 				$display_status = $label;
 			}
-			$options .= sprintf('<option value="%2$s"%3$s>%1$s</option>', esc_html( $label ), esc_attr( $name ), $selected );
+			$options .= sprintf( '<option value="%2$s"%3$s>%1$s</option>', esc_html( $label ), esc_attr( $name ), $selected );
 		}
 		?>
 			<script>
@@ -722,7 +722,8 @@ class AWSM_Job_Openings {
 		// phpcs:enable
 	}
 
-	public function no_script_msg() { ?>
+	public function no_script_msg() {
+		?>
 		<noscript>
 			<div class="notice notice-error">
 				<p><?php esc_html_e( 'JavaScript is required! Please enable it in your browser.', 'wp-job-openings' ); ?></p>
