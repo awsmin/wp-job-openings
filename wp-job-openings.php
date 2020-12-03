@@ -170,6 +170,9 @@ class AWSM_Job_Openings {
 			add_action( 'before_awsm_job_settings_init', array( $this, 'no_script_msg' ) );
 			add_action( 'wp_ajax_awsm_plugin_rating', array( $this, 'plugin_rating' ) );
 			add_action( 'admin_notices', array( $this, 'plugin_rating_notice_handler' ) );
+			// Add custom status to status dropdown under post submit meta box (existing and new) for job openings.
+			add_action( 'admin_footer-post.php', array( $this, 'job_submit_meta_box_custom_status' ) );
+			add_action( 'admin_footer-post-new.php', array( $this, 'job_submit_meta_box_custom_status' ) );
 		}
 	}
 
@@ -422,6 +425,55 @@ class AWSM_Job_Openings {
 				'label_count'               => _n_noop( 'Expired <span class="count">(%s)</span>', 'Expired <span class="count">(%s)</span>', 'wp-job-openings' ),
 			)
 		);
+	}
+
+	public function job_submit_meta_box_custom_status() {
+		global $post_type;
+		if ( $post_type !== 'awsm_job_openings' ) {
+			return;
+		}
+
+		$status = array(
+			'publish' => __( 'Published', 'default' ),
+			'expired' => __( 'Expired', 'wp-job-openings' ),
+			'future'  => __( 'Scheduled', 'default' ),
+			'pending' => __( 'Pending Review', 'default' ),
+			'draft'   => __( 'Draft', 'default' ),
+		);
+		/**
+		 * Filters the status array for submit meta box for job openings.
+		 *
+		 * @since 2.1.0
+		 *
+		 * @param array $status Job status array.
+		 */
+		$status = apply_filters( 'awsm_job_post_status', $status );
+
+		global $post;
+		if ( $post->post_status === 'future' ) {
+			unset( $status['publish'], $status['expired'] );
+		} else {
+			unset( $status['future'] );
+		}
+		$options = $display_status = '';
+		foreach ( $status as $name => $label ) {
+			$selected = selected( $post->post_status, $name, false );
+			if ( ! empty( $selected ) ) {
+				$display_status = $label;
+			}
+			$options .= sprintf('<option value="%2$s"%3$s>%1$s</option>', esc_html( $label ), esc_attr( $name ), $selected );
+		}
+		?>
+			<script>
+				jQuery(document).ready(function($) {
+					<?php if ( ! empty( $display_status ) ) : ?>
+						$('#post-status-display').text('<?php echo esc_html( $display_status ); ?>');
+					<?php endif; ?>
+
+					$('#post_status').html('<?php echo wp_slash( $options ); ?>');
+				});
+			</script>
+		<?php
 	}
 
 	public function awsm_openings_cron_job() {
@@ -1086,6 +1138,11 @@ class AWSM_Job_Openings {
 					wp_update_post( $post_data );
 					// now, re-hook this function
 					add_action( 'save_post', array( $this, 'awsm_job_save_post' ), 100, 2 );
+				}
+			} else {
+				if ( $post->post_status === 'expired' ) {
+					update_post_meta( $post_id, 'awsm_set_exp_list', 'set_listing' );
+					update_post_meta( $post_id, 'awsm_job_expiry', date( 'Y-m-j' ) );
 				}
 			}
 
