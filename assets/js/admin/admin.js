@@ -35,6 +35,11 @@ function awsmJobTagSelect($elem, dropdownHidden, additionalConfig) {
 	}
 }
 
+/*================ Setup screen ================*/
+jQuery(window).on('load', function() {
+	jQuery('.awsm-job-setup').addClass('loaded');
+});
+
 jQuery(document).ready(function($) {
 
 	/*================ General ================*/
@@ -386,10 +391,6 @@ jQuery(document).ready(function($) {
 				$('.awsm-job-plugin-rating-wrapper').slideUp('fast');
 			}
 		});
-	});
-
-	$(window).on('load', function() {
-		$('.awsm-job-setup').addClass('loaded');
 	});
 
 	$('#awsm-job-setup-form').on('submit', function(e) {
