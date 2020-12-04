@@ -197,7 +197,7 @@ if ( ! function_exists( 'awsm_jobs_featured_image' ) ) {
 			$content = '<div class="awsm-job-featured-image">' . $content . '</div>';
 		}
 		if ( $echo ) {
-			echo $content;
+			echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		} else {
 			return $content;
 		}

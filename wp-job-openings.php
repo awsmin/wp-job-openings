@@ -455,7 +455,8 @@ class AWSM_Job_Openings {
 		} else {
 			unset( $status['future'] );
 		}
-		$options = $display_status = '';
+		$options        = '';
+		$display_status = '';
 		foreach ( $status as $name => $label ) {
 			$selected = selected( $post->post_status, $name, false );
 			if ( ! empty( $selected ) ) {
@@ -470,7 +471,7 @@ class AWSM_Job_Openings {
 						$('#post-status-display').text('<?php echo esc_html( $display_status ); ?>');
 					<?php endif; ?>
 
-					$('#post_status').html('<?php echo wp_slash( $options ); ?>');
+					$('#post_status').html('<?php echo wp_slash( $options ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>');
 				});
 			</script>
 		<?php
@@ -667,7 +668,7 @@ class AWSM_Job_Openings {
 				if ( $jobs_post_filter === $post_id ) {
 					$selected = ' selected';
 				}
-				printf( '<option value="%1$d"%3$s>%2$s</option>', $post_id, esc_html( $post_title ), esc_attr( $selected ) );
+				printf( '<option value="%1$d"%3$s>%2$s</option>', esc_attr( $post_id ), esc_html( $post_title ), esc_attr( $selected ) );
 			}
 			echo '</select>';
 		}
@@ -1143,7 +1144,7 @@ class AWSM_Job_Openings {
 			} else {
 				if ( $post->post_status === 'expired' ) {
 					update_post_meta( $post_id, 'awsm_set_exp_list', 'set_listing' );
-					update_post_meta( $post_id, 'awsm_job_expiry', date( 'Y-m-j' ) );
+					update_post_meta( $post_id, 'awsm_job_expiry', gmdate( 'Y-m-j' ) );
 				}
 			}
 
