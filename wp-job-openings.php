@@ -668,7 +668,7 @@ class AWSM_Job_Openings {
 				if ( $jobs_post_filter === $post_id ) {
 					$selected = ' selected';
 				}
-				printf( '<option value="%1$d"%3$s>%2$s</option>', esc_attr( $post_id ), esc_html( $post_title ), esc_attr( $selected ) );
+				printf( '<option value="%1$d"%3$s>%2$s</option>', intval( $post_id ), esc_html( $post_title ), esc_attr( $selected ) );
 			}
 			echo '</select>';
 		}
