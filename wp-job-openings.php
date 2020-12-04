@@ -1144,7 +1144,7 @@ class AWSM_Job_Openings {
 			} else {
 				if ( $post->post_status === 'expired' ) {
 					update_post_meta( $post_id, 'awsm_set_exp_list', 'set_listing' );
-					update_post_meta( $post_id, 'awsm_job_expiry', gmdate( 'Y-m-j' ) );
+					update_post_meta( $post_id, 'awsm_job_expiry', gmdate( 'Y-m-d' ) );
 				}
 			}
 

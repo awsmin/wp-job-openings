@@ -84,7 +84,7 @@ jQuery(document).ready(function($) {
 	var dateToday = new Date();
 	$('#awsm-jobs-datepicker').datepicker({
 		altField: '#awsm-jobs-datepicker-alt',
-		altFormat: 'yy-mm-d',
+		altFormat: 'yy-mm-dd',
 		showOn: 'both',
 		buttonText: '<span class="dashicons dashicons-calendar-alt"></span>',
 		changeMonth: true,
