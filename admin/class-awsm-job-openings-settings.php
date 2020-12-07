@@ -407,8 +407,9 @@ class AWSM_Job_Openings_Settings {
 			add_settings_error( 'awsm_permalink_slug', 'awsm-permalink-slug', esc_html__( 'URL slug cannot be empty.', 'wp-job-openings' ) );
 			$input = $old_value;
 		}
-		$slug            = sanitize_title( $input, 'jobs' );
-		$page            = get_page_by_path( $slug, ARRAY_N );
+		$slug = sanitize_title( $input, 'jobs' );
+		$page = get_page_by_path( $slug, ARRAY_N );
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing
 		$disable_archive = isset( $_POST['awsm_jobs_disable_archive_page'] ) ? sanitize_text_field( $_POST['awsm_jobs_disable_archive_page'] ) : '';
 		if ( is_array( $page ) && $disable_archive !== 'disable' ) {
 			$msg = __( 'The slug cannot be updated.', 'wp-job-openings' );
@@ -650,6 +651,7 @@ class AWSM_Job_Openings_Settings {
 
 		if ( ! $this->permalink_msg_shown ) {
 			$this->permalink_msg_shown = true;
+			/* translators: %1$s: opening anchor tag, %2$s: closing anchor tag */
 			add_settings_error( $option_name, str_replace( '_', '-', $option_name ), sprintf( esc_html__( 'Please refresh the %1$sPermalink Settings%2$s to reflect the changes.', 'wp-job-openings' ), '<a href="' . esc_url( admin_url( 'options-permalink.php' ) ) . '">', '</a>' ), 'awsm-jobs-warning' );
 		}
 	}
