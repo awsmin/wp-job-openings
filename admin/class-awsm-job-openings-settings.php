@@ -6,6 +6,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 class AWSM_Job_Openings_Settings {
 	private static $instance = null;
 
+	private $permalink_msg_shown = false;
+
 	public function __construct( $awsm_core ) {
 		$this->cpath     = untrailingslashit( plugin_dir_path( __FILE__ ) );
 		$this->awsm_core = $awsm_core;
@@ -409,7 +411,11 @@ class AWSM_Job_Openings_Settings {
 		$page            = get_page_by_path( $slug, ARRAY_N );
 		$disable_archive = isset( $_POST['awsm_jobs_disable_archive_page'] ) ? sanitize_text_field( $_POST['awsm_jobs_disable_archive_page'] ) : '';
 		if ( is_array( $page ) && $disable_archive !== 'disable' ) {
-			add_settings_error( 'awsm_permalink_slug', 'awsm-permalink-slug', esc_html__( 'The slug cannot be updated. A page with the same slug exists. Please choose a different URL slug or disable the archive page for Job Openings and try again!', 'wp-job-openings' ) );
+			$msg = __( 'The slug cannot be updated.', 'wp-job-openings' );
+			if ( $slug === $old_value ) {
+				$msg = __( 'The URL slug is not valid.', 'wp-job-openings' );
+			}
+			add_settings_error( 'awsm_permalink_slug', 'awsm-permalink-slug', esc_html( $msg . ' ' . __( 'A page with the same slug exists. Please choose a different URL slug or disable the archive page for Job Openings and try again!', 'wp-job-openings' ) ) );
 			$slug = $old_value;
 		}
 		return $slug;
@@ -637,19 +643,26 @@ class AWSM_Job_Openings_Settings {
 		}
 	}
 
+	public function refresh_permalink( $option_name ) {
+		$this->awsm_core->unregister_awsm_job_openings_post_type();
+		$this->awsm_core->register_post_types();
+		flush_rewrite_rules();
+
+		if ( ! $this->permalink_msg_shown ) {
+			$this->permalink_msg_shown = true;
+			add_settings_error( $option_name, str_replace( '_', '-', $option_name ), sprintf( esc_html__( 'Please refresh the %1$sPermalink Settings%2$s to reflect the changes.', 'wp-job-openings' ), '<a href="' . esc_url( admin_url( 'options-permalink.php' ) ) . '">', '</a>' ), 'awsm-jobs-warning' );
+		}
+	}
+
 	public function update_awsm_permalink_slug( $old_value, $value ) {
 		if ( empty( $value ) ) {
 			update_option( 'awsm_permalink_slug', 'jobs' );
 		}
-		$this->awsm_core->unregister_awsm_job_openings_post_type();
-		$this->awsm_core->register_post_types();
-		flush_rewrite_rules();
+		$this->refresh_permalink( 'awsm_permalink_slug' );
 	}
 
 	public function update_jobs_archive_page() {
-		$this->awsm_core->unregister_awsm_job_openings_post_type();
-		$this->awsm_core->register_post_types();
-		flush_rewrite_rules();
+		$this->refresh_permalink( 'awsm_jobs_disable_archive_page' );
 	}
 
 	public function update_awsm_hide_uploaded_files( $old_value, $value ) {
