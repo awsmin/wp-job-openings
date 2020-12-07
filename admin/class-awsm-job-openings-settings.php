@@ -17,6 +17,7 @@ class AWSM_Job_Openings_Settings {
 
 		add_action( 'update_option_awsm_select_page_listing', array( $this, 'update_awsm_page_listing' ), 10, 2 );
 		add_action( 'update_option_awsm_permalink_slug', array( $this, 'update_awsm_permalink_slug' ), 10, 2 );
+		add_action( 'update_option_awsm_jobs_disable_archive_page', array( $this, 'update_jobs_archive_page' ) );
 		add_action( 'update_option_awsm_hide_uploaded_files', array( $this, 'update_awsm_hide_uploaded_files' ), 10, 2 );
 		add_action( 'update_option_awsm_jobs_remove_filters', array( $this, 'update_awsm_jobs_remove_filters' ), 10, 2 );
 		add_action( 'update_option_awsm_jobs_make_specs_clickable', array( $this, 'update_awsm_jobs_make_specs_clickable' ), 10, 2 );
@@ -121,6 +122,10 @@ class AWSM_Job_Openings_Settings {
 				array(
 					/** @since 2.0.0 */
 					'option_name' => 'awsm_jobs_email_digest',
+				),
+				array(
+					/** @since 2.1.0 */
+					'option_name' => 'awsm_jobs_disable_archive_page',
 				),
 				array(
 					/** @since 2.1.0 */
@@ -400,10 +405,11 @@ class AWSM_Job_Openings_Settings {
 			add_settings_error( 'awsm_permalink_slug', 'awsm-permalink-slug', esc_html__( 'URL slug cannot be empty.', 'wp-job-openings' ) );
 			$input = $old_value;
 		}
-		$slug = sanitize_title( $input, 'jobs' );
-		$page = get_page_by_path( $slug, ARRAY_N );
-		if ( is_array( $page ) ) {
-			add_settings_error( 'awsm_permalink_slug', 'awsm-permalink-slug', esc_html__( 'Slug cannot be updated. A page with same slug exists. Please choose a different URL slug.', 'wp-job-openings' ) );
+		$slug            = sanitize_title( $input, 'jobs' );
+		$page            = get_page_by_path( $slug, ARRAY_N );
+		$disable_archive = isset( $_POST['awsm_jobs_disable_archive_page'] ) ? sanitize_text_field( $_POST['awsm_jobs_disable_archive_page'] ) : '';
+		if ( is_array( $page ) && $disable_archive !== 'disable' ) {
+			add_settings_error( 'awsm_permalink_slug', 'awsm-permalink-slug', esc_html__( 'The slug cannot be updated. A page with the same slug exists. Please choose a different URL slug or disable the archive page for Job Openings and try again!', 'wp-job-openings' ) );
 			$slug = $old_value;
 		}
 		return $slug;
@@ -635,6 +641,12 @@ class AWSM_Job_Openings_Settings {
 		if ( empty( $value ) ) {
 			update_option( 'awsm_permalink_slug', 'jobs' );
 		}
+		$this->awsm_core->unregister_awsm_job_openings_post_type();
+		$this->awsm_core->register_post_types();
+		flush_rewrite_rules();
+	}
+
+	public function update_jobs_archive_page() {
 		$this->awsm_core->unregister_awsm_job_openings_post_type();
 		$this->awsm_core->register_post_types();
 		flush_rewrite_rules();

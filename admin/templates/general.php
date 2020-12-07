@@ -80,6 +80,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 					),
 				),
 				array(
+					'name'    => 'awsm_jobs_disable_archive_page',
+					'label'   => __( 'Jobs Archive', 'wp-job-openings' ),
+					'type'    => 'checkbox',
+					'class'   => '',
+					'choices' => array(
+						array(
+							'value' => 'disable',
+							'text'  => __( 'Disable the archive page for Job Openings', 'wp-job-openings' ),
+						),
+					),
+				),
+				array(
 					'name'    => 'awsm_jobs_enable_featured_image',
 					'label'   => __( 'Featured image', 'wp-job-openings' ),
 					'type'    => 'checkbox',
