@@ -1,5 +1,14 @@
 ## Changelog
 
+### V 2.1.0 – 2020-12-08
+* WordPress 5.6 compatibility fixes.
+* Added: Featured image support for Job Openings and in the job listing and an option to enable the support. Template files need to be updated if overridden in theme.
+* Added: Excerpt, Author, and Custom fields support for Job Openings.
+* Added: Force expiry option in the submit meta box.
+* Added: Option to disable the archive page for Job Openings.
+* Improved: Date and Time formatting.
+* Code improvements and minor bug fixes.
+
 ### V 2.0.0 - 2020-05-01
 * Admin UI improvements.
 * Added: New Onboarding interface.

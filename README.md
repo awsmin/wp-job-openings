@@ -3,9 +3,9 @@
 **Contributors:** awsmin  
 **Tags:** jobs, job listing, job openings, job board, careers page, jobs page, wp job opening, jobs plugin  
 **Requires at least:** 4.5  
-**Tested up to:** 5.4  
+**Tested up to:** 5.6  
 **Requires PHP:** 5.6  
-**Stable tag:** 2.0.0  
+**Stable tag:** 2.1.0  
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
 **Donate link:** https://www.buymeacoffee.com/awsm
@@ -51,6 +51,7 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 ## Add-ons
 
 * [Docs Viewer](https://wordpress.org/plugins/docs-viewer-add-on-for-wp-job-openings/)
+* [Auto-Delete Applications for GDPR Compliance](https://wordpress.org/plugins/auto-delete-applications-add-on-for-wp-job-openings/)
 * [PRO Pack](https://awsm.in/get/wpjo-pro/)
 
 ## WP Job Openings PRO Features
@@ -86,6 +87,15 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 <img src="https://ps.w.org/wp-job-openings/assets/screenshot-5.jpg?rev=2296666" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-4.png?rev=2296666" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-9.jpg?rev=2296666" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-6.png?rev=2296666" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-8.jpg?rev=2296666" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-11.png?rev=2296666" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-1.png?rev=2296666" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-2.png?rev=2296666" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-3.png?rev=2296666" width="30%"></img> 
 
 ## Changelog
+
+**V 2.1.0 – 2020-12-08**
+* WordPress 5.6 compatibility fixes.
+* Added: Featured image support for Job Openings and in the job listing and an option to enable the support. Template files need to be updated if overridden in theme.
+* Added: Excerpt, Author, and Custom fields support for Job Openings.
+* Added: Force expiry option in the submit meta box.
+* Added: Option to disable the archive page for Job Openings.
+* Improved: Date and Time formatting.
+* Code improvements and minor bug fixes.
 
 **V 2.0.0 - 2020-05-01**
 * Admin UI improvements.
@@ -124,9 +134,5 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 * Dev: Added hooks for customizing the meta box content.
 * Dev: Added hooks for customizing shortcode attributes and content.
 * Code improvements and minor bug fixes.
-
-**V 1.5.1 - 2019-11-08**
-* Fixed: Job application-related attachments security issue in some installations.
-* Fixed: Unable to dismiss the admin notices.
 
 View complete Changelog in [CHANGELOG.MD](https://github.com/awsmin/wp-job-openings/blob/master/CHANGELOG.md)
