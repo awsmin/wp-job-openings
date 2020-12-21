@@ -414,7 +414,8 @@ a.awsm-text-red:hover {
 }
 
 #awsm-job-details-meta .handlediv,
-#awsm-job-details-meta .hndle {
+#awsm-job-details-meta .hndle,
+#awsm-job-details-meta .postbox-header {
     display: none;
 }
 
@@ -461,7 +462,7 @@ a.awsm-text-red:hover {
 
 .awsm-applicant-details {
 	overflow: hidden;
-    min-height: 200px;
+    min-height: 250px;
     border-left: 1px solid #DADFE5;
 }
 
