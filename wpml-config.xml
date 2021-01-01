@@ -10,5 +10,9 @@
   <admin-texts>
     <key name="awsm_default_msg" />
     <key name="awsm_gdpr_cb_text" />
+		<key name="awsm_jobs_notification_subject" />
+		<key name="awsm_jobs_notification_content" />
+		<key name="awsm_jobs_admin_notification_subject" />
+		<key name="awsm_jobs_admin_notification_content" />
   </admin-texts>
 </wpml-config>
