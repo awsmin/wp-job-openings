@@ -765,13 +765,8 @@ class AWSM_Job_Openings {
 	}
 
 	public function plugin_rating_notice_handler() {
-		$rating_url = 'https://wordpress.org/support/plugin/wp-job-openings/reviews/?filter=5';
-		$rating_env = 'WordPress';
-		if ( class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) {
-			$rating_env = 'CodeCanyon';
-			$rating_url = 'https://codecanyon.net/item/wp-job-openings-pro/reviews/23889418';
-		}
-		$rating_url = apply_filters( 'awsm_jobs_plugin_rating_url', $rating_url );
+		$rating_env = apply_filters( 'awsm_jobs_plugin_rating_env', 'WordPress' );
+		$rating_url = apply_filters( 'awsm_jobs_plugin_rating_url', 'https://wordpress.org/support/plugin/wp-job-openings/reviews/?filter=5' );
 
 		$rated = intval( get_option( 'awsm_jobs_plugin_rating' ) );
 		if ( $rated !== 1 ) {
