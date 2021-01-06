@@ -16,6 +16,7 @@ class AWSM_Job_Openings_Core {
 			add_filter( 'ajax_query_attachments_args', array( $this, 'grid_attachments' ) );
 		}
 
+		add_filter( 'feed_content_type', array( $this, 'feed_content_type' ), 10, 2 );
 		add_filter( 'post_updated_messages', array( $this, 'job_updated_messages' ) );
 		add_filter( 'bulk_post_updated_messages', array( $this, 'jobs_bulk_updated_messages' ), 10, 2 );
 	}
@@ -103,6 +104,8 @@ class AWSM_Job_Openings_Core {
 
 		register_post_type( 'awsm_job_openings', $args );
 
+		add_feed( self::get_feed_name(), array( $this, 'feed_handler' ) );
+
 		if ( post_type_exists( 'awsm_job_application' ) ) {
 			return;
 		}
@@ -142,6 +145,88 @@ class AWSM_Job_Openings_Core {
 		);
 
 		register_post_type( 'awsm_job_application', $args );
+	}
+
+	public static function get_feed_name() {
+		/**
+		 * Filters the job feed name.
+		 *
+		 * @since 2.2.0
+		 *
+		 * @param string $name Job Feed name.
+		 */
+		return apply_filters( 'awsm_job_feed_name', 'jobfeed' );
+	}
+
+	public function feed_content_type( $content_type, $type ) {
+		if ( $type === 'jobfeed' ) {
+			$content_type = 'application/rss+xml';
+		}
+		return $content_type;
+	}
+
+	public function feed_namespace() {
+		printf( 'xmlns:jobspec="%s"' . "\n", esc_url( site_url() ) );
+	}
+
+	public function feed_item() {
+		$specs = get_option( 'awsm_jobs_filter' );
+		if ( ! empty( $specs ) ) {
+			$job_id = get_the_ID();
+			foreach ( $specs as $spec ) {
+				$taxonomy = $spec['taxonomy'];
+				$terms    = get_the_terms( $job_id, $taxonomy );
+				if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
+					$spec_terms = implode( ', ', wp_list_pluck( $terms, 'name' ) );
+					printf( '<jobspec:%1$s><![CDATA[%2$s]]></jobspec:%1$s>' . "\n", esc_attr( $taxonomy ), esc_html( $spec_terms ) );
+				}
+			}
+		}
+	}
+
+	public function feed_handler() {
+		$args = array(
+			'post_type'      => 'awsm_job_openings',
+			'posts_per_page' => get_option( 'awsm_jobs_list_per_page' ),
+			'post_status'    => 'publish',
+		);
+
+		if ( isset( $_GET['posts_per_page'] ) ) {
+			$args['posts_per_page'] = absint( $_GET['posts_per_page'] );
+		}
+
+		$specs = get_option( 'awsm_jobs_filter' );
+		if ( ! empty( $specs ) ) {
+			foreach ( $specs as $spec ) {
+				$taxonomy = $spec['taxonomy'];
+				if ( isset( $_GET[ $taxonomy ] ) ) {
+					$term = sanitize_text_field( $_GET[ $taxonomy ] );
+					if ( ! empty( $term ) ) {
+						$spec                = array(
+							'taxonomy' => $taxonomy,
+							'field'    => 'slug',
+							'terms'    => $term,
+						);
+						$args['tax_query'][] = $spec;
+					}
+				}
+			}
+		}
+		/**
+		 * Filters the arguments for the job feed query.
+		 *
+		 * @since 2.2.0
+		 *
+		 * @param array $args arguments.
+		 */
+		$args = apply_filters( 'awsm_job_feed_query_args', $args );
+		query_posts( $args );
+
+		add_action( 'rss2_ns', array( $this, 'feed_namespace' ) );
+		add_action( 'rss2_item', array( $this, 'feed_item' ) );
+
+		// Now, load the RSS2 posts feed.
+		do_feed_rss2( false );
 	}
 
 	private function get_caps() {
