@@ -623,7 +623,8 @@ class AWSM_Job_Openings_Form {
 				 *
 				 * @since 1.4
 				 *
-				 * @param array $headers Additional headers
+				 * @param array $headers Additional headers.
+				 * @param array $applicant_details Applicant details.
 				 */
 				$headers = apply_filters(
 					'awsm_jobs_applicant_notification_mail_headers',
@@ -632,7 +633,8 @@ class AWSM_Job_Openings_Form {
 						'from'         => sprintf( 'From: %1$s <%2$s>', $from, $from_email ),
 						'reply_to'     => 'Reply-To: ' . $reply_to,
 						'cc'           => 'Cc: ' . $applicant_cc,
-					)
+					),
+					$applicant_details
 				);
 
 				$reply_to = trim( str_replace( 'Reply-To:', '', $headers['reply_to'] ) );

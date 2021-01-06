@@ -1,14 +1,18 @@
 <wpml-config>
-  <custom-types>
-    <custom-type translate="1">awsm_job_openings</custom-type>
-  </custom-types>
-  <taxonomies>
-    <taxonomy translate="1">job-category</taxonomy>
-    <taxonomy translate="1">job-location</taxonomy>
-    <taxonomy translate="1">job-type</taxonomy>
-  </taxonomies>
-  <admin-texts>
-    <key name="awsm_default_msg" />
-    <key name="awsm_gdpr_cb_text" />
-  </admin-texts>
+	<custom-types>
+		<custom-type translate="1">awsm_job_openings</custom-type>
+	</custom-types>
+	<taxonomies>
+		<taxonomy translate="1">job-category</taxonomy>
+		<taxonomy translate="1">job-location</taxonomy>
+		<taxonomy translate="1">job-type</taxonomy>
+	</taxonomies>
+	<admin-texts>
+		<key name="awsm_default_msg" />
+		<key name="awsm_gdpr_cb_text" />
+		<key name="awsm_jobs_notification_subject" />
+		<key name="awsm_jobs_notification_content" />
+		<key name="awsm_jobs_admin_notification_subject" />
+		<key name="awsm_jobs_admin_notification_content" />
+	</admin-texts>
 </wpml-config>
