@@ -624,6 +624,7 @@ class AWSM_Job_Openings_Form {
 				 * @since 1.4
 				 *
 				 * @param array $headers Additional headers
+				 * @param array $applicant_details Applicant details
 				 */
 				$headers = apply_filters(
 					'awsm_jobs_applicant_notification_mail_headers',
