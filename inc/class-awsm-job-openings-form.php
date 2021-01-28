@@ -632,7 +632,8 @@ class AWSM_Job_Openings_Form {
 						'from'         => sprintf( 'From: %1$s <%2$s>', $from, $from_email ),
 						'reply_to'     => 'Reply-To: ' . $reply_to,
 						'cc'           => 'Cc: ' . $applicant_cc,
-					)
+					),
+					$applicant_details
 				);
 
 				$reply_to = trim( str_replace( 'Reply-To:', '', $headers['reply_to'] ) );
