@@ -1246,7 +1246,7 @@ class AWSM_Job_Openings {
 				if ( ! empty( $term_id ) ) {
 					$spec                = array(
 						'taxonomy' => $taxonomy,
-						'field'    => 'id',
+						'field'    => 'term_id',
 						'terms'    => $term_id,
 					);
 					$args['tax_query'][] = $spec;
