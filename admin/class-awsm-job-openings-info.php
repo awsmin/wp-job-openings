@@ -223,6 +223,10 @@ class AWSM_Job_Openings_Info {
 				if ( method_exists( $screen, 'is_block_editor' ) && $screen->is_block_editor() ) {
 					$is_page = false;
 				}
+				// Check if the WPBakery Page Builder front-end editor is active or not.
+				if ( function_exists( 'vc_is_inline' ) && vc_is_inline() ) {
+					$is_page = false;
+				}
 			}
 		}
 		return $is_page;
