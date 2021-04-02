@@ -12,8 +12,8 @@ class AWSM_Job_Openings_Core {
 
 		// hide uploaded files.
 		if ( get_option( 'awsm_hide_uploaded_files' ) === 'hide_files' ) {
-			add_action( 'pre_get_posts', array( $this, 'list_attachments' ) );
-			add_filter( 'ajax_query_attachments_args', array( $this, 'grid_attachments' ) );
+			add_action( 'pre_get_posts', array( $this, 'list_attachments' ), 100 );
+			add_filter( 'ajax_query_attachments_args', array( $this, 'grid_attachments' ), 100 );
 		}
 
 		add_filter( 'post_updated_messages', array( $this, 'job_updated_messages' ) );
@@ -251,33 +251,35 @@ class AWSM_Job_Openings_Core {
 		}
 	}
 
+	public static function get_attachments_meta_query( $meta_query ) {
+		$query = array(
+			'key'     => '_wp_attached_file',
+			'compare' => 'NOT LIKE',
+			'value'   => AWSM_JOBS_UPLOAD_DIR_NAME,
+		);
+
+		if ( is_array( $meta_query ) && ! empty( $meta_query ) ) {
+			$meta_query[] = $query;
+		} else {
+			$meta_query = array( $query );
+		}
+		return $meta_query;
+	}
+
 	public function list_attachments( $query ) {
 		if ( is_admin() && $query->is_main_query() ) {
 			$screen = get_current_screen();
 			if ( ! empty( $screen ) && $screen->id === 'upload' && $screen->post_type === 'attachment' ) {
-				$query->set(
-					'meta_query',
-					array(
-						array(
-							'key'     => '_wp_attached_file',
-							'compare' => 'NOT LIKE',
-							'value'   => 'awsm-job-openings',
-						),
-					)
-				);
+				$meta_query = $query->get( 'meta_query' );
+				$query->set( 'meta_query', self::get_attachments_meta_query( $meta_query ) );
 			}
 		}
 	}
 
 	public function grid_attachments( $query ) {
 		if ( is_admin() ) {
-			$query['meta_query'] = array(
-				array(
-					'key'     => '_wp_attached_file',
-					'compare' => 'NOT LIKE',
-					'value'   => 'awsm-job-openings',
-				),
-			);
+			$meta_query = isset( $query['meta_query'] ) ? $query['meta_query'] : array();
+			$query['meta_query'] = self::get_attachments_meta_query( $meta_query );
 		}
 		return $query;
 	}
