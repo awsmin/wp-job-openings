@@ -18,6 +18,9 @@ class AWSM_Job_Openings_Core {
 
 		add_filter( 'post_updated_messages', array( $this, 'job_updated_messages' ) );
 		add_filter( 'bulk_post_updated_messages', array( $this, 'jobs_bulk_updated_messages' ), 10, 2 );
+		// WooCommerce - Allow the backend access for users with HR Role.
+		add_filter( 'woocommerce_disable_admin_bar', array( $this, 'woocommerce_disable_backend_access' ) );
+		add_filter( 'woocommerce_prevent_admin_access', array( $this, 'woocommerce_disable_backend_access' ) );
 	}
 
 	public static function init() {
@@ -372,5 +375,12 @@ class AWSM_Job_Openings_Core {
 			'untrashed' => _n( '%s application restored from the Trash.', '%s applications restored from the Trash.', $bulk_counts['untrashed'], 'wp-job-openings' ),
 		);
 		return $bulk_messages;
+	}
+
+	public function woocommerce_disable_backend_access( $disable ) {
+		if ( current_user_can( 'edit_jobs' ) ) {
+			$disable = false;
+		}
+		return $disable;
 	}
 }
