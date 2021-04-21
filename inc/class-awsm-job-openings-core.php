@@ -284,7 +284,7 @@ class AWSM_Job_Openings_Core {
 
 	public function grid_attachments( $query ) {
 		if ( is_admin() ) {
-			$meta_query = isset( $query['meta_query'] ) ? $query['meta_query'] : array();
+			$meta_query          = isset( $query['meta_query'] ) ? $query['meta_query'] : array();
 			$query['meta_query'] = self::get_attachments_meta_query( $meta_query );
 		}
 		return $query;

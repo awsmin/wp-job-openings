@@ -393,7 +393,6 @@ class AWSM_Job_Openings_Settings {
 		foreach ( $settings as $group => $settings_args ) {
 			add_filter( 'option_page_capability_awsm-jobs-' . $group . '-settings', array( $this, 'settings_page_capability' ), 11 );
 		}
-
 	}
 
 	public function file_upload_extensions() {
