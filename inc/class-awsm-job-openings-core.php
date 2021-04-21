@@ -380,6 +380,15 @@ class AWSM_Job_Openings_Core {
 		return $bulk_messages;
 	}
 
+	/**
+	 * Redirect users with HR Role to job page instead of profile page after login.
+	 *
+	 * @param string $redirect_to The redirect destination URL.
+	 * @param string $requested_redirect_to The requested redirect destination URL.
+	 * @param WP_User|WP_Error $user WP_User object if login was successful, WP_Error object otherwise.
+	 *
+	 * @return string
+	 */
 	public function login_redirect( $redirect_to, $requested_redirect_to, $user ) {
 		if ( ! is_wp_error( $user ) && ( empty( $redirect_to ) || 'wp-admin/' === $redirect_to || admin_url() === $redirect_to ) ) {
 			if ( isset( $user->roles ) && is_array( $user->roles ) && in_array( 'hr', $user->roles ) && ! $user->has_cap( 'edit_posts' ) && $user->has_cap( 'edit_jobs' ) ) {
