@@ -1,5 +1,13 @@
 ## Changelog
 
+### V 2.1.1 – 2021-04-21
+* Fixed: Issue with WooCommerce Plugin that prevents the users with HR Role from accessing the backend.
+* Fixed: 'Secure uploaded files' option doesn't work in 'Media Library' for some installations.
+* Fixed: Job Filters not working for some installations.
+* Improved: Redirect users with HR Role to job page instead of profile page after login.
+* Improved: WPML compatibility for Settings.
+* Other minor bug fixes and style improvements.
+
 ### V 2.1.0 – 2020-12-08
 * WordPress 5.6 compatibility fixes.
 * Added: Featured image support for Job Openings and in the job listing and an option to enable the support. Template files need to be updated if overridden in theme.
