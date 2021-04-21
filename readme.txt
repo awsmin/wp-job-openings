@@ -2,7 +2,7 @@
 Contributors: awsmin, aravindajith, anantajitjg, sarathar, adhun, nithi22
 Tags: jobs, job listing, job openings, job board, careers page, jobs page, wp job opening, jobs plugin
 Requires at least: 4.5
-Tested up to: 5.6
+Tested up to: 5.7
 Requires PHP: 5.6
 Stable tag: trunk
 License: GPLv2 or later
@@ -16,7 +16,7 @@ Super simple Job Listing plugin to manage Job Openings and Applicants on your Wo
 == Description ==
 **WP Job Openings plugin is the most simple yet powerful plugin for setting up a job listing page for a website.**
 
-The plugin is designed after carefully analysing hundreds of job listing layouts and methods. We just picked the best features out of the all and built a plugin that’s super simple to use and extensible to a high performing recruitment tool.
+WP Job Openings is designed after carefully analysing hundreds of job listing layouts and methods. The plugin is super simple to use and extensible to a high performing recruitment tool.
 
 The plugin comes with two layouts - Grid and List which are designed carefully according to the modern design and User Experience principles. Highlight of the plugin is its totally flexible filter options.
 
@@ -28,7 +28,7 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 
 = Key Features =
 
-* Super Simple and Easy to Set Up and See
+* Super Simple and Easy to Set Up and Use
 * Two Different Modern Layouts
 * Clean and User Friendly Designs
 * Unlimited Job Specifications
@@ -44,13 +44,16 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 * Job posting structured data for better SEO
 * Recent Jobs Widget
 * WPML Support
-* Detailed documentation
+* Developer Friendly (Lots of hooks!)
+* Detailed Documentation
+* Tested with more than 50 top WordPress themes and Plugins
+
 
 = Add-ons =
 
-* [Docs Viewer](https://wordpress.org/plugins/docs-viewer-add-on-for-wp-job-openings/)
-* [Auto-Delete Applications for GDPR Compliance](https://wordpress.org/plugins/auto-delete-applications-add-on-for-wp-job-openings/)
-* [PRO Pack](https://awsm.in/get/wpjo-pro/)
+* [Docs Viewer](https://wordpress.org/plugins/docs-viewer-add-on-for-wp-job-openings/) (FREE)
+* [Auto-Delete Applications for GDPR Compliance](https://wordpress.org/plugins/auto-delete-applications-add-on-for-wp-job-openings/) (FREE)
+* [PRO Pack](https://wpjobopenings.com/pro-pack/) (PREMIUM)
 
 = WP Job Openings PRO Features =
 
@@ -65,9 +68,9 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 * Option to Filter and Export Applications
 * Attach uploaded file with email notifications
 * Shortcode generator for generating customised job lists
+* Use third-party forms and custom application URLs
 
-
-**[Get PRO Pack](https://awsm.in/get/wpjo-pro/)**
+**[Get PRO Pack](https://wpjobopenings.com/pro-pack/)**
 
 = Contribute =
 **You can contribute to the community by translating the plugin to your language.** Believe us, it's super-easy. Click on the link below, choose your language and start translating the strings in Development (trunk).
@@ -95,6 +98,14 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 13. Notifications Template Settings
 
 == Changelog ==
+
+= V 2.1.1 – 2021-04-21 =
+* Fixed: Issue with WooCommerce Plugin that prevents the users with HR Role from accessing the backend.
+* Fixed: 'Secure uploaded files' option doesn't work in 'Media Library' for some installations.
+* Fixed: Job Filters not working for some installations.
+* Improved: Redirect users with HR Role to job page instead of profile page after login.
+* Improved: WPML compatibility for Settings.
+* Other minor bug fixes and style improvements.
 
 = V 2.1.0 – 2020-12-08 =
 * WordPress 5.6 compatibility fixes.
@@ -133,19 +144,9 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 * Fixed: Job specification based translations not working in WPML.
 * Other minor fixes and improvements.
 
-= V 1.6.0 - 2019-12-31 =
-* Added: Jobs Search
-* Added: Option to hide and restrict files uploaded through application form.
-* Added: Ability to add 'From' mail address for Admin notifications in settings.
-* Added: WPML Support.
-* Improved: Job archive page title.
-* Dev: Added hooks for customizing the meta box content.
-* Dev: Added hooks for customizing shortcode attributes and content.
-* Code improvements and minor bug fixes.
-
 [See changelog of previous versions](https://raw.githubusercontent.com/awsmin/wp-job-openings/master/CHANGELOG.md)
 
 == Upgrade Notice ==
 
-= 2.1.0 =
-Added New Features.
+= 2.1.1 =
+Bug fixes and improvements.
