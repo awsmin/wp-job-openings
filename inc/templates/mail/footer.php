@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<td valign="middle" class="footer email-section">
 							<table style="width: 100%;">
 								<tr>
-									<td style="text-align: center; padding: 38px 0 50px;">
+									<td style="text-align: center; padding: 30px 0;">
 										<p style="margin: 0;">
 											<?php
 												/* translators: %1$s: Site link, %2$s: Plugin website link */

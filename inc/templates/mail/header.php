@@ -185,7 +185,7 @@ table{
 }
 /*LOGO*/
 .logo{
-	padding: 46px 0;
+	padding: 30px 0;
 	text-align: center;
 }
 .logo h1{
@@ -202,7 +202,7 @@ table{
 /*main-content*/
 
 .main-content {
-	padding: 60px 0;
+	padding: 40px 0;
 	border-width: 9px 1px 1px;
 	border-style: solid;
 	border-color: #05BC9C #C6CCD2 #C6CCD2;
@@ -214,7 +214,7 @@ table{
 .main-content h3{
 	font-size: 16px;
 	text-transform: uppercase;
-	margin-bottom: 38px;
+	margin-bottom: 20px;
 }
 .main-content ul{
 	list-style: none;
@@ -235,11 +235,11 @@ table{
 	padding: 13px 20px;
 }
 .main-content-in-2{
-	padding: 50px 0;
+	padding: 30px 0;
 	border-bottom: 1px solid #D7DFDF;
 }
 .main-content-in-3{
-	padding-top: 50px;
+	padding-top: 30px;
 }
 
 /*FOOTER*/
@@ -250,10 +250,10 @@ table{
 
 @media screen and (max-width: 550px) {
 	.logo{
-		padding: 30px 0;
+		padding: 25px 0;
 	}
 	.main-content{
-		padding: 35px 0;
+		padding: 25px 0;
 	}
 	.job-table td, .job-table th{
 		padding: 10px;
@@ -265,10 +265,10 @@ table{
 		font-size: 34px;
 	}
 	.main-content-in-2{
-		padding: 35px 0;
+		padding: 25px 0;
 	}
 	.main-content-in-3{
-		padding-top: 35px;
+		padding-top: 25px;
 	}
 }
 
@@ -278,7 +278,7 @@ table{
 
 <body width="100%" style="margin: 0; padding: 0 !important; mso-line-height-rule: exactly; background-color: #F1F4F7;">
 	<center style="width: 100%; background-color: #F1F4F7;">
-		<div style="max-width: 770px; margin: 0 auto;" class="email-container">
+		<div style="max-width: 640px; margin: 0 auto;" class="email-container">
 			<!-- BEGIN BODY -->
 		<table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: auto;">
 			<tr>
