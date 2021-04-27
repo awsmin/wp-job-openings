@@ -51,11 +51,14 @@ class AWSM_Job_Openings {
 	private static $rating_notice_active = false;
 
 	public function __construct() {
-		// Require Classes
+		// Require Classes.
 		self::load_classes();
-		// Initialize Classes
+
+		// Initialize Classes.
 		$this->awsm_core = AWSM_Job_Openings_Core::init();
+		AWSM_Job_Openings_UI_Builder::init();
 		$this->awsm_form = AWSM_Job_Openings_Form::init();
+		AWSM_Job_Openings_Mail_Customizer::init();
 		AWSM_Job_Openings_Filters::init();
 		if ( is_admin() ) {
 			AWSM_Job_Openings_Meta::init();
@@ -97,7 +100,7 @@ class AWSM_Job_Openings {
 
 	public static function load_classes() {
 		$prefix  = 'class-awsm-job-openings';
-		$classes = array( 'core', 'filters', 'form' );
+		$classes = array( 'core', 'ui-builder', 'filters', 'mail-customizer', 'form' );
 		foreach ( $classes as $class ) {
 			require_once AWSM_JOBS_PLUGIN_DIR . "/inc/{$prefix}-{$class}.php";
 		}
@@ -889,9 +892,9 @@ class AWSM_Job_Openings {
 	public function awsm_admin_enqueue_scripts() {
 		$screen = get_current_screen();
 		wp_register_style( 'awsm-job-admin-global', AWSM_JOBS_PLUGIN_URL . '/assets/css/admin-global.min.css', array(), AWSM_JOBS_PLUGIN_VERSION, 'all' );
-		wp_register_style( 'awsm-job-admin', AWSM_JOBS_PLUGIN_URL . '/assets/css/admin.min.css', array( 'awsm-jobs-general', 'awsm-job-admin-global' ), AWSM_JOBS_PLUGIN_VERSION, 'all' );
+		wp_register_style( 'awsm-job-admin', AWSM_JOBS_PLUGIN_URL . '/assets/css/admin.min.css', array( 'wp-color-picker', 'awsm-jobs-general', 'awsm-job-admin-global' ), AWSM_JOBS_PLUGIN_VERSION, 'all' );
 
-		wp_register_script( 'awsm-job-admin', AWSM_JOBS_PLUGIN_URL . '/assets/js/admin.min.js', array( 'jquery', 'jquery-ui-datepicker', 'jquery-ui-sortable', 'wp-util' ), AWSM_JOBS_PLUGIN_VERSION, true );
+		wp_register_script( 'awsm-job-admin', AWSM_JOBS_PLUGIN_URL . '/assets/js/admin.min.js', array( 'jquery', 'jquery-ui-datepicker', 'jquery-ui-sortable', 'wp-color-picker', 'wp-util' ), AWSM_JOBS_PLUGIN_VERSION, true );
 
 		wp_enqueue_style( 'awsm-job-admin-global' );
 		if ( ! empty( $screen ) ) {
@@ -912,6 +915,13 @@ class AWSM_Job_Openings {
 				'nonce'      => wp_create_nonce( 'awsm-admin-nonce' ),
 				'i18n'       => array(
 					'select2_no_page' => esc_html__( 'Select a page', 'wp-job-openings' ),
+					'image_upload'    => array(
+						'select' => esc_html__( 'Select Image', 'wp-job-openings' ),
+						'change' => esc_html__( 'Change Image', 'wp-job-openings' ),
+						'no_image' => esc_html__( 'No Image selected', 'wp-job-openings' ),
+						'title' => esc_html__( 'Select or Upload an Image', 'wp-job-openings' ),
+						'btn_text' => esc_html__( 'Choose', 'wp-job-openings' ),
+					),
 				),
 			)
 		);

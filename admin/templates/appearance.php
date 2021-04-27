@@ -136,7 +136,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'name'        => 'awsm_enable_job_search',
 					'label'       => __( 'Job Search ', 'wp-job-openings' ),
 					'type'        => 'checkbox',
-					'class'       => '',
 					'choices'     => array(
 						array(
 							'value' => 'enable',
@@ -178,7 +177,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'multiple'        => true,
 					'container_id'    => 'awsm_jobs_available_filters_row',
 					'container_class' => $enable_filters !== 'enabled' ? $hidden_class : '',
-					'class'           => '',
 					'choices'         => $available_filters_choices,
 					'description'     => __( 'Check the job specs you want to enable as filters', 'wp-job-openings' ),
 				),
@@ -193,7 +191,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'label'       => __( 'Job specs in the listing', 'wp-job-openings' ),
 					'type'        => 'checkbox',
 					'multiple'    => true,
-					'class'       => '',
 					'choices'     => $listing_specs_choices,
 					'description' => __( 'Check the job specs you want to show along with the listing view', 'wp-job-openings' ),
 				),
@@ -201,7 +198,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'name'    => 'awsm_jobs_expired_jobs_listings',
 					'label'   => __( 'Expired Jobs', 'wp-job-openings' ),
 					'type'    => 'checkbox',
-					'class'   => '',
 					'choices' => array(
 						array(
 							'value' => 'expired',
@@ -220,7 +216,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'name'          => 'awsm_jobs_details_page_template',
 					'label'         => __( 'Job detail page template', 'wp-job-openings' ),
 					'type'          => 'radio',
-					'class'         => '',
 					'choices'       => array(
 						array(
 							'value' => 'default',
@@ -237,7 +232,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'name'    => 'awsm_jobs_details_page_layout',
 					'label'   => __( 'Layout of job detail page', 'wp-job-openings' ),
 					'type'    => 'radio',
-					'class'   => '',
 					'choices' => array(
 						array(
 							'value' => 'single',
@@ -253,7 +247,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'id'       => 'awsm-appearance-detail-page-specifications-group',
 					'label'    => __( 'Job specifications', 'wp-job-openings' ),
 					'type'     => 'checkbox',
-					'class'    => '',
 					'multiple' => true,
 					'choices'  => array(
 						array(
@@ -287,7 +280,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'id'       => 'awsm-appearance-detail-page-other-options-group',
 					'label'    => __( 'Other display options', 'wp-job-openings' ),
 					'type'     => 'checkbox',
-					'class'    => '',
 					'multiple' => true,
 					'choices'  => array(
 						array(

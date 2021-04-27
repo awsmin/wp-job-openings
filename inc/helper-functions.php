@@ -49,3 +49,37 @@ if ( ! function_exists( 'get_awsm_jobs_time_format' ) ) {
 		return $format;
 	}
 }
+
+if ( ! function_exists( 'awsm_jobs_is_valid_template_file' ) ) {
+	function awsm_jobs_is_valid_template_file( $filename, $unsupported_versions = array() ) {
+		$is_valid = true;
+		$template_content = @file_get_contents( $filename );
+		if ( ! empty( $template_content ) ) {
+			if ( strpos( $template_content, '@version' ) === false ) {
+				$is_valid = false;
+			}
+			if ( ! empty( $unsupported_versions ) && is_array( $unsupported_versions ) ) {
+				foreach ( $unsupported_versions as $unsupported_version ) {
+					if ( strpos( $template_content, "@version {$unsupported_version}" ) !== false ) {
+						$is_valid = false;
+						break;
+					}
+				}
+			}
+		}
+		return $is_valid;
+	}
+}
+if ( ! function_exists( 'awsm_jobs_get_original_image_url' ) ) {
+	function awsm_jobs_get_original_image_url( $attachment_id ) {
+		$image_url = false;
+		if ( function_exists( 'wp_get_original_image_url' ) ) {
+			$image_url = wp_get_original_image_url( $attachment_id );
+		} else {
+			if ( wp_attachment_is_image( $attachment_id ) ) {
+				$image_url = wp_get_attachment_url( $attachment_id );
+			}
+		}
+		return $image_url;
+	}
+}

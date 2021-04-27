@@ -70,7 +70,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'name'          => 'awsm_jobs_email_digest',
 					'label'         => __( 'Email digest', 'wp-job-openings' ),
 					'type'          => 'checkbox',
-					'class'         => '',
 					'default_value' => 'enable',
 					'choices'       => array(
 						array(
@@ -83,7 +82,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'name'    => 'awsm_jobs_disable_archive_page',
 					'label'   => __( 'Jobs Archive', 'wp-job-openings' ),
 					'type'    => 'checkbox',
-					'class'   => '',
 					'choices' => array(
 						array(
 							'value' => 'disable',
@@ -95,7 +93,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'name'    => 'awsm_jobs_enable_featured_image',
 					'label'   => __( 'Featured image', 'wp-job-openings' ),
 					'type'    => 'checkbox',
-					'class'   => '',
 					'choices' => array(
 						array(
 							'value' => 'enable',
@@ -107,7 +104,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'name'        => 'awsm_hide_uploaded_files',
 					'label'       => __( 'File uploads', 'wp-job-openings' ),
 					'type'        => 'checkbox',
-					'class'       => '',
 					'choices'     => array(
 						array(
 							'value' => 'hide_files',
@@ -121,7 +117,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'name'        => 'awsm_delete_data_on_uninstall',
 					'label'       => __( 'Delete data on uninstall', 'wp-job-openings' ),
 					'type'        => 'checkbox',
-					'class'       => '',
 					'choices'     => array(
 						array(
 							'value'      => 'delete_data',

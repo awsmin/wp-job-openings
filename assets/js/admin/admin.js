@@ -76,6 +76,8 @@ jQuery(document).ready(function($) {
 		}
 	});
 
+	$('.awsm-jobs-colorpicker-field').wpColorPicker();
+
 	awsmJobSelectControl($('.awsm-select-page-control'), awsmJobsAdmin.i18n.select2_no_page);
 	awsmJobSelectControl($('.awsm-select-control'));
 
@@ -299,6 +301,56 @@ jQuery(document).ready(function($) {
 
 	$('.awsm-jobs-settings-loader-container').fadeOut(function() {
 		$('#awsm-jobs-settings-section').css('visibility', 'visible').addClass('awsm-visible');
+	});
+
+	/*================ Settings: Image Upload Field ================*/
+
+	var frame;
+	var imgi18n = awsmJobsAdmin.i18n.image_upload;
+	$('#awsm-job-settings-wrap').on("click", '.awsm-settings-image-upload-button', function(e){
+		e.preventDefault();
+		var $elem = $(this);
+		$elem.parent('.awsm-settings-image-field-container').addClass('awsm-settings-image-trigger-active');
+
+		if (!frame) {
+			frame = wp.media({
+				title: imgi18n.title,
+				multiple: false,
+				library: {
+					type: 'image'
+				},
+				button: {
+					text: imgi18n.btn_text
+				}
+			});
+		}
+
+		frame.on('select', function() {
+			var attachment = frame.state().get('selection').first().toJSON();
+			if (attachment.type === 'image') {
+				var imgURL = attachment.url;
+				var $imgFieldContainer = $elem.parent('.awsm-settings-image-field-container.awsm-settings-image-trigger-active');
+				var $imgWrapper = $imgFieldContainer.find('.awsm-settings-image');
+				$imgWrapper.removeClass('awsm-settings-no-image').html('<img src="' + imgURL + '" />');
+				$imgFieldContainer.find('.awsm-settings-image-remove-button').removeClass('awsm-hidden-control');
+				$imgFieldContainer.find('.awsm-settings-image-upload-button').text(imgi18n.change);
+				$imgFieldContainer.find('.awsm-settings-image-field').val(attachment.id);
+				$imgFieldContainer.removeClass('awsm-settings-image-trigger-active');
+			}
+		});
+
+		frame.open();
+	});
+
+	$('#awsm-job-settings-wrap').on("click", '.awsm-settings-image-remove-button', function(e) {
+		e.preventDefault();
+		var $elem = $(this);
+		var $imgFieldContainer = $elem.parent('.awsm-settings-image-field-container');
+		var $imgWrapper = $imgFieldContainer.find('.awsm-settings-image');
+		$imgWrapper.addClass('awsm-settings-no-image').html('<span>' + imgi18n.no_image + '</span>');
+		$imgFieldContainer.find('.awsm-settings-image-upload-button').text(imgi18n.select);
+		$imgFieldContainer.find('.awsm-settings-image-field').val('');
+		$elem.addClass('awsm-hidden-control');
 	});
 
 	/*================ Settings: Notifications ================*/

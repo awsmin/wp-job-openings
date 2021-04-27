@@ -35,7 +35,6 @@ if ( ! empty( $upload_file_extns ) ) {
 					'label'       => __( 'Supported upload file types', 'wp-job-openings' ),
 					'type'        => 'checkbox',
 					'multiple'    => true,
-					'class'       => '',
 					'list_class'  => 'awsm-check-list awsm-check-list-small',
 					'choices'     => $extns_choices,
 					'description' => __( 'Select the supported file types for CV upload field', 'wp-job-openings' ),
@@ -79,7 +78,6 @@ if ( ! empty( $upload_file_extns ) ) {
 					'name'        => 'awsm_jobs_enable_recaptcha',
 					'label'       => __( 'Enable reCAPTCHA', 'wp-job-openings' ),
 					'type'        => 'checkbox',
-					'class'       => '',
 					'choices'     => array(
 						array(
 							'value' => 'enable',
