@@ -52,7 +52,7 @@ if ( ! function_exists( 'get_awsm_jobs_time_format' ) ) {
 
 if ( ! function_exists( 'awsm_jobs_is_valid_template_file' ) ) {
 	function awsm_jobs_is_valid_template_file( $filename, $unsupported_versions = array() ) {
-		$is_valid = true;
+		$is_valid         = true;
 		$template_content = @file_get_contents( $filename );
 		if ( ! empty( $template_content ) ) {
 			if ( strpos( $template_content, '@version' ) === false ) {

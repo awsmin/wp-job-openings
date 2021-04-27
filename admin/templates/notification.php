@@ -151,26 +151,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 							array(
 								'id'    => 'awsm_jobs_notification_customizer_logo',
 								'name'  => 'awsm_jobs_notification_customizer[logo]',
-								'type' => 'image',
+								'type'  => 'image',
 								'label' => __( 'Logo', 'wp-job-openings' ),
 								'value' => $customizer_settings['logo'],
 							),
 							array(
-								'id'    => 'awsm_jobs_notification_customizer_base_color',
-								'name'  => 'awsm_jobs_notification_customizer[base_color]',
-								'label' => __( 'Base Color', 'wp-job-openings' ),
-								'type'    => 'colorpicker',
-								'value' => $customizer_settings['base_color'],
+								'id'          => 'awsm_jobs_notification_customizer_base_color',
+								'name'        => 'awsm_jobs_notification_customizer[base_color]',
+								'label'       => __( 'Base Color', 'wp-job-openings' ),
+								'type'        => 'colorpicker',
+								'value'       => $customizer_settings['base_color'],
 								'other_attrs' => array(
 									'data-default-color' => '#05BC9C',
 								),
 							),
 							array(
-								'id'    => 'awsm_jobs_notification_customizer_footer_text',
-								'name'  => 'awsm_jobs_notification_customizer[footer_text]',
-								'type'  => 'textarea',
-								'label' => __( 'Footer Text', 'wp-job-openings' ),
-								'value' =>  $customizer_settings['footer_text'],
+								'id'          => 'awsm_jobs_notification_customizer_footer_text',
+								'name'        => 'awsm_jobs_notification_customizer[footer_text]',
+								'type'        => 'textarea',
+								'label'       => __( 'Footer Text', 'wp-job-openings' ),
+								'value'       => $customizer_settings['footer_text'],
 								'other_attrs' => array(
 									'rows' => 4,
 									'cols' => 50,
@@ -180,7 +180,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					);
 
 					AWSM_Job_Openings_Mail_Customizer::validate_template();
-				?>
+					?>
 
 				<table class="form-table">
 					<tbody>

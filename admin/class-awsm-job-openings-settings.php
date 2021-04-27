@@ -673,8 +673,8 @@ class AWSM_Job_Openings_Settings {
 		if ( empty( $input ) || ! is_array( $input ) ) {
 			$input = $customizer_settings;
 		}
-		$input['logo'] = sanitize_text_field( $input['logo'] );
-		$input['base_color'] = sanitize_text_field( $input['base_color'] );
+		$input['logo']        = sanitize_text_field( $input['logo'] );
+		$input['base_color']  = sanitize_text_field( $input['base_color'] );
 		$input['footer_text'] = AWSM_Job_Openings_Mail_Customizer::sanitize_content( $input['footer_text'] );
 		return $input;
 	}
@@ -843,7 +843,7 @@ class AWSM_Job_Openings_Settings {
 				$field_content = '';
 
 				if ( $field_type !== 'title' ) {
-					$class_name  = isset( $field_details['class'] ) ? $field_details['class'] : '';
+					$class_name = isset( $field_details['class'] ) ? $field_details['class'] : '';
 					if ( $field_type === 'textarea' ) {
 						$class_name = trim( 'large-text ' . $class_name );
 					} elseif ( $field_type === 'colorpicker' ) {
@@ -958,13 +958,13 @@ class AWSM_Job_Openings_Settings {
 								}
 
 								$image_container = '';
-								$image_button = '';
-								if( empty( $image_url ) ) {
+								$image_button    = '';
+								if ( empty( $image_url ) ) {
 									$image_container = sprintf( '<div class="awsm-settings-image awsm-settings-no-image"><span>%s</span></div>', esc_html__( 'No Image selected', 'wp-job-openings' ) );
-									$image_button = sprintf( '<button type="button" class="button awsm-settings-image-upload-button">%1$s</button><button type="button" class="awsm-hidden-control button awsm-settings-image-remove-button">%2$s</button>', esc_html__( 'Select Image', 'wp-job-openings' ), __( 'Remove', 'wp-job-openings' ) );
+									$image_button    = sprintf( '<button type="button" class="button awsm-settings-image-upload-button">%1$s</button><button type="button" class="awsm-hidden-control button awsm-settings-image-remove-button">%2$s</button>', esc_html__( 'Select Image', 'wp-job-openings' ), __( 'Remove', 'wp-job-openings' ) );
 								} else {
 									$image_container = sprintf( '<div class="awsm-settings-image"><img src="%s" /></div>', esc_url( $image_url ) );
-									$image_button = sprintf( '<button type="button" class="button awsm-settings-image-upload-button">%1$s</button><button type="button" class="button awsm-settings-image-remove-button">%2$s</button>', esc_html__( 'Change Image', 'wp-job-openings' ), __( 'Remove', 'wp-job-openings' ) );
+									$image_button    = sprintf( '<button type="button" class="button awsm-settings-image-upload-button">%1$s</button><button type="button" class="button awsm-settings-image-remove-button">%2$s</button>', esc_html__( 'Change Image', 'wp-job-openings' ), __( 'Remove', 'wp-job-openings' ) );
 								}
 								$field_content = sprintf( '<div id="%4$s"%5$s>%3$s<input type="hidden" name="%1$s" class="awsm-settings-image-field" value="%2$s" /></div>', esc_attr( $field_name ), esc_attr( $value ), $image_container . $image_button, esc_attr( $id ), $extra_attrs );
 							} else {

@@ -916,10 +916,10 @@ class AWSM_Job_Openings {
 				'i18n'       => array(
 					'select2_no_page' => esc_html__( 'Select a page', 'wp-job-openings' ),
 					'image_upload'    => array(
-						'select' => esc_html__( 'Select Image', 'wp-job-openings' ),
-						'change' => esc_html__( 'Change Image', 'wp-job-openings' ),
+						'select'   => esc_html__( 'Select Image', 'wp-job-openings' ),
+						'change'   => esc_html__( 'Change Image', 'wp-job-openings' ),
 						'no_image' => esc_html__( 'No Image selected', 'wp-job-openings' ),
-						'title' => esc_html__( 'Select or Upload an Image', 'wp-job-openings' ),
+						'title'    => esc_html__( 'Select or Upload an Image', 'wp-job-openings' ),
 						'btn_text' => esc_html__( 'Choose', 'wp-job-openings' ),
 					),
 				),

@@ -45,15 +45,18 @@ class AWSM_Job_Openings_Mail_Customizer {
 		 *
 		 * @param array $allowed_html Allowed HTML elements and attributes, or a context name.
 		 */
-		$allowed_html = apply_filters( 'awsm_jobs_notification_customizer_allowed_html', array(
-			'a'      => array(
-				'href'  => array(),
-			),
-			'br'     => array(),
-			'em'     => array(),
-			'strong' => array(),
-			'small'  => array(),
-		) );
+		$allowed_html = apply_filters(
+			'awsm_jobs_notification_customizer_allowed_html',
+			array(
+				'a'      => array(
+					'href' => array(),
+				),
+				'br'     => array(),
+				'em'     => array(),
+				'strong' => array(),
+				'small'  => array(),
+			)
+		);
 
 		return wp_kses( $content, $allowed_html );
 	}
@@ -66,14 +69,17 @@ class AWSM_Job_Openings_Mail_Customizer {
 		 *
 		 * @param array $default_values Default values.
 		 */
-		$default_values = apply_filters( 'awsm_jobs_notification_customizer_default_values', array(
-			'logo' => 'default',
-			'base_color' => '#05BC9C',
-			/* translators: %1$s: Site link, %2$s: Plugin website link */
-			'footer_text' => sprintf( esc_html__( 'Sent from %1$s by %2$s Plugin', 'wp-job-openings' ), '<a href="{site-url}">{site-title}</a>', '<a href="https://wpjobopenings.com">' . esc_html__( 'WP Job Openings', 'wp-job-openings' ) . '</a>' ),
-		) );
+		$default_values = apply_filters(
+			'awsm_jobs_notification_customizer_default_values',
+			array(
+				'logo'        => 'default',
+				'base_color'  => '#05BC9C',
+				/* translators: %1$s: Site link, %2$s: Plugin website link */
+				'footer_text' => sprintf( esc_html__( 'Sent from %1$s by %2$s Plugin', 'wp-job-openings' ), '<a href="{site-url}">{site-title}</a>', '<a href="https://wpjobopenings.com">' . esc_html__( 'WP Job Openings', 'wp-job-openings' ) . '</a>' ),
+			)
+		);
 
-		$settings = get_option( 'awsm_jobs_notification_customizer' );
+		$settings            = get_option( 'awsm_jobs_notification_customizer' );
 		$customizer_settings = wp_parse_args( $settings, $default_values );
 		return $customizer_settings;
 	}
@@ -104,16 +110,16 @@ class AWSM_Job_Openings_Mail_Customizer {
 		}
 
 		if ( ! empty( $settings['logo'] ) ) {
-			$image_url = self::get_default_logo();
-			$img_alt = esc_html__( 'WP Job Openings', 'wp-job-openings' );
+			$image_url  = self::get_default_logo();
+			$img_alt    = esc_html__( 'WP Job Openings', 'wp-job-openings' );
 			$extra_attr = '';
 
 			if ( $settings['logo'] === 'default' ) {
 				$extra_attr = ' width="284" height="35"';
 			} else {
-				$image_url = awsm_jobs_get_original_image_url( $settings['logo'] );
+				$image_url    = awsm_jobs_get_original_image_url( $settings['logo'] );
 				$company_name = get_option( 'awsm_job_company_name' );
-				$img_alt = ! empty( $company_name ) ? $company_name : get_bloginfo( 'name', 'display' );
+				$img_alt      = ! empty( $company_name ) ? $company_name : get_bloginfo( 'name', 'display' );
 			}
 
 			$logo = sprintf( '<h1><img src="%1$s" alt="%2$s"%3$s></h1>', esc_url( $image_url ), esc_attr( $img_alt ), $extra_attr );
@@ -136,10 +142,10 @@ class AWSM_Job_Openings_Mail_Customizer {
 			array(
 				'selector'    => 'html, body',
 				'declaration' => array(
-					'margin' => '0 auto !important',
-					'padding' => '0 !important',
-					'height' => '100% !important',
-					'width' => '100% !important',
+					'margin'     => '0 auto !important',
+					'padding'    => '0 !important',
+					'height'     => '100% !important',
+					'width'      => '100% !important',
 					'background' => '#f1f1f1',
 				),
 			),
@@ -147,7 +153,7 @@ class AWSM_Job_Openings_Mail_Customizer {
 			array(
 				'selector'    => '*',
 				'declaration' => array(
-					'-ms-text-size-adjust' => '100%',
+					'-ms-text-size-adjust'     => '100%',
 					'-webkit-text-size-adjust' => '100%',
 				),
 			),
@@ -170,10 +176,10 @@ class AWSM_Job_Openings_Mail_Customizer {
 			array(
 				'selector'    => 'table',
 				'declaration' => array(
-					'border-spacing' => '0 !important',
+					'border-spacing'  => '0 !important',
 					'border-collapse' => 'collapse !important',
-					'table-layout' => 'fixed !important',
-					'margin' => '0 auto !important',
+					'table-layout'    => 'fixed !important',
+					'margin'          => '0 auto !important',
 				),
 			),
 			/* What it does: Uses a better rendering method when resizing images in IE. */
@@ -194,14 +200,14 @@ class AWSM_Job_Openings_Mail_Customizer {
 			array(
 				'selector'    => '*[x-apple-data-detectors], .unstyle-auto-detected-links *, .aBn',
 				'declaration' => array(
-					'border-bottom' => '0 !important',
-					'cursor' => 'default !important',
-					'color' => 'inherit !important',
+					'border-bottom'   => '0 !important',
+					'cursor'          => 'default !important',
+					'color'           => 'inherit !important',
 					'text-decoration' => 'none !important',
-					'font-size' => 'inherit !important',
-					'font-family' => 'inherit !important',
-					'font-weight' => 'inherit !important',
-					'line-height' => 'inherit !important',
+					'font-size'       => 'inherit !important',
+					'font-family'     => 'inherit !important',
+					'font-weight'     => 'inherit !important',
+					'line-height'     => 'inherit !important',
 				),
 			),
 			/* What it does: Prevents Gmail from displaying a download button on large, non-linked images. */
@@ -231,7 +237,7 @@ class AWSM_Job_Openings_Mail_Customizer {
 			/* iPhone 4, 4S, 5, 5S, 5C, and 5SE */
 			array(
 				'media_query' => '@media only screen and (min-device-width: 320px) and (max-device-width: 374px)',
-				'css' => array(
+				'css'         => array(
 					array(
 						'selector'    => 'u ~ div .email-container',
 						'declaration' => array(
@@ -243,7 +249,7 @@ class AWSM_Job_Openings_Mail_Customizer {
 			/* iPhone 6, 6S, 7, 8, and X */
 			array(
 				'media_query' => '@media only screen and (min-device-width: 375px) and (max-device-width: 413px)',
-				'css' => array(
+				'css'         => array(
 					array(
 						'selector'    => 'u ~ div .email-container',
 						'declaration' => array(
@@ -255,7 +261,7 @@ class AWSM_Job_Openings_Mail_Customizer {
 			/* iPhone 6+, 7+, and 8+ */
 			array(
 				'media_query' => '@media only screen and (min-device-width: 414px)',
-				'css' => array(
+				'css'         => array(
 					array(
 						'selector'    => 'u ~ div .email-container',
 						'declaration' => array(
@@ -323,18 +329,18 @@ class AWSM_Job_Openings_Mail_Customizer {
 				'selector'    => '.btn.btn-primary',
 				'declaration' => array(
 					'border-radius' => '3px',
-					'background' => $settings['base_color'],
-					'color' => '#ffffff',
-					'border' => '1px solid #207E76',
-					'font-weight' => 'bold',
+					'background'    => $settings['base_color'],
+					'color'         => '#ffffff',
+					'border'        => '1px solid #207E76',
+					'font-weight'   => 'bold',
 				),
 			),
 			array(
 				'selector'    => 'h1, h2, h3, h4, h5, h6',
 				'declaration' => array(
 					'font-family' => '"Helvetica Neue", Helvetica, Arial, sans-serif',
-					'color' => '#1F3130',
-					'margin-top' => '0',
+					'color'       => '#1F3130',
+					'margin-top'  => '0',
 				),
 			),
 			array(
@@ -342,9 +348,9 @@ class AWSM_Job_Openings_Mail_Customizer {
 				'declaration' => array(
 					'font-family' => '"Helvetica Neue", Helvetica, Arial, sans-serif',
 					'font-weight' => '400',
-					'font-size' => '16px',
+					'font-size'   => '16px',
 					'line-height' => '1.125',
-					'color' => '#4F5F5E',
+					'color'       => '#4F5F5E',
 				),
 			),
 			array(
@@ -362,7 +368,7 @@ class AWSM_Job_Openings_Mail_Customizer {
 			array(
 				'selector'    => '.logo',
 				'declaration' => array(
-					'padding' => '30px 0',
+					'padding'    => '30px 0',
 					'text-align' => 'center',
 				),
 			),
@@ -375,17 +381,17 @@ class AWSM_Job_Openings_Mail_Customizer {
 			array(
 				'selector'    => '.logo h1 a',
 				'declaration' => array(
-					'color' => '#000',
-					'font-size' => '20px',
-					'font-weight' => '700',
+					'color'          => '#000',
+					'font-size'      => '20px',
+					'font-weight'    => '700',
 					'text-transform' => 'uppercase',
-					'font-family' => '"Montserrat", sans-serif',
+					'font-family'    => '"Montserrat", sans-serif',
 				),
 			),
 			array(
 				'selector'    => '.main-content',
 				'declaration' => array(
-					'padding' => '40px 0',
+					'padding'      => '40px 0',
 					'border-width' => '9px 1px 1px',
 					'border-style' => 'solid',
 					'border-color' => $settings['base_color'] . ' #C6CCD2 #C6CCD2',
@@ -394,52 +400,52 @@ class AWSM_Job_Openings_Mail_Customizer {
 			array(
 				'selector'    => '.main-content h2',
 				'declaration' => array(
-					'font-size' => '25px',
+					'font-size'     => '25px',
 					'margin-bottom' => '17px',
 				),
 			),
 			array(
 				'selector'    => '.main-content h3',
 				'declaration' => array(
-					'font-size' => '16px',
+					'font-size'      => '16px',
 					'text-transform' => 'uppercase',
-					'margin-bottom' => '20px',
+					'margin-bottom'  => '20px',
 				),
 			),
 			array(
 				'selector'    => '.main-content ul',
 				'declaration' => array(
 					'list-style' => 'none',
-					'padding' => '0',
-					'margin' => '0',
+					'padding'    => '0',
+					'margin'     => '0',
 				),
 			),
 			array(
 				'selector'    => '.main-content li',
 				'declaration' => array(
 					'display' => 'inline-block',
-					'margin' => '0 25px',
+					'margin'  => '0 25px',
 				),
 			),
 			array(
 				'selector'    => '.main-content li span',
 				'declaration' => array(
-					'display' => 'block',
+					'display'   => 'block',
 					'font-size' => '43px',
-					'color' => $settings['base_color'],
+					'color'     => $settings['base_color'],
 				),
 			),
 			array(
 				'selector'    => '.job-table td, .job-table th',
 				'declaration' => array(
 					'text-align' => 'left',
-					'padding' => '13px 20px',
+					'padding'    => '13px 20px',
 				),
 			),
 			array(
 				'selector'    => '.main-content-in-2',
 				'declaration' => array(
-					'padding' => '30px 0',
+					'padding'       => '30px 0',
 					'border-bottom' => '1px solid #D7DFDF',
 				),
 			),
@@ -457,7 +463,7 @@ class AWSM_Job_Openings_Mail_Customizer {
 			),
 			array(
 				'media_query' => '@media screen and (max-width: 550px)',
-				'css' => array(
+				'css'         => array(
 					array(
 						'selector'    => '.logo',
 						'declaration' => array(

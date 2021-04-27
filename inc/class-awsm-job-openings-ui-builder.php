@@ -22,7 +22,7 @@ class AWSM_Job_Openings_UI_Builder {
 				}
 
 				if ( isset( $attrs['selector'] ) && ! empty( $attrs['selector'] ) && isset( $attrs['declaration'] ) && is_array( $attrs['declaration'] ) ) {
-					$selector = $attrs['selector'];
+					$selector        = $attrs['selector'];
 					$declaration_arr = $attrs['declaration'];
 
 					$declaration = '';
