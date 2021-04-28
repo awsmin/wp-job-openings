@@ -5,7 +5,7 @@
  * Override this by copying it to currenttheme/wp-job-openings/job-openings-view.php
  *
  * @package wp-job-openings
- * @version 1.3
+ * @version 2.2.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -15,13 +15,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 $shortcode_atts = isset( $shortcode_atts ) ? $shortcode_atts : array();
 
 /**
- * before_awsm_jobs_listing hook
+ * Fires before the job listing content.
  *
  * @hooked awsm_jobs_archive_title
  *
- * @since 1.1
+ * @since 1.1.0
+ * @since 2.2.0 The `$shortcode_atts` parameter was added.
+ *
+ * @param array $shortcode_atts Attributes array if shortcode is used, else an empty array.
  */
-do_action( 'before_awsm_jobs_listing' );
+do_action( 'before_awsm_jobs_listing', $shortcode_atts );
 
 $query = awsm_jobs_query( $shortcode_atts );
 
@@ -36,17 +39,15 @@ if ( $query->have_posts() ) : ?>
 			 *
 			 * @hooked AWSM_Job_Openings_Filters::display_filter_form()
 			 *
-			 * @since 1.0
+			 * @since 1.0.0
+			 * @since 1.3.0 The `$shortcode_atts` parameter was added.
+			 *
+			 * @param array $shortcode_atts Attributes array if shortcode is used, else an empty array.
 			 */
 			do_action( 'awsm_filter_form', $shortcode_atts );
 		?>
 
-		<div 
-		<?php
-		awsm_jobs_view_class();
-		awsm_jobs_data_attrs( array(), $shortcode_atts );
-		?>
-		>
+		<div <?php awsm_jobs_view_class(); ?><?php awsm_jobs_data_attrs( array(), $shortcode_atts ); ?>>
 			<?php include get_awsm_jobs_template_path( 'main', 'job-openings' ); ?>
 		</div>
 
@@ -61,8 +62,11 @@ else :
 endif;
 
 /**
- * after_awsm_jobs_listing hook
+ * Fires after the job listing content.
  *
- * @since 1.1
+ * @since 1.1.0
+ * @since 2.2.0 The `$shortcode_atts` parameter was added.
+ *
+ * @param array $shortcode_atts Attributes array if shortcode is used, else an empty array.
  */
-do_action( 'after_awsm_jobs_listing' );
+do_action( 'after_awsm_jobs_listing', $shortcode_atts );

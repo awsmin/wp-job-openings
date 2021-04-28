@@ -5,7 +5,7 @@
  * Override this by copying it to currenttheme/wp-job-openings/job-openings/main.php
  *
  * @package wp-job-openings
- * @version 2.1.0
+ * @version 2.2.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -18,13 +18,14 @@ $listing_specs  = get_option( 'awsm_jobs_listing_specs' );
 $shortcode_atts = isset( $shortcode_atts ) ? $shortcode_atts : array();
 
 /**
- * before_awsm_jobs_listing_loop hook
+ * Fires before The Loop to query for jobs.
  *
- * Fires before The Loop to query for jobs
+ * @since 1.1.0
+ * @since 2.2.0 The `$shortcode_atts` parameter was added.
  *
- * @since 1.1
+ * @param array $shortcode_atts Attributes array if shortcode is used, else an empty array.
  */
-do_action( 'before_awsm_jobs_listing_loop' );
+do_action( 'before_awsm_jobs_listing_loop', $shortcode_atts );
 
 while ( $query->have_posts() ) {
 	$query->the_post();
@@ -41,9 +42,13 @@ while ( $query->have_posts() ) {
 					/**
 					 * before_awsm_jobs_listing_left_col_content hook
 					 *
-					 * @since 1.1
+					 * @since 1.1.0
+					 * @since 2.2.0 The `$job_id` and `$shortcode_atts` parameters were added.
+					 *
+					 * @param int $job_id The Job ID.
+					 * @param array $shortcode_atts Attributes array if shortcode is used, else an empty array.
 					 */
-					do_action( 'before_awsm_jobs_listing_left_col_content' );
+					do_action( 'before_awsm_jobs_listing_left_col_content', $job_details['id'], $shortcode_atts );
 				?>
 
 				<?php awsm_jobs_featured_image(); ?>
@@ -59,9 +64,13 @@ while ( $query->have_posts() ) {
 					/**
 					 * after_awsm_jobs_listing_left_col_content hook
 					 *
-					 * @since 1.1
+					 * @since 1.1.0
+					 * @since 2.2.0 The `$job_id` and `$shortcode_atts` parameters were added.
+					 *
+					 * @param int $job_id The Job ID.
+					 * @param array $shortcode_atts Attributes array if shortcode is used, else an empty array.
 					 */
-					do_action( 'after_awsm_jobs_listing_left_col_content' );
+					do_action( 'after_awsm_jobs_listing_left_col_content', $job_details['id'], $shortcode_atts );
 				?>
 			</div>
 
@@ -70,9 +79,13 @@ while ( $query->have_posts() ) {
 					/**
 					 * before_awsm_jobs_listing_right_col_content hook
 					 *
-					 * @since 1.1
+					 * @since 1.1.0
+					 * @since 2.2.0 The `$job_id` and `$shortcode_atts` parameters were added.
+					 *
+					 * @param int $job_id The Job ID.
+					 * @param array $shortcode_atts Attributes array if shortcode is used, else an empty array.
 					 */
-					do_action( 'before_awsm_jobs_listing_right_col_content' );
+					do_action( 'before_awsm_jobs_listing_right_col_content', $job_details['id'], $shortcode_atts );
 
 					awsm_job_listing_spec_content( $job_details['id'], $awsm_filters, $listing_specs );
 
@@ -81,9 +94,13 @@ while ( $query->have_posts() ) {
 					/**
 					 * after_awsm_jobs_listing_right_col_content hook
 					 *
-					 * @since 1.1
+					 * @since 1.1.0
+					 * @since 2.2.0 The `$job_id` and `$shortcode_atts` parameters were added.
+					 *
+					 * @param int $job_id The Job ID.
+					 * @param array $shortcode_atts Attributes array if shortcode is used, else an empty array.
 					 */
-					do_action( 'after_awsm_jobs_listing_right_col_content' );
+					do_action( 'after_awsm_jobs_listing_right_col_content', $job_details['id'], $shortcode_atts );
 				?>
 			</div>
 		</div>
@@ -94,12 +111,13 @@ while ( $query->have_posts() ) {
 wp_reset_postdata();
 
 /**
- * after_awsm_jobs_listing_loop hook
+ * Fires after The Loop.
  *
- * Fires after The Loop
+ * @since 1.1.0
+ * @since 2.2.0 The `$shortcode_atts` parameter was added.
  *
- * @since 1.1
+ * @param array $shortcode_atts Attributes array if shortcode is used, else an empty array.
  */
-do_action( 'after_awsm_jobs_listing_loop' );
+do_action( 'after_awsm_jobs_listing_loop', $shortcode_atts );
 
 awsm_jobs_load_more( $query, $shortcode_atts );
