@@ -543,7 +543,7 @@ class AWSM_Job_Openings_Form {
 			'{job-id}'           => $applicant_details['awsm_job_id'],
 			'{job-expiry}'       => $job_expiry,
 			'{job-title}'        => $applicant_details['awsm_apply_for'],
-			'{applicant-cover}'  => isset( $applicant_details['awsm_applicant_letter'] ) ? $applicant_details['awsm_applicant_letter'] : '',
+			'{applicant-cover}'  => isset( $applicant_details['awsm_applicant_letter'] ) ? nl2br( $applicant_details['awsm_applicant_letter'] ) : '',
 			'{applicant-resume}' => ( ! empty( $attachment_url ) ) ? esc_url( $attachment_url ) : '',
 		);
 
