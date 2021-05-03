@@ -240,27 +240,42 @@ class AWSM_Job_Openings_Form {
 
 	public function display_recaptcha_field() {
 		if ( $this->is_recaptcha_set() ) :
-			$site_key     = get_option( 'awsm_jobs_recaptcha_site_key' );
-			$fallback_url = add_query_arg( 'k', $site_key, 'https://www.google.com/recaptcha/api/fallback' );
-			?>
-			<div class="awsm-job-form-group awsm-job-g-recaptcha-group">
-				<div class="g-recaptcha" data-sitekey="<?php echo esc_attr( $site_key ); ?>"></div>
-				<noscript>
-					<div style="width: 302px; height: 422px; position: relative;">
-						<div style="width: 302px; height: 422px; position: absolute;">
-							<iframe src="<?php echo esc_url( $fallback_url ); ?>" frameborder="0" scrolling="no" style="width: 302px; height:422px; border-style: none;"></iframe>
+			/**
+			 * Filters the reCAPTCHA visibility in the application form.
+			 *
+			 * @since 2.2.0
+			 *
+			 * @param bool $is_visible Whether the reCAPTCHA is visible or not in the form.
+			 */
+			$is_visible = apply_filters( 'awsm_application_form_is_recaptcha_visible', true );
+
+			if ( $is_visible ) :
+				$site_key     = get_option( 'awsm_jobs_recaptcha_site_key' );
+				$fallback_url = add_query_arg( 'k', $site_key, 'https://www.google.com/recaptcha/api/fallback' );
+				?>
+				<div class="awsm-job-form-group awsm-job-g-recaptcha-group">
+					<div class="g-recaptcha" data-sitekey="<?php echo esc_attr( $site_key ); ?>"></div>
+					<noscript>
+						<div style="width: 302px; height: 422px; position: relative;">
+							<div style="width: 302px; height: 422px; position: absolute;">
+								<iframe src="<?php echo esc_url( $fallback_url ); ?>" frameborder="0" scrolling="no" style="width: 302px; height:422px; border-style: none;"></iframe>
+							</div>
+							<div style="width: 300px; height: 60px; border-style: none; bottom: 12px; left: 25px; margin: 0px; padding: 0px; right: 25px; background: #f9f9f9; border: 1px solid #c1c1c1; border-radius: 3px;">
+								<textarea id="g-recaptcha-response" name="g-recaptcha-response" class="g-recaptcha-response" style="width: 250px; height: 40px; border: 1px solid #c1c1c1; margin: 10px 25px; padding: 0px; resize: none;" ></textarea>
+							</div>
 						</div>
-						<div style="width: 300px; height: 60px; border-style: none; bottom: 12px; left: 25px; margin: 0px; padding: 0px; right: 25px; background: #f9f9f9; border: 1px solid #c1c1c1; border-radius: 3px;">
-							<textarea id="g-recaptcha-response" name="g-recaptcha-response" class="g-recaptcha-response" style="width: 250px; height: 40px; border: 1px solid #c1c1c1; margin: 10px 25px; padding: 0px; resize: none;" ></textarea>
-						</div>
-					</div>
-				</noscript>
-			</div>
-			<?php
+					</noscript>
+				</div>
+				<?php
+			endif;
 		endif;
 	}
 
 	public function application_form() {
+		$form_attrs = array(
+			'single_form' => true,
+			'job_id' => get_the_ID(),
+		);
 		include AWSM_Job_Openings::get_template_path( 'form.php', 'single-job' );
 	}
 
@@ -474,29 +489,36 @@ class AWSM_Job_Openings_Form {
 		return $is_set;
 	}
 
+	public function get_recaptcha_response( $token ) {
+		$result = array();
+		$secret_key = get_option( 'awsm_jobs_recaptcha_secret_key' );
+		$response   = wp_safe_remote_post(
+			'https://www.google.com/recaptcha/api/siteverify',
+			array(
+				'body' => array(
+					'secret'   => $secret_key,
+					'response' => $token,
+					'remoteip' => $_SERVER['REMOTE_ADDR'],
+				),
+			)
+		);
+		if ( ! is_wp_error( $response ) ) {
+			$response_body = wp_remote_retrieve_body( $response );
+			if ( '' !== $response_body ) {
+				if ( wp_remote_retrieve_response_code( $response ) === 200 ) {
+					$result = json_decode( $response_body, true );
+				}
+			}
+		}
+		return $result;
+	}
+
 	public function validate_captcha_field( $token ) {
 		$is_valid   = false;
-		$verify_url = 'https://www.google.com/recaptcha/api/siteverify';
 		if ( ! empty( $token ) ) {
-			$secret_key = get_option( 'awsm_jobs_recaptcha_secret_key' );
-			$response   = wp_safe_remote_post(
-				$verify_url,
-				array(
-					'body' => array(
-						'secret'   => $secret_key,
-						'response' => $token,
-						'remoteip' => $_SERVER['REMOTE_ADDR'],
-					),
-				)
-			);
-			if ( ! is_wp_error( $response ) ) {
-				$response_body = wp_remote_retrieve_body( $response );
-				if ( '' !== $response_body ) {
-					if ( wp_remote_retrieve_response_code( $response ) === 200 ) {
-						$response = json_decode( $response_body, true );
-						$is_valid = isset( $response['success'] ) && $response['success'] === true;
-					}
-				}
+			$result = $this->get_recaptcha_response( $token );
+			if ( ! empty ( $result ) ) {
+				$is_valid = isset( $result['success'] ) && $result['success'] === true;
 			}
 		}
 		return $is_valid;

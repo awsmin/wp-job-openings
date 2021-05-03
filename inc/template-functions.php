@@ -167,11 +167,27 @@ if ( ! function_exists( 'awsm_jobs_expired_msg' ) ) {
 }
 
 if ( ! function_exists( 'awsm_job_form_submit_btn' ) ) {
-	function awsm_job_form_submit_btn() {
-		$text     = apply_filters( 'awsm_application_form_submit_btn_text', __( 'Submit', 'wp-job-openings' ) );
-		$res_text = apply_filters( 'awsm_application_form_submit_btn_res_text', __( 'Submitting..', 'wp-job-openings' ) );
+	function awsm_job_form_submit_btn( $form_attrs ) {
+		/**
+		 * Filters the application submit button text.
+		 *
+		 * @since 1.0.0
+		 * @since 2.2.0 The `$form_attrs` parameter was added.
+		 *
+		 * @param array $form_attrs Attributes array for the form.
+		 */
+		$text     = apply_filters( 'awsm_application_form_submit_btn_text', __( 'Submit', 'wp-job-openings' ), $form_attrs );
+		/**
+		 * Filters the application submit button text on submission.
+		 *
+		 * @since 1.0.0
+		 * @since 2.2.0 The `$form_attrs` parameter was added.
+		 *
+		 * @param array $form_attrs Attributes array for the form.
+		 */
+		$res_text = apply_filters( 'awsm_application_form_submit_btn_res_text', __( 'Submitting..', 'wp-job-openings' ), $form_attrs );
 		?>
-		<input type="submit" name="form_sub" id="awsm-application-submit-btn" value="<?php echo esc_attr( $text ); ?>" data-response-text="<?php echo esc_attr( $res_text ); ?>" />
+		<input type="submit" name="form_sub" id="<?php echo $form_attrs['single_form'] ? 'awsm-application-submit-btn' : esc_attr( 'awsm-application-submit-btn-' . $form_attrs['job_id'] ); ?>" class="awsm-application-submit-btn" value="<?php echo esc_attr( $text ); ?>" data-response-text="<?php echo esc_attr( $res_text ); ?>" />
 		<?php
 	}
 }
