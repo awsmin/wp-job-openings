@@ -3,6 +3,7 @@
 'use strict';
 
 jQuery(document).ready(function($) {
+	var awsmJobs = window.awsmJobs = window.awsmJobs || {};
 
 	// =============== Job Views ===============
 	var jobId = Number(awsmJobsPublic.job_id);
@@ -14,13 +15,99 @@ jQuery(document).ready(function($) {
 	}
 
 	// ========== Job Aplication Form ==========
-	var $applicationForm = $('#awsm-application-form');
-	var $applicationMessage = $('.awsm-application-message');
-	var $submitBtn = $('#awsm-application-submit-btn');
-	var successClass = 'awsm-success-message';
-	var errorClass = 'awsm-error-message';
-	var submitBtnText = $submitBtn.val();
-	var submitBtnResText = $submitBtn.data('responseText');
+	var $applicationForm = $('.awsm-application-form');
+
+	awsmJobs.submitApplication = function($form, data) {
+		var data = typeof data !== 'undefined' ? data : {};
+		var $submitBtn = $form.find('.awsm-application-submit-btn');
+		var $applicationMessage = $form.parents('.awsm-job-form-inner').find('.awsm-application-message');
+		var submitBtnText = $submitBtn.val();
+		var submitBtnResText = $submitBtn.data('responseText');
+		var successClass = 'awsm-success-message';
+		var errorClass = 'awsm-error-message';
+
+		// Hide all the form submission messages.
+		$('.awsm-application-message').hide();
+
+		var form = $form[0];
+		var fileCheck = true;
+		var $fileControl = $form.find('.awsm-form-file-control');
+		var maxSize = awsmJobsPublic.wp_max_upload_size;
+		if ($fileControl.length > 0) {
+			$fileControl.each(function() {
+				var $fileField = $(this);
+				var fileSize = (typeof $fileField.prop('files')[0] !== 'undefined' && $fileField.prop('files')[0]) ? $fileField.prop('files')[0].size : 0;
+				if (fileSize > maxSize) {
+					fileCheck = false;
+				}
+			});
+		}
+		if (fileCheck === false) {
+			$applicationMessage
+				.addClass(errorClass)
+				.html(awsmJobsPublic.i18n.form_error_msg.file_validation)
+				.fadeIn();
+		} else {
+			$applicationMessage
+				.removeClass(successClass + ' ' + errorClass)
+				.hide();
+			$submitBtn.prop('disabled', true).val(submitBtnResText);
+
+			var formData = new FormData(form);
+			if ('fields' in data && Array.isArray(data.fields)) {
+				$.each(data.fields, function(index, field) {
+					if ('name' in field && 'value' in field) {
+						formData.append(field.name, field.value);
+					}
+				});
+			}
+
+			$.ajax({
+					url: awsmJobsPublic.ajaxurl,
+					cache: false,
+					contentType: false,
+					processData: false,
+					data: formData,
+					dataType: 'json',
+					type: 'POST'
+				})
+				.done(function(response) {
+					if (response) {
+						var className = 'awsm-default-message';
+						var msg = '';
+						var msgArray = [];
+						if (response.error.length > 0) {
+							className = errorClass;
+							msgArray = response.error;
+						} else {
+							if (response.success.length > 0) {
+								$form[0].reset();
+								className = successClass;
+								msgArray = response.success;
+							}
+						}
+						$(msgArray).each(function(index, value) {
+							msg += '<p>' + value + '</p>';
+						});
+						$applicationMessage
+							.addClass(className)
+							.html(msg)
+							.fadeIn();
+					}
+				})
+				.fail(function(xhr) {
+					$applicationMessage
+						.addClass(errorClass)
+						.html(awsmJobsPublic.i18n.form_error_msg.general)
+						.fadeIn();
+					// eslint-disable-next-line no-console
+					console.log(xhr);
+				})
+				.always(function() {
+					$submitBtn.prop('disabled', false).val(submitBtnText);
+				});
+		}
+	};
 
 	$applicationForm.validate({
 		errorElement: 'div',
@@ -31,79 +118,11 @@ jQuery(document).ready(function($) {
 	});
 
 	$applicationForm.submit(function(event) {
-		$applicationMessage.hide();
 		event.preventDefault();
-		var proceed = $applicationForm.valid();
-		var maxSize = awsmJobsPublic.wp_max_upload_size;
+		var $form = $(this);
+		var proceed = $form.valid();
 		if (proceed) {
-			var form = $('#awsm-application-form')[0];
-			var fileCheck = true;
-			var $fileControl = $('.awsm-form-file-control');
-			if ($fileControl.length > 0) {
-				$('.awsm-form-file-control').each(function() {
-					var $fileField = $(this);
-					var fileSize = (typeof $fileField.prop('files')[0] !== 'undefined' && $fileField.prop('files')[0]) ? $fileField.prop('files')[0].size : 0;
-					if (fileSize > maxSize) {
-						fileCheck = false;
-					}
-				});
-			}
-			if (fileCheck === false) {
-				$applicationMessage
-					.addClass(errorClass)
-					.html(awsmJobsPublic.i18n.form_error_msg.file_validation)
-					.fadeIn();
-			} else {
-				var formData = new FormData(form);
-				$applicationMessage
-					.removeClass(successClass + ' ' + errorClass)
-					.hide();
-				$submitBtn.prop('disabled', true).val(submitBtnResText);
-				$.ajax({
-						url: awsmJobsPublic.ajaxurl,
-						cache: false,
-						contentType: false,
-						processData: false,
-						data: formData,
-						dataType: 'json',
-						type: 'POST'
-					})
-					.done(function(response) {
-						if (response) {
-							var className = 'awsm-default-message';
-							var msg = '';
-							var msgArray = [];
-							if (response.error.length > 0) {
-								className = errorClass;
-								msgArray = response.error;
-							} else {
-								if (response.success.length > 0) {
-									$applicationForm[0].reset();
-									className = successClass;
-									msgArray = response.success;
-								}
-							}
-							$(msgArray).each(function(index, value) {
-								msg += '<p>' + value + '</p>';
-							});
-							$applicationMessage
-								.addClass(className)
-								.html(msg)
-								.fadeIn();
-						}
-					})
-					.fail(function(xhr) {
-						$applicationMessage
-							.addClass(errorClass)
-							.html(awsmJobsPublic.i18n.form_error_msg.general)
-							.fadeIn();
-						// eslint-disable-next-line no-console
-						console.log(xhr);
-					})
-					.always(function() {
-						$submitBtn.prop('disabled', false).val(submitBtnText);
-					});
-			}
+			awsmJobs.submitApplication($form);
 		}
 	});
 });
