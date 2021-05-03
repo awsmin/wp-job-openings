@@ -274,7 +274,7 @@ class AWSM_Job_Openings_Form {
 	public function application_form() {
 		$form_attrs = array(
 			'single_form' => true,
-			'job_id' => get_the_ID(),
+			'job_id'      => get_the_ID(),
 		);
 		include AWSM_Job_Openings::get_template_path( 'form.php', 'single-job' );
 	}
@@ -490,7 +490,7 @@ class AWSM_Job_Openings_Form {
 	}
 
 	public function get_recaptcha_response( $token ) {
-		$result = array();
+		$result     = array();
 		$secret_key = get_option( 'awsm_jobs_recaptcha_secret_key' );
 		$response   = wp_safe_remote_post(
 			'https://www.google.com/recaptcha/api/siteverify',
@@ -514,10 +514,10 @@ class AWSM_Job_Openings_Form {
 	}
 
 	public function validate_captcha_field( $token ) {
-		$is_valid   = false;
+		$is_valid = false;
 		if ( ! empty( $token ) ) {
 			$result = $this->get_recaptcha_response( $token );
-			if ( ! empty ( $result ) ) {
+			if ( ! empty( $result ) ) {
 				$is_valid = isset( $result['success'] ) && $result['success'] === true;
 			}
 		}

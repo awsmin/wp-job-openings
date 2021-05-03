@@ -176,7 +176,7 @@ if ( ! function_exists( 'awsm_job_form_submit_btn' ) ) {
 		 *
 		 * @param array $form_attrs Attributes array for the form.
 		 */
-		$text     = apply_filters( 'awsm_application_form_submit_btn_text', __( 'Submit', 'wp-job-openings' ), $form_attrs );
+		$text = apply_filters( 'awsm_application_form_submit_btn_text', __( 'Submit', 'wp-job-openings' ), $form_attrs );
 		/**
 		 * Filters the application submit button text on submission.
 		 *
