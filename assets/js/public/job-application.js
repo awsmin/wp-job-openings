@@ -18,7 +18,7 @@ jQuery(document).ready(function($) {
 	var $applicationForm = $('.awsm-application-form');
 
 	awsmJobs.submitApplication = function($form, data) {
-		var data = typeof data !== 'undefined' ? data : {};
+		data = typeof data !== 'undefined' ? data : {};
 		var $submitBtn = $form.find('.awsm-application-submit-btn');
 		var $applicationMessage = $form.parents('.awsm-job-form-inner').find('.awsm-application-message');
 		var submitBtnText = $submitBtn.val();

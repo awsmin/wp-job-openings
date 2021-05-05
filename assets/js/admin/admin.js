@@ -307,12 +307,12 @@ jQuery(document).ready(function($) {
 
 	var frame;
 	var imgi18n = awsmJobsAdmin.i18n.image_upload;
-	$('#awsm-job-settings-wrap').on("click", '.awsm-settings-image-upload-button', function(e){
+	$('#awsm-job-settings-wrap').on('click', '.awsm-settings-image-upload-button', function(e) {
 		e.preventDefault();
 		var $elem = $(this);
 		$elem.parent('.awsm-settings-image-field-container').addClass('awsm-settings-image-trigger-active');
 
-		if (!frame) {
+		if (! frame) {
 			frame = wp.media({
 				title: imgi18n.title,
 				multiple: false,
@@ -342,7 +342,7 @@ jQuery(document).ready(function($) {
 		frame.open();
 	});
 
-	$('#awsm-job-settings-wrap').on("click", '.awsm-settings-image-remove-button', function(e) {
+	$('#awsm-job-settings-wrap').on('click', '.awsm-settings-image-remove-button', function(e) {
 		e.preventDefault();
 		var $elem = $(this);
 		var $imgFieldContainer = $elem.parent('.awsm-settings-image-field-container');
