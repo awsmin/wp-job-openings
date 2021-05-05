@@ -12,6 +12,7 @@
     },
     "scripts": {
         "phpcs": "phpcs --colors -p -s",
+		"phpcs-l": "phpcs --colors -n -p -s",
 		"phpcbf": "phpcbf --colors -p -s",
 		"phpstan": "./vendor/bin/phpstan analyse"
     }
