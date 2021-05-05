@@ -23,4 +23,20 @@
 		],
 		"description": "Translation function extended"
 	},
+	"WP Job Openings: Simple Translators Comment": {
+		"scope": "php",
+		"prefix": "job:i18n-simple-comment",
+		"body": [
+			"/* translators: %s: $1 */"
+		],
+		"description": "Translators Comment to clarify the meaning of the placeholders"
+	},
+	"WP Job Openings: Translators Comment": {
+		"scope": "php",
+		"prefix": "job:i18n-comment",
+		"body": [
+			"/* translators: %1\\$s: $1, %2\\$s: $2 */"
+		],
+		"description": "Translators Comment to clarify the meaning of the placeholders"
+	}
 }
