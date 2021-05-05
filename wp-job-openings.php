@@ -1099,7 +1099,7 @@ class AWSM_Job_Openings {
 								} else {
 									$term = $this->sanitize_term( $spec_term );
 									if ( strlen( $term ) > 0 ) {
-										if ( strpos( $spec_term, 'awsm-term-id-' ) !== false ) {
+										if ( is_string( $spec_term ) && strpos( $spec_term, 'awsm-term-id-' ) !== false ) {
 											$term = str_replace( 'awsm-term-id-', '', $spec_term );
 										}
 										$terms[] = $term;

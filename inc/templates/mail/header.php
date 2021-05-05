@@ -44,7 +44,7 @@ $customizer_settings = AWSM_Job_Openings_Mail_Customizer::get_settings();
 		<table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: auto;">
 			<tr>
 				<td class="logo">
-					<?php echo AWSM_Job_Openings_Mail_Customizer::get_logo( $customizer_settings ); ?>
+					<?php echo AWSM_Job_Openings_Mail_Customizer::get_logo( $customizer_settings ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 				</td>
 			</tr><!-- end tr -->
 			<tr>

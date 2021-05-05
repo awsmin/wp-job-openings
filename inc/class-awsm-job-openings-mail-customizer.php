@@ -19,15 +19,17 @@ class AWSM_Job_Openings_Mail_Customizer {
 	}
 
 	public function template_head( $settings ) {
+		// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo AWSM_Job_Openings_UI_Builder::generate_css( self::get_reset_styles() );
 		echo AWSM_Job_Openings_UI_Builder::generate_css( self::get_main_styles( $settings ) );
+		// phpcs:enable
 	}
 
 	public function template_footer( $settings ) {
 		?>
 			<td style="text-align: center; padding: 30px 0;">
 				<p style="margin: 0;">
-					<?php echo self::sanitize_content( $settings['footer_text'] ); ?>
+					<?php echo self::sanitize_content( $settings['footer_text'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 				</p>
 			</td>
 		<?php
