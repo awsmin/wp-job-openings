@@ -1037,11 +1037,16 @@ a.awsm-text-red:hover {
 	color: #fff;
 	background: #D36230;
 	border-radius: 50%;
+	position: absolute;
+    left: 0;
+    top: 6px;
 }
 
 p.description.awsm-jobs-invalid {
+    position: relative;
     margin-bottom: 0px;
     padding-bottom: 0px;
+	padding-left: 18px;
 }
 
 /*
