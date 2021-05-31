@@ -51,7 +51,7 @@ jQuery(document).ready(function($) {
 			$applicationMessage
 				.removeClass(successClass + ' ' + errorClass)
 				.hide();
-			$submitBtn.prop('disabled', true).val(submitBtnResText);
+			$submitBtn.prop('disabled', true).val(submitBtnResText).addClass('awsm-application-submit-btn-disabled');
 
 			var formData = new FormData(form);
 			if ('fields' in data && Array.isArray(data.fields)) {
@@ -104,7 +104,7 @@ jQuery(document).ready(function($) {
 					console.log(xhr);
 				})
 				.always(function() {
-					$submitBtn.prop('disabled', false).val(submitBtnText);
+					$submitBtn.prop('disabled', false).val(submitBtnText).removeClass('awsm-application-submit-btn-disabled');
 				});
 		}
 	};
