@@ -323,7 +323,7 @@ class AWSM_Job_Openings_Form {
 			$applicant_email      = sanitize_email( $_POST['awsm_applicant_email'] );
 			$applicant_phone      = sanitize_text_field( $_POST['awsm_applicant_phone'] );
 			$applicant_letter     = awsm_jobs_sanitize_textarea( $_POST['awsm_applicant_letter'] );
-			$attachment           = $_FILES['awsm_file'];
+			$attachment           = isset( $_FILES['awsm_file'] ) ? $_FILES['awsm_file'] : '';
 			$agree_privacy_policy = false;
 			$generic_err_msg      = esc_html__( 'Error in submitting your application. Please refresh the page and retry.', 'wp-job-openings' );
 			if ( $this->is_recaptcha_set() ) {
@@ -368,7 +368,7 @@ class AWSM_Job_Openings_Form {
 			if ( empty( $applicant_letter ) ) {
 				$awsm_response['error'][] = esc_html__( 'Cover Letter cannot be empty.', 'wp-job-openings' );
 			}
-			if ( $attachment['error'] > 0 ) {
+			if ( empty( $attachment ) || ! isset( $attachment['error'] ) || $attachment['error'] > 0 ) {
 				$awsm_response['error'][] = esc_html__( 'Please select your cv/resume.', 'wp-job-openings' );
 			}
 
