@@ -1022,6 +1022,28 @@ a.awsm-text-red:hover {
 	padding: 2px;
 }
 
+.awsm-jobs-invalid {
+    padding: 3px 0px;
+}
+
+.awsm-jobs-invalid::before {
+	content: "!";
+	display: inline-block;
+	margin-right: 4px;
+	width: 14px;
+	height: 14px;
+	line-height: 14px;
+	text-align: center;
+	color: #fff;
+	background: #D36230;
+	border-radius: 50%;
+}
+
+p.description.awsm-jobs-invalid {
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+}
+
 /*
 * Empty States
 */

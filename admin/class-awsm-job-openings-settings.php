@@ -313,7 +313,7 @@ class AWSM_Job_Openings_Settings {
 				array(
 					/** @since 1.6.0 */
 					'option_name' => 'awsm_jobs_admin_from_email_notification',
-					'callback'    => array( $this, 'sanitize_admin_from_email_id' ),
+					'callback'    => array( $this, 'sanitize_from_email_id' ),
 				),
 				array(
 					/** @since 1.6.0 */
@@ -495,8 +495,11 @@ class AWSM_Job_Openings_Settings {
 		return $match;
 	}
 
-	public function validate_from_email_id( $email, $option_name ) {
-		$admin_email = get_option( 'admin_email' );
+	public function validate_from_email_id( $email, $option_name = '' ) {
+		if ( ! empty( $option_name ) ) {
+			_deprecated_argument( __METHOD__, '2.2.0' );
+		}
+
 		$site_domain = strtolower( $_SERVER['SERVER_NAME'] );
 		if ( $this->is_localhost() ) {
 			return $email;
@@ -517,19 +520,22 @@ class AWSM_Job_Openings_Settings {
 			if ( $current_domain !== $site_domain && $this->is_email_in_domain( $email, $current_domain ) ) {
 				return $email;
 			} else {
-				add_settings_error( $option_name, str_replace( '_', '-', $option_name ), esc_html__( "The provided 'From' email address does not belong to this site domain and may lead to issues in email delivery.", 'wp-job-openings' ), 'awsm-jobs-warning' );
-				return $email;
+				return false;
 			}
 		}
-		return $admin_email;
+		return false;
 	}
 
 	public function sanitize_from_email_id( $email ) {
-		$email = sanitize_email( $email );
-		return $this->validate_from_email_id( $email, 'awsm_jobs_from_email_notification' );
+		if ( empty( $email ) ) {
+			$email = get_option( 'admin_email' );
+		}
+		return sanitize_email( $email );
 	}
 
 	public function sanitize_admin_from_email_id( $email ) {
+		_deprecated_function( __METHOD__, '2.2.0', 'AWSM_Job_Openings_Settings::sanitize_from_email_id' );
+
 		$email = sanitize_email( $email );
 		return $this->validate_from_email_id( $email, 'awsm_jobs_admin_from_email_notification' );
 	}
