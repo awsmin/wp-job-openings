@@ -99,6 +99,17 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 
 == Changelog ==
 
+= V 2.2.0 – 2021-06-01 =
+* Added: Notification Mail Template Customizer (Settings > Notifications > Customize). Template files need to be updated if overridden in the theme.
+* Fixed: Pre validation for file field not working.
+* Fixed: Cover letter formatting issue in the notification mail content.
+* Fixed: Accents don't work in the Specification fields.
+* Improved: Form Handling. Template files need to be updated if overridden in the theme.
+* Improved: Notification HTML Mail Template.
+* Dev: New Hooks for Handling Job Filters.
+* Dev: Improved Form Handling Hooks.
+* Other minor bug fixes and style improvements.
+
 = V 2.1.1 – 2021-04-21 =
 * Fixed: Issue with WooCommerce Plugin that prevents the users with HR Role from accessing the backend.
 * Fixed: 'Secure uploaded files' option doesn't work in 'Media Library' for some installations.
@@ -138,15 +149,9 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 = V 1.6.2 - 2020-01-29 =
 * Bug fixes and improvements.
 
-= V 1.6.1 - 2020-01-14 =
-* Fixed: Job search results showing invalid listings when 'Load more' button is clicked.
-* Fixed: An issue that prevents user from closing the job specification dropdown.
-* Fixed: Job specification based translations not working in WPML.
-* Other minor fixes and improvements.
-
 [See changelog of previous versions](https://raw.githubusercontent.com/awsmin/wp-job-openings/master/CHANGELOG.md)
 
 == Upgrade Notice ==
 
-= 2.1.1 =
-Bug fixes and improvements.
+= 2.2.0 =
+New Features and Bug fixes.

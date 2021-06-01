@@ -151,15 +151,15 @@ msgstr ""
 msgid "Select a page"
 msgstr ""
 
-#: wp-job-openings.php:919, admin/class-awsm-job-openings-settings.php:964
+#: wp-job-openings.php:919, admin/class-awsm-job-openings-settings.php:970
 msgid "Select Image"
 msgstr ""
 
-#: wp-job-openings.php:920, admin/class-awsm-job-openings-settings.php:967
+#: wp-job-openings.php:920, admin/class-awsm-job-openings-settings.php:973
 msgid "Change Image"
 msgstr ""
 
-#: wp-job-openings.php:921, admin/class-awsm-job-openings-settings.php:963
+#: wp-job-openings.php:921, admin/class-awsm-job-openings-settings.php:969
 msgid "No Image selected"
 msgstr ""
 
@@ -439,7 +439,7 @@ msgstr ""
 msgid "Job Location"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:387, admin/class-awsm-job-openings-settings.php:666
+#: admin/class-awsm-job-openings-settings.php:387, admin/class-awsm-job-openings-settings.php:672
 msgid "By using this form you agree with the storage and handling of your data by this website."
 msgstr ""
 
@@ -467,122 +467,118 @@ msgstr ""
 msgid "Invalid secret key provided."
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:520
-msgid "The provided 'From' email address does not belong to this site domain and may lead to issues in email delivery."
-msgstr ""
-
-#: admin/class-awsm-job-openings-settings.php:540
+#: admin/class-awsm-job-openings-settings.php:546
 msgid "Listings per page must be greater than or equal to 1."
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:562
+#: admin/class-awsm-job-openings-settings.php:568
 msgid "Job Specification and Key cannot be empty!"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:566
+#: admin/class-awsm-job-openings-settings.php:572
 msgid "Job specification key must not exceed 32 characters."
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:570, admin/class-awsm-job-openings-settings.php:1036, admin/templates/specifications.php:83
+#: admin/class-awsm-job-openings-settings.php:576, admin/class-awsm-job-openings-settings.php:1042, admin/templates/specifications.php:83
 msgid "The job specification key should only contain alphanumeric, latin characters separated by hyphen/underscore, and cannot begin or end with a hyphen/underscore."
 msgstr ""
 
 #. translators: %1$s: job specification key, %2$s: specific error message
-#: admin/class-awsm-job-openings-settings.php:576
+#: admin/class-awsm-job-openings-settings.php:582
 msgid "Error in registering Job Specification with key: %1$s. %2$s"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:576
+#: admin/class-awsm-job-openings-settings.php:582
 msgid "Taxonomy already exist!"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:657
+#: admin/class-awsm-job-openings-settings.php:663
 msgid "Error in saving file upload types!"
 msgstr ""
 
 #. translators: %1$s: opening anchor tag, %2$s: closing anchor tag
-#: admin/class-awsm-job-openings-settings.php:697
+#: admin/class-awsm-job-openings-settings.php:703
 msgid "Please refresh the %1$sPermalink Settings%2$s to reflect the changes."
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:745
+#: admin/class-awsm-job-openings-settings.php:751
 msgid "You do not have sufficient permissions to manage options."
 msgstr ""
 
 #. translators: %s: option name
-#: admin/class-awsm-job-openings-settings.php:763
+#: admin/class-awsm-job-openings-settings.php:769
 msgid "Error in updating option: '%s'"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:964, admin/class-awsm-job-openings-settings.php:967
+#: admin/class-awsm-job-openings-settings.php:970, admin/class-awsm-job-openings-settings.php:973
 msgid "Remove"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:1036
+#: admin/class-awsm-job-openings-settings.php:1042
 msgid "Specification key"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:1071, admin/templates/specifications.php:7
+#: admin/class-awsm-job-openings-settings.php:1077, admin/templates/specifications.php:7
 msgid "Enter a specification"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:1077, admin/templates/specifications.php:9
+#: admin/class-awsm-job-openings-settings.php:1083, admin/templates/specifications.php:9
 msgid "Select icon"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:1080, admin/templates/specifications.php:8
+#: admin/class-awsm-job-openings-settings.php:1086, admin/templates/specifications.php:8
 msgid "Enter options"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:1082
+#: admin/class-awsm-job-openings-settings.php:1088
 msgid "Delete"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:1092
+#: admin/class-awsm-job-openings-settings.php:1098
 msgid "Applicant Name:"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:1093
+#: admin/class-awsm-job-openings-settings.php:1099
 msgid "Application ID:"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:1094
+#: admin/class-awsm-job-openings-settings.php:1100
 msgid "Applicant Email:"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:1095
+#: admin/class-awsm-job-openings-settings.php:1101
 msgid "Applicant Phone:"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:1096
+#: admin/class-awsm-job-openings-settings.php:1102
 msgid "Applicant Resume:"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:1097
+#: admin/class-awsm-job-openings-settings.php:1103
 msgid "Cover letter:"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:1098
+#: admin/class-awsm-job-openings-settings.php:1104
 msgid "Job Title:"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:1099
+#: admin/class-awsm-job-openings-settings.php:1105
 msgid "Job ID:"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:1100
+#: admin/class-awsm-job-openings-settings.php:1106
 msgid "Job Expiry Date:"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:1101
+#: admin/class-awsm-job-openings-settings.php:1107
 msgid "Site admin email:"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:1102
+#: admin/class-awsm-job-openings-settings.php:1108
 msgid "HR Email:"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:1103
+#: admin/class-awsm-job-openings-settings.php:1109
 msgid "Company Name:"
 msgstr ""
 
@@ -1213,79 +1209,83 @@ msgstr ""
 msgid "CAUTION: Checking this option will delete all the job listings, applications and %1$sconfigurations from your website %2$swhen you uninstall the plugin%3$s."
 msgstr ""
 
-#: admin/templates/notification.php:36
+#: admin/templates/notification.php:21
+msgid "The provided 'From' email address does not belong to this site domain and may lead to issues in email delivery."
+msgstr ""
+
+#: admin/templates/notification.php:38
 msgid "Application Notifications"
 msgstr ""
 
-#: admin/templates/notification.php:42
+#: admin/templates/notification.php:44
 msgid "Application Received - Applicant Notification"
 msgstr ""
 
-#: admin/templates/notification.php:45, admin/templates/notification.php:89
+#: admin/templates/notification.php:47, admin/templates/notification.php:98
 msgid "ON"
 msgstr ""
 
-#: admin/templates/notification.php:45, admin/templates/notification.php:89
+#: admin/templates/notification.php:47, admin/templates/notification.php:98
 msgid "OFF"
 msgstr ""
 
-#: admin/templates/notification.php:52, admin/templates/notification.php:96
+#: admin/templates/notification.php:54, admin/templates/notification.php:105
 msgid "From"
 msgstr ""
 
-#: admin/templates/notification.php:56, admin/templates/notification.php:100
+#: admin/templates/notification.php:63, admin/templates/notification.php:114
 msgid "Reply-To"
 msgstr ""
 
-#: admin/templates/notification.php:60, admin/templates/notification.php:104
+#: admin/templates/notification.php:69, admin/templates/notification.php:120
 msgid "To"
 msgstr ""
 
-#: admin/templates/notification.php:64, admin/templates/notification.php:108
+#: admin/templates/notification.php:73, admin/templates/notification.php:124
 msgid "CC:"
 msgstr ""
 
-#: admin/templates/notification.php:68, admin/templates/notification.php:112
+#: admin/templates/notification.php:77, admin/templates/notification.php:128
 msgid "Subject "
 msgstr ""
 
-#: admin/templates/notification.php:72, admin/templates/notification.php:116
+#: admin/templates/notification.php:81, admin/templates/notification.php:132
 msgid "Content "
 msgstr ""
 
-#: admin/templates/notification.php:76, admin/templates/notification.php:120
+#: admin/templates/notification.php:85, admin/templates/notification.php:136
 msgid "Use HTML Template"
 msgstr ""
 
-#: admin/templates/notification.php:80, admin/templates/notification.php:124
+#: admin/templates/notification.php:89, admin/templates/notification.php:140
 msgid "Save"
 msgstr ""
 
-#: admin/templates/notification.php:86
+#: admin/templates/notification.php:95
 msgid "Application Received - Admin Notification"
 msgstr ""
 
-#: admin/templates/notification.php:105
+#: admin/templates/notification.php:121
 msgid "Admin Email"
 msgstr ""
 
-#: admin/templates/notification.php:148
+#: admin/templates/notification.php:164
 msgid "Customize HTML Template"
 msgstr ""
 
-#: admin/templates/notification.php:155
+#: admin/templates/notification.php:171
 msgid "Logo"
 msgstr ""
 
-#: admin/templates/notification.php:161
+#: admin/templates/notification.php:177
 msgid "Base Color"
 msgstr ""
 
-#: admin/templates/notification.php:172
+#: admin/templates/notification.php:188
 msgid "Footer Text"
 msgstr ""
 
-#: admin/templates/notification.php:212
+#: admin/templates/notification.php:228
 msgid "Template Tags"
 msgstr ""
 
