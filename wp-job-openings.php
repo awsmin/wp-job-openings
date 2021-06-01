@@ -900,6 +900,7 @@ class AWSM_Job_Openings {
 		if ( ! empty( $screen ) ) {
 			$post_type = $screen->post_type;
 			if ( ( $post_type === 'awsm_job_openings' ) || ( $post_type === 'awsm_job_application' ) ) {
+				wp_enqueue_media();
 				wp_enqueue_style( 'awsm-jobs-general' );
 				wp_enqueue_style( 'awsm-job-admin' );
 				wp_enqueue_script( 'awsm-job-admin' );
