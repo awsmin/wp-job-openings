@@ -890,24 +890,31 @@ class AWSM_Job_Openings {
 	}
 
 	public function awsm_admin_enqueue_scripts() {
-		global $pagenow;
+		$is_job_page = false;
 		$screen = get_current_screen();
-		wp_register_style( 'awsm-job-admin-global', AWSM_JOBS_PLUGIN_URL . '/assets/css/admin-global.min.css', array(), AWSM_JOBS_PLUGIN_VERSION, 'all' );
-		wp_register_style( 'awsm-job-admin', AWSM_JOBS_PLUGIN_URL . '/assets/css/admin.min.css', array( 'wp-color-picker', 'awsm-jobs-general', 'awsm-job-admin-global' ), AWSM_JOBS_PLUGIN_VERSION, 'all' );
-
-		wp_register_script( 'awsm-job-admin', AWSM_JOBS_PLUGIN_URL . '/assets/js/admin.min.js', array( 'jquery', 'jquery-ui-datepicker', 'jquery-ui-sortable', 'wp-color-picker', 'wp-util' ), AWSM_JOBS_PLUGIN_VERSION, true );
-
-		wp_enqueue_style( 'awsm-job-admin-global' );
+		$script_deps = array( 'jquery', 'jquery-ui-datepicker', 'jquery-ui-sortable', 'wp-color-picker', 'wp-util' );
 		if ( ! empty( $screen ) ) {
 			$post_type = $screen->post_type;
 			if ( ( $post_type === 'awsm_job_openings' ) || ( $post_type === 'awsm_job_application' ) ) {
-				if ( $pagenow === 'edit.php' && isset( $_GET['page'] ) && $_GET['page'] === 'awsm-jobs-settings' ) {
+				$is_job_page = true;
+
+				if ( $screen->id === 'awsm_job_openings_page_awsm-jobs-settings' ) {
 					wp_enqueue_media();
+					$script_deps[] = 'media-models';
 				}
-				wp_enqueue_style( 'awsm-jobs-general' );
-				wp_enqueue_style( 'awsm-job-admin' );
-				wp_enqueue_script( 'awsm-job-admin' );
 			}
+		}
+
+		wp_register_style( 'awsm-job-admin-global', AWSM_JOBS_PLUGIN_URL . '/assets/css/admin-global.min.css', array(), AWSM_JOBS_PLUGIN_VERSION, 'all' );
+		wp_register_style( 'awsm-job-admin', AWSM_JOBS_PLUGIN_URL . '/assets/css/admin.min.css', array( 'wp-color-picker', 'awsm-jobs-general', 'awsm-job-admin-global' ), AWSM_JOBS_PLUGIN_VERSION, 'all' );
+
+		wp_register_script( 'awsm-job-admin', AWSM_JOBS_PLUGIN_URL . '/assets/js/admin.min.js', $script_deps, AWSM_JOBS_PLUGIN_VERSION, true );
+
+		wp_enqueue_style( 'awsm-job-admin-global' );
+		if ( $is_job_page ) {
+			wp_enqueue_style( 'awsm-jobs-general' );
+			wp_enqueue_style( 'awsm-job-admin' );
+			wp_enqueue_script( 'awsm-job-admin' );
 		}
 
 		wp_localize_script(
