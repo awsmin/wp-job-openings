@@ -32,7 +32,7 @@
   "license": "GPL-2.0",
   "homepage": "https://awsm.in",
   "devDependencies": {
-    "browser-sync": "^2.26.13",
+    "browser-sync": "^2.26.14",
     "cross-env": "^5.2.1",
     "eslint": "^5.16.0",
     "eslint-config-wordpress": "^2.0.0",
@@ -45,7 +45,7 @@
     "gulp-sort": "^2.0.0",
     "gulp-strip-debug": "^3.0.0",
     "gulp-uglify": "^3.0.2",
-    "gulp-wp-pot": "^2.3.5",
+    "gulp-wp-pot": "^2.5.0",
     "prettier": "^1.19.1"
   },
   "browserslist": [
