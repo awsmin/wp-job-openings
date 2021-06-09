@@ -1040,6 +1040,15 @@ class AWSM_Job_Openings {
 							'query_var'    => true,
 							'rewrite'      => array( 'slug' => $taxonomy ),
 						);
+						/**
+						 * Filters the arguments for registering the job specification or taxonomy.
+						 *
+						 * @since 2.2.0
+						 *
+						 * @param array $args arguments.
+						 * @param string $taxonomy The taxonomy key.
+						 */
+						$args = apply_filters( 'awsm_jobs_tax_args', $args, $taxonomy );
 						register_taxonomy( $taxonomy, array( 'awsm_job_openings' ), $args );
 					}
 					if ( isset( $awsm_filter['tags'] ) ) {
