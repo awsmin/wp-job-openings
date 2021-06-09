@@ -52,6 +52,7 @@ jQuery(function($) {
 						$rootWrapper.find('.awsm-job-search-btn').removeClass('awsm-job-hide');
 					}
 				}
+				$(document).trigger('awsmjobs_filtered_listings', [ $rootWrapper, data ]);
 			}).fail(function(xhr) {
 				// eslint-disable-next-line no-console
 				console.log(xhr);
@@ -224,6 +225,7 @@ jQuery(function($) {
 			} else {
 				$button.remove();
 			}
+			$(document).trigger('awsmjobs_load_more', [ $button, data ]);
 		}).fail(function(xhr) {
 			// eslint-disable-next-line no-console
 			console.log(xhr);

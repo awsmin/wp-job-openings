@@ -79,11 +79,13 @@ jQuery(document).ready(function($) {
 						if (response.error.length > 0) {
 							className = errorClass;
 							msgArray = response.error;
+							$form.trigger('awsmjobs_application_failed', [ response ]);
 						} else {
 							if (response.success.length > 0) {
 								$form[0].reset();
 								className = successClass;
 								msgArray = response.success;
+								$form.trigger('awsmjobs_application_submitted', [ response ]);
 							}
 						}
 						$(msgArray).each(function(index, value) {
