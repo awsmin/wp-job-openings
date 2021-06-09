@@ -21,7 +21,7 @@ WP Job Openings is designed after carefully analysing hundreds of job listing la
 The plugin comes with two layouts - Grid and List which are designed carefully according to the modern design and User Experience principles. Highlight of the plugin is its totally flexible filter options.
 
 
-**[View Demo](https://demo.awsm.in/wp-job-openings/)**
+**[View Demo](https://demo.wpjobopenings.com/)**
 
 **[Visit website - wpjobopenings.com](https://wpjobopenings.com/)**
 
@@ -99,7 +99,7 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 
 == Changelog ==
 
-= V 2.2.0 – 2021-06-01 =
+= V 2.2.0 – 2021-06-09 =
 * Added: Notification Mail Template Customizer (Settings > Notifications > Customize). Template files need to be updated if overridden in the theme.
 * Fixed: Pre validation for file field not working.
 * Fixed: Cover letter formatting issue in the notification mail content.
@@ -108,6 +108,7 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 * Improved: Notification HTML Mail Template.
 * Dev: New Hooks for Handling Job Filters.
 * Dev: Improved Form Handling Hooks.
+* Dev: Added JS Events to handle Form Submission, Filters, and Load More.
 * Other minor bug fixes and style improvements.
 
 = V 2.1.1 – 2021-04-21 =

@@ -147,89 +147,89 @@ msgstr ""
 msgid "The file you have selected is too large."
 msgstr ""
 
-#: wp-job-openings.php:917, admin/templates/general.php:20
+#: wp-job-openings.php:928, admin/templates/general.php:20
 msgid "Select a page"
 msgstr ""
 
-#: wp-job-openings.php:919, admin/class-awsm-job-openings-settings.php:970
+#: wp-job-openings.php:930, admin/class-awsm-job-openings-settings.php:970
 msgid "Select Image"
 msgstr ""
 
-#: wp-job-openings.php:920, admin/class-awsm-job-openings-settings.php:973
+#: wp-job-openings.php:931, admin/class-awsm-job-openings-settings.php:973
 msgid "Change Image"
 msgstr ""
 
-#: wp-job-openings.php:921, admin/class-awsm-job-openings-settings.php:969
+#: wp-job-openings.php:932, admin/class-awsm-job-openings-settings.php:969
 msgid "No Image selected"
 msgstr ""
 
-#: wp-job-openings.php:922
+#: wp-job-openings.php:933
 msgid "Select or Upload an Image"
 msgstr ""
 
-#: wp-job-openings.php:923
+#: wp-job-openings.php:934
 msgid "Choose"
 msgstr ""
 
 #. translators: %1$s: application id, %2$s: job title
-#: wp-job-openings.php:998
+#: wp-job-openings.php:1009
 msgid "Application #%1$s for %2$s"
 msgstr ""
 
 #. translators: %s: application submission time
-#: wp-job-openings.php:1007
+#: wp-job-openings.php:1018
 msgid "Submitted on %s"
 msgstr ""
 
-#: wp-job-openings.php:1011
+#: wp-job-openings.php:1022
 msgid "from IP "
 msgstr ""
 
-#: wp-job-openings.php:1215, inc/widgets/class-awsm-job-openings-dashboard-widget.php:105
+#: wp-job-openings.php:1235, inc/widgets/class-awsm-job-openings-dashboard-widget.php:105
 msgid "View Applications"
 msgstr ""
 
-#: wp-job-openings.php:1374
+#: wp-job-openings.php:1394
 msgid "Closing on"
 msgstr ""
 
-#: wp-job-openings.php:1376
+#: wp-job-openings.php:1396
 msgid "Expired on"
 msgstr ""
 
-#: wp-job-openings.php:1378
+#: wp-job-openings.php:1398
 msgid "M j, Y"
 msgstr ""
 
-#: wp-job-openings.php:1455
+#: wp-job-openings.php:1475
 msgid "Full Time"
 msgstr ""
 
-#: wp-job-openings.php:1456
+#: wp-job-openings.php:1476
 msgid "Part Time"
 msgstr ""
 
-#: wp-job-openings.php:1457
+#: wp-job-openings.php:1477
 msgid "Freelance"
 msgstr ""
 
-#: wp-job-openings.php:1458
+#: wp-job-openings.php:1478
 msgid "Temporary"
 msgstr ""
 
-#: wp-job-openings.php:1459
+#: wp-job-openings.php:1479
 msgid "Intern"
 msgstr ""
 
-#: wp-job-openings.php:1460
+#: wp-job-openings.php:1480
 msgid "Volunteer"
 msgstr ""
 
-#: wp-job-openings.php:1461
+#: wp-job-openings.php:1481
 msgid "Per Diem"
 msgstr ""
 
-#: wp-job-openings.php:1462
+#: wp-job-openings.php:1482
 msgid "Other"
 msgstr ""
 
@@ -253,13 +253,12 @@ msgstr ""
 msgid "Job listing page"
 msgstr ""
 
-#. translators: %s: Form field label
-#: admin/class-awsm-job-openings-info.php:76
-msgid "%s is required!"
-msgstr ""
-
 #: admin/class-awsm-job-openings-info.php:81
 msgid "Recruiter Email Address is invalid!"
+msgstr ""
+
+#: admin/class-awsm-job-openings-info.php:76
+msgid "%s is required!"
 msgstr ""
 
 #: admin/class-awsm-job-openings-info.php:102
@@ -303,12 +302,12 @@ msgstr ""
 msgid "Get it now"
 msgstr ""
 
-#: admin/class-awsm-job-openings-info.php:195
-msgid "Activated"
-msgstr ""
-
 #: admin/class-awsm-job-openings-info.php:200
 msgid "Activate"
+msgstr ""
+
+#: admin/class-awsm-job-openings-info.php:195
+msgid "Activated"
 msgstr ""
 
 #: admin/class-awsm-job-openings-info.php:256
@@ -510,7 +509,7 @@ msgstr ""
 msgid "Error in updating option: '%s'"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:970, admin/class-awsm-job-openings-settings.php:973
+#: admin/class-awsm-job-openings-settings.php:973, admin/class-awsm-job-openings-settings.php:970
 msgid "Remove"
 msgstr ""
 
@@ -802,12 +801,12 @@ msgctxt "job filter"
 msgid "All"
 msgstr ""
 
-#: inc/class-awsm-job-openings-filters.php:216
-msgid "Sorry! No jobs to show."
-msgstr ""
-
 #: inc/class-awsm-job-openings-filters.php:222
 msgid "Sorry! No more jobs to show."
+msgstr ""
+
+#: inc/class-awsm-job-openings-filters.php:216
+msgid "Sorry! No jobs to show."
 msgstr ""
 
 #. translators: %1$s: comma-separated list of allowed file types
@@ -863,20 +862,20 @@ msgstr ""
 msgid "Name is required."
 msgstr ""
 
-#: inc/class-awsm-job-openings-form.php:355
-msgid "Email is required."
-msgstr ""
-
 #: inc/class-awsm-job-openings-form.php:358
 msgid "Invalid email format."
 msgstr ""
 
-#: inc/class-awsm-job-openings-form.php:362
-msgid "Contact number is required."
+#: inc/class-awsm-job-openings-form.php:355
+msgid "Email is required."
 msgstr ""
 
 #: inc/class-awsm-job-openings-form.php:365
 msgid "Invalid phone number."
+msgstr ""
+
+#: inc/class-awsm-job-openings-form.php:362
+msgid "Contact number is required."
 msgstr ""
 
 #: inc/class-awsm-job-openings-form.php:369
@@ -1365,16 +1364,16 @@ msgstr ""
 msgid "Display 'More Details' link?"
 msgstr ""
 
+#: admin/templates/info/add-ons.php:108
+msgid "Sorry! Error fetching add-ons data. Please come back later."
+msgstr ""
+
 #: admin/templates/info/add-ons.php:69
 msgid "Free"
 msgstr ""
 
 #: admin/templates/info/add-ons.php:88
 msgid "Coming soon!"
-msgstr ""
-
-#: admin/templates/info/add-ons.php:108
-msgid "Sorry! Error fetching add-ons data. Please come back later."
 msgstr ""
 
 #. translators: %1$s: opening anchor tag, %2$s: closing anchor tag
@@ -1615,12 +1614,12 @@ msgstr ""
 msgid "Last Submission:"
 msgstr ""
 
-#: admin/templates/meta/job-status.php:52
-msgid "Active"
-msgstr ""
-
 #: admin/templates/meta/job-status.php:56
 msgid "Pending"
+msgstr ""
+
+#: admin/templates/meta/job-status.php:52
+msgid "Active"
 msgstr ""
 
 #: admin/templates/meta/job-status.php:70, admin/templates/meta/job-status.php:77
