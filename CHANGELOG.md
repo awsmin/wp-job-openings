@@ -1,5 +1,17 @@
 ## Changelog
 
+### V 2.2.0 – 2021-06-09
+* Added: Notification Mail Template Customizer (Settings > Notifications > Customize). Template files need to be updated if overridden in the theme.
+* Fixed: Pre validation for file field not working.
+* Fixed: Cover letter formatting issue in the notification mail content.
+* Fixed: Accents don't work in the Specification fields.
+* Improved: Form Handling. Template files need to be updated if overridden in the theme.
+* Improved: Notification HTML Mail Template.
+* Dev: New Hooks for Handling Job Filters.
+* Dev: Improved Form Handling Hooks.
+* Dev: Added JS Events to handle Form Submission, Filters, and Load More.
+* Other minor bug fixes and style improvements.
+
 ### V 2.1.1 – 2021-04-21
 * Fixed: Issue with WooCommerce Plugin that prevents the users with HR Role from accessing the backend.
 * Fixed: 'Secure uploaded files' option doesn't work in 'Media Library' for some installations.
