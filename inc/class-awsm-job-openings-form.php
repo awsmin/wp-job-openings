@@ -34,7 +34,7 @@ class AWSM_Job_Openings_Form {
 		return self::$instance;
 	}
 
-	public function dynamic_form_fields() {
+	public function dynamic_form_fields( $form_attrs ) {
 		$allowed_file_types   = get_option( 'awsm_jobs_admin_upload_file_ext' );
 		$allowed_file_content = '';
 		if ( is_array( $allowed_file_types ) && ! empty( $allowed_file_types ) ) {
@@ -98,15 +98,33 @@ class AWSM_Job_Openings_Form {
 				'content'    => $allowed_file_content,
 			),
 		);
-		$form_fields = apply_filters( 'awsm_application_form_fields', $default_form_fields );
+		/**
+		 * Filters the job application form fields.
+		 *
+		 * @since 1.0.0
+		 * @since 2.2.1 The `$form_attrs` parameter was added.
+		 *
+		 * @param array $form_fields Form fields array.
+		 * @param array $form_attrs Attributes array for the form.
+		 */
+		$form_fields = apply_filters( 'awsm_application_form_fields', $default_form_fields, $form_attrs );
 		return $form_fields;
 	}
 
-	public function display_dynamic_fields() {
-		$dynamic_form_fields = $this->dynamic_form_fields();
+	public function display_dynamic_fields( $form_attrs ) {
+		$dynamic_form_fields = $this->dynamic_form_fields( $form_attrs );
 		if ( ! empty( $dynamic_form_fields ) ) {
 			$ordered_form_fields = array();
-			$form_fields_order   = apply_filters( 'awsm_application_form_fields_order', $this->form_fields_order );
+			/**
+			 * Filters the job application form fields order.
+			 *
+			 * @since 1.2.0
+			 * @since 2.2.1 The `$form_attrs` parameter was added.
+			 *
+			 * @param array $form_fields_order Form fields array.
+			 * @param array $form_attrs Attributes array for the form.
+			 */
+			$form_fields_order   = apply_filters( 'awsm_application_form_fields_order', $this->form_fields_order, $form_attrs );
 			foreach ( $form_fields_order as $form_field_order ) {
 				$ordered_form_fields[ $form_field_order ] = $dynamic_form_fields[ $form_field_order ];
 			}
@@ -187,33 +205,39 @@ class AWSM_Job_Openings_Form {
 					 * Filters the field content of a specific field type of the job application form.
 					 *
 					 * @since 2.0.0
+					 * @since 2.2.1 The `$form_attrs` parameter was added.
 					 *
 					 * @param string $field_content The content.
 					 * @param array $field_args Form field options.
+					 * @param array $form_attrs Attributes array for the form.
 					 */
-					$field_content = apply_filters( "awsm_application_dynamic_form_{$field_type}_field_content", $field_content, $field_args );
+					$field_content = apply_filters( "awsm_application_dynamic_form_{$field_type}_field_content", $field_content, $field_args, $form_attrs );
 					$field_output  = sprintf( '<div class="%2$s">%1$s</div>', $field_content . wp_kses( $extra_content, $allowed_html ), esc_attr( $form_group_class ) );
 					/**
 					 * Filters the form field content of the job application form.
 					 *
 					 * @since 2.0.0
+					 * @since 2.2.1 The `$form_attrs` parameter was added.
 					 *
 					 * @param string $field_output The content.
 					 * @param string $field_type The field type.
 					 * @param array $field_args Form field options.
+					 * @param array $form_attrs Attributes array for the form.
 					 */
-					$form_output .= apply_filters( 'awsm_application_dynamic_form_field_content', $field_output, $field_type, $field_args );
+					$form_output .= apply_filters( 'awsm_application_dynamic_form_field_content', $field_output, $field_type, $field_args, $form_attrs );
 				}
 			}
 			/**
 			 * Filters the dynamic form fields content of the job application form.
 			 *
-			 * @since 1.3
+			 * @since 1.3.0
+			 * @since 2.2.1 The `$form_attrs` parameter was added.
 			 *
 			 * @param string $form_output The content.
 			 * @param array $dynamic_form_fields Dynamic form fields.
+			 * @param array $form_attrs Attributes array for the form.
 			 */
-			echo apply_filters( 'awsm_application_dynamic_form_fields_content', $form_output, $dynamic_form_fields ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo apply_filters( 'awsm_application_dynamic_form_fields_content', $form_output, $dynamic_form_fields, $form_attrs ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 	}
 
@@ -227,27 +251,30 @@ class AWSM_Job_Openings_Form {
 		return $content;
 	}
 
-	public function display_gdpr_field() {
+	public function display_gdpr_field( $form_attrs ) {
 		$label = $this->get_gdpr_field_label();
 		if ( ! empty( $label ) ) :
+			$field_id = $form_attrs['single_form'] ? 'awsm_form_privacy_policy' : esc_attr( 'awsm_form_privacy_policy-' . $form_attrs['job_id'] );
 			?>
 			<div class="awsm-job-form-group awsm-job-inline-group">
-				<input name="awsm_form_privacy_policy" class="awsm-job-form-field" id="awsm_form_privacy_policy" required="" data-msg-required="<?php echo esc_attr__( 'This field is required.', 'wp-job-openings' ); ?>" value="yes" aria-required="true" type="checkbox"><label for="awsm_form_privacy_policy"><?php echo wp_kses( $label, self::$allowed_html ); ?> <span class="awsm-job-form-error">*</span></label>
+				<input name="awsm_form_privacy_policy" class="awsm-job-form-field" id="<?php echo esc_attr( $field_id ); ?>" required="" data-msg-required="<?php echo esc_attr__( 'This field is required.', 'wp-job-openings' ); ?>" value="yes" aria-required="true" type="checkbox"><label for="<?php echo esc_attr( $field_id ); ?>"><?php echo wp_kses( $label, self::$allowed_html ); ?> <span class="awsm-job-form-error">*</span></label>
 			</div>
 			<?php
 		endif;
 	}
 
-	public function display_recaptcha_field() {
+	public function display_recaptcha_field( $form_attrs ) {
 		if ( $this->is_recaptcha_set() ) :
 			/**
 			 * Filters the reCAPTCHA visibility in the application form.
 			 *
 			 * @since 2.2.0
+			 * @since 2.2.1 The `$form_attrs` parameter was added.
 			 *
 			 * @param bool $is_visible Whether the reCAPTCHA is visible or not in the form.
+			 * @param array $form_attrs Attributes array for the form.
 			 */
-			$is_visible = apply_filters( 'awsm_application_form_is_recaptcha_visible', true );
+			$is_visible = apply_filters( 'awsm_application_form_is_recaptcha_visible', true, $form_attrs );
 
 			if ( $is_visible ) :
 				$site_key     = get_option( 'awsm_jobs_recaptcha_site_key' );
@@ -279,10 +306,10 @@ class AWSM_Job_Openings_Form {
 		include AWSM_Job_Openings::get_template_path( 'form.php', 'single-job' );
 	}
 
-	public function form_field_init() {
-		$this->display_dynamic_fields();
-		$this->display_gdpr_field();
-		$this->display_recaptcha_field();
+	public function form_field_init( $form_attrs ) {
+		$this->display_dynamic_fields( $form_attrs );
+		$this->display_gdpr_field( $form_attrs );
+		$this->display_recaptcha_field( $form_attrs );
 	}
 
 	public function upload_dir( $param ) {

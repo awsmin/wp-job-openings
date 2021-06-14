@@ -111,15 +111,18 @@ jQuery(document).ready(function($) {
 		}
 	};
 
-	$applicationForm.validate({
-		errorElement: 'div',
-		errorClass: 'awsm-job-form-error',
-		errorPlacement: function(error, element) {
-			error.appendTo(element.parents('.awsm-job-form-group'));
-		}
+	$applicationForm.each(function() {
+		var $form = $(this);
+		$form.validate({
+			errorElement: 'div',
+			errorClass: 'awsm-job-form-error',
+			errorPlacement: function(error, element) {
+				error.appendTo(element.parents('.awsm-job-form-group'));
+			}
+		});
 	});
 
-	$applicationForm.submit(function(event) {
+	$applicationForm.on('submit', function(event) {
 		event.preventDefault();
 		var $form = $(this);
 		var proceed = $form.valid();
