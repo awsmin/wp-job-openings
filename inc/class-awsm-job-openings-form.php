@@ -124,7 +124,7 @@ class AWSM_Job_Openings_Form {
 			 * @param array $form_fields_order Form fields array.
 			 * @param array $form_attrs Attributes array for the form.
 			 */
-			$form_fields_order   = apply_filters( 'awsm_application_form_fields_order', $this->form_fields_order, $form_attrs );
+			$form_fields_order = apply_filters( 'awsm_application_form_fields_order', $this->form_fields_order, $form_attrs );
 			foreach ( $form_fields_order as $form_field_order ) {
 				$ordered_form_fields[ $form_field_order ] = $dynamic_form_fields[ $form_field_order ];
 			}

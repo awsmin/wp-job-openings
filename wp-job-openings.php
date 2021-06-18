@@ -891,7 +891,7 @@ class AWSM_Job_Openings {
 
 	public function awsm_admin_enqueue_scripts() {
 		$is_job_page = false;
-		$screen = get_current_screen();
+		$screen      = get_current_screen();
 		$script_deps = array( 'jquery', 'jquery-ui-datepicker', 'jquery-ui-sortable', 'wp-color-picker', 'wp-util' );
 		if ( ! empty( $screen ) ) {
 			$post_type = $screen->post_type;
