@@ -109,7 +109,15 @@ class AWSM_Job_Openings_Meta {
 					} else {
 						$value = get_post_meta( $post_id, $meta_key, true );
 					}
-					if ( ! empty( $value ) ) {
+
+					$meta_content = '';
+					if ( isset( $meta_options['type'] ) && ! empty( $value ) ) {
+						if ( $meta_options['type'] === 'file' ) {
+							$meta_content = sprintf( '<a href="%2$s" rel="nofollow"><strong>%1$s</strong></a>', esc_html__( 'Download File', 'wp-job-openings' ), $this->get_attached_file_download_url( $value, 'file', $label ) );
+						} elseif ( $meta_options['type'] === 'url' ) {
+							$meta_content = sprintf( '<a href="%s" target="_blank" rel="nofollow">%s</a>', esc_url( $value ), esc_html( $value ) );
+						}
+					} else {
 						$meta_content = ( empty( $multi_line ) ) ? esc_html( $value ) : wp_kses(
 							wpautop( $value ),
 							array(
@@ -117,13 +125,19 @@ class AWSM_Job_Openings_Meta {
 								'br' => array(),
 							)
 						);
-						if ( isset( $meta_options['type'] ) ) {
-							if ( $meta_options['type'] === 'file' ) {
-								$meta_content = sprintf( '<a href="%2$s" rel="nofollow"><strong>%1$s</strong></a>', esc_html__( 'Download File', 'wp-job-openings' ), $this->get_attached_file_download_url( $value, 'file', $label ) );
-							} elseif ( $meta_options['type'] === 'url' ) {
-								$meta_content = sprintf( '<a href="%s" target="_blank" rel="nofollow">%s</a>', esc_url( $value ), esc_html( $value ) );
-							}
-						}
+					}
+					/**
+					 * Filters the applicant meta content.
+					 *
+					 * @since 2.2.1
+					 *
+					 * @param string $meta_content Applicant meta content.
+					 * @param string $meta_key The meta key.
+					 * @param array $applicant_meta Applicant meta array.
+					 * @param int $post_id The Applicant ID.
+					 */
+					$meta_content = apply_filters( 'awsm_jobs_applicant_meta_content', $meta_content, $meta_key, $applicant_meta, $post_id );
+					if ( ! empty( $meta_content ) || is_numeric( $meta_content ) ) {
 						$list .= sprintf( '<li><label>%1$s</label><span>%2$s</span></li>', esc_html( $label ), $meta_content );
 					}
 				}
