@@ -20,6 +20,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 		$args['show_option_none'] = esc_html__( 'Select a page', 'wp-job-openings' );
 	}
 
+	$timezone_settings = get_option( 'awsm_jobs_timezone_settings' );
+	$current_offset    = $timezone_settings['gmt_offset'];
+	$selected_zone     = $timezone_settings['timezone'];
+	$check_zone_info   = true;
+
+	if ( false !== strpos( $selected_zone, 'Etc/GMT' ) ) {
+		$selected_zone = '';
+	}
+
+	if ( empty( $selected_zone ) ) { 
+		$check_zone_info = false;
+		if ( 0 == $current_offset ) {
+			$selected_zone = 'UTC+0';
+		} elseif ( $current_offset < 0 ) {
+			$selected_zone = 'UTC' . $current_offset;
+		} else {
+			$selected_zone = 'UTC+' . $current_offset;
+		}
+	}
+
 	/**
 	 * Filters the general settings fields.
 	 *
@@ -112,6 +132,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 					),
 					/* translators: %1$s: line break element */
 					'description' => sprintf( __( 'Checking this option will affect URLs of all your files uploaded through WP Job Openings Plugin form.%1$s 1. The files will not be displayed in Media Library.%1$s 2. Publicly accessible file URL will be disabled.%1$s 3. \'Resume Preview\' option will not work anymore (Resume Viewer Addon).', 'wp-job-openings' ), '<br />' ),
+				),
+				array(
+					'name'          => 'awsm_jobs_timezone_settings',
+					'label'         => __( 'Timezone ', 'wp-job-openings' ),
+					'type'          => 'raw',
+					'value'         => '<select name="awsm_jobs_timezone_settings" class="awsm-select-control regular-text">' . wp_timezone_choice( $selected_zone, get_user_locale() ) . '</select>',
 				),
 				array(
 					'name'        => 'awsm_delete_data_on_uninstall',

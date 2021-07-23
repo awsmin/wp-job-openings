@@ -156,6 +156,10 @@ class AWSM_Job_Openings_Settings {
 					'option_name' => 'awsm_hide_uploaded_files',
 				),
 				array(
+					'option_name' => 'awsm_jobs_timezone_settings',
+					'callback'    => array( $this, 'timezone_handler' ),
+				),
+				array(
 					'option_name' => 'awsm_delete_data_on_uninstall',
 				),
 			),
@@ -683,6 +687,21 @@ class AWSM_Job_Openings_Settings {
 		$input['base_color']  = sanitize_text_field( $input['base_color'] );
 		$input['footer_text'] = AWSM_Job_Openings_Mail_Customizer::sanitize_content( $input['footer_text'] );
 		return $input;
+	}
+
+	public function timezone_handler( $timezone_settings ) {
+		$options = array(
+			'timezone'   => '',
+			'gmt_offset' => '',
+		);
+		if ( ! empty( $timezone_settings ) ) {
+			if( preg_match( '/^UTC[+-]/', $timezone_settings ) ) {
+				$options['gmt_offset'] = preg_replace( '/UTC\+?/', '', $timezone_settings );
+			} else {
+				$options['timezone'] = $timezone_settings;
+			}
+		}
+		return $options;
 	}
 
 	public function update_awsm_page_listing( $old_value, $value ) {

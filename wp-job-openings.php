@@ -497,6 +497,15 @@ class AWSM_Job_Openings {
 	}
 
 	public function check_date_and_change_status() {
+		$current_date   = gmdate( 'Y-m-d' );
+		$selected_zone  = get_option( 'awsm_jobs_timezone_settings' );
+		if( ! empty( $selected_zone ) && isset( $selected_zone['gmt_offset'] ) && $selected_zone['gmt_offset'] !== 0 ) {
+			$timezone       = self::get_timezone_string( $selected_zone );
+			$date_timezone  = new DateTimeZone( $timezone ); 
+			$datetime       = new DateTime( 'now', $date_timezone );
+			$current_date   = $datetime->format( 'Y-m-d' );
+		}
+		
 		$args  = array(
 			'post_type'      => 'awsm_job_openings',
 			'post_status'    => array( 'publish', 'private' ),
@@ -508,7 +517,7 @@ class AWSM_Job_Openings {
 				),
 				array(
 					'key'     => 'awsm_job_expiry',
-					'value'   => gmdate( 'Y-m-d' ),
+					'value'   => $current_date,
 					'type'    => 'DATE',
 					'compare' => '<',
 				),
@@ -532,6 +541,24 @@ class AWSM_Job_Openings {
 				}
 			}
 		}
+	}
+
+
+	public static function get_timezone_string( $selected_zone ) {
+		$timezone_string = 'UTC';
+		if ( ! empty( $selected_zone['timezone'] ) ) {
+			$timezone_string = $selected_zone['timezone'];
+		} elseif( ! empty( $selected_zone['gmt_offset'] ) && $selected_zone['gmt_offset'] !== 0 ) {
+			$offset           = (float) $selected_zone['gmt_offset'];
+			$hours            = (int) $offset;
+			$minutes          = ( $offset - $hours );
+			$sign             = ( $offset < 0 ) ? '-' : '+';
+			$abs_hour         = abs( $hours );
+			$abs_mins         = abs( $minutes * 60 );
+			$timezone_string  = sprintf( '%s%02d:%02d', $sign, $abs_hour, $abs_mins );
+		}
+
+		return $timezone_string;
 	}
 
 	public function send_email_digest() {
