@@ -114,6 +114,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'description' => sprintf( __( 'Checking this option will affect URLs of all your files uploaded through WP Job Openings Plugin form.%1$s 1. The files will not be displayed in Media Library.%1$s 2. Publicly accessible file URL will be disabled.%1$s 3. \'Resume Preview\' option will not work anymore (Resume Viewer Addon).', 'wp-job-openings' ), '<br />' ),
 				),
 				array(
+					'name'    => 'awsm_jobs_enable_custom_permalink',
+					'label'   => __( 'Permalink', 'wp-job-openings' ),
+					'type'    => 'checkbox',
+					'choices' => array(
+						array(
+							'value' => 'enable',
+							'text'  => __( 'Enable custom permalink support for Job Openings', 'wp-job-openings' ),
+						),
+					),
+				),
+				array(
 					'name'        => 'awsm_delete_data_on_uninstall',
 					'label'       => __( 'Delete data on uninstall', 'wp-job-openings' ),
 					'type'        => 'checkbox',

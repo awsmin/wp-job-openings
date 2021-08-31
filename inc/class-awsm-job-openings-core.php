@@ -81,6 +81,23 @@ class AWSM_Job_Openings_Core {
 			$supports[] = 'thumbnail';
 		}
 
+		$with_front = true;
+
+		$prefix                  = '';
+		$permalink_structure     = get_option( 'permalink_structure' );
+		$enable_custom_permalink = get_option( 'awsm_jobs_enable_custom_permalink' );
+		$structures = array(
+			0 => '',
+			1 => $prefix . '/%year%/%monthnum%/%day%/%postname%/',
+			2 => $prefix . '/%year%/%monthnum%/%postname%/',
+			3 => $prefix . '/' . _x( 'archives', 'sample permalink base' ) . '/%post_id%',
+			4 => $prefix . '/%postname%/',
+		);
+
+		if( ! in_array( $permalink_structure, $structures, true ) && $enable_custom_permalink === 'enable' ) {
+			$with_front = false;
+		}
+
 		/**
 		 * Filters 'awsm_job_openings' post type arguments.
 		 *
@@ -100,7 +117,10 @@ class AWSM_Job_Openings_Core {
 				'show_ui'         => true,
 				'show_in_rest'    => true,
 				'show_in_menu'    => true,
-				'rewrite'         => array( 'slug' => get_option( 'awsm_permalink_slug', 'jobs' ) ),
+				'rewrite'         => array (
+					'slug'       => get_option( 'awsm_permalink_slug', 'jobs' ),
+					'with_front' => $with_front,
+				),
 				'capability_type' => 'job',
 				'menu_icon'       => esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/nav-icon.svg' ),
 				'supports'        => $supports,
