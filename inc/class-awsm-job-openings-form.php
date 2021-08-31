@@ -346,10 +346,10 @@ class AWSM_Job_Openings_Form {
 
 		if ( $_SERVER['REQUEST_METHOD'] === 'POST' && ! empty( $_POST['action'] ) && $_POST['action'] === 'awsm_applicant_form_submission' ) {
 			$job_id               = intval( $_POST['awsm_job_id'] );
-			$applicant_name       = sanitize_text_field( $_POST['awsm_applicant_name'] );
-			$applicant_email      = sanitize_email( $_POST['awsm_applicant_email'] );
-			$applicant_phone      = sanitize_text_field( $_POST['awsm_applicant_phone'] );
-			$applicant_letter     = awsm_jobs_sanitize_textarea( $_POST['awsm_applicant_letter'] );
+			$applicant_name       = sanitize_text_field( wp_unslash( $_POST['awsm_applicant_name'] ) );
+			$applicant_email      = sanitize_email( wp_unslash( $_POST['awsm_applicant_email'] ) );
+			$applicant_phone      = sanitize_text_field( wp_unslash( $_POST['awsm_applicant_phone'] ) );
+			$applicant_letter     = awsm_jobs_sanitize_textarea( wp_unslash( $_POST['awsm_applicant_letter'] ) );
 			$attachment           = isset( $_FILES['awsm_file'] ) ? $_FILES['awsm_file'] : '';
 			$agree_privacy_policy = false;
 			$generic_err_msg      = esc_html__( 'Error in submitting your application. Please refresh the page and retry.', 'wp-job-openings' );
