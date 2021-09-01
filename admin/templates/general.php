@@ -120,7 +120,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'choices' => array(
 						array(
 							'value' => 'enable',
-							'text'  => __( 'Enable custom permalink support for Job Openings', 'wp-job-openings' ),
+							'text'  => __( 'Remove prefix from custom permalink', 'wp-job-openings' ),
 						),
 					),
 				),
