@@ -156,7 +156,7 @@ class AWSM_Job_Openings_Settings {
 					'option_name' => 'awsm_hide_uploaded_files',
 				),
 				array(
-					'option_name' => 'awsm_jobs_timezone_settings',
+					'option_name' => 'awsm_jobs_timezone',
 					'callback'    => array( $this, 'timezone_handler' ),
 				),
 				array(
@@ -689,19 +689,19 @@ class AWSM_Job_Openings_Settings {
 		return $input;
 	}
 
-	public function timezone_handler( $timezone_settings ) {
+	public function timezone_handler( $timezone ) {
 		$options = array(
-			'timezone'   => '',
+			'timezone_string' => '',
 			'gmt_offset' => '',
 		);
-		if ( ! empty( $timezone_settings ) ) {
-			if( preg_match( '/^UTC[+-]/', $timezone_settings ) ) {
-				$options['gmt_offset'] = preg_replace( '/UTC\+?/', '', $timezone_settings );
+		if ( ! empty( $timezone ) && isset( $timezone['original_val'] ) ) {
+			if( preg_match( '/^UTC[+-]/', $timezone['original_val'] ) ) {
+				$options['gmt_offset'] = preg_replace( '/UTC\+?/', '', $timezone['original_val'] );
 			} else {
-				$options['timezone'] = $timezone_settings;
+				$options['timezone_string'] = $timezone['original_val'];
 			}
 		}
-		return $options;
+		return wp_parse_args( $timezone, $options );
 	}
 
 	public function update_awsm_page_listing( $old_value, $value ) {
