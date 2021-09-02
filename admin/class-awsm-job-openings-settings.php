@@ -698,10 +698,10 @@ class AWSM_Job_Openings_Settings {
 	public function timezone_handler( $timezone ) {
 		$options = array(
 			'timezone_string' => '',
-			'gmt_offset' => '',
+			'gmt_offset'      => '',
 		);
 		if ( ! empty( $timezone ) && isset( $timezone['original_val'] ) ) {
-			if( preg_match( '/^UTC[+-]/', $timezone['original_val'] ) ) {
+			if ( preg_match( '/^UTC[+-]/', $timezone['original_val'] ) ) {
 				$options['gmt_offset'] = preg_replace( '/UTC\+?/', '', $timezone['original_val'] );
 			} else {
 				$options['timezone_string'] = $timezone['original_val'];
