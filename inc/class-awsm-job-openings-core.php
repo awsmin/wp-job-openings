@@ -75,27 +75,11 @@ class AWSM_Job_Openings_Core {
 		);
 
 		$has_archive            = get_option( 'awsm_jobs_disable_archive_page' ) !== 'disable' ? true : false;
+		$with_front             = get_option( 'awsm_jobs_remove_permalink_front_base' ) !== 'remove' ? true : false;
 		$supports               = array( 'title', 'editor', 'excerpt', 'author', 'custom-fields', 'publicize' );
 		$featured_image_support = get_option( 'awsm_jobs_enable_featured_image' );
 		if ( $featured_image_support === 'enable' ) {
 			$supports[] = 'thumbnail';
-		}
-
-		$with_front = true;
-
-		$prefix                  = '';
-		$permalink_structure     = get_option( 'permalink_structure' );
-		$enable_custom_permalink = get_option( 'awsm_jobs_enable_custom_permalink' );
-		$structures = array(
-			0 => '',
-			1 => $prefix . '/%year%/%monthnum%/%day%/%postname%/',
-			2 => $prefix . '/%year%/%monthnum%/%postname%/',
-			3 => $prefix . '/' . _x( 'archives', 'sample permalink base' ) . '/%post_id%',
-			4 => $prefix . '/%postname%/',
-		);
-
-		if( ! in_array( $permalink_structure, $structures, true ) && $enable_custom_permalink === 'enable' ) {
-			$with_front = false;
 		}
 
 		/**
@@ -117,7 +101,7 @@ class AWSM_Job_Openings_Core {
 				'show_ui'         => true,
 				'show_in_rest'    => true,
 				'show_in_menu'    => true,
-				'rewrite'         => array (
+				'rewrite'         => array(
 					'slug'       => get_option( 'awsm_permalink_slug', 'jobs' ),
 					'with_front' => $with_front,
 				),

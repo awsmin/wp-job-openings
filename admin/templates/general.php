@@ -20,6 +20,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 		$args['show_option_none'] = esc_html__( 'Select a page', 'wp-job-openings' );
 	}
 
+	$prefix = '';
+	if ( ! got_url_rewrite() ) {
+		$prefix = '/index.php';
+	}
+	$show_permalink_setting = false;
+	$permalink_structure    = get_option( 'permalink_structure' );
+	$structures             = array(
+		0 => '',
+		1 => $prefix . '/%year%/%monthnum%/%day%/%postname%/',
+		2 => $prefix . '/%year%/%monthnum%/%postname%/',
+		3 => $prefix . '/' . _x( 'archives', 'sample permalink base', 'default' ) . '/%post_id%',
+		4 => $prefix . '/%postname%/',
+	);
+
+	if ( ! in_array( $permalink_structure, $structures, true ) ) {
+		$show_permalink_setting = true;
+	}
+
 	/**
 	 * Filters the general settings fields.
 	 *
@@ -59,6 +77,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'label'       => __( 'URL slug', 'wp-job-openings' ),
 					'required'    => true,
 					'description' => __( 'URL slug for job posts', 'wp-job-openings' ),
+				),
+				array(
+					'visible' => $show_permalink_setting,
+					'name'    => 'awsm_jobs_remove_permalink_front_base',
+					'label'   => __( 'Permalink Structure', 'wp-job-openings' ),
+					'type'    => 'checkbox',
+					'choices' => array(
+						array(
+							'value' => 'remove',
+							'text'  => __( 'Remove front base from custom permalink', 'wp-job-openings' ),
+						),
+					),
 				),
 				array(
 					'name'        => 'awsm_default_msg',
@@ -112,17 +142,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 					),
 					/* translators: %1$s: line break element */
 					'description' => sprintf( __( 'Checking this option will affect URLs of all your files uploaded through WP Job Openings Plugin form.%1$s 1. The files will not be displayed in Media Library.%1$s 2. Publicly accessible file URL will be disabled.%1$s 3. \'Resume Preview\' option will not work anymore (Resume Viewer Addon).', 'wp-job-openings' ), '<br />' ),
-				),
-				array(
-					'name'    => 'awsm_jobs_enable_custom_permalink',
-					'label'   => __( 'Permalink', 'wp-job-openings' ),
-					'type'    => 'checkbox',
-					'choices' => array(
-						array(
-							'value' => 'enable',
-							'text'  => __( 'Remove prefix from custom permalink', 'wp-job-openings' ),
-						),
-					),
 				),
 				array(
 					'name'        => 'awsm_delete_data_on_uninstall',

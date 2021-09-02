@@ -19,7 +19,7 @@ class AWSM_Job_Openings_Settings {
 
 		add_action( 'update_option_awsm_select_page_listing', array( $this, 'update_awsm_page_listing' ), 10, 2 );
 		add_action( 'update_option_awsm_permalink_slug', array( $this, 'update_awsm_permalink_slug' ), 10, 2 );
-		add_action( 'update_option_awsm_jobs_enable_custom_permalink', array( $this, 'update_awsm_jobs_enable_custom_permalink' ), 10, 2 );
+		add_action( 'update_option_awsm_jobs_remove_permalink_front_base', array( $this, 'update_permalink_front_base' ), 10, 2 );
 		add_action( 'update_option_awsm_jobs_disable_archive_page', array( $this, 'update_jobs_archive_page' ) );
 		add_action( 'update_option_awsm_hide_uploaded_files', array( $this, 'update_awsm_hide_uploaded_files' ), 10, 2 );
 		add_action( 'update_option_awsm_jobs_remove_filters', array( $this, 'update_awsm_jobs_remove_filters' ), 10, 2 );
@@ -157,7 +157,7 @@ class AWSM_Job_Openings_Settings {
 					'option_name' => 'awsm_hide_uploaded_files',
 				),
 				array(
-					'option_name' => 'awsm_jobs_enable_custom_permalink',
+					'option_name' => 'awsm_jobs_remove_permalink_front_base',
 				),
 				array(
 					'option_name' => 'awsm_delete_data_on_uninstall',
@@ -714,8 +714,9 @@ class AWSM_Job_Openings_Settings {
 		}
 		$this->refresh_permalink( 'awsm_permalink_slug' );
 	}
-	public function update_awsm_jobs_enable_custom_permalink() {
-		$this->refresh_permalink( 'awsm_permalink_slug' );
+
+	public function update_permalink_front_base() {
+		$this->refresh_permalink( 'awsm_jobs_remove_permalink_front_base' );
 	}
 
 	public function update_jobs_archive_page() {
