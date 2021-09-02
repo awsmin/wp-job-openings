@@ -497,6 +497,17 @@ class AWSM_Job_Openings {
 	}
 
 	public function check_date_and_change_status() {
+		$current_date   = gmdate( 'Y-m-d' );
+		$selected_zone  = get_option( 'awsm_jobs_timezone' );
+		if( is_array( $selected_zone ) && isset( $selected_zone['gmt_offset'] ) && isset( $selected_zone['timezone_string'] ) ) {
+			$timezone       = self::get_timezone_string( $selected_zone );
+			if ( $timezone !== 'UTC' ) {
+				$date_timezone  = new DateTimeZone( $timezone );
+				$datetime       = new DateTime( 'now', $date_timezone );
+				$current_date   = $datetime->format( 'Y-m-d' );
+			}
+		}
+
 		$args  = array(
 			'post_type'      => 'awsm_job_openings',
 			'post_status'    => array( 'publish', 'private' ),
@@ -508,30 +519,52 @@ class AWSM_Job_Openings {
 				),
 				array(
 					'key'     => 'awsm_job_expiry',
-					'value'   => gmdate( 'Y-m-d' ),
+					'value'   => $current_date,
 					'type'    => 'DATE',
 					'compare' => '<',
 				),
 			),
 		);
+		/**
+		 * Filters the arguments for the jobs query for automatic expiration.
+		 *
+		 * @since 2.3.0
+		 *
+		 * @param array $args arguments.
+		 */
+		$args = apply_filters( 'awsm_check_for_expired_jobs_query_args', $args );
+
 		$query = new WP_Query( $args );
 		if ( $query->have_posts() ) {
 			while ( $query->have_posts() ) {
 				$query->the_post();
 				// still doing some usual checking even if meta query is used!
 				$expiry_on_list  = get_post_meta( get_the_ID(), 'awsm_set_exp_list', true );
-				$expiration_date = get_post_meta( get_the_ID(), 'awsm_job_expiry', true );
-				if ( $expiry_on_list === 'set_listing' && ! empty( $expiration_date ) ) {
-					$expiration_date_time = strtotime( $expiration_date );
-					if ( $expiration_date_time < ( time() - ( 24 * 60 * 60 ) ) ) {
-						$jobs                = array();
-						$jobs['ID']          = get_the_ID();
-						$jobs['post_status'] = 'expired';
-						wp_update_post( $jobs );
-					}
+				if ( $expiry_on_list === 'set_listing' ) {
+					$jobs                = array();
+					$jobs['ID']          = get_the_ID();
+					$jobs['post_status'] = 'expired';
+					wp_update_post( $jobs );
 				}
 			}
 		}
+	}
+
+	public static function get_timezone_string( $selected_zone ) {
+		$timezone_string = 'UTC';
+		if ( ! empty( $selected_zone['timezone_string'] ) ) {
+			$timezone_string = $selected_zone['timezone_string'];
+		} elseif( ! empty( $selected_zone['gmt_offset'] ) && $selected_zone['gmt_offset'] !== 0 ) {
+			$offset           = (float) $selected_zone['gmt_offset'];
+			$hours            = (int) $offset;
+			$minutes          = ( $offset - $hours );
+			$sign             = ( $offset < 0 ) ? '-' : '+';
+			$abs_hour         = abs( $hours );
+			$abs_mins         = abs( $minutes * 60 );
+			$timezone_string  = sprintf( '%s%02d:%02d', $sign, $abs_hour, $abs_mins );
+		}
+
+		return $timezone_string;
 	}
 
 	public function send_email_digest() {

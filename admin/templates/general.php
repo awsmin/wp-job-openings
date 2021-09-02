@@ -38,6 +38,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 		$show_permalink_setting = true;
 	}
 
+	$timezone = get_option( 'awsm_jobs_timezone' );
+	$selected_zone = 'UTC+0';
+	if ( is_array( $timezone ) && isset( $timezone['original_val'] ) ) {
+		$selected_zone = $timezone['original_val'];
+	}
+
 	/**
 	 * Filters the general settings fields.
 	 *
@@ -71,6 +77,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'label'       => __( 'HR Email Address', 'wp-job-openings' ),
 					'type'        => 'email',
 					'description' => __( 'Email for HR notifications', 'wp-job-openings' ),
+				),
+				array(
+					'name'          => 'awsm_jobs_timezone',
+					'label'         => __( 'Timezone ', 'wp-job-openings' ),
+					'type'          => 'raw',
+					'value'         => '<select name="awsm_jobs_timezone[original_val]" class="awsm-select-control regular-text">' . wp_timezone_choice( $selected_zone, get_user_locale() ) . '</select>',
 				),
 				array(
 					'name'        => 'awsm_permalink_slug',
