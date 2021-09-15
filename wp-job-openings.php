@@ -908,9 +908,9 @@ class AWSM_Job_Openings {
 			'is_search'          => $enable_search ? sanitize_text_field( $_GET['jq'] ) : '',
 			'job_id'             => is_singular( 'awsm_job_openings' ) ? $post->ID : 0,
 			'wp_max_upload_size' => ( wp_max_upload_size() ) ? ( wp_max_upload_size() ) : 0,
-			'deep_linking' => array(
+			'deep_linking'       => array(
 				'search' => true,
-				'spec' => true,
+				'spec'   => true,
 			),
 			'i18n'               => array(
 				'loading_text'   => esc_html__( 'Loading...', 'wp-job-openings' ),
@@ -920,7 +920,7 @@ class AWSM_Job_Openings {
 				),
 			),
 			'vendors'            => array(
-				'selectric' => true,
+				'selectric'         => true,
 				'jquery_validation' => true,
 			),
 		);
@@ -1510,7 +1510,7 @@ class AWSM_Job_Openings {
 						 * @param string $taxonomy Taxonomy name.
 						 */
 						$spec_item_content = apply_filters( 'awsm_job_spec_item_content', $spec_item_content, $post_id, $taxonomy );
-						$spec_content .= $spec_item_content;
+						$spec_content     .= $spec_item_content;
 					}
 				}
 			}
