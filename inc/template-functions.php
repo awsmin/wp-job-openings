@@ -153,7 +153,7 @@ if ( ! function_exists( 'awsm_jobs_load_more' ) ) {
 				 * @param WP_Query $query The Query object.
 				 * @param array $shortcode_atts Shortcode attributes.
 				 */
-				echo apply_filters( 'awsm_jobs_load_more_content', $load_more_content, $query, $shortcode_atts );
+				echo apply_filters( 'awsm_jobs_load_more_content', $load_more_content, $query, $shortcode_atts ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			}
 		}
 	}

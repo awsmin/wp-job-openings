@@ -223,7 +223,7 @@ class AWSM_Job_Openings_Filters {
 			 *
 			 * @param string $no_jobs_content The HTML content.
 			 */
-			echo apply_filters( 'awsm_no_filtered_jobs_content', $no_jobs_content );
+			echo apply_filters( 'awsm_no_filtered_jobs_content', $no_jobs_content ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 		wp_die();
 		// phpcs:enable
