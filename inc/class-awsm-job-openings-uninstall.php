@@ -20,16 +20,24 @@ class AWSM_Job_Openings_Uninstall {
 			'awsm_select_page_listing',
 			'awsm_job_company_name',
 			'awsm_hr_email_address',
+			'awsm_jobs_timezone',
 			'awsm_permalink_slug',
-			'awsm_delete_data_on_uninstall',
+			'awsm_jobs_remove_permalink_front_base',
 			'awsm_default_msg',
+			'awsm_jobs_email_digest',
+			'awsm_jobs_disable_archive_page',
+			'awsm_jobs_enable_featured_image',
+			'awsm_hide_uploaded_files',
+			'awsm_delete_data_on_uninstall',
 			'awsm_current_appearance_subtab',
 			'awsm_jobs_listing_view',
 			'awsm_jobs_list_per_page',
 			'awsm_jobs_number_of_columns',
+			'awsm_enable_job_search',
 			'awsm_enable_job_filter_listing',
 			'awsm_jobs_listing_available_filters',
 			'awsm_jobs_listing_specs',
+			'awsm_jobs_details_page_template',
 			'awsm_jobs_details_page_layout',
 			'awsm_jobs_expired_jobs_listings',
 			'awsm_jobs_specification_job_detail',
@@ -51,23 +59,28 @@ class AWSM_Job_Openings_Uninstall {
 			'awsm_jobs_recaptcha_secret_key',
 			'awsm_current_notification_subtab',
 			'awsm_jobs_applicant_notification',
+			'awsm_jobs_from_email_notification',
+			'awsm_jobs_reply_to_notification',
 			'awsm_jobs_hr_notification',
 			'awsm_jobs_acknowledgement',
 			'awsm_jobs_notification_subject',
 			'awsm_jobs_notification_content',
+			'awsm_jobs_notification_mail_template',
 			'awsm_jobs_admin_to_notification',
 			'awsm_jobs_enable_admin_notification',
+			'awsm_jobs_admin_from_email_notification',
+			'awsm_jobs_admin_reply_to_notification',
 			'awsm_jobs_admin_hr_notification',
 			'awsm_jobs_admin_notification_subject',
 			'awsm_jobs_admin_notification_content',
+			'awsm_jobs_notification_admin_mail_template',
+			'awsm_jobs_notification_customizer',
 			'awsm_jobs_default_listing_page_id',
 			'awsm_register_default_settings',
 			'awsm_gdpr_policies',
 			'awsm_plugin_rating_job_count',
 			'awsm_plugin_rating_application_count',
 			'awsm_jobs_plugin_rating',
-			'awsm_jobs_from_email_notification',
-			'awsm_jobs_reply_to_notification',
 		);
 		return $options;
 	}
@@ -101,6 +114,7 @@ class AWSM_Job_Openings_Uninstall {
 
 	private static function clear_cron_jobs() {
 		wp_clear_scheduled_hook( 'awsm_check_for_expired_jobs' );
+		wp_clear_scheduled_hook( 'awsm_jobs_email_digest' );
 	}
 
 	private static function remove_terms() {
