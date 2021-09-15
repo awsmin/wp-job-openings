@@ -99,6 +99,17 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 
 == Changelog ==
 
+= V 2.3.0 – 2021-09-16 =
+* Added: Timezone setting for job expiration.
+* Added: Setting to remove custom permalink front base.
+* Fixed: Slash issue in the mail with special characters.
+* Improved: Updated jQuery Validation Plugin to version 1.19.3.
+* Dev: Added new filter hooks to control the plugin-generated UI and content.
+* Dev: Improved Form Handling Hooks.
+* Dev: Deprecated 'awsm_specification_content' filter hook in favor of 'awsm_job_specs_content'.
+* Code improvements.
+* Other minor bug fixes.
+
 = V 2.2.0 – 2021-06-09 =
 * Added: Notification Mail Template Customizer (Settings > Notifications > Customize). Template files need to be updated if overridden in the theme.
 * Fixed: Pre validation for file field not working.
@@ -147,12 +158,9 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 * Dev: New hook for customizing the terms display in job specification filters.
 * Other minor fixes and code improvements.
 
-= V 1.6.2 - 2020-01-29 =
-* Bug fixes and improvements.
-
 [See changelog of previous versions](https://raw.githubusercontent.com/awsmin/wp-job-openings/master/CHANGELOG.md)
 
 == Upgrade Notice ==
 
-= 2.2.0 =
+= 2.3.0 =
 New Features and Bug fixes.
