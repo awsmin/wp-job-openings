@@ -84,7 +84,9 @@ jQuery(function($) {
 			$rootWrapper.find('.awsm-job-search-icon-wrapper').addClass('awsm-job-hide');
 		}
 		awsmJobFilters($rootWrapper);
-		updateQuery('jq', searchQuery);
+		if (awsmJobsPublic.deep_linking.search) {
+			updateQuery('jq', searchQuery);
+		}
 	}
 
 	if ($(rootWrapperSelector).length > 0) {
@@ -123,7 +125,9 @@ jQuery(function($) {
 		var slug = $selected.data('slug');
 		slug = typeof slug !== 'undefined' ? slug : '';
 		awsmJobFilters($rootWrapper);
-		updateQuery(currentSpec, slug);
+		if (awsmJobsPublic.deep_linking.spec) {
+			updateQuery(currentSpec, slug);
+		}
 	});
 
 	$(filterSelector + ' .awsm-job-search-btn').on('click', function() {
@@ -235,13 +239,15 @@ jQuery(function($) {
 	/* ========== Custom select box - selectric ========== */
 
 	function awsmDropDown($elem) {
-		$elem.selectric({
-			arrowButtonMarkup: '<span class="awsm-selectric-arrow-drop">&#x25be;</span>',
-			customClass: {
-				prefix: 'awsm-selectric',
-				camelCase: false
-			}
-		});
+		if ('selectric' in awsmJobsPublic.vendors && awsmJobsPublic.vendors.selectric) {
+			$elem.selectric({
+				arrowButtonMarkup: '<span class="awsm-selectric-arrow-drop">&#x25be;</span>',
+				customClass: {
+					prefix: 'awsm-selectric',
+					camelCase: false
+				}
+			});
+		}
 	}
 	awsmDropDown($('.awsm-job-select-control'));
 	awsmDropDown($('.awsm-filter-item select'));

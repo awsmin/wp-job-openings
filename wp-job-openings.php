@@ -1,15 +1,7 @@
 <?php
 /**
- * WP Job Openings Plugin
- *
- * Super simple Job Listing plugin to manage Job Openings and Applicants on your WordPress site.
- *
- * @package wp-job-openings
- */
-
-/**
  * Plugin Name: WP Job Openings
- * Plugin URI: https://wordpress.org/plugins/wp-job-openings/
+ * Plugin URI: https://wpjobopenings.com/
  * Description: Super simple Job Listing plugin to manage Job Openings and Applicants on your WordPress site.
  * Author: AWSM Innovations
  * Author URI: https://awsm.in/
@@ -18,6 +10,13 @@
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text domain: wp-job-openings
  * Domain Path: /languages
+ */
+/**
+ * WP Job Openings Plugin
+ *
+ * Super simple Job Listing plugin to manage Job Openings and Applicants on your WordPress site.
+ *
+ * @package wp-job-openings
  */
 
 // Exit if accessed directly
@@ -902,24 +901,38 @@ class AWSM_Job_Openings {
 
 		$enable_search = get_option( 'awsm_enable_job_search' ) === 'enable' && isset( $_GET['jq'] );
 		global $post;
-		wp_localize_script(
-			'awsm-job-scripts',
-			'awsmJobsPublic',
-			array(
-				'ajaxurl'            => admin_url( 'admin-ajax.php' ),
-				'is_tax_archive'     => is_tax(),
-				'is_search'          => $enable_search ? sanitize_text_field( $_GET['jq'] ) : '',
-				'job_id'             => is_singular( 'awsm_job_openings' ) ? $post->ID : 0,
-				'wp_max_upload_size' => ( wp_max_upload_size() ) ? ( wp_max_upload_size() ) : 0,
-				'i18n'               => array(
-					'loading_text'   => esc_html__( 'Loading...', 'wp-job-openings' ),
-					'form_error_msg' => array(
-						'general'         => esc_html__( 'Error in submitting your application. Please try again later!', 'wp-job-openings' ),
-						'file_validation' => esc_html__( 'The file you have selected is too large.', 'wp-job-openings' ),
-					),
+
+		$localized_script_data = array(
+			'ajaxurl'            => admin_url( 'admin-ajax.php' ),
+			'is_tax_archive'     => is_tax(),
+			'is_search'          => $enable_search ? sanitize_text_field( $_GET['jq'] ) : '',
+			'job_id'             => is_singular( 'awsm_job_openings' ) ? $post->ID : 0,
+			'wp_max_upload_size' => ( wp_max_upload_size() ) ? ( wp_max_upload_size() ) : 0,
+			'deep_linking' => array(
+				'search' => true,
+				'spec' => true,
+			),
+			'i18n'               => array(
+				'loading_text'   => esc_html__( 'Loading...', 'wp-job-openings' ),
+				'form_error_msg' => array(
+					'general'         => esc_html__( 'Error in submitting your application. Please try again later!', 'wp-job-openings' ),
+					'file_validation' => esc_html__( 'The file you have selected is too large.', 'wp-job-openings' ),
 				),
-			)
+			),
+			'vendors'            => array(
+				'selectric' => true,
+				'jquery_validation' => true,
+			),
 		);
+		/**
+		 * Filters the public script localized data.
+		 *
+		 * @since 2.3.0
+		 *
+		 * @param array $localized_script_data Localized data array.
+		 */
+		$localized_script_data = apply_filters( 'awsm_jobs_localized_script_data', $localized_script_data );
+		wp_localize_script( 'awsm-job-scripts', 'awsmJobsPublic', $localized_script_data );
 	}
 
 	public function awsm_admin_enqueue_scripts() {
@@ -984,7 +997,16 @@ class AWSM_Job_Openings {
 		} else {
 			$path = AWSM_JOBS_PLUGIN_DIR . '/inc/templates' . $rel_path;
 		}
-		return $path;
+		/**
+		 * Filters the template path.
+		 *
+		 * @since 2.3.0
+		 *
+		 * @param string $path Template path.
+		 * @param string $template_name Template name.
+		 * @param string $sub_dir_name Subdirectory name.
+		 */
+		return apply_filters( 'awsm_jobs_template_path', $path, $template_name, $sub_dir_name );
 	}
 
 	public function body_classes( $classes ) {
@@ -1477,7 +1499,18 @@ class AWSM_Job_Openings {
 								$spec_terms .= sprintf( '<a href="%2$s" class="awsm-job-specification-term">%1$s</a> ', esc_html( $term->name ), esc_url( $term_link ) );
 							}
 						}
-						$spec_content .= sprintf( '<div class="awsm-job-specification-item awsm-job-specification-%2$s">%1$s</div>', $spec_icon . $spec_label . $spec_terms, esc_attr( $taxonomy ) );
+						$spec_item_content = sprintf( '<div class="awsm-job-specification-item awsm-job-specification-%2$s">%1$s</div>', $spec_icon . $spec_label . $spec_terms, esc_attr( $taxonomy ) );
+						/**
+						 * Filters the job specification item content.
+						 *
+						 * @since 2.3.0
+						 *
+						 * @param string $spec_item_content The HTML content.
+						 * @param int $post_id The Post ID.
+						 * @param string $taxonomy Taxonomy name.
+						 */
+						$spec_item_content = apply_filters( 'awsm_job_spec_item_content', $spec_item_content, $post_id, $taxonomy );
+						$spec_content .= $spec_item_content;
 					}
 				}
 			}
@@ -1485,7 +1518,17 @@ class AWSM_Job_Openings {
 		if ( ! empty( $spec_content ) ) {
 			$spec_content = sprintf( '<div class="awsm-job-specification-wrapper">%1$s</div>', $spec_content );
 		}
-		return apply_filters( 'awsm_specification_content', $spec_content, $post_id );
+
+		$spec_content = apply_filters_deprecated( 'awsm_specification_content', array( $spec_content, $post_id ), '2.3.0', 'awsm_job_specs_content' );
+		/**
+		 * Filters the job specifications content.
+		 *
+		 * @since 2.3.0
+		 *
+		 * @param string $spec_content The HTML content.
+		 * @param int $post_id The Post ID.
+		 */
+		return apply_filters( 'awsm_job_specs_content', $spec_content, $post_id );
 	}
 
 	public static function display_specifications_content( $post_id, $pos, $echo = true ) {

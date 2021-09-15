@@ -207,23 +207,24 @@ class AWSM_Job_Openings_Filters {
 
 		$query = new WP_Query( $args );
 
-		if ( $query->have_posts() ) :
+		if ( $query->have_posts() ) {
 			include AWSM_Job_Openings::get_template_path( 'main.php', 'job-openings' );
-		else :
-			if ( $filter_action !== 'loadmore' ) :
-				?>
-				<div class="awsm-jobs-none-container">
-					<p><?php esc_html_e( 'Sorry! No jobs to show.', 'wp-job-openings' ); ?></p>
-				</div>
-				<?php
-			else :
-				?>
-				<div class="awsm-load-more-main awsm-no-more-jobs-container">
-					<p><?php esc_html_e( 'Sorry! No more jobs to show.', 'wp-job-openings' ); ?></p>
-				</div>
-				<?php
-			endif;
-		endif;
+		} else {
+			$no_jobs_content = '';
+			if ( $filter_action !== 'loadmore' ) {
+				$no_jobs_content = sprintf( '<div class="awsm-jobs-none-container"><p>%s</p></div>', esc_html__( 'Sorry! No jobs to show.', 'wp-job-openings' ) );
+			} else {
+				$no_jobs_content = sprintf( '<div class="awsm-load-more-main awsm-no-more-jobs-container"><p>%s</p></div>', esc_html__( 'Sorry! No more jobs to show.', 'wp-job-openings' ) );
+			}
+			/**
+			 * Filters the HTML content for no jobs when filtered.
+			 *
+			 * @since 2.3.0
+			 *
+			 * @param string $no_jobs_content The HTML content.
+			 */
+			echo apply_filters( 'awsm_no_filtered_jobs_content', $no_jobs_content );
+		}
 		wp_die();
 		// phpcs:enable
 	}

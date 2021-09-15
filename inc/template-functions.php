@@ -139,16 +139,23 @@ if ( ! function_exists( 'awsm_job_more_details' ) ) {
 if ( ! function_exists( 'awsm_jobs_load_more' ) ) {
 	function awsm_jobs_load_more( $query, $shortcode_atts = array() ) {
 		$loadmore = isset( $shortcode_atts['loadmore'] ) && $shortcode_atts['loadmore'] === 'no' ? false : true;
-		if ( $loadmore ) :
+		if ( $loadmore ) {
 			$max_num_pages = $query->max_num_pages;
 			$paged         = ( $query->query_vars['paged'] ) ? $query->query_vars['paged'] : 1;
-			if ( $max_num_pages > 1 && $paged < $max_num_pages ) : ?>
-					<div class="awsm-load-more-main">
-						<a href="#" class="awsm-load-more awsm-load-more-btn" data-page="<?php echo esc_attr( $paged ); ?>"><?php esc_html_e( 'Load more...', 'wp-job-openings' ); ?></a>
-					</div>
-					<?php
-			endif;
-		endif;
+			if ( $max_num_pages > 1 && $paged < $max_num_pages ) {
+				$load_more_content = sprintf( '<div class="awsm-load-more-main"><a href="#" class="awsm-load-more awsm-load-more-btn" data-page="%2$s">%1$s</a></div>', esc_html__( 'Load more...', 'wp-job-openings' ), esc_attr( $paged ) );
+				/**
+				 * Filters the load more content.
+				 *
+				 * @since 2.3.0
+				 *
+				 * @param string $load_more_content The HTML content.
+				 * @param WP_Query $query The Query object.
+				 * @param array $shortcode_atts Shortcode attributes.
+				 */
+				echo apply_filters( 'awsm_jobs_load_more_content', $load_more_content, $query, $shortcode_atts );
+			}
+		}
 	}
 }
 
