@@ -3,9 +3,9 @@
 **Contributors:** awsmin  
 **Tags:** jobs, job listing, job openings, job board, careers page, jobs page, wp job opening, jobs plugin  
 **Requires at least:** 4.6  
-**Tested up to:** 5.7  
+**Tested up to:** 5.8  
 **Requires PHP:** 5.6  
-**Stable tag:** 2.2.0  
+**Stable tag:** 2.3.0  
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
 **Donate link:** https://www.buymeacoffee.com/awsm
@@ -16,7 +16,7 @@ Super simple Job Listing plugin to manage Job Openings and Applicants on your Wo
 
 ## Description
 
-**WP Job Openings plugin is the most simple yet powerful plugin for setting up a job listing page for a website.**
+**WP Job Openings plugin is the most simple yet powerful plugin for setting up a job listing page for your WordPress website.**
 
 WP Job Openings is designed after carefully analysing hundreds of job listing layouts and methods. The plugin is super simple to use and extensible to a high performing recruitment tool.
 
@@ -91,6 +91,17 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 
 ## Changelog
 
+**V 2.3.0 – 2021-09-16**
+* Added: Timezone setting for job expiration.
+* Added: Setting to remove custom permalink front base.
+* Fixed: Slash issue in the mail with special characters.
+* Improved: Updated jQuery Validation Plugin to version 1.19.3.
+* Dev: Added new filter hooks to control the plugin-generated UI and content.
+* Dev: Improved Form Handling Hooks.
+* Dev: Deprecated 'awsm_specification_content' filter hook in favor of 'awsm_job_specs_content'.
+* Code improvements.
+* Other minor bug fixes.
+
 **V 2.2.0 – 2021-06-09**
 * Added: Notification Mail Template Customizer (Settings > Notifications > Customize). Template files need to be updated if overridden in the theme.
 * Fixed: Pre validation for file field not working.
@@ -138,8 +149,5 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 * Dev: New hooks for customizing the form fields.
 * Dev: New hook for customizing the terms display in job specification filters.
 * Other minor fixes and code improvements.
-
-**V 1.6.2 - 2020-01-29**
-* Bug fixes and improvements.
 
 View complete Changelog in [CHANGELOG.MD](https://github.com/awsmin/wp-job-openings/blob/master/CHANGELOG.md)

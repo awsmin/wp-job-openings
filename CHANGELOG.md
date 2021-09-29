@@ -1,5 +1,16 @@
 ## Changelog
 
+### V 2.3.0 – 2021-09-16
+* Added: Timezone setting for job expiration.
+* Added: Setting to remove custom permalink front base.
+* Fixed: Slash issue in the mail with special characters.
+* Improved: Updated jQuery Validation Plugin to version 1.19.3.
+* Dev: Added new filter hooks to control the plugin-generated UI and content.
+* Dev: Improved Form Handling Hooks.
+* Dev: Deprecated 'awsm_specification_content' filter hook in favor of 'awsm_job_specs_content'.
+* Code improvements.
+* Other minor bug fixes.
+
 ### V 2.2.0 – 2021-06-09
 * Added: Notification Mail Template Customizer (Settings > Notifications > Customize). Template files need to be updated if overridden in the theme.
 * Fixed: Pre validation for file field not working.
