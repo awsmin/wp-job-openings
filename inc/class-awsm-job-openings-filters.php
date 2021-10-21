@@ -56,7 +56,7 @@ class AWSM_Job_Openings_Filters {
 			 */
 			$placeholder_text = apply_filters( 'awsm_jobs_search_field_placeholder', _x( 'Search', 'job filter', 'wp-job-openings' ) );
 			$search_icon      = '<span class="awsm-job-search-btn awsm-job-search-icon-wrapper"><i class="awsm-job-icon-search"></i></span><span class="awsm-job-search-close-btn awsm-job-search-icon-wrapper awsm-job-hide"><i class="awsm-job-icon-close-circle"></i></span>';
-			$search_content   = sprintf( '<div class="awsm-filter-item"><div class="awsm-filter-item-search"><label for="jq" class="awsm-sr-only">Search</label><input type="text" id="jq" name="jq" value="%2$s" placeholder="%1$s" class="awsm-job-search awsm-job-form-control">%3$s</div></div>', esc_attr( $placeholder_text ), esc_attr( $search_query ), $search_icon );
+			$search_content   = sprintf( '<div class="awsm-filter-item"><div class="awsm-filter-item-search"><label for="awsm-jq-%4$s" class="awsm-sr-only">%1$s</label><input type="text" id="awsm-jq-%4$s" name="jq" value="%2$s" placeholder="%1$s" class="awsm-job-search awsm-job-form-control">%3$s</div></div>', esc_attr( $placeholder_text ), esc_attr( $search_query ), $search_icon, esc_attr( $shortcode_atts['uid'] ) );
 			/**
 			 * Filters the search field content.
 			 *
