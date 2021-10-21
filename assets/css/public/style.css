@@ -458,7 +458,8 @@ ul.awsm-error-message li {
 	visibility: visible;
 }
 
-/*---- accessibility ----*/
+/*---- Accessibility ----*/
+
 .awsm-sr-only {
 	position: absolute;
 	width: 1px;
@@ -468,8 +469,9 @@ ul.awsm-error-message li {
 	overflow: hidden;
 	clip: rect(0,0,0,0);
 	border: 0;
-  }
-  /*---- accessibility ----*/
+}
+
+/*---- Media Queries ----*/
 
 @media (max-width:1024px) {
 	.awsm-grid-col-4 .awsm-grid-item {
