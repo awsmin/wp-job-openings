@@ -49,6 +49,8 @@ class AWSM_Job_Openings {
 
 	private static $rating_notice_active = false;
 
+	protected $unique_listing_id = 1;
+
 	public function __construct() {
 		// Require Classes.
 		self::load_classes();
@@ -245,6 +247,7 @@ class AWSM_Job_Openings {
 		$pairs          = apply_filters(
 			'awsm_jobs_shortcode_defaults',
 			array(
+				'uid'      => $this->unique_listing_id,
 				'filters'  => get_option( 'awsm_enable_job_filter_listing' ) !== 'enabled' ? 'no' : 'yes',
 				'listings' => get_option( 'awsm_jobs_list_per_page' ),
 				'loadmore' => 'yes',
@@ -252,6 +255,8 @@ class AWSM_Job_Openings {
 			)
 		);
 		$shortcode_atts = shortcode_atts( $pairs, $atts, 'awsmjobs' );
+
+		$this->unique_listing_id++;
 
 		ob_start();
 		include self::get_template_path( 'job-openings-view.php' );

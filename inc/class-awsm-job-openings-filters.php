@@ -56,7 +56,7 @@ class AWSM_Job_Openings_Filters {
 			 */
 			$placeholder_text = apply_filters( 'awsm_jobs_search_field_placeholder', _x( 'Search', 'job filter', 'wp-job-openings' ) );
 			$search_icon      = '<span class="awsm-job-search-btn awsm-job-search-icon-wrapper"><i class="awsm-job-icon-search"></i></span><span class="awsm-job-search-close-btn awsm-job-search-icon-wrapper awsm-job-hide"><i class="awsm-job-icon-close-circle"></i></span>';
-			$search_content   = sprintf( '<div class="awsm-filter-item"><div class="awsm-filter-item-search"><input type="text" name="jq" value="%2$s" placeholder="%1$s" class="awsm-job-search awsm-job-form-control">%3$s</div></div>', esc_attr( $placeholder_text ), esc_attr( $search_query ), $search_icon );
+			$search_content   = sprintf( '<div class="awsm-filter-item"><div class="awsm-filter-item-search"><label for="awsm-jq-%4$s" class="awsm-sr-only">%1$s</label><input type="text" id="awsm-jq-%4$s" name="jq" value="%2$s" placeholder="%1$s" class="awsm-job-search awsm-job-form-control">%3$s</div></div>', esc_attr( $placeholder_text ), esc_attr( $search_query ), $search_icon, esc_attr( $shortcode_atts['uid'] ) );
 			/**
 			 * Filters the search field content.
 			 *
@@ -152,7 +152,7 @@ class AWSM_Job_Openings_Filters {
 							 * @param array  $tax_details Taxonomy details.
 							 */
 							$filter_label    = apply_filters( 'awsm_filter_label', esc_html_x( 'All', 'job filter', 'wp-job-openings' ) . ' ' . $spec_name, $taxonomy, $tax_details );
-							$filter_content .= sprintf( '<div class="awsm-filter-item" data-filter="%2$s"><select name="awsm_job_spec[%1$s]" class="awsm-filter-option" id="awsm-%1$s-filter-option"><option value="">%3$s</option>%4$s</select></div>', esc_attr( $taxonomy ), esc_attr( $filter_key . $filter_suffix ), $filter_label, $options_content );
+							$filter_content .= sprintf( '<div class="awsm-filter-item" data-filter="%2$s"><label for="awsm-%1$s-filter-option-%5$s" class="awsm-sr-only">%3$s</label><select name="awsm_job_spec[%1$s]" class="awsm-filter-option awsm-%1$s-filter-option" id="awsm-%1$s-filter-option-%5$s"><option value="">%3$s</option>%4$s</select></div>', esc_attr( $taxonomy ), esc_attr( $filter_key . $filter_suffix ), $filter_label, $options_content, esc_attr( $shortcode_atts['uid'] ) );
 					}
 				}
 			}
