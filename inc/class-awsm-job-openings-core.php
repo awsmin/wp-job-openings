@@ -263,9 +263,16 @@ class AWSM_Job_Openings_Core {
 
 	public static function get_attachments_meta_query( $meta_query ) {
 		$query = array(
-			'key'     => '_wp_attached_file',
-			'compare' => 'NOT LIKE',
-			'value'   => AWSM_JOBS_UPLOAD_DIR_NAME,
+			'relation' => 'OR',
+			array(
+				'key'     => '_wp_attached_file',
+				'compare' => 'NOT EXISTS',
+			),
+			array(
+				'key'     => '_wp_attached_file',
+				'compare' => 'NOT LIKE',
+				'value'   => AWSM_JOBS_UPLOAD_DIR_NAME,
+			),
 		);
 
 		if ( is_array( $meta_query ) && ! empty( $meta_query ) ) {
