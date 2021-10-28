@@ -1,5 +1,10 @@
 ## Changelog
 
+### V 2.3.1 – 2021-10-28
+* Fixed: Media missing from library in WordPress.com when 'Secure uploaded files' option is enabled.
+* Fixed: Accessibility issues in job filters. #28
+* Fixed: GDPR text issue in Polylang when accents are used.
+
 ### V 2.3.0 – 2021-09-16
 * Added: Timezone setting for job expiration.
 * Added: Setting to remove custom permalink front base.
