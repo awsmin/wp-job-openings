@@ -242,13 +242,13 @@ class AWSM_Job_Openings_Form {
 	}
 
 	public function get_gdpr_field_label() {
-		$content      = false;
-		$gdpr_cb_text = get_option( 'awsm_gdpr_cb_text' );
 		$gdpr_enable  = get_option( 'awsm_enable_gdpr_cb' );
+		$gdpr_cb_text = get_option( 'awsm_gdpr_cb_text' );
 		if ( ! empty( $gdpr_enable ) && ! empty( $gdpr_cb_text ) ) {
-			$content = html_entity_decode( $gdpr_cb_text, ENT_QUOTES );
+			return $gdpr_cb_text;
+		} else {
+			return false;
 		}
-		return $content;
 	}
 
 	public function display_gdpr_field( $form_attrs ) {

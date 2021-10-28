@@ -681,7 +681,10 @@ class AWSM_Job_Openings_Settings {
 		if ( ! empty( $gdpr_enable ) && empty( $input ) ) {
 			$input = esc_html__( 'By using this form you agree with the storage and handling of your data by this website.', 'wp-job-openings' );
 		}
-		return htmlentities( $input, ENT_QUOTES );
+		if ( ! class_exists( 'AWSM_Job_Openings_Form' ) ) {
+			require_once AWSM_JOBS_PLUGIN_DIR . '/inc/class-awsm-job-openings-form.php';
+		}
+		return wp_kses( $input, AWSM_Job_Openings_Form::$allowed_html );
 	}
 
 	public function notification_customizer_handler( $input ) {
