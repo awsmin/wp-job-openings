@@ -99,6 +99,11 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 
 == Changelog ==
 
+= V 2.3.1 – 2021-10-28 =
+* Fixed: Media missing from library in WordPress.com when 'Secure uploaded files' option is enabled.
+* Fixed: Accessibility issues in job filters. #28
+* Fixed: GDPR text issue in Polylang when accents are used.
+
 = V 2.3.0 – 2021-09-16 =
 * Added: Timezone setting for job expiration.
 * Added: Setting to remove custom permalink front base.
@@ -139,28 +144,9 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 * Improved: Date and Time formatting.
 * Code improvements and minor bug fixes.
 
-= V 2.0.0 - 2020-05-01 =
-* Admin UI improvements.
-* Added: New Onboarding interface.
-* Added: Job Overview dashboard widget.
-* Added: Custom Admin navigation.
-* Added: HTML Template support for notification mails.
-* Added: Daily email digest if there are new applications.
-* Added: Drag and Drop sorting for Job Specifications.
-* Added: Functionality to clear searched value.
-* Added: 'Actions' meta box in application edit screen.
-* Added: Next and Previous navigation in application edit screen.
-* Added: Reply-To support in Admin notification mail.
-* Fixed: An issue that prevents user from adding numeric values for job specification in job edit screen.
-* Fixed: Job detail page returning empty content in some themes.
-* Fixed: Specification terms not removing from settings if it contains some special characters.
-* Dev: New hooks for customizing the form fields.
-* Dev: New hook for customizing the terms display in job specification filters.
-* Other minor fixes and code improvements.
-
 [See changelog of previous versions](https://raw.githubusercontent.com/awsmin/wp-job-openings/master/CHANGELOG.md)
 
 == Upgrade Notice ==
 
-= 2.3.0 =
-New Features and Bug fixes.
+= 2.3.1 =
+Bug fixes.
