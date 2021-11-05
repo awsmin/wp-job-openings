@@ -619,28 +619,28 @@ class AWSM_Job_Openings_Form {
 	 * @return array
 	 */
 	public static function get_notification_options( $type ) {
-		$options = array();
+		$options     = array();
 		$admin_email = get_option( 'admin_email' );
-		$hr_email = get_option( 'awsm_hr_email_address' );
+		$hr_email    = get_option( 'awsm_hr_email_address' );
 		if ( $type === 'applicant' ) {
 			$options = array(
 				'acknowledgement' => get_option( 'awsm_jobs_acknowledgement' ),
-				'from' => get_option( 'awsm_jobs_from_email_notification', $admin_email ),
-				'reply_to' => get_option( 'awsm_jobs_reply_to_notification' ),
-				'cc' => get_option( 'awsm_jobs_hr_notification', $hr_email ),
-				'subject' => get_option( 'awsm_jobs_notification_subject', '' ),
-				'content' => get_option( 'awsm_jobs_notification_content', '' ),
-				'html_template' => get_option( 'awsm_jobs_notification_mail_template' ),
+				'from'            => get_option( 'awsm_jobs_from_email_notification', $admin_email ),
+				'reply_to'        => get_option( 'awsm_jobs_reply_to_notification' ),
+				'cc'              => get_option( 'awsm_jobs_hr_notification', $hr_email ),
+				'subject'         => get_option( 'awsm_jobs_notification_subject', '' ),
+				'content'         => get_option( 'awsm_jobs_notification_content', '' ),
+				'html_template'   => get_option( 'awsm_jobs_notification_mail_template' ),
 			);
 		} elseif ( $type === 'admin' ) {
 			$options = array(
-				'enable' => get_option( 'awsm_jobs_enable_admin_notification' ),
-				'from' => get_option( 'awsm_jobs_admin_from_email_notification', $admin_email ),
-				'reply_to' => get_option( 'awsm_jobs_admin_reply_to_notification', '{applicant-email}' ),
-				'to' => get_option( 'awsm_jobs_admin_to_notification', $hr_email ),
-				'cc' => get_option( 'awsm_jobs_admin_hr_notification' ),
-				'subject' => get_option( 'awsm_jobs_admin_notification_subject', '' ),
-				'content' => get_option( 'awsm_jobs_admin_notification_content', '' ),
+				'enable'        => get_option( 'awsm_jobs_enable_admin_notification' ),
+				'from'          => get_option( 'awsm_jobs_admin_from_email_notification', $admin_email ),
+				'reply_to'      => get_option( 'awsm_jobs_admin_reply_to_notification', '{applicant-email}' ),
+				'to'            => get_option( 'awsm_jobs_admin_to_notification', $hr_email ),
+				'cc'            => get_option( 'awsm_jobs_admin_hr_notification' ),
+				'subject'       => get_option( 'awsm_jobs_admin_notification_subject', '' ),
+				'content'       => get_option( 'awsm_jobs_admin_notification_content', '' ),
 				'html_template' => get_option( 'awsm_jobs_notification_admin_mail_template' ),
 			);
 		}
@@ -672,11 +672,11 @@ class AWSM_Job_Openings_Form {
 			}
 
 			if ( $enable ) {
-				$admin_email = get_option( 'admin_email' );
-				$hr_mail = get_option( 'awsm_hr_email_address' );
+				$admin_email     = get_option( 'admin_email' );
+				$hr_mail         = get_option( 'awsm_hr_email_address' );
 				$applicant_email = $applicant_details['awsm_applicant_email'];
-				$company_name = get_option( 'awsm_job_company_name' );
-				$from = ( ! empty( $company_name ) ) ? $company_name : get_option( 'blogname' );
+				$company_name    = get_option( 'awsm_job_company_name' );
+				$from            = ( ! empty( $company_name ) ) ? $company_name : get_option( 'blogname' );
 
 				$tags             = $this->get_mail_template_tags(
 					$applicant_details,
@@ -692,9 +692,9 @@ class AWSM_Job_Openings_Form {
 				$email_tag_values = array( $admin_email, $hr_mail, $applicant_email );
 
 				if ( ! empty( $options['subject'] ) && ! empty( $options['content'] ) ) {
-					$subject      = str_replace( $tag_names, $tag_values, $options['subject'] );
-					$reply_to     = str_replace( $email_tag_names, $email_tag_values, $options['reply_to'] );
-					$cc = str_replace( $email_tag_names, $email_tag_values, $options['cc'] );
+					$subject  = str_replace( $tag_names, $tag_values, $options['subject'] );
+					$reply_to = str_replace( $email_tag_names, $email_tag_values, $options['reply_to'] );
+					$cc       = str_replace( $email_tag_names, $email_tag_values, $options['cc'] );
 
 					/**
 					 * Filters the applicant or admin notification mail headers.
@@ -733,7 +733,7 @@ class AWSM_Job_Openings_Form {
 					 * @param array $attachments Mail attachments.
 					 * @param array $applicant_details Applicant details.
 					 */
-					$attachments = apply_filters( "awsm_jobs_{$type}_notification_mail_attachments", array(), $applicant_details );
+					$attachments       = apply_filters( "awsm_jobs_{$type}_notification_mail_attachments", array(), $applicant_details );
 					$admin_attachments = $attachments;
 					if ( $type === 'admin' ) {
 						$attachments = ! empty( $attachments ) ? wp_list_pluck( $attachments, 'file' ) : array();

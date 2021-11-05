@@ -3,9 +3,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 	$applicant_options = AWSM_Job_Openings_Form::get_notification_options( 'applicant' );
-	$admin_options = AWSM_Job_Openings_Form::get_notification_options( 'admin' );
-	$from_email                      = $applicant_options['from'];
-	$admin_from_email                = $admin_options['from'];
+	$admin_options     = AWSM_Job_Openings_Form::get_notification_options( 'admin' );
+	$from_email        = $applicant_options['from'];
+	$admin_from_email  = $admin_options['from'];
 
 	$from_email_error_msg = __( "The provided 'From' email address does not belong to this site domain and may lead to issues in email delivery.", 'wp-job-openings' );
 ?>
