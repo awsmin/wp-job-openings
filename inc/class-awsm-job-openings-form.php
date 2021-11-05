@@ -610,266 +610,223 @@ class AWSM_Job_Openings_Form {
 		return apply_filters( 'awsm_jobs_mail_template_tags', $tags, $applicant_details, $options );
 	}
 
-	protected function notification_email( $applicant_details ) {
-		$enable_acknowledgement = get_option( 'awsm_jobs_acknowledgement' );
-		$enable_admin           = get_option( 'awsm_jobs_enable_admin_notification' );
-		if ( $enable_acknowledgement === 'acknowledgement' || $enable_admin === 'enable' ) {
-			$admin_email             = get_option( 'admin_email' );
-			$hr_mail                 = get_option( 'awsm_hr_email_address', '' );
-			$company_name            = get_option( 'awsm_job_company_name', '' );
-			$applicant_cc            = get_option( 'awsm_jobs_hr_notification', $hr_mail );
-			$notifi_subject          = get_option( 'awsm_jobs_notification_subject' );
-			$notifi_content          = get_option( 'awsm_jobs_notification_content' );
-			$admin_to                = get_option( 'awsm_jobs_admin_to_notification', $admin_email );
-			$admin_cc                = get_option( 'awsm_jobs_admin_hr_notification' );
-			$admin_subject           = get_option( 'awsm_jobs_admin_notification_subject' );
-			$admin_content           = get_option( 'awsm_jobs_admin_notification_content' );
-			$applicant_email         = $applicant_details['awsm_applicant_email'];
-			$from                    = ( ! empty( $company_name ) ) ? $company_name : get_option( 'blogname' );
-			$from_email              = get_option( 'awsm_jobs_from_email_notification', $admin_email );
-			$reply_to                = get_option( 'awsm_jobs_reply_to_notification', '' );
-			$admin_reply_to          = get_option( 'awsm_jobs_admin_reply_to_notification', '{applicant-email}' );
-			$admin_from_email        = get_option( 'awsm_jobs_admin_from_email_notification', $admin_email );
-			$applicant_mail_template = get_option( 'awsm_jobs_notification_mail_template' );
-			$admin_mail_template     = get_option( 'awsm_jobs_notification_admin_mail_template' );
-
-			$tags             = $this->get_mail_template_tags(
-				$applicant_details,
-				array(
-					'admin_email'  => $admin_email,
-					'hr_email'     => $hr_mail,
-					'company_name' => $company_name,
-				)
+	/**
+	 * Get the notification options.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param string $type Notification type - applicant or admin
+	 * @return array
+	 */
+	public static function get_notification_options( $type ) {
+		$options = array();
+		$admin_email = get_option( 'admin_email' );
+		$hr_email = get_option( 'awsm_hr_email_address' );
+		if ( $type === 'applicant' ) {
+			$options = array(
+				'acknowledgement' => get_option( 'awsm_jobs_acknowledgement' ),
+				'from' => get_option( 'awsm_jobs_from_email_notification', $admin_email ),
+				'reply_to' => get_option( 'awsm_jobs_reply_to_notification' ),
+				'cc' => get_option( 'awsm_jobs_hr_notification', $hr_email ),
+				'subject' => get_option( 'awsm_jobs_notification_subject', '' ),
+				'content' => get_option( 'awsm_jobs_notification_content', '' ),
+				'html_template' => get_option( 'awsm_jobs_notification_mail_template' ),
 			);
-			$tag_names        = array_keys( $tags );
-			$tag_values       = array_values( $tags );
-			$email_tag_names  = array( '{admin-email}', '{hr-email}', '{applicant-email}' );
-			$email_tag_values = array( $admin_email, $hr_mail, $applicant_email );
+		} elseif ( $type === 'admin' ) {
+			$options = array(
+				'enable' => get_option( 'awsm_jobs_enable_admin_notification' ),
+				'from' => get_option( 'awsm_jobs_admin_from_email_notification', $admin_email ),
+				'reply_to' => get_option( 'awsm_jobs_admin_reply_to_notification', '{applicant-email}' ),
+				'to' => get_option( 'awsm_jobs_admin_to_notification', $hr_email ),
+				'cc' => get_option( 'awsm_jobs_admin_hr_notification' ),
+				'subject' => get_option( 'awsm_jobs_admin_notification_subject', '' ),
+				'content' => get_option( 'awsm_jobs_admin_notification_content', '' ),
+				'html_template' => get_option( 'awsm_jobs_notification_admin_mail_template' ),
+			);
+		}
+		return $options;
+	}
 
-			// phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
-			$header_template = $footer_template = '';
-			if ( $applicant_mail_template === 'enable' || $admin_mail_template === 'enable' ) {
-				// Header mail template.
-				ob_start();
-				include AWSM_Job_Openings::get_template_path( 'header.php', 'mail' );
-				$header_template  = ob_get_clean();
-				$header_template .= '<div style="padding: 0 15px; font-size: 16px; max-width: 512px; margin: 0 auto;">';
+	/**
+	 * Handle applicant and admin notification emails.
+	 *
+	 * @since 3.0.0 The `$data` parameter was added.
+	 *
+	 * @param array $applicant_details Applicant details.
+	 * @param array $data Notification data if provided will override the default.
+	 */
+	protected function notification_email( $applicant_details, $data = array() ) {
+		$types = array( 'applicant', 'admin' );
+		foreach ( $types as $type ) {
+			if ( ! isset( $data[ $type ] ) ) {
+				$data[ $type ] = self::get_notification_options( $type );
+			}
+			$options = $data[ $type ];
 
-				// Footer mail template.
-				ob_start();
-				include AWSM_Job_Openings::get_template_path( 'footer.php', 'mail' );
-				$footer_template  = ob_get_clean();
-				$footer_template .= '</div>';
+			// Check if the notification is enabled or not.
+			$enable = false;
+			if ( $type === 'applicant' ) {
+				$enable = $options['acknowledgement'] === 'acknowledgement';
+			} elseif ( $type === 'admin' ) {
+				$enable = $options['enable'] === 'enable';
 			}
 
-			if ( $enable_acknowledgement === 'acknowledgement' && ! empty( $notifi_subject ) && ! empty( $notifi_content ) ) {
-				$subject      = str_replace( $tag_names, $tag_values, $notifi_subject );
-				$reply_to     = str_replace( $email_tag_names, $email_tag_values, $reply_to );
-				$applicant_cc = str_replace( $email_tag_names, $email_tag_values, $applicant_cc );
+			if ( $enable ) {
+				$admin_email = get_option( 'admin_email' );
+				$hr_mail = get_option( 'awsm_hr_email_address' );
+				$applicant_email = $applicant_details['awsm_applicant_email'];
+				$company_name = get_option( 'awsm_job_company_name' );
+				$from = ( ! empty( $company_name ) ) ? $company_name : get_option( 'blogname' );
 
-				/**
-				 * Filters the applicant notification mail headers.
-				 *
-				 * @since 1.4
-				 *
-				 * @param array $headers Additional headers.
-				 * @param array $applicant_details Applicant details.
-				 */
-				$headers = apply_filters(
-					'awsm_jobs_applicant_notification_mail_headers',
+				$tags             = $this->get_mail_template_tags(
+					$applicant_details,
 					array(
-						'content_type' => 'Content-Type: text/html; charset=UTF-8',
-						'from'         => sprintf( 'From: %1$s <%2$s>', $from, $from_email ),
-						'reply_to'     => 'Reply-To: ' . $reply_to,
-						'cc'           => 'Cc: ' . $applicant_cc,
-					),
-					$applicant_details
+						'admin_email'  => $admin_email,
+						'hr_email'     => $hr_mail,
+						'company_name' => $company_name,
+					)
 				);
+				$tag_names        = array_keys( $tags );
+				$tag_values       = array_values( $tags );
+				$email_tag_names  = array( '{admin-email}', '{hr-email}', '{applicant-email}' );
+				$email_tag_values = array( $admin_email, $hr_mail, $applicant_email );
 
-				$reply_to = trim( str_replace( 'Reply-To:', '', $headers['reply_to'] ) );
-				if ( empty( $reply_to ) ) {
-					unset( $headers['reply_to'] );
-				}
-
-				$cc = trim( str_replace( 'Cc:', '', $headers['cc'] ) );
-				if ( empty( $cc ) ) {
-					unset( $headers['cc'] );
-				}
-
-				/**
-				 * Filters the applicant notification mail attachments.
-				 *
-				 * @since 1.4
-				 *
-				 * @param array $attachments Mail attachments.
-				 * @param array $applicant_details Applicant details.
-				 */
-				$attachments = apply_filters( 'awsm_jobs_applicant_notification_mail_attachments', array(), $applicant_details );
-
-				$mail_content = nl2br( $notifi_content );
-				if ( $applicant_mail_template === 'enable' ) {
-					$template = $header_template . $mail_content . $footer_template;
-					/**
-					 * Filters the applicant notification mail template.
-					 *
-					 * @since 2.0.0
-					 *
-					 * @param string $template Mail template.
-					 * @param array $template_data Mail template data.
-					 * @param array $applicant_details Applicant details.
-					 */
-					$mail_content = apply_filters(
-						'awsm_jobs_applicant_notification_mail_template',
-						$template,
-						array(
-							'header' => $header_template,
-							'main'   => $mail_content,
-							'footer' => $footer_template,
-						),
-						$applicant_details
-					);
-				}
-
-				$mail_content = str_replace( $tag_names, $tag_values, $mail_content );
-
-				// Now, send mail to the applicant.
-				$is_mail_send = wp_mail( $applicant_email, $subject, $mail_content, array_values( $headers ), $attachments );
-
-				if ( $is_mail_send ) {
-					$current_time = current_time( 'mysql' );
-					$mails_data   = array(
-						array(
-							'send_by'      => 0,
-							'mail_date'    => $current_time,
-							'cc'           => $applicant_cc,
-							'subject'      => $subject,
-							'mail_content' => str_replace( $tag_names, $tag_values, nl2br( $notifi_content ) ),
-						),
-					);
-					update_post_meta( $applicant_details['application_id'], 'awsm_application_mails', $mails_data );
+				if ( ! empty( $options['subject'] ) && ! empty( $options['content'] ) ) {
+					$subject      = str_replace( $tag_names, $tag_values, $options['subject'] );
+					$reply_to     = str_replace( $email_tag_names, $email_tag_values, $options['reply_to'] );
+					$cc = str_replace( $email_tag_names, $email_tag_values, $options['cc'] );
 
 					/**
-					 * Fires when applicant notification mail is successfully sent.
+					 * Filters the applicant or admin notification mail headers.
 					 *
 					 * @since 1.4
 					 *
+					 * @param array $headers Additional headers.
 					 * @param array $applicant_details Applicant details.
 					 */
-					do_action( 'awsm_job_applicant_mail_sent', $applicant_details );
-				} else {
-					/**
-					 * Fires when applicant notification mail is failed to send.
-					 *
-					 * @since 1.4
-					 *
-					 * @param array $applicant_details Applicant details.
-					 */
-					do_action( 'awsm_job_applicant_mail_failed', $applicant_details );
-				}
-			}
-
-			if ( $enable_admin === 'enable' && ! empty( $admin_subject ) && ! empty( $admin_content ) ) {
-				$to       = str_replace( $email_tag_names, $email_tag_values, $admin_to );
-				$subject  = str_replace( $tag_names, $tag_values, $admin_subject );
-				$reply_to = str_replace( $email_tag_names, $email_tag_values, $admin_reply_to );
-				$admin_cc = str_replace( $email_tag_names, $email_tag_values, $admin_cc );
-
-				/**
-				 * Filters the admin notification mail headers.
-				 *
-				 * @since 1.4
-				 *
-				 * @param array $headers Additional headers
-				 * @param array $applicant_details Applicant details
-				 */
-				$admin_headers = apply_filters(
-					'awsm_jobs_admin_notification_mail_headers',
-					array(
-						'content_type' => 'Content-Type: text/html; charset=UTF-8',
-						'from'         => sprintf( 'From: %1$s <%2$s>', $from, $admin_from_email ),
-						'reply_to'     => 'Reply-To: ' . $reply_to,
-						'cc'           => 'Cc: ' . $admin_cc,
-					),
-					$applicant_details
-				);
-
-				$reply_to = trim( str_replace( 'Reply-To:', '', $admin_headers['reply_to'] ) );
-				if ( empty( $reply_to ) ) {
-					unset( $admin_headers['reply_to'] );
-				}
-
-				$cc = trim( str_replace( 'Cc:', '', $admin_headers['cc'] ) );
-				if ( empty( $cc ) ) {
-					unset( $admin_headers['cc'] );
-				}
-
-				/**
-				 * Filters the admin notification mail attachments.
-				 *
-				 * @since 1.4
-				 *
-				 * @param array $attachments_details Attachments details.
-				 * @param array $applicant_details Applicant details.
-				 */
-				$attachments_details = apply_filters( 'awsm_jobs_admin_notification_mail_attachments', array(), $applicant_details );
-				$attachments         = ! empty( $attachments_details ) ? wp_list_pluck( $attachments_details, 'file' ) : array();
-
-				$mail_content = nl2br( $admin_content );
-				if ( $admin_mail_template === 'enable' ) {
-					$template = $header_template . $mail_content . $footer_template;
-					/**
-					 * Filters the admin notification mail template.
-					 *
-					 * @since 2.0.0
-					 *
-					 * @param string $template Mail template.
-					 * @param array $template_data Mail template data.
-					 * @param array $applicant_details Applicant details.
-					 */
-					$mail_content = apply_filters(
-						'awsm_jobs_admin_notification_mail_template',
-						$template,
+					$headers = apply_filters(
+						"awsm_jobs_{$type}_notification_mail_headers",
 						array(
-							'header' => $header_template,
-							'main'   => $mail_content,
-							'footer' => $footer_template,
+							'content_type' => 'Content-Type: text/html; charset=UTF-8',
+							'from'         => sprintf( 'From: %1$s <%2$s>', $from, $options['from'] ),
+							'reply_to'     => 'Reply-To: ' . $reply_to,
+							'cc'           => 'Cc: ' . $cc,
 						),
 						$applicant_details
 					);
-				}
 
-				$mail_content = str_replace( $tag_names, $tag_values, $mail_content );
+					$reply_to = trim( str_replace( 'Reply-To:', '', $headers['reply_to'] ) );
+					if ( empty( $reply_to ) ) {
+						unset( $headers['reply_to'] );
+					}
 
-				// Now, send mail to the admin.
-				$is_mail_send = wp_mail( $to, $subject, $mail_content, array_values( $admin_headers ), $attachments );
-
-				if ( $is_mail_send ) {
-					if ( ! empty( $attachments_details ) ) {
-						foreach ( $attachments_details as $attachment_details ) {
-							// Now, delete temporarily created files after mail is send.
-							if ( isset( $attachment_details['temp'] ) && $attachment_details['temp'] === true ) {
-								unlink( $attachment_details['file'] );
-							}
-						}
+					$mail_cc = trim( str_replace( 'Cc:', '', $headers['cc'] ) );
+					if ( empty( $mail_cc ) ) {
+						unset( $headers['cc'] );
 					}
 
 					/**
-					 * Fires when admin notification mail is successfully sent.
+					 * Filters the applicant or admin notification mail attachments.
 					 *
 					 * @since 1.4
 					 *
+					 * @param array $attachments Mail attachments.
 					 * @param array $applicant_details Applicant details.
 					 */
-					do_action( 'awsm_job_admin_mail_sent', $applicant_details );
-				} else {
-					/**
-					 * Fires when admin notification mail is failed to send.
-					 *
-					 * @since 1.4
-					 *
-					 * @param array $applicant_details Applicant details.
-					 */
-					do_action( 'awsm_job_admin_mail_failed', $applicant_details );
+					$attachments = apply_filters( "awsm_jobs_{$type}_notification_mail_attachments", array(), $applicant_details );
+					$admin_attachments = $attachments;
+					if ( $type === 'admin' ) {
+						$attachments = ! empty( $attachments ) ? wp_list_pluck( $attachments, 'file' ) : array();
+					}
+
+					$mail_content = nl2br( $options['content'] );
+					if ( $options['html_template'] === 'enable' ) {
+						// Header mail template.
+						ob_start();
+						include AWSM_Job_Openings::get_template_path( 'header.php', 'mail' );
+						$header_template  = ob_get_clean();
+						$header_template .= '<div style="padding: 0 15px; font-size: 16px; max-width: 512px; margin: 0 auto;">';
+
+						// Footer mail template.
+						ob_start();
+						include AWSM_Job_Openings::get_template_path( 'footer.php', 'mail' );
+						$footer_template  = ob_get_clean();
+						$footer_template .= '</div>';
+
+						$template = $header_template . $mail_content . $footer_template;
+						/**
+						 * Filters the applicant or admin notification mail template.
+						 *
+						 * @since 2.0.0
+						 *
+						 * @param string $template Mail template.
+						 * @param array $template_data Mail template data.
+						 * @param array $applicant_details Applicant details.
+						 */
+						$mail_content = apply_filters(
+							"awsm_jobs_{$type}_notification_mail_template",
+							$template,
+							array(
+								'header' => $header_template,
+								'main'   => $mail_content,
+								'footer' => $footer_template,
+							),
+							$applicant_details
+						);
+					}
+
+					$mail_content = str_replace( $tag_names, $tag_values, $mail_content );
+
+					$to = $applicant_email;
+					if ( $type !== 'applicant' ) {
+						$to = str_replace( $email_tag_names, $email_tag_values, $options['to'] );
+					}
+					// Now, send the mail.
+					$is_mail_send = wp_mail( $to, $subject, $mail_content, array_values( $headers ), $attachments );
+
+					if ( $is_mail_send ) {
+						if ( $type === 'applicant' ) {
+							// Save the applicant notification details.
+							$current_time = current_time( 'mysql' );
+							$mails_data   = array(
+								array(
+									'send_by'      => 0,
+									'mail_date'    => $current_time,
+									'cc'           => $cc,
+									'subject'      => $subject,
+									'mail_content' => str_replace( $tag_names, $tag_values, nl2br( $options['content'] ) ),
+								),
+							);
+							update_post_meta( $applicant_details['application_id'], 'awsm_application_mails', $mails_data );
+						} elseif ( $type === 'admin' ) {
+							// Remove the admin notification attachments after the mail is sent (requires a specific structure for each attachment).
+							if ( ! empty( $admin_attachments ) ) {
+								foreach ( $admin_attachments as $admin_attachment ) {
+									if ( isset( $admin_attachment['temp'] ) && $admin_attachment['temp'] === true ) {
+										unlink( $admin_attachment['file'] );
+									}
+								}
+							}
+						}
+
+						/**
+						 * Fires when applicant or admin notification mail is successfully sent.
+						 *
+						 * @since 1.4
+						 *
+						 * @param array $applicant_details Applicant details.
+						 */
+						do_action( "awsm_job_{$type}_mail_sent", $applicant_details );
+					} else {
+						/**
+						 * Fires when applicant or admin notification mail is failed to send.
+						 *
+						 * @since 1.4
+						 *
+						 * @param array $applicant_details Applicant details.
+						 */
+						do_action( "awsm_job_{$type}_mail_failed", $applicant_details );
+					}
 				}
 			}
 		}
