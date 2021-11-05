@@ -4,8 +4,9 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9f18eefbd6f6831181b0114b9a8c2f67",
-    "packages": [
+    "content-hash": "b46b46e026a2558a35d75b3fb58aef25",
+    "packages": [],
+    "packages-dev": [
         {
             "name": "dealerdirect/phpcodesniffer-composer-installer",
             "version": "v0.7.1",
@@ -78,16 +79,16 @@
         },
         {
             "name": "php-stubs/wordpress-stubs",
-            "version": "v5.8.0",
+            "version": "v5.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-stubs/wordpress-stubs.git",
-                "reference": "794e6eedfd5f2a334d581214c007fc398be588fe"
+                "reference": "8b333464d3183bccde2fdbb814e3cae592434943"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-stubs/wordpress-stubs/zipball/794e6eedfd5f2a334d581214c007fc398be588fe",
-                "reference": "794e6eedfd5f2a334d581214c007fc398be588fe",
+                "url": "https://api.github.com/repos/php-stubs/wordpress-stubs/zipball/8b333464d3183bccde2fdbb814e3cae592434943",
+                "reference": "8b333464d3183bccde2fdbb814e3cae592434943",
                 "shasum": ""
             },
             "replace": {
@@ -116,9 +117,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-stubs/wordpress-stubs/issues",
-                "source": "https://github.com/php-stubs/wordpress-stubs/tree/v5.8.0"
+                "source": "https://github.com/php-stubs/wordpress-stubs/tree/v5.8.1"
             },
-            "time": "2021-07-21T02:34:37+00:00"
+            "time": "2021-09-09T22:10:19+00:00"
         },
         {
             "name": "phpcompatibility/php-compatibility",
@@ -294,16 +295,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.12.99",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "b4d40f1d759942f523be267a1bab6884f46ca3f7"
+                "reference": "e9e2a501102ba0b126b2f63a7f0a3b151056fe91"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/b4d40f1d759942f523be267a1bab6884f46ca3f7",
-                "reference": "b4d40f1d759942f523be267a1bab6884f46ca3f7",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/e9e2a501102ba0b126b2f63a7f0a3b151056fe91",
+                "reference": "e9e2a501102ba0b126b2f63a7f0a3b151056fe91",
                 "shasum": ""
             },
             "require": {
@@ -319,7 +320,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.12-dev"
+                    "dev-master": "1.0-dev"
                 }
             },
             "autoload": {
@@ -334,7 +335,7 @@
             "description": "PHPStan - PHP Static Analysis Tool",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/0.12.99"
+                "source": "https://github.com/phpstan/phpstan/tree/1.0.2"
             },
             "funding": [
                 {
@@ -354,20 +355,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-09-12T20:09:55+00:00"
+            "time": "2021-11-03T16:09:51+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "3.6.0",
+            "version": "3.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "ffced0d2c8fa8e6cdc4d695a743271fab6c38625"
+                "reference": "f268ca40d54617c6e06757f83f699775c9b3ff2e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/ffced0d2c8fa8e6cdc4d695a743271fab6c38625",
-                "reference": "ffced0d2c8fa8e6cdc4d695a743271fab6c38625",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/f268ca40d54617c6e06757f83f699775c9b3ff2e",
+                "reference": "f268ca40d54617c6e06757f83f699775c9b3ff2e",
                 "shasum": ""
             },
             "require": {
@@ -410,7 +411,7 @@
                 "source": "https://github.com/squizlabs/PHP_CodeSniffer",
                 "wiki": "https://github.com/squizlabs/PHP_CodeSniffer/wiki"
             },
-            "time": "2021-04-09T00:54:41+00:00"
+            "time": "2021-10-11T04:00:11+00:00"
         },
         {
             "name": "symfony/polyfill-php73",
@@ -493,30 +494,32 @@
         },
         {
             "name": "szepeviktor/phpstan-wordpress",
-            "version": "v0.6.6",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/szepeviktor/phpstan-wordpress.git",
-                "reference": "f5040549dc5f46d81ea2432de726c2a0a4ad1141"
+                "reference": "ae7f2676776000b7627f2644ab05e0f233061509"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/szepeviktor/phpstan-wordpress/zipball/f5040549dc5f46d81ea2432de726c2a0a4ad1141",
-                "reference": "f5040549dc5f46d81ea2432de726c2a0a4ad1141",
+                "url": "https://api.github.com/repos/szepeviktor/phpstan-wordpress/zipball/ae7f2676776000b7627f2644ab05e0f233061509",
+                "reference": "ae7f2676776000b7627f2644ab05e0f233061509",
                 "shasum": ""
             },
             "require": {
-                "php": "~7.1",
+                "php": "^7.1 || ^8.0",
                 "php-stubs/wordpress-stubs": "^4.7 || ^5.0",
-                "phpstan/phpstan": "^0.12.26",
+                "phpstan/phpstan": "^1.0",
                 "symfony/polyfill-php73": "^1.12.0"
             },
             "require-dev": {
-                "composer/composer": "^1.8.6",
-                "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
+                "composer/composer": "^1.10.23",
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.7",
+                "nikic/php-parser": "< 4.13.0",
                 "php-parallel-lint/php-parallel-lint": "^1.1",
-                "phpstan/phpstan-strict-rules": "^0.12",
-                "szepeviktor/phpcs-psr-12-neutron-hybrid-ruleset": "^0.4.3"
+                "phpstan/phpstan-strict-rules": "^1.0",
+                "phpunit/phpunit": "^7 || ^9",
+                "szepeviktor/phpcs-psr-12-neutron-hybrid-ruleset": "^0.6"
             },
             "type": "phpstan-extension",
             "extra": {
@@ -528,7 +531,7 @@
             },
             "autoload": {
                 "psr-4": {
-                    "PHPStan\\WordPress\\": "src/"
+                    "SzepeViktor\\PHPStan\\WordPress\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -545,7 +548,7 @@
             ],
             "support": {
                 "issues": "https://github.com/szepeviktor/phpstan-wordpress/issues",
-                "source": "https://github.com/szepeviktor/phpstan-wordpress/tree/v0.6.6"
+                "source": "https://github.com/szepeviktor/phpstan-wordpress/tree/v1.0.0"
             },
             "funding": [
                 {
@@ -553,7 +556,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2020-10-18T12:11:45+00:00"
+            "time": "2021-11-01T11:33:01+00:00"
         },
         {
             "name": "wp-coding-standards/wpcs",
@@ -607,7 +610,6 @@
             "time": "2020-05-13T23:57:56+00:00"
         }
     ],
-    "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": [],
