@@ -1,4 +1,4 @@
-name: WordPress Coding Standards
+name: WP Job Openings Coding Standards
 
 on:
   push:
@@ -31,3 +31,6 @@ jobs:
 
     - name: Run phpcs
       run: composer run-script phpcs-l .
+
+    - name: Run phpstan
+      run: composer run-script phpstan
