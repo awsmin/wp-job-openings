@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9f18eefbd6f6831181b0114b9a8c2f67",
+    "content-hash": "c3dd3985f16f43ae0fcbf4b4b72d6687",
     "packages": [
         {
             "name": "dealerdirect/phpcodesniffer-composer-installer",
@@ -78,16 +78,16 @@
         },
         {
             "name": "php-stubs/wordpress-stubs",
-            "version": "v5.8.0",
+            "version": "v5.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-stubs/wordpress-stubs.git",
-                "reference": "794e6eedfd5f2a334d581214c007fc398be588fe"
+                "reference": "8b333464d3183bccde2fdbb814e3cae592434943"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-stubs/wordpress-stubs/zipball/794e6eedfd5f2a334d581214c007fc398be588fe",
-                "reference": "794e6eedfd5f2a334d581214c007fc398be588fe",
+                "url": "https://api.github.com/repos/php-stubs/wordpress-stubs/zipball/8b333464d3183bccde2fdbb814e3cae592434943",
+                "reference": "8b333464d3183bccde2fdbb814e3cae592434943",
                 "shasum": ""
             },
             "replace": {
@@ -116,9 +116,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-stubs/wordpress-stubs/issues",
-                "source": "https://github.com/php-stubs/wordpress-stubs/tree/v5.8.0"
+                "source": "https://github.com/php-stubs/wordpress-stubs/tree/v5.8.1"
             },
-            "time": "2021-07-21T02:34:37+00:00"
+            "time": "2021-09-09T22:10:19+00:00"
         },
         {
             "name": "phpcompatibility/php-compatibility",
@@ -358,16 +358,16 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "3.6.0",
+            "version": "3.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "ffced0d2c8fa8e6cdc4d695a743271fab6c38625"
+                "reference": "f268ca40d54617c6e06757f83f699775c9b3ff2e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/ffced0d2c8fa8e6cdc4d695a743271fab6c38625",
-                "reference": "ffced0d2c8fa8e6cdc4d695a743271fab6c38625",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/f268ca40d54617c6e06757f83f699775c9b3ff2e",
+                "reference": "f268ca40d54617c6e06757f83f699775c9b3ff2e",
                 "shasum": ""
             },
             "require": {
@@ -410,7 +410,7 @@
                 "source": "https://github.com/squizlabs/PHP_CodeSniffer",
                 "wiki": "https://github.com/squizlabs/PHP_CodeSniffer/wiki"
             },
-            "time": "2021-04-09T00:54:41+00:00"
+            "time": "2021-10-11T04:00:11+00:00"
         },
         {
             "name": "symfony/polyfill-php73",
