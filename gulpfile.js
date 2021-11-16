@@ -5,41 +5,41 @@
  * @since 1.0.0
  */
 
-'use strict';
+"use strict";
 
 /*============================= Dependencies =============================*/
 
-const gulp = require('gulp'),
-	config = require('./config'),
-	concat = require('gulp-concat'),
-	rename = require('gulp-rename'),
-	lineEC = require('gulp-line-ending-corrector'),
-	bs = require('browser-sync').create();
+const gulp = require("gulp"),
+	config = require("./config"),
+	concat = require("gulp-concat"),
+	rename = require("gulp-rename"),
+	lineEC = require("gulp-line-ending-corrector"),
+	bs = require("browser-sync").create();
 
 /* --- Dependencies: css --- */
-const cleanCSS = require('gulp-clean-css'), // Minify CSS
-	autoprefixer = require('gulp-autoprefixer');
+const cleanCSS = require("gulp-clean-css"), // Minify CSS
+	autoprefixer = require("gulp-autoprefixer");
 
 /* --- Dependencies: js --- */
-const uglify = require('gulp-uglify'), // Minify JavaScript
-	stripDebug = require('gulp-strip-debug'); // Remove debugging stuffs
+const uglify = require("gulp-uglify"), // Minify JavaScript
+	stripDebug = require("gulp-strip-debug"); // Remove debugging stuffs
 
 /* --- Dependencies: i18n --- */
-const wpPot = require('gulp-wp-pot'),
-	sort = require('gulp-sort');
+const wpPot = require("gulp-wp-pot"),
+	sort = require("gulp-sort");
 
 /*================================= Tasks =================================*/
 
-let init = (cb) => {
-	console.log('-------------------------------------------');
-	console.log('<<<<<-------- WP Job Openings -------->>>>>');
-	console.log('-------------------------------------------');
+let init = cb => {
+	console.log("-------------------------------------------");
+	console.log("<<<<<-------- WP Job Openings -------->>>>>");
+	console.log("-------------------------------------------");
 	cb();
 };
 
 /* --- Tasks: Browsersync --- */
 
-let browserSync = (cb) => {
+let browserSync = cb => {
 	bs.init({
 		ghostMode: false,
 		proxy: config.previewURL,
@@ -47,40 +47,40 @@ let browserSync = (cb) => {
 	});
 	cb();
 };
-let bsReload = (cb) => {
+let bsReload = cb => {
 	bs.reload();
 	cb();
 };
 browserSync.description = `Initialize Browsersync and proxy ${config.previewURL}`;
-gulp.task('browser-sync', browserSync);
+gulp.task("browser-sync", browserSync);
 
 /* --- Tasks: CSS --- */
 
 for (let type in config.style) {
 	let styleTask = () => {
 		let src =
-			type === 'general'
-				? [ config.style.general.src + '*.css' ]
+			type === "general"
+				? [config.style.general.src + "*.css"]
 				: [
-						config.style[type].src + 'vendors/*.css',
-						config.style[type].src + 'includes/*.css',
-						config.style[type].src + '*.css'
-					];
+						config.style[type].src + "vendors/*.css",
+						config.style[type].src + "includes/*.css",
+						config.style[type].src + "*.css"
+				  ];
 		let outputName = config.style[type].outputName;
 		let dest = config.style[type].dest;
 
 		return gulp
-			.src(src, { sourcemaps: config.debug ? true : false })
+			.src(src, {sourcemaps: config.debug ? true : false})
 			.pipe(concat(outputName))
 			.pipe(autoprefixer())
-			.pipe(cleanCSS({ compatibility: 'ie9' }))
-			.pipe(rename({ suffix: '.min' }))
+			.pipe(cleanCSS({compatibility: "ie9"}))
+			.pipe(rename({suffix: ".min"}))
 			.pipe(lineEC())
-			.pipe(gulp.dest(dest, { sourcemaps: config.debug ? '.' : false }));
+			.pipe(gulp.dest(dest, {sourcemaps: config.debug ? "." : false}));
 	};
 	let loadStyleTask = () => {
 		let src = config.style[type].dest;
-		return gulp.src(src + '*.css').pipe(bs.stream());
+		return gulp.src(src + "*.css").pipe(bs.stream());
 	};
 	styleTask.description = `Concatenate ${type} styles and minify it`;
 	gulp.task(`${type}-style`, styleTask);
@@ -91,20 +91,23 @@ for (let type in config.style) {
 
 for (let type in config.scripts) {
 	let scriptTask = () => {
-		let src = [ config.scripts[type].src + 'vendors/*.js', config.scripts[type].src + '*.js' ];
+		let src = [
+			config.scripts[type].src + "vendors/*.js",
+			config.scripts[type].src + "*.js"
+		];
 		let outputName = config.scripts[type].outputName;
 		let dest = config.scripts[type].dest;
 
-		let stream = gulp.src(src, { sourcemaps: config.debug ? true : false });
+		let stream = gulp.src(src, {sourcemaps: config.debug ? true : false});
 		if (!config.debug) {
 			stream = stream.pipe(stripDebug());
 		}
 		stream = stream
 			.pipe(concat(outputName))
 			.pipe(uglify())
-			.pipe(rename({ suffix: '.min' }))
+			.pipe(rename({suffix: ".min"}))
 			.pipe(lineEC())
-			.pipe(gulp.dest(dest, { sourcemaps: config.debug ? '.' : false }));
+			.pipe(gulp.dest(dest, {sourcemaps: config.debug ? "." : false}));
 		return stream;
 	};
 	scriptTask.description = `Concatenate ${type} js files and minify it`;
@@ -116,7 +119,7 @@ for (let type in config.scripts) {
 
 let i18n = () => {
 	return gulp
-		.src([ './**/*.php', '!./build/**/*.php', '!./vendor/**/*.php' ])
+		.src(["./**/*.php", "!./build/**/*.php", "!./vendor/**/*.php"])
 		.pipe(sort())
 		.pipe(
 			wpPot({
@@ -127,66 +130,62 @@ let i18n = () => {
 		)
 		.pipe(gulp.dest(config.translation.dest));
 };
-i18n.description = 'Generates pot file for plugin localization';
-gulp.task('translate', i18n);
+i18n.description = "Generates pot file for plugin localization";
+gulp.task("translate", i18n);
+
+/* --- Generic Tasks --- */
+
+const genericTasks = [
+	"general-style",
+	"public-style",
+	"admin-style",
+	"admin-global-style",
+	"admin-overview-style",
+	"public-scripts",
+	"admin-scripts",
+	"admin-overview-scripts"
+];
 
 /* --- Tasks: Watch files for any change --- */
 
 let watchFiles = () => {
-	gulp.watch('./**/*.php', bsReload);
+	gulp.watch("./**/*.php", bsReload);
 	for (let type in config.style) {
-		gulp.watch(config.style[type].src + '**/*.css', gulp.series(`load-${type}-styles`));
+		gulp.watch(
+			config.style[type].src + "**/*.css",
+			gulp.series(`load-${type}-styles`)
+		);
 	}
 	for (let type in config.scripts) {
-		gulp.watch(config.scripts[type].src + '**/*.js', gulp.series(`load-${type}-scripts`));
+		gulp.watch(
+			config.scripts[type].src + "**/*.js",
+			gulp.series(`load-${type}-scripts`)
+		);
 	}
 };
-watchFiles.description = 'Watch PHP, JS and CSS files for any change';
+watchFiles.description = "Watch PHP, JS and CSS files for any change";
 gulp.task(
-	'watch',
-	gulp.series(
-		browserSync,
-		gulp.parallel(
-			'general-style',
-			'public-style',
-			'admin-style',
-			'admin-global-style',
-			'public-scripts',
-			'admin-scripts'
-		),
-		watchFiles
-	)
+	"watch",
+	gulp.series(browserSync, gulp.parallel(...genericTasks), watchFiles)
 );
 
 /* --- Tasks: Default tasks --- */
+
 gulp.task(
-	'default',
+	"default",
 	gulp.series(
 		init,
-		gulp.parallel(
-			'general-style',
-			'public-style',
-			'admin-style',
-			'admin-global-style',
-			'public-scripts',
-			'admin-scripts'
-		),
+		gulp.parallel(...genericTasks),
 		browserSync
 	)
 );
 
 /* --- Tasks: Build tasks --- */
+
 gulp.task(
-	'build',
+	"build",
 	gulp.series(
 		init,
-		gulp.parallel(
-			'general-style',
-			'public-style',
-			'admin-style',
-			'admin-global-style',
-			'public-scripts',
-			'admin-scripts'
-		)
+		gulp.parallel(...genericTasks)
 	)
 );
