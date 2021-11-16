@@ -62,6 +62,7 @@ class AWSM_Job_Openings {
 		AWSM_Job_Openings_Mail_Customizer::init();
 		AWSM_Job_Openings_Filters::init();
 		if ( is_admin() ) {
+			AWSM_Job_Openings_Overview::init();
 			AWSM_Job_Openings_Meta::init();
 			AWSM_Job_Openings_Settings::init( $this->awsm_core );
 			AWSM_Job_Openings_Info::init();
@@ -106,7 +107,7 @@ class AWSM_Job_Openings {
 			require_once AWSM_JOBS_PLUGIN_DIR . "/inc/{$prefix}-{$class}.php";
 		}
 		if ( is_admin() ) {
-			$classes = array( 'meta', 'settings', 'info' );
+			$classes = array( 'overview', 'meta', 'settings', 'info' );
 			foreach ( $classes as $class ) {
 				require_once AWSM_JOBS_PLUGIN_DIR . "/admin/{$prefix}-{$class}.php";
 			}
@@ -307,14 +308,24 @@ class AWSM_Job_Openings {
 		return $link;
 	}
 
-	public static function get_recent_applications( $number_posts = 5, $most_recent = true, $fields = 'all' ) {
-		$args = array(
+	public static function get_all_applications( $fields = 'ids', $extra_args = array() ) {
+		$defaults = array(
 			'post_type'   => 'awsm_job_application',
-			'numberposts' => $number_posts,
+			'numberposts' => -1,
 			'orderby'     => 'date',
 			'order'       => 'DESC',
-			'post_status' => 'publish',
+			'post_status' => 'any',
 			'fields'      => $fields,
+		);
+		$args = wp_parse_args( $extra_args, $defaults );
+		$applications = get_posts( $args );
+		return $applications;
+	}
+
+	public static function get_recent_applications( $number_posts = 5, $most_recent = true, $fields = 'all' ) {
+		$args = array(
+			'numberposts' => $number_posts,
+			'post_status' => 'publish',
 		);
 		if ( $most_recent ) {
 			$args['date_query'] = array(
@@ -324,7 +335,7 @@ class AWSM_Job_Openings {
 				),
 			);
 		}
-		$applications = get_posts( $args );
+		$applications = self::get_all_applications( $fields, $args );
 		return $applications;
 	}
 
@@ -958,14 +969,23 @@ class AWSM_Job_Openings {
 
 		wp_register_style( 'awsm-job-admin-global', AWSM_JOBS_PLUGIN_URL . '/assets/css/admin-global.min.css', array(), AWSM_JOBS_PLUGIN_VERSION, 'all' );
 		wp_register_style( 'awsm-job-admin', AWSM_JOBS_PLUGIN_URL . '/assets/css/admin.min.css', array( 'wp-color-picker', 'awsm-jobs-general', 'awsm-job-admin-global' ), AWSM_JOBS_PLUGIN_VERSION, 'all' );
+		wp_register_style( 'awsm-job-admin-overview', AWSM_JOBS_PLUGIN_URL . '/assets/css/admin-overview.min.css', array(), AWSM_JOBS_PLUGIN_VERSION, 'all' );
+
+		wp_register_script( 'chart-js', AWSM_JOBS_PLUGIN_URL . '/assets/js/chart.min.js', array(), '3.6.0', true );
 
 		wp_register_script( 'awsm-job-admin', AWSM_JOBS_PLUGIN_URL . '/assets/js/admin.min.js', $script_deps, AWSM_JOBS_PLUGIN_VERSION, true );
+		wp_register_script( 'awsm-job-admin-overview', AWSM_JOBS_PLUGIN_URL . '/assets/js/admin-overview.min.js', array( 'awsm-job-admin', 'chart-js', 'postbox', 'wp-lists' ), AWSM_JOBS_PLUGIN_VERSION, true );
 
 		wp_enqueue_style( 'awsm-job-admin-global' );
 		if ( $is_job_page ) {
 			wp_enqueue_style( 'awsm-jobs-general' );
 			wp_enqueue_style( 'awsm-job-admin' );
 			wp_enqueue_script( 'awsm-job-admin' );
+
+			if ( $screen->id === AWSM_Job_Openings_Overview::$screen_id ) {
+				wp_enqueue_style( 'awsm-job-admin-overview' );
+				wp_enqueue_script( 'awsm-job-admin-overview' );
+			}
 		}
 
 		wp_localize_script(
@@ -984,6 +1004,18 @@ class AWSM_Job_Openings {
 						'title'    => esc_html__( 'Select or Upload an Image', 'wp-job-openings' ),
 						'btn_text' => esc_html__( 'Choose', 'wp-job-openings' ),
 					),
+				),
+			)
+		);
+
+		wp_localize_script(
+			'awsm-job-admin-overview',
+			'awsmJobsAdminOverview',
+			array(
+				'screen_id' => AWSM_Job_Openings_Overview::$screen_id,
+				'analytics_data' => AWSM_Job_Openings_Overview::get_applications_analytics_data(),
+				'i18n' => array(
+					'chart_label' => esc_html__( 'Applications', 'wp-job-openings' ),
 				),
 			)
 		);
