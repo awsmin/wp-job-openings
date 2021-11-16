@@ -114,8 +114,10 @@ class AWSM_Job_Openings_Dashboard_Widget {
 	}
 
 	public static function get_active_jobs( $numberjobs = 5 ) {
-		global $wpdb;
-		$results = $wpdb->get_results( $wpdb->prepare( "SELECT {$wpdb->posts}.ID, count(applications.ID) as applications_count FROM {$wpdb->posts} INNER JOIN {$wpdb->posts} as applications ON {$wpdb->posts}.ID = applications.post_parent WHERE {$wpdb->posts}.post_type = 'awsm_job_openings' AND applications.post_type = 'awsm_job_application' AND {$wpdb->posts}.post_status = 'publish' group by applications.post_parent ORDER BY applications_count DESC LIMIT 0, %d", $numberjobs ), OBJECT );
+		$results = AWSM_Job_Openings_Overview::get_jobs( array(
+			'numberjobs' => $numberjobs,
+			'job_status' => 'publish',
+		) );
 		return $results;
 	}
 
