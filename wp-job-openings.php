@@ -309,7 +309,7 @@ class AWSM_Job_Openings {
 	}
 
 	public static function get_all_applications( $fields = 'ids', $extra_args = array() ) {
-		$defaults = array(
+		$defaults     = array(
 			'post_type'   => 'awsm_job_application',
 			'numberposts' => -1,
 			'orderby'     => 'date',
@@ -317,7 +317,7 @@ class AWSM_Job_Openings {
 			'post_status' => 'any',
 			'fields'      => $fields,
 		);
-		$args = wp_parse_args( $extra_args, $defaults );
+		$args         = wp_parse_args( $extra_args, $defaults );
 		$applications = get_posts( $args );
 		return $applications;
 	}
@@ -1012,9 +1012,9 @@ class AWSM_Job_Openings {
 			'awsm-job-admin-overview',
 			'awsmJobsAdminOverview',
 			array(
-				'screen_id' => AWSM_Job_Openings_Overview::$screen_id,
+				'screen_id'      => AWSM_Job_Openings_Overview::$screen_id,
 				'analytics_data' => AWSM_Job_Openings_Overview::get_applications_analytics_data(),
-				'i18n' => array(
+				'i18n'           => array(
 					'chart_label' => esc_html__( 'Applications', 'wp-job-openings' ),
 				),
 			)

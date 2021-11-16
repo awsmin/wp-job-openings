@@ -27,7 +27,7 @@ class AWSM_Job_Openings_Overview {
 	}
 
 	public function get_widget_path( $basename, $custom_id = false ) {
-		$path = $this->cpath . "/templates/overview/widgets/{$basename}.php";
+		$path      = $this->cpath . "/templates/overview/widgets/{$basename}.php";
 		$unique_id = self::$menu_slug . '-' . $basename;
 		if ( ! empty( $custom_id ) ) {
 			$unique_id = $custom_id;
@@ -69,30 +69,30 @@ class AWSM_Job_Openings_Overview {
 	public function register_overview_widgets() {
 		$widgets = array(
 			'applications-analytics' => array(
-				'name' => esc_html__( 'Applications Analytics', 'wp-job-openings' ),
+				'name'     => esc_html__( 'Applications Analytics', 'wp-job-openings' ),
 				'priority' => 'high',
 			),
-			'get-started' => array(
-				'name' => esc_html__( 'Get Started', 'wp-job-openings' ),
-				'context' => 'side',
+			'get-started'            => array(
+				'name'     => esc_html__( 'Get Started', 'wp-job-openings' ),
+				'context'  => 'side',
 				'priority' => 'high',
 			),
 			'applications-by-status' => array(
-				'active' => ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ),
-				'name' => esc_html__( 'Applications by Status', 'wp-job-openings' ),
-				'context' => 'side',
+				'active'   => ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ),
+				'name'     => esc_html__( 'Applications by Status', 'wp-job-openings' ),
+				'context'  => 'side',
 				'callback' => array( $this, 'applications_by_status_widget' ),
 			),
-			'recent-applications' => array(
+			'recent-applications'    => array(
 				'name' => esc_html__( 'Recent Applications', 'wp-job-openings' ),
 			),
-			'open-positions' => array(
-				'name' => esc_html__( 'Open Positions', 'wp-job-openings' ),
-				'context' => 'side',
+			'open-positions'         => array(
+				'name'     => esc_html__( 'Open Positions', 'wp-job-openings' ),
+				'context'  => 'side',
 				'callback' => array( $this, 'open_positions_widget' ),
 			),
-			'your-listings' => array(
-				'name' => esc_html__( 'Your Listings', 'wp-job-openings' ),
+			'your-listings'          => array(
+				'name'     => esc_html__( 'Your Listings', 'wp-job-openings' ),
 				'callback' => array( $this, 'your_listings_widget' ),
 			),
 		);
@@ -106,10 +106,10 @@ class AWSM_Job_Openings_Overview {
 		$widgets = apply_filters( 'awsm_jobs_overview_widgets', $widgets );
 
 		foreach ( $widgets as $widget_id => $widget_data ) {
-			$defaults = array(
-				'active' => true,
-				'name' => '',
-				'context' => 'normal',
+			$defaults    = array(
+				'active'   => true,
+				'name'     => '',
+				'context'  => 'normal',
 				'priority' => 'default',
 			);
 			$widget_data = wp_parse_args( $widget_data, $defaults );
@@ -121,7 +121,7 @@ class AWSM_Job_Openings_Overview {
 			if ( isset( $widget_data['callback'] ) ) {
 				$callback = $widget_data['callback'];
 			} else {
-				$callback = function () use ($widget_id) {
+				$callback = function () use ( $widget_id ) {
 					include_once $this->get_widget_path( $widget_id );
 				};
 			}
@@ -137,53 +137,55 @@ class AWSM_Job_Openings_Overview {
 
 	public function open_positions_widget() {
 		$widget_id = 'open-positions';
-		$jobs = self::get_jobs( array(
-			'numberjobs' => 10,
-			'job_status' => 'publish',
-		) );
+		$jobs      = self::get_jobs(
+			array(
+				'numberjobs' => 10,
+				'job_status' => 'publish',
+			)
+		);
 		include $this->get_widget_path( 'job-listings', self::$menu_slug . '-' . $widget_id );
 	}
 
 	public function your_listings_widget() {
 		$widget_id = 'your-listings';
-		$jobs = self::get_jobs_by_author();
+		$jobs      = self::get_jobs_by_author();
 		include $this->get_widget_path( 'job-listings', self::$menu_slug . '-' . $widget_id );
 		self::get_applications_analytics_data();
 	}
 
 	public static function get_jobs( $args ) {
 		global $wpdb;
-		$defaults = array(
+		$defaults    = array(
 			'numberjobs' => -1,
 			'job_status' => array( 'publish', 'expired', 'future', 'draft', 'pending', 'private' ),
 		);
 		$parsed_args = wp_parse_args( $args, $defaults );
 
 		$values = array();
-		$where = "WHERE {$wpdb->posts}.post_type = 'awsm_job_openings'";
+		$where  = "WHERE {$wpdb->posts}.post_type = 'awsm_job_openings'";
 		// status.
 		if ( is_string( $parsed_args['job_status'] ) ) {
-			$where .= " AND {$wpdb->posts}.post_status = %s";
+			$where   .= " AND {$wpdb->posts}.post_status = %s";
 			$values[] = sanitize_text_field( $parsed_args['job_status'] );
 		} elseif ( is_array( $parsed_args['job_status'] ) ) {
-			$status = array_map( 'sanitize_text_field', $parsed_args['job_status'] );
+			$status             = array_map( 'sanitize_text_field', $parsed_args['job_status'] );
 			$status_placeholder = rtrim( str_repeat( "{$wpdb->posts}.post_status = %s OR ", count( $status ) ), ' OR ' );
-			$where      .= " AND ({$status_placeholder})";
-			$values      = array_merge( $values, $status );
+			$where             .= " AND ({$status_placeholder})";
+			$values             = array_merge( $values, $status );
 		}
 		// author.
 		if ( isset( $parsed_args['author_id'] ) ) {
-			$where .= " AND {$wpdb->posts}.post_author = %d";
+			$where   .= " AND {$wpdb->posts}.post_author = %d";
 			$values[] = $parsed_args['author_id'];
 		}
 		// limit.
 		$limit = '';
 		if ( $parsed_args['numberjobs'] !== -1 ) {
-			$limit .= ' LIMIT %d';
+			$limit   .= ' LIMIT %d';
 			$values[] = $parsed_args['numberjobs'];
 		}
 
-		$query = "SELECT {$wpdb->posts}.ID, COUNT(applications.ID) AS applications_count FROM {$wpdb->posts} LEFT JOIN {$wpdb->posts} AS applications ON {$wpdb->posts}.ID = applications.post_parent AND applications.post_type = 'awsm_job_application' {$where} GROUP BY {$wpdb->posts}.ID ORDER BY applications_count DESC{$limit}";
+		$query   = "SELECT {$wpdb->posts}.ID, COUNT(applications.ID) AS applications_count FROM {$wpdb->posts} LEFT JOIN {$wpdb->posts} AS applications ON {$wpdb->posts}.ID = applications.post_parent AND applications.post_type = 'awsm_job_application' {$where} GROUP BY {$wpdb->posts}.ID ORDER BY applications_count DESC{$limit}";
 		$results = $wpdb->get_results( $wpdb->prepare( $query, $values ), OBJECT );
 		return $results;
 	}
@@ -191,27 +193,27 @@ class AWSM_Job_Openings_Overview {
 	public static function get_jobs_by_author( $numberjobs = 10 ) {
 		$args = array(
 			'numberjobs' => $numberjobs,
-			'author_id' =>  get_current_user_id(),
+			'author_id'  => get_current_user_id(),
 		);
 		return self::get_jobs( $args );
 	}
 
 	public static function get_applications_analytics_data() {
-		$analytics_data = array();
+		$analytics_data     = array();
 		$args['date_query'] = array(
 			array(
 				'year' => date( 'Y' ),
 			),
 		);
-		$data = array();
-		$applications = AWSM_Job_Openings::get_all_applications( 'ids', $args );
+		$data               = array();
+		$applications       = AWSM_Job_Openings::get_all_applications( 'ids', $args );
 		if ( ! empty( $applications ) ) {
 			foreach ( $applications as $application_id ) {
-				$timestamp = get_post_time( 'U', false, $application_id );
-				$month_numeric = get_post_time( 'n', false, $application_id );
-				$month = date_i18n( __( 'M', 'default' ), $timestamp );
+				$timestamp                       = get_post_time( 'U', false, $application_id );
+				$month_numeric                   = get_post_time( 'n', false, $application_id );
+				$month                           = date_i18n( __( 'M', 'default' ), $timestamp );
 				$data[ $month_numeric ]['label'] = esc_html( $month );
-				$count = 1;
+				$count                           = 1;
 				if ( isset( $data[ $month_numeric ]['count'] ) ) {
 					$count = $data[ $month_numeric ]['count'];
 					$count++;
@@ -220,7 +222,7 @@ class AWSM_Job_Openings_Overview {
 			}
 			ksort( $data );
 			$analytics_data['labels'] = array_values( wp_list_pluck( $data, 'label' ) );
-			$analytics_data['data'] = array_values( wp_list_pluck( $data, 'count' ) );
+			$analytics_data['data']   = array_values( wp_list_pluck( $data, 'count' ) );
 		}
 		return $analytics_data;
 	}

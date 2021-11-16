@@ -15,7 +15,7 @@
 	</div>
 	<div class="awsm-jobs-overview-empty-wrapper awsm-hide">
 		<img src="<?php echo esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/applications-analytics-chart.png' ); ?>">
-		<p>📂 <?php esc_html_e( 'Awaiting applications', 'wp-job-openings' ) ?></p>
+		<p>📂 <?php esc_html_e( 'Awaiting applications', 'wp-job-openings' ); ?></p>
 	</div>
 
 	<?php
