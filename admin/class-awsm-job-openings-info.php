@@ -108,7 +108,6 @@ class AWSM_Job_Openings_Info {
 
 	public function custom_admin_menu() {
 		add_submenu_page( 'edit.php?post_type=awsm_job_openings', esc_html__( 'WP Job Openings Setup', 'wp-job-openings' ), esc_html__( 'Setup', 'wp-job-openings' ), 'manage_options', 'awsm-jobs-setup', array( $this, 'setup_page' ) );
-		add_submenu_page( 'edit.php?post_type=awsm_job_openings', esc_html__( 'Help', 'wp-job-openings' ), esc_html__( 'Help', 'wp-job-openings' ), 'manage_awsm_jobs', 'awsm-jobs-help-page', array( $this, 'help_page' ) );
 		add_submenu_page( 'edit.php?post_type=awsm_job_openings', esc_html__( 'Add-ons', 'wp-job-openings' ), esc_html__( 'Add-ons', 'wp-job-openings' ), 'manage_awsm_jobs', 'awsm-jobs-add-ons', array( $this, 'add_ons_page' ) );
 
 		// Add Get PRO link in submenu.
@@ -125,15 +124,10 @@ class AWSM_Job_Openings_Info {
 
 	public function remove_menu() {
 		remove_submenu_page( 'edit.php?post_type=awsm_job_openings', 'awsm-jobs-setup' );
-		remove_submenu_page( 'edit.php?post_type=awsm_job_openings', 'awsm-jobs-help-page' );
 	}
 
 	public function setup_page() {
 		include_once $this->cpath . '/templates/info/setup.php';
-	}
-
-	public function help_page() {
-		include_once $this->cpath . '/templates/info/help.php';
 	}
 
 	public function add_ons_page() {

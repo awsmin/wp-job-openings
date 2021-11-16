@@ -707,46 +707,6 @@ a.awsm-text-red:hover {
 	box-sizing: border-box;
 }
 
-/*---- Help ---*/
-
-.awsm-help-left {
-	width: 70%;
-}
-
-.awsm-help-right {
-	width: 30%;
-}
-
-.awsm-help-section {
-	margin-bottom: 40px;
-	padding-right: 50px;
-}
-
-.awsm-help-section h2 {
-	font-size: 18px;
-	margin: 0 0 15px;
-}
-
-.awsm-help-section p {
-	font-size: 14px;
-	margin: 0 0 20px;
-	line-height: 1.7;
-}
-
-.awsm-help-section p a {
-	text-decoration: none;
-}
-
-.awsm-help-section p a.awsm-ratings {
-	border-bottom: 1px solid;
-	padding-bottom: 3px;
-}
-
-.awsm-help-section p a i {
-	font-size: 12px;
-	line-height: 2;
-}
-
 .awsm-job-description-table,
 .awsm-job-description-table td {
 	vertical-align: top;
