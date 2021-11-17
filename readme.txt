@@ -1,4 +1,4 @@
-=== WP Job Openings ===
+=== WP Job Openings - Job Listing, Career Page and Recruitment Plugin ===
 Contributors: awsmin, aravindajith, anantajitjg, sarathar, adhun, nithi22
 Tags: jobs, job listing, job openings, job board, careers page, jobs page, wp job opening, jobs plugin
 Requires at least: 4.6
