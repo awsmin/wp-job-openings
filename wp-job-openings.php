@@ -6,6 +6,8 @@
  * Author: AWSM Innovations
  * Author URI: https://awsm.in/
  * Version: 3.0.0
+ * Requires at least: 4.8
+ * Requires PHP: 5.6
  * License: GPLv2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text domain: wp-job-openings
