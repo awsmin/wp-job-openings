@@ -98,7 +98,8 @@ class AWSM_Job_Openings_Info {
 					}
 				}
 				update_option( 'awsm_jobs_plugin_version', AWSM_JOBS_PLUGIN_VERSION );
-				$response['redirect']  = esc_url( admin_url( 'edit.php?post_type=awsm_job_openings' ) );
+
+				$response['redirect']  = esc_url_raw( add_query_arg( array( 'page' => 'awsm-jobs-overview' ), admin_url( 'edit.php?post_type=awsm_job_openings' ) ) );
 				$response['success'][] = esc_html__( 'Setup successfully completed!', 'wp-job-openings' );
 			}
 		}
