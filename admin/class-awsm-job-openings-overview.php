@@ -47,7 +47,7 @@ class AWSM_Job_Openings_Overview {
 		$wp_version = get_bloginfo( 'version' );
 		$page_title = esc_html__( 'WP Job Openings - Overview', 'wp-job-openings' );
 		$menu_title = esc_html__( 'Overview', 'wp-job-openings' );
-		if ( version_compare( $wp_version, '5.3.0', '>=' ) ) {
+		if ( version_compare( $wp_version, '5.3', '>=' ) ) {
 			add_submenu_page( 'edit.php?post_type=awsm_job_openings', $page_title, $menu_title, 'edit_jobs', self::$menu_slug, array( $this, 'overview_page' ), 0 );
 		} else {
 			add_submenu_page( 'edit.php?post_type=awsm_job_openings', $page_title, $menu_title, 'edit_jobs', self::$menu_slug, array( $this, 'overview_page' ) );
