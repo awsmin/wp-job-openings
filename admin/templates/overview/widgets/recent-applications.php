@@ -1,4 +1,4 @@
-<div class="awsm-jobs-overview-widget-wrapper">
+<div class="awsm-jobs-overview-widget-wrapper with-table">
 	<?php
 		/**
 		 * Fires before the overview widget content.
@@ -41,7 +41,15 @@
 						</tr>
 					<?php endforeach; ?>
 				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="2">
+							<a href="#"><?php esc_html_e( 'View All →', 'wp-job-openings' ); ?></a>
+						</td>
+					</tr>
+				</tfoot>
 			</table>
+
 	<?php else : ?>
 			<div class="awsm-jobs-overview-empty-wrapper">
 				<p>📂 <?php esc_html_e( 'Awaiting applications', 'wp-job-openings' ); ?></p>
