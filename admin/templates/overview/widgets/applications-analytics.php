@@ -8,17 +8,21 @@
 		 * @param string $widget_id Overview widget ID.
 		 */
 		do_action( 'before_awsm_jobs_overview_widget_content', $widget_id );
+
+		$analytics_data = AWSM_Job_Openings_Overview::get_applications_analytics_data();
+		if ( ! empty( $analytics_data ) ) :
 	?>
-
-	<div class="awsm-jobs-overview-chart-wrapper">
-		<canvas id="awsm-jobs-overview-applications-analytics-chart"></canvas>
-	</div>
-	<div class="awsm-jobs-overview-empty-wrapper awsm-hide">
-		<img src="<?php echo esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/applications-analytics-chart.png' ); ?>">
-		<p>📂 <?php esc_html_e( 'Awaiting applications', 'wp-job-openings' ); ?></p>
-	</div>
-
+		<div class="awsm-jobs-overview-chart-wrapper">
+			<canvas id="awsm-jobs-overview-applications-analytics-chart"></canvas>
+		</div>
+	<?php else : ?>
+		<div class="awsm-jobs-overview-empty-wrapper">
+			<img src="<?php echo esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/applications-analytics-chart.png' ); ?>">
+			<p>📂 <?php esc_html_e( 'Awaiting applications', 'wp-job-openings' ); ?></p>
+		</div>
 	<?php
+		endif;
+
 		/**
 		 * Fires after the overview widget content.
 		 *

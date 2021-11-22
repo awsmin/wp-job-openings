@@ -40,10 +40,10 @@ do_action( 'add_meta_boxes_' . AWSM_Job_Openings_Overview::$screen_id, null );
 					<?php else : ?>
 						<?php if ( current_user_can( 'edit_applications' ) && $total_applications > 0 ) : ?>
 							<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_application' ) ); ?>" class="button button-primary button-hero"><?php esc_html_e( 'View All Applications', 'wp-job-openings' ); ?></a>
+						<?php else : ?>
+							<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_openings' ) ); ?>" class="button button-primary button-hero"><?php esc_html_e( 'View All Jobs', 'wp-job-openings' ); ?></a>
 						<?php endif; ?>
 					<?php endif; ?>
-
-
 				</div><!-- .awsm-jobs-overview-welcome-left -->
 				<div class="awsm-jobs-overview-welcome-right">
 					<ul>
@@ -84,6 +84,12 @@ do_action( 'add_meta_boxes_' . AWSM_Job_Openings_Overview::$screen_id, null );
 			</div>
 			<div id="postbox-container-2" class="postbox-container">
 				<?php do_meta_boxes( $screen->id, 'side', '' ); ?>
+			</div>
+			<div id="postbox-container-3" class="postbox-container">
+				<?php do_meta_boxes( $screen->id, 'column3', '' ); ?>
+			</div>
+			<div id="postbox-container-4" class="postbox-container">
+				<?php do_meta_boxes( $screen->id, 'column4', '' ); ?>
 			</div>
 		</div>
 
