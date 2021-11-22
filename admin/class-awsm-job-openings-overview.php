@@ -185,7 +185,7 @@ class AWSM_Job_Openings_Overview {
 			$values[] = $parsed_args['numberjobs'];
 		}
 
-		$query   = "SELECT {$wpdb->posts}.ID, COUNT(applications.ID) AS applications_count FROM {$wpdb->posts} LEFT JOIN {$wpdb->posts} AS applications ON {$wpdb->posts}.ID = applications.post_parent AND applications.post_type = 'awsm_job_application' {$where} GROUP BY {$wpdb->posts}.ID ORDER BY applications_count DESC{$limit}";
+		$query   = "SELECT {$wpdb->posts}.ID, COUNT(applications.ID) AS applications_count FROM {$wpdb->posts} LEFT JOIN {$wpdb->posts} AS applications ON {$wpdb->posts}.ID = applications.post_parent AND applications.post_type = 'awsm_job_application' {$where} GROUP BY {$wpdb->posts}.ID ORDER BY applications_count DESC, {$wpdb->posts}.ID{$limit}";
 		$results = $wpdb->get_results( $wpdb->prepare( $query, $values ), OBJECT );
 		return $results;
 	}
@@ -198,29 +198,35 @@ class AWSM_Job_Openings_Overview {
 		return self::get_jobs( $args );
 	}
 
-	public static function get_applications_analytics_data() {
-		$analytics_data     = array();
-		$args['date_query'] = array(
-			array(
-				'year' => date( 'Y' ),
-			),
+	public static function get_applications_analytics_data( $date_query = array(), $key_format = 'n', $label_format = 'M' ) {
+		$analytics_data = array();
+		if ( empty( $date_query ) ) {
+			$date_query = array(
+				array(
+					'year' => date( 'Y' ),
+				),
+			);
+		}
+		$args = array(
+			'orderby' => 'date',
+			'order' => 'ASC',
+			'date_query' => $date_query,
 		);
-		$data               = array();
-		$applications       = AWSM_Job_Openings::get_all_applications( 'ids', $args );
+		$applications = AWSM_Job_Openings::get_all_applications( 'ids', $args );
 		if ( ! empty( $applications ) ) {
+			$data = array();
 			foreach ( $applications as $application_id ) {
-				$timestamp                       = get_post_time( 'U', false, $application_id );
-				$month_numeric                   = get_post_time( 'n', false, $application_id );
-				$month                           = date_i18n( __( 'M', 'default' ), $timestamp );
-				$data[ $month_numeric ]['label'] = esc_html( $month );
-				$count                           = 1;
-				if ( isset( $data[ $month_numeric ]['count'] ) ) {
-					$count = $data[ $month_numeric ]['count'];
+				$timestamp = get_post_time( 'U', false, $application_id );
+				$key = get_post_time( $key_format, false, $application_id );
+				$label = date_i18n( __( $label_format, 'default' ), $timestamp );
+				$data[ $key ]['label'] = esc_html( $label );
+				$count = 1;
+				if ( isset( $data[ $key ]['count'] ) ) {
+					$count = $data[ $key ]['count'];
 					$count++;
 				}
-				$data[ $month_numeric ]['count'] = $count;
+				$data[ $key ]['count'] = $count;
 			}
-			ksort( $data );
 			$analytics_data['labels'] = array_values( wp_list_pluck( $data, 'label' ) );
 			$analytics_data['data']   = array_values( wp_list_pluck( $data, 'count' ) );
 		}
