@@ -97,20 +97,20 @@
 .inside .awsm-jobs-overview-widget-wrapper.with-table{
 	margin: -11px -12px -13px;
 }
-.inside .awsm-jobs-overview-table{	
+.inside .awsm-jobs-overview-table{
 	border-width: 0;
 
 }
 .awsm-jobs-overview-table thead th,
 .awsm-jobs-overview-table tbody td,
-.awsm-jobs-overview-table foot td {
+.awsm-jobs-overview-table tfoot td {
 	border-bottom: 1px solid #c1c1c1;
 	padding: 13px;
 }
-.awsm-jobs-overview-table foot td{
+.awsm-jobs-overview-table tfoot td{
 	text-align: center;
 }
-.awsm-jobs-overview-table foot td a{
+.awsm-jobs-overview-table tfoot td a{
 	font-weight: bold;
 }
 .inside .awsm-jobs-overview-table thead{
