@@ -44,7 +44,7 @@
 				<tfoot>
 					<tr>
 						<td colspan="2">
-							<a href="#"><?php esc_html_e( 'View All →', 'wp-job-openings' ); ?></a>
+							<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_application' ) ); ?>"><?php esc_html_e( 'View All →', 'wp-job-openings' ); ?></a>
 						</td>
 					</tr>
 				</tfoot>
