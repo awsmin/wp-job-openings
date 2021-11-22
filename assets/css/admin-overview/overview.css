@@ -3,7 +3,7 @@
 	margin: 16px 0;
 	border: 1px solid #c3c4c7;
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
-	background: #fff;
+	background: rgb(255, 255, 255);
 	line-height: 1.7;
 }
 .awsm-jobs-overview a,
@@ -94,10 +94,27 @@
 	border-collapse: collapse;
 	width: 100%;
 }
+.inside .awsm-jobs-overview-widget-wrapper.with-table{
+	margin: -11px -12px -13px;
+}
+.inside .awsm-jobs-overview-table{	
+	border-width: 0;
+
+}
 .awsm-jobs-overview-table thead th,
-.awsm-jobs-overview-table tbody td {
+.awsm-jobs-overview-table tbody td,
+.awsm-jobs-overview-table foot td {
 	border-bottom: 1px solid #c1c1c1;
 	padding: 13px;
+}
+.awsm-jobs-overview-table foot td{
+	text-align: center;
+}
+.awsm-jobs-overview-table foot td a{
+	font-weight: bold;
+}
+.inside .awsm-jobs-overview-table thead{
+	background: #EFF2F3;
 }
 .awsm-jobs-overview-table thead th {
 	text-transform: uppercase;
@@ -223,4 +240,11 @@
 	.awsm-jobs-overview-col-3 {
 		width: 33.3333%;
 	}
+}
+.awsm-jobs-overview-widget-get-started{
+	display: flex;
+	justify-content: space-between;
+}
+.awsm-jobs-overview-widget-get-started-image{
+	margin-right: -12px;
 }
