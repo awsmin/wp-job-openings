@@ -30,14 +30,6 @@
 	-webkit-flex-direction: column;
 }
 
-a.awsm-grid-item {
-	-webkit-box-shadow: none !important;
-	box-shadow: none !important;
-	border: none !important;
-	margin: 0 !important;
-	text-decoration: none !important;
-}
-
 .awsm-grid-col-4 .awsm-grid-item {
 	width: 25%;
 }
@@ -62,6 +54,10 @@ a.awsm-grid-item {
 	background: #fff;
 	padding: 20px;
 	font-size: 14px;
+}
+
+a.awsm-job-item {
+	text-decoration: none !important;
 }
 
 .awsm-grid-item .awsm-job-item {
@@ -243,7 +239,7 @@ a.awsm-grid-item {
 	margin: 0 15px 0 0;
 }
 
-a.awsm-grid-item .awsm-job-specification-item {
+a.awsm-job-item .awsm-job-specification-item {
 	color: #4C4C4C;
 }
 

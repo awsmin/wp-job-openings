@@ -34,9 +34,9 @@ while ( $query->have_posts() ) {
 	$attrs  = awsm_jobs_listing_item_class( array( "awsm-{$view}-item" ) );
 	$attrs .= sprintf( ' id="awsm-%1$s-item-%2$s"', esc_attr( $view ), esc_attr( $job_details['id'] ) );
 
-	echo ( $view === 'grid' ) ? sprintf( '<a href="%1$s" %2$s>', esc_url( $job_details['permalink'] ), $attrs ) : '<div ' . $attrs . '>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	echo '<div ' . $attrs . '>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	?>
-		<div class="awsm-job-item">
+		<?php echo ( $view === 'grid' ) ? sprintf( '<a href="%s" class="awsm-job-item">', esc_url( $job_details['permalink'] ) ) : '<div class="awsm-job-item">'; ?>
 			<div class="awsm-<?php echo esc_attr( $view ); ?>-left-col">
 				<?php
 					/**
@@ -103,9 +103,9 @@ while ( $query->have_posts() ) {
 					do_action( 'after_awsm_jobs_listing_right_col_content', $job_details['id'], $shortcode_atts );
 				?>
 			</div>
-		</div>
+		<?php echo ( $view === 'grid' ) ? '</a>' : '</div>'; ?>
 	<?php
-	echo ( $view === 'grid' ) ? '</a>' : '</div>';
+	echo '</div>';
 }
 
 wp_reset_postdata();
