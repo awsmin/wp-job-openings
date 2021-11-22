@@ -207,20 +207,20 @@ class AWSM_Job_Openings_Overview {
 				),
 			);
 		}
-		$args = array(
-			'orderby' => 'date',
-			'order' => 'ASC',
+		$args         = array(
+			'orderby'    => 'date',
+			'order'      => 'ASC',
 			'date_query' => $date_query,
 		);
 		$applications = AWSM_Job_Openings::get_all_applications( 'ids', $args );
 		if ( ! empty( $applications ) ) {
 			$data = array();
 			foreach ( $applications as $application_id ) {
-				$timestamp = get_post_time( 'U', false, $application_id );
-				$key = get_post_time( $key_format, false, $application_id );
-				$label = date_i18n( __( $label_format, 'default' ), $timestamp );
+				$timestamp             = get_post_time( 'U', false, $application_id );
+				$key                   = get_post_time( $key_format, false, $application_id );
+				$label                 = date_i18n( __( $label_format, 'default' ), $timestamp );
 				$data[ $key ]['label'] = esc_html( $label );
-				$count = 1;
+				$count                 = 1;
 				if ( isset( $data[ $key ]['count'] ) ) {
 					$count = $data[ $key ]['count'];
 					$count++;
