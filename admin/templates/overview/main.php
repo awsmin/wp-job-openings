@@ -1,4 +1,5 @@
 <?php
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -28,7 +29,7 @@ do_action( 'add_meta_boxes_' . AWSM_Job_Openings_Overview::$screen_id, null );
 						if ( $active_jobs === 0 ) {
 							esc_html_e( "Welcome to WP Job Openings! Let's get started?", 'wp-job-openings' );
 						} else {
-							if ( current_user_can( 'edit_applications' ) && $new_applications > 0 ) {
+							if ( current_user_can( 'edit_others_applications' ) && $new_applications > 0 ) {
 								/* translators: %s: New applications count */
 								printf( esc_html__( 'You have %s new applications to review', 'wp-job-openings' ), esc_html( $new_applications ) );
 							}
@@ -38,7 +39,7 @@ do_action( 'add_meta_boxes_' . AWSM_Job_Openings_Overview::$screen_id, null );
 					<?php if ( $active_jobs === 0 ) : ?>
 						<a href="<?php echo esc_url( admin_url( 'post-new.php?post_type=awsm_job_openings' ) ); ?>" class="button button-primary button-hero"><?php esc_html_e( 'Add A New Opening', 'wp-job-openings' ); ?></a>
 					<?php else : ?>
-						<?php if ( current_user_can( 'edit_applications' ) && $total_applications > 0 ) : ?>
+						<?php if ( current_user_can( 'edit_others_applications' ) && $total_applications > 0 ) : ?>
 							<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_application' ) ); ?>" class="button button-primary button-hero"><?php esc_html_e( 'View All Applications', 'wp-job-openings' ); ?></a>
 						<?php else : ?>
 							<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_openings' ) ); ?>" class="button button-primary button-hero"><?php esc_html_e( 'View All Jobs', 'wp-job-openings' ); ?></a>

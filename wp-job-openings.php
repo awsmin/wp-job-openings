@@ -396,13 +396,15 @@ class AWSM_Job_Openings {
 
 	public function awsm_job_application_manage( $columns ) {
 		$columns = array(
-			'cb'               => '<input type="checkbox" />',
-			'awsm-photo'       => '',
-			'title'            => esc_attr__( 'Applicant', 'wp-job-openings' ),
-			'application_id'   => esc_attr__( 'ID', 'wp-job-openings' ),
-			'applied_for'      => esc_attr__( 'Job', 'wp-job-openings' ),
-			'submisssion_time' => esc_attr__( 'Applied on', 'wp-job-openings' ),
+			'cb' => '<input type="checkbox" />',
 		);
+		if ( current_user_can( 'edit_others_applications' ) ) {
+			$columns['awsm-photo'] = '';
+		}
+		$columns['title'] = esc_attr__( 'Applicant', 'wp-job-openings' );
+		$columns['application_id'] = esc_attr__( 'ID', 'wp-job-openings' );
+		$columns['applied_for'] = esc_attr__( 'Job', 'wp-job-openings' );
+		$columns['submission_time'] = esc_attr__( 'Applied on', 'wp-job-openings' );
 		return $columns;
 	}
 
@@ -417,14 +419,22 @@ class AWSM_Job_Openings {
 				echo $avatar; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				break;
 			case 'application_id':
-				edit_post_link( esc_html( $post_id ) );
+				if ( current_user_can( 'edit_others_applications' ) ) {
+					edit_post_link( esc_html( $post_id ) );
+				} else {
+					echo esc_html( $post_id );
+				}
 				break;
 
 			case 'applied_for':
-				printf( '<a href="%2$s" title="%3$s">%1$s</a>', esc_html( $job_name ), esc_url( get_edit_post_link( $job_id ) ), esc_attr( __( 'View Job: ', 'wp-job-openings' ) . $job_name ) );
+				if ( current_user_can( 'edit_post', $post_id ) ) {
+					printf( '<a href="%2$s" title="%3$s">%1$s</a>', esc_html( $job_name ), esc_url( get_edit_post_link( $job_id ) ), esc_attr( __( 'View Job: ', 'wp-job-openings' ) . $job_name ) );
+				} else {
+					echo esc_html( $job_name );
+				}
 				break;
 
-			case 'submisssion_time':
+			case 'submission_time':
 				$submission = human_time_diff( get_the_time( 'U' ), current_time( 'timestamp' ) ) . ' ' . __( 'ago', 'wp-job-openings' );
 				echo esc_html( $submission );
 				break;
