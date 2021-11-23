@@ -69,7 +69,7 @@ class AWSM_Job_Openings_Overview {
 	public function register_overview_widgets() {
 		$widgets = array(
 			'applications-analytics' => array(
-				'active' => current_user_can( 'edit_applications' ),
+				'active'   => current_user_can( 'edit_applications' ),
 				'name'     => esc_html__( 'Applications Analytics', 'wp-job-openings' ),
 				'priority' => 'high',
 			),
@@ -86,7 +86,7 @@ class AWSM_Job_Openings_Overview {
 			),
 			'recent-applications'    => array(
 				'active' => current_user_can( 'edit_others_applications' ),
-				'name' => esc_html__( 'Recent Applications', 'wp-job-openings' ),
+				'name'   => esc_html__( 'Recent Applications', 'wp-job-openings' ),
 			),
 			'open-positions'         => array(
 				'name'     => esc_html__( 'Open Positions', 'wp-job-openings' ),

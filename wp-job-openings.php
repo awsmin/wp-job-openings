@@ -401,9 +401,9 @@ class AWSM_Job_Openings {
 		if ( current_user_can( 'edit_others_applications' ) ) {
 			$columns['awsm-photo'] = '';
 		}
-		$columns['title'] = esc_attr__( 'Applicant', 'wp-job-openings' );
-		$columns['application_id'] = esc_attr__( 'ID', 'wp-job-openings' );
-		$columns['applied_for'] = esc_attr__( 'Job', 'wp-job-openings' );
+		$columns['title']           = esc_attr__( 'Applicant', 'wp-job-openings' );
+		$columns['application_id']  = esc_attr__( 'ID', 'wp-job-openings' );
+		$columns['applied_for']     = esc_attr__( 'Job', 'wp-job-openings' );
 		$columns['submission_time'] = esc_attr__( 'Applied on', 'wp-job-openings' );
 		return $columns;
 	}
