@@ -62,8 +62,9 @@ a.awsm-job-item {
 
 .awsm-grid-item .awsm-job-item {
 	margin-bottom: 30px;
-	box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.13);
-	border: 1px solid #ececec;
+	box-shadow: 0 1px 4px 0 rgb(0 0 0 / 5%);
+	border: 1px solid #dddfe3;
+	border-radius: 2px;
 	display: -webkit-box;
 	display: -moz-box;
 	display: -ms-flexbox;
@@ -82,7 +83,7 @@ a.awsm-job-item {
 
 .awsm-grid-item .awsm-job-item:hover,
 .awsm-grid-item .awsm-job-item:focus {
-	box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.23);
+	box-shadow: 0 3px 15px -5px rgb(0 0 0 / 20%);
 }
 
 .awsm-grid-item .awsm-job-featured-image {
@@ -166,8 +167,8 @@ a.awsm-job-item {
 	text-align: center;
 	padding: 20px;
 	background: #fff;
-	box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.13);
-	border: 1px solid #ececec !important;
+	box-shadow: 0 1px 4px 0 rgb(0 0 0 / 5%);
+	border: 1px solid #dddfe3;
 	margin: 0 !important;
 	text-decoration: none !important;
 	outline: none !important;
@@ -180,13 +181,13 @@ a.awsm-job-item {
 
 .awsm-load-more-main a.awsm-load-more:hover,
 .awsm-load-more-main a.awsm-load-more:focus {
-	box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.23);
+	box-shadow: 0 3px 15px -5px rgb(0 0 0 / 20%);
 }
 
 /*---- List ----*/
 
 .awsm-lists {
-	box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.13);
+	border: 1px solid #ededed;
 }
 
 .awsm-list-item {
@@ -322,7 +323,7 @@ a.awsm-job-item .awsm-job-specification-item {
 
 .awsm-job-form-inner {
 	background: #fff;
-	box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.1);
+	border: 1px solid #dddfe3;	
 	padding: 35px;
 }
 

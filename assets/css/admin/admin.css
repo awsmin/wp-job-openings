@@ -944,7 +944,7 @@ a.awsm-text-red:hover {
 	height: 38px;
 	padding: 5px 12px;
 	border-radius: 3px;
-	border: 1px solid #7E8993;
+	border: 1px solid #dddfe3;
 	font-style: 20px;
 }
 .awsm-job-form-group p{
@@ -1104,7 +1104,8 @@ p.description.awsm-jobs-invalid {
 .awsm-job-admin-nav li a {
 	text-decoration: none;
 	line-height: 30px;
-	display: block
+	display: block;
+	font-weight: bold;
 }
 .awsm-job-admin-nav li a.active{
 	font-weight: bold;
@@ -1116,6 +1117,7 @@ p.description.awsm-jobs-invalid {
 	font-weight:bold;
 	padding: 0 15px;
 	display: block;
+	border-radius: 20px;
 }
 .awsm-job-admin-nav li a.button:hover, .awsm-job-admin-nav li a.button:focus, .awsm-job-admin-nav li a.button:active{
 	background: #000;
@@ -1127,8 +1129,7 @@ p.description.awsm-jobs-invalid {
 	background: #fff;
 	padding: 30px 25px;
 	border: 1px solid #ddd;
-	margin-bottom: 30px;
-	box-shadow: 1px 1px 11px 0 rgba(0, 0, 0, 0.07);
+	margin-bottom: 15px;
 	overflow: hidden;
 }
 
