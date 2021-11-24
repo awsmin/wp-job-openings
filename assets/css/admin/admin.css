@@ -817,8 +817,7 @@ a.awsm-text-red:hover {
 .awsm-job-setup {
 	min-height: 100%;
 	margin-left: -20px;
-	background-color: #00D5AF;
-	background-image: linear-gradient(180deg, #05BC9C 0%, #06D4CF 99%);
+	background-color: #6CFAE7;
 	display: flex;
 	-ms-flex-wrap: wrap;
 	flex-wrap: wrap;
@@ -853,17 +852,17 @@ a.awsm-text-red:hover {
 	box-sizing: border-box;
 }
 .awsm-job-setup-l{
-	color: #fff;
+	color: #000;
 }
 .awsm-job-setup-l h1{
 	margin: 0 0 45px;
 	transition: all 0.3s ease;
 }
 .awsm-job-setup-l h1 a{
-	background: url('../img/wp-jo-branding.png') no-repeat;
-	background-size: 253px 111px;
+	background: url('../img/logo-b.svg') no-repeat;
+	background-size: 253px 33px;
 	width: 253px;
-	height: 111px;
+	height: 33px;
 	text-indent: -99999px;
 	display: block
 }
@@ -887,18 +886,10 @@ a.awsm-text-red:hover {
 	font-size: 16px;
 	line-height: 26px;
 	margin: 0;
+	font-weight: bold;
 }
 .awsm-job-setup-l ul li:last-child{
 	padding-bottom: 0;
-}
-.awsm-job-setup-l ul li::before{
-	content: "";
-	width: 2px;
-	height: 100%;
-	position: absolute;
-	left: 12px;
-	top: 0;
-	background: #04B8B2;
 }
 .awsm-job-setup-l ul li::after{
 	counter-increment: no-counter;
@@ -911,7 +902,8 @@ a.awsm-text-red:hover {
 	position: absolute;
 	left: 0;
 	top: 0;
-	background: #04B8B2;
+	background: #000000;
+	color: #fff;
 	border-radius: 50%;
 }
 .awsm-job-setup-l h1, .awsm-job-setup-l p, .awsm-job-setup-l ul, .awsm-job-setup-col:last-child{
@@ -1394,7 +1386,7 @@ a.awsm-plugin-item p {
 		margin: 0 auto;
 	}
 	.awsm-job-setup-col:first-child .awsm-job-setup-col-in{
-		margin-top: -188px;
+		margin-top: -135px;
 	}
 }
 

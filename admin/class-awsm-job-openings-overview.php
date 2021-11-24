@@ -133,7 +133,7 @@ class AWSM_Job_Openings_Overview {
 
 	public function applications_by_status_widget() {
 		/* translators: %1$s: opening anchor tag, %2$s: closing anchor tag */
-		$pro_link = sprintf( esc_html__( 'This feature requires %1$sPRO Addon%2$s to work', 'wp-job-openings' ), '<a href="https://awsm.in/get/wpjo-pro/">', '</a>' );
+		$pro_link = sprintf( esc_html__( 'This feature requires %1$sPRO Plan%2$s to work', 'wp-job-openings' ), '<a href="https://awsm.in/get/wpjo-pro/">', '</a>' );
 		printf( '<div class="awsm-jobs-overview-widget-wrapper"><div class="awsm-jobs-pro-feature"><img src="%2$s"><p>%1$s</p></div></div>', $pro_link, esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/applications-by-status-chart.png' ) );
 	}
 
