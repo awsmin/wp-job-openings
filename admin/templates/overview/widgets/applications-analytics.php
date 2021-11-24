@@ -1,4 +1,10 @@
-<div class="awsm-jobs-overview-widget-wrapper">
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+?>
+<div class="<?php echo esc_attr( "awsm-jobs-overview-widget-wrapper awsm-jobs-overview-{$widget_id}-widget-wrapper" ); ?>">
 	<?php
 		/**
 		 * Fires before the overview widget content.

@@ -69,6 +69,7 @@ class AWSM_Job_Openings_Overview {
 	public function register_overview_widgets() {
 		$widgets = array(
 			'applications-analytics' => array(
+				'active'   => current_user_can( 'edit_applications' ),
 				'name'     => esc_html__( 'Applications Analytics', 'wp-job-openings' ),
 				'priority' => 'high',
 			),
@@ -78,13 +79,14 @@ class AWSM_Job_Openings_Overview {
 				'priority' => 'high',
 			),
 			'applications-by-status' => array(
-				'active'   => ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ),
+				'active'   => current_user_can( 'edit_applications' ) && ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ),
 				'name'     => esc_html__( 'Applications by Status', 'wp-job-openings' ),
 				'context'  => 'side',
 				'callback' => array( $this, 'applications_by_status_widget' ),
 			),
 			'recent-applications'    => array(
-				'name' => esc_html__( 'Recent Applications', 'wp-job-openings' ),
+				'active' => current_user_can( 'edit_others_applications' ),
+				'name'   => esc_html__( 'Recent Applications', 'wp-job-openings' ),
 			),
 			'open-positions'         => array(
 				'name'     => esc_html__( 'Open Positions', 'wp-job-openings' ),
@@ -200,6 +202,10 @@ class AWSM_Job_Openings_Overview {
 
 	public static function get_applications_analytics_data( $date_query = array(), $key_format = 'n', $label_format = 'M' ) {
 		$analytics_data = array();
+		if ( ! current_user_can( 'edit_applications' ) ) {
+			return $analytics_data;
+		}
+
 		if ( empty( $date_query ) ) {
 			$date_query = array(
 				array(
