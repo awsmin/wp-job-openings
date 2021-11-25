@@ -41,7 +41,7 @@ class AWSM_Job_Openings_Meta {
 		add_meta_box( 'awsm-job-details-meta', esc_html__( 'Applicant Details', 'wp-job-openings' ), array( $this, 'awsm_job_application_handle' ), 'awsm_job_application', 'normal', 'high' );
 		if ( ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) {
 			add_meta_box( 'awsm-application-actions-meta', esc_html__( 'Actions', 'wp-job-openings' ), array( $this, 'application_actions_meta_handler' ), 'awsm_job_application', 'side', 'high' );
-			add_meta_box( 'awsm-get-the-pro-pack-meta', esc_html__( 'Get the Pro Pack', 'wp-job-openings' ), array( $this, 'get_pro_meta_handler' ), 'awsm_job_application', 'side', 'low' );
+			add_meta_box( 'awsm-get-the-pro-pack-meta', esc_html__( 'Upgrade to WPJO Pro', 'wp-job-openings' ), array( $this, 'get_pro_meta_handler' ), 'awsm_job_application', 'side', 'low' );
 		}
 	}
 

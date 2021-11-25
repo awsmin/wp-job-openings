@@ -1313,25 +1313,7 @@ a.awsm-plugin-item p {
 .awsm-job-get-pro-meta-container{
 	padding: 10px 10px 20px;
 }
-.awsm-job-get-pro-meta-container h3{
-	line-height: 1.4666;
-	margin: 0 0 5px;
-	font-weight: 700;
-	display: inline-block;
-	position: relative;
-	z-index: 1;
-	font-size: 28px;
-}
-.awsm-job-get-pro-meta-container h3::before{
-	content: "";
-	width: 100%;
-	height: 8px;
-	background: rgba(0,213,175,.33);
-	position: absolute;
-	left: 0;
-	bottom: 7px;
-	z-index: -1;
-}
+
 .awsm-job-get-pro-meta-container p{
 	margin: 0 0 10px;
 }
@@ -1359,14 +1341,15 @@ a.awsm-plugin-item p {
     background-size: 16px;
 }
 .wp-core-ui .awsm-job-get-pro-meta-container .button{
-	font-size: 16px;
+	font-size: 14px;
 	line-height: 1.2778;
 	font-weight: 700;
 	border-radius: 32px;
-	color: #fff;
-	padding: 13px 34px;
+	color: #6CFAE4;
+	padding: 12px 34px;
 	background: #000;
-	box-shadow: 0 3px 24px 6px rgba(0,0,0,.18);
+	width: 100%;
+	text-align: center;
 }
 .wp-core-ui .awsm-job-get-pro-meta-container .button:hover, .wp-core-ui .awsm-job-get-pro-meta-container .button:focus, .wp-core-ui .awsm-job-get-pro-meta-container .button:active{
 	background: #000;

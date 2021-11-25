@@ -347,7 +347,7 @@ msgid "Actions"
 msgstr ""
 
 #: admin/class-awsm-job-openings-meta.php:44
-msgid "Get the Pro Pack"
+msgid "Upgrade to WPJO Pro"
 msgstr ""
 
 #: admin/class-awsm-job-openings-meta.php:83, inc/templates/mail/email-digest.php:66
