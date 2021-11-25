@@ -266,7 +266,7 @@
 	position: relative;
 }
 
-.select2-container--awsm-job.select2-container--focus .select2-selection--multiple{
+.select2-container--awsm-job.select2-container--focus .select2-selection--multiple, .select2-container--awsm-job.select2-container--focus .select2-selection{
 	border-color: #2271b1;
     box-shadow: 0 0 0 1px #2271b1;
     outline: 2px solid transparent;
