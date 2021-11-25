@@ -641,15 +641,18 @@ a.awsm-text-red:hover {
 }
 
 .awsm-specs tbody td {
-	padding: 10px 15px;
+	padding: 20px 15px;
 	width: 15%;
 	vertical-align: top;
 	background: #fff;;
-	border-bottom: 1px solid #cfcfcf;
+	border-bottom: 1px solid #dddbdb;
 }
 
 .awsm-specs tbody tr:first-child {
 	font-weight: bold;
+}
+.awsm-specs tbody tr:first-child td {
+	padding: 10px 15px;
 }
 
 .awsm-specs tbody td:first-child {
