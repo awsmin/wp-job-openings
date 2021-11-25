@@ -1084,13 +1084,14 @@ p.description.awsm-jobs-invalid {
 	height: 30px;
 }
 
-.awsm-job-admin-nav-logo h1 {
+.awsm-job-admin-nav-logo a {
 	margin: 0;
 	background: url('../img/logo-b.svg') no-repeat;
 	width: 168px;
 	height: 21px;
 	background-size: 168px 21px;
 	text-indent: -99999px;
+	display:inline-block;
 }
 
 .awsm-job-admin-nav {
@@ -1476,8 +1477,8 @@ a.awsm-plugin-item p {
 		width: 100%;
 		text-align: left;
 	}
-	.awsm-job-admin-nav-logo h1{
-		width: 21px;
+	.awsm-job-admin-nav-logo a{
+		width: 24px;
 	}
 	.awsm-job-admin-nav{
 		padding-left: 15px;
@@ -1487,7 +1488,7 @@ a.awsm-plugin-item p {
 	}
 }
 @media (max-width: 510px) {
-	.awsm-job-admin-nav-logo h1{
+	.awsm-job-admin-nav-logo a{
 		display: none;
 	}
 	.awsm-job-admin-nav{
