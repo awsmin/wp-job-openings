@@ -149,6 +149,8 @@
 }
 .awsm-jobs-overview-applicant-in span {
 	display: block;
+	font-size: 12px;
+	color: #777;
 }
 .awsm-jobs-pro-feature {
 	position: relative;
