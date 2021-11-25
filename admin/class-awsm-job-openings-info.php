@@ -289,7 +289,9 @@ class AWSM_Job_Openings_Info {
 			?>
 				<div class="awsm-job-admin-nav-header">
 					<div class="awsm-job-admin-nav-logo">
-						<h1><?php esc_html_e( 'WP Job Openings', 'wp-job-openings' ); ?></h1>
+						<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_openings&page=awsm-jobs-overview' ) ); ?>">
+							<?php esc_html_e( 'WP Job Openings', 'wp-job-openings' ); ?>
+						</a>
 					</div>
 					<ul class="awsm-job-admin-nav">
 						<?php
