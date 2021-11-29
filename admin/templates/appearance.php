@@ -127,10 +127,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 					),
 				),
 				array(
-					'name'    => 'awsm_jobs_pagination_type',
-					'label'   => __( 'Pagination Type', 'wp-job-openings' ),
-					'type'    => 'radio',
-					'choices' => array(
+					'name'          => 'awsm_jobs_pagination_type',
+					'label'         => __( 'Pagination Type', 'wp-job-openings' ),
+					'type'          => 'radio',
+					'choices'       => array(
 						array(
 							'value' => 'classic',
 							'text'  => __( 'Classic', 'wp-job-openings' ),

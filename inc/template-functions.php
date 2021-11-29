@@ -138,7 +138,7 @@ if ( ! function_exists( 'awsm_job_more_details' ) ) {
 
 if ( ! function_exists( 'awsm_jobs_paginate_links' ) ) {
 	function awsm_jobs_paginate_links( $query, $shortcode_atts = array() ) {
-		$current = ( $query->query_vars['paged'] ) ? (int) $query->query_vars['paged'] : 1;
+		$current       = ( $query->query_vars['paged'] ) ? (int) $query->query_vars['paged'] : 1;
 		$max_num_pages = isset( $query->max_num_pages ) ? $query->max_num_pages : 1;
 
 		$base_url = get_pagenum_link();
@@ -146,12 +146,12 @@ if ( ! function_exists( 'awsm_jobs_paginate_links' ) ) {
 			$base_url = $_POST['awsm_pagination_base'];
 		}
 
-		$args = array(
-			'base' => esc_url_raw( add_query_arg( 'paged', '%#%', $base_url ) ),
-			'format' => '',
-			'type' => 'list',
+		$args               = array(
+			'base'    => esc_url_raw( add_query_arg( 'paged', '%#%', $base_url ) ),
+			'format'  => '',
+			'type'    => 'list',
 			'current' => max( 1, $current ),
-			'total' => $max_num_pages,
+			'total'   => $max_num_pages,
 		);
 		$pagination_content = sprintf( '<div class="awsm-jobs-pagination awsm-load-more-classic" data-effect-duration="slow">%s</div>', paginate_links( $args ) );
 		/**
@@ -170,7 +170,7 @@ if ( ! function_exists( 'awsm_jobs_paginate_links' ) ) {
 
 if ( ! function_exists( 'awsm_jobs_load_more' ) ) {
 	function awsm_jobs_load_more( $query, $shortcode_atts = array() ) {
-		$loadmore = isset( $shortcode_atts['loadmore'] ) && $shortcode_atts['loadmore'] === 'no' ? false : true;
+		$loadmore      = isset( $shortcode_atts['loadmore'] ) && $shortcode_atts['loadmore'] === 'no' ? false : true;
 		$max_num_pages = $query->max_num_pages;
 		if ( $loadmore && $max_num_pages > 1 ) {
 			if ( AWSM_Job_Openings::is_default_pagination( $shortcode_atts ) ) {

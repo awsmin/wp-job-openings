@@ -250,12 +250,12 @@ class AWSM_Job_Openings {
 		$pairs          = apply_filters(
 			'awsm_jobs_shortcode_defaults',
 			array(
-				'uid'      => $this->unique_listing_id,
-				'filters'  => get_option( 'awsm_enable_job_filter_listing' ) !== 'enabled' ? 'no' : 'yes',
-				'listings' => get_option( 'awsm_jobs_list_per_page' ),
-				'loadmore' => 'yes',
+				'uid'        => $this->unique_listing_id,
+				'filters'    => get_option( 'awsm_enable_job_filter_listing' ) !== 'enabled' ? 'no' : 'yes',
+				'listings'   => get_option( 'awsm_jobs_list_per_page' ),
+				'loadmore'   => 'yes',
 				'pagination' => get_option( 'awsm_jobs_pagination_type', 'modern' ),
-				'specs'    => '',
+				'specs'      => '',
 			)
 		);
 		$shortcode_atts = shortcode_atts( $pairs, $atts, 'awsmjobs' );
@@ -332,7 +332,7 @@ class AWSM_Job_Openings {
 		);
 		if ( $most_recent ) {
 			$args['post_status'] = 'publish';
-			$args['date_query'] = array(
+			$args['date_query']  = array(
 				array(
 					'after'     => '1 day ago',
 					'inclusive' => true,
@@ -603,8 +603,8 @@ class AWSM_Job_Openings {
 			if ( ! empty( $applications ) ) {
 				$company_name = get_option( 'awsm_job_company_name', '' );
 				$from         = ( ! empty( $company_name ) ) ? $company_name : get_option( 'blogname' );
-				$admin_email = get_option( 'admin_email' );
-				$from_email = get_option( 'awsm_jobs_admin_from_email_notification', $admin_email );
+				$admin_email  = get_option( 'admin_email' );
+				$from_email   = get_option( 'awsm_jobs_admin_from_email_notification', $admin_email );
 				/**
 				 * Filters the daily email digest headers.
 				 *
@@ -940,8 +940,8 @@ class AWSM_Job_Openings {
 			'job_id'             => is_singular( 'awsm_job_openings' ) ? $post->ID : 0,
 			'wp_max_upload_size' => ( wp_max_upload_size() ) ? ( wp_max_upload_size() ) : 0,
 			'deep_linking'       => array(
-				'search' => true,
-				'spec'   => true,
+				'search'     => true,
+				'spec'       => true,
 				'pagination' => true,
 			),
 			'i18n'               => array(
@@ -1419,7 +1419,7 @@ class AWSM_Job_Openings {
 
 		// Handle classic pagination on page load.
 		if ( ! self::is_default_pagination( $shortcode_atts ) && ! isset( $_POST['awsm_pagination_base'] ) ) {
-			$paged = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ) : 1;
+			$paged         = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ) : 1;
 			$args['paged'] = $paged;
 		}
 
