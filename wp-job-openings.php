@@ -328,9 +328,10 @@ class AWSM_Job_Openings {
 	public static function get_recent_applications( $number_posts = 5, $most_recent = true, $fields = 'all' ) {
 		$args = array(
 			'numberposts' => $number_posts,
-			'post_status' => 'publish',
+			'post_status' => 'any',
 		);
 		if ( $most_recent ) {
+			$args['post_status'] = 'publish';
 			$args['date_query'] = array(
 				array(
 					'after'     => '1 day ago',
