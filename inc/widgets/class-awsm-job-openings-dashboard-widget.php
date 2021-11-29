@@ -101,10 +101,10 @@ class AWSM_Job_Openings_Dashboard_Widget {
 						<?php if ( ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) && current_user_can( 'edit_others_applications' ) ) : ?>
 							<a href="<?php echo esc_url( 'https://awsm.in/get/wpjo-pro/' ); ?>" class="awsm-jobs-dashboard-btn awsm-jobs-get-pro-btn button" target="_blank"><?php esc_html_e( 'Upgrade', 'wp-job-openings' ); ?></a>
 						<?php endif; ?>
-						<?php if ( current_user_can( 'edit_applications' ) ) : ?>
+						<?php if ( current_user_can( 'edit_jobs' ) ) : ?>
 							<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_openings&page=awsm-jobs-overview' ) ); ?>" class="awsm-jobs-dashboard-btn button button-primary"><?php esc_html_e( 'View More', 'wp-job-openings' ); ?></a>
 						<?php endif; ?>
-						<?php if ( current_user_can( 'edit_jobs' ) ) : ?>
+						<?php if ( current_user_can( 'edit_applications' ) ) : ?>
 							<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_application' ) ); ?>" class="awsm-jobs-dashboard-btn button button-link"><?php esc_html_e( 'View All Applications', 'wp-job-openings' ); ?></a>
 						<?php endif; ?>
 					</div>
