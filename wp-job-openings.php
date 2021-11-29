@@ -254,6 +254,7 @@ class AWSM_Job_Openings {
 				'filters'  => get_option( 'awsm_enable_job_filter_listing' ) !== 'enabled' ? 'no' : 'yes',
 				'listings' => get_option( 'awsm_jobs_list_per_page' ),
 				'loadmore' => 'yes',
+				'pagination' => get_option( 'awsm_jobs_pagination_type', 'modern' ),
 				'specs'    => '',
 			)
 		);
@@ -939,6 +940,7 @@ class AWSM_Job_Openings {
 			'deep_linking'       => array(
 				'search' => true,
 				'spec'   => true,
+				'pagination' => true,
 			),
 			'i18n'               => array(
 				'loading_text'   => esc_html__( 'Loading...', 'wp-job-openings' ),
@@ -1077,6 +1079,17 @@ class AWSM_Job_Openings {
 			}
 		}
 		return $classes;
+	}
+
+	public static function is_default_pagination( $shortcode_atts = array() ) {
+		$type = get_option( 'awsm_jobs_pagination_type', 'modern' );
+		if ( ! empty( $shortcode_atts['pagination'] ) ) {
+			$type = $shortcode_atts['pagination'];
+		}
+		if ( $type !== 'classic' ) {
+			$type = 'modern';
+		}
+		return $type === 'modern';
 	}
 
 	public function awsm_jobs_content( $content ) {
@@ -1400,6 +1413,12 @@ class AWSM_Job_Openings {
 			}
 		} else {
 			$args['post_status'] = array( 'publish', 'expired' );
+		}
+
+		// Handle classic pagination on page load.
+		if ( ! self::is_default_pagination( $shortcode_atts ) && ! isset( $_POST['awsm_pagination_base'] ) ) {
+			$paged = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ) : 1;
+			$args['paged'] = $paged;
 		}
 
 		/**

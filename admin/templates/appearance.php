@@ -127,6 +127,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 					),
 				),
 				array(
+					'name'    => 'awsm_jobs_pagination_type',
+					'label'   => __( 'Pagination Type', 'wp-job-openings' ),
+					'type'    => 'radio',
+					'choices' => array(
+						array(
+							'value' => 'classic',
+							'text'  => __( 'Classic', 'wp-job-openings' ),
+						),
+						array(
+							'value' => 'modern',
+							'text'  => __( 'Modern', 'wp-job-openings' ),
+						),
+					),
+					'default_value' => 'modern',
+				),
+				array(
 					'id'      => 'awsm-appearance-listing-filter-title',
 					'visible' => ! empty( $specifications ),
 					'label'   => __( 'Job filter options', 'wp-job-openings' ),

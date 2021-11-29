@@ -136,24 +136,60 @@ if ( ! function_exists( 'awsm_job_more_details' ) ) {
 	}
 }
 
+if ( ! function_exists( 'awsm_jobs_paginate_links' ) ) {
+	function awsm_jobs_paginate_links( $query, $shortcode_atts = array() ) {
+		$current = ( $query->query_vars['paged'] ) ? (int) $query->query_vars['paged'] : 1;
+		$max_num_pages = isset( $query->max_num_pages ) ? $query->max_num_pages : 1;
+
+		$base_url = get_pagenum_link();
+		if ( isset( $_POST['awsm_pagination_base'] ) ) {
+			$base_url = $_POST['awsm_pagination_base'];
+		}
+
+		$args = array(
+			'base' => esc_url_raw( add_query_arg( 'paged', '%#%', $base_url ) ),
+			'format' => '',
+			'type' => 'list',
+			'current' => max( 1, $current ),
+			'total' => $max_num_pages,
+		);
+		$pagination_content = sprintf( '<div class="awsm-jobs-pagination awsm-load-more-classic" data-effect-duration="slow">%s</div>', paginate_links( $args ) );
+		/**
+		 * Filters the paginate links content.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param string $pagination_content The HTML content.
+		 * @param WP_Query $query The Query object.
+		 * @param array $args Paginate links arguments.
+		 * @param array $shortcode_atts Shortcode attributes.
+		 */
+		echo apply_filters( 'awsm_jobs_paginate_links_content', $pagination_content, $query, $args, $shortcode_atts );
+	}
+}
+
 if ( ! function_exists( 'awsm_jobs_load_more' ) ) {
 	function awsm_jobs_load_more( $query, $shortcode_atts = array() ) {
 		$loadmore = isset( $shortcode_atts['loadmore'] ) && $shortcode_atts['loadmore'] === 'no' ? false : true;
-		if ( $loadmore ) {
-			$max_num_pages = $query->max_num_pages;
-			$paged         = ( $query->query_vars['paged'] ) ? $query->query_vars['paged'] : 1;
-			if ( $max_num_pages > 1 && $paged < $max_num_pages ) {
-				$load_more_content = sprintf( '<div class="awsm-load-more-main"><a href="#" class="awsm-load-more awsm-load-more-btn" data-page="%2$s">%1$s</a></div>', esc_html__( 'Load more...', 'wp-job-openings' ), esc_attr( $paged ) );
-				/**
-				 * Filters the load more content.
-				 *
-				 * @since 2.3.0
-				 *
-				 * @param string $load_more_content The HTML content.
-				 * @param WP_Query $query The Query object.
-				 * @param array $shortcode_atts Shortcode attributes.
-				 */
-				echo apply_filters( 'awsm_jobs_load_more_content', $load_more_content, $query, $shortcode_atts ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		$max_num_pages = $query->max_num_pages;
+		if ( $loadmore && $max_num_pages > 1 ) {
+			if ( AWSM_Job_Openings::is_default_pagination( $shortcode_atts ) ) {
+				$paged = ( $query->query_vars['paged'] ) ? $query->query_vars['paged'] : 1;
+				if ( $paged < $max_num_pages ) {
+					$load_more_content = sprintf( '<div class="awsm-jobs-pagination awsm-load-more-main"><a href="#" class="awsm-load-more awsm-load-more-btn" data-page="%2$s">%1$s</a></div>', esc_html__( 'Load more...', 'wp-job-openings' ), esc_attr( $paged ) );
+					/**
+					 * Filters the load more content.
+					 *
+					 * @since 2.3.0
+					 *
+					 * @param string $load_more_content The HTML content.
+					 * @param WP_Query $query The Query object.
+					 * @param array $shortcode_atts Shortcode attributes.
+					 */
+					echo apply_filters( 'awsm_jobs_load_more_content', $load_more_content, $query, $shortcode_atts ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				}
+			} else {
+				echo awsm_jobs_paginate_links( $query );
 			}
 		}
 	}

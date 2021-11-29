@@ -7,7 +7,7 @@ html[dir='rtl'] .awsm-grid-item{
 html[dir='rtl'] .awsm-job-item h2.awsm-job-post-title{
     text-align: right;
 }
-html[dir='rtl'] .awsm-load-more-main{
+html[dir='rtl'] .awsm-jobs-pagination{
     float: right;
 }
 html[dir='rtl'] .awsm-list-left-col{
@@ -49,7 +49,7 @@ html[dir='rtl'] .awsm-job-list-info span{
     margin-right: 0;
     margin-left: 10px;
 }
-html[dir='rtl'] .awsm-job-form-group input[type=checkbox], 
+html[dir='rtl'] .awsm-job-form-group input[type=checkbox],
 html[dir='rtl'] .awsm-job-form-group input[type=radio]{
     margin-right: 0;
     margin-left: 5px;

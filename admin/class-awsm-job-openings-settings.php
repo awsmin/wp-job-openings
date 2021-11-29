@@ -207,6 +207,10 @@ class AWSM_Job_Openings_Settings {
 					'option_name' => 'awsm_jobs_details_page_layout',
 				),
 				array(
+					/** @since 3.0.0 */
+					'option_name' => 'awsm_jobs_pagination_type',
+				),
+				array(
 					'option_name' => 'awsm_jobs_expired_jobs_listings',
 				),
 				array(

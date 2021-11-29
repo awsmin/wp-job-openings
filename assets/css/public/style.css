@@ -151,12 +151,12 @@ a.awsm-job-item {
 	padding: 5px;
 }
 
-.awsm-row .awsm-load-more-main {
+.awsm-row .awsm-jobs-pagination {
 	padding: 0 15px;
 	width: 100%;
 }
 
-.awsm-load-more-main {
+.awsm-jobs-pagination {
 	float: left;
 	width: 100%;
 }
@@ -181,6 +181,16 @@ a.awsm-job-item {
 .awsm-load-more-main a.awsm-load-more:hover,
 .awsm-load-more-main a.awsm-load-more:focus {
 	box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.23);
+}
+
+.awsm-jobs-pagination.awsm-load-more-classic ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.awsm-jobs-pagination.awsm-load-more-classic ul li {
+    display: inline-block;
 }
 
 /*---- List ----*/
@@ -252,7 +262,7 @@ a.awsm-job-item .awsm-job-specification-item {
 	content: "\002192";
 }
 
-.awsm-lists .awsm-load-more-main {
+.awsm-lists .awsm-jobs-pagination {
 	margin-top: 30px;
 }
 
