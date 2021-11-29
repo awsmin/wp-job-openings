@@ -191,6 +191,7 @@ ul.awsm-list-inline label {
 .awsm-form-group label {
 	display: block;
 	margin-bottom: 10px;
+	font-weight: bold;
 }
 
 .awsm-form-control {
@@ -397,11 +398,6 @@ a.awsm-text-red:hover {
 .awsm-settings-aside .awsm-job-template-tag-list {
 	list-style: none;
 	margin: 0;
-	padding: 12px 15px 5px;
-	list-style: none;
-	background: #ebebeb;
-	border: 1px solid #d7d7d7;
-	font-size: 14px;
 }
 
 .awsm-settings-aside .awsm-job-template-tag-list li {
@@ -630,19 +626,36 @@ a.awsm-text-red:hover {
 	display: table-row !important;
 }
 
+.awsm-specs{
+	border-collapse: collapse;
+}
+
 .awsm-specs thead th {
 	text-align: left;
 	padding: 20px 0;
 }
 
+.awsm-specs tbody{
+	background: #fff;
+	border: 1px solid #cfcfcf;
+}
+
 .awsm-specs tbody td {
-	padding: 4px 6px;
+	padding: 20px 15px;
 	width: 15%;
 	vertical-align: top;
+	background: #fff;;
+	border-bottom: 1px solid #dddbdb;
+}
+
+.awsm-specs tbody tr:first-child {
+	font-weight: bold;
+}
+.awsm-specs tbody tr:first-child td {
+	padding: 10px 15px;
 }
 
 .awsm-specs tbody td:first-child {
-	padding-left: 0;
 	width: 20px;
 }
 
@@ -651,7 +664,6 @@ a.awsm-text-red:hover {
 }
 
 .awsm-specs tbody td:last-child {
-	padding-right: 0;
 	width: 10%;
 }
 
@@ -817,8 +829,7 @@ a.awsm-text-red:hover {
 .awsm-job-setup {
 	min-height: 100%;
 	margin-left: -20px;
-	background-color: #00D5AF;
-	background-image: linear-gradient(180deg, #05BC9C 0%, #06D4CF 99%);
+	background-color: #6CFAE7;
 	display: flex;
 	-ms-flex-wrap: wrap;
 	flex-wrap: wrap;
@@ -853,17 +864,17 @@ a.awsm-text-red:hover {
 	box-sizing: border-box;
 }
 .awsm-job-setup-l{
-	color: #fff;
+	color: #000;
 }
 .awsm-job-setup-l h1{
 	margin: 0 0 45px;
 	transition: all 0.3s ease;
 }
 .awsm-job-setup-l h1 a{
-	background: url('../img/wp-jo-branding.png') no-repeat;
-	background-size: 253px 111px;
+	background: url('../img/logo-b.svg') no-repeat;
+	background-size: 253px 33px;
 	width: 253px;
-	height: 111px;
+	height: 33px;
 	text-indent: -99999px;
 	display: block
 }
@@ -887,18 +898,10 @@ a.awsm-text-red:hover {
 	font-size: 16px;
 	line-height: 26px;
 	margin: 0;
+	font-weight: bold;
 }
 .awsm-job-setup-l ul li:last-child{
 	padding-bottom: 0;
-}
-.awsm-job-setup-l ul li::before{
-	content: "";
-	width: 2px;
-	height: 100%;
-	position: absolute;
-	left: 12px;
-	top: 0;
-	background: #04B8B2;
 }
 .awsm-job-setup-l ul li::after{
 	counter-increment: no-counter;
@@ -911,7 +914,8 @@ a.awsm-text-red:hover {
 	position: absolute;
 	left: 0;
 	top: 0;
-	background: #04B8B2;
+	background: #000000;
+	color: #fff;
 	border-radius: 50%;
 }
 .awsm-job-setup-l h1, .awsm-job-setup-l p, .awsm-job-setup-l ul, .awsm-job-setup-col:last-child{
@@ -944,7 +948,7 @@ a.awsm-text-red:hover {
 	height: 38px;
 	padding: 5px 12px;
 	border-radius: 3px;
-	border: 1px solid #7E8993;
+	border: 1px solid #dddfe3;
 	font-style: 20px;
 }
 .awsm-job-form-group p{
@@ -1080,13 +1084,14 @@ p.description.awsm-jobs-invalid {
 	height: 30px;
 }
 
-.awsm-job-admin-nav-logo h1 {
+.awsm-job-admin-nav-logo a {
 	margin: 0;
 	background: url('../img/logo-b.svg') no-repeat;
 	width: 168px;
 	height: 21px;
 	background-size: 168px 21px;
 	text-indent: -99999px;
+	display:inline-block;
 }
 
 .awsm-job-admin-nav {
@@ -1104,7 +1109,8 @@ p.description.awsm-jobs-invalid {
 .awsm-job-admin-nav li a {
 	text-decoration: none;
 	line-height: 30px;
-	display: block
+	display: block;
+	font-weight: bold;
 }
 .awsm-job-admin-nav li a.active{
 	font-weight: bold;
@@ -1116,6 +1122,7 @@ p.description.awsm-jobs-invalid {
 	font-weight:bold;
 	padding: 0 15px;
 	display: block;
+	border-radius: 20px;
 }
 .awsm-job-admin-nav li a.button:hover, .awsm-job-admin-nav li a.button:focus, .awsm-job-admin-nav li a.button:active{
 	background: #000;
@@ -1127,8 +1134,7 @@ p.description.awsm-jobs-invalid {
 	background: #fff;
 	padding: 30px 25px;
 	border: 1px solid #ddd;
-	margin-bottom: 30px;
-	box-shadow: 1px 1px 11px 0 rgba(0, 0, 0, 0.07);
+	margin-bottom: 15px;
 	overflow: hidden;
 }
 
@@ -1311,25 +1317,7 @@ a.awsm-plugin-item p {
 .awsm-job-get-pro-meta-container{
 	padding: 10px 10px 20px;
 }
-.awsm-job-get-pro-meta-container h3{
-	line-height: 1.4666;
-	margin: 0 0 5px;
-	font-weight: 700;
-	display: inline-block;
-	position: relative;
-	z-index: 1;
-	font-size: 28px;
-}
-.awsm-job-get-pro-meta-container h3::before{
-	content: "";
-	width: 100%;
-	height: 8px;
-	background: rgba(0,213,175,.33);
-	position: absolute;
-	left: 0;
-	bottom: 7px;
-	z-index: -1;
-}
+
 .awsm-job-get-pro-meta-container p{
 	margin: 0 0 10px;
 }
@@ -1357,14 +1345,15 @@ a.awsm-plugin-item p {
     background-size: 16px;
 }
 .wp-core-ui .awsm-job-get-pro-meta-container .button{
-	font-size: 16px;
+	font-size: 14px;
 	line-height: 1.2778;
 	font-weight: 700;
 	border-radius: 32px;
-	color: #fff;
-	padding: 13px 34px;
+	color: #6CFAE4;
+	padding: 12px 34px;
 	background: #000;
-	box-shadow: 0 3px 24px 6px rgba(0,0,0,.18);
+	width: 100%;
+	text-align: center;
 }
 .wp-core-ui .awsm-job-get-pro-meta-container .button:hover, .wp-core-ui .awsm-job-get-pro-meta-container .button:focus, .wp-core-ui .awsm-job-get-pro-meta-container .button:active{
 	background: #000;
@@ -1393,7 +1382,7 @@ a.awsm-plugin-item p {
 		margin: 0 auto;
 	}
 	.awsm-job-setup-col:first-child .awsm-job-setup-col-in{
-		margin-top: -188px;
+		margin-top: -135px;
 	}
 }
 
@@ -1488,8 +1477,8 @@ a.awsm-plugin-item p {
 		width: 100%;
 		text-align: left;
 	}
-	.awsm-job-admin-nav-logo h1{
-		width: 21px;
+	.awsm-job-admin-nav-logo a{
+		width: 24px;
 	}
 	.awsm-job-admin-nav{
 		padding-left: 15px;
@@ -1499,7 +1488,7 @@ a.awsm-plugin-item p {
 	}
 }
 @media (max-width: 510px) {
-	.awsm-job-admin-nav-logo h1{
+	.awsm-job-admin-nav-logo a{
 		display: none;
 	}
 	.awsm-job-admin-nav{

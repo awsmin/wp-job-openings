@@ -116,7 +116,7 @@ class AWSM_Job_Openings_Info {
 			global $submenu;
 			// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 			$submenu['edit.php?post_type=awsm_job_openings'][] = array(
-				sprintf( '<span class="awsm-jobs-get-pro">%s</span>', esc_html__( 'Get PRO', 'wp-job-openings' ) ),
+				sprintf( '<span class="awsm-jobs-get-pro">%s</span>', esc_html__( 'Upgrade', 'wp-job-openings' ) ),
 				'edit_others_applications',
 				esc_url( 'https://awsm.in/get/wpjo-pro/' ),
 			);
@@ -271,7 +271,7 @@ class AWSM_Job_Openings_Info {
 				),
 				array(
 					'visible' => ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) && current_user_can( 'edit_others_applications' ),
-					'label'   => __( 'Get PRO', 'wp-job-openings' ),
+					'label'   => __( 'Upgrade', 'wp-job-openings' ),
 					'url'     => 'https://awsm.in/get/wpjo-pro/',
 					'class'   => array( 'button' ),
 					'target'  => '_blank',
@@ -289,7 +289,9 @@ class AWSM_Job_Openings_Info {
 			?>
 				<div class="awsm-job-admin-nav-header">
 					<div class="awsm-job-admin-nav-logo">
-						<h1><?php esc_html_e( 'WP Job Openings', 'wp-job-openings' ); ?></h1>
+						<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_openings&page=awsm-jobs-overview' ) ); ?>">
+							<?php esc_html_e( 'WP Job Openings', 'wp-job-openings' ); ?>
+						</a>
 					</div>
 					<ul class="awsm-job-admin-nav">
 						<?php

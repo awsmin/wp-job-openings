@@ -118,8 +118,9 @@
 }
 .awsm-jobs-overview-table thead th {
 	text-transform: uppercase;
-	font-size: 12px;
+	font-size: 11px;
 	text-align: left;
+	padding: 8px 13px;
 }
 .awsm-jobs-overview-table tbody td {
 	font-size: 14px;
@@ -148,6 +149,8 @@
 }
 .awsm-jobs-overview-applicant-in span {
 	display: block;
+	font-size: 12px;
+	color: #777;
 }
 .awsm-jobs-pro-feature {
 	position: relative;
@@ -186,7 +189,6 @@
 .awsm-jobs-overview-empty-wrapper {
 	position: relative;
 	height: 400px;
-	border: 1px solid #c1c1c1;
 }
 .awsm-jobs-overview-empty-wrapper::before {
 	content: "";
