@@ -162,7 +162,7 @@ a.awsm-job-item {
 	width: 100%;
 }
 
-.awsm-load-more-main a.awsm-load-more {
+.awsm-load-more-main a.awsm-load-more, .awsm-load-more-classic a.page-numbers	 {
 	display: block;
 	text-align: center;
 	padding: 20px;
@@ -178,9 +178,18 @@ a.awsm-job-item {
 	-o-transition: all 0.3s ease;
 	transition: all 0.3s ease;
 }
+.awsm-load-more-classic a.page-numbers, .awsm-load-more-classic span.page-numbers {
+	padding: 5px 10px;
+	font-size: 90%;
+}
+.awsm-load-more-classic {
+	text-align: center;
+}
 
 .awsm-load-more-main a.awsm-load-more:hover,
-.awsm-load-more-main a.awsm-load-more:focus {
+.awsm-load-more-main a.awsm-load-more:focus,
+.awsm-load-more-classic a.page-numbers:hover,
+.awsm-load-more-classic a.page-numbers:focus {
 	box-shadow: 0 3px 15px -5px rgb(0 0 0 / 20%);
 }
 
