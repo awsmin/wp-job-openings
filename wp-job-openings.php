@@ -603,7 +603,8 @@ class AWSM_Job_Openings {
 			if ( ! empty( $applications ) ) {
 				$company_name = get_option( 'awsm_job_company_name', '' );
 				$from         = ( ! empty( $company_name ) ) ? $company_name : get_option( 'blogname' );
-				$from_email   = get_option( 'admin_email' );
+				$admin_email = get_option( 'admin_email' );
+				$from_email = get_option( 'awsm_jobs_admin_from_email_notification', $admin_email );
 				/**
 				 * Filters the daily email digest headers.
 				 *
@@ -635,7 +636,7 @@ class AWSM_Job_Openings {
 				if ( ! empty( $mail_content ) ) {
 					$tags         = self::get_mail_generic_template_tags(
 						array(
-							'admin_email'  => $from_email,
+							'admin_email'  => $admin_email,
 							'hr_email'     => $to,
 							'company_name' => $company_name,
 						)
