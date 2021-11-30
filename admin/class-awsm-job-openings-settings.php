@@ -22,6 +22,7 @@ class AWSM_Job_Openings_Settings {
 		add_action( 'update_option_awsm_jobs_remove_permalink_front_base', array( $this, 'update_permalink_front_base' ), 10, 2 );
 		add_action( 'update_option_awsm_jobs_disable_archive_page', array( $this, 'update_jobs_archive_page' ) );
 		add_action( 'update_option_awsm_hide_uploaded_files', array( $this, 'update_awsm_hide_uploaded_files' ), 10, 2 );
+		add_action( 'update_option_awsm_jobs_filter', array( $this, 'update_awsm_jobs_filter' ), 10, 2 );
 		add_action( 'update_option_awsm_jobs_remove_filters', array( $this, 'update_awsm_jobs_remove_filters' ), 10, 2 );
 		add_action( 'update_option_awsm_jobs_make_specs_clickable', array( $this, 'update_awsm_jobs_make_specs_clickable' ), 10, 2 );
 		add_action( 'update_option_awsm_jobs_email_digest', array( $this, 'update_awsm_jobs_email_digest' ), 10, 2 );
@@ -604,15 +605,9 @@ class AWSM_Job_Openings_Settings {
 				if ( isset( $filter['remove_tags'] ) ) {
 					if ( ! empty( $filter['remove_tags'] ) ) {
 						$remove_tags = $filter['remove_tags'];
-						if ( isset( $filter['tags'] ) ) {
-							if ( ! empty( $filter['tags'] ) ) {
-								$remove_tags = array_diff( $remove_tags, $filter['tags'] );
-							}
-						}
 						if ( ! empty( $remove_tags ) ) {
 							foreach ( $remove_tags as $remove_tag ) {
-								$slug = sanitize_title( $remove_tag );
-								$term = get_term_by( 'slug', $slug, $spec_key );
+								$term = get_term_by( 'id', $remove_tag, $spec_key );
 								if ( $term instanceof \WP_Term ) {
 									wp_delete_term( $term->term_id, $spec_key );
 								}
@@ -633,6 +628,24 @@ class AWSM_Job_Openings_Settings {
 			}
 		}
 		return $filters;
+	}
+
+	public function update_awsm_jobs_filter( $old_value, $new_value ) {
+		$filters = $new_value;
+		if ( ! empty( $filters ) ) {
+			foreach ( $filters as $filter ) {
+				$taxonomy = $filter['taxonomy'];
+				if ( ! empty( $filter['tags'] ) ) {
+					foreach ( $filter['tags'] as $filter_tag ) {
+						$slug = sanitize_title( $filter_tag );
+						if ( ! get_term_by( 'slug', $slug, $taxonomy ) ) {
+							$args = array( 'slug' => $slug );
+							wp_insert_term( $filter_tag, $taxonomy, $args );
+						}
+					}
+				}
+			}
+		}
 	}
 
 	public function update_awsm_jobs_remove_filters( $old_value, $new_value ) {
@@ -1073,8 +1086,9 @@ class AWSM_Job_Openings_Settings {
 		if ( ! empty( $tax_details ) && ! is_numeric( $index ) ) {
 			return;
 		}
-
 		$spec_title    = $row_data = $del_btn_data = $icon_option = $tag_options = ''; // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
+
+		$is_new_template = ( $index === 0 && empty( $tax_details ) ) || ( strpos( $index, '{{' ) !== false );
 		$spec_key_html = sprintf( '<input type="text" class="widefat awsm-jobs-spec-key" name="awsm_jobs_filter[%1$s][taxonomy]" value="" maxlength="32" placeholder="%2$s" title="%3$s" required /><input type="hidden" name="awsm_jobs_filter[%1$s][register]" value="true" />', esc_attr( $index ), esc_attr__( 'Specification key', 'wp-job-openings' ), esc_attr__( 'The job specification key should only contain alphanumeric, latin characters separated by hyphen/underscore, and cannot begin or end with a hyphen/underscore.', 'wp-job-openings' ) );
 
 		if ( ! empty( $tax_details ) && isset( $tax_details['key'] ) && isset( $tax_details['options'] ) ) {
@@ -1100,7 +1114,7 @@ class AWSM_Job_Openings_Settings {
 			);
 			if ( ! empty( $terms ) ) {
 				foreach ( $terms as $term ) {
-					$tag_options .= sprintf( '<option value="%1$s" selected>%1$s</option>', esc_attr( $term->name ) );
+					$tag_options .= sprintf( '<option value="%1$s" data-termid="%2$s" selected>%1$s (%3$s)</option>', esc_attr( $term->name ), esc_attr( $term->term_id ), esc_attr( $term->count ) );
 				}
 			}
 		}
@@ -1119,7 +1133,9 @@ class AWSM_Job_Openings_Settings {
 					<select class="awsm-font-icon-selector awsm-icon-select-control" name="awsm_jobs_filter[<?php echo esc_attr( $index ); ?>][icon]" style="width: 100%;" data-placeholder="<?php esc_html_e( 'Select icon', 'wp-job-openings' ); ?>"><?php echo $icon_option; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></select>
 				</td>
 				<td>
-					<select class="awsm_jobs_filter_tags" name="awsm_jobs_filter[<?php echo esc_attr( $index ); ?>][tags][]" multiple="multiple" style="width: 100%;" data-placeholder="<?php esc_html_e( 'Enter options', 'wp-job-openings' ); ?>"><?php echo $tag_options; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></select>
+					<?php if ( ! $is_new_template ) : ?>
+						<select class="awsm_jobs_filter_tags" name="awsm_jobs_filter[<?php echo esc_attr( $index ); ?>][tags][]" multiple="multiple" style="width: 100%;" data-placeholder="<?php esc_html_e( 'Enter options', 'wp-job-openings' ); ?>"><?php echo $tag_options; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></select>
+					<?php endif; ?>
 				</td>
 				<td><a class="button awsm-text-red awsm-filters-remove-row" href="#"<?php echo $del_btn_data; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>><?php esc_html_e( 'Delete', 'wp-job-openings' ); ?></a>
 				</td>

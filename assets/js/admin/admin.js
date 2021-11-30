@@ -2,45 +2,46 @@
 
 'use strict';
 
-/**
- * for generic select2 initialization
- */
-function awsmJobSelectControl($elem, placeholder) {
-	placeholder = (typeof placeholder !== 'undefined') ? placeholder : '';
-	var options = {
-		minimumResultsForSearch: 25,
-		theme: 'awsm-job'
-	};
-	if (placeholder.length > 0) {
-		options.placeholder = placeholder;
-	}
-	$elem.awsmSelect2(options);
-}
-
-/**
- * for select2 initialization with tags input
- */
-function awsmJobTagSelect($elem, dropdownHidden, additionalConfig) {
-	dropdownHidden = (typeof dropdownHidden !== 'undefined') ? dropdownHidden : true;
-	additionalConfig = typeof additionalConfig !== 'undefined' ? additionalConfig : {};
-	if ($elem.length > 0) {
-		var config = {
-			tags: true,
-			tokenSeparators: [ ',' ],
-			theme: 'awsm-job',
-			dropdownCssClass: (dropdownHidden ? 'awsm-hidden-control' : 'awsm-select2-dropdown-control')
-		};
-		jQuery.extend(config, additionalConfig);
-		$elem.awsmSelect2(config);
-	}
-}
-
 /*================ Setup screen ================*/
 jQuery(window).on('load', function() {
 	jQuery('.awsm-job-setup').addClass('loaded');
 });
 
 jQuery(document).ready(function($) {
+	var jobsAdminMain = window.awsmJobsAdminMain = window.awsmJobsAdminMain || {};
+
+	/**
+	 * for generic select2 initialization
+	 */
+	jobsAdminMain.selectControl = function($elem, placeholder) {
+		placeholder = (typeof placeholder !== 'undefined') ? placeholder : '';
+		var options = {
+			minimumResultsForSearch: 25,
+			theme: 'awsm-job'
+		};
+		if (placeholder.length > 0) {
+			options.placeholder = placeholder;
+		}
+		$elem.awsmSelect2(options);
+	};
+
+	/**
+	 * for select2 initialization with tags input
+	 */
+	jobsAdminMain.tagSelect = function($elem, dropdownHidden, additionalConfig) {
+		dropdownHidden = (typeof dropdownHidden !== 'undefined') ? dropdownHidden : true;
+		additionalConfig = typeof additionalConfig !== 'undefined' ? additionalConfig : {};
+		if ($elem.length > 0) {
+			var config = {
+				tags: true,
+				tokenSeparators: [ ',' ],
+				theme: 'awsm-job',
+				dropdownCssClass: (dropdownHidden ? 'awsm-hidden-control' : 'awsm-select2-dropdown-control')
+			};
+			jQuery.extend(config, additionalConfig);
+			$elem.awsmSelect2(config);
+		}
+	};
 
 	/*================ General ================*/
 
@@ -78,8 +79,8 @@ jQuery(document).ready(function($) {
 
 	$('.awsm-jobs-colorpicker-field').wpColorPicker();
 
-	awsmJobSelectControl($('.awsm-select-page-control'), awsmJobsAdmin.i18n.select2_no_page);
-	awsmJobSelectControl($('.awsm-select-control'));
+	jobsAdminMain.selectControl($('.awsm-select-page-control'), awsmJobsAdmin.i18n.select2_no_page);
+	jobsAdminMain.selectControl($('.awsm-select-control'));
 
 	/*================ Job Expiry ================*/
 
@@ -96,8 +97,8 @@ jQuery(document).ready(function($) {
 
 	/*================ Job Specifications ================*/
 
-	awsmJobTagSelect($('.awsm_jobs_filter_tags'));
-	awsmJobTagSelect($('.awsm_job_specification_terms'), false, {
+	jobsAdminMain.tagSelect($('.awsm_jobs_filter_tags'));
+	jobsAdminMain.tagSelect($('.awsm_job_specification_terms'), false, {
 		createTag: function(params) {
 			var currentId = $.trim(params.term);
 			if (currentId === '') {
@@ -140,7 +141,7 @@ jQuery(document).ready(function($) {
 		}).join('');
 	}
 
-	function awsmSpecIconSelect($elem, data) {
+	jobsAdminMain.iconSelect = function($elem, data) {
 		var placeholderText = $elem.data('placeholder');
 		$elem.awsmSelect2({
 			placeholder: {
@@ -153,7 +154,7 @@ jQuery(document).ready(function($) {
 			templateSelection: formatIconSelectState,
 			theme: 'awsm-job'
 		});
-	}
+	};
 
 	function awsmIconData() {
 		$.getJSON(awsmJobsAdmin.plugin_url + '/assets/fonts/awsm-icons.json', function(data) {
@@ -163,7 +164,7 @@ jQuery(document).ready(function($) {
 					text: icon
 				});
 			});
-			awsmSpecIconSelect($('.awsm-icon-select-control'), iconData);
+			jobsAdminMain.iconSelect($('.awsm-icon-select-control'), iconData);
 		});
 	}
 	awsmIconData();
@@ -181,9 +182,10 @@ jQuery(document).ready(function($) {
 	$('.awsm_jobs_filter_tags').on('select2:unselect', function(e) {
 		var $row = $(this).parents('.awsm-job-specifications-settings-row');
 		var index = $row.data('index');
-		var unselected = _.escape(e.params.data.id);
-		if (typeof index !== 'undefined' && typeof unselected !== 'undefined') {
-			$row.append('<input type="hidden" class="awsm_jobs_remove_filter_tags" name="awsm_jobs_filter[' + index + '][remove_tags][]" value="' + unselected + '" />');
+		var unselectedElem = e.params.data.element;
+		var termId = $(unselectedElem).data('termid');
+		if (typeof index !== 'undefined' && _.isNumber(termId)) {
+			$row.append('<input type="hidden" class="awsm_jobs_remove_filter_tags" name="awsm_jobs_filter[' + index + '][remove_tags][]" value="' + termId + '" />');
 		}
 	});
 
@@ -203,8 +205,8 @@ jQuery(document).ready(function($) {
 			var templateData = { index: next };
 			$wrapper.data('next', next + 1);
 			$wrapper.find('.awsm_job_specifications_settings_body').append(specTemplate(templateData));
-			awsmJobTagSelect($('.awsm_jobs_filter_tags').last());
-			awsmSpecIconSelect($('.awsm-icon-select-control').last(), iconData);
+			jobsAdminMain.tagSelect($('.awsm_jobs_filter_tags').last());
+			jobsAdminMain.iconSelect($('.awsm-icon-select-control').last(), iconData);
 		}
 	});
 

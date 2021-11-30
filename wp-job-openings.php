@@ -1170,17 +1170,6 @@ class AWSM_Job_Openings {
 						$args = apply_filters( 'awsm_jobs_tax_args', $args, $taxonomy );
 						register_taxonomy( $taxonomy, array( 'awsm_job_openings' ), $args );
 					}
-					if ( isset( $awsm_filter['tags'] ) ) {
-						if ( ! empty( $awsm_filter['tags'] ) ) {
-							foreach ( $awsm_filter['tags'] as $filter_tag ) {
-								$slug = sanitize_title( $filter_tag );
-								if ( ! get_term_by( 'slug', $slug, $taxonomy ) ) {
-									$args = array( 'slug' => $slug );
-									wp_insert_term( $filter_tag, $taxonomy, $args );
-								}
-							}
-						}
-					}
 				}
 			}
 		}
