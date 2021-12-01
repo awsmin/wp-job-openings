@@ -340,11 +340,6 @@ a.awsm-job-item .awsm-job-specification-item {
 	font-weight: bold;
 }
 
-a.awsm-jobs-pro-listings-link:before{
-	content:'		\002190';
-	padding-right: 10px
-}
-
 .awsm-job-form-inner {
 	background: #fff;
 	border: 1px solid #dddfe3;	
