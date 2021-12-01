@@ -134,6 +134,7 @@ class AWSM_Job_Openings_Overview {
 	public function applications_by_status_widget() {
 		/* translators: %1$s: opening anchor tag, %2$s: closing anchor tag */
 		$pro_link = sprintf( esc_html__( 'This feature requires %1$sPRO Plan%2$s to work', 'wp-job-openings' ), '<a href="https://awsm.in/get/wpjo-pro/">', '</a>' );
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		printf( '<div class="awsm-jobs-overview-widget-wrapper"><div class="awsm-jobs-pro-feature"><img src="%2$s"><p>%1$s</p></div></div>', $pro_link, esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/applications-by-status-chart.png' ) );
 	}
 
@@ -187,8 +188,8 @@ class AWSM_Job_Openings_Overview {
 			$values[] = $parsed_args['numberjobs'];
 		}
 
-		$query   = "SELECT {$wpdb->posts}.ID, COUNT(applications.ID) AS applications_count FROM {$wpdb->posts} LEFT JOIN {$wpdb->posts} AS applications ON {$wpdb->posts}.ID = applications.post_parent AND applications.post_type = 'awsm_job_application' {$where} GROUP BY {$wpdb->posts}.ID ORDER BY applications_count DESC, {$wpdb->posts}.ID{$limit}";
-		$results = $wpdb->get_results( $wpdb->prepare( $query, $values ), OBJECT );
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$results = $wpdb->get_results( $wpdb->prepare( "SELECT {$wpdb->posts}.ID, COUNT(applications.ID) AS applications_count FROM {$wpdb->posts} LEFT JOIN {$wpdb->posts} AS applications ON {$wpdb->posts}.ID = applications.post_parent AND applications.post_type = 'awsm_job_application' {$where} GROUP BY {$wpdb->posts}.ID ORDER BY applications_count DESC, {$wpdb->posts}.ID{$limit}", $values ), OBJECT );
 		return $results;
 	}
 
@@ -209,7 +210,7 @@ class AWSM_Job_Openings_Overview {
 		if ( empty( $date_query ) ) {
 			$date_query = array(
 				array(
-					'year' => date( 'Y' ),
+					'year' => gmdate( 'Y' ),
 				),
 			);
 		}
@@ -222,9 +223,8 @@ class AWSM_Job_Openings_Overview {
 		if ( ! empty( $applications ) ) {
 			$data = array();
 			foreach ( $applications as $application_id ) {
-				$timestamp             = get_post_time( 'U', false, $application_id );
 				$key                   = get_post_time( $key_format, false, $application_id );
-				$label                 = date_i18n( __( $label_format, 'default' ), $timestamp );
+				$label                 = get_post_time( $label_format, false, $application_id, true );
 				$data[ $key ]['label'] = esc_html( $label );
 				$count                 = 1;
 				if ( isset( $data[ $key ]['count'] ) ) {

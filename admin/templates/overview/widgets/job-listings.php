@@ -67,7 +67,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</table>
 	<?php else : ?>
 			<div class="awsm-jobs-overview-empty-wrapper">
-				<p>💼 <?php printf( esc_html__( 'Looks empty! %1$sAdd some%2$s', 'wp-job-openings' ), '<a href="' . esc_url( admin_url( 'post-new.php?post_type=awsm_job_openings' ) ) . '">', '</a>' ); ?></p>
+				<p>💼
+				<?php
+					/* translators: %1$s: opening anchor tag, %2$s: closing anchor tag */
+					printf( '&nbsp;' . esc_html__( 'Looks empty! %1$sAdd some%2$s', 'wp-job-openings' ), '<a href="' . esc_url( admin_url( 'post-new.php?post_type=awsm_job_openings' ) ) . '">', '</a>' );
+				?>
+				</p>
 			</div>
 		<?php
 		endif;

@@ -36,14 +36,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<tr>
 							<td>
 								<div class="awsm-jobs-overview-applicant">
-							<?php echo $avatar; ?>
+							<?php echo $avatar; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 									<div class="awsm-jobs-overview-applicant-in">
 										<a href="<?php echo esc_url( $edit_link ); ?>"><?php echo esc_html( $application->post_title ); ?></a>
 										<span><?php echo esc_html( $submission_time ); ?></span>
 									</div><!-- .awsm-jobs-overview-applicant-in -->
 								</div><!-- .awsm-jobs-overview-applicant -->
 							</td>
-							<td><?php echo get_the_title( $application->post_parent ); ?></td>
+							<td><?php echo esc_html( get_the_title( $application->post_parent ) ); ?></td>
 						</tr>
 					<?php endforeach; ?>
 				</tbody>
