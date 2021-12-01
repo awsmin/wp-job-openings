@@ -701,7 +701,7 @@ class AWSM_Job_Openings_Settings {
 		if ( ! class_exists( 'AWSM_Job_Openings_Form' ) ) {
 			require_once AWSM_JOBS_PLUGIN_DIR . '/inc/class-awsm-job-openings-form.php';
 		}
-		return wp_kses( $input, AWSM_Job_Openings_Form::$allowed_html );
+		return wp_kses( $input, AWSM_Job_Openings_Form::get_allowed_html() );
 	}
 
 	public function notification_customizer_handler( $input ) {

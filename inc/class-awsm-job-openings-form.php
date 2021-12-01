@@ -5,7 +5,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class AWSM_Job_Openings_Form {
 	private static $instance    = null;
+
 	public $form_fields_order   = array( 'awsm_applicant_name', 'awsm_applicant_email', 'awsm_applicant_phone', 'awsm_applicant_letter', 'awsm_file' );
+
 	public static $allowed_html = array(
 		'a'      => array(
 			'href'  => array(),
@@ -32,6 +34,17 @@ class AWSM_Job_Openings_Form {
 			self::$instance = new self();
 		}
 		return self::$instance;
+	}
+
+	public static function get_allowed_html() {
+		/**
+		 * Filters the allowed HTML elements and attributes for the form.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param array|string $allowed_html An array of allowed HTML elements and attributes or a context name.
+		 */
+		return apply_filters( 'awsm_application_form_allowed_html', self::$allowed_html );
 	}
 
 	public function dynamic_form_fields( $form_attrs ) {
@@ -129,7 +142,7 @@ class AWSM_Job_Openings_Form {
 				$ordered_form_fields[ $form_field_order ] = $dynamic_form_fields[ $form_field_order ];
 			}
 			$dynamic_form_fields = $ordered_form_fields;
-			$allowed_html        = self::$allowed_html;
+			$allowed_html        = self::get_allowed_html();
 			$required_msg        = esc_attr__( 'This field is required.', 'wp-job-openings' );
 			$form_output         = '';
 			foreach ( $dynamic_form_fields as $field_name => $field_args ) {
@@ -257,7 +270,7 @@ class AWSM_Job_Openings_Form {
 			$field_id = $form_attrs['single_form'] ? 'awsm_form_privacy_policy' : esc_attr( 'awsm_form_privacy_policy-' . $form_attrs['job_id'] );
 			?>
 			<div class="awsm-job-form-group awsm-job-inline-group">
-				<input name="awsm_form_privacy_policy" class="awsm-job-form-field" id="<?php echo esc_attr( $field_id ); ?>" required="" data-msg-required="<?php echo esc_attr__( 'This field is required.', 'wp-job-openings' ); ?>" value="yes" aria-required="true" type="checkbox"><label for="<?php echo esc_attr( $field_id ); ?>"><?php echo wp_kses( $label, self::$allowed_html ); ?> <span class="awsm-job-form-error">*</span></label>
+				<input name="awsm_form_privacy_policy" class="awsm-job-form-field" id="<?php echo esc_attr( $field_id ); ?>" required="" data-msg-required="<?php echo esc_attr__( 'This field is required.', 'wp-job-openings' ); ?>" value="yes" aria-required="true" type="checkbox"><label for="<?php echo esc_attr( $field_id ); ?>"><?php echo wp_kses( $label, self::get_allowed_html() ); ?> <span class="awsm-job-form-error">*</span></label>
 			</div>
 			<?php
 		endif;
