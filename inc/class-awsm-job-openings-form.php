@@ -266,14 +266,19 @@ class AWSM_Job_Openings_Form {
 
 	public function display_gdpr_field( $form_attrs ) {
 		$label = $this->get_gdpr_field_label();
-		if ( ! empty( $label ) ) :
+		if ( ! empty( $label ) ) {
 			$field_id = $form_attrs['single_form'] ? 'awsm_form_privacy_policy' : esc_attr( 'awsm_form_privacy_policy-' . $form_attrs['job_id'] );
-			?>
-			<div class="awsm-job-form-group awsm-job-inline-group">
-				<input name="awsm_form_privacy_policy" class="awsm-job-form-field" id="<?php echo esc_attr( $field_id ); ?>" required="" data-msg-required="<?php echo esc_attr__( 'This field is required.', 'wp-job-openings' ); ?>" value="yes" aria-required="true" type="checkbox"><label for="<?php echo esc_attr( $field_id ); ?>"><?php echo wp_kses( $label, self::get_allowed_html() ); ?> <span class="awsm-job-form-error">*</span></label>
-			</div>
-			<?php
-		endif;
+			$field_content = sprintf( '<div class="awsm-job-form-group awsm-job-inline-group"><input name="awsm_form_privacy_policy" class="awsm-job-form-field" id="%1$s" value="yes" type="checkbox" data-msg-required="%3$s" aria-required="true" required><label for="%1$s">%2$s <span class="awsm-job-form-error">*</span></label></div>', esc_attr( $field_id ), wp_kses( $label, self::get_allowed_html() ), esc_attr__( 'This field is required.', 'wp-job-openings' ) );
+			/**
+			 * Filters the privacy policy checkbox field content.
+			 *
+			 * @since 3.0.0
+			 *
+			 * @param string $field_content Field HTML content.
+			 * @param array $form_attrs Attributes array for the form.
+			 */
+			echo apply_filters( 'awsm_application_form_gdpr_field_content', $field_content, $form_attrs );
+		}
 	}
 
 	public function display_recaptcha_field( $form_attrs ) {
