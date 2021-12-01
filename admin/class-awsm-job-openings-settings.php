@@ -510,11 +510,7 @@ class AWSM_Job_Openings_Settings {
 		return $match;
 	}
 
-	public function validate_from_email_id( $email, $option_name = '' ) {
-		if ( ! empty( $option_name ) ) {
-			_deprecated_argument( __METHOD__, '2.2.0' );
-		}
-
+	public function validate_from_email_id( $email ) {
 		$site_domain = strtolower( $_SERVER['SERVER_NAME'] );
 		if ( $this->is_localhost() ) {
 			return $email;
@@ -546,13 +542,6 @@ class AWSM_Job_Openings_Settings {
 			$email = get_option( 'admin_email' );
 		}
 		return sanitize_email( $email );
-	}
-
-	public function sanitize_admin_from_email_id( $email ) {
-		_deprecated_function( __METHOD__, '2.2.0', 'AWSM_Job_Openings_Settings::sanitize_from_email_id' );
-
-		$email = sanitize_email( $email );
-		return $this->validate_from_email_id( $email, 'awsm_jobs_admin_from_email_notification' );
 	}
 
 	public function sanitize_list_per_page( $input ) {
