@@ -4,9 +4,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class AWSM_Job_Openings_Form {
-	private static $instance    = null;
+	private static $instance = null;
 
-	public $form_fields_order   = array( 'awsm_applicant_name', 'awsm_applicant_email', 'awsm_applicant_phone', 'awsm_applicant_letter', 'awsm_file' );
+	public $form_fields_order = array( 'awsm_applicant_name', 'awsm_applicant_email', 'awsm_applicant_phone', 'awsm_applicant_letter', 'awsm_file' );
 
 	public static $allowed_html = array(
 		'a'      => array(
@@ -267,7 +267,7 @@ class AWSM_Job_Openings_Form {
 	public function display_gdpr_field( $form_attrs ) {
 		$label = $this->get_gdpr_field_label();
 		if ( ! empty( $label ) ) {
-			$field_id = $form_attrs['single_form'] ? 'awsm_form_privacy_policy' : esc_attr( 'awsm_form_privacy_policy-' . $form_attrs['job_id'] );
+			$field_id      = $form_attrs['single_form'] ? 'awsm_form_privacy_policy' : esc_attr( 'awsm_form_privacy_policy-' . $form_attrs['job_id'] );
 			$field_content = sprintf( '<div class="awsm-job-form-group awsm-job-inline-group"><input name="awsm_form_privacy_policy" class="awsm-job-form-field" id="%1$s" value="yes" type="checkbox" data-msg-required="%3$s" aria-required="true" required><label for="%1$s">%2$s <span class="awsm-job-form-error">*</span></label></div>', esc_attr( $field_id ), wp_kses( $label, self::get_allowed_html() ), esc_attr__( 'This field is required.', 'wp-job-openings' ) );
 			/**
 			 * Filters the privacy policy checkbox field content.
