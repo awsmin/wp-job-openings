@@ -620,21 +620,9 @@ class AWSM_Job_Openings_Settings {
 	}
 
 	public function update_awsm_jobs_filter( $old_value, $new_value ) {
-		$filters = $new_value;
-		if ( ! empty( $filters ) ) {
-			foreach ( $filters as $filter ) {
-				$taxonomy = $filter['taxonomy'];
-				if ( ! empty( $filter['tags'] ) ) {
-					foreach ( $filter['tags'] as $filter_tag ) {
-						$slug = sanitize_title( $filter_tag );
-						if ( ! get_term_by( 'slug', $slug, $taxonomy ) ) {
-							$args = array( 'slug' => $slug );
-							wp_insert_term( $filter_tag, $taxonomy, $args );
-						}
-					}
-				}
-			}
-		}
+		$awsm_job_openings = AWSM_Job_Openings::init();
+		$awsm_job_openings->awsm_jobs_taxonomies( $new_value );
+		$awsm_job_openings->insert_specs_terms( $new_value );
 	}
 
 	public function update_awsm_jobs_remove_filters( $old_value, $new_value ) {
@@ -1077,7 +1065,6 @@ class AWSM_Job_Openings_Settings {
 		}
 		$spec_title = $row_data = $del_btn_data = $icon_option = $tag_options = ''; // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
 
-		$is_new_template = ( $index === 0 && empty( $tax_details ) ) || ( strpos( $index, '{{' ) !== false );
 		$spec_key_html   = sprintf( '<input type="text" class="widefat awsm-jobs-spec-key" name="awsm_jobs_filter[%1$s][taxonomy]" value="" maxlength="32" placeholder="%2$s" title="%3$s" required /><input type="hidden" name="awsm_jobs_filter[%1$s][register]" value="true" />', esc_attr( $index ), esc_attr__( 'Specification key', 'wp-job-openings' ), esc_attr__( 'The job specification key should only contain alphanumeric, latin characters separated by hyphen/underscore, and cannot begin or end with a hyphen/underscore.', 'wp-job-openings' ) );
 
 		if ( ! empty( $tax_details ) && isset( $tax_details['key'] ) && isset( $tax_details['options'] ) ) {
@@ -1122,9 +1109,7 @@ class AWSM_Job_Openings_Settings {
 					<select class="awsm-font-icon-selector awsm-icon-select-control" name="awsm_jobs_filter[<?php echo esc_attr( $index ); ?>][icon]" style="width: 100%;" data-placeholder="<?php esc_html_e( 'Select icon', 'wp-job-openings' ); ?>"><?php echo $icon_option; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></select>
 				</td>
 				<td>
-					<?php if ( ! $is_new_template ) : ?>
-						<select class="awsm_jobs_filter_tags" name="awsm_jobs_filter[<?php echo esc_attr( $index ); ?>][tags][]" multiple="multiple" style="width: 100%;" data-placeholder="<?php esc_html_e( 'Enter options', 'wp-job-openings' ); ?>"><?php echo $tag_options; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></select>
-					<?php endif; ?>
+					<select class="awsm_jobs_filter_tags" name="awsm_jobs_filter[<?php echo esc_attr( $index ); ?>][tags][]" multiple="multiple" style="width: 100%;" data-placeholder="<?php esc_html_e( 'Enter options', 'wp-job-openings' ); ?>"><?php echo $tag_options; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></select>
 				</td>
 				<td><a class="button awsm-text-red awsm-filters-remove-row" href="#"<?php echo $del_btn_data; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>><?php esc_html_e( 'Delete', 'wp-job-openings' ); ?></a>
 				</td>

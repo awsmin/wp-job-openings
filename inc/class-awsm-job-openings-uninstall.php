@@ -76,6 +76,7 @@ class AWSM_Job_Openings_Uninstall {
 			'awsm_jobs_notification_admin_mail_template',
 			'awsm_jobs_notification_customizer',
 			'awsm_jobs_default_listing_page_id',
+			'awsm_jobs_insert_default_specs_terms',
 			'awsm_register_default_settings',
 			'awsm_gdpr_policies',
 			'awsm_plugin_rating_job_count',

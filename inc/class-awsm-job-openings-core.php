@@ -8,7 +8,7 @@ class AWSM_Job_Openings_Core {
 	private static $instance = null;
 
 	public function __construct() {
-		add_action( 'init', array( $this, 'register_post_types' ) );
+		add_action( 'init', array( $this, 'register_post_types' ), 5 );
 
 		// hide uploaded files.
 		if ( get_option( 'awsm_hide_uploaded_files' ) === 'hide_files' ) {
