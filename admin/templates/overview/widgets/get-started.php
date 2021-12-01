@@ -63,8 +63,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 			<ul class="ul-disc">
 				<?php
-				foreach ( $get_started_links as $link ) {
-					printf( '<li><a href="%2$s" target="_blank" rel="noopener">%1$s</a></li>', esc_html( $link['link_text'] ), esc_url( $link['url'] ) );
+				foreach ( $get_started_links as $gs_link ) {
+					printf( '<li><a href="%2$s" target="_blank" rel="noopener">%1$s</a></li>', esc_html( $gs_link['link_text'] ), esc_url( $gs_link['url'] ) );
 				}
 				?>
 			</ul>

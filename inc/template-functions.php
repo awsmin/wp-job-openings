@@ -142,9 +142,11 @@ if ( ! function_exists( 'awsm_jobs_paginate_links' ) ) {
 		$max_num_pages = isset( $query->max_num_pages ) ? $query->max_num_pages : 1;
 
 		$base_url = get_pagenum_link();
+		// phpcs:disable WordPress.Security.NonceVerification.Missing
 		if ( isset( $_POST['awsm_pagination_base'] ) ) {
 			$base_url = $_POST['awsm_pagination_base'];
 		}
+		// phpcs:enable
 
 		$args               = array(
 			'base'    => esc_url_raw( add_query_arg( 'paged', '%#%', $base_url ) ),
@@ -164,7 +166,7 @@ if ( ! function_exists( 'awsm_jobs_paginate_links' ) ) {
 		 * @param array $args Paginate links arguments.
 		 * @param array $shortcode_atts Shortcode attributes.
 		 */
-		echo apply_filters( 'awsm_jobs_paginate_links_content', $pagination_content, $query, $args, $shortcode_atts );
+		return apply_filters( 'awsm_jobs_paginate_links_content', $pagination_content, $query, $args, $shortcode_atts );
 	}
 }
 

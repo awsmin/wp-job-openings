@@ -277,7 +277,7 @@ class AWSM_Job_Openings_Form {
 			 * @param string $field_content Field HTML content.
 			 * @param array $form_attrs Attributes array for the form.
 			 */
-			echo apply_filters( 'awsm_application_form_gdpr_field_content', $field_content, $form_attrs );
+			echo apply_filters( 'awsm_application_form_gdpr_field_content', $field_content, $form_attrs ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 	}
 

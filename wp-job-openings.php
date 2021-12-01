@@ -1436,8 +1436,9 @@ class AWSM_Job_Openings {
 			$args['post_status'] = array( 'publish', 'expired' );
 		}
 
-		// Handle classic pagination on page load.
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing
 		if ( ! self::is_default_pagination( $shortcode_atts ) && ! isset( $_POST['awsm_pagination_base'] ) ) {
+			// Handle classic pagination on page load.
 			$paged         = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ) : 1;
 			$args['paged'] = $paged;
 		}

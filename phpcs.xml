@@ -28,6 +28,14 @@
         <exclude-pattern>wp-job-openings.php</exclude-pattern>
     </rule>
 
+	<rule ref="WordPress.Security.EscapeOutput">
+		<properties>
+			<property name="customAutoEscapedFunctions" type="array">
+				<element value="awsm_jobs_paginate_links" />
+			</property>
+		</properties>
+	</rule>
+
     <rule ref="WordPress-Extra">
         <exclude name="WordPress.WhiteSpace.PrecisionAlignment.Found" />
         <exclude name="WordPress.PHP.YodaConditions" />
