@@ -6,6 +6,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 class AWSM_Job_Openings_Form {
 	private static $instance = null;
 
+	protected $cpath = null;
+
 	public $form_fields_order = array( 'awsm_applicant_name', 'awsm_applicant_email', 'awsm_applicant_phone', 'awsm_applicant_letter', 'awsm_file' );
 
 	public static $allowed_html = array(

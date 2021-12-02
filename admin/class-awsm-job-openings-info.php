@@ -7,6 +7,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 class AWSM_Job_Openings_Info {
 	private static $instance = null;
 
+	protected $cpath = null;
+
 	public function __construct() {
 		$this->cpath = untrailingslashit( plugin_dir_path( __FILE__ ) );
 		add_action( 'admin_init', array( $this, 'redirect_to_setup' ) );

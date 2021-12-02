@@ -175,8 +175,8 @@ class AWSM_Job_Openings_Filters {
 				$filter_content .= sprintf( '<input type="hidden" name="language" value="%s">', esc_attr( $current_lang ) );
 			}
 			if ( ! AWSM_Job_Openings::is_default_pagination( $shortcode_atts ) ) {
-				$paged           = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ) : 1;
-				$filter_content .= sprintf( '<input type="hidden" name="awsm_pagination_base" value="%1$s"><input type="hidden" name="paged" value="%2$s">', esc_url( get_pagenum_link() ), esc_attr( $paged ) );
+				$paged           = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
+				$filter_content .= sprintf( '<input type="hidden" name="awsm_pagination_base" value="%1$s"><input type="hidden" name="paged" value="%2$s">', esc_url( get_pagenum_link() ), absint( $paged ) );
 			}
 			$filter_content = sprintf( '<div class="awsm-filter-wrap"><form action="%2$s/wp-admin/admin-ajax.php" method="POST">%1$s<input type="hidden" name="action" value="jobfilter"></form></div>', $filter_content, esc_url( site_url() ) );
 		}

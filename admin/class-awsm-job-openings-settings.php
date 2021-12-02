@@ -8,6 +8,10 @@ class AWSM_Job_Openings_Settings {
 
 	private $permalink_msg_shown = false;
 
+	protected $cpath = null;
+
+	public $awsm_core = null;
+
 	public function __construct( $awsm_core ) {
 		$this->cpath     = untrailingslashit( plugin_dir_path( __FILE__ ) );
 		$this->awsm_core = $awsm_core;
@@ -409,11 +413,10 @@ class AWSM_Job_Openings_Settings {
 			'awsm_jobs_from_email_notification'       => get_option( 'admin_email' ),
 			'awsm_jobs_admin_from_email_notification' => get_option( 'admin_email' ),
 		);
-		if ( ! empty( $options ) ) {
-			foreach ( $options as $option => $value ) {
-				if ( ! get_option( $option ) ) {
-					update_option( $option, $value );
-				}
+
+		foreach ( $options as $option => $value ) {
+			if ( ! get_option( $option ) ) {
+				update_option( $option, $value );
 			}
 		}
 	}
@@ -594,12 +597,10 @@ class AWSM_Job_Openings_Settings {
 				if ( isset( $filter['remove_tags'] ) ) {
 					if ( ! empty( $filter['remove_tags'] ) ) {
 						$remove_tags = $filter['remove_tags'];
-						if ( ! empty( $remove_tags ) ) {
-							foreach ( $remove_tags as $remove_tag ) {
-								$term = get_term_by( 'id', $remove_tag, $spec_key );
-								if ( $term instanceof \WP_Term ) {
-									wp_delete_term( $term->term_id, $spec_key );
-								}
+						foreach ( $remove_tags as $remove_tag ) {
+							$term = get_term_by( 'id', $remove_tag, $spec_key );
+							if ( $term instanceof \WP_Term ) {
+								wp_delete_term( $term->term_id, $spec_key );
 							}
 						}
 					}

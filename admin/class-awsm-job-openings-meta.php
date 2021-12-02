@@ -6,6 +6,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 class AWSM_Job_Openings_Meta {
 	private static $instance = null;
 
+	protected $cpath = null;
+
 	public function __construct() {
 		$this->cpath = untrailingslashit( plugin_dir_path( __FILE__ ) );
 		add_action( 'add_meta_boxes', array( $this, 'awsm_register_meta_boxes' ) );

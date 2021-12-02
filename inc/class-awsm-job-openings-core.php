@@ -402,7 +402,7 @@ class AWSM_Job_Openings_Core {
 	 */
 	public function login_redirect( $redirect_to, $requested_redirect_to, $user ) {
 		if ( ! is_wp_error( $user ) && ( empty( $redirect_to ) || 'wp-admin/' === $redirect_to || admin_url() === $redirect_to ) ) {
-			if ( isset( $user->roles ) && is_array( $user->roles ) && in_array( 'hr', $user->roles ) && ! $user->has_cap( 'edit_posts' ) && $user->has_cap( 'edit_jobs' ) ) {
+			if ( ! empty( $user->roles ) && is_array( $user->roles ) && in_array( 'hr', $user->roles ) && ! $user->has_cap( 'edit_posts' ) && $user->has_cap( 'edit_jobs' ) ) {
 				/**
 				 * Filters login redirection URL for the HR user.
 				 *

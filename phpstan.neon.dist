@@ -15,6 +15,7 @@ parameters:
 		- inc/class-awsm-job-openings-mail-customizer.php
 		- inc/widgets/class-awsm-job-openings-recent-jobs-widget.php
 		- inc/widgets/class-awsm-job-openings-dashboard-widget.php
+		- admin/class-awsm-job-openings-overview.php
 		- admin/class-awsm-job-openings-meta.php
 		- admin/class-awsm-job-openings-info.php
 		- admin/class-awsm-job-openings-settings.php
@@ -28,10 +29,3 @@ parameters:
 		- '#^Constant AWSM_JOBS_PLUGIN_DIR not found\.$#'
 		- '#^Constant AWSM_JOBS_PLUGIN_URL not found\.$#'
 		# Properties
-		- '#^Access to an undefined property AWSM_Job_Openings::\$awsm_core\.$#'
-		- '#^Access to an undefined property AWSM_Job_Openings_Settings::\$awsm_core\.$#'
-		- '#^Access to an undefined property AWSM_Job_Openings::\$awsm_form\.$#'
-		- '#^Access to an undefined property AWSM_Job_Openings_Settings::\$cpath\.$#'
-		- '#^Access to an undefined property AWSM_Job_Openings_Meta::\$cpath\.$#'
-		- '#^Access to an undefined property AWSM_Job_Openings_Info::\$cpath\.$#'
-		- '#^Access to an undefined property AWSM_Job_Openings_Form::\$cpath\.$#'

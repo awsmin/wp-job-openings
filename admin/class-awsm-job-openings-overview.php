@@ -7,6 +7,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 class AWSM_Job_Openings_Overview {
 	private static $instance = null;
 
+	protected $cpath = null;
+
 	public static $menu_slug = 'awsm-jobs-overview';
 
 	public static $screen_id = 'awsm_job_openings_page_awsm-jobs-overview';

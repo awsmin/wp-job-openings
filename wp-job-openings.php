@@ -53,6 +53,10 @@ class AWSM_Job_Openings {
 
 	protected $unique_listing_id = 1;
 
+	public $awsm_core = null;
+
+	public $awsm_form = null;
+
 	public function __construct() {
 		// Require Classes.
 		self::load_classes();
@@ -575,17 +579,15 @@ class AWSM_Job_Openings {
 		$args = apply_filters( 'awsm_check_for_expired_jobs_query_args', $args );
 
 		$query = new WP_Query( $args );
-		if ( $query->have_posts() ) {
-			while ( $query->have_posts() ) {
-				$query->the_post();
-				// still doing some usual checking even if meta query is used!
-				$expiry_on_list = get_post_meta( get_the_ID(), 'awsm_set_exp_list', true );
-				if ( $expiry_on_list === 'set_listing' ) {
-					$jobs                = array();
-					$jobs['ID']          = get_the_ID();
-					$jobs['post_status'] = 'expired';
-					wp_update_post( $jobs );
-				}
+		while ( $query->have_posts() ) {
+			$query->the_post();
+			// still doing some usual checking even if meta query is used!
+			$expiry_on_list = get_post_meta( get_the_ID(), 'awsm_set_exp_list', true );
+			if ( $expiry_on_list === 'set_listing' ) {
+				$jobs                = array();
+				$jobs['ID']          = get_the_ID();
+				$jobs['post_status'] = 'expired';
+				wp_update_post( $jobs );
 			}
 		}
 	}
@@ -1648,20 +1650,18 @@ class AWSM_Job_Openings {
 			'OTHER'      => __( 'Other', 'wp-job-openings' ),
 		);
 		$default_emp_types = array_flip( array_map( 'sanitize_title', $default_emp_types ) );
-		if ( ! empty( $default_emp_types ) ) {
-			if ( taxonomy_exists( 'job-type' ) ) {
-				$emp_types = get_the_terms( $post->ID, 'job-type' );
-				if ( ! empty( $emp_types ) ) {
-					$data['employmentType'] = array();
-					foreach ( $emp_types as $emp_type ) {
-						$slug = $emp_type->slug;
-						if ( array_key_exists( $slug, $default_emp_types ) ) {
-							$data['employmentType'][] = $default_emp_types[ $slug ];
-						}
+		if ( taxonomy_exists( 'job-type' ) ) {
+			$emp_types = get_the_terms( $post->ID, 'job-type' );
+			if ( ! empty( $emp_types ) ) {
+				$data['employmentType'] = array();
+				foreach ( $emp_types as $emp_type ) {
+					$slug = $emp_type->slug;
+					if ( array_key_exists( $slug, $default_emp_types ) ) {
+						$data['employmentType'][] = $default_emp_types[ $slug ];
 					}
-					if ( count( $data['employmentType'] ) === 1 ) {
-						$data['employmentType'] = $data['employmentType'][0];
-					}
+				}
+				if ( count( $data['employmentType'] ) === 1 ) {
+					$data['employmentType'] = $data['employmentType'][0];
 				}
 			}
 		}
