@@ -38,11 +38,13 @@ $listing_specs = get_option( 'awsm_jobs_listing_specs' );
 					<div class="awsm-list-left-col">
 						<?php
 							/**
-							 * before_awsm_recent_jobs_widget_left_col_content hook
+							 * before_awsm_recent_jobs_widget_title hook
 							 *
-							 * @since 1.4
+							 * @since 3.0.0
 							 */
-							do_action( 'before_awsm_recent_jobs_widget_left_col_content', $args, $instance );
+							do_action( 'before_awsm_recent_jobs_widget_title', $args, $instance );
+
+							do_action_deprecated( 'before_awsm_recent_jobs_widget_left_col_content', array( $args, $instance ), '3.0.0', 'before_awsm_recent_jobs_widget_title' );
 						?>
 
 						<h2 class="awsm-job-post-title">
@@ -54,22 +56,26 @@ $listing_specs = get_option( 'awsm_jobs_listing_specs' );
 
 						<?php
 							/**
-							 * after_awsm_recent_jobs_widget_left_col_content hook
+							 * after_awsm_recent_jobs_widget_title hook
 							 *
-							 * @since 1.4
+							 * @since 3.0.0
 							 */
-							do_action( 'after_awsm_recent_jobs_widget_left_col_content', $args, $instance );
+							do_action( 'after_awsm_recent_jobs_widget_title', $args, $instance );
+
+							do_action_deprecated( 'after_awsm_recent_jobs_widget_left_col_content', array( $args, $instance ), '3.0.0', 'after_awsm_recent_jobs_widget_title' );
 						?>
 					</div>
 
 					<div class="awsm-list-right-col">
 						<?php
 							/**
-							 * before_awsm_recent_jobs_widget_right_col_content hook
+							 * before_awsm_recent_jobs_widget_specs_content hook
 							 *
-							 * @since 1.4
+							 * @since 3.0.0
 							 */
-							do_action( 'before_awsm_recent_jobs_widget_right_col_content', $args, $instance );
+							do_action( 'before_awsm_recent_jobs_widget_specs_content', $args, $instance );
+
+							do_action_deprecated( 'before_awsm_recent_jobs_widget_right_col_content', array( $args, $instance ), '3.0.0', 'before_awsm_recent_jobs_widget_specs_content' );
 
 						if ( $show_spec ) {
 							awsm_job_listing_spec_content( $job_details['id'], $awsm_filters, $listing_specs );
@@ -80,11 +86,13 @@ $listing_specs = get_option( 'awsm_jobs_listing_specs' );
 						}
 
 							/**
-							 * after_awsm_recent_jobs_widget_right_col_content hook
+							 * after_awsm_recent_jobs_widget_specs_content hook
 							 *
-							 * @since 1.4
+							 * @since 3.0.0
 							 */
-							do_action( 'after_awsm_recent_jobs_widget_right_col_content', $args, $instance );
+							do_action( 'after_awsm_recent_jobs_widget_specs_content', $args, $instance );
+
+							do_action_deprecated( 'after_awsm_recent_jobs_widget_right_col_content', array( $args, $instance ), '3.0.0', 'after_awsm_recent_jobs_widget_specs_content' );
 						?>
 					</div>
 				</div>
