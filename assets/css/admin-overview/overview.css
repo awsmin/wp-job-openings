@@ -29,20 +29,6 @@
 .awsm-jobs-overview-col:not(:last-child) {
 	border-bottom: 1px solid #c3c4c7;
 }
-.awsm-jobs-overview-col-head {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	margin-bottom: 20px;
-}
-.awsm-jobs-overview-col-head h3 {
-	font-size: 12px;
-	margin: 0;
-	text-transform: uppercase;
-}
-.awsm-jobs-overview-col-head a {
-	font-weight: bold;
-}
 .awsm-jobs-overview-welcome {
 	font-size: 16px;
 	padding: 32px 25px;
@@ -235,12 +221,6 @@
 	.awsm-jobs-overview-col:not(:last-child) {
 		border-right: 1px solid #c3c4c7;
 		border-bottom: none;
-	}
-	.awsm-jobs-overview-col-2 {
-		width: 50%;
-	}
-	.awsm-jobs-overview-col-3 {
-		width: 33.3333%;
 	}
 }
 .awsm-jobs-overview-widget-get-started{
