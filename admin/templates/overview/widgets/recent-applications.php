@@ -29,7 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<?php
 				foreach ( $applications as $application ) :
 					$applicant_email = get_post_meta( $application->ID, 'awsm_applicant_email', true );
-					$avatar          = apply_filters( 'awsm_applicant_photo', get_avatar( $applicant_email, 32 ) );
+					$avatar          = apply_filters( 'awsm_applicant_photo', get_avatar( $applicant_email, 32 ), $application->ID );
 					$edit_link       = AWSM_Job_Openings::get_application_edit_link( $application->ID );
 					$submission_time = human_time_diff( get_the_time( 'U', $application->ID ), current_time( 'timestamp' ) ) . ' ' . __( 'ago', 'wp-job-openings' );
 					?>
