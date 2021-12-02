@@ -144,7 +144,7 @@ class AWSM_Job_Openings_Core {
 				'show_in_menu'    => 'edit.php?post_type=awsm_job_openings',
 				'capability_type' => 'application',
 				'capabilities'    => array(
-					'create_posts' => false,
+					'create_posts' => 'do_not_allow',
 				),
 				'supports'        => false,
 				'rewrite'         => false,
@@ -215,6 +215,7 @@ class AWSM_Job_Openings_Core {
 		$caps            = $this->get_caps();
 		$hr_caps         = array_merge( $caps['level_1'], $caps['level_2'], $caps['level_3'], $caps['level_4'] );
 		$hr_caps['read'] = true;
+		$hr_caps['upload_files'] = true;
 		add_role( 'hr', __( 'HR', 'wp-job-openings' ), $hr_caps );
 	}
 
