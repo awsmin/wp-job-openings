@@ -23,12 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				</h1>
 				<p>
 				<?php
-				esc_html_e(
-					'Thanks for installing WP Job Openings, you are awesome! With WP Job Openings, it will take you only a few minutes to set up your job listing page and start hiring.
-
-',
-					'wp-job-openings'
-				);
+					esc_html_e( 'Thanks for installing WP Job Openings, you are awesome! With WP Job Openings, it will take you only a few minutes to set up your job listing page and start hiring.', 'wp-job-openings' );
 				?>
 				</p>
 				<ul class="awsm-job-setup-step-list">
