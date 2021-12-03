@@ -1,4 +1,4 @@
-[![WP Job Openings](https://ps.w.org/wp-job-openings/assets/banner-772x250.png?rev=2296666)](https://wordpress.org/plugins/wp-job-openings/)
+[![WP Job Openings](https://ps.w.org/wp-job-openings/assets/banner-772x250.png?rev=2639067)](https://wordpress.org/plugins/wp-job-openings/)
 # WP Job Openings
 **Contributors:** awsmin  
 **Tags:** jobs, job listing, job openings, job board, careers page, jobs page, wp job opening, jobs plugin  
@@ -87,7 +87,7 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 
 ## Screenshots
 
-<img src="https://ps.w.org/wp-job-openings/assets/screenshot-5.jpg?rev=2296666" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-4.png?rev=2296666" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-9.jpg?rev=2296666" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-6.png?rev=2296666" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-8.jpg?rev=2296666" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-11.png?rev=2296666" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-1.png?rev=2296666" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-2.png?rev=2296666" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-3.png?rev=2296666" width="30%"></img> 
+<img src="https://ps.w.org/wp-job-openings/assets/screenshot-5.png?rev=2639067" width="90%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-2.png?rev=2639067" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-3.png?rev=2639067" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-4.png?rev=2639067" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-1.png?rev=2639067" width="90%"></img>
 
 ## Changelog
 
