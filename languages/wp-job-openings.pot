@@ -241,15 +241,15 @@ msgstr ""
 msgid "You do not have sufficient permissions to make this request!"
 msgstr ""
 
-#: admin/class-awsm-job-openings-info.php:62, admin/templates/info/setup.php:38
+#: admin/class-awsm-job-openings-info.php:62, admin/templates/info/setup.php:42
 msgid "Name of company"
 msgstr ""
 
-#: admin/class-awsm-job-openings-info.php:66, admin/templates/info/setup.php:43
+#: admin/class-awsm-job-openings-info.php:66, admin/templates/info/setup.php:47
 msgid "Recruiter Email Address"
 msgstr ""
 
-#: admin/class-awsm-job-openings-info.php:70, admin/templates/general.php:60, admin/templates/info/setup.php:48
+#: admin/class-awsm-job-openings-info.php:70, admin/templates/general.php:60, admin/templates/info/setup.php:52
 msgid "Job listing page"
 msgstr ""
 
@@ -394,7 +394,7 @@ msgstr ""
 msgid "Applications Analytics"
 msgstr ""
 
-#: admin/class-awsm-job-openings-overview.php:79, admin/templates/info/setup.php:57
+#: admin/class-awsm-job-openings-overview.php:79, admin/templates/info/setup.php:61
 msgid "Get Started"
 msgstr ""
 
@@ -1438,35 +1438,35 @@ msgstr ""
 msgid "by AWSM INNOVATIONS"
 msgstr ""
 
-#: admin/templates/info/setup.php:24
+#: admin/templates/info/setup.php:26
 msgid "Thanks for installing WP Job Openings, you are awesome! With WP Job Openings, it will take you only a few minutes to set up your job listing page and start hiring."
 msgstr ""
 
-#: admin/templates/info/setup.php:26
+#: admin/templates/info/setup.php:30
 msgid "Set up the listing page"
 msgstr ""
 
-#: admin/templates/info/setup.php:27
+#: admin/templates/info/setup.php:31
 msgid "Add job openings"
 msgstr ""
 
-#: admin/templates/info/setup.php:28
+#: admin/templates/info/setup.php:32
 msgid "Start hunting talents!"
 msgstr ""
 
-#: admin/templates/info/setup.php:34
+#: admin/templates/info/setup.php:38
 msgid "Let's set up your job listing"
 msgstr ""
 
-#: admin/templates/info/setup.php:40
+#: admin/templates/info/setup.php:44
 msgid "The official name, which will be displayed all over"
 msgstr ""
 
-#: admin/templates/info/setup.php:45
+#: admin/templates/info/setup.php:49
 msgid "The email address that should be receiving all notifications"
 msgstr ""
 
-#: admin/templates/info/setup.php:53
+#: admin/templates/info/setup.php:57
 msgid "The page you want to display the listing. You an choose it later also."
 msgstr ""
 
