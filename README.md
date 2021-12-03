@@ -5,7 +5,7 @@
 **Requires at least:** 4.8  
 **Tested up to:** 5.8  
 **Requires PHP:** 5.6  
-**Stable tag:** 2.3.1  
+**Stable tag:** 3.0.0  
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
 **Donate link:** https://www.buymeacoffee.com/awsm
@@ -91,6 +91,24 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 
 ## Changelog
 
+**V 3.0.0 - 2021-12-03**
+* Admin UI improvements.
+* Job listing UI improvements. The template file needs to be updated if overridden in the theme.
+* Added: Overview page with support for Applications Analytics widget, Get Started widget, Recent Applications widget, Open Positions widget, and Your Listings widget.
+* Added: Multiple pagination support - Classic or Modern.
+* Fixed: 'Add New' button for applications being displayed for Multisite network.
+* Fixed: Issue in removing duplicate job specification options.
+* Fixed: Email digest from address is not the same as the mail address for admin notification.
+* Improved: Admin dashboard widget.
+* Improved: Job Specifications settings.
+* Improved: HR user capabilities.
+* Dev: Deprecated job listing hooks.
+* Dev: Deprecated recent jobs widget hooks.
+* Dev: Hook to override the allowed HTML for the form.
+* Dev: Hook to customize expired job content.
+* Code improvements.
+* Other minor bug fixes.
+
 **V 2.3.1 – 2021-10-28**
 * Fixed: Media missing from library in WordPress.com when 'Secure uploaded files' option is enabled.
 * Fixed: Accessibility issues in job filters. #28
@@ -126,14 +144,5 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 * Improved: Redirect users with HR Role to job page instead of profile page after login.
 * Improved: WPML compatibility for Settings.
 * Other minor bug fixes and style improvements.
-
-**V 2.1.0 – 2020-12-08**
-* WordPress 5.6 compatibility fixes.
-* Added: Featured image support for Job Openings and in the job listing and an option to enable the support. Template files need to be updated if overridden in theme.
-* Added: Excerpt, Author, and Custom fields support for Job Openings.
-* Added: Force expiry option in the submit meta box.
-* Added: Option to disable the archive page for Job Openings.
-* Improved: Date and Time formatting.
-* Code improvements and minor bug fixes.
 
 View complete Changelog in [CHANGELOG.MD](https://github.com/awsmin/wp-job-openings/blob/master/CHANGELOG.md)

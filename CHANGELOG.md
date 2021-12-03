@@ -1,5 +1,23 @@
 ## Changelog
 
+### V 3.0.0 - 2021-12-03
+* Admin UI improvements.
+* Job listing UI improvements. The template file needs to be updated if overridden in the theme.
+* Added: Overview page with support for Applications Analytics widget, Get Started widget, Recent Applications widget, Open Positions widget, and Your Listings widget.
+* Added: Multiple pagination support - Classic or Modern.
+* Fixed: 'Add New' button for applications being displayed for Multisite network.
+* Fixed: Issue in removing duplicate job specification options.
+* Fixed: Email digest from address is not the same as the mail address for admin notification.
+* Improved: Admin dashboard widget.
+* Improved: Job Specifications settings.
+* Improved: HR user capabilities.
+* Dev: Deprecated job listing hooks.
+* Dev: Deprecated recent jobs widget hooks.
+* Dev: Hook to override the allowed HTML for the form.
+* Dev: Hook to customize expired job content.
+* Code improvements.
+* Other minor bug fixes.
+
 ### V 2.3.1 – 2021-10-28
 * Fixed: Media missing from library in WordPress.com when 'Secure uploaded files' option is enabled.
 * Fixed: Accessibility issues in job filters. #28
