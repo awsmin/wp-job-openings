@@ -1439,7 +1439,7 @@ msgid "by AWSM INNOVATIONS"
 msgstr ""
 
 #: admin/templates/info/setup.php:24
-msgid "Thank you for trying WP Job Openings Plugin by AWSM Innovations. The plugin will help you setup the jobs page for in a few minutes."
+msgid "Thanks for installing WP Job Openings, you are awesome! With WP Job Openings, it will take you only a few minutes to set up your job listing page and start hiring."
 msgstr ""
 
 #: admin/templates/info/setup.php:26

@@ -21,7 +21,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<strong><?php esc_html_e( 'by AWSM INNOVATIONS', 'wp-job-openings' ); ?></strong>
 					</a>
 				</h1>
-				<p><?php esc_html_e( 'Thank you for trying WP Job Openings Plugin by AWSM Innovations. The plugin will help you setup the jobs page for in a few minutes.', 'wp-job-openings' ); ?></p>
+				<p><?php esc_html_e( 'Thanks for installing WP Job Openings, you are awesome! With WP Job Openings, it will take you only a few minutes to set up your job listing page and start hiring.
+
+', 'wp-job-openings' ); ?></p>
 				<ul class="awsm-job-setup-step-list">
 					<li><?php esc_html_e( 'Set up the listing page', 'wp-job-openings' ); ?></li>
 					<li><?php esc_html_e( 'Add job openings', 'wp-job-openings' ); ?></li>
