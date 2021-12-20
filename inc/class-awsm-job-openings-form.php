@@ -360,14 +360,14 @@ class AWSM_Job_Openings_Form {
 	public function form_language_field() {
 		$current_lang = AWSM_Job_Openings::get_current_language();
 		if ( ! empty( $current_lang ) ) {
-			printf( '<input type="hidden" name="language" value="%s">', esc_attr( $current_lang ) );
+			printf( '<input type="hidden" name="lang" value="%s">', esc_attr( $current_lang ) );
 		}
 	}
 
 	public function set_form_language() {
 		// phpcs:disable WordPress.Security.NonceVerification.Missing
-		if ( isset( $_POST['language'] ) ) {
-			AWSM_Job_Openings::set_current_language( $_POST['language'] );
+		if ( isset( $_POST['lang'] ) ) {
+			AWSM_Job_Openings::set_current_language( $_POST['lang'] );
 		}
 		// phpcs:enable
 	}

@@ -186,7 +186,7 @@ jQuery(function($) {
 		var $paginationWrapper = $triggerElem.parents('.awsm-jobs-pagination');
 		var listings = $listingsContainer.data('listings');
 		var specs = $listingsContainer.data('specs');
-		var language = $listingsContainer.data('language');
+		var lang = $listingsContainer.data('lang');
 		var searchQuery = $listingsContainer.data('search');
 
 		if (isDefaultPagination) {
@@ -259,10 +259,10 @@ jQuery(function($) {
 				value: specs
 			});
 		}
-		if (typeof language !== 'undefined') {
+		if (typeof lang !== 'undefined') {
 			wpData.push({
-				name: 'language',
-				value: language
+				name: 'lang',
+				value: lang
 			});
 		}
 		if (typeof searchQuery !== 'undefined') {

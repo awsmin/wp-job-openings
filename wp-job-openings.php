@@ -1505,7 +1505,7 @@ class AWSM_Job_Openings {
 
 		$current_lang = self::get_current_language();
 		if ( ! empty( $current_lang ) ) {
-			$attrs['language'] = $current_lang;
+			$attrs['lang'] = $current_lang;
 		}
 
 		if ( isset( $_GET['jq'] ) ) {

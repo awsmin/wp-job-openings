@@ -172,7 +172,7 @@ class AWSM_Job_Openings_Filters {
 		if ( ! empty( $filter_content ) ) {
 			$current_lang = AWSM_Job_Openings::get_current_language();
 			if ( ! empty( $current_lang ) ) {
-				$filter_content .= sprintf( '<input type="hidden" name="language" value="%s">', esc_attr( $current_lang ) );
+				$filter_content .= sprintf( '<input type="hidden" name="lang" value="%s">', esc_attr( $current_lang ) );
 			}
 			if ( ! AWSM_Job_Openings::is_default_pagination( $shortcode_atts ) ) {
 				$paged           = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
@@ -206,8 +206,8 @@ class AWSM_Job_Openings_Filters {
 			$shortcode_atts['listings'] = intval( $_POST['listings_per_page'] );
 		}
 
-		if ( isset( $_POST['language'] ) ) {
-			AWSM_Job_Openings::set_current_language( $_POST['language'] );
+		if ( isset( $_POST['lang'] ) ) {
+			AWSM_Job_Openings::set_current_language( $_POST['lang'] );
 		}
 
 		if ( isset( $_POST['awsm_pagination_base'] ) ) {
