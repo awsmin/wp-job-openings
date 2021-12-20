@@ -26,6 +26,8 @@ class AWSM_Job_Openings_Form {
 		$this->cpath = untrailingslashit( plugin_dir_path( __FILE__ ) );
 		add_action( 'awsm_application_form_init', array( $this, 'application_form' ) );
 		add_action( 'awsm_application_form_field_init', array( $this, 'form_field_init' ) );
+		add_action( 'awsm_application_form_field_init', array( $this, 'form_language_field' ), 100 );
+		add_action( 'awsm_job_application_submitting', array( $this, 'set_form_language' ) );
 		add_action( 'before_awsm_job_details', array( $this, 'insert_application' ) );
 		add_action( 'wp_ajax_awsm_applicant_form_submission', array( $this, 'ajax_handle' ) );
 		add_action( 'wp_ajax_nopriv_awsm_applicant_form_submission', array( $this, 'ajax_handle' ) );
@@ -353,6 +355,21 @@ class AWSM_Job_Openings_Form {
 	public function hashed_file_name( $dir, $name, $ext ) {
 		$file_name = hash( 'sha1', ( $name . uniqid( (string) rand(), true ) ) ) . time();
 		return sanitize_file_name( $file_name . $ext );
+	}
+
+	public function form_language_field() {
+		$current_lang = AWSM_Job_Openings::get_current_language();
+		if ( ! empty( $current_lang ) ) {
+			printf( '<input type="hidden" name="language" value="%s">', esc_attr( $current_lang ) );
+		}
+	}
+
+	public function set_form_language() {
+		// phpcs:disable WordPress.Security.NonceVerification.Missing
+		if ( isset( $_POST['language'] ) ) {
+			AWSM_Job_Openings::set_current_language( $_POST['language'] );
+		}
+		// phpcs:enable
 	}
 
 	public function insert_application() {

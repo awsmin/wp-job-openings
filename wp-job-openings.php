@@ -1484,16 +1484,16 @@ class AWSM_Job_Openings {
 
 	public static function get_current_language() {
 		$current_lang = null;
-		// WPML support.
-		if ( defined( 'ICL_SITEPRESS_VERSION' ) ) {
+		// WPML and Polylang support.
+		if ( defined( 'ICL_SITEPRESS_VERSION' ) || defined( 'POLYLANG_VERSION' ) ) {
 			$current_lang = apply_filters( 'wpml_current_language', null );
 		}
 		return $current_lang;
 	}
 
 	public static function set_current_language( $language ) {
-		// WPML support.
-		if ( defined( 'ICL_SITEPRESS_VERSION' ) ) {
+		// WPML and Polylang support.
+		if ( defined( 'ICL_SITEPRESS_VERSION' ) || defined( 'POLYLANG_VERSION' ) ) {
 			do_action( 'wpml_switch_language', $language );
 		}
 	}
