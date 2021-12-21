@@ -1517,7 +1517,16 @@ class AWSM_Job_Openings {
 			$attrs['taxonomy'] = $q_obj->taxonomy;
 			$attrs['term-id']  = $q_obj->term_id;
 		}
-		return apply_filters( 'awsm_job_listing_data_attrs', $attrs );
+		/**
+		 * Filters the data attributes for the job listings div element.
+		 *
+		 * @since 1.1.0
+		 * @since 3.1.0 The `$shortcode_atts` parameter was added.
+		 *
+		 * @param array $attrs The data attributes.
+		 * @param array $shortcode_atts The shortcode attributes.
+		 */
+		return apply_filters( 'awsm_job_listing_data_attrs', $attrs, $shortcode_atts );
 	}
 
 	public static function get_job_details_class() {

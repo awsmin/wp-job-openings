@@ -12,6 +12,21 @@ jQuery(function($) {
 	var currentUrl = window.location.protocol + '//' + window.location.host + window.location.pathname;
 	var triggerFilter = true;
 
+	function getListingsData($wrapper) {
+		var data = [];
+		var parsedListingsAttrs = [ 'listings', 'specs', 'search', 'lang', 'taxonomy', 'termId' ];
+		var dataAttrs = $wrapper.data();
+		$.each(dataAttrs, function(dataAttr, value) {
+			if ($.inArray(dataAttr, parsedListingsAttrs) === -1) {
+				data.push({
+					name: dataAttr,
+					value: value
+				});
+			}
+		});
+		return data;
+	}
+
 	function awsmJobFilters($rootWrapper) {
 		var $wrapper = $rootWrapper.find(wrapperSelector);
 		var $filterForm = $rootWrapper.find(filterSelector + ' form');
@@ -27,6 +42,10 @@ jQuery(function($) {
 				name: 'shortcode_specs',
 				value: specs
 			});
+		}
+		var listingsData = getListingsData($wrapper);
+		if (listingsData.length > 0) {
+			formData = formData.concat(listingsData);
 		}
 		if (triggerFilter) {
 
@@ -270,6 +289,10 @@ jQuery(function($) {
 				name: 'jq',
 				value: searchQuery
 			});
+		}
+		var listingsData = getListingsData($listingsContainer);
+		if (listingsData.length > 0) {
+			wpData = wpData.concat(listingsData);
 		}
 
 		// now, handle ajax
