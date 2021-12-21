@@ -3,7 +3,7 @@
  * Template specific functions
  *
  * @package wp-job-openings
- * @version 3.0.0
+ * @version 3.1.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -25,14 +25,14 @@ if ( ! function_exists( 'awsm_jobs_query' ) ) {
 }
 
 if ( ! function_exists( 'awsm_jobs_view' ) ) {
-	function awsm_jobs_view() {
-		return AWSM_Job_Openings::get_job_listing_view();
+	function awsm_jobs_view( $shortcode_atts = array() ) {
+		return AWSM_Job_Openings::get_job_listing_view( $shortcode_atts );
 	}
 }
 
 if ( ! function_exists( 'awsm_jobs_view_class' ) ) {
-	function awsm_jobs_view_class( $class = '' ) {
-		$view_class = AWSM_Job_Openings::get_job_listing_view_class();
+	function awsm_jobs_view_class( $class = '', $shortcode_atts = array() ) {
+		$view_class = AWSM_Job_Openings::get_job_listing_view_class( $shortcode_atts );
 		if ( ! empty( $class ) ) {
 			$view_class = trim( $view_class . ' ' . $class );
 		}

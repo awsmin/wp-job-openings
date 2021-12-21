@@ -1457,17 +1457,25 @@ class AWSM_Job_Openings {
 		return apply_filters( 'awsm_job_query_args', $args, $filters, $shortcode_atts );
 	}
 
-	public static function get_job_listing_view() {
+	public static function get_job_listing_view( $shortcode_atts = array() ) {
 		$view    = 'list';
 		$options = get_option( 'awsm_jobs_listing_view' );
 		if ( $options === 'grid-view' ) {
 			$view = 'grid';
 		}
-		return $view;
+		/**
+		 * Filters the job listing view.
+		 *
+		 * @since 3.1.0
+		 *
+		 * @param string $view Listing view - list or grid.
+		 * @param array $shortcode_atts Shortcode attributes.
+		 */
+		return apply_filters( 'awsm_job_listing_view', $view, $shortcode_atts );
 	}
 
-	public static function get_job_listing_view_class() {
-		$view       = self::get_job_listing_view();
+	public static function get_job_listing_view_class( $shortcode_atts = array() ) {
+		$view       = self::get_job_listing_view( $shortcode_atts );
 		$view_class = 'awsm-lists';
 		if ( $view === 'grid' ) {
 			$number_columns = get_option( 'awsm_jobs_number_of_columns' );
@@ -1478,7 +1486,16 @@ class AWSM_Job_Openings {
 			}
 			$view_class .= ' ' . $column_class;
 		}
-		$view_class = apply_filters( 'awsm_job_listing_view_class', $view_class );
+		/**
+		 * Filters the job listing view class.
+		 *
+		 * @since 1.1.0
+		 * @since 3.1.0 The `$shortcode_atts` parameter was added.
+		 *
+		 * @param string $view_class Class names.
+		 * @param array $shortcode_atts The shortcode attributes.
+		 */
+		$view_class = apply_filters( 'awsm_job_listing_view_class', $view_class, $shortcode_atts );
 		return sprintf( 'awsm-job-listings %s', $view_class );
 	}
 

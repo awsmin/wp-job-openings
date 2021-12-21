@@ -5,17 +5,17 @@
  * Override this by copying it to currenttheme/wp-job-openings/job-openings/main.php
  *
  * @package wp-job-openings
- * @version 3.0.0
+ * @version 3.1.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$view           = awsm_jobs_view();
+$shortcode_atts = isset( $shortcode_atts ) ? $shortcode_atts : array();
+$view           = awsm_jobs_view( $shortcode_atts );
 $awsm_filters   = get_option( 'awsm_jobs_filter' );
 $listing_specs  = get_option( 'awsm_jobs_listing_specs' );
-$shortcode_atts = isset( $shortcode_atts ) ? $shortcode_atts : array();
 
 /**
  * Fires before The Loop to query for jobs.
