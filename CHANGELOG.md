@@ -1,5 +1,12 @@
 ## Changelog
 
+### V 3.1.0 - 2021-12-22
+* Added: Option to enable plugin-based form styles (Settings > Form > General > Form Style). Job listing and detail page templates need to be updated if overridden in the theme.
+* Fixed: Warnings in job archive pages.
+* Fixed: Notifications translations not working with Polylang plugin.
+* Dev: Hook to customize the wrapping element class for the job listing and detail page.
+* Code improvements.
+
 ### V 3.0.0 - 2021-12-03
 * Admin UI improvements.
 * Job listing UI improvements. The template file needs to be updated if overridden in the theme.
