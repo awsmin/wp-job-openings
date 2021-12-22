@@ -33,7 +33,7 @@ if ( ! function_exists( 'awsm_jobs_view' ) ) {
 if ( ! function_exists( 'awsm_jobs_wrapper_class' ) ) {
 	function awsm_jobs_wrapper_class( $echo = true ) {
 		$wrapper_class = '';
-		$form_style = get_option( 'awsm_jobs_form_style', 'theme' );
+		$form_style    = get_option( 'awsm_jobs_form_style', 'theme' );
 		if ( $form_style === 'plugin' ) {
 			$wrapper_class = ' awsm-job-form-plugin-style';
 		}
