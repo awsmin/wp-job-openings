@@ -99,6 +99,13 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 
 == Changelog ==
 
+= V 3.1.0 - 2021-12-22 =
+* Added: Option to enable plugin-based form styles (Settings > Form > General > Form Style). Job listing and detail page templates need to be updated if overridden in the theme.
+* Fixed: Warnings in job archive pages.
+* Fixed: Notifications translations not working with Polylang plugin.
+* Dev: Hook to customize the wrapping element class for the job listing and detail page.
+* Code improvements.
+
 = V 3.0.0 - 2021-12-03 =
 * Admin UI improvements.
 * Job listing UI improvements. The template file needs to be updated if overridden in the theme.
@@ -145,17 +152,9 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 * Dev: Added JS Events to handle Form Submission, Filters, and Load More.
 * Other minor bug fixes and style improvements.
 
-= V 2.1.1 – 2021-04-21 =
-* Fixed: Issue with WooCommerce Plugin that prevents the users with HR Role from accessing the backend.
-* Fixed: 'Secure uploaded files' option doesn't work in 'Media Library' for some installations.
-* Fixed: Job Filters not working for some installations.
-* Improved: Redirect users with HR Role to job page instead of profile page after login.
-* Improved: WPML compatibility for Settings.
-* Other minor bug fixes and style improvements.
-
 [See changelog of previous versions](https://raw.githubusercontent.com/awsmin/wp-job-openings/master/CHANGELOG.md)
 
 == Upgrade Notice ==
 
-= 3.0.0 =
-Major update. Please make sure to take a site backup before upgrading.
+= 3.1.0 =
+New Features and Bug fixes.
