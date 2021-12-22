@@ -266,6 +266,10 @@ class AWSM_Job_Openings_Settings {
 					'option_name' => 'awsm_current_form_subtab',
 				),
 				array(
+					/** @since 3.1.0 */
+					'option_name' => 'awsm_jobs_form_style',
+				),
+				array(
 					'option_name' => 'awsm_jobs_admin_upload_file_ext',
 					'callback'    => array( $this, 'sanitize_upload_file_extns' ),
 				),

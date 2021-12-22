@@ -30,6 +30,29 @@ if ( ! function_exists( 'awsm_jobs_view' ) ) {
 	}
 }
 
+if ( ! function_exists( 'awsm_jobs_wrapper_class' ) ) {
+	function awsm_jobs_wrapper_class( $echo = true ) {
+		$wrapper_class = '';
+		$form_style = get_option( 'awsm_jobs_form_style', 'theme' );
+		if ( $form_style === 'plugin' ) {
+			$wrapper_class = ' awsm-job-form-plugin-style';
+		}
+		/**
+		 * Filters the wrapper element class.
+		 *
+		 * @since 3.1.0
+		 *
+		 * @param string $wrapper_class Class names.
+		 */
+		$wrapper_class = apply_filters( 'awsm_jobs_wrapper_class', $wrapper_class );
+		if ( $echo ) {
+			echo esc_attr( $wrapper_class );
+		} else {
+			return $wrapper_class;
+		}
+	}
+}
+
 if ( ! function_exists( 'awsm_jobs_view_class' ) ) {
 	function awsm_jobs_view_class( $class = '', $shortcode_atts = array() ) {
 		$view_class = AWSM_Job_Openings::get_job_listing_view_class( $shortcode_atts );
@@ -80,7 +103,7 @@ if ( ! function_exists( 'awsm_jobs_data_attrs' ) ) {
 
 if ( ! function_exists( 'awsm_job_content_class' ) ) {
 	function awsm_job_content_class( $class = '' ) {
-		$content_class = 'awsm-job-single-wrap' . AWSM_Job_Openings::get_job_details_class();
+		$content_class = 'awsm-job-single-wrap' . awsm_jobs_wrapper_class( false ) . AWSM_Job_Openings::get_job_details_class();
 		if ( ! empty( $class ) ) {
 			$content_class .= ' ' . $class;
 		}

@@ -26,6 +26,22 @@ if ( ! empty( $upload_file_extns ) ) {
 		array(
 			'general'   => array(
 				array(
+					'name'          => 'awsm_jobs_form_style',
+					'label'         => __( 'Form Style', 'wp-job-openings' ),
+					'type'          => 'radio',
+					'choices'       => array(
+						array(
+							'value' => 'theme',
+							'text'  => __( 'Theme Based', 'wp-job-openings' ),
+						),
+						array(
+							'value' => 'plugin',
+							'text'  => __( 'Plugin Based', 'wp-job-openings' ),
+						),
+					),
+					'default_value' => 'theme',
+				),
+				array(
 					'id'    => 'awsm-form-options-title',
 					'label' => __( 'Application form options', 'wp-job-openings' ),
 					'type'  => 'title',

@@ -29,7 +29,7 @@ do_action( 'before_awsm_jobs_listing', $shortcode_atts );
 $query = awsm_jobs_query( $shortcode_atts );
 
 if ( $query->have_posts() ) : ?>
-	<div class="awsm-job-wrap">
+	<div class="awsm-job-wrap<?php awsm_jobs_wrapper_class(); ?>">
 
 		<?php
 			/**
