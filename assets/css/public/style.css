@@ -118,14 +118,55 @@ a.awsm-job-item {
 .awsm-filter-wrap {
 	margin: 0 -10px 20px;
 }
-
-.awsm-filter-wrap .awsm-filter-item {
-	display: inline-block;
-	padding: 0 10px 10px;
-	vertical-align: top;
+.awsm-filter-wrap form{
+	display: flex;
 }
+.awsm-filter-wrap .awsm-filter-items{
+	display: none;
+}
+.awsm-filter-toggle{
+	display: flex;
+	flex-flow: wrap;
+	width: 46px;
+	padding: 15px;
+	border: 1px solid #E7E6E6;
+	margin: 0 10px 10px;
+}
+.awsm-filter-toggle.on{
+	background: #E7E6E6;
+}
+.awsm-filter-toggle svg{
+	max-width: 100%;
+	height: auto;
+}
+@media (min-width:768px){
+	.awsm-filter-wrap .awsm-filter-items{
+		display: flex;
+	}
+	.awsm-filter-toggle{
+		display: none;
+	}
+}
+.awsm-filter-wrap .awsm-filter-item {
+	/* display: inline-block; */
+	padding: 0 10px 10px;
+	/* vertical-align: top; */
+}
+
 .awsm-filter-item-search{
 	position: relative;
+}
+@media (max-width:768px){
+	.awsm-filter-wrap .awsm-filter-items{
+		width: 100%;
+	}
+	.awsm-filter-item-search{
+		padding: 0 10px 10px;
+		width: calc(100% - 66px);
+	}
+	.awsm-filter-wrap .awsm-filter-item .awsm-selectric-wrapper{
+		min-width: 100%;
+	}
 }
 .awsm-filter-wrap .awsm-filter-item .awsm-job-form-control{
 	min-height: 48px;
