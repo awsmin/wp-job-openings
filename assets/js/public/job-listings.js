@@ -354,4 +354,9 @@ jQuery(function($) {
 	}
 	awsmDropDown($('.awsm-job-select-control'));
 	awsmDropDown($('.awsm-filter-item select'));
+	$(document).on('click', '.awsm-filter-toggle', function(e){
+		e.preventDefault();
+		$(this).toggleClass('on');
+		$(this).next().slideToggle();
+	});
 });
