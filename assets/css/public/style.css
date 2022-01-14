@@ -120,6 +120,7 @@ a.awsm-job-item {
 }
 .awsm-filter-wrap form{
 	display: flex;
+	flex-wrap: wrap;
 }
 .awsm-filter-wrap .awsm-filter-items{
 	display: none;
@@ -128,12 +129,14 @@ a.awsm-job-item {
 	display: flex;
 	flex-flow: wrap;
 	width: 46px;
-	padding: 15px;
-	border: 1px solid #E7E6E6;
+	padding: 12px;
+	border: 1px solid #ccc;
 	margin: 0 10px 10px;
+	border-radius: 4px;
+	outline: none !important;
 }
 .awsm-filter-toggle.on{
-	background: #E7E6E6;
+	background: #ccc;
 }
 .awsm-filter-toggle svg{
 	max-width: 100%;
@@ -141,10 +144,15 @@ a.awsm-job-item {
 }
 @media (min-width:768px){
 	.awsm-filter-wrap .awsm-filter-items{
-		display: flex;
+		display: flex !important;
+		flex-wrap: wrap;
+		width: calc(100% - 250px);
 	}
 	.awsm-filter-toggle{
 		display: none;
+	}
+	.awsm-filter-item-search{
+		width: 250px;
 	}
 }
 .awsm-filter-wrap .awsm-filter-item {
@@ -155,13 +163,13 @@ a.awsm-job-item {
 
 .awsm-filter-item-search{
 	position: relative;
+	padding: 0 10px 10px;	
 }
 @media (max-width:768px){
 	.awsm-filter-wrap .awsm-filter-items{
 		width: 100%;
 	}
-	.awsm-filter-item-search{
-		padding: 0 10px 10px;
+	.awsm-filter-item-search{		
 		width: calc(100% - 66px);
 	}
 	.awsm-filter-wrap .awsm-filter-item .awsm-selectric-wrapper{
