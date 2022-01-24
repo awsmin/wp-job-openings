@@ -595,13 +595,18 @@ a.awsm-text-red:hover {
 	vertical-align: bottom;
 }
 
+.awsm-jobs-datepicker-wrapper {
+	display: flex;
+	align-items: center;
+}
+
 .awsm-jobs-datepicker {
 	height: 28px;
 }
 
-.awsm-jobs-datepicker + .ui-datepicker-trigger {
+.awsm-jobs-datepicker-wrapper .ui-datepicker-trigger {
 	height: 20px;
-	vertical-align: middle;
+	cursor: pointer;
 	margin-left: 4px;
 }
 
