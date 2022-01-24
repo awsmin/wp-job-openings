@@ -89,7 +89,9 @@ jQuery(document).ready(function($) {
 		altField: '#awsm-jobs-datepicker-alt',
 		altFormat: 'yy-mm-dd',
 		showOn: 'both',
-		buttonText: '<span class="dashicons dashicons-calendar-alt"></span>',
+		buttonText: '',
+		buttonImage: awsmJobsAdmin.plugin_url + '/assets/img/calendar-alt.svg',
+		buttonImageOnly: true,
 		changeMonth: true,
 		numberOfMonths: 1,
 		minDate: dateToday
