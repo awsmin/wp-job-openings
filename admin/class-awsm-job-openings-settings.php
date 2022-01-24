@@ -270,6 +270,10 @@ class AWSM_Job_Openings_Settings {
 					'option_name' => 'awsm_jobs_form_style',
 				),
 				array(
+					/** @since 3.2.0 */
+					'option_name' => 'awsm_jobs_enable_akismet_protection',
+				),
+				array(
 					'option_name' => 'awsm_jobs_admin_upload_file_ext',
 					'callback'    => array( $this, 'sanitize_upload_file_extns' ),
 				),

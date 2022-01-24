@@ -70,6 +70,7 @@ if ( ! function_exists( 'awsm_jobs_is_valid_template_file' ) ) {
 		return $is_valid;
 	}
 }
+
 if ( ! function_exists( 'awsm_jobs_get_original_image_url' ) ) {
 	function awsm_jobs_get_original_image_url( $attachment_id ) {
 		$image_url = false;
@@ -81,5 +82,31 @@ if ( ! function_exists( 'awsm_jobs_get_original_image_url' ) ) {
 			}
 		}
 		return $image_url;
+	}
+}
+
+if ( ! function_exists( 'awsm_jobs_array_flatten' ) ) {
+	function awsm_jobs_array_flatten( $array ) {
+		$result = array();
+		if ( is_array( $array ) ) {
+			array_walk_recursive(
+				$array,
+				function ( $item ) use ( &$result ) {
+					$result[] = $item;
+				}
+			);
+		}
+		return $result;
+	}
+}
+
+if ( ! function_exists( 'awsm_jobs_is_akismet_active' ) ) {
+	function awsm_jobs_is_akismet_active() {
+		$is_active = false;
+		if ( function_exists( 'akismet_get_key' ) ) {
+			$akismet_key = akismet_get_key();
+			return ! empty( $akismet_key );
+		}
+		return $is_active;
 	}
 }
