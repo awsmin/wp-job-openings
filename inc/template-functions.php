@@ -16,6 +16,26 @@ if ( ! function_exists( 'get_awsm_jobs_template_path' ) ) {
 	}
 }
 
+if ( ! function_exists( 'awsm_jobs_get_header' ) ) {
+	function awsm_jobs_get_header() {
+		if ( function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() ) {
+			require get_awsm_jobs_template_path( 'header', 'theme-compat' );
+		} else {
+			get_header();
+		}
+	}
+}
+
+if ( ! function_exists( 'awsm_jobs_get_footer' ) ) {
+	function awsm_jobs_get_footer() {
+		if ( function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() ) {
+			require get_awsm_jobs_template_path( 'footer', 'theme-compat' );
+		} else {
+			get_footer();
+		}
+	}
+}
+
 if ( ! function_exists( 'awsm_jobs_query' ) ) {
 	function awsm_jobs_query( $shortcode_atts = array() ) {
 		$args  = AWSM_Job_Openings::awsm_job_query_args( array(), $shortcode_atts );

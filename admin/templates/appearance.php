@@ -77,6 +77,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'type'  => 'title',
 				),
 				array(
+					'name'          => 'awsm_jobs_archive_page_template',
+					'label'         => __( 'Jobs Archive page template', 'wp-job-openings' ),
+					'type'          => 'radio',
+					'choices'       => array(
+						array(
+							'value' => 'theme',
+							'text'  => __( 'Theme Template', 'wp-job-openings' ),
+						),
+						array(
+							'value' => 'plugin',
+							'text'  => __( 'Plugin Template', 'wp-job-openings' ),
+						),
+					),
+					'default_value' => 'plugin',
+				),
+				array(
 					'name'    => 'awsm_jobs_listing_view',
 					'label'   => __( 'Layout of job listing page', 'wp-job-openings' ),
 					'type'    => 'radio',

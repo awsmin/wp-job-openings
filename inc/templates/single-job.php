@@ -5,14 +5,14 @@
  * This template can be overridden by copying it to currenttheme/wp-job-openings/single-job.php
  *
  * @package wp-job-openings
- * @version 1.1
+ * @version 3.2.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-get_header();
+awsm_jobs_get_header();
 
 /**
  * before_awsm_jobs_main_content hook
@@ -76,4 +76,4 @@ do_action( 'before_awsm_jobs_main_content' );
  */
 do_action( 'after_awsm_jobs_main_content' );
 
-get_footer();
+awsm_jobs_get_footer();

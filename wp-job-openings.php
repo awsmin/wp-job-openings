@@ -1119,9 +1119,11 @@ class AWSM_Job_Openings {
 
 	public function jobs_single_template( $single_template ) {
 		global $post;
-		$job_details_template = get_option( 'awsm_jobs_details_page_template', 'default' );
-		if ( is_object( $post ) && $post->post_type === 'awsm_job_openings' && $job_details_template === 'custom' ) {
-			$single_template = self::get_template_path( 'single-job.php' );
+		if ( is_object( $post ) && $post->post_type === 'awsm_job_openings' ) {
+			$job_details_template = get_option( 'awsm_jobs_details_page_template', 'default' );
+			if ( $job_details_template === 'custom' ) {
+				$single_template = self::get_template_path( 'single-job.php' );
+			}
 		}
 		return $single_template;
 	}
@@ -1129,7 +1131,10 @@ class AWSM_Job_Openings {
 	public function jobs_archive_template( $archive_template ) {
 		global $post;
 		if ( is_object( $post ) && $post->post_type === 'awsm_job_openings' ) {
-			$archive_template = self::get_template_path( 'archive-job.php' );
+			$template_enabled = get_option( 'awsm_jobs_archive_page_template', 'plugin' );
+			if ( $template_enabled === 'plugin' ) {
+				$archive_template = self::get_template_path( 'archive-job.php' );
+			}
 		}
 		return $archive_template;
 	}

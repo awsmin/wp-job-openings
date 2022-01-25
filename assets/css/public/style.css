@@ -659,3 +659,17 @@ ul.awsm-error-message li {
 .awsm-job-form-plugin-style .awsm-selectric .label{
 	margin-left: 15px;
 }
+
+/* Block Theme - Compatibility Templates Styles */
+
+.awsm-jobs-is-block-theme .site-branding {
+	padding: 0 2.1rem;
+}
+
+.awsm-jobs-is-block-theme .site-content {
+	padding: 0 2.1rem 3rem;
+}
+
+.awsm-jobs-is-block-theme .site-title {
+	margin-bottom: 0;
+}

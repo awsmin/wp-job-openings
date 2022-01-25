@@ -201,12 +201,18 @@ class AWSM_Job_Openings_Settings {
 					'callback'    => array( $this, 'sanitize_array_fields' ),
 				),
 				array(
+					/** @since 3.2.0 */
+					'option_name' => 'awsm_jobs_archive_page_template',
+					'callback'    => array( $this, 'jobs_archive_page_template_handler' ),
+				),
+				array(
 					'option_name' => 'awsm_jobs_listing_specs',
 					'callback'    => array( $this, 'sanitize_array_fields' ),
 				),
 				array(
 					/** @since 1.1.0 */
 					'option_name' => 'awsm_jobs_details_page_template',
+					'callback'    => array( $this, 'job_detail_page_template_handler' ),
 				),
 				array(
 					'option_name' => 'awsm_jobs_details_page_layout',
@@ -569,6 +575,25 @@ class AWSM_Job_Openings_Settings {
 			$input = array_map( 'sanitize_text_field', $input );
 		}
 		return $input;
+	}
+
+	public function jobs_archive_page_template_handler( $input ) {
+		return $this->template_handler( 'awsm_jobs_archive_page_template', $input );
+	}
+
+	public function job_detail_page_template_handler( $input ) {
+		return $this->template_handler( 'awsm_jobs_details_page_template', $input );
+	}
+
+	public function template_handler( $option_name, $template ) {
+		$template = sanitize_text_field( $template );
+		if ( ( $template === 'custom' || $template === 'plugin' ) && function_exists( 'wp_is_block_theme' ) ) {
+			if ( wp_is_block_theme() ) {
+				$prefix = str_replace( array( 'awsm_jobs_', '_' ), array( '', ' ' ), $option_name );
+				add_settings_error( $option_name, str_replace( '_', '-', $option_name ), ucwords( $prefix ) . ': ' . esc_html__( 'Block theme detected! It is recommended to use a theme template instead of plugin generated template.', 'wp-job-openings' ), 'awsm-jobs-warning' );
+			}
+		}
+		return $template;
 	}
 
 	public function awsm_jobs_filter_handle( $filters ) {
