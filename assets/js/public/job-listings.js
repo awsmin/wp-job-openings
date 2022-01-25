@@ -354,9 +354,40 @@ jQuery(function($) {
 	}
 	awsmDropDown($('.awsm-job-select-control'));
 	awsmDropDown($('.awsm-filter-item select'));
-	$(document).on('click', '.awsm-filter-toggle', function(e){
+
+	/**
+	 * Handle the filters toggle button in the job listing.
+	 */
+	$(document).on('click', '.awsm-filter-toggle', function(e) {
 		e.preventDefault();
-		$(this).toggleClass('on');
-		$(this).next().slideToggle();
+		var $elem = $(this);
+		$elem.toggleClass('awsm-on');
+		if ($elem.hasClass('awsm-on')) {
+			$elem.attr('aria-pressed', 'true');
+		} else {
+			$elem.attr('aria-pressed', 'false');
+		}
+		$elem.next().slideToggle();
 	});
+
+	/**
+	 * Handle the responsive styles for filters in the job listing when search is enabled.
+	 */
+	function filtersResponsiveStylesHandler() {
+		var $filtersWrap = $('.awsm-filter-wrap').not('.awsm-no-search-filter-wrap');
+		$filtersWrap.each(function() {
+			var $wrapper = $(this);
+			var filterFirstTop = $wrapper.find('.awsm-filter-item').first().offset().top;
+			var filterLastTop = $wrapper.find('.awsm-filter-item').last().offset().top;
+			if (filterLastTop > filterFirstTop) {
+				$wrapper.addClass('awsm-full-width-search-filter-wrap');
+			} else {
+				$wrapper.removeClass('awsm-full-width-search-filter-wrap');
+			}
+		});
+	}
+	if ($('.awsm-filter-wrap').not('.awsm-no-search-filter-wrap').length > 0) {
+		filtersResponsiveStylesHandler();
+		$(window).on('resize', filtersResponsiveStylesHandler);
+	}
 });

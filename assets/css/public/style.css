@@ -125,6 +125,13 @@ a.awsm-job-item {
 .awsm-filter-wrap .awsm-filter-items{
 	display: none;
 }
+.awsm-filter-wrap.awsm-full-width-search-filter-wrap .awsm-filter-item-search {
+	width: 100%;
+}
+.awsm-filter-wrap.awsm-full-width-search-filter-wrap .awsm-filter-items,
+.awsm-filter-wrap.awsm-no-search-filter-wrap .awsm-filter-items {
+	width: 100%;
+}
 .awsm-filter-toggle{
 	display: flex;
 	flex-flow: wrap;
@@ -135,12 +142,21 @@ a.awsm-job-item {
 	border-radius: 4px;
 	outline: none !important;
 }
-.awsm-filter-toggle.on{
+.awsm-filter-toggle.awsm-on{
 	background: #ccc;
 }
 .awsm-filter-toggle svg{
 	max-width: 100%;
 	height: auto;
+}
+.awsm-filter-wrap.awsm-no-search-filter-wrap .awsm-filter-toggle {
+	width: 100%;
+	align-items: center;
+	justify-content: space-between;
+	text-decoration: none;
+}
+.awsm-filter-wrap.awsm-no-search-filter-wrap .awsm-filter-toggle svg {
+	max-width: 22px;
 }
 @media (min-width:768px){
 	.awsm-filter-wrap .awsm-filter-items{
@@ -163,13 +179,13 @@ a.awsm-job-item {
 
 .awsm-filter-item-search{
 	position: relative;
-	padding: 0 10px 10px;	
+	padding: 0 10px 10px;
 }
 @media (max-width:768px){
 	.awsm-filter-wrap .awsm-filter-items{
 		width: 100%;
 	}
-	.awsm-filter-item-search{		
+	.awsm-filter-item-search{
 		width: calc(100% - 66px);
 	}
 	.awsm-filter-wrap .awsm-filter-item .awsm-selectric-wrapper{
@@ -391,7 +407,7 @@ a.awsm-job-item .awsm-job-specification-item {
 
 .awsm-job-form-inner {
 	background: #fff;
-	border: 1px solid #dddfe3;	
+	border: 1px solid #dddfe3;
 	padding: 35px;
 }
 
