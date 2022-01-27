@@ -63,7 +63,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'description' => __( 'The job listing shortcode will be added to  the page you select', 'wp-job-openings' ),
 					'help_button' => array(
 						'visible' => $page_exists,
-						'url'     => get_page_link( $selected_listing_page_id ),
+						'url'     => $page_exists ? get_page_link( $selected_listing_page_id ) : '',
 						'class'   => 'awsm-view-page-btn',
 						'text'    => __( 'View Page', 'wp-job-openings' ),
 					),
