@@ -25,6 +25,10 @@ parameters:
 		- '#^Function apply_filters(_ref_array)? invoked with [34567] parameters, 2 required\.$#'
 		# Methods
 		- '#Function vc_is_inline not found#'
+		-
+			message: '#Parameter \#1 \$postarr of function wp_insert_post expects array#'
+			path: inc/class-awsm-job-openings-form.php
+			count: 1
 		# Constants
 		- '#^Constant AWSM_JOBS_PLUGIN_DIR not found\.$#'
 		- '#^Constant AWSM_JOBS_PLUGIN_URL not found\.$#'
