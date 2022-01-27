@@ -14,7 +14,7 @@ jQuery(document).ready(function($) {
 		});
 	}
 
-	// ========== Job Aplication Form ==========
+	// ========== Job Application Form ==========
 	var $applicationForm = $('.awsm-application-form');
 
 	awsmJobs.submitApplication = function($form, data) {
@@ -137,4 +137,15 @@ jQuery(document).ready(function($) {
 			awsmJobs.submitApplication($form);
 		}
 	});
+
+	// Job Application Form - In-App Browsers support.
+	if ($('.awsm-application-form .awsm-form-file-control').length  > 0) {
+		var userAgent = navigator.userAgent;
+		if (typeof userAgent !== 'undefined') {
+			var isFBAppBrowser = (userAgent.indexOf('FBAN') > -1) || (userAgent.indexOf('FBAV') > -1) || (userAgent.indexOf('Instagram') > -1);
+			if (isFBAppBrowser) {
+				$('.awsm-application-form .awsm-form-file-control').removeAttr('accept');
+			}
+		}
+	}
 });
