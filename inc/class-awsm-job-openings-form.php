@@ -693,7 +693,21 @@ class AWSM_Job_Openings_Form {
 	 * @param array $data Notification data if provided will override the default.
 	 */
 	protected function notification_email( $applicant_details, $data = array() ) {
-		$types = array( 'applicant', 'admin' );
+		/**
+		 * Filters the default notifications types - applicant or admin.
+		 *
+		 * @since 3.2.0
+		 *
+		 * @param array $types Notification types.
+		 * @param array $applicant_details Applicant details.
+		 * @param array $data Notification data.
+		 */
+		$types = apply_filters(
+			'awsm_jobs_default_notifications_types',
+			array( 'applicant', 'admin' ),
+			$applicant_details,
+			$data
+		);
 		foreach ( $types as $type ) {
 			if ( ! isset( $data[ $type ] ) ) {
 				$data[ $type ] = self::get_notification_options( $type );
