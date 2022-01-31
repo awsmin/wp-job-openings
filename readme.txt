@@ -2,7 +2,7 @@
 Contributors: awsmin, aravindajith, anantajitjg, sarathar, adhun, nithi22
 Tags: jobs, job listing, job openings, job board, careers page, jobs page, wp job opening, jobs plugin
 Requires at least: 4.8
-Tested up to: 5.8
+Tested up to: 5.9
 Requires PHP: 5.6
 Stable tag: trunk
 License: GPLv2 or later
@@ -99,6 +99,13 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 
 == Changelog ==
 
+= V 3.2.0 - 2022-01-31 =
+* WordPress 5.9 compatibility fixes.
+* Added: Akismet Anti-Spam Protection.
+* Fixed: Application form issue with in-app browsers.
+* Improved: Job listing filters UI.
+* Other minor bug fixes and style improvements.
+
 = V 3.1.0 - 2021-12-22 =
 * Added: Option to enable plugin-based form styles (Settings > Form > General > Form Style). Job listing and detail page templates need to be updated if overridden in the theme.
 * Fixed: Warnings in job archive pages.
@@ -140,21 +147,9 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 * Code improvements.
 * Other minor bug fixes.
 
-= V 2.2.0 – 2021-06-09 =
-* Added: Notification Mail Template Customizer (Settings > Notifications > Customize). Template files need to be updated if overridden in the theme.
-* Fixed: Pre validation for file field not working.
-* Fixed: Cover letter formatting issue in the notification mail content.
-* Fixed: Accents don't work in the Specification fields.
-* Improved: Form Handling. Template files need to be updated if overridden in the theme.
-* Improved: Notification HTML Mail Template.
-* Dev: New Hooks for Handling Job Filters.
-* Dev: Improved Form Handling Hooks.
-* Dev: Added JS Events to handle Form Submission, Filters, and Load More.
-* Other minor bug fixes and style improvements.
-
 [See changelog of previous versions](https://raw.githubusercontent.com/awsmin/wp-job-openings/master/CHANGELOG.md)
 
 == Upgrade Notice ==
 
-= 3.1.0 =
+= 3.2.0 =
 New Features and Bug fixes.
