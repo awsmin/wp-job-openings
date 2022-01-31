@@ -1017,7 +1017,6 @@ p.description.awsm-jobs-invalid {
 	text-decoration: none;
 	line-height: 30px;
 	display: block;
-	font-weight: bold;
 }
 .awsm-job-admin-nav li a.active{
 	font-weight: bold;
