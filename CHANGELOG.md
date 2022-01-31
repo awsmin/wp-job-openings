@@ -1,5 +1,12 @@
 ## Changelog
 
+### V 3.2.0 - 2022-01-31
+* WordPress 5.9 compatibility fixes.
+* Added: Akismet Anti-Spam Protection.
+* Fixed: Application form issue with in-app browsers.
+* Improved: Job listing filters UI.
+* Other minor bug fixes and style improvements.
+
 ### V 3.1.0 - 2021-12-22
 * Added: Option to enable plugin-based form styles (Settings > Form > General > Form Style). Job listing and detail page templates need to be updated if overridden in the theme.
 * Fixed: Warnings in job archive pages.
