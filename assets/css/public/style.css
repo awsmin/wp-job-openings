@@ -114,7 +114,10 @@ a.awsm-job-item {
 	content: '';
 	display: table;
 }
-
+.awsm-filter-wrap,
+.awsm-filter-wrap * {
+	box-sizing: border-box;
+}
 .awsm-filter-wrap {
 	margin: 0 -10px 20px;
 }
@@ -196,6 +199,13 @@ a.awsm-job-item {
 .awsm-filter-wrap .awsm-filter-item .awsm-job-form-control{
 	min-height: 48px;
 	padding-right: 58px;
+}
+.awsm-filter-item-search .awsm-job-form-control {
+    padding-right: 48px;
+    min-height: 48px;
+}
+.awsm-filter-item-search-in {
+	position: relative;
 }
 .awsm-filter-item-search .awsm-job-search-icon-wrapper {
 	position: absolute;
