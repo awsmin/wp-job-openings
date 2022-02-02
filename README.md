@@ -5,7 +5,7 @@
 **Requires at least:** 4.8  
 **Tested up to:** 5.9  
 **Requires PHP:** 5.6  
-**Stable tag:** 3.2.0  
+**Stable tag:** 3.2.1  
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
 **Donate link:** https://www.buymeacoffee.com/awsm
@@ -91,6 +91,10 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 
 ## Changelog
 
+**V 3.2.1 - 2022-02-02**
+* Fixed: Search field style issues in job listing.
+* Fixed: Responsive style issues with job filters.
+
 **V 3.2.0 - 2022-01-31**
 * WordPress 5.9 compatibility fixes.
 * Added: Akismet Anti-Spam Protection.
@@ -127,16 +131,5 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 * Fixed: Media missing from library in WordPress.com when 'Secure uploaded files' option is enabled.
 * Fixed: Accessibility issues in job filters. #28
 * Fixed: GDPR text issue in Polylang when accents are used.
-
-**V 2.3.0 – 2021-09-16**
-* Added: Timezone setting for job expiration.
-* Added: Setting to remove custom permalink front base.
-* Fixed: Slash issue in the mail with special characters.
-* Improved: Updated jQuery Validation Plugin to version 1.19.3.
-* Dev: Added new filter hooks to control the plugin-generated UI and content.
-* Dev: Improved Form Handling Hooks.
-* Dev: Deprecated 'awsm_specification_content' filter hook in favor of 'awsm_job_specs_content'.
-* Code improvements.
-* Other minor bug fixes.
 
 View complete Changelog in [CHANGELOG.MD](https://github.com/awsmin/wp-job-openings/blob/master/CHANGELOG.md)

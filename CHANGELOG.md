@@ -1,5 +1,9 @@
 ## Changelog
 
+### V 3.2.1 - 2022-02-02
+* Fixed: Search field style issues in job listing.
+* Fixed: Responsive style issues with job filters.
+
 ### V 3.2.0 - 2022-01-31
 * WordPress 5.9 compatibility fixes.
 * Added: Akismet Anti-Spam Protection.
