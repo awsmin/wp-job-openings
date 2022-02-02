@@ -99,6 +99,10 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 
 == Changelog ==
 
+= V 3.2.1 - 2022-02-02 =
+* Fixed: Search field style issues in job listing.
+* Fixed: Responsive style issues with job filters.
+
 = V 3.2.0 - 2022-01-31 =
 * WordPress 5.9 compatibility fixes.
 * Added: Akismet Anti-Spam Protection.
@@ -136,20 +140,9 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 * Fixed: Accessibility issues in job filters. #28
 * Fixed: GDPR text issue in Polylang when accents are used.
 
-= V 2.3.0 – 2021-09-16 =
-* Added: Timezone setting for job expiration.
-* Added: Setting to remove custom permalink front base.
-* Fixed: Slash issue in the mail with special characters.
-* Improved: Updated jQuery Validation Plugin to version 1.19.3.
-* Dev: Added new filter hooks to control the plugin-generated UI and content.
-* Dev: Improved Form Handling Hooks.
-* Dev: Deprecated 'awsm_specification_content' filter hook in favor of 'awsm_job_specs_content'.
-* Code improvements.
-* Other minor bug fixes.
-
 [See changelog of previous versions](https://raw.githubusercontent.com/awsmin/wp-job-openings/master/CHANGELOG.md)
 
 == Upgrade Notice ==
 
-= 3.2.0 =
-New Features and Bug fixes.
+= 3.2.1 =
+Bug fixes.
