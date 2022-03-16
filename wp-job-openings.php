@@ -309,6 +309,7 @@ class AWSM_Job_Openings {
 			'cb'                    => '<input type="checkbox" />',
 			'title'                 => esc_attr__( 'Job Title', 'wp-job-openings' ),
 			'job_id'                => esc_attr__( 'Job ID', 'wp-job-openings' ),
+			'author'                => esc_attr__( 'Author', 'default' ),
 			'awsm_job_applications' => esc_attr__( 'Applications', 'wp-job-openings' ),
 			'awsm_job_expiry'       => esc_attr__( 'Expiry', 'wp-job-openings' ),
 			'awsm_job_post_views'   => esc_attr__( 'Views', 'wp-job-openings' ),
