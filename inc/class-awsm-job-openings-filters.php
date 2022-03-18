@@ -149,25 +149,25 @@ class AWSM_Job_Openings_Filters {
 							$available_filters_arr[ $taxonomy ] = $tax_details->label;
 
 							$options_content = '';
-							foreach ( $terms as $term ) {
-								$selected = '';
-								if ( in_array( $taxonomy, array_keys( $selected_filters ) ) && $selected_filters[ $taxonomy ] === $term->slug ) {
-									$selected = ' selected';
-								}
-								$option_content = sprintf( '<option value="%1$s" data-slug="%3$s"%4$s>%2$s</option>', esc_attr( $term->term_id ), esc_html( $term->name ), esc_attr( $term->slug ), esc_attr( $selected ) );
-								/**
-								 * Filter the job filter dropdown option content.
-								 *
-								 * @since 3.3.0
-								 *
-								 * @param string $option_content Filter dropdown option content.
-								 * @param WP_Term $term Job spec term.
-								 * @param string $taxonomy Job spec key.
-								 */
-								$option_content = apply_filters( 'awsm_job_filter_option_content', $option_content, $term, $taxonomy );
-
-								$options_content .= $option_content;
+						foreach ( $terms as $term ) {
+							$selected = '';
+							if ( in_array( $taxonomy, array_keys( $selected_filters ) ) && $selected_filters[ $taxonomy ] === $term->slug ) {
+								$selected = ' selected';
 							}
+							$option_content = sprintf( '<option value="%1$s" data-slug="%3$s"%4$s>%2$s</option>', esc_attr( $term->term_id ), esc_html( $term->name ), esc_attr( $term->slug ), esc_attr( $selected ) );
+							/**
+							 * Filter the job filter dropdown option content.
+							 *
+							 * @since 3.3.0
+							 *
+							 * @param string $option_content Filter dropdown option content.
+							 * @param WP_Term $term Job spec term.
+							 * @param string $taxonomy Job spec key.
+							 */
+							$option_content = apply_filters( 'awsm_job_filter_option_content', $option_content, $term, $taxonomy );
+
+							$options_content .= $option_content;
+						}
 
 							$filter_key = str_replace( '-', '__', $taxonomy );
 							$spec_name  = apply_filters( 'wpml_translate_single_string', $tax_details->label, 'WordPress', sprintf( 'taxonomy general name: %s', $tax_details->label ) );

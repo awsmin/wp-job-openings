@@ -46,7 +46,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'hide_empty' => false,
 				)
 			);
-			$spec_terms     = get_terms( $terms_args );
+			$spec_terms = get_terms( $terms_args );
 
 			$post_terms     = get_the_terms( $post->ID, $spec );
 			$post_terms_ids = array();
