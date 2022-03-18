@@ -1600,7 +1600,18 @@ class AWSM_Job_Openings {
 				}
 				if ( $display ) {
 					$terms = get_the_terms( $post_id, $taxonomy );
-					if ( ! empty( $terms ) ) {
+					/**
+					 * Filter the job specification terms.
+					 *
+					 * @since 3.3.0
+					 *
+					 * @param WP_Term[]|false|WP_Error $terms Array of WP_Term objects on success.
+					 * @param int $post_id The Post ID.
+					 * @param string $taxonomy Taxonomy name.
+					 */
+					$terms = apply_filters( 'awsm_job_spec_terms', $terms, $post_id, $taxonomy );
+
+					if ( $terms !== false && ( ! is_wp_error( $terms ) ) ) {
 						$spec_label = $spec_icon = $spec_terms = ''; // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
 						if ( $display_label ) {
 							$spec_name  = apply_filters( 'wpml_translate_single_string', $options->label, 'WordPress', sprintf( 'taxonomy general name: %s', $options->label ) );

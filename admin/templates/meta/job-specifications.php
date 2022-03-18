@@ -30,13 +30,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 			if ( ! in_array( $spec, $spec_keys, true ) ) {
 				continue;
 			}
-			$spec_terms     = get_terms(
+
+			/**
+			 * Filter the arguments for specification terms.
+			 *
+			 * @since 3.3.0
+			 *
+			 * @param array $terms_args Array of arguments.
+			 */
+			$terms_args = apply_filters(
+				'awsm_jobs_spec_terms_args',
 				array(
 					'taxonomy'   => $spec,
 					'orderby'    => 'name',
 					'hide_empty' => false,
 				)
 			);
+			$spec_terms     = get_terms( $terms_args );
+
 			$post_terms     = get_the_terms( $post->ID, $spec );
 			$post_terms_ids = array();
 			if ( ! empty( $post_terms ) ) {
