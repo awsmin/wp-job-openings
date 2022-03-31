@@ -117,18 +117,18 @@ if ( ! function_exists( 'awsm_jobs_wp_editor_settings' ) ) {
 			'media_buttons' => true,
 			'editor_height' => 200,
 			'textarea_rows' => 12,
-			'editor_css' => '<style>.wp-editor-tabs, .wp-editor-tabs * { box-sizing: content-box; -webkit-box-sizing: content-box; }</style>',
-			'tinymce' => array(
-				'wpautop' => true,
+			'editor_css'    => '<style>.wp-editor-tabs, .wp-editor-tabs * { box-sizing: content-box; -webkit-box-sizing: content-box; }</style>',
+			'tinymce'       => array(
+				'wpautop'     => true,
 				'content_css' => AWSM_JOBS_PLUGIN_URL . '/assets/css/editor.min.css',
-				'toolbar1' => 'formatselect,bold,italic,bullist,numlist,blockquote,alignleft,aligncenter,alignright,link,spellchecker,wp_adv',
-				'toolbar2' => 'strikethrough,hr,forecolor,pastetext,removeformat,charmap,outdent,indent,undo,redo,wp_help',
+				'toolbar1'    => 'formatselect,bold,italic,bullist,numlist,blockquote,alignleft,aligncenter,alignright,link,spellchecker,wp_adv',
+				'toolbar2'    => 'strikethrough,hr,forecolor,pastetext,removeformat,charmap,outdent,indent,undo,redo,wp_help',
 			),
-			'quicktags' => array(
+			'quicktags'     => array(
 				'buttons' => 'strong,em,link,block,del,ins,img,ul,ol,li,code,more,close',
 			),
 		);
-		$settings = wp_parse_args( $settings, $default_settings );
+		$settings         = wp_parse_args( $settings, $default_settings );
 		/**
 		 * Filters the WP Editor settings.
 		 *

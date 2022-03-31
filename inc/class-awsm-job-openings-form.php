@@ -801,7 +801,7 @@ class AWSM_Job_Openings_Form {
 						// Footer mail template.
 						ob_start();
 						include AWSM_Job_Openings::get_template_path( 'footer.php', 'mail' );
-						$footer_template  = ob_get_clean();
+						$footer_template = ob_get_clean();
 						$footer_template = '</div>' . $footer_template;
 
 						$template = $header_template . $mail_content . $footer_template;
@@ -828,11 +828,11 @@ class AWSM_Job_Openings_Form {
 						// Basic mail template.
 						ob_start();
 						include AWSM_Job_Openings::get_template_path( 'basic.php', 'mail' );
-						$basic_template  = ob_get_clean();
-						$mail_content = str_replace( '{mail-content}', $mail_content, $basic_template );
+						$basic_template = ob_get_clean();
+						$mail_content   = str_replace( '{mail-content}', $mail_content, $basic_template );
 					}
 
-					$tag_names[] = '{mail-subject}';
+					$tag_names[]  = '{mail-subject}';
 					$tag_values[] = $subject;
 					$mail_content = str_replace( $tag_names, $tag_values, $mail_content );
 
