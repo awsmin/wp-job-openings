@@ -5,7 +5,7 @@
  * Override this by copying it to currenttheme/wp-job-openings/mail/footer.php
  *
  * @package wp-job-openings
- * @version 2.2.0
+ * @version 3.3.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -26,7 +26,7 @@ $customizer_settings = AWSM_Job_Openings_Mail_Customizer::get_settings();
 								do_action( 'after_awsm_jobs_notification_html_template_main_content', $customizer_settings );
 							?>
 						</td>
-					</tr><!-- end tr -->
+					</tr>
 					<tr>
 						<td valign="middle" class="footer email-section">
 							<table style="width: 100%;">

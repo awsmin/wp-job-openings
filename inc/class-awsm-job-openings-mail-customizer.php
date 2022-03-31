@@ -28,9 +28,7 @@ class AWSM_Job_Openings_Mail_Customizer {
 	public function template_footer( $settings ) {
 		?>
 			<td style="text-align: center; padding: 30px 0;">
-				<p style="margin: 0;">
-					<?php echo self::sanitize_content( $settings['footer_text'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-				</p>
+				<?php echo nl2br( self::sanitize_content( $settings['footer_text'] ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			</td>
 		<?php
 	}
@@ -47,18 +45,7 @@ class AWSM_Job_Openings_Mail_Customizer {
 		 *
 		 * @param array $allowed_html Allowed HTML elements and attributes, or a context name.
 		 */
-		$allowed_html = apply_filters(
-			'awsm_jobs_notification_customizer_allowed_html',
-			array(
-				'a'      => array(
-					'href' => array(),
-				),
-				'br'     => array(),
-				'em'     => array(),
-				'strong' => array(),
-				'small'  => array(),
-			)
-		);
+		$allowed_html = apply_filters( 'awsm_jobs_notification_customizer_allowed_html', 'post' );
 
 		return wp_kses( $content, $allowed_html );
 	}

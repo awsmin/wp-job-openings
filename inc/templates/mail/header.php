@@ -5,7 +5,7 @@
  * Override this by copying it to currenttheme/wp-job-openings/mail/header.php
  *
  * @package wp-job-openings
- * @version 2.2.0
+ * @version 3.3.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -17,11 +17,11 @@ $customizer_settings = AWSM_Job_Openings_Mail_Customizer::get_settings();
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
-	<meta charset="utf-8"> <!-- utf-8 works for most cases -->
-	<meta name="viewport" content="width=device-width"> <!-- Forcing initial-scale shouldn't be necessary -->
-	<meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- Use the latest (edge) version of IE rendering engine -->
-	<meta name="x-apple-disable-message-reformatting">  <!-- Disable auto-scale in iOS 10 Mail entirely -->
-	<title></title> <!-- The title tag shows in email notifications, like Android 4.4. -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="x-apple-disable-message-reformatting">
+	<title>{mail-subject}</title>
 
 	<?php
 		/**
@@ -40,13 +40,13 @@ $customizer_settings = AWSM_Job_Openings_Mail_Customizer::get_settings();
 <body width="100%" style="margin: 0; padding: 0 !important; mso-line-height-rule: exactly; background-color: #F1F4F7;">
 	<center style="width: 100%; background-color: #F1F4F7;">
 		<div style="max-width: 640px; margin: 0 auto;" class="email-container">
-			<!-- BEGIN BODY -->
+
 		<table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: auto;">
 			<tr>
 				<td class="logo">
 					<?php echo AWSM_Job_Openings_Mail_Customizer::get_logo( $customizer_settings ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 				</td>
-			</tr><!-- end tr -->
+			</tr>
 			<tr>
 				<td valign="middle" class="main-content bg_white">
 					<?php
