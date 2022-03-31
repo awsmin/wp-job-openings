@@ -40,7 +40,12 @@ module.exports = {
 			src: assets_DIR + "css/admin-overview/",
 			dest: assets_DIR + "css/",
 			outputName: "admin-overview.css"
-		}
+		},
+		editor: {
+			src: assets_DIR + "css/editor/",
+			dest: assets_DIR + "css/",
+			outputName: "editor.css"
+		},
 	},
 	scripts: {
 		public: {
