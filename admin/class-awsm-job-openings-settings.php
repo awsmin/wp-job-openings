@@ -334,7 +334,7 @@ class AWSM_Job_Openings_Settings {
 				),
 				array(
 					'option_name' => 'awsm_jobs_notification_content',
-					'callback'    => 'awsm_jobs_sanitize_textarea',
+					'callback'    => array( $this, 'applicant_notification_content_handler' ),
 				),
 				array(
 					/** @since 2.0.0 */
@@ -363,7 +363,7 @@ class AWSM_Job_Openings_Settings {
 				),
 				array(
 					'option_name' => 'awsm_jobs_admin_notification_content',
-					'callback'    => 'awsm_jobs_sanitize_textarea',
+					'callback'    => array( $this, 'admin_notification_content_handler' ),
 				),
 				array(
 					/** @since 2.0.0 */
@@ -388,7 +388,7 @@ class AWSM_Job_Openings_Settings {
 		return $settings;
 	}
 
-	private static function default_settings() {
+	public static function get_default_settings( $option_name = '' ) {
 		$options = array(
 			'awsm_permalink_slug'                     => 'jobs',
 			'awsm_default_msg'                        => esc_html__( 'We currently have no job openings', 'wp-job-openings' ),
@@ -427,7 +427,19 @@ class AWSM_Job_Openings_Settings {
 			'awsm_jobs_from_email_notification'       => get_option( 'admin_email' ),
 			'awsm_jobs_admin_from_email_notification' => get_option( 'admin_email' ),
 		);
+		if ( ! empty( $option_name ) ) {
+			if ( isset( $options[ $option_name ] ) ) {
+				return $options[ $option_name ];
+			} else {
+				return '';
+			}
+		} else {
+			return $options;
+		}
+	}
 
+	private static function default_settings() {
+		$options = self::get_default_settings();
 		foreach ( $options as $option => $value ) {
 			if ( ! get_option( $option ) ) {
 				update_option( $option, $value );
@@ -713,6 +725,23 @@ class AWSM_Job_Openings_Settings {
 			require_once AWSM_JOBS_PLUGIN_DIR . '/inc/class-awsm-job-openings-form.php';
 		}
 		return wp_kses( $input, AWSM_Job_Openings_Form::get_allowed_html() );
+	}
+
+	public function notification_content_handler( $input, $option_name ) {
+		$content = trim( $input );
+		if ( empty( $content ) ) {
+			add_settings_error( $option_name, str_replace( '_', '-', $option_name ), esc_html__( 'Notification content cannot be empty.', 'wp-job-openings' ) );
+			$input = self::get_default_settings( $option_name );
+		}
+		return wp_kses_post( $input );
+	}
+
+	public function applicant_notification_content_handler( $input ) {
+		return $this->notification_content_handler( $input, 'awsm_jobs_notification_content' );
+	}
+
+	public function admin_notification_content_handler( $input ) {
+		return $this->notification_content_handler( $input, 'awsm_jobs_admin_notification_content' );
 	}
 
 	public function notification_customizer_handler( $input ) {
@@ -1013,6 +1042,16 @@ class AWSM_Job_Openings_Settings {
 						} else {
 							if ( $field_type === 'textarea' ) {
 								$field_content = sprintf( '<textarea name="%1$s" id="%2$s"%4$s>%3$s</textarea>', esc_attr( $field_name ), esc_attr( $id ), esc_attr( $value ), $extra_attrs );
+							} elseif ( $field_type === 'editor' ) {
+								ob_start();
+								$editor_settings = array(
+									'textarea_name' => $field_name,
+								);
+								if ( isset( $field_details['other_attrs'] ) && is_array( $field_details['other_attrs'] ) ) {
+									$editor_settings = array_merge( $editor_settings, $field_details['other_attrs'] );
+								}
+								awsm_jobs_wp_editor( $value, $id, $editor_settings );
+								$field_content = ob_get_clean();
 							} elseif ( $field_type === 'image' ) {
 								$image_url = '';
 								if ( ! empty( $value ) ) {

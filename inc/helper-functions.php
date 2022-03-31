@@ -110,3 +110,40 @@ if ( ! function_exists( 'awsm_jobs_is_akismet_active' ) ) {
 		return $is_active;
 	}
 }
+
+if ( ! function_exists( 'awsm_jobs_wp_editor_settings' ) ) {
+	function awsm_jobs_wp_editor_settings( $editor_id = '', $settings = array() ) {
+		$default_settings = array(
+			'media_buttons' => true,
+			'editor_height' => 200,
+			'textarea_rows' => 12,
+			'editor_css' => '<style>.wp-editor-tabs, .wp-editor-tabs * { box-sizing: content-box; -webkit-box-sizing: content-box; }</style>',
+			'tinymce' => array(
+				'wpautop' => true,
+				'content_css' => AWSM_JOBS_PLUGIN_URL . '/assets/css/editor.min.css',
+				'toolbar1' => 'formatselect,bold,italic,bullist,numlist,blockquote,alignleft,aligncenter,alignright,link,spellchecker,wp_adv',
+				'toolbar2' => 'strikethrough,hr,forecolor,pastetext,removeformat,charmap,outdent,indent,undo,redo,wp_help',
+			),
+			'quicktags' => array(
+				'buttons' => 'strong,em,link,block,del,ins,img,ul,ol,li,code,more,close',
+			),
+		);
+		$settings = wp_parse_args( $settings, $default_settings );
+		/**
+		 * Filters the WP Editor settings.
+		 *
+		 * @since 3.3.0
+		 *
+		 * @param array $settings The WP Editor settings.
+		 * @param string $editor_id The Editor ID.
+		 */
+		return apply_filters( 'awsm_jobs_wp_editor_settings', $settings, $editor_id );
+	}
+}
+
+if ( ! function_exists( 'awsm_jobs_wp_editor' ) ) {
+	function awsm_jobs_wp_editor( $content, $editor_id, $settings = array() ) {
+		$settings = awsm_jobs_wp_editor_settings( $editor_id, $settings );
+		wp_editor( wp_kses_post( $content ), $editor_id, $settings );
+	}
+}

@@ -68,7 +68,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 									</div><!-- .col -->
 									<div class="awsm-col awsm-form-group awsm-col-full">
 										<label for="awsm_jobs_notification_content"><?php esc_html_e( 'Content ', 'wp-job-openings' ); ?></label>
-											<textarea class="awsm-form-control" id="awsm-notification-content" name="awsm_jobs_notification_content" rows="5" cols="50" required><?php echo esc_textarea( $applicant_options['content'] ); ?></textarea>
+										<?php awsm_jobs_wp_editor( $applicant_options['content'], 'awsm_jobs_notification_content' ); ?>
 									</div><!-- .col -->
 									<div class="awsm-col awsm-form-group awsm-col-full">
 										<label for="awsm_jobs_notification_mail_template"><input type="checkbox" name="awsm_jobs_notification_mail_template" id="awsm_jobs_notification_mail_template" value="enable" <?php checked( $applicant_options['html_template'], 'enable' ); ?>><?php esc_html_e( 'Use HTML Template', 'wp-job-openings' ); ?></label>
@@ -119,7 +119,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 									</div><!-- .col -->
 									<div class="awsm-col awsm-form-group awsm-col-full">
 										<label for="awsm_jobs_admin_notification_content"><?php esc_html_e( 'Content ', 'wp-job-openings' ); ?></label>
-											<textarea class="awsm-form-control" id="awsm_jobs_admin_notification_content" name="awsm_jobs_admin_notification_content" rows="5" cols="50" required><?php echo esc_textarea( $admin_options['content'] ); ?></textarea>
+										<?php awsm_jobs_wp_editor( $admin_options['content'], 'awsm_jobs_admin_notification_content' ); ?>
 									</div><!-- .col -->
 									<div class="awsm-col awsm-form-group awsm-col-full">
 										<label for="awsm_jobs_notification_admin_mail_template"><input type="checkbox" name="awsm_jobs_notification_admin_mail_template" id="awsm_jobs_notification_admin_mail_template" value="enable" <?php checked( $admin_options['html_template'], 'enable' ); ?>><?php esc_html_e( 'Use HTML Template', 'wp-job-openings' ); ?></label>
@@ -173,12 +173,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 							array(
 								'id'          => 'awsm_jobs_notification_customizer_footer_text',
 								'name'        => 'awsm_jobs_notification_customizer[footer_text]',
-								'type'        => 'textarea',
+								'type'        => 'editor',
 								'label'       => __( 'Footer Text', 'wp-job-openings' ),
 								'value'       => $customizer_settings['footer_text'],
 								'other_attrs' => array(
-									'rows' => 4,
-									'cols' => 50,
+									'editor_height' => 100,
 								),
 							),
 						)
