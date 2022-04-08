@@ -140,7 +140,9 @@ class AWSM_Job_Openings_Meta {
 					 */
 					$meta_content = apply_filters( 'awsm_jobs_applicant_meta_content', $meta_content, $meta_key, $applicant_meta, $post_id );
 					if ( ! empty( $meta_content ) || is_numeric( $meta_content ) ) {
-						$list .= sprintf( '<li><label>%1$s</label><span>%2$s</span></li>', esc_html( $label ), $meta_content );
+						$is_meta_group = ( isset( $meta_options['group'] ) ) ? $meta_options['group'] : false;
+						$meta_content = ( ! $is_meta_group ) ? '<span>' . $meta_content . '</span>' : $meta_content;
+						$list .= sprintf( '<li><label>%1$s</label>%2$s</li>', esc_html( $label ), $meta_content );
 					}
 				}
 			}
