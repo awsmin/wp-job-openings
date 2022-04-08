@@ -646,18 +646,28 @@ ul.awsm-error-message li {
 .awsm-job-form-plugin-style textarea.awsm-job-form-control{
 	min-height: 80px;
 }
-.awsm-job-form-plugin-style .awsm-application-submit-btn{
+.awsm-job-form-plugin-style .awsm-jobs-primary-button,
+.awsm-job-form-plugin-style .awsm-application-submit-btn {
 	background: #060606;
 	border-radius: 45px;
 	transition:  all 0.3s ease;
 	padding: 16px 32px;
 	color: #fff;
 }
+.awsm-job-form-plugin-style .awsm-jobs-primary-button:hover,
+.awsm-job-form-plugin-style .awsm-jobs-primary-button:focus,
 .awsm-job-form-plugin-style .awsm-application-submit-btn:hover,
 .awsm-job-form-plugin-style .awsm-application-submit-btn:focus{
 	color: #fff;
     outline: none;
     background: #060606;
+}
+.awsm-job-form-plugin-style .awsm-jobs-primary-button {
+	cursor: pointer;
+}
+.awsm-job-form-plugin-style .awsm-jobs-primary-button:disabled {
+	opacity: 0.5;
+	pointer-events: none;
 }
 .awsm-job-form-plugin-style .awsm-selectric{
 	border-color: #ccc;
