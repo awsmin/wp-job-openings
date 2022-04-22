@@ -15,6 +15,7 @@ parameters:
 		- inc/class-awsm-job-openings-mail-customizer.php
 		- inc/widgets/class-awsm-job-openings-recent-jobs-widget.php
 		- inc/widgets/class-awsm-job-openings-dashboard-widget.php
+		- inc/translation/class-awsm-job-openings-wpml.php
 		- admin/class-awsm-job-openings-overview.php
 		- admin/class-awsm-job-openings-meta.php
 		- admin/class-awsm-job-openings-info.php
