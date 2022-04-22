@@ -7,6 +7,10 @@ class AWSM_Job_Openings_Third_Party {
 	private static $instance = null;
 
 	public function __construct() {
+		$this->cpath = untrailingslashit( plugin_dir_path( __FILE__ ) );
+
+		$this->multilingual_support();
+
 		$this->akismet_support();
 	}
 
@@ -15,6 +19,13 @@ class AWSM_Job_Openings_Third_Party {
 			self::$instance = new self();
 		}
 		return self::$instance;
+	}
+
+	public function multilingual_support() {
+		// WPML and Polylang support.
+		if ( defined( 'ICL_SITEPRESS_VERSION' ) || defined( 'POLYLANG_VERSION' ) ) {
+			require_once $this->cpath . '/translation/class-awsm-job-openings-wpml.php';
+		}
 	}
 
 	public function akismet_support() {
