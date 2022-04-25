@@ -99,6 +99,15 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 
 == Changelog ==
 
+= V 3.3.0 - 2022-04-25 =
+* Added: HTML editor support for notifications.
+* Added: Author info in the admin job listing table.
+* Fixed: HTML structure issue in the notification mail.
+* Improved: Notifications mail handling.
+* Improved: Multilingual support for job specifications.
+* Dev: Hooks for specifications customization.
+* Code improvements.
+
 = V 3.2.1 - 2022-02-02 =
 * Fixed: Search field style issues in job listing.
 * Fixed: Responsive style issues with job filters.
@@ -135,14 +144,9 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 * Code improvements.
 * Other minor bug fixes.
 
-= V 2.3.1 – 2021-10-28 =
-* Fixed: Media missing from library in WordPress.com when 'Secure uploaded files' option is enabled.
-* Fixed: Accessibility issues in job filters. #28
-* Fixed: GDPR text issue in Polylang when accents are used.
-
 [See changelog of previous versions](https://raw.githubusercontent.com/awsmin/wp-job-openings/master/CHANGELOG.md)
 
 == Upgrade Notice ==
 
-= 3.2.1 =
-Bug fixes.
+= 3.3.0 =
+New features and improvements.
