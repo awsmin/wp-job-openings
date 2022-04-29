@@ -5,7 +5,7 @@
 **Requires at least:** 4.8  
 **Tested up to:** 5.9  
 **Requires PHP:** 5.6  
-**Stable tag:** 3.2.1  
+**Stable tag:** 3.3.0  
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
 **Donate link:** https://www.buymeacoffee.com/awsm
@@ -91,6 +91,15 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 
 ## Changelog
 
+**V 3.3.0 - 2022-04-25**
+* Added: HTML editor support for notifications.
+* Added: Author info in the admin job listing table.
+* Fixed: HTML structure issue in the notification mail.
+* Improved: Notifications mail handling.
+* Improved: Multilingual support for job specifications.
+* Dev: Hooks for specifications customization.
+* Code improvements.
+
 **V 3.2.1 - 2022-02-02**
 * Fixed: Search field style issues in job listing.
 * Fixed: Responsive style issues with job filters.
@@ -126,10 +135,5 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 * Dev: Hook to customize expired job content.
 * Code improvements.
 * Other minor bug fixes.
-
-**V 2.3.1 – 2021-10-28**
-* Fixed: Media missing from library in WordPress.com when 'Secure uploaded files' option is enabled.
-* Fixed: Accessibility issues in job filters. #28
-* Fixed: GDPR text issue in Polylang when accents are used.
 
 View complete Changelog in [CHANGELOG.MD](https://github.com/awsmin/wp-job-openings/blob/master/CHANGELOG.md)

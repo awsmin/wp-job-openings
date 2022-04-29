@@ -1,5 +1,14 @@
 ## Changelog
 
+### V 3.3.0 - 2022-04-25
+* Added: HTML editor support for notifications.
+* Added: Author info in the admin job listing table.
+* Fixed: HTML structure issue in the notification mail.
+* Improved: Notifications mail handling.
+* Improved: Multilingual support for job specifications.
+* Dev: Hooks for specifications customization.
+* Code improvements.
+
 ### V 3.2.1 - 2022-02-02
 * Fixed: Search field style issues in job listing.
 * Fixed: Responsive style issues with job filters.
