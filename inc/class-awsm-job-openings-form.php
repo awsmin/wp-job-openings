@@ -31,6 +31,8 @@ class AWSM_Job_Openings_Form {
 		add_action( 'before_awsm_job_details', array( $this, 'insert_application' ) );
 		add_action( 'wp_ajax_awsm_applicant_form_submission', array( $this, 'ajax_handle' ) );
 		add_action( 'wp_ajax_nopriv_awsm_applicant_form_submission', array( $this, 'ajax_handle' ) );
+
+		add_filter( 'wp_check_filetype_and_ext', array( $this, 'check_filetype_and_ext' ), 10, 5 );
 	}
 
 	public static function init() {
@@ -332,6 +334,20 @@ class AWSM_Job_Openings_Form {
 		$this->display_dynamic_fields( $form_attrs );
 		$this->display_gdpr_field( $form_attrs );
 		$this->display_recaptcha_field( $form_attrs );
+	}
+
+	public function check_filetype_and_ext( $wp_filetype, $file, $filename, $mimes, $real_mime = '' ) {
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing
+		if ( ! empty( $real_mime ) && isset( $_POST['action'] ) && $_POST['action'] === 'awsm_applicant_form_submission' && empty( $wp_filetype['type'] ) && ! empty( $mimes ) ) {
+			$filetype = wp_check_filetype( $filename, $mimes );
+			// fix issue with application/vnd.openxmlformats-officedocument.* mime types in some PHP versions.
+			$extensions = array( 'docx', 'dotx', 'xlsx', 'xltx', 'pptx', 'ppsx', 'potx', 'sldx' );
+			if ( $filetype['ext'] && in_array( $filetype['ext'], $extensions, true ) && $real_mime === $filetype['type'] . $filetype['type'] ) {
+				$wp_filetype['ext']  = $filetype['ext'];
+				$wp_filetype['type'] = $filetype['type'];
+			}
+		}
+		return $wp_filetype;
 	}
 
 	public function upload_dir( $param ) {
