@@ -858,13 +858,15 @@ class AWSM_Job_Openings_Form {
 					if ( $type !== 'applicant' ) {
 						$to = str_replace( $email_tag_names, $email_tag_values, $options['to'] );
 					}
-					AWSM_Job_Openings::log( array(
-						'to' => $to,
-						'subject' => $subject,
-						'mail_content' => $mail_content,
-						'headers' => $headers,
-						'attachments' => $attachments,
-					) );
+					AWSM_Job_Openings::log(
+						array(
+							'to'           => $to,
+							'subject'      => $subject,
+							'mail_content' => $mail_content,
+							'headers'      => $headers,
+							'attachments'  => $attachments,
+						)
+					);
 
 					// Now, send the mail.
 					$is_mail_send = wp_mail( $to, $subject, $mail_content, array_values( $headers ), $attachments );
