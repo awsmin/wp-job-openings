@@ -42,6 +42,9 @@ if ( ! defined( 'AWSM_JOBS_PLUGIN_VERSION' ) ) {
 if ( ! defined( 'AWSM_JOBS_UPLOAD_DIR_NAME' ) ) {
 	define( 'AWSM_JOBS_UPLOAD_DIR_NAME', 'awsm-job-openings' );
 }
+if ( ! defined( 'AWSM_JOBS_DEBUG' ) ) {
+	define( 'AWSM_JOBS_DEBUG', false );
+}
 
 // Helper functions
 require_once AWSM_JOBS_PLUGIN_DIR . '/inc/helper-functions.php';
@@ -134,6 +137,16 @@ class AWSM_Job_Openings {
 		$this->clear_cron_jobs();
 		$this->awsm_core->unregister();
 		flush_rewrite_rules();
+	}
+
+	public static function log( $data, $prefix = '' ) {
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG && defined( 'AWSM_JOBS_DEBUG' ) && AWSM_JOBS_DEBUG ) {
+			if ( is_string( $data ) ) {
+				error_log( 'WP Job Openings:' . $prefix . ': ' . $data );
+			} else {
+				error_log( 'WP Job Openings:' . $prefix . ': ' . json_encode( $data, JSON_PRETTY_PRINT ) );
+			}
+		}
 	}
 
 	private function register_default_settings() {
