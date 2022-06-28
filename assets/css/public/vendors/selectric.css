@@ -242,3 +242,37 @@
 .awsm-selectric-items .awsm-selectric-group li {
   padding-left: 25px;
 }
+.awsm-selectric-awsm-job-select-control-multiple .awsm-selectric-items li{
+  padding-left: 34px !important;
+  position: relative;
+}
+.awsm-selectric-awsm-job-select-control-multiple .awsm-selectric-items li::before{
+  content: "";
+  width: 14px;
+  height: 14px;
+  border: 1px solid #dddfe3;
+  position: absolute;
+  left: 10px;
+  top: calc(50% - 7px);
+  border-radius: 2px;
+}
+.awsm-selectric-awsm-job-select-control-multiple .awsm-selectric-items li::after{
+  content: "";
+  width: 14px;
+  height: 14px;
+  position: absolute;
+  left: 10px;
+  top: calc(50% - 7px);
+  border-radius: 2px;
+  background: #3e8ed0 url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTJweCIgaGVpZ2h0PSIxMXB4IiB2aWV3Qm94PSIwIDAgMTIgMTEiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8dGl0bGU+dGljay1zdmdyZXBvLWNvbTwvdGl0bGU+CiAgICA8ZyBpZD0iUGFnZS0xIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KICAgICAgICA8ZyBpZD0idGljay1zdmdyZXBvLWNvbSIgZmlsbD0iI0ZGRkZGRiIgZmlsbC1ydWxlPSJub256ZXJvIj4KICAgICAgICAgICAgPHBvbHlnb24gaWQ9IlBhdGgiIHBvaW50cz0iMTEuMDc1NTgzNyAwIDQuODQ0ODQwODIgOC45NzE3ODc3NiAwLjcxMTI4MTYzMyA1LjU5NzExODM3IDAgNi40Njg4MDgxNiA1LjA3NTU4MzY3IDEwLjYxMjYwNDEgMTIgMC42NDE2ODE2MzMiPjwvcG9seWdvbj4KICAgICAgICA8L2c+CiAgICA8L2c+Cjwvc3ZnPg==') no-repeat center;
+  background-size: 8px;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+.awsm-selectric-awsm-job-select-control-multiple .awsm-selectric-items li.selected{
+  color: #666;
+  background: #fff;
+}
+.awsm-selectric-awsm-job-select-control-multiple .awsm-selectric-items li.selected::after{
+  opacity: 1;
+}
