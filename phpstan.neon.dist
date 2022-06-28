@@ -4,6 +4,7 @@ parameters:
 	level: 5
 	inferPrivatePropertyTypeFromConstructor: true
 	bootstrapFiles:
+		- tests/phpstan/bootstrap.php
 		- inc/helper-functions.php
 		- inc/template-functions.php
 	paths:
@@ -27,10 +28,6 @@ parameters:
 		# Methods
 		- '#Function vc_is_inline not found#'
 		-
-			message: '#Parameter \#1 \$postarr of function wp_insert_post expects array#'
-			path: inc/class-awsm-job-openings-form.php
+			message: '#Right side of && is always false#'
+			path: wp-job-openings.php
 			count: 1
-		# Constants
-		- '#^Constant AWSM_JOBS_PLUGIN_DIR not found\.$#'
-		- '#^Constant AWSM_JOBS_PLUGIN_URL not found\.$#'
-		# Properties
