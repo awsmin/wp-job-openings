@@ -3,8 +3,15 @@ name: WP Job Openings Coding Standards
 on:
   push:
     branches: [ master, dev-branch ]
+    paths:
+      - 'phpcs.xml'
+      - 'phpstan.neon.dist'
+      - '**.php'
   pull_request:
     branches: [ master ]
+      - 'phpcs.xml'
+      - 'phpstan.neon.dist'
+      - '**.php'
 
 jobs:
   build:
