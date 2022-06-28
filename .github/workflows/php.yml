@@ -9,6 +9,7 @@ on:
       - '**.php'
   pull_request:
     branches: [ master ]
+    paths:
       - 'phpcs.xml'
       - 'phpstan.neon.dist'
       - '**.php'
