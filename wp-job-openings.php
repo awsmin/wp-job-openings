@@ -245,7 +245,7 @@ class AWSM_Job_Openings {
 				'post_type'    => 'page',
 			);
 			$post_id = wp_insert_post( $post );
-			if ( ! empty( $post_id ) && ! is_wp_error( $post_id ) ) {
+			if ( ! empty( $post_id ) ) {
 				update_option( 'awsm_jobs_default_listing_page_id', $post_id );
 			}
 		}

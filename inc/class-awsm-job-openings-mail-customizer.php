@@ -43,7 +43,7 @@ class AWSM_Job_Openings_Mail_Customizer {
 		 *
 		 * @since 2.2.0
 		 *
-		 * @param array $allowed_html Allowed HTML elements and attributes, or a context name.
+		 * @param string|array $allowed_html Allowed HTML elements and attributes, or a context name.
 		 */
 		$allowed_html = apply_filters( 'awsm_jobs_notification_customizer_allowed_html', 'post' );
 

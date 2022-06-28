@@ -176,8 +176,9 @@ class AWSM_Job_Openings_Filters {
 							 *
 							 * @since 1.6.0
 							 *
+							 * @param string $filter_label The label for the filter.
 							 * @param string $taxonomy Taxonomy key.
-							 * @param array  $tax_details Taxonomy details.
+							 * @param WP_Taxonomy $tax_details Taxonomy details.
 							 */
 							$filter_label = apply_filters( 'awsm_filter_label', esc_html_x( 'All', 'job filter', 'wp-job-openings' ) . ' ' . $spec_name, $taxonomy, $tax_details );
 
@@ -223,7 +224,6 @@ class AWSM_Job_Openings_Filters {
 				 * @since 3.2.0
 				 *
 				 * @param string $toggle_control Toogle button HTML content.
-				 * @param array  $tax_details Taxonomy details.
 				 */
 				$toggle_control = apply_filters( 'awsm_job_filters_toggle_btn', $toggle_control );
 

@@ -496,9 +496,9 @@ class AWSM_Job_Openings_Form {
 							'post_parent' => $job_id,
 						)
 					);
-					$application_id   = wp_insert_post( $application_data );
+					$application_id   = wp_insert_post( $application_data, true );
 
-					if ( ! empty( $application_id ) && ! is_wp_error( $application_id ) ) {
+					if ( ! is_wp_error( $application_id ) ) {
 						$attachment_data = array_merge(
 							$post_base_data,
 							array(
@@ -506,9 +506,9 @@ class AWSM_Job_Openings_Form {
 								'guid'           => $movefile['url'],
 							)
 						);
-						$attach_id       = wp_insert_attachment( $attachment_data, $movefile['file'], $application_id );
+						$attach_id       = wp_insert_attachment( $attachment_data, $movefile['file'], $application_id, true );
 
-						if ( ! empty( $attach_id ) && ! is_wp_error( $attach_id ) ) {
+						if ( ! is_wp_error( $attach_id ) ) {
 							$attach_data = wp_generate_attachment_metadata( $attach_id, $movefile['file'] );
 							wp_update_attachment_metadata( $attach_id, $attach_data );
 							$applicant_details = array(
@@ -543,6 +543,7 @@ class AWSM_Job_Openings_Form {
 							do_action( 'awsm_job_application_submitted', $application_id );
 
 						} else {
+							AWSM_Job_Openings::log( $attach_id );
 							$awsm_response['error'][] = $generic_err_msg;
 						}
 					} else {
