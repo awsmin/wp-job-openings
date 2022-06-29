@@ -97,6 +97,7 @@ class AWSM_Job_Openings {
 		add_filter( 'the_content', array( $this, 'awsm_jobs_content' ), 100 );
 		add_filter( 'single_template', array( $this, 'jobs_single_template' ) );
 		add_filter( 'archive_template', array( $this, 'jobs_archive_template' ) );
+		add_filter( 'wp_robots', array( $this, 'no_robots' ) );
 		$this->admin_filters();
 		add_shortcode( 'awsmjobs', array( $this, 'awsm_jobs_shortcode' ) );
 	}
@@ -793,10 +794,21 @@ class AWSM_Job_Openings {
 		global $post;
 		if ( is_singular( 'awsm_job_openings' ) ) {
 			// block search engine robots to expired jobs
-			if ( function_exists( 'wp_no_robots' ) && $post->post_status === 'expired' && get_option( 'awsm_jobs_expired_jobs_block_search' ) === 'block_expired' ) {
+			if ( ! function_exists( 'wp_robots_no_robots' ) && $post->post_status === 'expired' && get_option( 'awsm_jobs_expired_jobs_block_search' ) === 'block_expired' ) {
 				wp_no_robots();
 			}
 		}
+	}
+
+	public function no_robots( $robots ) {
+		if ( is_singular( 'awsm_job_openings' ) ) {
+			global $post;
+			if ( isset( $post ) && $post->post_status === 'expired' && get_option( 'awsm_jobs_expired_jobs_block_search' ) === 'block_expired' ) {
+				$robots['noindex']  = true;
+				$robots['nofollow'] = true;
+			}
+		}
+		return $robots;
 	}
 
 	public function job_views_handler() {
