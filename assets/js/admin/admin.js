@@ -266,6 +266,11 @@ jQuery(document).ready(function($) {
 		var $form = $('#awsm-job-settings-wrap form');
 		if ($form.get(0).checkValidity() === false) {
 			$('.awsm-jobs-settings-error').removeClass('awsm-hidden');
+
+			// Handle accordions.
+			$('.awsm-acc-head').addClass('on');
+			$('.awsm-acc-content').slideDown('normal');
+
 			$('html, body').animate({
 				scrollTop: $('#awsm-job-settings-wrap .awsm-settings-tab-wrapper').offset().top
 			}, 600);
