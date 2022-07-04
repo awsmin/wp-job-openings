@@ -20,6 +20,7 @@ class AWSM_Job_Openings_Settings {
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 		add_action( 'wp_ajax_settings_switch', array( $this, 'settings_switch_ajax' ) );
+		add_action( 'before_awsm_settings_main_content', array( $this, 'settings_notice' ) );
 
 		add_action( 'update_option_awsm_select_page_listing', array( $this, 'update_awsm_page_listing' ), 10, 2 );
 		add_action( 'update_option_awsm_permalink_slug', array( $this, 'update_awsm_permalink_slug' ), 10, 2 );
@@ -908,6 +909,23 @@ class AWSM_Job_Openings_Settings {
 			</div>
 			<?php
 		endif;
+	}
+
+	public function settings_notice( $setting_slug ) {
+		?>
+			<div class="awsm-jobs-settings-error awsm-jobs-error-container awsm-hidden">
+				<div class="awsm-jobs-error">
+					<p>
+						<strong>
+						<?php
+							/* translators: %s Settings slug */
+							printf( esc_html__( 'Error: Invalid %s settings. Please make sure that all the required fields are filled and valid, then submit the form.', 'wp-job-openings' ), esc_html( $setting_slug ) );
+						?>
+						</strong>
+					</p>
+				</div>
+			</div>
+		<?php
 	}
 
 	public function display_settings_fields( $settings_fields, $container = 'table', $echo = true ) {

@@ -76,6 +76,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'name'        => 'awsm_hr_email_address',
 					'label'       => __( 'HR Email Address', 'wp-job-openings' ),
 					'type'        => 'email',
+					'required'    => true,
 					'description' => __( 'Email for HR notifications', 'wp-job-openings' ),
 				),
 				array(

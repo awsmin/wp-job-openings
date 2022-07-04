@@ -62,6 +62,10 @@
 	visibility: visible;
 }
 
+.awsm-jobs-settings-error {
+	margin-top: 10px;
+}
+
 .settings-error.awsm-jobs-warning {
     border-left-color: #ffb900;
 }
