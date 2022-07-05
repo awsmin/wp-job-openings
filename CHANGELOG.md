@@ -1,5 +1,13 @@
 ## Changelog
 
+### V 3.3.1 - 2022-07-06
+* Fixed: Uploading issue with documents exported with Google.
+* Fixed: Accessibility issue in job listing filters.
+* Fixed: Deprecation notice with function wp_no_robots.
+* Improved: Settings error handling.
+* Dev: Added functions for better debugging.
+* Minor bug fixes and code improvements.
+
 ### V 3.3.0 - 2022-04-25
 * Added: HTML editor support for notifications.
 * Added: Author info in the admin job listing table.

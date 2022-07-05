@@ -3,9 +3,9 @@
 **Contributors:** awsmin  
 **Tags:** jobs, job listing, job openings, job board, careers page, jobs page, wp job opening, jobs plugin  
 **Requires at least:** 4.8  
-**Tested up to:** 5.9  
+**Tested up to:** 6.0  
 **Requires PHP:** 5.6  
-**Stable tag:** 3.3.0  
+**Stable tag:** 3.3.1  
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
 **Donate link:** https://www.buymeacoffee.com/awsm
@@ -18,9 +18,11 @@ Super simple Job Listing plugin to manage Job Openings and Applicants on your Wo
 
 **WP Job Openings plugin is the most simple yet powerful plugin for setting up a job listing page for your WordPress website.**
 
-WP Job Openings is designed after carefully analysing hundreds of job listing layouts and methods. The plugin is super simple to use and extensible to a high performing recruitment tool.
+WP Job Openings is designed after carefully analyzing hundreds of job listing layouts and methods. The plugin is super simple to use and extensible to a high-performing recruitment tool.
 
-The plugin comes with two layouts - Grid and List which are designed carefully according to the modern design and User Experience principles. Highlight of the plugin is its totally flexible filter options.
+[![WP Job Openings - Introduction](https://user-images.githubusercontent.com/22009263/177325986-c1a9b629-3dcf-463c-a158-df7b5fc27816.jpg)](https://www.youtube.com/watch?v=xqAlRljVKJ0)
+
+The plugin comes with two layouts - Grid and List which are designed carefully according to the modern design and User Experience principles. The highlight of the plugin is its totally flexible filter options.
 
 
 **[View Demo](https://demo.wpjobopenings.com/)**
@@ -32,7 +34,7 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 
 * Super Simple and Easy to Set Up and Use
 * Two Different Modern Layouts
-* Clean and User Friendly Designs
+* Clean and User-Friendly Designs
 * Unlimited Job Specifications
 * Unlimited Filtering Options
 * Search Option to find jobs
@@ -55,10 +57,11 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 * [Docs Viewer](https://wordpress.org/plugins/docs-viewer-add-on-for-wp-job-openings/) (FREE)
 * [Auto-Delete Applications for GDPR Compliance](https://wordpress.org/plugins/auto-delete-applications-add-on-for-wp-job-openings/) (FREE)
 * [PRO Pack](https://wpjobopenings.com/pro-pack/) (PREMIUM)
+* [User Access Control Add-on](https://wpjobopenings.com/add-ons/user-access-control/) (PREMIUM)
 
 ## WP Job Openings PRO Features
 
-**Power-up your job listing with the PRO pack Add-on**
+**Power up your job listing with the PRO pack Add-on**
 
 * Form Builder - Make your own application form
 * Shortlist, Reject and Select Applicants
@@ -91,6 +94,14 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 
 ## Changelog
 
+**V 3.3.1 - 2022-07-06**
+* Fixed: Uploading issue with documents exported with Google.
+* Fixed: Accessibility issue in job listing filters.
+* Fixed: Deprecation notice with function wp_no_robots.
+* Improved: Settings error handling.
+* Dev: Added functions for better debugging.
+* Minor bug fixes and code improvements.
+
 **V 3.3.0 - 2022-04-25**
 * Added: HTML editor support for notifications.
 * Added: Author info in the admin job listing table.
@@ -117,23 +128,5 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 * Fixed: Notifications translations not working with Polylang plugin.
 * Dev: Hook to customize the wrapping element class for the job listing and detail page.
 * Code improvements.
-
-**V 3.0.0 - 2021-12-03**
-* Admin UI improvements.
-* Job listing UI improvements. The template file needs to be updated if overridden in the theme.
-* Added: Overview page with support for Applications Analytics widget, Get Started widget, Recent Applications widget, Open Positions widget, and Your Listings widget.
-* Added: Multiple pagination support - Classic or Modern.
-* Fixed: 'Add New' button for applications being displayed for Multisite network.
-* Fixed: Issue in removing duplicate job specification options.
-* Fixed: Email digest from address is not the same as the mail address for admin notification.
-* Improved: Admin dashboard widget.
-* Improved: Job Specifications settings.
-* Improved: HR user capabilities.
-* Dev: Deprecated job listing hooks.
-* Dev: Deprecated recent jobs widget hooks.
-* Dev: Hook to override the allowed HTML for the form.
-* Dev: Hook to customize expired job content.
-* Code improvements.
-* Other minor bug fixes.
 
 View complete Changelog in [CHANGELOG.MD](https://github.com/awsmin/wp-job-openings/blob/master/CHANGELOG.md)
