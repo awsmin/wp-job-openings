@@ -18,3 +18,4 @@ assets/fonts/icomoon.json export-ignore
 .eslintrc.yml export-ignore
 .prettierrc export-ignore
 *.map export-ignore
+/tests export-ignore
