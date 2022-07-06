@@ -913,7 +913,7 @@ class AWSM_Job_Openings_Settings {
 
 	public function settings_notice( $setting_slug ) {
 		?>
-			<div class="awsm-jobs-settings-error awsm-jobs-error-container awsm-hidden">
+			<div class="awsm-jobs-settings-error awsm-jobs-error-container awsm-hide">
 				<div class="awsm-jobs-error">
 					<p>
 						<strong>

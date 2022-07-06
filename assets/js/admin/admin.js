@@ -265,7 +265,7 @@ jQuery(document).ready(function($) {
 	$('#awsm-job-settings-wrap input[type="submit"]').on('click', function() {
 		var $form = $('#awsm-job-settings-wrap form');
 		if ($form.get(0).checkValidity() === false) {
-			$('.awsm-jobs-settings-error').removeClass('awsm-hidden');
+			$('.awsm-jobs-settings-error').removeClass('awsm-hide');
 
 			// Handle accordions.
 			$('.awsm-acc-head').addClass('on');
@@ -275,7 +275,7 @@ jQuery(document).ready(function($) {
 				scrollTop: $('#awsm-job-settings-wrap .awsm-settings-tab-wrapper').offset().top
 			}, 600);
 		} else {
-			$('.awsm-jobs-settings-error').addClass('awsm-hidden');
+			$('.awsm-jobs-settings-error').addClass('awsm-hide');
 		}
 	});
 
