@@ -682,7 +682,9 @@ class AWSM_Job_Openings {
 					 */
 					$subject = apply_filters( 'awsm_jobs_email_digest_subject', esc_html__( 'Email Digest - WP Job Openings', 'wp-job-openings' ) );
 
+					add_filter( 'wp_mail_content_type', 'awsm_jobs_mail_content_type' );
 					wp_mail( $to, $subject, $mail_content, array_values( $headers ) );
+					remove_filter( 'wp_mail_content_type', 'awsm_jobs_mail_content_type' );
 				}
 			}
 		}

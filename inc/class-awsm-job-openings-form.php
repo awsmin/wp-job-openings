@@ -869,8 +869,10 @@ class AWSM_Job_Openings_Form {
 						)
 					);
 
+					add_filter( 'wp_mail_content_type', 'awsm_jobs_mail_content_type' );
 					// Now, send the mail.
 					$is_mail_send = wp_mail( $to, $subject, $mail_content, array_values( $headers ), $attachments );
+					remove_filter( 'wp_mail_content_type', 'awsm_jobs_mail_content_type' );
 
 					if ( $is_mail_send ) {
 						if ( $type === 'applicant' ) {

@@ -147,3 +147,9 @@ if ( ! function_exists( 'awsm_jobs_wp_editor' ) ) {
 		wp_editor( wp_kses_post( $content ), $editor_id, $settings );
 	}
 }
+
+if ( ! function_exists( 'awsm_jobs_mail_content_type' ) ) {
+	function awsm_jobs_mail_content_type() {
+		return 'text/html';
+	}
+}
