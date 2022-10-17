@@ -99,7 +99,33 @@ jQuery(document).ready(function($) {
 
 	/*================ Job Specifications ================*/
 
-	jobsAdminMain.tagSelect($('.awsm_jobs_filter_tags'));
+	function customTagsMatcher(params, data) {
+
+		// If there are no search terms, return all of the data
+		if (params.term.trim() === '') {
+			return data;
+		}
+
+		// Do not display the item if there is no 'text' property
+		if (typeof data.id === 'undefined') {
+			return null;
+		}
+
+		if (data.id.toLowerCase() === params.term.toLowerCase()) {
+			var modifiedData = $.extend({}, data, true);
+			return modifiedData;
+		}
+
+		return null;
+	}
+
+	jobsAdminMain.tagSelect($('.awsm_jobs_filter_tags'), true, {
+		matcher: customTagsMatcher,
+		templateResult: function(val) {
+			return val.id;
+		}
+	});
+
 	jobsAdminMain.tagSelect($('.awsm_job_specification_terms'), false, {
 		createTag: function(params) {
 			var currentId = $.trim(params.term);
