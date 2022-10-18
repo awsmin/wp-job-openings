@@ -5,7 +5,7 @@
 **Requires at least:** 4.8  
 **Tested up to:** 6.0  
 **Requires PHP:** 5.6  
-**Stable tag:** 3.3.1  
+**Stable tag:** 3.3.2  
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
 **Donate link:** https://www.buymeacoffee.com/awsm
@@ -94,6 +94,11 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 
 ## Changelog
 
+**V 3.3.2 - 2022-10-18**
+* Fixed: Job specifications settings issue when options with similar words are entered.
+* Fixed: HTML content issue in notification mails for some installations.
+* Improved: Logo in mail notification with the link to the site homepage.
+
 **V 3.3.1 - 2022-07-06**
 * Fixed: Uploading issue with documents exported with Google.
 * Fixed: Accessibility issue in job listing filters.
@@ -121,12 +126,5 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 * Fixed: Application form issue with in-app browsers.
 * Improved: Job listing filters UI.
 * Other minor bug fixes and style improvements.
-  
-**V 3.1.0 - 2021-12-22**
-* Added: Option to enable plugin-based form styles (Settings > Form > General > Form Style). Job listing and detail page templates need to be updated if overridden in the theme.
-* Fixed: Warnings in job archive pages.
-* Fixed: Notifications translations not working with Polylang plugin.
-* Dev: Hook to customize the wrapping element class for the job listing and detail page.
-* Code improvements.
 
 View complete Changelog in [CHANGELOG.MD](https://github.com/awsmin/wp-job-openings/blob/master/CHANGELOG.md)

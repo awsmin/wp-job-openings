@@ -1,5 +1,10 @@
 ## Changelog
 
+### V 3.3.2 - 2022-10-18
+* Fixed: Job specifications settings issue when options with similar words are entered.
+* Fixed: HTML content issue in notification mails for some installations.
+* Improved: Logo in mail notification with the link to the site homepage.
+
 ### V 3.3.1 - 2022-07-06
 * Fixed: Uploading issue with documents exported with Google.
 * Fixed: Accessibility issue in job listing filters.
