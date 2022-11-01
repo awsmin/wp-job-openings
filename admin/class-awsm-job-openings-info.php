@@ -178,7 +178,8 @@ class AWSM_Job_Openings_Info {
 		if ( ! empty( $plugin ) ) {
 			$plugin_arr       = explode( '/', esc_html( $plugin ) );
 			$plugin_slug      = $plugin_arr[0];
-			$installed_plugin = get_plugins( '/' . $plugin_slug );
+			$plugin_root      = WP_PLUGIN_DIR . '/' . $plugin_slug;
+			$installed_plugin = file_exists( $plugin_root ) ? get_plugins( '/' . $plugin_slug ) : '';
 		}
 		if ( empty( $installed_plugin ) ) {
 			if ( get_filesystem_method( array(), plugin_dir_path( dirname( dirname( __FILE__ ) ) ) ) === 'direct' && $add_on_details['type'] === 'free' ) {
