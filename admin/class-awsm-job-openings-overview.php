@@ -165,9 +165,55 @@ class AWSM_Job_Openings_Overview {
 			'job_status' => array( 'publish', 'expired', 'future', 'draft', 'pending', 'private' ),
 		);
 		$parsed_args = wp_parse_args( $args, $defaults );
+		/**
+		 * Filters the arguments to retrieve jobs in the overview section.
+		 *
+		 * @since 3.3.3
+		 *
+		 * @param array $parsed_args Arguments to retrieve jobs.
+		 * @param array $defaults Overview jobs arguments.
+		 */
+		$parsed_args = apply_filters( 'awsm_overview_jobs_args', $parsed_args, $defaults );
 
 		$values = array();
-		$where  = "WHERE {$wpdb->posts}.post_type = 'awsm_job_openings'";
+		$join   = "LEFT JOIN {$wpdb->posts} AS applications ON {$wpdb->posts}.ID = applications.post_parent AND applications.post_type = 'awsm_job_application'";
+		$where  = 'WHERE 1=1';
+		if ( isset( $parsed_args['tax_query'] ) && is_array( $parsed_args['tax_query'] ) ) {
+			$in       = array();
+			$term_ids = array();
+			foreach ( $parsed_args['tax_query'] as $tax_terms ) {
+				foreach ( $tax_terms['terms'] as $term_id ) {
+					$in[]       = '%d';
+					$term_ids[] = intval( $term_id );
+				}
+			}
+			$in               = implode( ',', $in );
+			$term_tax_results = $wpdb->get_results( $wpdb->prepare( "SELECT t.term_id, tt.term_taxonomy_id, tt.taxonomy FROM {$wpdb->terms} AS t INNER JOIN {$wpdb->term_taxonomy} AS tt ON t.term_id = tt.term_id WHERE t.term_id IN ({$in})", $term_ids ), ARRAY_A );
+			if ( ! empty( $term_tax_results ) ) {
+				$taxonomies_ids = array();
+				foreach ( $term_tax_results as $term_tax_result ) {
+					$taxonomy = $term_tax_result['taxonomy'];
+					if ( ! isset( $taxonomies_ids[ $taxonomy ] ) ) {
+						$taxonomies_ids[ $taxonomy ] = array();
+					}
+					$taxonomies_ids[ $taxonomy ][] = $term_tax_result['term_taxonomy_id'];
+				}
+
+				$index = 1;
+				foreach ( $taxonomies_ids as $term_tax_ids ) {
+					$join .= " LEFT JOIN {$wpdb->term_relationships} AS tt{$index} ON ({$wpdb->posts}.ID = tt{$index}.object_id)";
+					$in    = array();
+					foreach ( $term_tax_ids as $term_tax_id ) {
+						$in[]     = '%d';
+						$values[] = intval( $term_tax_id );
+					}
+					$in     = implode( ',', $in );
+					$where .= " AND tt{$index}.term_taxonomy_id IN({$in})";
+					$index++;
+				}
+			}
+		}
+		$where .= " AND {$wpdb->posts}.post_type = 'awsm_job_openings'";
 		// status.
 		if ( is_string( $parsed_args['job_status'] ) ) {
 			$where   .= " AND {$wpdb->posts}.post_status = %s";
@@ -191,8 +237,16 @@ class AWSM_Job_Openings_Overview {
 		}
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$results = $wpdb->get_results( $wpdb->prepare( "SELECT {$wpdb->posts}.ID, COUNT(applications.ID) AS applications_count FROM {$wpdb->posts} LEFT JOIN {$wpdb->posts} AS applications ON {$wpdb->posts}.ID = applications.post_parent AND applications.post_type = 'awsm_job_application' {$where} GROUP BY {$wpdb->posts}.ID ORDER BY applications_count DESC, {$wpdb->posts}.ID{$limit}", $values ), OBJECT );
-		return $results;
+		$results = $wpdb->get_results( $wpdb->prepare( "SELECT {$wpdb->posts}.ID, COUNT(applications.ID) AS applications_count FROM {$wpdb->posts} {$join} {$where} GROUP BY {$wpdb->posts}.ID ORDER BY applications_count DESC, {$wpdb->posts}.ID{$limit}", $values ), OBJECT );
+		/**
+		 * Filters the overview jobs result.
+		 *
+		 * @since 3.3.3
+		 *
+		 * @param array $results Overview jobs results.
+		 * @param array $parsed_args Arguments to retrieve jobs.
+		 */
+		return apply_filters( 'awsm_overview_jobs', $results, $parsed_args );
 	}
 
 	public static function get_jobs_by_author( $numberjobs = 10 ) {

@@ -342,7 +342,7 @@ class AWSM_Job_Openings {
 	}
 
 	public static function get_all_applications( $fields = 'ids', $extra_args = array() ) {
-		$defaults     = array(
+		$defaults = array(
 			'post_type'   => 'awsm_job_application',
 			'numberposts' => -1,
 			'orderby'     => 'date',
@@ -350,7 +350,17 @@ class AWSM_Job_Openings {
 			'post_status' => 'any',
 			'fields'      => $fields,
 		);
-		$args         = wp_parse_args( $extra_args, $defaults );
+		$args     = wp_parse_args( $extra_args, $defaults );
+		/**
+		 * Filters the arguments to retrieve all applications.
+		 *
+		 * @since 3.3.3
+		 *
+		 * @param array $args Arguments to retrieve applications.
+		 * @param array $extra_args Extra arguments.
+		 * @param array $defaults Default arguments to retrieve applications.
+		 */
+		$args         = apply_filters( 'awsm_all_applications_args', $args, $extra_args, $defaults );
 		$applications = get_posts( $args );
 		return $applications;
 	}
@@ -727,7 +737,14 @@ class AWSM_Job_Openings {
 			'new_applications'   => $applications_count['publish'],
 			'total_applications' => $total_applications,
 		);
-		return $data;
+		/**
+		 * Filters the overview data.
+		 *
+		 * @since 3.3.3
+		 *
+		 * @param array $data Overview data.
+		 */
+		return apply_filters( 'awsm_jobs_overview_data', $data );
 	}
 
 	public function modified_post_status_filter( $views ) {
