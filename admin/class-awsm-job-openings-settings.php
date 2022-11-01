@@ -154,6 +154,7 @@ class AWSM_Job_Openings_Settings {
 				),
 				array(
 					'option_name' => 'awsm_default_msg',
+					'callback'    => array( $this, 'sanitize_html_content' ),
 				),
 				array(
 					/** @since 2.0.0 */
@@ -717,15 +718,19 @@ class AWSM_Job_Openings_Settings {
 		return array_map( 'sanitize_text_field', $input );
 	}
 
+	public function sanitize_html_content( $content ) {
+		if ( ! class_exists( 'AWSM_Job_Openings_Form' ) ) {
+			require_once AWSM_JOBS_PLUGIN_DIR . '/inc/class-awsm-job-openings-form.php';
+		}
+		return wp_kses( $content, AWSM_Job_Openings_Form::get_allowed_html() );
+	}
+
 	public function awsm_gdpr_cb_text_handle( $input ) {
 		$gdpr_enable = get_option( 'awsm_enable_gdpr_cb' );
 		if ( ! empty( $gdpr_enable ) && empty( $input ) ) {
 			$input = esc_html__( 'By using this form you agree with the storage and handling of your data by this website.', 'wp-job-openings' );
 		}
-		if ( ! class_exists( 'AWSM_Job_Openings_Form' ) ) {
-			require_once AWSM_JOBS_PLUGIN_DIR . '/inc/class-awsm-job-openings-form.php';
-		}
-		return wp_kses( $input, AWSM_Job_Openings_Form::get_allowed_html() );
+		return $this->sanitize_html_content( $input );
 	}
 
 	public function notification_content_handler( $input, $option_name ) {
