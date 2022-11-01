@@ -188,7 +188,9 @@ class AWSM_Job_Openings_Overview {
 				}
 			}
 			$in               = implode( ',', $in );
-			$term_tax_results = $wpdb->get_results( $wpdb->prepare( "SELECT t.term_id, tt.term_taxonomy_id, tt.taxonomy FROM {$wpdb->terms} AS t INNER JOIN {$wpdb->term_taxonomy} AS tt ON t.term_id = tt.term_id WHERE t.term_id IN ({$in})", $term_ids ), ARRAY_A );
+			$term_tax_query = "SELECT t.term_id, tt.term_taxonomy_id, tt.taxonomy FROM {$wpdb->terms} AS t INNER JOIN {$wpdb->term_taxonomy} AS tt ON t.term_id = tt.term_id WHERE t.term_id IN ({$in})";
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+			$term_tax_results = $wpdb->get_results( $wpdb->prepare( $term_tax_query, $term_ids ), ARRAY_A );
 			if ( ! empty( $term_tax_results ) ) {
 				$taxonomies_ids = array();
 				foreach ( $term_tax_results as $term_tax_result ) {
