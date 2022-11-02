@@ -1,5 +1,11 @@
 ## Changelog
 
+### V 3.3.3 - 2022-11-02
+* Fixed: Failed to open directory issue in Add-ons screen.
+* Improved: Notifications template tags.
+* Dev: Hooks for dashboard and overview data customization.
+* Minor bug fixes and code improvements.
+
 ### V 3.3.2 - 2022-10-19
 * Fixed: Job specifications settings issue when options with similar words are entered.
 * Fixed: HTML content issue in notification mails for some installations.
