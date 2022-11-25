@@ -367,7 +367,7 @@ jQuery(function($) {
 		} else {
 			$elem.attr('aria-pressed', 'false');
 		}
-		$elem.next().slideToggle();
+		$('.awsm-filter-items').slideToggle();
 	});
 
 	/**
