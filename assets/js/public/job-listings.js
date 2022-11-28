@@ -367,7 +367,8 @@ jQuery(function($) {
 		} else {
 			$elem.attr('aria-pressed', 'false');
 		}
-		$('.awsm-filter-items').slideToggle();
+		var $parent = $elem.parent();
+		$parent.find('.awsm-filter-items').slideToggle();
 	});
 
 	/**
