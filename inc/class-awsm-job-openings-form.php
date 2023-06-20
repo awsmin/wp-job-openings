@@ -640,6 +640,8 @@ class AWSM_Job_Openings_Form {
 		if ( ! empty( $attachment_url ) && get_option( 'awsm_hide_uploaded_files' ) === 'hide_files' ) {
 			$attachment_url = AWSM_Job_Openings::get_application_edit_link( $applicant_details['application_id'] );
 		}
+		$author_id = get_post_field ('post_author', $applicant_details['awsm_job_id']);
+		$author_email = get_the_author_meta( 'user_email' , $author_id );
 		$tags = array(
 			'{applicant}'        => $applicant_details['awsm_applicant_name'],
 			'{application-id}'   => $applicant_details['application_id'],
@@ -650,6 +652,7 @@ class AWSM_Job_Openings_Form {
 			'{job-title}'        => $applicant_details['awsm_apply_for'],
 			'{applicant-cover}'  => isset( $applicant_details['awsm_applicant_letter'] ) ? nl2br( $applicant_details['awsm_applicant_letter'] ) : '',
 			'{applicant-resume}' => ( ! empty( $attachment_url ) ) ? esc_url( $attachment_url ) : '',
+			'{author-email}'     => esc_html( $author_email ),
 		);
 
 		$tags = array_merge( $tags, AWSM_Job_Openings::get_mail_generic_template_tags( $options ) );
@@ -698,6 +701,17 @@ class AWSM_Job_Openings_Form {
 				'subject'       => get_option( 'awsm_jobs_admin_notification_subject', '' ),
 				'content'       => get_option( 'awsm_jobs_admin_notification_content', '' ),
 				'html_template' => get_option( 'awsm_jobs_notification_admin_mail_template' ),
+			);
+		}  elseif ( $type === 'author' ) {
+			$options = array(
+				'enable'        => get_option( 'awsm_jobs_enable_expiry_notification' ),
+				'from'          => get_option( 'awsm_jobs_author_from_email_notification', $admin_email ),
+				'reply_to'      => get_option( 'awsm_jobs_reply_to_notification' ),
+				'to'            => get_option( 'awsm_jobs_author_to_notification', '{job-author}' ),
+				'cc'            => get_option( 'awsm_jobs_author_hr_notification', $hr_email  ),
+				'subject'       => get_option( 'awsm_jobs_author_notification_subject', '' ),
+				'content'       => get_option( 'awsm_jobs_author_notification_content', '' ),
+				'html_template' => get_option( 'awsm_jobs_notification_author_mail_template' ),
 			);
 		}
 		return $options;

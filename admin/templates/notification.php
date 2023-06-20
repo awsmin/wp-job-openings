@@ -4,8 +4,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 	$applicant_options = AWSM_Job_Openings_Form::get_notification_options( 'applicant' );
 	$admin_options     = AWSM_Job_Openings_Form::get_notification_options( 'admin' );
+	$author_options    = AWSM_Job_Openings_Form::get_notification_options( 'author' );
 	$from_email        = $applicant_options['from'];
 	$admin_from_email  = $admin_options['from'];
+	$author_from_email  = $author_options['from'];
 
 	$from_email_error_msg = __( "The provided 'From' email address does not belong to this site domain and may lead to issues in email delivery.", 'wp-job-openings' );
 ?>
@@ -123,6 +125,57 @@ if ( ! defined( 'ABSPATH' ) ) {
 									</div><!-- .col -->
 									<div class="awsm-col awsm-form-group awsm-col-full">
 										<label for="awsm_jobs_notification_admin_mail_template"><input type="checkbox" name="awsm_jobs_notification_admin_mail_template" id="awsm_jobs_notification_admin_mail_template" value="enable" <?php checked( $admin_options['html_template'], 'enable' ); ?>><?php esc_html_e( 'Use HTML Template', 'wp-job-openings' ); ?></label>
+									</div><!-- .col -->
+								</div><!-- row -->
+								<ul class="awsm-list-inline">
+									<li><?php echo apply_filters( 'awsm_job_settings_submit_btn', get_submit_button( esc_html__( 'Save', 'wp-job-openings' ) ), 'notification' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></li>
+								</ul>
+							</div><!-- .awsm-acc-content -->
+						</div><!-- .awsm-acc-main -->
+						<div class="awsm-acc-main awsm-acc-form-switch">
+							<div class="awsm-acc-head">
+								<h3><?php esc_html_e( 'Job Expiry - Author Notification', 'wp-job-openings' ); ?></h3>
+								<label for="awsm_jobs_enable_expiry_notification" class="awsm-toggle-switch">
+									<input type="checkbox" class="awsm-settings-switch" id="awsm_jobs_enable_expiry_notification" name="awsm_jobs_enable_expiry_notification" value="enable" <?php checked( $author_options['enable'], 'enable' ); ?> />
+									<span class="awsm-ts-label" data-on="<?php esc_html_e( 'ON', 'wp-job-openings' ); ?>" data-off="<?php esc_html_e( 'OFF', 'wp-job-openings' ); ?>"></span>
+								<span class="awsm-ts-inner"></span>
+								</label>
+							</div><!-- .awsm-acc-head -->
+							<div class="awsm-acc-content">
+								<div class="awsm-row">
+									<div class="awsm-col awsm-form-group awsm-col-half">
+										<label for="awsm_jobs_author_from_email_notification"><?php esc_html_e( 'From', 'wp-job-openings' ); ?></label>
+											<input type="email" class="awsm-form-control" name="awsm_jobs_author_from_email_notification" id="awsm_jobs_author_from_email_notification" value="<?php echo esc_attr( $admin_from_email ); ?>" required />
+											<?php
+											if ( $this->validate_from_email_id( $admin_from_email ) === false ) {
+												printf( '<p class="description awsm-jobs-invalid">%s</p>', esc_html( $from_email_error_msg ) );
+											}
+											?>
+									</div><!-- .col -->
+									<div class="awsm-col awsm-form-group awsm-col-half">
+										<label for="awsm_jobs_reply_to_notification"><?php esc_html_e( 'Reply-To', 'wp-job-openings' ); ?></label>
+											<input type="text" class="awsm-form-control" name="awsm_jobs_reply_to_notification" id="awsm_jobs_reply_to_notification" value="<?php echo esc_attr( $author_options['reply_to'] ); ?>" />
+									</div><!-- .col -->
+								</div>
+								<div class="awsm-row">
+									<div class="awsm-col awsm-form-group awsm-col-half">
+										<label for="awsm_jobs_author_to_notification"><?php esc_html_e( 'To', 'wp-job-openings' ); ?></label>
+											<input type="text" class="awsm-form-control" name="awsm_jobs_author_to_notification" id="awsm_jobs_author_to_notification" value="<?php echo esc_attr( $author_options['to'] ); ?>" placeholder="<?php esc_html__( 'Author Email', 'wp-job-openings' ); ?>" required />
+									</div><!-- .col -->
+									<div class="awsm-col awsm-form-group awsm-col-half">
+										<label for="awsm_jobs_author_hr_notification"><?php esc_html_e( 'CC:', 'wp-job-openings' ); ?></label>
+											<input type="text" class="awsm-form-control" name="awsm_jobs_author_hr_notification" id="awsm_jobs_author_hr_notification" value="<?php echo esc_attr( $author_options['cc'] ); ?>" />
+									</div><!-- .col -->
+									<div class="awsm-col awsm-form-group awsm-col-full">
+										<label for="awsm_jobs_author_notification_subject"><?php esc_html_e( 'Subject ', 'wp-job-openings' ); ?></label>
+											<input type="text" class="awsm-form-control" id="awsm_jobs_author_notification_subject" name="awsm_jobs_author_notification_subject" value="<?php echo esc_attr( $author_options['subject'] ); ?>" required />
+									</div><!-- .col -->
+									<div class="awsm-col awsm-form-group awsm-col-full">
+										<label for="awsm_jobs_author_notification_content"><?php esc_html_e( 'Content ', 'wp-job-openings' ); ?></label>
+										<?php awsm_jobs_wp_editor( $author_options['content'], 'awsm_jobs_author_notification_content' ); ?>
+									</div><!-- .col -->
+									<div class="awsm-col awsm-form-group awsm-col-full">
+										<label for="awsm_jobs_notification_author_mail_template"><input type="checkbox" name="awsm_jobs_notification_author_mail_template" id="awsm_jobs_notification_author_mail_template" value="enable" <?php checked( $author_options['html_template'], 'enable' ); ?>><?php esc_html_e( 'Use HTML Template', 'wp-job-openings' ); ?></label>
 									</div><!-- .col -->
 								</div><!-- row -->
 								<ul class="awsm-list-inline">

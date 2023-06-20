@@ -100,6 +100,7 @@ class AWSM_Job_Openings {
 		add_filter( 'wp_robots', array( $this, 'no_robots' ) );
 		$this->admin_filters();
 		add_shortcode( 'awsmjobs', array( $this, 'awsm_jobs_shortcode' ) );
+		add_action( 'transition_post_status', array( $this, 'expiry_notification_handler' ), 10, 3 );
 	}
 
 	public static function init() {
@@ -1813,6 +1814,124 @@ class AWSM_Job_Openings {
 		$data = $this->get_structured_data();
 		if ( ! empty( $data ) ) {
 			printf( '<script type="application/ld+json">%s</script>', wp_json_encode( $data ) );
+		}
+	}
+
+	public function expiry_notification_handler( $new_status, $old_status, $post ) {
+		$enable_expiry = get_option( 'awsm_jobs_enable_expiry_notification' );
+		if ( $new_status !== 'publish' && $new_status !== $old_status && $post->post_type === 'awsm_job_openings' ) {
+			if ( $new_status === 'expired' ) {
+				if ( $enable_expiry === 'enable' ) {
+					$admin_email     = get_option( 'admin_email' );
+					$hr_mail         = get_option( 'awsm_hr_email_address' );
+					$company_name    = get_option( 'awsm_job_company_name' );
+					$from            = ( ! empty( $company_name ) ) ? $company_name : get_option( 'blogname' );
+	
+	
+					$from_email    = get_option( 'awsm_jobs_author_from_email_notification', $admin_email );
+					$to            = get_option( 'awsm_jobs_author_to_notification' );
+					$reply_to      = get_option( 'awsm_jobs_reply_to_notification' );
+					$cc            = get_option( 'awsm_jobs_author_hr_notification' );
+					$subject       = get_option( 'awsm_jobs_author_notification_subject' );
+					$content       = get_option( 'awsm_jobs_author_notification_content' );
+					$html_template = get_option( 'awsm_jobs_notification_author_mail_template' );
+	
+					$job_id = $post->ID;
+					$author_id = get_post_field ('post_author', $job_id);
+					$author_email = get_the_author_meta( 'user_email' , $author_id );
+	
+	
+	
+					$tags             = $this->get_mail_generic_template_tags(
+						array(
+							'admin_email'  => $admin_email,
+							'hr_email'     => $hr_mail,
+							'company_name' => $company_name,
+							'job_id' => $job_id,
+						)
+					);
+					$tag_names        = array_keys( $tags );
+					$tag_values       = array_values( $tags );
+					$email_tag_names  = array( '{admin-email}', '{hr-email}', '{author-email}' );
+					$email_tag_values = array( $admin_email, $hr_mail, $author_email );
+	
+					if ( ! empty( $subject ) && ! empty( $content ) ) {
+						$subject  = str_replace( $tag_names, $tag_values, $subject );
+						$reply_to = str_replace( $email_tag_names, $email_tag_values, $reply_to );
+						$cc       = str_replace( $email_tag_names, $email_tag_values, $cc );
+
+						$subject       = str_replace( $email_tag_names, $email_tag_values, $subject );
+						$content  = str_replace( $email_tag_names, $email_tag_values, $content );
+			
+	
+					
+						$headers = apply_filters(
+							"awsm_jobs_expiry_notification_mail_headers",
+							array(
+								'content_type' => 'Content-Type: text/html; charset=UTF-8',
+								'from'         => sprintf( 'From: %1$s <%2$s>', $from, $from_email ),
+								'reply_to'     => 'Reply-To: ' . $reply_to,
+								'cc'           => 'Cc: ' . $cc,
+							)
+						);
+
+						$reply_to = trim( str_replace( 'Reply-To:', '', $headers['reply_to'] ) );
+						if ( empty( $reply_to ) ) {
+							unset( $headers['reply_to'] );
+						}
+	
+						$mail_cc = trim( str_replace( 'Cc:', '', $headers['cc'] ) );
+						if ( empty( $mail_cc ) ) {
+							unset( $headers['cc'] );
+						}
+	
+						
+	
+						$mail_content = nl2br( AWSM_Job_Openings_Mail_Customizer::sanitize_content( $content ) );
+						if ( $html_template === 'enable' ) {
+							// Header mail template.
+							ob_start();
+							include AWSM_Job_Openings::get_template_path( 'header.php', 'mail' );
+							$header_template  = ob_get_clean();
+							$header_template .= '<div style="padding: 0 15px; font-size: 16px; max-width: 512px; margin: 0 auto;">';
+	
+							// Footer mail template.
+							ob_start();
+							include AWSM_Job_Openings::get_template_path( 'footer.php', 'mail' );
+							$footer_template = ob_get_clean();
+							$footer_template = '</div>' . $footer_template;
+	
+							$template = $header_template . $mail_content . $footer_template;
+							
+							$mail_content = apply_filters(
+								"awsm_jobs_expiry_notification_mail_template",
+								$template,
+								array(
+									'header' => $header_template,
+									'main'   => $mail_content,
+									'footer' => $footer_template,
+								)
+							);
+						} else {
+							// Basic mail template.
+							ob_start();
+							include AWSM_Job_Openings::get_template_path( 'basic.php', 'mail' );
+							$basic_template = ob_get_clean();
+							$mail_content   = str_replace( '{mail-content}', $mail_content, $basic_template );
+						}
+	
+						$tag_names[]  = '{mail-subject}';
+						$tag_values[] = $subject;
+						$mail_content = str_replace( $tag_names, $tag_values, $mail_content );
+						
+						$to = str_replace( $email_tag_names, $email_tag_values, $to );
+					
+						// Now, send the mail.
+						$is_mail_send = wp_mail( $to, $subject, $mail_content, array_values( $headers ) );
+	
+					}
+				}
+			}	
 		}
 	}
 }
