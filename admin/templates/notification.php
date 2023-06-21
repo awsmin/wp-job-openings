@@ -134,7 +134,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						</div><!-- .awsm-acc-main -->
 						<div class="awsm-acc-main awsm-acc-form-switch">
 							<div class="awsm-acc-head">
-								<h3><?php esc_html_e( 'Job Expiry - Author Notification', 'wp-job-openings' ); ?></h3>
+								<h3><?php esc_html_e( 'Job Expiry Notification', 'wp-job-openings' ); ?></h3>
 								<label for="awsm_jobs_enable_expiry_notification" class="awsm-toggle-switch">
 									<input type="checkbox" class="awsm-settings-switch" id="awsm_jobs_enable_expiry_notification" name="awsm_jobs_enable_expiry_notification" value="enable" <?php checked( $author_options['enable'], 'enable' ); ?> />
 									<span class="awsm-ts-label" data-on="<?php esc_html_e( 'ON', 'wp-job-openings' ); ?>" data-off="<?php esc_html_e( 'OFF', 'wp-job-openings' ); ?>"></span>
