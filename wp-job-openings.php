@@ -1826,8 +1826,6 @@ class AWSM_Job_Openings {
 					$hr_mail         = get_option( 'awsm_hr_email_address' );
 					$company_name    = get_option( 'awsm_job_company_name' );
 					$from            = ( ! empty( $company_name ) ) ? $company_name : get_option( 'blogname' );
-	
-	
 					$from_email    = get_option( 'awsm_jobs_author_from_email_notification', $admin_email );
 					$to            = get_option( 'awsm_jobs_author_to_notification' );
 					$reply_to      = get_option( 'awsm_jobs_reply_to_notification' );
@@ -1835,12 +1833,10 @@ class AWSM_Job_Openings {
 					$subject       = get_option( 'awsm_jobs_author_notification_subject' );
 					$content       = get_option( 'awsm_jobs_author_notification_content' );
 					$html_template = get_option( 'awsm_jobs_notification_author_mail_template' );
-	
-					$job_id = $post->ID;
-					$author_id = get_post_field ('post_author', $job_id);
-					$author_email = get_the_author_meta( 'user_email' , $author_id );
-	
-	
+					$job_id        = $post->ID;
+					$author_id     = get_post_field ('post_author', $job_id);
+					$author_email  = get_the_author_meta( 'user_email' , $author_id );
+					$job_expiry     = get_post_meta( $job_id, 'awsm_job_expiry', true );
 	
 					$tags             = $this->get_mail_generic_template_tags(
 						array(
@@ -1850,20 +1846,19 @@ class AWSM_Job_Openings {
 							'job_id' => $job_id,
 						)
 					);
+
+					$job_title        = esc_html( get_the_title( $job_id ) );
 					$tag_names        = array_keys( $tags );
 					$tag_values       = array_values( $tags );
-					$email_tag_names  = array( '{admin-email}', '{hr-email}', '{author-email}' );
-					$email_tag_values = array( $admin_email, $hr_mail, $author_email );
+					$email_tag_names  = array( '{admin-email}', '{hr-email}', '{author-email}', '{job-id}', '{job-expiry}', '{job-title}' );
+					$email_tag_values = array( $admin_email, $hr_mail, $author_email, $job_id, $job_expiry, $job_title  );
 	
 					if ( ! empty( $subject ) && ! empty( $content ) ) {
 						$subject  = str_replace( $tag_names, $tag_values, $subject );
 						$reply_to = str_replace( $email_tag_names, $email_tag_values, $reply_to );
 						$cc       = str_replace( $email_tag_names, $email_tag_values, $cc );
-
-						$subject       = str_replace( $email_tag_names, $email_tag_values, $subject );
+						$subject  = str_replace( $email_tag_names, $email_tag_values, $subject );
 						$content  = str_replace( $email_tag_names, $email_tag_values, $content );
-			
-	
 					
 						$headers = apply_filters(
 							"awsm_jobs_expiry_notification_mail_headers",
@@ -1884,9 +1879,7 @@ class AWSM_Job_Openings {
 						if ( empty( $mail_cc ) ) {
 							unset( $headers['cc'] );
 						}
-	
-						
-	
+
 						$mail_content = nl2br( AWSM_Job_Openings_Mail_Customizer::sanitize_content( $content ) );
 						if ( $html_template === 'enable' ) {
 							// Header mail template.
@@ -1925,7 +1918,6 @@ class AWSM_Job_Openings {
 						$mail_content = str_replace( $tag_names, $tag_values, $mail_content );
 						
 						$to = str_replace( $email_tag_names, $email_tag_values, $to );
-					
 						// Now, send the mail.
 						$is_mail_send = wp_mail( $to, $subject, $mail_content, array_values( $headers ) );
 	
