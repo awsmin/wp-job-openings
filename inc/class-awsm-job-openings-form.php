@@ -707,7 +707,7 @@ class AWSM_Job_Openings_Form {
 				'enable'        => get_option( 'awsm_jobs_enable_expiry_notification' ),
 				'from'          => get_option( 'awsm_jobs_author_from_email_notification', $admin_email ),
 				'reply_to'      => get_option( 'awsm_jobs_reply_to_notification' ),
-				'to'            => get_option( 'awsm_jobs_author_to_notification', '{job-author}' ),
+				'to'            => get_option( 'awsm_jobs_author_to_notification', '{author-email}' ),
 				'cc'            => get_option( 'awsm_jobs_author_hr_notification', $hr_email  ),
 				'subject'       => get_option( 'awsm_jobs_author_notification_subject', '' ),
 				'content'       => get_option( 'awsm_jobs_author_notification_content', '' ),

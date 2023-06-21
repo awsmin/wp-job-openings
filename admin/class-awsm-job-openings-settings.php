@@ -377,33 +377,25 @@ class AWSM_Job_Openings_Settings {
 					'callback'    => array( $this, 'notification_customizer_handler' ),
 				),
 				array(
-					/** @since 2.2.0 */
 					'option_name' => 'awsm_jobs_enable_expiry_notification',
-					// 'callback'    => array( $this, 'notification_customizer_handler' ),
 				),
 				array(
-					/** @since 1.6.0 */
 					'option_name' => 'awsm_jobs_author_from_email_notification',
 					'callback'    => array( $this, 'sanitize_from_email_id' ),
 				),
 				array(
-					/** @since 1.6.0 */
 					'option_name' => 'awsm_jobs_author_to_notification',
 				),
 				array(
-					/** @since 1.6.0 */
 					'option_name' => 'awsm_jobs_author_hr_notification',
 				),
 				array(
-					/** @since 1.6.0 */
 					'option_name' => 'awsm_jobs_author_notification_subject',
 				),
 				array(
-					/** @since 1.6.0 */
 					'option_name' => 'awsm_jobs_author_notification_content',
 				),
 				array(
-					/** @since 1.6.0 */
 					'option_name' => 'awsm_jobs_notification_author_mail_template',
 				),
 			),
@@ -458,6 +450,11 @@ class AWSM_Job_Openings_Settings {
 			'awsm_jobs_admin_notification_content'    => "Job Opening: {job-title} [{job-id}]\nName: {applicant}\nEmail: {applicant-email}\nPhone: {applicant-phone}\nResume: {applicant-resume}\nCover letter: {applicant-cover}\n\nPowered by WP Job Openings Plugin",
 			'awsm_jobs_from_email_notification'       => get_option( 'admin_email' ),
 			'awsm_jobs_admin_from_email_notification' => get_option( 'admin_email' ),
+			'awsm_jobs_enable_expiry_notification'    => 'enable',
+			'awsm_jobs_author_from_email_notification'    => get_option( 'admin_email' ),
+			'awsm_jobs_author_to_notification'        => get_option( 'admin_email' ),
+			'awsm_jobs_author_notification_subject'   => 'Job expired {job-title} [{job-id}]',
+			'awsm_jobs_author_notification_content'   => "Job expired: {job-title} [{job-id}]\n\nPowered by WP Job Openings Plugin",
 		);
 		if ( ! empty( $option_name ) ) {
 			if ( isset( $options[ $option_name ] ) ) {
