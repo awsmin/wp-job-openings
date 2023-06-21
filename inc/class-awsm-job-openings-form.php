@@ -708,7 +708,7 @@ class AWSM_Job_Openings_Form {
 				'from'          => get_option( 'awsm_jobs_author_from_email_notification', $admin_email ),
 				'reply_to'      => get_option( 'awsm_jobs_reply_to_notification' ),
 				'to'            => get_option( 'awsm_jobs_author_to_notification', '{author-email}' ),
-				'cc'            => get_option( 'awsm_jobs_author_hr_notification', $hr_email  ),
+				'cc'            => get_option( 'awsm_jobs_author_hr_notification' ),
 				'subject'       => get_option( 'awsm_jobs_author_notification_subject', '' ),
 				'content'       => get_option( 'awsm_jobs_author_notification_content', '' ),
 				'html_template' => get_option( 'awsm_jobs_notification_author_mail_template' ),
@@ -761,6 +761,8 @@ class AWSM_Job_Openings_Form {
 				$applicant_email = $applicant_details['awsm_applicant_email'];
 				$company_name    = get_option( 'awsm_job_company_name' );
 				$from            = ( ! empty( $company_name ) ) ? $company_name : get_option( 'blogname' );
+				$author_id       = get_post_field ('post_author', $applicant_details['awsm_job_id']);
+				$author_email    = get_the_author_meta( 'user_email' , $author_id );
 
 				$tags             = $this->get_mail_template_tags(
 					$applicant_details,
@@ -772,8 +774,8 @@ class AWSM_Job_Openings_Form {
 				);
 				$tag_names        = array_keys( $tags );
 				$tag_values       = array_values( $tags );
-				$email_tag_names  = array( '{admin-email}', '{hr-email}', '{applicant-email}' );
-				$email_tag_values = array( $admin_email, $hr_mail, $applicant_email );
+				$email_tag_names  = array( '{admin-email}', '{hr-email}', '{applicant-email}', '{author-email}' );
+				$email_tag_values = array( $admin_email, $hr_mail, $applicant_email, $author_email );
 
 				if ( ! empty( $options['subject'] ) && ! empty( $options['content'] ) ) {
 					$subject  = str_replace( $tag_names, $tag_values, $options['subject'] );
