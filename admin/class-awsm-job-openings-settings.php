@@ -394,6 +394,7 @@ class AWSM_Job_Openings_Settings {
 				),
 				array(
 					'option_name' => 'awsm_jobs_author_notification_content',
+					'callback'    => array( $this, 'author_notification_content_handler' ),
 				),
 				array(
 					'option_name' => 'awsm_jobs_notification_author_mail_template',
@@ -454,7 +455,7 @@ class AWSM_Job_Openings_Settings {
 			'awsm_jobs_author_from_email_notification'    => get_option( 'admin_email' ),
 			'awsm_jobs_author_to_notification'        => get_option( 'admin_email' ),
 			'awsm_jobs_author_notification_subject'   => 'Job Listing Expired',
-			'awsm_jobs_author_notification_content'   => "This email is to notify you that your job listing for [Job Title] has just expired. As a result, applicants will no longer be able to apply for this position.\n\nIf you would like to extend the expiration date or remove the listing, please log in to the dashboard and take the necessary steps.\n\nPowered by WP Job Openings Plugin",
+			'awsm_jobs_author_notification_content'   => "This email is to notify you that your job listing for [{job-title}] has just expired. As a result, applicants will no longer be able to apply for this position.\n\nIf you would like to extend the expiration date or remove the listing, please log in to the dashboard and take the necessary steps.\n\nPowered by WP Job Openings Plugin",
 		);
 		if ( ! empty( $option_name ) ) {
 			if ( isset( $options[ $option_name ] ) ) {
@@ -775,6 +776,10 @@ class AWSM_Job_Openings_Settings {
 
 	public function admin_notification_content_handler( $input ) {
 		return $this->notification_content_handler( $input, 'awsm_jobs_admin_notification_content' );
+	}
+
+	public function author_notification_content_handler( $input ) {
+		return $this->notification_content_handler( $input, 'awsm_jobs_author_notification_content' );
 	}
 
 	public function notification_customizer_handler( $input ) {
