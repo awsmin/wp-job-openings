@@ -1822,10 +1822,11 @@ class AWSM_Job_Openings {
 		if ( $new_status !== 'publish' && $new_status !== $old_status && $post->post_type === 'awsm_job_openings' ) {
 			if ( $new_status === 'expired' ) {
 				if ( $enable_expiry === 'enable' ) {
-					$admin_email     = get_option( 'admin_email' );
-					$hr_mail         = get_option( 'awsm_hr_email_address' );
-					$company_name    = get_option( 'awsm_job_company_name' );
-					$from            = ( ! empty( $company_name ) ) ? $company_name : get_option( 'blogname' );
+					$job_id        = $post->ID;
+					$admin_email   = get_option( 'admin_email' );
+					$hr_mail       = get_option( 'awsm_hr_email_address' );
+					$company_name  = get_option( 'awsm_job_company_name' );
+					$from          = ( ! empty( $company_name ) ) ? $company_name : get_option( 'blogname' );
 					$from_email    = get_option( 'awsm_jobs_author_from_email_notification', $admin_email );
 					$to            = get_option( 'awsm_jobs_author_to_notification' );
 					$reply_to      = get_option( 'awsm_jobs_reply_to_notification' );
@@ -1833,19 +1834,36 @@ class AWSM_Job_Openings {
 					$subject       = get_option( 'awsm_jobs_author_notification_subject' );
 					$content       = get_option( 'awsm_jobs_author_notification_content' );
 					$html_template = get_option( 'awsm_jobs_notification_author_mail_template' );
-					$job_id        = $post->ID;
 					$author_id     = get_post_field ('post_author', $job_id);
 					$author_email  = get_the_author_meta( 'user_email' , $author_id );
-					$job_expiry     = get_post_meta( $job_id, 'awsm_job_expiry', true );
+					$job_expiry    = get_post_meta( $job_id, 'awsm_job_expiry', true );
 	
 					$tags             = $this->get_mail_generic_template_tags(
 						array(
 							'admin_email'  => $admin_email,
 							'hr_email'     => $hr_mail,
 							'company_name' => $company_name,
-							'job_id' => $job_id,
+							'job_id'       => $job_id,
 						)
 					);
+					
+					if (class_exists( 'AWSM_Job_Openings_Pro_Pack' )) {
+						$awsm_filters = get_option( 'awsm_jobs_filter' );
+						if ( ! empty( $awsm_filters ) ) {
+							$spec_keys = wp_list_pluck( $awsm_filters, 'taxonomy' );
+							foreach ( $spec_keys as $spec_key ) {
+								$tag          = '{' . $spec_key . '}';
+								$tags[ $tag ] = '';
+								$spec_terms   = wp_get_post_terms( $job_id, $spec_key );
+								if ( ! is_wp_error( $spec_terms ) && is_array( $spec_terms ) ) {
+									$labels = wp_list_pluck( $spec_terms, 'name' );
+									if ( ! empty( $labels ) ) {
+										$tags[ $tag ] = implode( ', ', $labels ); // if there are multiple specifications, then it will be separated by a comma.
+									}
+								}
+							}
+						}
+					}
 
 					$job_title        = esc_html( get_the_title( $job_id ) );
 					$tag_names        = array_keys( $tags );
