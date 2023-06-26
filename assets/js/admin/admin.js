@@ -373,6 +373,14 @@ jQuery(document).ready(function($) {
 				}
 			});
 		}
+		var Button = wp.media.view.Button;
+		wp.media.view.Button = Button.extend({
+		  initialize: function () {
+			var options = _.defaults(this.options, this.defaults);
+			this.model = new Backbone.Model(options);
+			this.listenTo(this.model, 'change', this.render);
+		  }
+		});
 
 		frame.on('select', function() {
 			var attachment = frame.state().get('selection').first().toJSON();
