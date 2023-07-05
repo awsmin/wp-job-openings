@@ -809,10 +809,10 @@ class AWSM_Job_Openings_Form {
 						$attachments = ! empty( $attachments ) ? wp_list_pluck( $attachments, 'file' ) : array();
 					}
 
-					$mail_content =  AWSM_Job_Openings_Mail_Customizer::sanitize_content( $options['content']  );
-					if( stripos( $mail_content, '</table>' ) === false ) {
-						$mail_content =  nl2br( $mail_content );
-					} 
+					$mail_content = AWSM_Job_Openings_Mail_Customizer::sanitize_content( $options['content'] );
+					if ( stripos( $mail_content, '</table>' ) === false ) {
+						$mail_content = nl2br( $mail_content );
+					}
 
 					if ( $options['html_template'] === 'enable' ) {
 						// Header mail template.
