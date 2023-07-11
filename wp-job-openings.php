@@ -1834,11 +1834,11 @@ class AWSM_Job_Openings {
 					$subject       = get_option( 'awsm_jobs_author_notification_subject' );
 					$content       = get_option( 'awsm_jobs_author_notification_content' );
 					$html_template = get_option( 'awsm_jobs_notification_author_mail_template' );
-					$author_id     = get_post_field ('post_author', $job_id);
-					$author_email  = get_the_author_meta( 'user_email' , $author_id );
+					$author_id     = get_post_field( 'post_author', $job_id );
+					$author_email  = get_the_author_meta( 'user_email', $author_id );
 					$job_expiry    = get_post_meta( $job_id, 'awsm_job_expiry', true );
-	
-					$tags             = $this->get_mail_generic_template_tags(
+
+					$tags = $this->get_mail_generic_template_tags(
 						array(
 							'admin_email'  => $admin_email,
 							'hr_email'     => $hr_mail,
@@ -1846,8 +1846,8 @@ class AWSM_Job_Openings {
 							'job_id'       => $job_id,
 						)
 					);
-					
-					if (class_exists( 'AWSM_Job_Openings_Pro_Pack' )) {
+
+					if ( class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) {
 						$awsm_filters = get_option( 'awsm_jobs_filter' );
 						if ( ! empty( $awsm_filters ) ) {
 							$spec_keys = wp_list_pluck( $awsm_filters, 'taxonomy' );
@@ -1869,17 +1869,17 @@ class AWSM_Job_Openings {
 					$tag_names        = array_keys( $tags );
 					$tag_values       = array_values( $tags );
 					$email_tag_names  = array( '{admin-email}', '{hr-email}', '{author-email}', '{job-id}', '{job-expiry}', '{job-title}' );
-					$email_tag_values = array( $admin_email, $hr_mail, $author_email, $job_id, $job_expiry, $job_title  );
-	
+					$email_tag_values = array( $admin_email, $hr_mail, $author_email, $job_id, $job_expiry, $job_title );
+
 					if ( ! empty( $subject ) && ! empty( $content ) ) {
 						$subject  = str_replace( $tag_names, $tag_values, $subject );
 						$reply_to = str_replace( $email_tag_names, $email_tag_values, $reply_to );
 						$cc       = str_replace( $email_tag_names, $email_tag_values, $cc );
 						$subject  = str_replace( $email_tag_names, $email_tag_values, $subject );
 						$content  = str_replace( $email_tag_names, $email_tag_values, $content );
-					
+
 						$headers = apply_filters(
-							"awsm_jobs_expiry_notification_mail_headers",
+							'awsm_jobs_expiry_notification_mail_headers',
 							array(
 								'content_type' => 'Content-Type: text/html; charset=UTF-8',
 								'from'         => sprintf( 'From: %1$s <%2$s>', $from, $from_email ),
@@ -1892,7 +1892,7 @@ class AWSM_Job_Openings {
 						if ( empty( $reply_to ) ) {
 							unset( $headers['reply_to'] );
 						}
-	
+
 						$mail_cc = trim( str_replace( 'Cc:', '', $headers['cc'] ) );
 						if ( empty( $mail_cc ) ) {
 							unset( $headers['cc'] );
@@ -1902,20 +1902,20 @@ class AWSM_Job_Openings {
 						if ( $html_template === 'enable' ) {
 							// Header mail template.
 							ob_start();
-							include AWSM_Job_Openings::get_template_path( 'header.php', 'mail' );
+							include self::get_template_path( 'header.php', 'mail' );
 							$header_template  = ob_get_clean();
 							$header_template .= '<div style="padding: 0 15px; font-size: 16px; max-width: 512px; margin: 0 auto;">';
-	
+
 							// Footer mail template.
 							ob_start();
-							include AWSM_Job_Openings::get_template_path( 'footer.php', 'mail' );
+							include self::get_template_path( 'footer.php', 'mail' );
 							$footer_template = ob_get_clean();
 							$footer_template = '</div>' . $footer_template;
-	
+
 							$template = $header_template . $mail_content . $footer_template;
-							
+
 							$mail_content = apply_filters(
-								"awsm_jobs_expiry_notification_mail_template",
+								'awsm_jobs_expiry_notification_mail_template',
 								$template,
 								array(
 									'header' => $header_template,
@@ -1926,22 +1926,22 @@ class AWSM_Job_Openings {
 						} else {
 							// Basic mail template.
 							ob_start();
-							include AWSM_Job_Openings::get_template_path( 'basic.php', 'mail' );
+							include self::get_template_path( 'basic.php', 'mail' );
 							$basic_template = ob_get_clean();
 							$mail_content   = str_replace( '{mail-content}', $mail_content, $basic_template );
 						}
-	
+
 						$tag_names[]  = '{mail-subject}';
 						$tag_values[] = $subject;
 						$mail_content = str_replace( $tag_names, $tag_values, $mail_content );
-						
+
 						$to = str_replace( $email_tag_names, $email_tag_values, $to );
 						// Now, send the mail.
 						$is_mail_send = wp_mail( $to, $subject, $mail_content, array_values( $headers ) );
-	
+
 					}
 				}
-			}	
+			}
 		}
 	}
 }
