@@ -36,7 +36,7 @@ require AWSM_Job_Openings::get_template_path( 'header.php', 'mail' );
 				<?php
 					$overview_data = AWSM_Job_Openings::get_overview_data();
 				?>
-				<ul>
+				<ul class="mail-content-stats">
 					<li>
 						<span><?php echo esc_html( $overview_data['active_jobs'] ); ?></span>
 						<?php esc_html_e( 'Active Jobs', 'wp-job-openings' ); ?>
