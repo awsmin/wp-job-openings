@@ -401,7 +401,7 @@ class AWSM_Job_Openings_Mail_Customizer {
 				),
 			),
 			array(
-				'selector'    => '.main-content ul',
+				'selector'    => '.mail-content-stats ul',
 				'declaration' => array(
 					'list-style' => 'none',
 					'padding'    => '0',
@@ -409,14 +409,14 @@ class AWSM_Job_Openings_Mail_Customizer {
 				),
 			),
 			array(
-				'selector'    => '.main-content li',
+				'selector'    => '.mail-content-stats li',
 				'declaration' => array(
 					'display' => 'inline-block',
 					'margin'  => '0 25px',
 				),
 			),
 			array(
-				'selector'    => '.main-content li span',
+				'selector'    => '.mail-content-stats li span',
 				'declaration' => array(
 					'display'   => 'block',
 					'font-size' => '43px',
