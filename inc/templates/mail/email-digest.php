@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 require AWSM_Job_Openings::get_template_path( 'header.php', 'mail' );
 
 ?>
-
+<!-- Email Digest -->
 <table style="width: 100%;">
 	<tr>
 		<td class="main-content-in-1">
