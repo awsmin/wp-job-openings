@@ -1816,7 +1816,13 @@ class AWSM_Job_Openings {
 			printf( '<script type="application/ld+json">%s</script>', wp_json_encode( $data ) );
 		}
 	}
-
+	
+	/**
+	 * Handle author notification emails.
+	 *
+	 * @since 3.3.3
+	 *
+	 */
 	public function expiry_notification_handler( $new_status, $old_status, $post ) {
 		$enable_expiry = get_option( 'awsm_jobs_enable_expiry_notification' );
 		if ( $new_status !== 'publish' && $new_status !== $old_status && $post->post_type === 'awsm_job_openings' ) {
@@ -1878,6 +1884,13 @@ class AWSM_Job_Openings {
 						$subject  = str_replace( $email_tag_names, $email_tag_values, $subject );
 						$content  = str_replace( $email_tag_names, $email_tag_values, $content );
 
+						/**
+						 * Filters the author notification mail headers.
+						 *
+						 * @since 3.3.3
+						 *
+						 * @param array $headers Additional headers.
+						 */
 						$headers = apply_filters(
 							'awsm_jobs_expiry_notification_mail_headers',
 							array(
@@ -1913,7 +1926,15 @@ class AWSM_Job_Openings {
 							$footer_template = '</div>' . $footer_template;
 
 							$template = $header_template . $mail_content . $footer_template;
-
+							
+							/**
+							 * Filters the author notification mail template.
+							 *
+							 * @since 3.3.3
+							 *
+							 * @param string $template Mail template.
+							 * @param array $template_data Mail template data.
+							 */
 							$mail_content = apply_filters(
 								'awsm_jobs_expiry_notification_mail_template',
 								$template,
