@@ -1816,7 +1816,7 @@ class AWSM_Job_Openings {
 			printf( '<script type="application/ld+json">%s</script>', wp_json_encode( $data ) );
 		}
 	}
-	
+
 	/**
 	 * Handle author notification emails.
 	 *
@@ -1926,7 +1926,7 @@ class AWSM_Job_Openings {
 							$footer_template = '</div>' . $footer_template;
 
 							$template = $header_template . $mail_content . $footer_template;
-							
+
 							/**
 							 * Filters the author notification mail template.
 							 *
