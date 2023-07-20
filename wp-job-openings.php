@@ -471,7 +471,12 @@ class AWSM_Job_Openings {
 
 			case 'applied_for':
 				if ( current_user_can( 'edit_post', $post_id ) ) {
-					printf( '<a href="%2$s" title="%3$s">%1$s</a>', esc_html( $job_name ), esc_url( get_edit_post_link( $job_id ) ), esc_attr( __( 'View Job: ', 'wp-job-openings' ) . $job_name ) );
+					$job_link = get_edit_post_link( $job_id );
+					if ( empty( $job_link ) ) {
+						echo esc_html( $job_name );
+					} else {
+						printf( '<a href="%2$s" title="%3$s">%1$s</a>', esc_html( $job_name ), esc_url( get_edit_post_link( $job_id ) ), esc_attr( __( 'View Job: ', 'wp-job-openings' ) . $job_name ) );
+					}
 				} else {
 					echo esc_html( $job_name );
 				}
