@@ -108,6 +108,11 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 * Dev: Hooks for dashboard and overview data customization.
 * Minor bug fixes and code improvements.
 
+= V 3.4 - 2023-07-26 =
+* Added: Job expiry notification.
+* Fixed: Responsive toggle issue.
+* Minor bug fixes and code improvements.
+
 = V 3.3.2 - 2022-10-19 =
 * Fixed: Job specifications settings issue when options with similar words are entered.
 * Fixed: HTML content issue in notification mails for some installations.

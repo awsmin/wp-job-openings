@@ -3,9 +3,9 @@
 **Contributors:** awsmin  
 **Tags:** jobs, job listing, job openings, job board, careers page, jobs page, wp job opening, jobs plugin  
 **Requires at least:** 4.8  
-**Tested up to:** 6.1  
+**Tested up to:** 6.2.2  
 **Requires PHP:** 5.6  
-**Stable tag:** 3.3.3  
+**Stable tag:** 3.4 
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
 **Donate link:** https://www.buymeacoffee.com/awsm
@@ -93,6 +93,11 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 <img src="https://ps.w.org/wp-job-openings/assets/screenshot-5.png?rev=2639067" width="90%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-2.png?rev=2639067" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-3.png?rev=2639067" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-4.png?rev=2639067" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-1.png?rev=2639067" width="90%"></img>
 
 ## Changelog
+
+**V 3.4 - 2023-07-26**
+* Added: Job expiry notification
+* Fixed: Responsive toggle issue
+* Minor bug fixes and code improvements.
 
 **V 3.3.3 - 2022-11-02**
 * Fixed: Failed to open directory issue in Add-ons screen.
