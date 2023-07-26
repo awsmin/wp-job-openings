@@ -1825,7 +1825,7 @@ class AWSM_Job_Openings {
 	/**
 	 * Handle author notification emails.
 	 *
-	 * @since 3.3.3
+	 * @since 3.4
 	 *
 	 */
 	public function expiry_notification_handler( $new_status, $old_status, $post ) {
@@ -1892,7 +1892,7 @@ class AWSM_Job_Openings {
 						/**
 						 * Filters the author notification mail headers.
 						 *
-						 * @since 3.3.3
+						 * @since 3.4
 						 *
 						 * @param array $headers Additional headers.
 						 */
@@ -1935,7 +1935,7 @@ class AWSM_Job_Openings {
 							/**
 							 * Filters the author notification mail template.
 							 *
-							 * @since 3.3.3
+							 * @since 3.4
 							 *
 							 * @param string $template Mail template.
 							 * @param array $template_data Mail template data.

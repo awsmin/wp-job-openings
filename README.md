@@ -58,6 +58,7 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 * [Auto-Delete Applications for GDPR Compliance](https://wordpress.org/plugins/auto-delete-applications-add-on-for-wp-job-openings/) (FREE)
 * [PRO Pack](https://wpjobopenings.com/pro-pack/) (PREMIUM)
 * [User Access Control Add-on](https://wpjobopenings.com/add-ons/user-access-control/) (PREMIUM)
+* [Job Alerts Add-on](https://wpjobopenings.com/add-ons/job-alerts/) (PREMIUM)
 
 ## WP Job Openings PRO Features
 
