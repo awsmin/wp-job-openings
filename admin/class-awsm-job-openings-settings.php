@@ -377,33 +377,33 @@ class AWSM_Job_Openings_Settings {
 					'callback'    => array( $this, 'notification_customizer_handler' ),
 				),
 				array(
-					/** @since 3.3.3 */
+					/** @since 3.4 */
 					'option_name' => 'awsm_jobs_enable_expiry_notification',
 				),
 				array(
-					/** @since 3.3.3 */
+					/** @since 3.4 */
 					'option_name' => 'awsm_jobs_author_from_email_notification',
 					'callback'    => array( $this, 'sanitize_from_email_id' ),
 				),
 				array(
-					/** @since 3.3.3 */
+					/** @since 3.4 */
 					'option_name' => 'awsm_jobs_author_to_notification',
 				),
 				array(
-					/** @since 3.3.3 */
+					/** @since 3.4 */
 					'option_name' => 'awsm_jobs_author_hr_notification',
 				),
 				array(
-					/** @since 3.3.3 */
+					/** @since 3.4 */
 					'option_name' => 'awsm_jobs_author_notification_subject',
 				),
 				array(
-					/** @since 3.3.3 */
+					/** @since 3.4 */
 					'option_name' => 'awsm_jobs_author_notification_content',
 					'callback'    => array( $this, 'author_notification_content_handler' ),
 				),
 				array(
-					/** @since 3.3.3 */
+					/** @since 3.4 */
 					'option_name' => 'awsm_jobs_notification_author_mail_template',
 				),
 			),
