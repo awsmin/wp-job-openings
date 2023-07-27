@@ -1352,7 +1352,7 @@ class AWSM_Job_Openings {
 
 			if ( $expiry_on_list === 'set_listing' && ! empty( $awsm_job_expiry ) ) {
 				$expiration_time = strtotime( $awsm_job_expiry );
-				if ( $expiration_time < ( time() - ( 24 * 60 * 60 ) ) ) {
+				if ( $expiration_time < ( time() - ( 24 * 60 * 60 ) ) && $post->post_status !== 'trash' ) {
 					$post_data                = array();
 					$post_data['ID']          = $post_id;
 					$post_data['post_status'] = 'expired';
