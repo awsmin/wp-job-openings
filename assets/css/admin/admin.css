@@ -1294,6 +1294,9 @@ a.awsm-plugin-item p {
 	.awsm-job-setup-col:first-child .awsm-job-setup-col-in{
 		margin-top: -135px;
 	}
+	.awsm-jobs-expired-post-state span {
+		margin-right: 3px;
+	}
 }
 
 @media (min-width: 1400px) {

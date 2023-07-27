@@ -101,6 +101,7 @@ class AWSM_Job_Openings {
 		$this->admin_filters();
 		add_shortcode( 'awsmjobs', array( $this, 'awsm_jobs_shortcode' ) );
 		add_action( 'transition_post_status', array( $this, 'expiry_notification_handler' ), 10, 3 );
+		add_filter( 'display_post_states', array( $this, 'display_job_post_states' ), 10, 2 );
 	}
 
 	public static function init() {
@@ -1969,6 +1970,13 @@ class AWSM_Job_Openings {
 				}
 			}
 		}
+	}
+
+	public function display_job_post_states( $post_states, $post ) {
+		if ( is_array( $post_states ) && $post->post_type === 'awsm_job_openings' && $post->post_status === 'expired' ) {
+			$post_states['awsm-jobs-expired'] = sprintf( '<span class="awsm-jobs-expired-post-state">%s</span>', esc_html__( 'Expired', 'wp-job-openings' ) );
+		}
+		return $post_states;
 	}
 }
 
