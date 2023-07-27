@@ -641,7 +641,7 @@ class AWSM_Job_Openings_Form {
 			$attachment_url = AWSM_Job_Openings::get_application_edit_link( $applicant_details['application_id'] );
 		}
 		$author_id    = get_post_field( 'post_author', $applicant_details['awsm_job_id'] );
-		$author_email = get_the_author_meta( 'user_email', $author_id );
+		$author_email = get_the_author_meta( 'user_email', intval( $author_id ) );
 		$tags         = array(
 			'{applicant}'        => $applicant_details['awsm_applicant_name'],
 			'{application-id}'   => $applicant_details['application_id'],
@@ -762,7 +762,7 @@ class AWSM_Job_Openings_Form {
 				$company_name    = get_option( 'awsm_job_company_name' );
 				$from            = ( ! empty( $company_name ) ) ? $company_name : get_option( 'blogname' );
 				$author_id       = get_post_field( 'post_author', $applicant_details['awsm_job_id'] );
-				$author_email    = get_the_author_meta( 'user_email', $author_id );
+				$author_email    = get_the_author_meta( 'user_email', intval( $author_id ) );
 
 				$tags             = $this->get_mail_template_tags(
 					$applicant_details,
