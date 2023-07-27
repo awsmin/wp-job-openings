@@ -1834,7 +1834,7 @@ class AWSM_Job_Openings {
 		if ( $new_status !== 'publish' && $new_status !== $old_status && $post->post_type === 'awsm_job_openings' ) {
 			if ( $new_status === 'expired' ) {
 				if ( $enable_expiry === 'enable' ) {
-					$job_id        = intval( $post->ID );
+					$job_id        = $post->ID;
 					$admin_email   = get_option( 'admin_email' );
 					$hr_mail       = get_option( 'awsm_hr_email_address' );
 					$company_name  = get_option( 'awsm_job_company_name' );
@@ -1847,7 +1847,7 @@ class AWSM_Job_Openings {
 					$content       = get_option( 'awsm_jobs_author_notification_content' );
 					$html_template = get_option( 'awsm_jobs_notification_author_mail_template' );
 					$author_id     = get_post_field( 'post_author', $job_id );
-					$author_email  = get_the_author_meta( 'user_email', $author_id );
+					$author_email  = get_the_author_meta( 'user_email', intval( $author_id ) );
 					$job_expiry    = get_post_meta( $job_id, 'awsm_job_expiry', true );
 
 					$tags = $this->get_mail_generic_template_tags(
