@@ -43,7 +43,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 									</div><!-- .awsm-jobs-overview-applicant-in -->
 								</div><!-- .awsm-jobs-overview-applicant -->
 							</td>
-							<td><?php echo esc_html( get_the_title( $application->post_parent ) ); ?></td>
+							<td><?php echo esc_html( get_post_meta( $application->ID, 'awsm_apply_for', true ) ); ?></td>
 						</tr>
 					<?php endforeach; ?>
 				</tbody>
