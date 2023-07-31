@@ -102,15 +102,17 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 
 == Changelog ==
 
+= V 3.4 - 2023-07-26 =
+* Added: Job expiry notification.
+* Fixed: Responsive toggle issue.
+* Fixed: Expired job are not able to delete in job edit page.
+* Improved: Expired post states added in admin listings.
+* Minor bug fixes and code improvements.
+
 = V 3.3.3 - 2022-11-02 =
 * Fixed: Failed to open directory issue in Add-ons screen.
 * Improved: Notifications template tags.
 * Dev: Hooks for dashboard and overview data customization.
-* Minor bug fixes and code improvements.
-
-= V 3.4 - 2023-07-26 =
-* Added: Job expiry notification.
-* Fixed: Responsive toggle issue.
 * Minor bug fixes and code improvements.
 
 = V 3.3.2 - 2022-10-19 =
