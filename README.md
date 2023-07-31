@@ -95,10 +95,10 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 
 ## Changelog
 
-**V 3.4 - 2023-07-26**
+**V 3.4 - 2023-07-31**
 * Added: Job expiry notification.
 * Fixed: Responsive toggle issue.
-* Fixed: Expired job are not able to delete in job edit page.
+* Fixed: Unable to delete expired jobs on the job edit page.
 * Improved: Expired post states added in admin listings.
 * Minor bug fixes and code improvements.
 
