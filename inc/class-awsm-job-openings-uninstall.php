@@ -82,6 +82,13 @@ class AWSM_Job_Openings_Uninstall {
 			'awsm_plugin_rating_job_count',
 			'awsm_plugin_rating_application_count',
 			'awsm_jobs_plugin_rating',
+			'awsm_jobs_enable_expiry_notification',
+			'awsm_jobs_author_from_email_notification',
+			'awsm_jobs_author_to_notification',
+			'awsm_jobs_author_hr_notification',
+			'awsm_jobs_author_notification_subject',
+			'awsm_jobs_author_notification_content',
+			'awsm_jobs_notification_author_mail_template',
 		);
 		return $options;
 	}
