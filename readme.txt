@@ -57,6 +57,7 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 * [Auto-Delete Applications for GDPR Compliance](https://wordpress.org/plugins/auto-delete-applications-add-on-for-wp-job-openings/) (FREE)
 * [PRO Pack](https://wpjobopenings.com/pro-pack/) (PREMIUM)
 * [User Access Control Add-on](https://wpjobopenings.com/add-ons/user-access-control/) (PREMIUM)
+* [Job Alerts Add-on](https://wpjobopenings.com/add-ons/job-alerts/) (PREMIUM)
 
 = WP Job Openings PRO Features =
 
@@ -101,6 +102,9 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 13. Notifications Template Settings
 
 == Changelog ==
+
+= V 3.4.1 - 2023-08-01 =
+* Bug fixes
 
 = V 3.4 - 2023-07-31 =
 * Added: Job expiry notification.

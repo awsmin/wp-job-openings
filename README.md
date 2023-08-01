@@ -95,6 +95,9 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 
 ## Changelog
 
+**V 3.4.1 - 2023-08-01**
+* Bug fixes
+
 **V 3.4 - 2023-07-31**
 * Added: Job expiry notification.
 * Fixed: Responsive toggle issue.
