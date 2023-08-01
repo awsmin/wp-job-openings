@@ -669,6 +669,15 @@ class AWSM_Job_Openings_Form {
 		return apply_filters( 'awsm_jobs_mail_template_tags', $tags, $applicant_details, $options );
 	}
 
+	public static function get_expired_notification_content() {
+		$options = array(
+			'enable'  => 'enable',
+			'subject' => 'Job Listing Expired',
+			'content' => "This email is to notify you that your job listing for [{job-title}] has just expired. As a result, applicants will no longer be able to apply for this position.\n\nIf you would like to extend the expiration date or remove the listing, please log in to the dashboard and take the necessary steps.\n\nPowered by WP Job Openings Plugin",
+		);
+		return $options;
+	}
+
 	/**
 	 * Get the notification options.
 	 *
@@ -678,9 +687,11 @@ class AWSM_Job_Openings_Form {
 	 * @return array
 	 */
 	public static function get_notification_options( $type ) {
-		$options     = array();
-		$admin_email = get_option( 'admin_email' );
-		$hr_email    = get_option( 'awsm_hr_email_address' );
+		$options         = array();
+		$admin_email     = get_option( 'admin_email' );
+		$hr_email        = get_option( 'awsm_hr_email_address' );
+		$expired_options = self::get_expired_notification_content();
+
 		if ( $type === 'applicant' ) {
 			$options = array(
 				'acknowledgement' => get_option( 'awsm_jobs_acknowledgement' ),
@@ -704,13 +715,13 @@ class AWSM_Job_Openings_Form {
 			);
 		} elseif ( $type === 'author' ) {
 			$options = array(
-				'enable'        => get_option( 'awsm_jobs_enable_expiry_notification' ),
+				'enable'        => get_option( 'awsm_jobs_enable_expiry_notification', $expired_options['enable'] ),
 				'from'          => get_option( 'awsm_jobs_author_from_email_notification', $admin_email ),
 				'reply_to'      => get_option( 'awsm_jobs_reply_to_notification' ),
 				'to'            => get_option( 'awsm_jobs_author_to_notification', '{author-email}' ),
 				'cc'            => get_option( 'awsm_jobs_author_hr_notification' ),
-				'subject'       => get_option( 'awsm_jobs_author_notification_subject', '' ),
-				'content'       => get_option( 'awsm_jobs_author_notification_content', '' ),
+				'subject'       => get_option( 'awsm_jobs_author_notification_subject', $expired_options['subject'] ),
+				'content'       => get_option( 'awsm_jobs_author_notification_content', $expired_options['content'] ),
 				'html_template' => get_option( 'awsm_jobs_notification_author_mail_template' ),
 			);
 		}

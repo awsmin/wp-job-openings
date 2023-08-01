@@ -1830,7 +1830,8 @@ class AWSM_Job_Openings {
 	 *
 	 */
 	public function expiry_notification_handler( $new_status, $old_status, $post ) {
-		$enable_expiry = get_option( 'awsm_jobs_enable_expiry_notification' );
+		$expiry_default_options = AWSM_Job_Openings_Form::get_expired_notification_content();
+		$enable_expiry          = get_option( 'awsm_jobs_enable_expiry_notification', $expiry_default_options['enable'] );
 		if ( $new_status !== 'publish' && $new_status !== $old_status && $post->post_type === 'awsm_job_openings' ) {
 			if ( $new_status === 'expired' ) {
 				if ( $enable_expiry === 'enable' ) {
@@ -1843,8 +1844,8 @@ class AWSM_Job_Openings {
 					$to            = get_option( 'awsm_jobs_author_to_notification' );
 					$reply_to      = get_option( 'awsm_jobs_reply_to_notification' );
 					$cc            = get_option( 'awsm_jobs_author_hr_notification' );
-					$subject       = get_option( 'awsm_jobs_author_notification_subject' );
-					$content       = get_option( 'awsm_jobs_author_notification_content' );
+					$subject       = get_option( 'awsm_jobs_author_notification_subject', $expiry_default_options['subject'] );
+					$content       = get_option( 'awsm_jobs_author_notification_content', $expiry_default_options['content'] );
 					$html_template = get_option( 'awsm_jobs_notification_author_mail_template' );
 					$author_id     = get_post_field( 'post_author', $job_id );
 					$author_email  = get_the_author_meta( 'user_email', $author_id );
