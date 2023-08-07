@@ -48,9 +48,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 							<?php
 							if ( current_user_can( 'edit_applications' ) ) {
 								if ( $job->applications_count > 0 ) {
-									printf( '<td><a href="%2$s">%1$s</a></td>', esc_html( $job->applications_count ), esc_url( admin_url( 'edit.php?post_type=awsm_job_application&awsm_filter_posts=' . $job->ID ) ) );
+									$applications       = AWSM_Job_Openings::get_applications( $job->ID, 'ids' );
+									$applications_count = count( $applications );
+									printf( '<td><a href="%2$s">%1$s</a></td>', esc_html( $applications_count ), esc_url( admin_url( 'edit.php?post_type=awsm_job_application&awsm_filter_posts=' . $job->ID ) ) );
 								} else {
-									printf( '<td>%s</td>', esc_html( $job->applications_count ) );
+									printf( '<td>%s</td>', esc_html( $applications_count ) );
 								}
 							}
 							?>

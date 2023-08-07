@@ -82,7 +82,9 @@ class AWSM_Job_Openings_Dashboard_Widget {
 								</td>
 								<?php
 								if ( current_user_can( 'edit_applications' ) ) {
-									printf( '<td><a href="%2$s">%1$s</a></td>', esc_html( $data['count'] ), esc_url( admin_url( 'edit.php?post_type=awsm_job_application&awsm_filter_posts=' . $data['id'] ) ) );
+									$applications       = AWSM_Job_Openings::get_applications( $data['id'], 'ids' );
+									$applications_count = count( $applications );
+									printf( '<td><a href="%2$s">%1$s</a></td>', esc_html( $applications_count ), esc_url( admin_url( 'edit.php?post_type=awsm_job_application&awsm_filter_posts=' . $data['id'] ) ) );
 								}
 
 								if ( current_user_can( 'edit_jobs' ) ) {
