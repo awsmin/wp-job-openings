@@ -399,6 +399,7 @@ class AWSM_Job_Openings_Form {
 
 		if ( $_SERVER['REQUEST_METHOD'] === 'POST' && ! empty( $_POST['action'] ) && $_POST['action'] === 'awsm_applicant_form_submission' ) {
 			$job_id               = intval( $_POST['awsm_job_id'] );
+			$job_status           = get_post_status( $job_id );
 			$applicant_name       = sanitize_text_field( wp_unslash( $_POST['awsm_applicant_name'] ) );
 			$applicant_email      = sanitize_email( wp_unslash( $_POST['awsm_applicant_email'] ) );
 			$applicant_phone      = sanitize_text_field( wp_unslash( $_POST['awsm_applicant_phone'] ) );
@@ -450,6 +451,9 @@ class AWSM_Job_Openings_Form {
 			}
 			if ( empty( $attachment ) || ! isset( $attachment['error'] ) || $attachment['error'] > 0 ) {
 				$awsm_response['error'][] = esc_html__( 'Please select your cv/resume.', 'wp-job-openings' );
+			}
+			if ( $job_status !== 'publish' ) {
+				$awsm_response['error'][] = esc_html__( 'Error in submit your application.', 'wp-job-openings' );
 			}
 
 			/**
