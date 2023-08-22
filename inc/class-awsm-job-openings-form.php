@@ -453,7 +453,7 @@ class AWSM_Job_Openings_Form {
 				$awsm_response['error'][] = esc_html__( 'Please select your cv/resume.', 'wp-job-openings' );
 			}
 			if ( $job_status !== 'publish' ) {
-				$awsm_response['error'][] = esc_html__( 'Error in submit your application.', 'wp-job-openings' );
+				$awsm_response['error'][] = esc_html__( 'Private job submission is not allowed.', 'wp-job-openings' );
 			}
 
 			/**
