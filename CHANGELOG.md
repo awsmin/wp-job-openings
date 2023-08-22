@@ -1,16 +1,16 @@
 ## Changelog
 
-**V 3.4.2 - 2023-08-22**
+### V 3.4.2 - 2023-08-22
 * Minor bug fixes and code improvements.
 
-**V 3.4 - 2023-07-31**
+### V 3.4 - 2023-07-31
 * Added: Job expiry notification.
 * Fixed: Responsive toggle issue.
 * Fixed: Unable to delete expired jobs on the job edit page.
 * Improved: Expired post states added in admin listings.
 * Minor bug fixes and code improvements.
 
-**V 3.4.1 - 2023-08-01**
+### V 3.4.1 - 2023-08-01
 * Bug fixes
 
 ### V 3.3.3 - 2022-11-02

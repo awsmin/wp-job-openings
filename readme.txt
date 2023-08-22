@@ -103,6 +103,9 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 
 == Changelog ==
 
+= V 3.4.2 - 2023-08-22 =
+* Minor bug fixes and code improvements.
+
 = V 3.4.1 - 2023-08-01 =
 * Bug fixes
 
