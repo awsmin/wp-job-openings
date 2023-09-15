@@ -3,7 +3,7 @@
 **Contributors:** awsmin  
 **Tags:** jobs, job listing, job openings, job board, careers page, jobs page, wp job opening, jobs plugin  
 **Requires at least:** 4.8  
-**Tested up to:** 6.2.2  
+**Tested up to:** 6.3.1
 **Requires PHP:** 5.6  
 **Stable tag:** 3.4 
 **License:** GPLv2 or later  
