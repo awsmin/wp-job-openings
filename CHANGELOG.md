@@ -1,5 +1,9 @@
 ## Changelog
 
+### V 3.4.3 - 2023-09-15
+* Fixed: Medium severity vulnerability (Sensitive Data Exposure via Directory Listing).
+* Minor bug fixes and code improvements.
+
 ### V 3.4.2 - 2023-08-22
 * Minor bug fixes and code improvements.
 
