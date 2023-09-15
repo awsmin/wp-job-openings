@@ -33,6 +33,7 @@ class AWSM_Job_Openings_Form {
 		add_action( 'wp_ajax_nopriv_awsm_applicant_form_submission', array( $this, 'ajax_handle' ) );
 
 		add_filter( 'wp_check_filetype_and_ext', array( $this, 'check_filetype_and_ext' ), 10, 5 );
+		add_action( 'add_attachment', array( $this, 'add_index_php_to_folders' ) );
 	}
 
 	public static function init() {
@@ -366,6 +367,21 @@ class AWSM_Job_Openings_Form {
 			}
 		}
 		return $param;
+	}
+
+	public function add_index_php_to_folders( $attachment_id ) {
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing
+		if ( isset( $_POST['action'] ) && $_POST['action'] === 'awsm_applicant_form_submission' ) {
+			$file_path = get_attached_file( $attachment_id );
+			if ( strpos( $file_path, AWSM_JOBS_UPLOAD_DIR_NAME ) !== false ) {
+				$directory_path = dirname( $file_path );
+				$index_php_file = $directory_path . '/index.php';
+				if ( ! file_exists( $index_php_file ) ) {
+					$index_php_content = '<?php\n\n//Silence is golden.\n';
+					file_put_contents( $index_php_file, $index_php_content );
+				}
+			}
+		}
 	}
 
 	public function hashed_file_name( $dir, $name, $ext ) {

@@ -78,6 +78,7 @@ class AWSM_Job_Openings {
 		}
 
 		add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
+		add_action( 'plugins_loaded', array( $this, 'upgrade' ) );
 		add_action( 'after_setup_theme', array( $this, 'template_functions' ) );
 		add_action( 'init', array( $this, 'init_actions' ) );
 		add_action( 'wp_head', array( $this, 'awsm_wp_head' ) );
@@ -184,6 +185,27 @@ class AWSM_Job_Openings {
 
 	public function load_textdomain() {
 		load_plugin_textdomain( 'wp-job-openings', false, basename( dirname( __FILE__ ) ) . '/languages' );
+	}
+
+	public function upgrade() {
+		if ( intval( get_option( 'awsm_jobs_upgrade_count' ) ) !== 1 ) {
+			$upload_dir = wp_upload_dir();
+			$base_dir   = trailingslashit( $upload_dir['basedir'] );
+			$upload_dir = $base_dir . AWSM_JOBS_UPLOAD_DIR_NAME;
+			$this->index_to_upload_dir( $upload_dir );
+			update_option( 'awsm_jobs_upgrade_count', 1 );
+		}
+	}
+
+	public function index_to_upload_dir( $dir ) {
+		$index_file = $dir . '/index.php';
+		if ( ! file_exists( $index_file ) ) {
+			file_put_contents( $index_file, "<?php\n\n//Silence is golden.\n" );
+		}
+		$sub_dirs = array_filter( glob( $dir . '/*' ), 'is_dir' );
+		foreach ( $sub_dirs as $sub_dir ) {
+			$this->index_to_upload_dir( $sub_dir );
+		}
 	}
 
 	public function template_functions() {
