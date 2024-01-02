@@ -6,6 +6,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 class AWSM_Job_Openings_Third_Party {
 	private static $instance = null;
 
+	protected $cpath = null;
+
 	public function __construct() {
 		$this->cpath = untrailingslashit( plugin_dir_path( __FILE__ ) );
 
