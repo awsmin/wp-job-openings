@@ -117,6 +117,11 @@ class AWSM_Job_Openings_Core {
 			return;
 		}
 
+		$args['post_type']   = 'awsm_job_application';
+		$args['numberposts'] = -1;
+		$args['post_status'] = 'publish';
+		$application_count   = count( get_posts( $args ) );
+
 		$labels = array(
 			'name'               => __( 'Applications', 'wp-job-openings' ),
 			'singular_name'      => __( 'Application', 'wp-job-openings' ),
@@ -125,6 +130,14 @@ class AWSM_Job_Openings_Core {
 			'search_items'       => __( 'Search Applications', 'wp-job-openings' ),
 			'not_found'          => __( 'No Applications found', 'wp-job-openings' ),
 			'not_found_in_trash' => __( 'No Applications found in Trash', 'wp-job-openings' ),
+			'all_items'          => $application_count
+			? sprintf(
+			/* translators: Number of applications */
+				__( 'Applications %s', 'wp-job-openings' ),
+				'<span class="awaiting-mod">' . $application_count . '</span>'
+			)
+			: __( 'Applications', 'wp-job-openings' ),
+
 		);
 
 		/**
