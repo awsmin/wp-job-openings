@@ -1652,7 +1652,7 @@ class AWSM_Job_Openings {
 		return apply_filters( 'awsm_job_expiry_details_content', $content );
 	}
 
-	public static function get_specifications_content( $post_id, $display_label, $filter_data = array(), $listing_specs = array() ) {
+	public static function get_specifications_content( $post_id, $display_label, $filter_data = array(), $listing_specs = array(), $has_term_link = true ) {
 		$spec_content = '';
 		$filter_data  = ! empty( $filter_data ) ? $filter_data : get_option( 'awsm_jobs_filter' );
 		if ( ! empty( $filter_data ) ) {
@@ -1701,7 +1701,7 @@ class AWSM_Job_Openings {
 						}
 						foreach ( $terms as $term ) {
 							$term_link = get_term_link( $term );
-							if ( ! is_singular( 'awsm_job_openings' ) || $is_specs_clickable !== 'make_clickable' || is_wp_error( $term_link ) ) {
+							if ( ! is_singular( 'awsm_job_openings' ) || $is_specs_clickable !== 'make_clickable' || is_wp_error( $term_link ) || ! $has_term_link  ) {
 								$spec_terms .= '<span class="awsm-job-specification-term">' . esc_html( $term->name ) . '</span> ';
 							} else {
 								$spec_terms .= sprintf( '<a href="%2$s" class="awsm-job-specification-term">%1$s</a> ', esc_html( $term->name ), esc_url( $term_link ) );

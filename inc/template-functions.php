@@ -167,8 +167,8 @@ if ( ! function_exists( 'awsm_job_spec_content' ) ) {
 }
 
 if ( ! function_exists( 'awsm_job_listing_spec_content' ) ) {
-	function awsm_job_listing_spec_content( $job_id, $awsm_filters, $listing_specs ) {
-		echo AWSM_Job_Openings::get_specifications_content( $job_id, false, $awsm_filters, array( 'specs' => $listing_specs ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	function awsm_job_listing_spec_content( $job_id, $awsm_filters, $listing_specs, $has_term_link = true ) {
+		echo AWSM_Job_Openings::get_specifications_content( $job_id, false, $awsm_filters, array( 'specs' => $listing_specs ), $has_term_link ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 }
 

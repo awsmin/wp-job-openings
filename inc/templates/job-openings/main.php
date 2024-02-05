@@ -90,7 +90,7 @@ while ( $query->have_posts() ) {
 
 					do_action_deprecated( 'before_awsm_jobs_listing_right_col_content', array( $job_details['id'], $shortcode_atts ), '3.0.0', 'before_awsm_jobs_listing_specs_content' );
 
-					awsm_job_listing_spec_content( $job_details['id'], $awsm_filters, $listing_specs );
+					awsm_job_listing_spec_content( $job_details['id'], $awsm_filters, $listing_specs, false );
 
 					awsm_job_more_details( $job_details['permalink'], $view );
 
