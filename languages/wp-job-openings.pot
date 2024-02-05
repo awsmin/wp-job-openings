@@ -1,4 +1,4 @@
-# Copyright (C) 2023 WP Job Openings
+# Copyright (C) 2024 WP Job Openings
 # This file is distributed under the same license as the WP Job Openings package.
 msgid ""
 msgstr ""
@@ -7,7 +7,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language-Team: AWSM innovations <hello@awsm.in>\n"
-"POT-Creation-Date: 2023-09-15 12:43+0000\n"
+"POT-Creation-Date: 2024-02-05 10:40+0000\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -906,7 +906,7 @@ msgstr ""
 msgid "--Please Choose an Option--"
 msgstr ""
 
-#: inc/class-awsm-job-openings-form.php:425, inc/class-awsm-job-openings-third-party.php:91
+#: inc/class-awsm-job-openings-form.php:425, inc/class-awsm-job-openings-third-party.php:93
 msgid "Error in submitting your application. Please refresh the page and retry."
 msgstr ""
 
