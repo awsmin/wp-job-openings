@@ -1,6 +1,6 @@
 ## Changelog
 
-### V 3.4.4 - 2023-02-06
+### V 3.4.4 - 2024-02-06
 * Fixed: Structure breaks when job listing shortcode in job detail page.
 * Minor bug fixes and code improvements.
 
