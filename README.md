@@ -3,7 +3,7 @@
 **Contributors:** awsmin  
 **Tags:** jobs, job listing, job openings, job board, careers page, jobs page, wp job opening, jobs plugin  
 **Requires at least:** 4.8  
-**Tested up to:** 6.3.1
+**Tested up to:** 6.4.3
 **Requires PHP:** 5.6  
 **Stable tag:** 3.4 
 **License:** GPLv2 or later  
@@ -94,6 +94,10 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 <img src="https://ps.w.org/wp-job-openings/assets/screenshot-5.png?rev=2639067" width="90%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-2.png?rev=2639067" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-3.png?rev=2639067" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-4.png?rev=2639067" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-1.png?rev=2639067" width="90%"></img>
 
 ## Changelog
+
+**V 3.4.4 - 2024-02-06**
+* Fixed: Structure breaks when job listing shortcode in job detail page.
+* Minor bug fixes and code improvements.
 
 **V 3.4.3 - 2023-09-15**
 * Fixed: Medium severity vulnerability (Sensitive Data Exposure via Directory Listing).
