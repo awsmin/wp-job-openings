@@ -103,7 +103,7 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 
 == Changelog ==
 
-= V 3.4.4 - 2024-02-06 =
+= V 3.4.4 - 2024-02-05 =
 * Fixed: Structure breaks when job listing shortcode in job detail page.
 * Minor bug fixes and code improvements.
 

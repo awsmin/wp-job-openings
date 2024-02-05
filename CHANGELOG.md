@@ -1,8 +1,11 @@
 ## Changelog
 
-### V 3.4.4 - 2024-02-06
+### V 3.4.4 - 2024-02-05
 * Fixed: Structure breaks when job listing shortcode in job detail page.
 * Minor bug fixes and code improvements.
+
+### V 3.4.3 - 2023-09-15
+* Fixed: Medium severity vulnerability (Sensitive Data Exposure via Directory Listing).
 
 ### V 3.4.2 - 2023-08-22
 * Minor bug fixes and code improvements.
