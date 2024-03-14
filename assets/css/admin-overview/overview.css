@@ -167,7 +167,7 @@
 .awsm-jobs-overview-get-started{
 	padding: 26px 20px;
 	border-radius: 10px;
-	background: url('images/get-started.svg') no-repeat calc(100% - 10px) calc(100% - 10px) #6CFAE4;
+	background: url('../img/get-started.svg') no-repeat calc(100% - 10px) calc(100% - 10px) #6CFAE4;
 }
 .awsm-jobs-overview-get-started h3{
 	font-size: 32px;

@@ -4,6 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 ?>
+
 <div class="<?php echo esc_attr( "awsm-jobs-overview-widget-wrapper awsm-jobs-overview-{$widget_id}-widget-wrapper with-table" ); ?>">
 	<?php
 		/**
@@ -17,6 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		$applications = AWSM_Job_Openings::get_recent_applications( 10, false );
 	if ( ! empty( $applications ) ) :
+		
 		?>
 			<table class="awsm-jobs-overview-table">
 				<thead>

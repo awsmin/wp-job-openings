@@ -31,6 +31,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				</thead>
 				<tbody>
 					<?php
+					
 					foreach ( $jobs as $job ) :
 						$job_title = get_the_title( $job->ID );
 						?>
