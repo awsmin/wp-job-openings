@@ -733,6 +733,7 @@ class AWSM_Job_Openings {
 		$company_name = isset( $options['company_name'] ) ? $options['company_name'] : get_option( 'awsm_job_company_name' );
 		$admin_email  = isset( $options['admin_email'] ) ? $options['admin_email'] : get_option( 'admin_email' );
 		$hr_email     = isset( $options['hr_email'] ) ? $options['hr_email'] : get_option( 'awsm_hr_email_address', '' );
+		$default_from_email     = isset( $options['default_from_email'] ) ? $options['default_from_email'] : get_option( 'awsm_jobs_from_email_notification', '' );
 
 		$tags = array(
 			'{site-title}'   => esc_html( get_bloginfo( 'name' ) ),
@@ -741,6 +742,7 @@ class AWSM_Job_Openings {
 			'{company}'      => esc_html( $company_name ),
 			'{admin-email}'  => esc_html( $admin_email ),
 			'{hr-email}'     => esc_html( $hr_email ),
+			'{default-from-email}' => $default_from_email,
 		);
 
 		/**

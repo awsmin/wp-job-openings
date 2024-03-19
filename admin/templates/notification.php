@@ -43,7 +43,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 								<div class="awsm-row">
 									<div class="awsm-col awsm-form-group awsm-col-half">
 										<label for="awsm_jobs_from_email_notification"><?php esc_html_e( 'From', 'wp-job-openings' ); ?></label>
-											<input type="email" class="awsm-form-control" name="awsm_jobs_from_email_notification" id="awsm_jobs_from_email_notification" value="<?php echo esc_attr( $from_email ); ?>" required />
+											<input type="text" class="awsm-form-control" name="awsm_jobs_from_email_notification" id="awsm_jobs_from_email_notification" value="<?php echo esc_attr( $from_email ); ?>" required />
 											<?php
 											if ( $this->validate_from_email_id( $from_email ) === false ) {
 												printf( '<p class="description awsm-jobs-invalid">%s</p>', esc_html( $from_email_error_msg ) );
@@ -153,8 +153,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 											?>
 									</div><!-- .col -->
 									<div class="awsm-col awsm-form-group awsm-col-half">
-										<label for="awsm_jobs_reply_to_notification"><?php esc_html_e( 'Reply-To', 'wp-job-openings' ); ?></label>
-											<input type="text" class="awsm-form-control" name="awsm_jobs_reply_to_notification" id="awsm_jobs_reply_to_notification" value="<?php echo esc_attr( $author_options['reply_to'] ); ?>" />
+										<label for="awsm_jobs_author_reply_to_notification"><?php esc_html_e( 'Reply-To', 'wp-job-openings' ); ?></label>
+											<input type="text" class="awsm-form-control" name="awsm_jobs_author_reply_to_notification" id="awsm_jobs_author_reply_to_notification" value="<?php echo esc_attr( $author_options['reply_to'] ); ?>" />
 									</div><!-- .col -->
 								</div>
 								<div class="awsm-row">
@@ -191,6 +191,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<div class="awsm-sub-options-container" id="awsm-customize-notification-options-container" style="display: none;">
 				<?php
 					$customizer_settings = AWSM_Job_Openings_Mail_Customizer::get_settings();
+					$validation_msg      = '';
+					if ( $this->validate_from_email_id( $customizer_settings['from_email'] ) === false ) {
+						$validation_msg = $from_email_error_msg;
+					}
 					/**
 					 * Filters the notification customizer fields.
 					 *
@@ -212,6 +216,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 								'type'  => 'image',
 								'label' => __( 'Logo', 'wp-job-openings' ),
 								'value' => $customizer_settings['logo'],
+							),
+							array(
+								'id'          => 'awsm_jobs_notification_customizer_from_email',
+								'name'        => 'awsm_jobs_notification_customizer[from_email]',
+								'type'        => 'email',
+								'label'       => __( 'Default "From" Email Address: ', 'wp-job-openings' ),
+								'value'       => $customizer_settings['from_email'],
+								'description' => $validation_msg,
 							),
 							array(
 								'id'          => 'awsm_jobs_notification_customizer_base_color',

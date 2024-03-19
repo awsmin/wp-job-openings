@@ -386,6 +386,9 @@ class AWSM_Job_Openings_Settings {
 					'callback'    => array( $this, 'sanitize_from_email_id' ),
 				),
 				array(
+					'option_name' => 'awsm_jobs_author_reply_to_notification',
+				),
+				array(
 					/** @since 3.4 */
 					'option_name' => 'awsm_jobs_author_to_notification',
 				),
@@ -456,11 +459,7 @@ class AWSM_Job_Openings_Settings {
 			'awsm_jobs_enable_admin_notification'      => 'enable',
 			'awsm_jobs_admin_notification_subject'     => 'New application received for the position {job-title} [{job-id}]',
 			'awsm_jobs_admin_notification_content'     => "Job Opening: {job-title} [{job-id}]\nName: {applicant}\nEmail: {applicant-email}\nPhone: {applicant-phone}\nResume: {applicant-resume}\nCover letter: {applicant-cover}\n\nPowered by WP Job Openings Plugin",
-			'awsm_jobs_from_email_notification'        => get_option( 'admin_email' ),
-			'awsm_jobs_admin_from_email_notification'  => get_option( 'admin_email' ),
 			'awsm_jobs_enable_expiry_notification'     => 'enable',
-			'awsm_jobs_author_from_email_notification' => get_option( 'admin_email' ),
-			'awsm_jobs_author_to_notification'         => get_option( 'admin_email' ),
 			'awsm_jobs_author_notification_subject'    => 'Job Listing Expired',
 			'awsm_jobs_author_notification_content'    => "This email is to notify you that your job listing for [{job-title}] has just expired. As a result, applicants will no longer be able to apply for this position.\n\nIf you would like to extend the expiration date or remove the listing, please log in to the dashboard and take the necessary steps.\n\nPowered by WP Job Openings Plugin",
 		);
@@ -604,10 +603,21 @@ class AWSM_Job_Openings_Settings {
 	}
 
 	public function sanitize_from_email_id( $email ) {
+		// if ( empty( $email ) ) {
+		// 	$email = get_option( 'admin_email' );
+		// }
+		// return sanitize_email( $email );
 		if ( empty( $email ) ) {
-			$email = get_option( 'admin_email' );
+			$email = $this->awsm_from_email();
+			// $sitename = wp_parse_url( network_home_url(), PHP_URL_HOST );
+			// $sitename = strtolower( $sitename );
+
+			// if ( 'www.' === substr( $sitename, 0, 4 ) ) {
+			// 	$sitename = substr( $sitename, 4 );
+			// }
+			// return 'noreply@' . $sitename;
 		}
-		return sanitize_email( $email );
+		return $email;
 	}
 
 	public function sanitize_list_per_page( $input ) {
@@ -795,6 +805,7 @@ class AWSM_Job_Openings_Settings {
 			$input = $customizer_settings;
 		}
 		$input['logo']        = sanitize_text_field( $input['logo'] );
+		$input['from_email']  = $this->sanitize_from_email_id( $input['from_email'] );
 		$input['base_color']  = sanitize_text_field( $input['base_color'] );
 		$input['footer_text'] = AWSM_Job_Openings_Mail_Customizer::sanitize_content( $input['footer_text'] );
 		return $input;
@@ -1272,11 +1283,31 @@ class AWSM_Job_Openings_Settings {
 				'{hr-email}'         => __( 'HR Email:', 'wp-job-openings' ),
 				'{company}'          => __( 'Company Name:', 'wp-job-openings' ),
 				'{author-email}'     => __( 'Author Email:', 'wp-job-openings' ),
+				'{default-from-email}'     => __( 'Default from email:', 'wp-job-openings' ),
+
 			)
 		);
 		if ( get_option( 'awsm_hide_uploaded_files' ) === 'hide_files' ) {
 			unset( $template_tags['{applicant-resume}'] );
 		}
 		return $template_tags;
+	}
+
+	public static function awsm_from_email() {
+		$sitename = wp_parse_url( network_home_url(), PHP_URL_HOST );
+		$sitename = strtolower( $sitename );
+
+		if ( 'www.' === substr( $sitename, 0, 4 ) ) {
+			$sitename = substr( $sitename, 4 );
+		}
+		$get_default_from_email = get_option( 'awsm_jobs_notification_customizer' );
+
+		$from_email = isset( $get_default_from_email['from_email'] ) ? $get_default_from_email['from_email'] : '';
+
+		if ( $from_email ) {
+			return $from_email;
+		}
+
+		return 'noreply@' . $sitename;
 	}
 }
