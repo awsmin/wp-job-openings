@@ -51,7 +51,7 @@ class AWSM_Job_Openings_Mail_Customizer {
 	}
 
 	public static function get_settings() {
-		$default_from_email = AWSM_Job_Openings_Settings::awsm_from_email(true);
+		$default_from_email = AWSM_Job_Openings_Settings::awsm_from_email( true );
 		/**
 		 * Filters the notification customizer default values.
 		 *

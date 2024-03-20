@@ -707,16 +707,16 @@ class AWSM_Job_Openings_Form {
 	 * @return array
 	 */
 	public static function get_notification_options( $type ) {
-		$options         = array();
-		$admin_email     = get_option( 'admin_email' );
-		$hr_email        = get_option( 'awsm_hr_email_address' );
-		$expired_options = self::get_expired_notification_content();
+		$options            = array();
+		$admin_email        = get_option( 'admin_email' );
+		$hr_email           = get_option( 'awsm_hr_email_address' );
+		$expired_options    = self::get_expired_notification_content();
 		$default_from_email = AWSM_Job_Openings_Settings::awsm_from_email();
 
 		if ( $type === 'applicant' ) {
 			$options = array(
 				'acknowledgement' => get_option( 'awsm_jobs_acknowledgement' ),
-				'from'            => get_option( 'awsm_jobs_from_email_notification', '{default-from-email}'  ),
+				'from'            => get_option( 'awsm_jobs_from_email_notification', '{default-from-email}' ),
 				'reply_to'        => get_option( 'awsm_jobs_reply_to_notification' ),
 				'cc'              => get_option( 'awsm_jobs_hr_notification', $hr_email ),
 				'subject'         => get_option( 'awsm_jobs_notification_subject', '' ),
@@ -726,7 +726,7 @@ class AWSM_Job_Openings_Form {
 		} elseif ( $type === 'admin' ) {
 			$options = array(
 				'enable'        => get_option( 'awsm_jobs_enable_admin_notification' ),
-				'from'          => get_option( 'awsm_jobs_admin_from_email_notification', '{default-from-email}'  ),
+				'from'          => get_option( 'awsm_jobs_admin_from_email_notification', '{default-from-email}' ),
 				'reply_to'      => get_option( 'awsm_jobs_admin_reply_to_notification', '{applicant-email}' ),
 				'to'            => get_option( 'awsm_jobs_admin_to_notification', $hr_email ),
 				'cc'            => get_option( 'awsm_jobs_admin_hr_notification' ),
@@ -737,8 +737,8 @@ class AWSM_Job_Openings_Form {
 		} elseif ( $type === 'author' ) {
 			$options = array(
 				'enable'        => get_option( 'awsm_jobs_enable_expiry_notification', $expired_options['enable'] ),
-				'from'          => get_option( 'awsm_jobs_author_from_email_notification', '{default-from-email}'  ),
-				'reply_to'      => get_option( 'awsm_jobs_author_reply_to_notification', get_option( 'awsm_jobs_reply_to_notification') ),
+				'from'          => get_option( 'awsm_jobs_author_from_email_notification', '{default-from-email}' ),
+				'reply_to'      => get_option( 'awsm_jobs_author_reply_to_notification', get_option( 'awsm_jobs_reply_to_notification' ) ),
 				'to'            => get_option( 'awsm_jobs_author_to_notification', '{author-email}' ),
 				'cc'            => get_option( 'awsm_jobs_author_hr_notification' ),
 				'subject'       => get_option( 'awsm_jobs_author_notification_subject', $expired_options['subject'] ),
@@ -788,34 +788,34 @@ class AWSM_Job_Openings_Form {
 			}
 
 			if ( $enable ) {
-				$admin_email     = get_option( 'admin_email' );
-				$hr_mail         = get_option( 'awsm_hr_email_address' );
-				$applicant_email = $applicant_details['awsm_applicant_email'];
-				$company_name    = get_option( 'awsm_job_company_name' );
-				$from            = ( ! empty( $company_name ) ) ? $company_name : get_option( 'blogname' );
-				$author_id       = get_post_field( 'post_author', $applicant_details['awsm_job_id'] );
-				$author_email    = get_the_author_meta( 'user_email', intval( $author_id ) );
+				$admin_email        = get_option( 'admin_email' );
+				$hr_mail            = get_option( 'awsm_hr_email_address' );
+				$applicant_email    = $applicant_details['awsm_applicant_email'];
+				$company_name       = get_option( 'awsm_job_company_name' );
+				$from               = ( ! empty( $company_name ) ) ? $company_name : get_option( 'blogname' );
+				$author_id          = get_post_field( 'post_author', $applicant_details['awsm_job_id'] );
+				$author_email       = get_the_author_meta( 'user_email', intval( $author_id ) );
 				$default_from_email = AWSM_Job_Openings_Settings::awsm_from_email();
 
 				$tags             = $this->get_mail_template_tags(
 					$applicant_details,
 					array(
-						'admin_email'  => $admin_email,
-						'hr_email'     => $hr_mail,
-						'company_name' => $company_name,
+						'admin_email'        => $admin_email,
+						'hr_email'           => $hr_mail,
+						'company_name'       => $company_name,
 						'default_from_email' => $default_from_email,
 					)
 				);
 				$tag_names        = array_keys( $tags );
 				$tag_values       = array_values( $tags );
 				$email_tag_names  = array( '{admin-email}', '{hr-email}', '{applicant-email}', '{author-email}', '{default-from-email}' );
-				$email_tag_values = array( $admin_email, $hr_mail, $applicant_email, $author_email, $default_from_email  );
+				$email_tag_values = array( $admin_email, $hr_mail, $applicant_email, $author_email, $default_from_email );
 
 				if ( ! empty( $options['subject'] ) && ! empty( $options['content'] ) ) {
-					$subject  = str_replace( $tag_names, $tag_values, $options['subject'] );
-					$from_email  = str_replace( $tag_names, $tag_values, $options['from'] );
-					$reply_to = str_replace( $email_tag_names, $email_tag_values, $options['reply_to'] );
-					$cc       = str_replace( $email_tag_names, $email_tag_values, $options['cc'] );
+					$subject    = str_replace( $tag_names, $tag_values, $options['subject'] );
+					$from_email = str_replace( $tag_names, $tag_values, $options['from'] );
+					$reply_to   = str_replace( $email_tag_names, $email_tag_values, $options['reply_to'] );
+					$cc         = str_replace( $email_tag_names, $email_tag_values, $options['cc'] );
 
 					/**
 					 * Filters the applicant or admin notification mail headers.

@@ -192,9 +192,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<?php
 					$customizer_settings = AWSM_Job_Openings_Mail_Customizer::get_settings();
 					$validation_msg      = '';
-					if ( $this->validate_from_email_id( $customizer_settings['from_email'] ) === false ) {
-						$validation_msg = $from_email_error_msg;
-					}
+				if ( $this->validate_from_email_id( $customizer_settings['from_email'] ) === false ) {
+					$validation_msg = $from_email_error_msg;
+				}
 					/**
 					 * Filters the notification customizer fields.
 					 *
@@ -223,7 +223,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 								'type'        => 'email',
 								'label'       => __( 'Default "From" Email Address: ', 'wp-job-openings' ),
 								'value'       => $customizer_settings['from_email'],
-								'description' => $validation_msg ? '<p class="description awsm-jobs-invalid">'. $validation_msg.'</p>' : '',
+								'description' => $validation_msg ? '<p class="description awsm-jobs-invalid">' . $validation_msg . '</p>' : '',
 							),
 							array(
 								'id'          => 'awsm_jobs_notification_customizer_base_color',

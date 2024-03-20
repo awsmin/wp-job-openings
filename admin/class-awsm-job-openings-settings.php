@@ -425,14 +425,14 @@ class AWSM_Job_Openings_Settings {
 
 	public static function get_default_settings( $option_name = '' ) {
 		$options = array(
-			'awsm_permalink_slug'                      => 'jobs',
-			'awsm_default_msg'                         => esc_html__( 'We currently have no job openings', 'wp-job-openings' ),
-			'awsm_jobs_listing_view'                   => 'list-view',
-			'awsm_jobs_list_per_page'                  => 10,
-			'awsm_jobs_number_of_columns'              => 3,
-			'awsm_current_appearance_subtab'           => 'awsm-job-listing-nav-subtab',
-			'awsm_jobs_details_page_layout'            => 'single',
-			'awsm_jobs_filter'                         => array(
+			'awsm_permalink_slug'                   => 'jobs',
+			'awsm_default_msg'                      => esc_html__( 'We currently have no job openings', 'wp-job-openings' ),
+			'awsm_jobs_listing_view'                => 'list-view',
+			'awsm_jobs_list_per_page'               => 10,
+			'awsm_jobs_number_of_columns'           => 3,
+			'awsm_current_appearance_subtab'        => 'awsm-job-listing-nav-subtab',
+			'awsm_jobs_details_page_layout'         => 'single',
+			'awsm_jobs_filter'                      => array(
 				array(
 					'taxonomy' => 'job-category',
 					'filter'   => esc_html__( 'Job Category', 'wp-job-openings' ),
@@ -447,21 +447,21 @@ class AWSM_Job_Openings_Settings {
 					'filter'   => esc_html__( 'Job Location', 'wp-job-openings' ),
 				),
 			),
-			'awsm_enable_job_filter_listing'           => 'enabled',
-			'awsm_jobs_listing_available_filters'      => array( 'job-category', 'job-type', 'job-location' ),
-			'awsm_jobs_listing_specs'                  => array( 'job-category', 'job-location' ),
-			'awsm_jobs_admin_upload_file_ext'          => array( 'pdf', 'doc', 'docx' ),
-			'awsm_enable_gdpr_cb'                      => 'true',
-			'awsm_gdpr_cb_text'                        => esc_html__( 'By using this form you agree with the storage and handling of your data by this website.', 'wp-job-openings' ),
-			'awsm_jobs_acknowledgement'                => 'acknowledgement',
-			'awsm_jobs_notification_subject'           => 'Thanks for submitting your application for a job at {company}',
-			'awsm_jobs_notification_content'           => "Dear {applicant},\n\nThis is to let you know that we have received your application.We appreciate your interest in {company} and the position of {job-title} for which you applied.  If you are selected for an interview, you can expect a phone call from our Human Resources staff shortly.\n\n Thank you, again, for your interest in our company. We do appreciate the time that you invested in this application.\n\nSincerely\n\nHR Manager\n{company}",
-			'awsm_jobs_enable_admin_notification'      => 'enable',
-			'awsm_jobs_admin_notification_subject'     => 'New application received for the position {job-title} [{job-id}]',
-			'awsm_jobs_admin_notification_content'     => "Job Opening: {job-title} [{job-id}]\nName: {applicant}\nEmail: {applicant-email}\nPhone: {applicant-phone}\nResume: {applicant-resume}\nCover letter: {applicant-cover}\n\nPowered by WP Job Openings Plugin",
-			'awsm_jobs_enable_expiry_notification'     => 'enable',
-			'awsm_jobs_author_notification_subject'    => 'Job Listing Expired',
-			'awsm_jobs_author_notification_content'    => "This email is to notify you that your job listing for [{job-title}] has just expired. As a result, applicants will no longer be able to apply for this position.\n\nIf you would like to extend the expiration date or remove the listing, please log in to the dashboard and take the necessary steps.\n\nPowered by WP Job Openings Plugin",
+			'awsm_enable_job_filter_listing'        => 'enabled',
+			'awsm_jobs_listing_available_filters'   => array( 'job-category', 'job-type', 'job-location' ),
+			'awsm_jobs_listing_specs'               => array( 'job-category', 'job-location' ),
+			'awsm_jobs_admin_upload_file_ext'       => array( 'pdf', 'doc', 'docx' ),
+			'awsm_enable_gdpr_cb'                   => 'true',
+			'awsm_gdpr_cb_text'                     => esc_html__( 'By using this form you agree with the storage and handling of your data by this website.', 'wp-job-openings' ),
+			'awsm_jobs_acknowledgement'             => 'acknowledgement',
+			'awsm_jobs_notification_subject'        => 'Thanks for submitting your application for a job at {company}',
+			'awsm_jobs_notification_content'        => "Dear {applicant},\n\nThis is to let you know that we have received your application.We appreciate your interest in {company} and the position of {job-title} for which you applied.  If you are selected for an interview, you can expect a phone call from our Human Resources staff shortly.\n\n Thank you, again, for your interest in our company. We do appreciate the time that you invested in this application.\n\nSincerely\n\nHR Manager\n{company}",
+			'awsm_jobs_enable_admin_notification'   => 'enable',
+			'awsm_jobs_admin_notification_subject'  => 'New application received for the position {job-title} [{job-id}]',
+			'awsm_jobs_admin_notification_content'  => "Job Opening: {job-title} [{job-id}]\nName: {applicant}\nEmail: {applicant-email}\nPhone: {applicant-phone}\nResume: {applicant-resume}\nCover letter: {applicant-cover}\n\nPowered by WP Job Openings Plugin",
+			'awsm_jobs_enable_expiry_notification'  => 'enable',
+			'awsm_jobs_author_notification_subject' => 'Job Listing Expired',
+			'awsm_jobs_author_notification_content' => "This email is to notify you that your job listing for [{job-title}] has just expired. As a result, applicants will no longer be able to apply for this position.\n\nIf you would like to extend the expiration date or remove the listing, please log in to the dashboard and take the necessary steps.\n\nPowered by WP Job Openings Plugin",
 		);
 		if ( ! empty( $option_name ) ) {
 			if ( isset( $options[ $option_name ] ) ) {
@@ -584,7 +584,7 @@ class AWSM_Job_Openings_Settings {
 		if ( preg_match( '/^[0-9.]+$/', $site_domain ) ) {
 			return $email;
 		}
-		
+
 		if ( trim( $email ) === '{default-from-email}' ) {
 			return $email;
 		}
@@ -608,9 +608,9 @@ class AWSM_Job_Openings_Settings {
 
 	public function sanitize_from_email_id( $email ) {
 		if ( empty( $email ) ) {
-			$email = $this->awsm_from_email(true);
+			$email = $this->awsm_from_email( true );
 		}
-		return sanitize_text_field($email);
+		return sanitize_text_field( $email );
 	}
 
 	public function sanitize_list_per_page( $input ) {
@@ -985,7 +985,7 @@ class AWSM_Job_Openings_Settings {
 				'span'   => array(),
 				'strong' => array(),
 				'small'  => array(),
-				'p'=> array('class'=> true),
+				'p'      => array( 'class' => true ),
 			);
 			foreach ( $settings_fields as $field_details ) {
 				if ( isset( $field_details['visible'] ) && $field_details['visible'] === false ) {
@@ -1261,23 +1261,23 @@ class AWSM_Job_Openings_Settings {
 		$template_tags = apply_filters(
 			'awsm_job_template_tags',
 			array(
-				'{applicant}'        => __( 'Applicant Name:', 'wp-job-openings' ),
-				'{application-id}'   => __( 'Application ID:', 'wp-job-openings' ),
-				'{applicant-email}'  => __( 'Applicant Email:', 'wp-job-openings' ),
-				'{applicant-phone}'  => __( 'Applicant Phone:', 'wp-job-openings' ),
-				'{applicant-resume}' => __( 'Applicant Resume:', 'wp-job-openings' ),
-				'{applicant-cover}'  => __( 'Cover letter:', 'wp-job-openings' ),
-				'{job-title}'        => __( 'Job Title:', 'wp-job-openings' ),
-				'{job-id}'           => __( 'Job ID:', 'wp-job-openings' ),
-				'{job-expiry}'       => __( 'Job Expiry Date:', 'wp-job-openings' ),
-				'{site-title}'       => __( 'Site Title:', 'wp-job-openings' ),
-				'{site-tagline}'     => __( 'Site Tagline:', 'wp-job-openings' ),
-				'{site-url}'         => __( 'Site URL:', 'wp-job-openings' ),
-				'{admin-email}'      => __( 'Site admin email:', 'wp-job-openings' ),
-				'{hr-email}'         => __( 'HR Email:', 'wp-job-openings' ),
-				'{company}'          => __( 'Company Name:', 'wp-job-openings' ),
-				'{author-email}'     => __( 'Author Email:', 'wp-job-openings' ),
-				'{default-from-email}'     => __( 'Default from email:', 'wp-job-openings' ),
+				'{applicant}'          => __( 'Applicant Name:', 'wp-job-openings' ),
+				'{application-id}'     => __( 'Application ID:', 'wp-job-openings' ),
+				'{applicant-email}'    => __( 'Applicant Email:', 'wp-job-openings' ),
+				'{applicant-phone}'    => __( 'Applicant Phone:', 'wp-job-openings' ),
+				'{applicant-resume}'   => __( 'Applicant Resume:', 'wp-job-openings' ),
+				'{applicant-cover}'    => __( 'Cover letter:', 'wp-job-openings' ),
+				'{job-title}'          => __( 'Job Title:', 'wp-job-openings' ),
+				'{job-id}'             => __( 'Job ID:', 'wp-job-openings' ),
+				'{job-expiry}'         => __( 'Job Expiry Date:', 'wp-job-openings' ),
+				'{site-title}'         => __( 'Site Title:', 'wp-job-openings' ),
+				'{site-tagline}'       => __( 'Site Tagline:', 'wp-job-openings' ),
+				'{site-url}'           => __( 'Site URL:', 'wp-job-openings' ),
+				'{admin-email}'        => __( 'Site admin email:', 'wp-job-openings' ),
+				'{hr-email}'           => __( 'HR Email:', 'wp-job-openings' ),
+				'{company}'            => __( 'Company Name:', 'wp-job-openings' ),
+				'{author-email}'       => __( 'Author Email:', 'wp-job-openings' ),
+				'{default-from-email}' => __( 'Default from email:', 'wp-job-openings' ),
 
 			)
 		);
@@ -1296,11 +1296,11 @@ class AWSM_Job_Openings_Settings {
 			$sitename = substr( $sitename, 4 );
 		}
 		$from_email = 'noreply@' . $sitename;
-		if(! $set_as_empty) {
+		if ( ! $set_as_empty ) {
 			$get_default_from_email = get_option( 'awsm_jobs_notification_customizer' );
-	
+
 			$from_email = isset( $get_default_from_email['from_email'] ) ? $get_default_from_email['from_email'] : '';
-	
+
 			if ( $from_email ) {
 				return $from_email;
 			}
