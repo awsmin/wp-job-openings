@@ -1919,7 +1919,7 @@ class AWSM_Job_Openings {
 					if ( ! empty( $subject ) && ! empty( $content ) ) {
 						$subject    = str_replace( $tag_names, $tag_values, $subject );
 						$from_email = str_replace( $tag_names, $tag_values, $from_email );
-						$to = str_replace( $email_tag_names, $email_tag_values, $to );
+						$to         = str_replace( $email_tag_names, $email_tag_values, $to );
 						$reply_to   = str_replace( $email_tag_names, $email_tag_values, $reply_to );
 						$cc         = str_replace( $email_tag_names, $email_tag_values, $cc );
 						$subject    = str_replace( $email_tag_names, $email_tag_values, $subject );
