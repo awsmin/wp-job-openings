@@ -1873,7 +1873,7 @@ class AWSM_Job_Openings {
 					$default_from_email = AWSM_Job_Openings_Settings::awsm_from_email();
 					$from_email    = get_option( 'awsm_jobs_author_from_email_notification', $default_from_email );
 					$to            = get_option( 'awsm_jobs_author_to_notification' );
-					$reply_to      = get_option( 'awsm_jobs_author_reply_to_notification' );
+					$reply_to      = get_option( 'awsm_jobs_author_reply_to_notification', get_option( 'awsm_jobs_reply_to_notification') );
 					$cc            = get_option( 'awsm_jobs_author_hr_notification' );
 					$subject       = get_option( 'awsm_jobs_author_notification_subject', $expiry_default_options['subject'] );
 					$content       = get_option( 'awsm_jobs_author_notification_content', $expiry_default_options['content'] );
