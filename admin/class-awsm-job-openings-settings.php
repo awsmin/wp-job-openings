@@ -584,6 +584,10 @@ class AWSM_Job_Openings_Settings {
 		if ( preg_match( '/^[0-9.]+$/', $site_domain ) ) {
 			return $email;
 		}
+		
+		if ( trim( $email ) === '{default-from-email}' ) {
+			return $email;
+		}
 
 		if ( $this->is_email_in_domain( $email, $site_domain ) ) {
 			return $email;
@@ -603,21 +607,10 @@ class AWSM_Job_Openings_Settings {
 	}
 
 	public function sanitize_from_email_id( $email ) {
-		// if ( empty( $email ) ) {
-		// 	$email = get_option( 'admin_email' );
-		// }
-		// return sanitize_email( $email );
 		if ( empty( $email ) ) {
-			$email = $this->awsm_from_email();
-			// $sitename = wp_parse_url( network_home_url(), PHP_URL_HOST );
-			// $sitename = strtolower( $sitename );
-
-			// if ( 'www.' === substr( $sitename, 0, 4 ) ) {
-			// 	$sitename = substr( $sitename, 4 );
-			// }
-			// return 'noreply@' . $sitename;
+			$email = $this->awsm_from_email(true);
 		}
-		return $email;
+		return sanitize_text_field($email);
 	}
 
 	public function sanitize_list_per_page( $input ) {
@@ -992,6 +985,7 @@ class AWSM_Job_Openings_Settings {
 				'span'   => array(),
 				'strong' => array(),
 				'small'  => array(),
+				'p'=> array('class'=> true),
 			);
 			foreach ( $settings_fields as $field_details ) {
 				if ( isset( $field_details['visible'] ) && $field_details['visible'] === false ) {
@@ -1293,21 +1287,25 @@ class AWSM_Job_Openings_Settings {
 		return $template_tags;
 	}
 
-	public static function awsm_from_email() {
+	public static function awsm_from_email( $set_as_empty = false ) {
+
 		$sitename = wp_parse_url( network_home_url(), PHP_URL_HOST );
 		$sitename = strtolower( $sitename );
 
 		if ( 'www.' === substr( $sitename, 0, 4 ) ) {
 			$sitename = substr( $sitename, 4 );
 		}
-		$get_default_from_email = get_option( 'awsm_jobs_notification_customizer' );
-
-		$from_email = isset( $get_default_from_email['from_email'] ) ? $get_default_from_email['from_email'] : '';
-
-		if ( $from_email ) {
-			return $from_email;
+		$from_email = 'noreply@' . $sitename;
+		if(! $set_as_empty) {
+			$get_default_from_email = get_option( 'awsm_jobs_notification_customizer' );
+	
+			$from_email = isset( $get_default_from_email['from_email'] ) ? $get_default_from_email['from_email'] : '';
+	
+			if ( $from_email ) {
+				return $from_email;
+			}
 		}
 
-		return 'noreply@' . $sitename;
+		return $from_email;
 	}
 }

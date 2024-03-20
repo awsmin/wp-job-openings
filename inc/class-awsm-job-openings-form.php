@@ -813,7 +813,7 @@ class AWSM_Job_Openings_Form {
 
 				if ( ! empty( $options['subject'] ) && ! empty( $options['content'] ) ) {
 					$subject  = str_replace( $tag_names, $tag_values, $options['subject'] );
-					$from_email  = str_replace( $tag_names, $tag_values, $default_from_email );
+					$from_email  = str_replace( $tag_names, $tag_values, $options['from'] );
 					$reply_to = str_replace( $email_tag_names, $email_tag_values, $options['reply_to'] );
 					$cc       = str_replace( $email_tag_names, $email_tag_values, $options['cc'] );
 

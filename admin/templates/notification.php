@@ -94,7 +94,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 								<div class="awsm-row">
 									<div class="awsm-col awsm-form-group awsm-col-half">
 										<label for="awsm_jobs_admin_from_email_notification"><?php esc_html_e( 'From', 'wp-job-openings' ); ?></label>
-											<input type="email" class="awsm-form-control" name="awsm_jobs_admin_from_email_notification" id="awsm_jobs_admin_from_email_notification" value="<?php echo esc_attr( $admin_from_email ); ?>" required />
+											<input type="text" class="awsm-form-control" name="awsm_jobs_admin_from_email_notification" id="awsm_jobs_admin_from_email_notification" value="<?php echo esc_attr( $admin_from_email ); ?>" required />
 											<?php
 											if ( $this->validate_from_email_id( $admin_from_email ) === false ) {
 												printf( '<p class="description awsm-jobs-invalid">%s</p>', esc_html( $from_email_error_msg ) );
@@ -145,7 +145,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 								<div class="awsm-row">
 									<div class="awsm-col awsm-form-group awsm-col-half">
 										<label for="awsm_jobs_author_from_email_notification"><?php esc_html_e( 'From', 'wp-job-openings' ); ?></label>
-											<input type="email" class="awsm-form-control" name="awsm_jobs_author_from_email_notification" id="awsm_jobs_author_from_email_notification" value="<?php echo esc_attr( $admin_from_email ); ?>" required />
+											<input type="text" class="awsm-form-control" name="awsm_jobs_author_from_email_notification" id="awsm_jobs_author_from_email_notification" value="<?php echo esc_attr( $admin_from_email ); ?>" required />
 											<?php
 											if ( $this->validate_from_email_id( $admin_from_email ) === false ) {
 												printf( '<p class="description awsm-jobs-invalid">%s</p>', esc_html( $from_email_error_msg ) );
@@ -223,7 +223,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 								'type'        => 'email',
 								'label'       => __( 'Default "From" Email Address: ', 'wp-job-openings' ),
 								'value'       => $customizer_settings['from_email'],
-								'description' => $validation_msg,
+								'description' => $validation_msg ? '<p class="description awsm-jobs-invalid">'. $validation_msg.'</p>' : '',
 							),
 							array(
 								'id'          => 'awsm_jobs_notification_customizer_base_color',
