@@ -424,6 +424,7 @@ class AWSM_Job_Openings_Settings {
 	}
 
 	public static function get_default_settings( $option_name = '' ) {
+		$default_from_email = AWSM_Job_Openings_Settings::awsm_from_email( true );
 		$options = array(
 			'awsm_permalink_slug'                   => 'jobs',
 			'awsm_default_msg'                      => esc_html__( 'We currently have no job openings', 'wp-job-openings' ),
@@ -462,6 +463,13 @@ class AWSM_Job_Openings_Settings {
 			'awsm_jobs_enable_expiry_notification'  => 'enable',
 			'awsm_jobs_author_notification_subject' => 'Job Listing Expired',
 			'awsm_jobs_author_notification_content' => "This email is to notify you that your job listing for [{job-title}] has just expired. As a result, applicants will no longer be able to apply for this position.\n\nIf you would like to extend the expiration date or remove the listing, please log in to the dashboard and take the necessary steps.\n\nPowered by WP Job Openings Plugin",
+			'awsm_jobs_notification_customizer' =>array(
+				'logo'        => 'default',
+				'base_color'  => '#05BC9C',
+				'from_email'  => $default_from_email,
+				/* translators: %1$s: Site link, %2$s: Plugin website link */
+				'footer_text' => sprintf( esc_html__( 'Sent from %1$s by %2$s Plugin', 'wp-job-openings' ), '<a href="{site-url}">{site-title}</a>', '<a href="https://wpjobopenings.com">' . esc_html__( 'WP Job Openings', 'wp-job-openings' ) . '</a>' ),
+			),
 		);
 		if ( ! empty( $option_name ) ) {
 			if ( isset( $options[ $option_name ] ) ) {
