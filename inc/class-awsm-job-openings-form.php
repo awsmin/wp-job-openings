@@ -692,6 +692,7 @@ class AWSM_Job_Openings_Form {
 	public static function get_expired_notification_content() {
 		$options = array(
 			'enable'  => 'enable',
+			'to'      => '{author-email}',
 			'subject' => 'Job Listing Expired',
 			'content' => "This email is to notify you that your job listing for [{job-title}] has just expired. As a result, applicants will no longer be able to apply for this position.\n\nIf you would like to extend the expiration date or remove the listing, please log in to the dashboard and take the necessary steps.\n\nPowered by WP Job Openings Plugin",
 		);

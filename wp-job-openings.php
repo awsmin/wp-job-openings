@@ -1872,7 +1872,7 @@ class AWSM_Job_Openings {
 					$from               = ( ! empty( $company_name ) ) ? $company_name : get_option( 'blogname' );
 					$default_from_email = AWSM_Job_Openings_Settings::awsm_from_email();
 					$from_email         = get_option( 'awsm_jobs_author_from_email_notification', $default_from_email );
-					$to                 = get_option( 'awsm_jobs_author_to_notification' );
+					$to                 = get_option( 'awsm_jobs_author_to_notification', $expiry_default_options['to'] );
 					$reply_to           = get_option( 'awsm_jobs_author_reply_to_notification', get_option( 'awsm_jobs_reply_to_notification' ) );
 					$cc                 = get_option( 'awsm_jobs_author_hr_notification' );
 					$subject            = get_option( 'awsm_jobs_author_notification_subject', $expiry_default_options['subject'] );
@@ -1919,6 +1919,7 @@ class AWSM_Job_Openings {
 					if ( ! empty( $subject ) && ! empty( $content ) ) {
 						$subject    = str_replace( $tag_names, $tag_values, $subject );
 						$from_email = str_replace( $tag_names, $tag_values, $from_email );
+						$to = str_replace( $email_tag_names, $email_tag_values, $to );
 						$reply_to   = str_replace( $email_tag_names, $email_tag_values, $reply_to );
 						$cc         = str_replace( $email_tag_names, $email_tag_values, $cc );
 						$subject    = str_replace( $email_tag_names, $email_tag_values, $subject );
@@ -1996,7 +1997,6 @@ class AWSM_Job_Openings {
 						$tag_values[] = $subject;
 						$mail_content = str_replace( $tag_names, $tag_values, $mail_content );
 
-						$to = str_replace( $email_tag_names, $email_tag_values, $to );
 						// Now, send the mail.
 						$is_mail_send = wp_mail( $to, $subject, $mail_content, array_values( $headers ) );
 
