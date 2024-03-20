@@ -424,8 +424,8 @@ class AWSM_Job_Openings_Settings {
 	}
 
 	public static function get_default_settings( $option_name = '' ) {
-		$default_from_email = AWSM_Job_Openings_Settings::awsm_from_email( true );
-		$options = array(
+		$default_from_email = self::awsm_from_email( true );
+		$options            = array(
 			'awsm_permalink_slug'                   => 'jobs',
 			'awsm_default_msg'                      => esc_html__( 'We currently have no job openings', 'wp-job-openings' ),
 			'awsm_jobs_listing_view'                => 'list-view',
@@ -463,7 +463,7 @@ class AWSM_Job_Openings_Settings {
 			'awsm_jobs_enable_expiry_notification'  => 'enable',
 			'awsm_jobs_author_notification_subject' => 'Job Listing Expired',
 			'awsm_jobs_author_notification_content' => "This email is to notify you that your job listing for [{job-title}] has just expired. As a result, applicants will no longer be able to apply for this position.\n\nIf you would like to extend the expiration date or remove the listing, please log in to the dashboard and take the necessary steps.\n\nPowered by WP Job Openings Plugin",
-			'awsm_jobs_notification_customizer' =>array(
+			'awsm_jobs_notification_customizer'     => array(
 				'logo'        => 'default',
 				'base_color'  => '#05BC9C',
 				'from_email'  => $default_from_email,
