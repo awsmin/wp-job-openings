@@ -1864,9 +1864,10 @@ class AWSM_Job_Openings {
 					$hr_mail       = get_option( 'awsm_hr_email_address' );
 					$company_name  = get_option( 'awsm_job_company_name' );
 					$from          = ( ! empty( $company_name ) ) ? $company_name : get_option( 'blogname' );
-					$from_email    = get_option( 'awsm_jobs_author_from_email_notification', $admin_email );
+					$default_from_email = AWSM_Job_Openings_Settings::awsm_from_email();
+					$from_email    = get_option( 'awsm_jobs_author_from_email_notification', $default_from_email );
 					$to            = get_option( 'awsm_jobs_author_to_notification' );
-					$reply_to      = get_option( 'awsm_jobs_reply_to_notification' );
+					$reply_to      = get_option( 'awsm_jobs_author_reply_to_notification' );
 					$cc            = get_option( 'awsm_jobs_author_hr_notification' );
 					$subject       = get_option( 'awsm_jobs_author_notification_subject', $expiry_default_options['subject'] );
 					$content       = get_option( 'awsm_jobs_author_notification_content', $expiry_default_options['content'] );
@@ -1881,6 +1882,7 @@ class AWSM_Job_Openings {
 							'hr_email'     => $hr_mail,
 							'company_name' => $company_name,
 							'job_id'       => $job_id,
+							'default_from_email' => $default_from_email,
 						)
 					);
 
@@ -1905,11 +1907,12 @@ class AWSM_Job_Openings {
 					$job_title        = esc_html( get_the_title( $job_id ) );
 					$tag_names        = array_keys( $tags );
 					$tag_values       = array_values( $tags );
-					$email_tag_names  = array( '{admin-email}', '{hr-email}', '{author-email}', '{job-id}', '{job-expiry}', '{job-title}' );
-					$email_tag_values = array( $admin_email, $hr_mail, $author_email, $job_id, $job_expiry, $job_title );
+					$email_tag_names  = array( '{admin-email}', '{hr-email}', '{author-email}', '{job-id}', '{job-expiry}', '{job-title}', '{default-from-email}' );
+					$email_tag_values = array( $admin_email, $hr_mail, $author_email, $job_id, $job_expiry, $job_title, $default_from_email );
 
 					if ( ! empty( $subject ) && ! empty( $content ) ) {
 						$subject  = str_replace( $tag_names, $tag_values, $subject );
+						$from_email  = str_replace( $tag_names, $tag_values, $from_email );
 						$reply_to = str_replace( $email_tag_names, $email_tag_values, $reply_to );
 						$cc       = str_replace( $email_tag_names, $email_tag_values, $cc );
 						$subject  = str_replace( $email_tag_names, $email_tag_values, $subject );
