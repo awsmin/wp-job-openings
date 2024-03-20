@@ -160,7 +160,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 								<div class="awsm-row">
 									<div class="awsm-col awsm-form-group awsm-col-half">
 										<label for="awsm_jobs_author_to_notification"><?php esc_html_e( 'To', 'wp-job-openings' ); ?></label>
-											<input type="text" class="awsm-form-control" name="awsm_jobs_author_to_notification" id="awsm_jobs_author_to_notification" value="<?php echo esc_attr( '{author-email}' ); ?>" placeholder="<?php esc_html__( 'Author Email', 'wp-job-openings' ); ?>" required />
+											<input type="text" class="awsm-form-control" name="awsm_jobs_author_to_notification" id="awsm_jobs_author_to_notification" value="<?php echo esc_attr( $author_options['to'] ); ?>" placeholder="<?php esc_html__( 'Author Email', 'wp-job-openings' ); ?>" required />
 									</div><!-- .col -->
 									<div class="awsm-col awsm-form-group awsm-col-half">
 										<label for="awsm_jobs_author_hr_notification"><?php esc_html_e( 'CC:', 'wp-job-openings' ); ?></label>
