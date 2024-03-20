@@ -738,7 +738,7 @@ class AWSM_Job_Openings_Form {
 			$options = array(
 				'enable'        => get_option( 'awsm_jobs_enable_expiry_notification', $expired_options['enable'] ),
 				'from'          => get_option( 'awsm_jobs_author_from_email_notification', '{default-from-email}'  ),
-				'reply_to'      => get_option( 'awsm_jobs_author_reply_to_notification', get_option( 'awsm_jobs_from_email_notification') ),
+				'reply_to'      => get_option( 'awsm_jobs_author_reply_to_notification', get_option( 'awsm_jobs_reply_to_notification') ),
 				'to'            => get_option( 'awsm_jobs_author_to_notification', '{author-email}' ),
 				'cc'            => get_option( 'awsm_jobs_author_hr_notification' ),
 				'subject'       => get_option( 'awsm_jobs_author_notification_subject', $expired_options['subject'] ),
