@@ -1,5 +1,9 @@
 ## Changelog
 
+### V 3.4.5 - 2024-03-21
+* Improved: Change notification from email to WordPress default email.
+* Minor bug fixes and code improvements.
+
 ### V 3.4.4 - 2024-02-05
 * Fixed: Structure breaks when job listing shortcode in job detail page.
 * Minor bug fixes and code improvements.
