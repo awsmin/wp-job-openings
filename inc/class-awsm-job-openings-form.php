@@ -533,7 +533,7 @@ class AWSM_Job_Openings_Form {
 							wp_update_attachment_metadata( $attach_id, $attach_data );
 							$applicant_details = array(
 								'awsm_job_id'           => $job_id,
-								'awsm_apply_for'        => esc_html( get_the_title( $job_id ) ),
+								'awsm_apply_for'        => html_entity_decode( esc_html( get_the_title( $job_id ) ) ),
 								'awsm_applicant_ip'     => isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( $_SERVER['REMOTE_ADDR'] ) : '',
 								'awsm_applicant_name'   => $applicant_name,
 								'awsm_applicant_email'  => $applicant_email,
