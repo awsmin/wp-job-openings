@@ -24,7 +24,7 @@ $jobs =get_posts( $job_posts );
 		<div class="awsm-job-listings awsm-row awsm-<?php echo $attributes['layout']?>-col-3" data-listings="<?php echo $attributes['listing_per_page'];?>">
 			<div class="awsm-job-<?php echo $attributes['layout'];?>-item awsm-<?php echo $attributes['layout']?>-item" id="awsm-<?php echo $attributes['layout']?>-item-<?php echo $job->ID?>">	
 			
-				<a href="<?php echo esc_html($job->guid)?>" class="awsm-job-item" >			<div class="awsm-<?php echo $attributes['layout']?>-left-col">
+				<a href="<?php echo esc_url( get_permalink($job->ID));?>" class="awsm-job-item">			<div class="awsm-<?php echo $attributes['layout']?>-left-col">
 			
 				<h2 class="awsm-job-post-title">
 					<?php $job_title = get_the_title( $job->ID ) ;?>
