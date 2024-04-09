@@ -48,7 +48,12 @@ if ( ! defined( 'AWSM_JOBS_DEBUG' ) ) {
 
 // Helper functions
 require_once AWSM_JOBS_PLUGIN_DIR . '/inc/helper-functions.php';
-
+//block for listing
+if ( function_exists( 'register_block_type' ) ) {
+	//require_once AWSM_JOBS_PLUGIN_DIR  . '/blocks/job-listing-block/awsm-job-listing-block.php';
+	require_once AWSM_JOBS_PLUGIN_DIR  . '/blocks/job-list-block/job-list-block.php';
+	
+}
 class AWSM_Job_Openings {
 	private static $instance = null;
 
