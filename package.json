@@ -46,6 +46,7 @@
     "gulp-strip-debug": "^3.0.0",
     "gulp-uglify": "^3.0.2",
     "gulp-wp-pot": "^2.5.0",
+    "postcss": "^8.4.38",
     "prettier": "^1.19.1"
   },
   "browserslist": [
