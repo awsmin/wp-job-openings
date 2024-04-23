@@ -89,6 +89,7 @@ class AWSM_Job_Openings_Uninstall {
 			'awsm_jobs_author_notification_subject',
 			'awsm_jobs_author_notification_content',
 			'awsm_jobs_notification_author_mail_template',
+			'awsm_jobs_author_reply_to_notification',
 		);
 		return $options;
 	}

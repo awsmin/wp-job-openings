@@ -5,7 +5,7 @@
  * Description: Super simple Job Listing plugin to manage Job Openings and Applicants on your WordPress site.
  * Author: AWSM Innovations
  * Author URI: https://awsm.in/
- * Version: 3.4.4
+ * Version: 3.4.6
  * Requires at least: 4.8
  * Requires PHP: 5.6
  * License: GPLv2
@@ -37,7 +37,7 @@ if ( ! defined( 'AWSM_JOBS_PLUGIN_URL' ) ) {
 	define( 'AWSM_JOBS_PLUGIN_URL', untrailingslashit( plugin_dir_url( __FILE__ ) ) );
 }
 if ( ! defined( 'AWSM_JOBS_PLUGIN_VERSION' ) ) {
-	define( 'AWSM_JOBS_PLUGIN_VERSION', '3.4.3' );
+	define( 'AWSM_JOBS_PLUGIN_VERSION', '3.4.6' );
 }
 if ( ! defined( 'AWSM_JOBS_UPLOAD_DIR_NAME' ) ) {
 	define( 'AWSM_JOBS_UPLOAD_DIR_NAME', 'awsm-job-openings' );
@@ -670,27 +670,17 @@ class AWSM_Job_Openings {
 
 	public function send_email_digest() {
 		$to = get_option( 'awsm_hr_email_address' );
+		if ( ! class_exists( 'AWSM_Job_Openings_Settings' ) ) {
+			require_once AWSM_JOBS_PLUGIN_DIR . '/admin/class-awsm-job-openings-settings.php';
+		}
+		$default_from_email = AWSM_Job_Openings_Settings::awsm_from_email();
 		if ( ! empty( $to ) ) {
 			$applications = self::get_recent_applications( 3 );
 			if ( ! empty( $applications ) ) {
 				$company_name = get_option( 'awsm_job_company_name', '' );
 				$from         = ( ! empty( $company_name ) ) ? $company_name : get_option( 'blogname' );
 				$admin_email  = get_option( 'admin_email' );
-				$from_email   = get_option( 'awsm_jobs_admin_from_email_notification', $admin_email );
-				/**
-				 * Filters the daily email digest headers.
-				 *
-				 * @since 2.0.0
-				 *
-				 * @param array $headers Additional headers
-				 */
-				$headers = apply_filters(
-					'awsm_jobs_email_digest_mail_headers',
-					array(
-						'content_type' => 'Content-Type: text/html; charset=UTF-8',
-						'from'         => sprintf( 'From: %1$s <%2$s>', $from, $from_email ),
-					)
-				);
+				$from_email   = get_option( 'awsm_jobs_admin_from_email_notification', $default_from_email );
 
 				ob_start();
 				include self::get_template_path( 'email-digest.php', 'mail' );
@@ -708,14 +698,30 @@ class AWSM_Job_Openings {
 				if ( ! empty( $mail_content ) ) {
 					$tags         = self::get_mail_generic_template_tags(
 						array(
-							'admin_email'  => $admin_email,
-							'hr_email'     => $to,
-							'company_name' => $company_name,
+							'admin_email'        => $admin_email,
+							'hr_email'           => $to,
+							'company_name'       => $company_name,
+							'default_from_email' => $default_from_email,
 						)
 					);
 					$tag_names    = array_keys( $tags );
 					$tag_values   = array_values( $tags );
+					$from_email   = str_replace( $tag_names, $tag_values, $from_email );
 					$mail_content = str_replace( $tag_names, $tag_values, $mail_content );
+					/**
+					 * Filters the daily email digest headers.
+					 *
+					 * @since 2.0.0
+					 *
+					 * @param array $headers Additional headers
+					 */
+					$headers = apply_filters(
+						'awsm_jobs_email_digest_mail_headers',
+						array(
+							'content_type' => 'Content-Type: text/html; charset=UTF-8',
+							'from'         => sprintf( 'From: %1$s <%2$s>', $from, $from_email ),
+						)
+					);
 
 					/**
 					 * Filters the daily email digest subject.
@@ -735,17 +741,19 @@ class AWSM_Job_Openings {
 	}
 
 	public static function get_mail_generic_template_tags( $options = array() ) {
-		$company_name = isset( $options['company_name'] ) ? $options['company_name'] : get_option( 'awsm_job_company_name' );
-		$admin_email  = isset( $options['admin_email'] ) ? $options['admin_email'] : get_option( 'admin_email' );
-		$hr_email     = isset( $options['hr_email'] ) ? $options['hr_email'] : get_option( 'awsm_hr_email_address', '' );
+		$company_name       = isset( $options['company_name'] ) ? $options['company_name'] : get_option( 'awsm_job_company_name' );
+		$admin_email        = isset( $options['admin_email'] ) ? $options['admin_email'] : get_option( 'admin_email' );
+		$hr_email           = isset( $options['hr_email'] ) ? $options['hr_email'] : get_option( 'awsm_hr_email_address', '' );
+		$default_from_email = isset( $options['default_from_email'] ) ? $options['default_from_email'] : get_option( 'awsm_jobs_from_email_notification', '' );
 
 		$tags = array(
-			'{site-title}'   => esc_html( get_bloginfo( 'name' ) ),
-			'{site-tagline}' => esc_html( get_bloginfo( 'description' ) ),
-			'{site-url}'     => esc_url( site_url( '/' ) ),
-			'{company}'      => esc_html( $company_name ),
-			'{admin-email}'  => esc_html( $admin_email ),
-			'{hr-email}'     => esc_html( $hr_email ),
+			'{site-title}'         => esc_html( get_bloginfo( 'name' ) ),
+			'{site-tagline}'       => esc_html( get_bloginfo( 'description' ) ),
+			'{site-url}'           => esc_url( site_url( '/' ) ),
+			'{company}'            => esc_html( $company_name ),
+			'{admin-email}'        => esc_html( $admin_email ),
+			'{hr-email}'           => esc_html( $hr_email ),
+			'{default-from-email}' => $default_from_email,
 		);
 
 		/**
@@ -1862,28 +1870,30 @@ class AWSM_Job_Openings {
 		if ( $new_status !== 'publish' && $new_status !== $old_status && $post->post_type === 'awsm_job_openings' ) {
 			if ( $new_status === 'expired' ) {
 				if ( $enable_expiry === 'enable' ) {
-					$job_id        = $post->ID;
-					$admin_email   = get_option( 'admin_email' );
-					$hr_mail       = get_option( 'awsm_hr_email_address' );
-					$company_name  = get_option( 'awsm_job_company_name' );
-					$from          = ( ! empty( $company_name ) ) ? $company_name : get_option( 'blogname' );
-					$from_email    = get_option( 'awsm_jobs_author_from_email_notification', $admin_email );
-					$to            = get_option( 'awsm_jobs_author_to_notification' );
-					$reply_to      = get_option( 'awsm_jobs_reply_to_notification' );
-					$cc            = get_option( 'awsm_jobs_author_hr_notification' );
-					$subject       = get_option( 'awsm_jobs_author_notification_subject', $expiry_default_options['subject'] );
-					$content       = get_option( 'awsm_jobs_author_notification_content', $expiry_default_options['content'] );
-					$html_template = get_option( 'awsm_jobs_notification_author_mail_template' );
-					$author_id     = get_post_field( 'post_author', $job_id );
-					$author_email  = get_the_author_meta( 'user_email', $author_id );
-					$job_expiry    = get_post_meta( $job_id, 'awsm_job_expiry', true );
+					$job_id             = $post->ID;
+					$admin_email        = get_option( 'admin_email' );
+					$hr_mail            = get_option( 'awsm_hr_email_address' );
+					$company_name       = get_option( 'awsm_job_company_name' );
+					$from               = ( ! empty( $company_name ) ) ? $company_name : get_option( 'blogname' );
+					$default_from_email = AWSM_Job_Openings_Settings::awsm_from_email();
+					$from_email         = get_option( 'awsm_jobs_author_from_email_notification', $default_from_email );
+					$to                 = get_option( 'awsm_jobs_author_to_notification', $expiry_default_options['to'] );
+					$reply_to           = get_option( 'awsm_jobs_author_reply_to_notification', get_option( 'awsm_jobs_reply_to_notification' ) );
+					$cc                 = get_option( 'awsm_jobs_author_hr_notification' );
+					$subject            = get_option( 'awsm_jobs_author_notification_subject', $expiry_default_options['subject'] );
+					$content            = get_option( 'awsm_jobs_author_notification_content', $expiry_default_options['content'] );
+					$html_template      = get_option( 'awsm_jobs_notification_author_mail_template' );
+					$author_id          = get_post_field( 'post_author', $job_id );
+					$author_email       = get_the_author_meta( 'user_email', $author_id );
+					$job_expiry         = get_post_meta( $job_id, 'awsm_job_expiry', true );
 
 					$tags = $this->get_mail_generic_template_tags(
 						array(
-							'admin_email'  => $admin_email,
-							'hr_email'     => $hr_mail,
-							'company_name' => $company_name,
-							'job_id'       => $job_id,
+							'admin_email'        => $admin_email,
+							'hr_email'           => $hr_mail,
+							'company_name'       => $company_name,
+							'job_id'             => $job_id,
+							'default_from_email' => $default_from_email,
 						)
 					);
 
@@ -1908,15 +1918,17 @@ class AWSM_Job_Openings {
 					$job_title        = esc_html( get_the_title( $job_id ) );
 					$tag_names        = array_keys( $tags );
 					$tag_values       = array_values( $tags );
-					$email_tag_names  = array( '{admin-email}', '{hr-email}', '{author-email}', '{job-id}', '{job-expiry}', '{job-title}' );
-					$email_tag_values = array( $admin_email, $hr_mail, $author_email, $job_id, $job_expiry, $job_title );
+					$email_tag_names  = array( '{admin-email}', '{hr-email}', '{author-email}', '{job-id}', '{job-expiry}', '{job-title}', '{default-from-email}' );
+					$email_tag_values = array( $admin_email, $hr_mail, $author_email, $job_id, $job_expiry, $job_title, $default_from_email );
 
 					if ( ! empty( $subject ) && ! empty( $content ) ) {
-						$subject  = str_replace( $tag_names, $tag_values, $subject );
-						$reply_to = str_replace( $email_tag_names, $email_tag_values, $reply_to );
-						$cc       = str_replace( $email_tag_names, $email_tag_values, $cc );
-						$subject  = str_replace( $email_tag_names, $email_tag_values, $subject );
-						$content  = str_replace( $email_tag_names, $email_tag_values, $content );
+						$subject    = str_replace( $tag_names, $tag_values, $subject );
+						$from_email = str_replace( $email_tag_names, $email_tag_values, $from_email );
+						$to         = str_replace( $email_tag_names, $email_tag_values, $to );
+						$reply_to   = str_replace( $email_tag_names, $email_tag_values, $reply_to );
+						$cc         = str_replace( $email_tag_names, $email_tag_values, $cc );
+						$subject    = str_replace( $email_tag_names, $email_tag_values, $subject );
+						$content    = str_replace( $email_tag_names, $email_tag_values, $content );
 
 						/**
 						 * Filters the author notification mail headers.
@@ -1990,7 +2002,6 @@ class AWSM_Job_Openings {
 						$tag_values[] = $subject;
 						$mail_content = str_replace( $tag_names, $tag_values, $mail_content );
 
-						$to = str_replace( $email_tag_names, $email_tag_values, $to );
 						// Now, send the mail.
 						$is_mail_send = wp_mail( $to, $subject, $mail_content, array_values( $headers ) );
 

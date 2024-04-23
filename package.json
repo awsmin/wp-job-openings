@@ -1,6 +1,6 @@
 {
   "name": "wp-job-openings",
-  "version": "3.4.4",
+  "version": "3.4.6",
   "description": "Super simple Job Listing plugin to manage Job Openings and Applicants on your WordPress site.",
   "main": "gulpfile.js",
   "scripts": {
@@ -46,6 +46,7 @@
     "gulp-strip-debug": "^3.0.0",
     "gulp-uglify": "^3.0.2",
     "gulp-wp-pot": "^2.5.0",
+    "postcss": "^8.4.38",
     "prettier": "^1.19.1"
   },
   "browserslist": [
@@ -60,5 +61,8 @@
     "ios >= 7",
     "android >= 4",
     "bb >= 10"
-  ]
+  ],
+  "dependencies": {
+    "axios": "^1.6.8"
+  }
 }
