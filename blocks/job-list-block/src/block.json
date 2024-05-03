@@ -20,6 +20,10 @@
 		"listing_order":{
 			"type" :"string",
 			"default" : "ascending"
+		},
+		"show_filter_flag":{
+			"type":"boolean",
+			"default":false
 		}
 	},
 	"supports": {

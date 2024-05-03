@@ -5,7 +5,12 @@
 if (!defined('AWSM_JOBS_LISTING_PLUGIN_DIR')) {
 	define('AWSM_JOBS_LISTING_PLUGIN_DIR', 'wp-content/plugins/wp-job-openings ');
 }
-
+if(!function_exists('get_wpjo_filter')){
+function get_wpjo_filter($args){
+	$filter_form =new AWSM_Job_Openings_Filters();
+	echo $filter_form->display_filter_form($args);
+}
+}
 
 $job_posts = array(
 	'posts_per_page' => $attributes['listing_per_page'],
@@ -19,6 +24,12 @@ $jobs = get_posts($job_posts);
 <div>
 	<?php if ($jobs): ?>
 		<div class="awsm-job-wrap">
+			<?php if($attributes['show_filter_flag']==1):?>
+				<?php get_wpjo_filter($attributes);?>
+			<?php endif;?>
+			
+				
+			
 			<?php foreach ($jobs as $job): ?>
 				<?php if($attributes['layout']=="grid"):?>
 				<div class="awsm-job-listings awsm-row awsm-<?php echo $attributes['layout'] ?>-col-3"

@@ -12,7 +12,7 @@ import { __ } from '@wordpress/i18n';
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
 import { useBlockProps,InspectorControls } from '@wordpress/block-editor';
-import {Panel,PanelBody,SelectControl,TextControl,Snackbar} from '@wordpress/components';
+import {Panel,PanelBody,SelectControl,TextControl,Snackbar,ToggleControl} from '@wordpress/components';
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
  * Those files can contain any CSS code that gets applied to the editor.
@@ -34,9 +34,12 @@ import { useSelect, useDispatch } from '@wordpress/data';
 
 
 export default function Edit({attributes,setAttributes}) {
+	
 
 	const { records , hasResolved} = useEntityRecords();
+	console.log(attributes);
 	return (
+		
 		<div { ...useBlockProps() }>
 			<InspectorControls>
 				<Panel>
@@ -65,6 +68,11 @@ export default function Edit({attributes,setAttributes}) {
 							 }
 							 onChange ={(listing_order)=>setAttributes({listing_order})}
 							/>
+							<ToggleControl
+                            label="Show Filter"
+                            checked={attributes.show_filter_flag}
+                            onChange={(show_filter_flag) => setAttributes({ show_filter_flag })}
+                             />
 						    {/* <TextControl
           					  label="Listing Per Page"
          					  value={ attributes.listing_per_page }
