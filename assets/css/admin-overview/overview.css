@@ -11,6 +11,40 @@
 	line-height: 1.333;
 	letter-spacing: -0.24px;
 }
+.awsm-jobs-pro-feature {
+	position: relative;
+}
+.awsm-jobs-pro-feature::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(255, 255, 255, 0.92);
+}
+.awsm-jobs-pro-feature p {
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	padding: 10px;
+	margin: 0;
+	font-size: 14px;
+}
+.awsm-jobs-pro-feature p a {
+	color: #000;
+	margin: 0 3px;
+	text-decoration: underline;
+}
+.awsm-jobs-pro-feature img {
+	max-width: 100%;
+}
 .awsm-jobs-overview {
 	position: relative;	
 	font-family: Inter;

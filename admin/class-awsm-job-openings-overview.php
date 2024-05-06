@@ -57,6 +57,7 @@ class AWSM_Job_Openings_Overview {
 	}
 
 	public function overview_page() {
+		$jobs      = self::get_jobs_by_author();
 		include_once $this->cpath . '/templates/overview/main.php';
 	}
 
