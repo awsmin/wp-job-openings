@@ -15,88 +15,93 @@ do_action( 'add_meta_boxes_' . AWSM_Job_Openings_Overview::$screen_id, null );
 ?>
 
 <div class="wrap">
-	<h1><?php esc_html_e( 'Job Openings Overview', 'wp-job-openings' ); ?></h1>
-
+	<h1><?php esc_html_e( 'Dashboard Overview', 'wp-job-openings' ); ?></h1>
 	<div class="awsm-jobs-overview">
-		<div class="awsm-jobs-overview-row">
+	   	<div class="awsm-jobs-overview-row">
 			<div class="awsm-jobs-overview-col awsm-jobs-overview-welcome">
 				<div class="awsm-jobs-overview-welcome-left">
+					<h3><?php
+					/* translators: %s: Current user name */
+					printf( esc_html__( 'Hello %s!', 'wp-job-openings' ) . '<br>', esc_html( $user_obj->display_name ) );
+					?>
+					</h3>
 					<p>
-						<?php
-							/* translators: %s: Current user name */
-							printf( esc_html__( 'Hi %s!', 'wp-job-openings' ) . '<br>', esc_html( $user_obj->display_name ) );
-
-						if ( $active_jobs === 0 ) {
-							esc_html_e( "Welcome to WP Job Openings! Let's get started?", 'wp-job-openings' );
-						} else {
-							if ( current_user_can( 'edit_others_applications' ) && $new_applications > 0 ) {
-								/* translators: %s: New applications count */
-								printf( esc_html__( 'You have %s new applications to review', 'wp-job-openings' ), esc_html( $new_applications ) );
-							}
+					<?php
+					if ( $active_jobs === 0 ) {
+								esc_html_e( "Welcome to WP Job Openings! Let's get started?", 'wp-job-openings' );
+					} else {
+						if ( current_user_can( 'edit_others_applications' ) && $new_applications > 0 ) {
+							/* translators: %s: New applications count */
+							printf( esc_html__( 'You have %s new applications to review', 'wp-job-openings' ), esc_html( $new_applications ) );
 						}
-						?>
+					}
+					?>
 					</p>
 					<?php if ( $active_jobs === 0 ) : ?>
-						<a href="<?php echo esc_url( admin_url( 'post-new.php?post_type=awsm_job_openings' ) ); ?>" class="button button-primary button-hero"><?php esc_html_e( 'Add A New Opening', 'wp-job-openings' ); ?></a>
+						<a href="<?php echo esc_url( admin_url( 'post-new.php?post_type=awsm_job_openings' ) ); ?>" class="awsm-jobs-button"><?php esc_html_e( 'Add A New Opening', 'wp-job-openings' ); ?></a>
 					<?php else : ?>
 						<?php if ( current_user_can( 'edit_others_applications' ) && $total_applications > 0 ) : ?>
-							<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_application' ) ); ?>" class="button button-primary button-hero"><?php esc_html_e( 'View All Applications', 'wp-job-openings' ); ?></a>
+							<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_application' ) ); ?>" class="awsm-jobs-button"><?php esc_html_e( 'View All Applications', 'wp-job-openings' ); ?></a>
 						<?php else : ?>
-							<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_openings' ) ); ?>" class="button button-primary button-hero"><?php esc_html_e( 'View All Jobs', 'wp-job-openings' ); ?></a>
+							<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_openings' ) ); ?>" class="awsm-jobs-button"><?php esc_html_e( 'View All Jobs', 'wp-job-openings' ); ?></a>
 						<?php endif; ?>
 					<?php endif; ?>
 				</div><!-- .awsm-jobs-overview-welcome-left -->
 				<div class="awsm-jobs-overview-welcome-right">
 					<ul>
-						<li>
+					<li>
+							<img src="<?php echo esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/icon-1.svg' ); ?>" align="Icon">
+							<?php esc_html_e( 'Open Positions', 'wp-job-openings' ); ?>					
 							<span><?php echo esc_html( $active_jobs ); ?></span>
-							<?php esc_html_e( 'Open Positions', 'wp-job-openings' ); ?>
-						</li>
-
-						<?php if ( current_user_can( 'edit_applications' ) ) : ?>
-						<li>
-							<span><?php echo esc_html( $new_applications ); ?></span>
+					</li>
+					<?php if ( current_user_can( 'edit_applications' ) ) : ?>
+					<li>
+							<img src="<?php echo esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/icon-2.svg' ); ?>" align="Icon">
 							<?php esc_html_e( 'New Applications', 'wp-job-openings' ); ?>
-						</li>
-						<li>
-							<span><?php echo esc_html( $total_applications ); ?></span>
+							<span><?php echo esc_html( $new_applications ); ?></span>
+					</li>
+					<li>
+							<img src="<?php echo esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/icon-3.svg' ); ?>" align="Icon">
 							<?php esc_html_e( 'Total Applications', 'wp-job-openings' ); ?>
-						</li>
-						<?php endif; ?>
+							<span><?php echo esc_html( $total_applications ); ?></span>
+					</li>
+					<?php endif; ?>
 					</ul>
 				</div><!-- .awsm-jobs-overview-welcome-right -->
 			</div><!-- .awsm-jobs-overview-welcome -->
 		</div><!-- .awsm-jobs-overview-row -->
-	</div><!-- .awsm-jobs-overview -->
-
-	<div class="awsm-jobs-overview-mb-wrapper">
-		<?php
-			$screen        = get_current_screen();
-			$columns       = absint( $screen->get_columns() );
-			$columns_class = '';
-
-		if ( $columns ) {
-			$columns_class = " columns-{$columns}";
-		}
-		?>
-		<div id="dashboard-widgets" class="metabox-holder<?php echo esc_attr( $columns_class ); ?>">
-			<div id="postbox-container-1" class="postbox-container">
-				<?php do_meta_boxes( $screen->id, 'normal', '' ); ?>
-			</div>
-			<div id="postbox-container-2" class="postbox-container">
-				<?php do_meta_boxes( $screen->id, 'side', '' ); ?>
-			</div>
-			<div id="postbox-container-3" class="postbox-container">
-				<?php do_meta_boxes( $screen->id, 'column3', '' ); ?>
-			</div>
-			<div id="postbox-container-4" class="postbox-container">
-				<?php do_meta_boxes( $screen->id, 'column4', '' ); ?>
-			</div>
-		</div>
-
-		<?php
-			wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
-			wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
-		?>
-	</div><!-- .awsm-jobs-overview-mb-wrapper -->
+		
+		<div class="awsm-jobs-overview-row">
+	   		<div class="awsm-jobs-overview-col">
+	   			<div class="awsm-jobs-overview-chart flex-item">
+		   			<div class="awsm-jobs-overview-col-head">
+		   				<h2><?php esc_html_e( 'Application by Status', 'wp-job-openings' ); ?></h2>
+		   			</div><!-- .awsm-jobs-overview-col-head -->
+					<div class="awsm-jobs-overview-col-content">
+		   				<!-- Replace this image with chart.js -->
+		   				<img src="https://i.ibb.co/vXyz24d/Screenshot-2024-03-05-at-12-41-12-PM.png" alt="Alt text">
+		   			</div><!-- .awsm-jobs-overview-col-content -->
+				</div><!-- .awsm-jobs-overview-chart -->
+			</div><!-- .awsm-jobs-overview-col -->
+			<div class="awsm-jobs-overview-col">
+		      	<div class="awsm-jobs-overview-chart flex-item">
+		   			<div class="awsm-jobs-overview-col-head">
+                       <h2><?php esc_html_e( 'Application Analytics', 'wp-job-openings' ); ?></h2>
+		   			</div><!-- .awsm-jobs-overview-col-head -->
+					<div class="awsm-jobs-overview-col-content">
+                        <?php 
+                         if ( ! class_exists( 'AWSM_Job_Openings_Pro_Pack' )  ) {
+                            $pro_link = sprintf( esc_html__( 'This feature requires %1$sPRO Plan%2$s to work', 'wp-job-openings' ), '<a href="https://awsm.in/get/wpjo-pro/">', '</a>' );
+                            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                            printf( '<div class="awsm-jobs-overview-widget-wrapper"><div class="awsm-jobs-pro-feature"><img src="%2$s"><p>%1$s</p></div></div>', $pro_link, esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/Screenshot-2024-03-05-at-12-53-06-PM.png' ) );
+                         }
+                        
+                        ?>
+		   				<!-- Replace this image with chart.js -->
+		   			</div><!-- .awsm-jobs-overview-col-content -->
+				</div><!-- .awsm-jobs-overview-chart -->
+			</div><!-- .awsm-jobs-overview-col -->
+		</div><!-- .awsm-jobs-overview-row -->
+	</div>
 </div>
+	
