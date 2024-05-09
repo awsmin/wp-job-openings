@@ -36,7 +36,7 @@ jQuery(function($) {
 		formData.push({
 			name: 'listings_per_page',
 			value: listings
-		});
+		});  
 		if (typeof specs !== 'undefined') {
 			formData.push({
 				name: 'shortcode_specs',
@@ -46,12 +46,12 @@ jQuery(function($) {
 		var listingsData = getListingsData($wrapper);
 		if (listingsData.length > 0) {
 			formData = formData.concat(listingsData);
-		}
+		} 
 		if (triggerFilter) {
 
 			// stop the duplicate requests.
 			triggerFilter = false;
-
+			
 			// now, make the request.
 			$.ajax({
 				url: $filterForm.attr('action'),
@@ -60,9 +60,9 @@ jQuery(function($) {
 				},
 				data: formData,
 				type: $filterForm.attr('method')
-			}).done(function(data) {
-				$wrapper.html(data);
-				var $searchControl = $rootWrapper.find('.awsm-job-search');
+			}).done(function(data) { 
+				$wrapper.html(data); 
+				var $searchControl = $rootWrapper.find('.awsm-job-search'); 
 				if ($searchControl.length > 0) {
 					if ($searchControl.val().length > 0) {
 						$rootWrapper.find('.awsm-job-search-btn').addClass('awsm-job-hide');
@@ -70,7 +70,7 @@ jQuery(function($) {
 					} else {
 						$rootWrapper.find('.awsm-job-search-btn').removeClass('awsm-job-hide');
 					}
-				}
+				} 
 				$(document).trigger('awsmjobs_filtered_listings', [ $rootWrapper, data ]);
 			}).fail(function(xhr) {
 				// eslint-disable-next-line no-console
@@ -159,7 +159,7 @@ jQuery(function($) {
 		}
 	};
 
-	$(filterSelector + ' .awsm-filter-option').on('change', function(e) {
+	$(filterSelector + ' .awsm-filter-option').on('change', function(e) {  
 		e.preventDefault();
 		var $elem = $(this);
 		var $selected = $elem.find('option:selected');

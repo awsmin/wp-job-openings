@@ -39,7 +39,7 @@ class AWSM_Job_Openings_Filters {
 		return $query_args;
 	}
 
-	public function display_filter_form( $shortcode_atts ) {
+	public function display_filter_form( $shortcode_atts ) { 
 		$search_content       = '';
 		$specs_filter_content = '';
 		$filters_attr         = isset( $shortcode_atts['filters'] ) ? $shortcode_atts['filters'] : '';
