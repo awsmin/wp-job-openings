@@ -1,11 +1,4 @@
 <?php
-/**
- * @see https://github.com/WordPress/gutenberg/blob/trunk/docs/reference-guides/block-api/block-metadata.md#render
- */
-if (!defined('AWSM_JOBS_LISTING_PLUGIN_DIR')) {
-	define('AWSM_JOBS_LISTING_PLUGIN_DIR', 'wp-content/plugins/wp-job-openings ');
-}
-
 $job_posts = array(
 	'posts_per_page' => $attributes['listing_per_page'],
 	'post_type' => 'awsm_job_openings',

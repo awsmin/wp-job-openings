@@ -17,14 +17,39 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-/**
- * Registers the block using the metadata loaded from the `block.json` file.
- * Behind the scenes, it registers also all assets so they can be enqueued
- * through the block editor in the corresponding context.
- *
- * @see https://developer.wordpress.org/reference/functions/register_block_type/
- */
-function create_block_job_list_block_block_init() {
-	register_block_type( __DIR__ . '/build' );
+class Awsm_Job_Guten_Blocks {
+
+	private static $instance = null;
+	/**
+	 * Constructor
+	 */
+	public function __construct() {
+		add_action( 'init', array( $this, 'register_dynamic_block' ) );
+		add_action( 'enqueue_block_assets', array( $this, 'block_assets' ) );
+	}
+
+	public static function get_instance() {
+		// If an instance hasn't been created and set to $instance create an instance and set it to $instance.
+		if ( is_null( self::$instance ) ) {
+			self::$instance = new self();
+		}
+		return self::$instance;
+	}
+
+	public function register_dynamic_block() {
+		if ( ! function_exists( 'register_block_type' ) ) {
+			return;
+		}
+
+		register_block_type( __DIR__ . '/build' );
+	}
+
+	public function block_render_callback( $atts, $content ) {
+
+	}
+
+	public function block_assets() {
+	}
 }
-add_action( 'init', 'create_block_job_list_block_block_init' );
+
+Awsm_Job_Guten_Blocks::get_instance();
