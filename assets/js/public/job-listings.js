@@ -27,12 +27,12 @@ jQuery(function($) {
 		return data;
 	}
 
-	function awsmJobFilters($rootWrapper) {
+	function awsmJobFilters($rootWrapper) { 
 		var $wrapper = $rootWrapper.find(wrapperSelector);
 		var $filterForm = $rootWrapper.find(filterSelector + ' form');
 		var formData = $filterForm.serializeArray();
-		var listings = $wrapper.data('listings');
-		var specs = $wrapper.data('specs');
+		var listings = $wrapper.data('listings'); 
+		var specs = $wrapper.data('specs'); 
 		formData.push({
 			name: 'listings_per_page',
 			value: listings
@@ -43,7 +43,7 @@ jQuery(function($) {
 				value: specs
 			});
 		}
-		var listingsData = getListingsData($wrapper);
+		var listingsData = getListingsData($wrapper); 
 		if (listingsData.length > 0) {
 			formData = formData.concat(listingsData);
 		} 
