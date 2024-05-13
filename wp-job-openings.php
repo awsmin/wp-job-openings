@@ -110,7 +110,7 @@ class AWSM_Job_Openings {
 		add_filter( 'display_post_states', array( $this, 'display_job_post_states' ), 10, 2 );
 	}
 
-	public static function init() {
+	public static function init() { 
 		if ( is_null( self::$instance ) ) {
 			self::$instance = new self();
 		}
@@ -1016,11 +1016,11 @@ class AWSM_Job_Openings {
 		wp_send_json( $response );
 	}
 
-	public function register_scripts() {
+	public function register_scripts() { 
 		wp_register_style( 'awsm-jobs-general', AWSM_JOBS_PLUGIN_URL . '/assets/css/general.min.css', array(), AWSM_JOBS_PLUGIN_VERSION, 'all' );
 	}
 
-	public function awsm_enqueue_scripts() {
+	public function awsm_enqueue_scripts() { 
 		wp_enqueue_style( 'awsm-jobs-general' );
 		wp_enqueue_style( 'awsm-jobs-style', AWSM_JOBS_PLUGIN_URL . '/assets/css/style.min.css', array( 'awsm-jobs-general' ), AWSM_JOBS_PLUGIN_VERSION, 'all' );
 
@@ -1055,7 +1055,7 @@ class AWSM_Job_Openings {
 				'selectric'         => true,
 				'jquery_validation' => true,
 			),
-		);
+		); 
 		/**
 		 * Filters the public script localized data.
 		 *
@@ -1067,7 +1067,7 @@ class AWSM_Job_Openings {
 		wp_localize_script( 'awsm-job-scripts', 'awsmJobsPublic', $localized_script_data );
 	}
 
-	public function awsm_admin_enqueue_scripts() {
+	public function awsm_admin_enqueue_scripts() { 
 		$is_job_page = false;
 		$screen      = get_current_screen();
 		$script_deps = array( 'jquery', 'jquery-ui-datepicker', 'jquery-ui-sortable', 'wp-color-picker', 'wp-util' );
@@ -1121,6 +1121,7 @@ class AWSM_Job_Openings {
 						'btn_text' => esc_html__( 'Choose', 'wp-job-openings' ),
 					),
 				),
+				'awsm_filters'       => self::get_filter_specifications(),
 			)
 		);
 
@@ -1135,6 +1136,59 @@ class AWSM_Job_Openings {
 				),
 			)
 		);
+	}
+
+	public static function get_filter_specifications( $specs_keys = array() ) {
+		$awsm_filters = get_option( 'awsm_jobs_filter' );
+		$spec_keys    = wp_list_pluck( $awsm_filters, 'taxonomy' );
+		if ( ! is_array( $specs_keys ) ) {
+			$specs_keys = explode( ',', $specs_keys );
+		}
+		$specs = array();
+		if ( ! empty( $specs_keys ) ) {
+			foreach ( $specs_keys as $spec_key ) {
+				$terms = self::get_spec_terms( $spec_key );
+				if ( ! empty( $terms ) ) {
+					$tax_obj = get_taxonomy( $spec_key );
+					if ( ! empty( $tax_obj ) ) {
+						$specs[] = array(
+							'key'   => $spec_key,
+							'label' => $tax_obj->label,
+							'terms' => $terms,
+						);
+					}
+				}
+			}
+		} else {
+			$taxonomy_objects = get_object_taxonomies( 'awsm_job_openings', 'objects' );
+			foreach ( $taxonomy_objects as $spec => $spec_details ) {
+				if ( ! in_array( $spec, $spec_keys, true ) ) {
+					continue;
+				}
+				$terms = self::get_spec_terms( $spec );
+				if ( ! empty( $terms ) ) {
+					$specs[] = array(
+						'key'   => $spec,
+						'label' => $spec_details->label,
+						'terms' => $terms,
+					);
+				}
+			}
+		}
+
+		return $specs;
+	}
+
+	public static function get_spec_terms( $spec ) {
+		$terms_args = array(
+			'taxonomy'   => $spec,
+			'hide_empty' => true,
+		);
+		$terms      = get_terms( $terms_args );
+		if ( is_wp_error( $terms ) ) {
+			$terms = array();
+		}
+		return $terms;
 	}
 
 	public static function get_template_path( $template_name, $sub_dir_name = false ) {

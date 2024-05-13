@@ -9,21 +9,8 @@
 	"description": "Job Listing BLock.",
 	"example": {},
 	"attributes": {
-		"layout" : {
-			"type": "string",
-			"default" : "list"
-		},
-		"listing_per_page":{
-			"type" :"integer",
-			"default" : 10
-		},
-		"listing_order":{
-			"type" :"string",
-			"default" : "ascending"
-		},
-		"show_filter_flag":{
-			"type":"boolean",
-			"default":false
+		"awsmSpecsOptions": {
+			"type": "array"
 		}
 	},
 	"supports": {

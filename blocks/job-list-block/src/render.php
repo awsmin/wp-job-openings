@@ -10,11 +10,10 @@ $shortcode_atts = isset( $attributes ) ? $attributes : array();
 $view           = $shortcode_atts['layout'];  
 $awsm_filters   = get_option( 'awsm_jobs_filter' );
 $listing_specs  = get_option( 'awsm_jobs_listing_specs' ); 
-
 ?>
 
 <div class="awsm-job-wrap">
-	<?php 
+	<?php  
 		if($attributes['show_filter_flag']==1):
 			do_action( 'awsm_filter_form' );
 		endif;

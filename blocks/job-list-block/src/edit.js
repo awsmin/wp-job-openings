@@ -1,60 +1,80 @@
-import { __ } from '@wordpress/i18n';
-import { useBlockProps,InspectorControls } from '@wordpress/block-editor';
-import {Panel,PanelBody,SelectControl,TextControl,Snackbar,ToggleControl} from '@wordpress/components';
-import './editor.scss';
-import ServerSideRender from '@wordpress/server-side-render';
-import {useEntityRecords} from '@wordpress/core-data';
-import { useSelect, useDispatch } from '@wordpress/data';
+import {useEffect} from "@wordpress/element";
+import {__} from "@wordpress/i18n";
+import {InnerBlocks, useBlockProps, RichText} from "@wordpress/block-editor";
 
-export default function Edit({attributes,setAttributes}) {
-	const { records , hasResolved} = useEntityRecords();
+import WidgetInspectorControls from "./inspector";
+import "./editor.scss";
+
+const Edit = props => {
+	const {attributes: {awsmSpecsOptions},setAttributes} = props;
+	const blockProps = useBlockProps();
+
+	let specs = awsmJobsAdmin.awsm_filters; 
+	
+	specs = specs.filter(spec => { 
+		if (
+			typeof awsmSpecsOptions !== "undefined" &&
+			awsmSpecsOptions.includes(spec.taxonomy)
+		) {
+			return spec;
+		}
+	}); 
+
+	const awsmDropDown = $elem => {
+		if (
+			"selectric" in awsmJobsPublic.vendors &&
+			awsmJobsPublic.vendors.selectric
+		) {
+			$elem.selectric({
+				onInit: function(select, selectric) {
+					var id = select.id;
+					var $input = jQuery(selectric.elements.input);
+					jQuery(select).attr("id", "selectric-" + id);
+					$input.attr("id", id);
+				},
+				arrowButtonMarkup:
+					'<span class="awsm-selectric-arrow-drop">&#x25be;</span>',
+				customClass: {
+					prefix: "awsm-selectric",
+					camelCase: false
+				}
+			});
+		}
+	};
+
+	useEffect(() => {
+		awsmDropDown(jQuery(".awsm-job-select-control"));
+	});
+	
 	return (
-		<div { ...useBlockProps() }>
-			<InspectorControls>
-				<Panel>
-					<PanelBody title = "Appearance" >
-						<SelectControl
-							label = "Layout"
-							value = {attributes.layout}
-							options = {
-							[
-								{label: "List Layout",value :"list"},
-								{label: "Grid Layout",value :"grid"}
-							]
-							}
-							onChange ={(layout)=>setAttributes({layout})}
-						/>
-							
-						<SelectControl
-							label = "Listing Order"
-							value = {attributes.listing_order}
-							options = {
-							[
-								{label: "Ascending",value :"ascending"},
-								{label: "Descending",value :"descending"}
-							]
-							}
-							onChange ={(listing_order)=>setAttributes({listing_order})}
-						/>
-							
-						<ToggleControl
-                            label="Show Filter"
-                            checked={attributes.show_filter_flag}
-                            onChange={(show_filter_flag) => setAttributes({ show_filter_flag })}
-                        />
-						{/* <TextControl
-							label="Listing Per Page"
-							value={ attributes.listing_per_page }
-							onChange={ ( listing_per_page ) => setAttributes( listing_per_page ) }
-							/> */}
-
-					</PanelBody>
-				</Panel>
-			</InspectorControls>
-			<ServerSideRender
-			 block = "create-block/job-list-block"
-			 attributes  = {attributes}
-			/>
+		<div {...blockProps}>
+			<WidgetInspectorControls {...props} />
+			<div className="awsm-jobs-alerts-widget-wrapper">
+					{specs.length > 0 && (
+						<div className="awsm-jobs-alerts-form-group awsm-jobs-alerts-specs-group">
+							{specs.map(spec => {
+								const dropDown = (
+									<div className="awsm-jobs-alerts-specs-group-in">
+									<select
+										name={`awsm_job_alerts_spec[${spec.taxonomy}]`}
+										className="awsm-job-select-control"
+										id="awsm_job_alerts_specs"
+										multiple
+									>
+										<option value="">{spec.filter}</option>
+										{spec.terms.map(term => {
+											return <option value={term.term_id}>{term.name}</option>;
+										})}
+									</select>
+									</div>
+								);
+								return dropDown;
+							})}
+						</div>
+					)}
+			</div>
 		</div>
 	);
-}
+};
+
+export default Edit;
