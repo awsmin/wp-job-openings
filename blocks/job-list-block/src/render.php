@@ -4,7 +4,6 @@ $job_posts = array(
 	'post_type' => 'awsm_job_openings',
 	'post_status' => array('publish')
 );
-
 $jobs = get_posts($job_posts);
 $shortcode_atts = isset( $attributes ) ? $attributes : array();  
 $view           = $shortcode_atts['layout'];  

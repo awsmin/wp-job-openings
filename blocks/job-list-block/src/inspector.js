@@ -15,13 +15,13 @@ const WidgetInspectorControls = props => {
 	} = props;
 
 	const specs =  awsmJobsAdmin.awsm_filters; 
-
+	
 	useEffect(() => {
 		if (specs.length > 0 && typeof awsmSpecsOptions === 'undefined') {
-			let initialSpecs = specs.map(spec => spec.taxonomy);
+			let initialSpecs = specs.map(spec => spec.key);
 			setAttributes( { awsmSpecsOptions: initialSpecs } );
 		}
-	}); 
+	});
 
 	const specsHandler = (toggleValue, specKey) => {
 		if (typeof awsmSpecsOptions !== 'undefined') {
@@ -36,7 +36,7 @@ const WidgetInspectorControls = props => {
 			setAttributes( { awsmSpecsOptions: modSpecsOptions } );
 		}
 	};
-
+	
 	return (
 		<InspectorControls>
 			<PanelBody title={__("Form", "job-alerts-for-wp-job-openings")}>

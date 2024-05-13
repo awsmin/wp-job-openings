@@ -7,7 +7,6 @@
 	"category": "widgets",
 	"icon": "list-view",
 	"description": "Job Listing BLock.",
-	"example": {},
 	"attributes": {
 		"awsmSpecsOptions": {
 			"type": "array"
