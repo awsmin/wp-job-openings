@@ -5,12 +5,13 @@ import {
 	PanelBody,
 	TextControl,
 	TextareaControl,
-	ToggleControl
+	ToggleControl,
+	SelectControl
 } from "@wordpress/components";
 
 const WidgetInspectorControls = props => {
 	const {
-		attributes: { awsmSpecsOptions},
+		attributes: { awsmSpecsOptions,layout,listing_order},
 		setAttributes
 	} = props;
 
@@ -39,6 +40,30 @@ const WidgetInspectorControls = props => {
 	
 	return (
 		<InspectorControls>
+			<PanelBody title = "Appearance" >
+				<SelectControl
+					label = "Layout"
+					value = {layout}
+					options = {
+					[
+						{label: "List Layout",value :"list"},
+						{label: "Grid Layout",value :"grid"}
+					]
+					}
+					onChange ={(layout)=>setAttributes({layout})}
+				/>
+				<SelectControl
+					label = "Listing Order"
+					value = {listing_order}
+					options = {
+					[
+						{label: "Ascending",value :"ascending"},
+						{label: "Descending",value :"descending"}
+					]
+					}
+					onChange ={(listing_order)=>setAttributes({listing_order})}
+				/>
+			</PanelBody>
 			<PanelBody title={__("Form", "job-alerts-for-wp-job-openings")}>
 				{specs.length > 0 &&
 					specs.map(spec => {

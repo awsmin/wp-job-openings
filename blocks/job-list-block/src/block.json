@@ -10,6 +10,14 @@
 	"attributes": {
 		"awsmSpecsOptions": {
 			"type": "array"
+		},
+		"layout" : {
+			"type": "string",
+			"default" : "list"
+		},
+		"listing_order":{
+			"type" :"string",
+			"default" : "ascending"
 		}
 	},
 	"supports": {
