@@ -12,8 +12,8 @@ export default function Edit(props) {
 	} = props;
 	const blockProps = useBlockProps();
 	
-	let specs = awsmJobsAdmin.awsm_filters; 
-	specs = specs.filter(spec => {
+	let specifications = awsmJobsAdmin.awsm_filters; 
+	specifications = specifications.filter(spec => {
 		if (
 			typeof filter_options !== "undefined" &&
 			filter_options.includes(spec.key)
@@ -52,9 +52,9 @@ export default function Edit(props) {
 		<div {...blockProps}>
 			<WidgetInspectorControls {...props} />
 			<div className="awsm-jobs-alerts-widget-wrapper">
-			{specs.length > 0 && (
+			{specifications.length > 0 && (
 				<div className="awsm-jobs-alerts-form-group awsm-jobs-alerts-specs-group">
-					{specs.map(spec => {
+					{specifications.map(spec => {
 						const dropDown = (
 							<div className="awsm-jobs-alerts-specs-group-in">
 							<select

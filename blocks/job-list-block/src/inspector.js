@@ -13,26 +13,26 @@ const WidgetInspectorControls = props => {
 		setAttributes
 	} = props;
 
-	const specs = awsmJobsAdmin.awsm_filters; 
+	const specifications = awsmJobsAdmin.awsm_filters; 
 	
 	useEffect(() => {
-		if (specs.length > 0 && typeof filter_options === 'undefined') {
-			let initialSpecs = specs.map(spec => spec.key);
-			setAttributes( { filter_options: initialSpecs } );
+		if (specifications.length > 0 && typeof filter_options === 'undefined') {
+			let initialspecs = specifications.map(spec => spec.key);
+			setAttributes( { filter_options: initialspecs } );
 		}
 	});
 
-	const specsHandler = (toggleValue, specKey) => {
+	const specifications_handler = (toggleValue, specKey) => {
 		if (typeof filter_options !== 'undefined') {
 			jQuery(".awsm-job-select-control").selectric('destroy');
 
-			let modSpecsOptions = [...filter_options];
+			let modfilteroptions = [...filter_options];
 			if (! toggleValue) {
-				modSpecsOptions = modSpecsOptions.filter(specOption => specOption !== specKey);
+				modfilteroptions = modfilteroptions.filter(specOption => specOption !== specKey);
 			} else {
-				modSpecsOptions.push(specKey);
+				modfilteroptions.push(specKey);
 			}
-			setAttributes( { filter_options: modSpecsOptions } );
+			setAttributes( { filter_options: modfilteroptions } );
 		}
 	};
 	
@@ -44,8 +44,8 @@ const WidgetInspectorControls = props => {
 					value = {layout}
 					options = {
 					[
-						{label: "List Layout",value :"list"},
-						{label: "Grid Layout",value :"grid"}
+						{ label: __('List Layout', 'wp-job-openings'),value :"list" },
+						{ label: __('Grid Layout', 'wp-job-openings'),value :"grid" }
 					]
 					}
 					onChange ={(layout)=>setAttributes({layout})}
@@ -55,17 +55,17 @@ const WidgetInspectorControls = props => {
 					value = {listing_order}
 					options = {
 					[
-						{label: "Ascending",value :"ascending"},
-						{label: "Descending",value :"descending"}
+						{label: __('Ascending', 'wp-job-openings'),value :"ascending"},
+						{label: __('Descending', 'wp-job-openings'),value :"descending"}
 					]
 					}
 					onChange ={(listing_order)=>setAttributes({listing_order})}
 				/>
 			</PanelBody>
 			<PanelBody title={__("Filter Options", "wp-job-openings")}>
-				{specs.length > 0 &&
-					specs.map(spec => {
-						return <ToggleControl label={spec.label} checked={typeof filter_options !== 'undefined' && filter_options.includes(spec.key)} onChange={ (toggleValue) => specsHandler(toggleValue, spec.key) } />;
+				{specifications.length > 0 &&
+					specifications.map(spec => {
+						return <ToggleControl label={spec.label} checked={typeof filter_options !== 'undefined' && filter_options.includes(spec.key)} onChange={ (toggleValue) => specifications_handler(toggleValue, spec.key) } />;
 					})}
 			</PanelBody>
 		</InspectorControls>
