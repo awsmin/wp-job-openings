@@ -1179,6 +1179,18 @@ class AWSM_Job_Openings {
 		return $specs;
 	}
 
+	public static function get_spec_terms( $spec ) {
+		$terms_args = array(
+			'taxonomy'   => $spec,
+			'hide_empty' => true,
+		);
+		$terms      = get_terms( $terms_args );
+		if ( is_wp_error( $terms ) ) {
+			$terms = array();
+		}
+		return $terms;
+	}
+
 	
 
 	public static function get_template_path( $template_name, $sub_dir_name = false ) {
