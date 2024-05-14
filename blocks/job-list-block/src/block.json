@@ -8,7 +8,7 @@
 	"icon": "list-view",
 	"description": "Job Listing BLock.",
 	"attributes": {
-		"awsmSpecsOptions": {
+		"filter_options": {
 			"type": "array"
 		},
 		"layout" : {

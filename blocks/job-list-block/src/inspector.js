@@ -3,46 +3,44 @@ import {__} from "@wordpress/i18n";
 import {InspectorControls} from "@wordpress/block-editor";
 import {
 	PanelBody,
-	TextControl,
-	TextareaControl,
 	ToggleControl,
 	SelectControl
 } from "@wordpress/components";
 
 const WidgetInspectorControls = props => {
 	const {
-		attributes: { awsmSpecsOptions,layout,listing_order},
+		attributes: {filter_options,layout,listing_order},
 		setAttributes
 	} = props;
 
-	const specs =  awsmJobsAdmin.awsm_filters; 
+	const specs = awsmJobsAdmin.awsm_filters; 
 	
 	useEffect(() => {
-		if (specs.length > 0 && typeof awsmSpecsOptions === 'undefined') {
+		if (specs.length > 0 && typeof filter_options === 'undefined') {
 			let initialSpecs = specs.map(spec => spec.key);
-			setAttributes( { awsmSpecsOptions: initialSpecs } );
+			setAttributes( { filter_options: initialSpecs } );
 		}
 	});
 
 	const specsHandler = (toggleValue, specKey) => {
-		if (typeof awsmSpecsOptions !== 'undefined') {
+		if (typeof filter_options !== 'undefined') {
 			jQuery(".awsm-job-select-control").selectric('destroy');
 
-			let modSpecsOptions = [...awsmSpecsOptions];
+			let modSpecsOptions = [...filter_options];
 			if (! toggleValue) {
 				modSpecsOptions = modSpecsOptions.filter(specOption => specOption !== specKey);
 			} else {
 				modSpecsOptions.push(specKey);
 			}
-			setAttributes( { awsmSpecsOptions: modSpecsOptions } );
+			setAttributes( { filter_options: modSpecsOptions } );
 		}
 	};
 	
 	return (
 		<InspectorControls>
-			<PanelBody title = "Appearance" >
+			<PanelBody title={__("Appearance", "wp-job-openings")}>
 				<SelectControl
-					label = "Layout"
+					label = {__("Layout", "wp-job-openings")}
 					value = {layout}
 					options = {
 					[
@@ -53,7 +51,7 @@ const WidgetInspectorControls = props => {
 					onChange ={(layout)=>setAttributes({layout})}
 				/>
 				<SelectControl
-					label = "Listing Order"
+					label = {__("Listing Order", "wp-job-openings")}
 					value = {listing_order}
 					options = {
 					[
@@ -64,10 +62,10 @@ const WidgetInspectorControls = props => {
 					onChange ={(listing_order)=>setAttributes({listing_order})}
 				/>
 			</PanelBody>
-			<PanelBody title={__("Form", "job-alerts-for-wp-job-openings")}>
+			<PanelBody title={__("Filter Options", "wp-job-openings")}>
 				{specs.length > 0 &&
 					specs.map(spec => {
-						return <ToggleControl label={spec.label} checked={typeof awsmSpecsOptions !== 'undefined' && awsmSpecsOptions.includes(spec.key)} onChange={ (toggleValue) => specsHandler(toggleValue, spec.key) } />;
+						return <ToggleControl label={spec.label} checked={typeof filter_options !== 'undefined' && filter_options.includes(spec.key)} onChange={ (toggleValue) => specsHandler(toggleValue, spec.key) } />;
 					})}
 			</PanelBody>
 		</InspectorControls>
