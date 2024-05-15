@@ -39,7 +39,7 @@ class AWSM_Job_Openings_Filters {
 		return $query_args;
 	}
 
-	public function display_filter_form( $shortcode_atts ) {
+	public function display_filter_form( $shortcode_atts ) { 
 		$search_content       = '';
 		$specs_filter_content = '';
 		$filters_attr         = isset( $shortcode_atts['filters'] ) ? $shortcode_atts['filters'] : '';
@@ -100,7 +100,7 @@ class AWSM_Job_Openings_Filters {
 		}
 
 		$available_filters = get_option( 'awsm_jobs_listing_available_filters' ); 
-		$available_filters = is_array( $available_filters ) ? $available_filters : array();
+		$available_filters = is_array( $available_filters ) ? $available_filters : array(); 
 		if ( empty( $available_filters ) ) {
 			$display_filters = false;
 		}

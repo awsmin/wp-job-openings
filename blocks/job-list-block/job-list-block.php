@@ -35,28 +35,14 @@ class Awsm_Job_Guten_Blocks {
 	}
 
 	public function block_render_callback( $atts, $content ) {
-		
-		//$block_content = sprintf( '<div %2$s>%1$s</div>', AWSM_Job_Openings::awsm_jobs_shortcode( $atts ) );
-		//return $block_content;
-		//print_r($atts);
-		
 		if ( isset( $atts['filter_options'] ) && is_array( $atts['filter_options'] ) ) {
-			$atts['specs'] = implode( ',', $atts['filter_options'] );
+			$atts['filter_options'] = implode( ',', $atts['filter_options'] );
 		}
-		$awsm_job_openings = AWSM_Job_Openings::init();
-		return $awsm_job_openings->awsm_jobs_shortcode( $atts);
-		//print_r($overview_data);
+
+		$class_block_init = AWSM_Job_Openings_Block::init();
+		$block_content =  $class_block_init->awsm_jobs_block_attributes($atts);
+		return $block_content;
 	}
-
-	public function example_callback( $atts ) {
-		if ( isset( $atts['filter_options'] ) && is_array( $atts['filter_options'] ) ) {
-			$atts['specs'] = implode( ',', $atts['filter_options'] );
-		}
-
-		print_r($atts);
-
-		return $atts;
-	 }
 
 	public function block_assets() {
 		wp_enqueue_script( 'awsm-job-admin' );

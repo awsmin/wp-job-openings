@@ -75,6 +75,7 @@ class AWSM_Job_Openings {
 		$this->awsm_form = AWSM_Job_Openings_Form::init();
 		AWSM_Job_Openings_Mail_Customizer::init();
 		AWSM_Job_Openings_Filters::init();
+		
 		if ( is_admin() ) {
 			AWSM_Job_Openings_Overview::init();
 			AWSM_Job_Openings_Meta::init();
@@ -120,7 +121,7 @@ class AWSM_Job_Openings {
 
 	public static function load_classes() {
 		$prefix  = 'class-awsm-job-openings';
-		$classes = array( 'core', 'ui-builder', 'filters', 'mail-customizer', 'form', 'third-party' );
+		$classes = array( 'core', 'ui-builder', 'filters', 'mail-customizer', 'form', 'third-party', 'block');
 		foreach ( $classes as $class ) {
 			require_once AWSM_JOBS_PLUGIN_DIR . "/inc/{$prefix}-{$class}.php";
 		}
@@ -215,6 +216,7 @@ class AWSM_Job_Openings {
 
 	public function template_functions() {
 		include_once AWSM_JOBS_PLUGIN_DIR . '/inc/template-functions.php';
+		include_once AWSM_JOBS_PLUGIN_DIR . '/inc/template-functions-block.php';
 	}
 
 	public function init_actions() {
@@ -316,6 +318,7 @@ class AWSM_Job_Openings {
 				'specs'      => '',
 			)
 		);
+
 		$shortcode_atts = shortcode_atts( $pairs, $atts, 'awsmjobs' );
 
 		$this->unique_listing_id++;
@@ -1605,7 +1608,7 @@ class AWSM_Job_Openings {
 		return apply_filters( 'awsm_job_query_args', $args, $filters, $shortcode_atts );
 	}
 
-	public static function get_job_listing_view( $shortcode_atts = array() ) {
+	public static function get_job_listing_view( $shortcode_atts = array() ) { 
 		$view    = 'list';
 		$options = get_option( 'awsm_jobs_listing_view' );
 		if ( $options === 'grid-view' ) {
