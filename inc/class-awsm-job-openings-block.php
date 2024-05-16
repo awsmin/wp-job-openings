@@ -37,6 +37,7 @@ class AWSM_Job_Openings_Block {
 			'listings'   		=> get_option( 'awsm_jobs_list_per_page' ),
 			'loadmore'   		=> 'yes',
 			'pagination' 		=> get_option( 'awsm_jobs_pagination_type', 'modern' ),
+			'specs'             => $blockatts['layout'],
 		);
 
 		$this->unique_listing_id++;
@@ -286,11 +287,11 @@ class AWSM_Job_Openings_Block {
 		}
 
 		if ( ! empty( $_POST['shortcode_specs'] ) ) {
-			$shortcode_atts['specs'] = sanitize_text_field( $_POST['shortcode_specs'] );
+			$attributes['specs'] = sanitize_text_field( $_POST['shortcode_specs'] );
 		}
 
 		if ( isset( $_POST['listings_per_page'] ) ) {
-			$shortcode_atts['listings'] = intval( $_POST['listings_per_page'] );
+			$attributes['listings'] = intval( $_POST['listings_per_page'] );
 		}
 
 		if ( isset( $_POST['lang'] ) ) {
@@ -299,9 +300,9 @@ class AWSM_Job_Openings_Block {
 
 		if ( isset( $_POST['awsm_pagination_base'] ) ) {
 			// Set as classic pagination.
-			$shortcode_atts['pagination'] = 'classic';
+			$attributes['pagination'] = 'classic';
 		} else {
-			$shortcode_atts['pagination'] = 'modern';
+			$attributes['pagination'] = 'modern';
 		}
 
 		$args = AWSM_Job_Openings::awsm_job_query_args( $filters, $attributes );
@@ -341,6 +342,7 @@ class AWSM_Job_Openings_Block {
 		wp_die();
 		// phpcs:enable
 	}
+
 }
 
 AWSM_Job_Openings_Block::init();

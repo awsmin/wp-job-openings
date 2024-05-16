@@ -1725,7 +1725,7 @@ class AWSM_Job_Openings {
 	}
 
 	public static function get_specifications_content( $post_id, $display_label, $filter_data = array(), $listing_specs = array(), $has_term_link = true ) {
-		$spec_content = '';
+		$spec_content = ''; 
 		$filter_data  = ! empty( $filter_data ) ? $filter_data : get_option( 'awsm_jobs_filter' );
 		if ( ! empty( $filter_data ) ) {
 			$spec_keys          = wp_list_pluck( $filter_data, 'taxonomy' );

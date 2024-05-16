@@ -28,7 +28,7 @@ jQuery(function($) {
 	}
 
 	function awsmJobFilters($rootWrapper) { 
-		var $wrapper = $rootWrapper.find(wrapperSelector);
+		var $wrapper = $rootWrapper.find(wrapperSelector); 
 		var $filterForm = $rootWrapper.find(filterSelector + ' form');
 		var formData = $filterForm.serializeArray();
 		var listings = $wrapper.data('listings'); 
@@ -159,7 +159,7 @@ jQuery(function($) {
 		}
 	};
 
-	$(filterSelector + ' .awsm-filter-option').on('change', function(e) {  
+	$(filterSelector + ' .awsm-filter-option').on('change', function(e) {   
 		e.preventDefault();
 		var $elem = $(this);
 		var $selected = $elem.find('option:selected');
