@@ -1,7 +1,7 @@
 .DS_Store
 Thumbs.db
 node_modules
-build
+build/Release
 *.code-workspace
 *.zip
 *.log

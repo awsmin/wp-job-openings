@@ -31,13 +31,13 @@ class AWSM_Job_Openings_Block {
 
 		$block_atts_set = array(
 			'uid'        		=> $this->unique_listing_id,
-			'layout'     		=> $blockatts['layout'],
-			'listing_order' 	=> $blockatts['listing_order'],
-			'filter_options'	=> $blockatts['filter_options'],
+			'layout'     		=> isset( $blockatts['layout'] ) ? $blockatts['layout'] : '',
+			'listing_order' 	=> isset( $blockatts['listing_order'] ) ? $blockatts['listing_order'] : '',
+			'filter_options'	=> isset( $blockatts['filter_options'] ) ? $blockatts['filter_options'] : '',
 			'listings'   		=> get_option( 'awsm_jobs_list_per_page' ),
 			'loadmore'   		=> 'yes',
 			'pagination' 		=> get_option( 'awsm_jobs_pagination_type', 'modern' ),
-			'specs'             => $blockatts['layout'],
+			'specs'             => isset( $blockatts['layout'] ) ? $blockatts['layout'] : '',
 		);
 
 		$this->unique_listing_id++;

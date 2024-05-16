@@ -46,6 +46,7 @@ class Awsm_Job_Guten_Blocks {
 
 	public function block_assets() {
 		wp_enqueue_script( 'awsm-job-admin' );
+		wp_enqueue_script( 'awsm-job-scripts' );
 	}
 }
 
