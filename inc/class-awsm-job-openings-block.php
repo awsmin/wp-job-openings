@@ -45,7 +45,7 @@ class AWSM_Job_Openings_Block {
 		ob_start();
         include get_awsm_jobs_template_path( 'block-job-openings-view', 'block-files' );
 		$block_content = ob_get_clean();
-
+		
 		return $block_content;
 	}
 

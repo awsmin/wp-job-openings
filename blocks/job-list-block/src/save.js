@@ -1,12 +1,8 @@
-import {InnerBlocks} from "@wordpress/block-editor";
-import {Fragment} from "@wordpress/element";
+import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
 
-const Save = props => {
-	return (
-		<Fragment>
-			<InnerBlocks.Content />
-		</Fragment>
-	);
-};
+export default function save(props) {
 
-export default Save;
+	const { attributes } = props;
+	const blockProps = useBlockProps.save();
+    return <InnerBlocks.Content />;
+}

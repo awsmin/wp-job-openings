@@ -22,10 +22,10 @@ export default function Edit(props) {
 		}
 	});
 	
-	const awsmDropDown = $elem => {
+	/* const awsmDropDown = $elem => {
 		if (
-			"selectric" in awsmJobsPublic.vendors &&
-			awsmJobsPublic.vendors.selectric
+			"selectric" in awsmJobsblockPublic.vendors &&
+			awsmJobsblockPublic.vendors.selectric
 		) {
 			$elem.selectric({
 				onInit: function(select, selectric) {
@@ -46,13 +46,13 @@ export default function Edit(props) {
 
 	useEffect(() => {
 		awsmDropDown(jQuery(".awsm-job-select-control"));
-	});
+	}); */
 	
 	return (
 		<div {...blockProps}>
 			<WidgetInspectorControls {...props} />
 			<div className="awsm-jobs-alerts-widget-wrapper">
-			{specifications.length > 0 && (
+			{/* {specifications.length > 0 && (
 				<div className="awsm-jobs-alerts-form-group awsm-jobs-alerts-specs-group">
 					{specifications.map(spec => {
 						const dropDown = (
@@ -73,7 +73,7 @@ export default function Edit(props) {
 						return dropDown;
 					})}
 				</div>
-			)}
+			)} */}
 			</div>
 		</div>
 	);
