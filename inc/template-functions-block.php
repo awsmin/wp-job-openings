@@ -10,7 +10,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! function_exists( 'awsm_jobs_view_class_block' ) ) {
 	function awsm_jobs_view_class_block( $class = '', $attributes = array() ) {
-		error_log( json_encode( 'enter', JSON_PRETTY_PRINT ) );
 		$view_class = AWSM_Job_Openings_Block::get_job_listing_view_class_block( $attributes );
 		if ( ! empty( $class ) ) {
 			$view_class = trim( $view_class . ' ' . $class );
