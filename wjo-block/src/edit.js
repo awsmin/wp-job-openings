@@ -110,7 +110,6 @@ export default function Edit(props) {
 					</div>
 					
 					<div {...blockProps}>
-						<WidgetInspectorControls {...props} />
 						<div className={`awsm-job-listings ${layout === 'list' ? 'awsm-lists' : 'awsm-row'}`}>
 							{posts.map((post) => (
 								<div key={`awsm-${layout}-item-${post.id}`} className={`awsm-job-listing-item awsm-${layout}-item`}>
