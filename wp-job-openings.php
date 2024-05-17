@@ -120,7 +120,7 @@ class AWSM_Job_Openings {
 
 	public static function load_classes() {
 		$prefix  = 'class-awsm-job-openings';
-		$classes = array( 'core', 'ui-builder', 'filters', 'mail-customizer', 'form', 'third-party' );
+		$classes = array( 'core', 'ui-builder', 'filters', 'mail-customizer', 'form', 'third-party', 'block' );
 		foreach ( $classes as $class ) {
 			require_once AWSM_JOBS_PLUGIN_DIR . "/inc/{$prefix}-{$class}.php";
 		}
@@ -215,6 +215,7 @@ class AWSM_Job_Openings {
 
 	public function template_functions() {
 		include_once AWSM_JOBS_PLUGIN_DIR . '/inc/template-functions.php';
+		include_once AWSM_JOBS_PLUGIN_DIR . '/inc/template-functions-block.php';
 	}
 
 	public function init_actions() {
