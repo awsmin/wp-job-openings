@@ -38,6 +38,10 @@ class Awsm_Job_Guten_Blocks {
 		if ( isset( $atts['filter_options'] ) && is_array( $atts['filter_options'] ) ) {
 			$atts['filter_options'] = implode( ',', $atts['filter_options'] );
 		}
+		
+		if ( isset( $atts['layout'] ) && is_array( $atts['layout'] ) ) {
+			$atts['layout'] = implode( ',', $atts['layout'] );
+		}
 
 		$class_block_init = AWSM_Job_Openings_Block::init();
 		$block_content =  $class_block_init->awsm_jobs_block_attributes($atts);

@@ -36,7 +36,7 @@ import WidgetInspectorControls from "./inspector";
 import { useSelect } from '@wordpress/data';
 export default function Edit(props) {
 	const {
-		attributes: { filter_options},
+		attributes: { filter_options, layout},
 		setAttributes
 	} = props;
 	const blockProps = useBlockProps();
@@ -55,7 +55,7 @@ export default function Edit(props) {
 		return select('core').getEntityRecords('postType', 'awsm_job_openings', { per_page: 5 });
 	  }, []);
 
-	
+	console.log(layout);
 	const awsmDropDown = $elem => {
 		if (
 			"selectric" in awsmJobsPublic.vendors &&
@@ -110,33 +110,55 @@ export default function Edit(props) {
 					</div>
 					
 					<div {...blockProps}>
-					<WidgetInspectorControls {...props} />
-						<div className='awsm-job-listings awsm-lists'>
-						{posts.map((post) => (
-							<div id={`awsm-list-item-${post.id}`} className='awsm-job-listing-item awsm-list-item'>
-								<div className='awsm-job-item'>
-									<div className="awsm-list-left-col">
-										<h2 className="awsm-job-post-title">
-										<a href={post.link}>{post.title.rendered}</a>				</h2>
-									</div>
-									<div className="awsm-list-right-col">
-										<div className="awsm-job-specification-wrapper">
-											<div className="awsm-job-specification-item awsm-job-specification-job-location">
-												<span className="awsm-job-specification-term">London</span> 
+						<WidgetInspectorControls {...props} />
+						<div className={`awsm-job-listings ${layout === 'list' ? 'awsm-lists' : 'awsm-row'}`}>
+							{posts.map((post) => (
+								<div key={`awsm-${layout}-item-${post.id}`} className={`awsm-job-listing-item awsm-${layout}-item`}>
+									{layout === 'list' ? (
+										<div className='awsm-job-item'>
+											<div className={`awsm-${layout}-left-col`}>
+												<h2 className="awsm-job-post-title">
+													<a href={post.link}>{post.title.rendered}</a>
+												</h2>
 											</div>
-											<div className="awsm-job-specification-item awsm-job-specification-job-category">
-												<span className="awsm-job-specification-term">Designer</span>
+											<div className={`awsm-${layout}-right-col`}>
+												<div className="awsm-job-specification-wrapper">
+													<div className="awsm-job-specification-item awsm-job-specification-job-location">
+														<span className="awsm-job-specification-term">London</span> 
+													</div>
+													<div className="awsm-job-specification-item awsm-job-specification-job-category">
+														<span className="awsm-job-specification-term">Designer</span>
+													</div>
+												</div>
+												<div className="awsm-job-more-container">
+													<a className="awsm-job-more" href="http://localhost/awsm/jobs/rr/">More Details <span></span></a>
+												</div>			
 											</div>
 										</div>
-										<div className="awsm-job-more-container">
-											<a className="awsm-job-more" href="http://localhost/awsm/jobs/rr/">More Details <span></span></a>
-										</div>			
-									</div>
+									) : (
+										<a href={post.link} className='awsm-job-item'>
+											<div className={`awsm-${layout}-left-col`}>
+												<h2 className="awsm-job-post-title">{post.title.rendered}</h2>
+											</div>
+											<div className={`awsm-${layout}-right-col`}>
+												<div className="awsm-job-specification-wrapper">
+													<div className="awsm-job-specification-item awsm-job-specification-job-location">
+														<span className="awsm-job-specification-term">London</span> 
+													</div>
+													<div className="awsm-job-specification-item awsm-job-specification-job-category">
+														<span className="awsm-job-specification-term">Designer</span>
+													</div>
+												</div>
+												<div className="awsm-job-more-container">
+													<span className="awsm-job-more">More Details <span></span></span>
+												</div>
+											</div>
+										</a>
+									)}
 								</div>
-							</div>
-						))}
+							))}
 						</div>
-				</div>
+					</div>
 				</div>
 				)}
 			</div>
