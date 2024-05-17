@@ -4,12 +4,13 @@ import {InspectorControls} from "@wordpress/block-editor";
 import {
 	PanelBody,
 	ToggleControl,
+	TextControl,
 	SelectControl
 } from "@wordpress/components";
 
 const WidgetInspectorControls = props => {
 	const {
-		attributes: {filter_options,layout,listing_order},
+		attributes: {filter_options,layout,search,pagination,enable_job_filter,search_placeholder},
 		setAttributes
 	} = props;
 
@@ -50,7 +51,30 @@ const WidgetInspectorControls = props => {
 					}
 					onChange ={(layout)=>setAttributes({layout})}
 				/>
+				
 				<SelectControl
+					label = {__("Pagination", "wp-job-openings")}
+					value = {pagination}
+					options = {
+					[
+						{label: __('Classic', 'wp-job-openings'),value :"classic"},
+						{label: __('Modern', 'wp-job-openings'),value :"modern"}
+					]
+					}
+					onChange ={(pagination)=>setAttributes({pagination})}
+				/>
+
+				<ToggleControl label={ __( 'Enable Search', 'wp-job-openings' ) } checked={ search } onChange={ search => setAttributes( { search } ) } />
+
+				<TextControl
+					label={__("Search Placeholder", "wp-job-openings")}
+					value={ search_placeholder }
+					onChange={ search_placeholder => setAttributes( { search_placeholder } ) }
+				/>
+
+				<ToggleControl label={ __( 'Enable Job Filters', 'wp-job-openings' ) } checked={ enable_job_filter } onChange={ enable_job_filter => setAttributes( { enable_job_filter } ) } />
+
+				{/* <SelectControl
 					label = {__("Listing Order", "wp-job-openings")}
 					value = {listing_order}
 					options = {
@@ -60,14 +84,16 @@ const WidgetInspectorControls = props => {
 					]
 					}
 					onChange ={(listing_order)=>setAttributes({listing_order})}
-				/>
+				/> */}
 			</PanelBody>
+			{enable_job_filter && enable_job_filter == 1 &&
 			<PanelBody title={__("Filter Options", "wp-job-openings")}>
 				{specifications.length > 0 &&
 					specifications.map(spec => {
 						return <ToggleControl label={spec.label} checked={typeof filter_options !== 'undefined' && filter_options.includes(spec.key)} onChange={ (toggleValue) => specifications_handler(toggleValue, spec.key) } />;
 					})}
 			</PanelBody>
+			}
 		</InspectorControls>
 	);
 };

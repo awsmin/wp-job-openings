@@ -15,9 +15,21 @@
 			"type": "string",
 			"default" : "list"
 		},
-		"listing_order":{
-			"type" :"string",
-			"default" : "ascending"
+		"pagination": {
+			"type": "string",
+			"default" : "modern"
+		},
+		"search" : {
+			"type": "boolean",
+			"default" : true
+		},
+		"search_placeholder": {
+			"type": "string",
+			"default": ""
+		},
+		"enable_job_filter" : {
+			"type": "boolean",
+			"default" : true
 		}
 	},
 	"example": {},
