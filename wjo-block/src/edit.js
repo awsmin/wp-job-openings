@@ -3,7 +3,7 @@
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
  */
-import { __ } from '@wordpress/i18n';
+import {__} from "@wordpress/i18n";
 
 /**
  * React hook that is used to mark the block wrapper element.
@@ -19,7 +19,7 @@ import { __ } from '@wordpress/i18n';
  *
  * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
  */
-import './editor.scss';
+import "./editor.scss";
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -33,15 +33,15 @@ import {useEffect} from "@wordpress/element";
 import {InnerBlocks, useBlockProps} from "@wordpress/block-editor";
 
 import WidgetInspectorControls from "./inspector";
-import { useSelect } from '@wordpress/data';
+import {useSelect} from "@wordpress/data";
 export default function Edit(props) {
 	const {
-		attributes: { filter_options, layout},
+		attributes: {filter_options, layout},
 		setAttributes
 	} = props;
 	const blockProps = useBlockProps();
-	
-	let specifications = awsmJobsAdmin.awsm_filters; 
+
+	let specifications = awsmJobsAdmin.awsm_filters;
 	specifications = specifications.filter(spec => {
 		if (
 			typeof filter_options !== "undefined" &&
@@ -51,12 +51,13 @@ export default function Edit(props) {
 		}
 	});
 
-	const posts = useSelect((select) => {
-		return select('core').getEntityRecords('postType', 'awsm_job_openings', { per_page: 5 });
-	  }, []);
+	const posts = useSelect(select => {
+		return select("core").getEntityRecords("postType", "awsm_job_openings", {
+			per_page: 5
+		});
+	}, []);
 
 	const awsmDropDown = $elem => {
-		console.log( $elem );
 		if (
 			"selectric" in awsmJobsPublic.vendors &&
 			awsmJobsPublic.vendors.selectric
@@ -81,85 +82,109 @@ export default function Edit(props) {
 	useEffect(() => {
 		awsmDropDown(jQuery(".awsm-job-select-control"));
 	});
-	
+
 	return (
 		<div {...blockProps}>
 			<WidgetInspectorControls {...props} />
 			<div className="awsm-job-wrap">
-			{specifications.length > 0 && (
-				<div className="awsm-filter-wrap">
-					<div className="awsm-filter-items">
-						{specifications.map(spec => {
-							const dropDown = (
-								<div className="awsm-filter-item">
-								<select
-									name={`awsm_job_alerts_spec[${spec.key}]`}
-									className="awsm-job-select-control"
-									id="awsm_job_alerts_specs"
-									multiple
-								>
-								<option value="">{spec.label}</option>
-								{spec.terms.map(term => {
-									return <option value={term.term_id}>{term.name}</option>;
-								})}
-								</select>
-								</div>
-							);
-							return dropDown;
-						})}
+				{specifications.length > 0 && (
+					<div className="awsm-filter-wrap">
+						<div className="awsm-filter-items">
+							{specifications.map(spec => {
+								const dropDown = (
+									<div className="awsm-filter-item awsm-jobs-block-specs-group-in">
+										<select
+											name={`awsm_job_alerts_spec[${spec.key}]`}
+											className="awsm-job-select-control"
+											id="awsm_job_alerts_specs"
+											multiple
+										>
+											<option value="">{spec.label}</option>
+											{spec.terms.map(term => {
+												return (
+													<option value={term.term_id}>{term.name}</option>
+												);
+											})}
+										</select>
+									</div>
+								);
+								return dropDown;
+							})}
+						</div>
 					</div>
-					
-				</div>
 				)}
-					<div className={`awsm-job-listings ${layout === 'list' ? 'awsm-lists' : 'awsm-row'}`}>
-						{posts?.map((post) => (
-							<div key={`awsm-${layout}-item-${post.id}`} className={`awsm-job-listing-item awsm-${layout}-item`}>
-								{layout === 'list' ? (
-									<div className='awsm-job-item'>
-										<div className={`awsm-${layout}-left-col`}>
-											<h2 className="awsm-job-post-title">
-												<a href={post.link}>{post.title.rendered}</a>
-											</h2>
-										</div>
-										<div className={`awsm-${layout}-right-col`}>
-											<div className="awsm-job-specification-wrapper">
-												<div className="awsm-job-specification-item awsm-job-specification-job-location">
-													<span className="awsm-job-specification-term">London</span> 
-												</div>
-												<div className="awsm-job-specification-item awsm-job-specification-job-category">
-													<span className="awsm-job-specification-term">Designer</span>
-												</div>
+				<div
+					className={`awsm-job-listings ${
+						layout === "list" ? "awsm-lists" : "awsm-row"
+					}`}
+				>
+					{posts?.map(post => (
+						<div
+							key={`awsm-${layout}-item-${post.id}`}
+							className={`awsm-job-listing-item awsm-${layout}-item`}
+						>
+							{layout === "list" ? (
+								<div className="awsm-job-item">
+									<div className={`awsm-${layout}-left-col`}>
+										<h2 className="awsm-job-post-title">
+											<a href={post.link}>{post.title.rendered}</a>
+										</h2>
+									</div>
+									<div className={`awsm-${layout}-right-col`}>
+										<div className="awsm-job-specification-wrapper">
+											<div className="awsm-job-specification-item awsm-job-specification-job-location">
+												<span className="awsm-job-specification-term">
+													London
+												</span>
 											</div>
-											<div className="awsm-job-more-container">
-												<a className="awsm-job-more" href="http://localhost/awsm/jobs/rr/">More Details <span></span></a>
-											</div>			
+											<div className="awsm-job-specification-item awsm-job-specification-job-category">
+												<span className="awsm-job-specification-term">
+													Designer
+												</span>
+											</div>
+										</div>
+										<div className="awsm-job-more-container">
+											<a
+												className="awsm-job-more"
+												href="http://localhost/awsm/jobs/rr/"
+											>
+												More Details <span></span>
+											</a>
 										</div>
 									</div>
-								) : (
-									<a href={post.link} className='awsm-job-item'>
-										<div className={`awsm-${layout}-left-col`}>
-											<h2 className="awsm-job-post-title">{post.title.rendered}</h2>
-										</div>
-										<div className={`awsm-${layout}-right-col`}>
-											<div className="awsm-job-specification-wrapper">
-												<div className="awsm-job-specification-item awsm-job-specification-job-location">
-													<span className="awsm-job-specification-term">London</span> 
-												</div>
-												<div className="awsm-job-specification-item awsm-job-specification-job-category">
-													<span className="awsm-job-specification-term">Designer</span>
-												</div>
+								</div>
+							) : (
+								<a href={post.link} className="awsm-job-item">
+									<div className={`awsm-${layout}-left-col`}>
+										<h2 className="awsm-job-post-title">
+											{post.title.rendered}
+										</h2>
+									</div>
+									<div className={`awsm-${layout}-right-col`}>
+										<div className="awsm-job-specification-wrapper">
+											<div className="awsm-job-specification-item awsm-job-specification-job-location">
+												<span className="awsm-job-specification-term">
+													London
+												</span>
 											</div>
-											<div className="awsm-job-more-container">
-												<span className="awsm-job-more">More Details <span></span></span>
+											<div className="awsm-job-specification-item awsm-job-specification-job-category">
+												<span className="awsm-job-specification-term">
+													Designer
+												</span>
 											</div>
 										</div>
-									</a>
-								)}
-							</div>
-						))}
-					</div>
+										<div className="awsm-job-more-container">
+											<span className="awsm-job-more">
+												More Details <span></span>
+											</span>
+										</div>
+									</div>
+								</a>
+							)}
+						</div>
+					))}
+				</div>
 			</div>
 		</div>
 	);
-};
-
+}

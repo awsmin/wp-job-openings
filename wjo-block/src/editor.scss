@@ -7,3 +7,164 @@
 .wp-block-create-block-wjo-block {
 	border: 1px dotted #f00;
 }
+
+/**
+ * Editor styles.
+ *
+ */
+
+.awsm-job-wrap::after {
+	clear: both;
+	content: '';
+	display: table;
+}
+
+.awsm-filter-wrap,
+.awsm-filter-wrap * {
+	box-sizing: border-box;
+}
+
+.awsm-filter-wrap {
+	margin: 0 -10px 20px;
+}
+
+.awsm-filter-wrap form {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.awsm-filter-wrap .awsm-filter-items {
+	display: none;
+}
+
+.awsm-filter-wrap.awsm-full-width-search-filter-wrap .awsm-filter-item-search {
+	width: 100%;
+}
+
+.awsm-filter-wrap.awsm-full-width-search-filter-wrap .awsm-filter-items,
+.awsm-filter-wrap.awsm-no-search-filter-wrap .awsm-filter-items {
+	width: 100%;
+}
+
+.awsm-filter-wrap.awsm-no-search-filter-wrap .awsm-filter-toggle {
+	width: 100%;
+	align-items: center;
+	justify-content: space-between;
+	text-decoration: none;
+}
+
+.awsm-filter-wrap.awsm-no-search-filter-wrap .awsm-filter-toggle svg {
+	width: 22px;
+	height: 22px;
+}
+
+@media (min-width:768px) {
+	.awsm-filter-wrap .awsm-filter-items {
+		display: flex !important;
+		flex-wrap: wrap;
+		width: calc(100% - 250px);
+	}
+
+	.awsm-filter-toggle {
+		display: none;
+	}
+
+	.awsm-filter-item-search {
+		width: 250px;
+	}
+}
+
+.awsm-filter-wrap .awsm-filter-item {
+	/* display: inline-block; */
+	padding: 0 10px 10px;
+	/* vertical-align: top; */
+}
+
+@media (max-width:768px) {
+	.awsm-filter-wrap .awsm-filter-items {
+		width: 100%;
+	}
+
+	.awsm-filter-item-search {
+		width: calc(100% - 66px);
+	}
+
+	.awsm-filter-wrap .awsm-filter-item .awsm-selectric-wrapper {
+		min-width: 100%;
+	}
+}
+
+.awsm-filter-wrap .awsm-filter-item .awsm-job-form-control {
+	min-height: 48px;
+	padding-right: 58px;
+}
+
+.awsm-jobs-block-widget-wrapper {
+	padding: 21px 18px;
+}
+
+
+.awsm-jobs-block-specs-group {
+	display: flex;
+	flex-wrap: wrap;
+	margin: 0 -10px;
+}
+
+.awsm-jobs-block-specs-group-in {
+	padding: 0 10px;
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+@media (min-width:768px) {
+	.awsm-jobs-block-specs-group-in {
+		width: 33.3333%;
+	}
+}
+
+.awsm-jobs-block-specs-group-in select:not(.ms-offscreen) {
+	appearance: none;
+	height: 46px;
+	width: 100%;
+	overflow: hidden;
+	border: 1px solid #dddfe3;
+	box-shadow: 0 1px 4px 0 rgb(0 0 0 / 5%);
+	border-radius: 0;
+	padding: 10px;
+	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iOHB4IiBoZWlnaHQ9IjVweCIgdmlld0JveD0iMCAwIDggNSIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4KICAgIDx0aXRsZT5UcmlhbmdsZTwvdGl0bGU+CiAgICA8ZyBpZD0iUGFnZS0xIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KICAgICAgICA8cG9seWdvbiBpZD0iVHJpYW5nbGUiIGZpbGw9IiM4ODg4ODgiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQuMDAwMDAwLCAyLjUwMDAwMCkgc2NhbGUoMSwgLTEpIHRyYW5zbGF0ZSgtNC4wMDAwMDAsIC0yLjUwMDAwMCkgIiBwb2ludHM9IjQgMCA4IDUgMCA1Ij48L3BvbHlnb24+CiAgICA8L2c+Cjwvc3ZnPg==) #fff no-repeat calc(100% - 8px) center;
+}
+
+.awsm-jobs-block-specs-group-in select:not(.ms-offscreen) option {
+	padding: 13px 0;
+	background: none;
+}
+
+
+.awsm-jobs-block-specs-group-in {
+	padding: 0 10px;
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+@media (min-width:768px) {
+	.awsm-jobs-block-specs-group-in {
+		width: 33.3333%;
+	}
+}
+
+.awsm-jobs-block-specs-group-in select:not(.ms-offscreen) {
+	appearance: none;
+	height: 46px;
+	width: 100%;
+	overflow: hidden;
+	border: 1px solid #dddfe3;
+	box-shadow: 0 1px 4px 0 rgb(0 0 0 / 5%);
+	border-radius: 0;
+	padding: 10px;
+	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iOHB4IiBoZWlnaHQ9IjVweCIgdmlld0JveD0iMCAwIDggNSIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4KICAgIDx0aXRsZT5UcmlhbmdsZTwvdGl0bGU+CiAgICA8ZyBpZD0iUGFnZS0xIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KICAgICAgICA8cG9seWdvbiBpZD0iVHJpYW5nbGUiIGZpbGw9IiM4ODg4ODgiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQuMDAwMDAwLCAyLjUwMDAwMCkgc2NhbGUoMSwgLTEpIHRyYW5zbGF0ZSgtNC4wMDAwMDAsIC0yLjUwMDAwMCkgIiBwb2ludHM9IjQgMCA4IDUgMCA1Ij48L3BvbHlnb24+CiAgICA8L2c+Cjwvc3ZnPg==) #fff no-repeat calc(100% - 8px) center;
+}
+
+.awsm-jobs-block-specs-group-in select:not(.ms-offscreen) option {
+	padding: 13px 0;
+	background: none;
+}
