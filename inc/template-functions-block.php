@@ -18,13 +18,13 @@ if ( ! function_exists( 'awsm_jobs_view_class_block' ) ) {
 	}
 }
 
-if ( ! function_exists( 'awsm_block_job_filters_explode' ) ) { 
-	function awsm_block_job_filters_explode( $filter_data ) {  
+if ( ! function_exists( 'awsm_block_job_filters_explode' ) ) {
+	function awsm_block_job_filters_explode( $filter_data ) {
 		$available_filters = array();
-		
-		if( !empty($filter_data) ){
-			$available_filters = explode(',',$filter_data ); 
-		}else{
+
+		if ( ! empty( $filter_data ) ) {
+			$available_filters = explode( ',', $filter_data );
+		} else {
 			$available_filters = get_option( 'awsm_jobs_listing_specs' );
 		}
 		return $available_filters;

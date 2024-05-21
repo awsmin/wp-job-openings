@@ -50,8 +50,8 @@ if ( ! defined( 'AWSM_JOBS_DEBUG' ) ) {
 require_once AWSM_JOBS_PLUGIN_DIR . '/inc/helper-functions.php';
 if ( function_exists( 'register_block_type' ) ) {
 	//require_once AWSM_JOBS_PLUGIN_DIR  . '/blocks/job-listing-block/awsm-job-listing-block.php';
-	require_once AWSM_JOBS_PLUGIN_DIR  . '/wjo-block/wjo-block.php';
-	
+	require_once AWSM_JOBS_PLUGIN_DIR . '/wjo-block/wjo-block.php';
+
 }
 
 class AWSM_Job_Openings {
@@ -1109,10 +1109,10 @@ class AWSM_Job_Openings {
 			'awsm-job-admin',
 			'awsmJobsAdmin',
 			array(
-				'ajaxurl'    => admin_url( 'admin-ajax.php' ),
-				'plugin_url' => AWSM_JOBS_PLUGIN_URL,
-				'nonce'      => wp_create_nonce( 'awsm-admin-nonce' ),
-				'i18n'       => array(
+				'ajaxurl'      => admin_url( 'admin-ajax.php' ),
+				'plugin_url'   => AWSM_JOBS_PLUGIN_URL,
+				'nonce'        => wp_create_nonce( 'awsm-admin-nonce' ),
+				'i18n'         => array(
 					'select2_no_page' => esc_html__( 'Select a page', 'wp-job-openings' ),
 					'image_upload'    => array(
 						'select'   => esc_html__( 'Select Image', 'wp-job-openings' ),
@@ -1122,7 +1122,7 @@ class AWSM_Job_Openings {
 						'btn_text' => esc_html__( 'Choose', 'wp-job-openings' ),
 					),
 				),
-				'awsm_filters'       => self::get_filter_specifications(),
+				'awsm_filters' => self::get_filter_specifications(),
 			)
 		);
 

@@ -8,11 +8,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$attributes     = isset( $attributes ) ? $attributes : array(); 
-$view 			= isset($attributes['specs'])?$attributes['specs']:get_option( 'awsm_jobs_listing_view' ); 
-$awsm_filters   = get_option( 'awsm_jobs_filter' ); 
-$filter_data 	= isset( $attributes['filter_options'] )?$attributes['filter_options']:'';  
-$listing_specs  = awsm_block_job_filters_explode($filter_data); 
+$attributes    = isset( $attributes ) ? $attributes : array();
+$view          = isset( $attributes['specs'] ) ? $attributes['specs'] : get_option( 'awsm_jobs_listing_view' );
+$awsm_filters  = get_option( 'awsm_jobs_filter' );
+$filter_data   = isset( $attributes['filter_options'] ) ? $attributes['filter_options'] : '';
+$listing_specs = awsm_block_job_filters_explode( $filter_data );
 
 /**
  * Fires before The Loop to query for jobs.
@@ -66,7 +66,7 @@ while ( $query->have_posts() ) {
 			<div class="awsm-<?php echo esc_attr( $view ); ?>-right-col">
 				<?php
 
-				    /**
+					/**
 					 * before_awsm_block_jobs_listing_specs_content hook
 					 *
 					 * @since 3.0.0

@@ -6,9 +6,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 class AWSM_Job_Openings_Block {
 	private static $instance = null;
 
-    protected $unique_listing_id = 1;
+	protected $unique_listing_id = 1;
 
-    public function __construct() {
+	public function __construct() {
 		add_action( 'awsm_block_filter_form', array( $this, 'display_block_filter_form' ) );
 		add_action( 'wp_ajax_block_jobfilter', array( $this, 'awsm_block_posts_filters' ) );
 		add_action( 'wp_ajax_nopriv_block_jobfilter', array( $this, 'awsm_block_posts_filters' ) );
@@ -30,27 +30,27 @@ class AWSM_Job_Openings_Block {
 		}
 
 		$block_atts_set = array(
-			'uid'        		=> $this->unique_listing_id,
-			'layout'     		=> isset( $blockatts['layout'] ) ? $blockatts['layout'] : '',
-			'listing_order' 	=> isset( $blockatts['listing_order'] ) ? $blockatts['listing_order'] : '',
-			'filter_options'	=> isset( $blockatts['filter_options'] ) ? $blockatts['filter_options'] : '',
-			'listings'   		=> get_option( 'awsm_jobs_list_per_page' ),
-			'loadmore'   		=> 'yes',
-			'pagination' 		=> get_option( 'awsm_jobs_pagination_type', 'modern' ),
-			'specs'             => isset( $blockatts['layout'] ) ? $blockatts['layout'] : '',
+			'uid'            => $this->unique_listing_id,
+			'layout'         => isset( $blockatts['layout'] ) ? $blockatts['layout'] : '',
+			'listing_order'  => isset( $blockatts['listing_order'] ) ? $blockatts['listing_order'] : '',
+			'filter_options' => isset( $blockatts['filter_options'] ) ? $blockatts['filter_options'] : '',
+			'listings'       => get_option( 'awsm_jobs_list_per_page' ),
+			'loadmore'       => 'yes',
+			'pagination'     => get_option( 'awsm_jobs_pagination_type', 'modern' ),
+			'specs'          => isset( $blockatts['layout'] ) ? $blockatts['layout'] : '',
 		);
 
 		$this->unique_listing_id++;
 
 		ob_start();
-        include get_awsm_jobs_template_path( 'block-job-openings-view', 'block-files' );
+		include get_awsm_jobs_template_path( 'block-job-openings-view', 'block-files' );
 		$block_content = ob_get_clean();
 
 		return $block_content;
 	}
 
-    public static function get_job_listing_view_class_block( $attributes = array() ) { 
-		$view       = $attributes['layout']; 
+	public static function get_job_listing_view_class_block( $attributes = array() ) {
+		$view       = $attributes['layout'];
 		$view_class = 'awsm-lists';
 		if ( $view === 'grid' ) {
 			$number_columns = get_option( 'awsm_jobs_number_of_columns' );
@@ -63,13 +63,13 @@ class AWSM_Job_Openings_Block {
 		}
 		return sprintf( 'awsm-job-listings %s', $view_class );
 	}
-	
-	public function display_block_filter_form( $shortcode_atts ) { 
+
+	public function display_block_filter_form( $shortcode_atts ) {
 		$search_content       = '';
 		$specs_filter_content = '';
 		$filters_attr         = isset( $shortcode_atts['filter_options'] ) ? $shortcode_atts['filter_options'] : '';
 		/* $enable_job_filters   = get_option( 'awsm_enable_job_filter_listing' ); */
-		$enable_search        = 'enable'/* get_option( 'awsm_enable_job_search' ) */;
+		$enable_search = 'enable';/* get_option( 'awsm_enable_job_search' ) */
 
 		/**
 		 * Enable search in the job listing or not.
@@ -113,7 +113,6 @@ class AWSM_Job_Openings_Block {
 			$search_content = apply_filters( 'awsm_jobs_block_search_field_content', $search_content );
 		}
 
-		
 		$taxonomies = get_object_taxonomies( 'awsm_job_openings', 'objects' );
 
 		/* $display_filters = true;
@@ -128,7 +127,7 @@ class AWSM_Job_Openings_Block {
 		//$available_filters = get_option( 'awsm_jobs_listing_available_filters' );
 
 		$display_filters   = true;
-		$available_filters = explode(',',$shortcode_atts['filter_options']); 
+		$available_filters = explode( ',', $shortcode_atts['filter_options'] );
 		$available_filters = is_array( $available_filters ) ? $available_filters : array();
 		if ( empty( $available_filters ) ) {
 			$display_filters = false;
@@ -346,4 +345,4 @@ class AWSM_Job_Openings_Block {
 }
 
 AWSM_Job_Openings_Block::init();
-?>
+
