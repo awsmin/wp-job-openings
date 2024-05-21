@@ -31,7 +31,7 @@ class Awsm_Job_Guten_Blocks {
 			'render_callback' => array( $this, 'block_render_callback' ),
 		);
 
-		register_block_type( __DIR__ . '/build', $args );
+		register_block_type( __DIR__ . '/build/block.json', $args );
 	}
 
 	public function block_render_callback( $atts, $content ) {
