@@ -87,13 +87,17 @@ export default function Edit(props) {
 		<div {...blockProps}>
 			<WidgetInspectorControls {...props} />
 			<div className="awsm-job-wrap">
+
+			{ (search && search == true) && [
+				<div class="awsm-filter-item-search"><div class="awsm-filter-item-search-in"><label for="awsm-jq-1" class="awsm-sr-only">Search</label><input type="text" id="awsm-jq-1" name="jq" value="" placeholder={ search_placeholder } class="awsm-job-search awsm-job-form-control"/><span class="awsm-job-search-btn awsm-job-search-icon-wrapper"><i class="awsm-job-icon-search"></i></span><span class="awsm-job-search-close-btn awsm-job-search-icon-wrapper awsm-job-hide"><i class="awsm-job-icon-close-circle"></i></span></div></div>
+			]}
 			
-				{specifications.length > 0 && (
+			{specifications.length > 0 && (enable_job_filter && enable_job_filter == true) && (
 					<div className="awsm-filter-wrap">
 						<div className="awsm-filter-items">
 							{specifications.map(spec => {
 								const dropDown = (
-									<div className="awsm-filter-item awsm-jobs-block-specs-group-in">
+									<div className="awsm-filter-item">
 										<select
 											name={`awsm_job_alerts_spec[${spec.key}]`}
 											className="awsm-job-select-control"
@@ -114,10 +118,6 @@ export default function Edit(props) {
 						</div>
 					</div>
 				)}
-
-            { (search && search == true) && [
-			<div class="awsm-filter-item-search"><div class="awsm-filter-item-search-in"><label for="awsm-jq-1" class="awsm-sr-only">Search</label><input type="text" id="awsm-jq-1" name="jq" value="" placeholder={ search_placeholder } class="awsm-job-search awsm-job-form-control"/><span class="awsm-job-search-btn awsm-job-search-icon-wrapper"><i class="awsm-job-icon-search"></i></span><span class="awsm-job-search-close-btn awsm-job-search-icon-wrapper awsm-job-hide"><i class="awsm-job-icon-close-circle"></i></span></div></div>
-			]}
 
 				<div
 					className={`awsm-job-listings ${
