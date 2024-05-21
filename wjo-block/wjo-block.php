@@ -26,15 +26,12 @@ class Awsm_Job_Guten_Blocks {
 		if ( ! function_exists( 'register_block_type' ) ) {
 			return;
 		}
+
 		$args = array(
 			'render_callback' => array( $this, 'block_render_callback' ),
 		);
 
-		register_block_type(
-			'wp-job-openings/wjo-block',
-			$args
-		);
-
+		register_block_type( __DIR__ . '/build', $args );
 	}
 
 	public function block_render_callback( $atts, $content ) {
