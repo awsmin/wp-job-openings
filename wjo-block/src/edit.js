@@ -92,7 +92,7 @@ export default function Edit(props) {
 						<div className="awsm-filter-items">
 							{specifications.map(spec => {
 								const dropDown = (
-									<div className="awsm-filter-item awsm-jobs-block-specs-group-in">
+									<div className="awsm-filter-item">
 										<select
 											name={`awsm_job_alerts_spec[${spec.key}]`}
 											className="awsm-job-select-control"
