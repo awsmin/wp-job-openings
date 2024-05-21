@@ -1,0 +1,32 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "wp-job-openings/wjo-block",
+  "version": "1.1.1",
+  "title": "Wjo Block",
+  "category": "widgets",
+  "icon": "smiley",
+  "description": "Example block scaffolded with Create Block tool.",
+  "attributes": {
+    "filter_options": {
+      "type": "array"
+    },
+    "layout": {
+      "type": "string",
+      "default": "list"
+    },
+    "listing_order": {
+      "type": "string",
+      "default": "ascending"
+    }
+  },
+  "example": {},
+  "supports": {
+    "html": false
+  },
+  "textdomain": "wjo-block",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "viewScript": "file:./view.js"
+}
