@@ -27,11 +27,13 @@ class Awsm_Job_Guten_Blocks {
 			return;
 		}
 
-		$args = array(
-			'render_callback' => array( $this, 'block_render_callback' ),
-		);
+		
+    // Path to the directory containing block.json
+    $block_json_path = plugin_dir_path( __FILE__ ) . 'src';
 
-		register_block_type( __DIR__ . '/build/block.json', $args );
+    register_block_type_from_metadata( $block_json_path, array(
+        'render_callback' => array( $this, 'block_render_callback' ),
+    ));
 	}
 
 	public function block_render_callback( $atts, $content ) {
