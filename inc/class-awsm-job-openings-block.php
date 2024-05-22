@@ -73,6 +73,7 @@ class AWSM_Job_Openings_Block {
 			$enable_job_filters   = isset( $shortcode_atts['enable_job_filter'] ) ? $shortcode_atts['enable_job_filter'] : '';
 			$enable_search        = isset( $shortcode_atts['search'] ) ? $shortcode_atts['search'] : '';
 			$placeholder_search   = isset( $shortcode_atts['search_placeholder'] ) ? $shortcode_atts['search_placeholder'] : '';
+
 			
 			/**
 			 * Enable search in the job listing or not.
@@ -84,17 +85,17 @@ class AWSM_Job_Openings_Block {
 			 */
 			//$enable_search = apply_filters( 'awsm_job_filters_enable_search', $enable_search, $shortcode_atts );
 
-			if ( $filters_attr == '' ) {
-				return;
-			}
+			// if ( $filters_attr == '' ) {
+			// 	return;
+			// }
 
-			if ( is_archive() && ! is_post_type_archive( 'awsm_job_openings' ) ) {
-				return;
-			}
+			// if ( is_archive() && ! is_post_type_archive( 'awsm_job_openings' ) ) {
+			// 	return;
+			// }
 
 			$uid = isset( $shortcode_atts['uid'] ) ? '-' . $shortcode_atts['uid'] : '';
 
-			if ( $enable_search === 'enable' ) {
+			if($enable_search === 'enable') {
 				$search_query = isset( $_GET['jq'] ) ? $_GET['jq'] : '';
 				/**
 				 * Filters the search field placeholder text.
@@ -121,7 +122,7 @@ class AWSM_Job_Openings_Block {
 
 			$display_filters = true;
 			if ( $enable_job_filters !== 'enable' || $filters_attr === '' ) {
-				$display_filters = false;
+				$display_filters = true;
 			}
 			/*
 			// Hide filters if specs shortcode attribute is applied.
@@ -129,14 +130,16 @@ class AWSM_Job_Openings_Block {
 				$display_filters = false;
 			} */
 
-			//$available_filters = get_option( 'awsm_jobs_listing_available_filters' );
-
+			$available_filters = get_option( 'awsm_jobs_listing_available_filters' );
+			
+			
 			$available_filters = explode(',',$shortcode_atts['filter_options']); 
 			$available_filters = is_array( $available_filters ) ? $available_filters : array();
 			if ( empty( $available_filters ) ) {
-				$display_filters = false;
+				$display_filters = true;
 			}
-
+			
+			
 			$available_filters_arr = array();
 			if ( $display_filters && ! empty( $taxonomies ) ) {
 				$selected_filters = self::get_block_filters_query_args( $available_filters );
@@ -151,6 +154,7 @@ class AWSM_Job_Openings_Block {
 				$available_filters = apply_filters( 'awsm_active_block_job_filters', $available_filters, $shortcode_atts );
 				foreach ( $taxonomies as $taxonomy => $tax_details ) {
 					if ( in_array( $taxonomy, $available_filters ) ) {
+						
 						/**
 						 * Filter arguments for the specification terms in the job filter.
 						 *
@@ -164,10 +168,10 @@ class AWSM_Job_Openings_Block {
 								'taxonomy'   => $taxonomy,
 								'orderby'    => 'name',
 								'hide_empty' => true,
-							)
-						);
-						$terms      = get_terms( $terms_args );
-						if ( ! empty( $terms ) ) {
+								)
+							);
+							$terms      = get_terms( $terms_args );
+							if ( ! empty( $terms ) ) {
 								$available_filters_arr[ $taxonomy ] = $tax_details->label;
 
 								$options_content = '';

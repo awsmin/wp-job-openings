@@ -75,7 +75,6 @@ function Edit(props) {
     enable_job_filter = _props$attributes.enable_job_filter,
     search_placeholder = _props$attributes.search_placeholder,
     setAttributes = props.setAttributes;
-  console.log(props.attributes);
   var blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_5__.useBlockProps)();
   var specifications = awsmJobsAdmin.awsm_filters;
   specifications = specifications.filter(function (spec) {

@@ -41,7 +41,6 @@ export default function Edit(props) {
 		attributes: { filter_options, layout, search, enable_job_filter,search_placeholder},
 		setAttributes,
 	} = props;
-	console.log(props.attributes);
 
 	const blockProps = useBlockProps();
 

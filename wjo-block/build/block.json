@@ -9,7 +9,8 @@
   "description": "Example block scaffolded with Create Block tool.",
   "attributes": {
     "filter_options": {
-      "type": "array"
+      "type": "array",
+      "default": "array"
     },
     "layout": {
       "type": "string",

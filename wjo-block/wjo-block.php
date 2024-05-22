@@ -34,7 +34,6 @@ class Awsm_Job_Guten_Blocks {
 	}
 
 	public function block_render_callback( $atts, $content ) { 
-		error_log( json_encode( $atts, JSON_PRETTY_PRINT ) );
 		if ( isset( $atts['filter_options'] ) && is_array( $atts['filter_options'] ) ) {
 			$atts['filter_options'] = implode( ',', $atts['filter_options'] );
 		}
