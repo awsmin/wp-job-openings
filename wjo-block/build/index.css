@@ -1,1 +1,191 @@
-.wp-block-create-block-wjo-block{border:1px dotted red}.awsm-job-wrap:after{clear:both;content:"";display:table}.awsm-filter-wrap,.awsm-filter-wrap *{-webkit-box-sizing:border-box;box-sizing:border-box}.awsm-filter-wrap{margin:0 -10px 20px}.awsm-filter-wrap form{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-wrap:wrap;-ms-flex-wrap:wrap;flex-wrap:wrap}.awsm-filter-wrap .awsm-filter-items{display:none}.awsm-filter-wrap.awsm-full-width-search-filter-wrap .awsm-filter-item-search,.awsm-filter-wrap.awsm-full-width-search-filter-wrap .awsm-filter-items,.awsm-filter-wrap.awsm-no-search-filter-wrap .awsm-filter-items{width:100%}.awsm-filter-wrap.awsm-no-search-filter-wrap .awsm-filter-toggle{width:100%;-webkit-box-align:center;-webkit-align-items:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:justify;-webkit-justify-content:space-between;-ms-flex-pack:justify;justify-content:space-between;text-decoration:none}.awsm-filter-wrap.awsm-no-search-filter-wrap .awsm-filter-toggle svg{height:22px;width:22px}@media(min-width:768px){.awsm-filter-wrap .awsm-filter-items{display:-webkit-box!important;display:-webkit-flex!important;display:-ms-flexbox!important;display:flex!important;-webkit-flex-wrap:wrap;-ms-flex-wrap:wrap;flex-wrap:wrap;width:calc(100% - 250px)}.awsm-filter-toggle{display:none}.awsm-filter-item-search{width:250px}}.awsm-filter-wrap .awsm-filter-item{padding:0 10px 10px}@media(max-width:768px){.awsm-filter-wrap .awsm-filter-items{width:100%}.awsm-filter-item-search{width:calc(100% - 66px)}.awsm-filter-wrap .awsm-filter-item .awsm-selectric-wrapper{min-width:100%}}.awsm-filter-wrap .awsm-filter-item .awsm-job-form-control{min-height:48px;padding-right:58px}.awsm-jobs-block-widget-wrapper{padding:21px 18px}.awsm-jobs-block-specs-group{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-wrap:wrap;-ms-flex-wrap:wrap;flex-wrap:wrap;margin:0 -10px}.awsm-jobs-block-specs-group-in{margin-bottom:10px;padding:0 10px;width:100%}@media(min-width:768px){.awsm-jobs-block-specs-group-in{width:33.3333%}}.awsm-jobs-block-specs-group-in select:not(.ms-offscreen){-webkit-appearance:none;-moz-appearance:none;appearance:none;background:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjUiPjxwYXRoIGZpbGw9IiM4ODgiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0ibTQgNSA0LTVIMHoiLz48L3N2Zz4=) #fff no-repeat calc(100% - 8px);border:1px solid #dddfe3;border-radius:0;-webkit-box-shadow:0 1px 4px 0 rgba(0,0,0,.05);box-shadow:0 1px 4px 0 rgba(0,0,0,.05);height:46px;overflow:hidden;padding:10px;width:100%}.awsm-jobs-block-specs-group-in select:not(.ms-offscreen) option{background:none;padding:13px 0}
+/*!****************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./src/editor.scss ***!
+  \****************************************************************************************************************************************************************************************************************************************/
+/**
+ * The following styles get applied inside the editor only.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+.wp-block-create-block-wjo-block {
+  border: 1px dotted #f00;
+}
+
+/**
+ * Editor styles.
+ *
+ */
+.awsm-job-wrap::after {
+  clear: both;
+  content: "";
+  display: table;
+}
+
+.awsm-filter-wrap,
+.awsm-filter-wrap * {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.awsm-filter-wrap {
+  margin: 0 -10px 20px;
+}
+
+.awsm-filter-wrap form {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+}
+
+.awsm-filter-wrap .awsm-filter-items {
+  display: none;
+}
+
+.awsm-filter-wrap.awsm-full-width-search-filter-wrap .awsm-filter-item-search {
+  width: 100%;
+}
+
+.awsm-filter-wrap.awsm-full-width-search-filter-wrap .awsm-filter-items,
+.awsm-filter-wrap.awsm-no-search-filter-wrap .awsm-filter-items {
+  width: 100%;
+}
+
+.awsm-filter-wrap.awsm-no-search-filter-wrap .awsm-filter-toggle {
+  width: 100%;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  text-decoration: none;
+}
+
+.awsm-filter-wrap.awsm-no-search-filter-wrap .awsm-filter-toggle svg {
+  width: 22px;
+  height: 22px;
+}
+
+@media (min-width: 768px) {
+  .awsm-filter-wrap .awsm-filter-items {
+    display: -webkit-box !important;
+    display: -webkit-flex !important;
+    display: -ms-flexbox !important;
+    display: flex !important;
+    -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+    width: calc(100% - 250px);
+  }
+  .awsm-filter-toggle {
+    display: none;
+  }
+  .awsm-filter-item-search {
+    width: 250px;
+  }
+}
+.awsm-filter-wrap .awsm-filter-item {
+  /* display: inline-block; */
+  padding: 0 10px 10px;
+  /* vertical-align: top; */
+}
+
+@media (max-width: 768px) {
+  .awsm-filter-wrap .awsm-filter-items {
+    width: 100%;
+  }
+  .awsm-filter-item-search {
+    width: calc(100% - 66px);
+  }
+  .awsm-filter-wrap .awsm-filter-item .awsm-selectric-wrapper {
+    min-width: 100%;
+  }
+}
+.awsm-filter-wrap .awsm-filter-item .awsm-job-form-control {
+  min-height: 48px;
+  padding-right: 58px;
+}
+
+.awsm-jobs-block-widget-wrapper {
+  padding: 21px 18px;
+}
+
+.awsm-jobs-block-specs-group {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+  margin: 0 -10px;
+}
+
+.awsm-jobs-block-specs-group-in {
+  padding: 0 10px;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+@media (min-width: 768px) {
+  .awsm-jobs-block-specs-group-in {
+    width: 33.3333%;
+  }
+}
+.awsm-jobs-block-specs-group-in select:not(.ms-offscreen) {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  height: 46px;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid #dddfe3;
+  -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.05);
+          box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.05);
+  border-radius: 0;
+  padding: 10px;
+  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iOHB4IiBoZWlnaHQ9IjVweCIgdmlld0JveD0iMCAwIDggNSIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4KICAgIDx0aXRsZT5UcmlhbmdsZTwvdGl0bGU+CiAgICA8ZyBpZD0iUGFnZS0xIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KICAgICAgICA8cG9seWdvbiBpZD0iVHJpYW5nbGUiIGZpbGw9IiM4ODg4ODgiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQuMDAwMDAwLCAyLjUwMDAwMCkgc2NhbGUoMSwgLTEpIHRyYW5zbGF0ZSgtNC4wMDAwMDAsIC0yLjUwMDAwMCkgIiBwb2ludHM9IjQgMCA4IDUgMCA1Ij48L3BvbHlnb24+CiAgICA8L2c+Cjwvc3ZnPg==) #fff no-repeat calc(100% - 8px) center;
+}
+
+.awsm-jobs-block-specs-group-in select:not(.ms-offscreen) option {
+  padding: 13px 0;
+  background: none;
+}
+
+.awsm-jobs-block-specs-group-in {
+  padding: 0 10px;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+@media (min-width: 768px) {
+  .awsm-jobs-block-specs-group-in {
+    width: 33.3333%;
+  }
+}
+.awsm-jobs-block-specs-group-in select:not(.ms-offscreen) {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  height: 46px;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid #dddfe3;
+  -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.05);
+          box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.05);
+  border-radius: 0;
+  padding: 10px;
+  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iOHB4IiBoZWlnaHQ9IjVweCIgdmlld0JveD0iMCAwIDggNSIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4KICAgIDx0aXRsZT5UcmlhbmdsZTwvdGl0bGU+CiAgICA8ZyBpZD0iUGFnZS0xIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KICAgICAgICA8cG9seWdvbiBpZD0iVHJpYW5nbGUiIGZpbGw9IiM4ODg4ODgiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQuMDAwMDAwLCAyLjUwMDAwMCkgc2NhbGUoMSwgLTEpIHRyYW5zbGF0ZSgtNC4wMDAwMDAsIC0yLjUwMDAwMCkgIiBwb2ludHM9IjQgMCA4IDUgMCA1Ij48L3BvbHlnb24+CiAgICA8L2c+Cjwvc3ZnPg==) #fff no-repeat calc(100% - 8px) center;
+}
+
+.awsm-jobs-block-specs-group-in select:not(.ms-offscreen) option {
+  padding: 13px 0;
+  background: none;
+}
+
+/*# sourceMappingURL=index.css.map*/
