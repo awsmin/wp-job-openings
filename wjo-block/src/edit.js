@@ -32,14 +32,21 @@ import "./editor.scss";
 import {useEffect} from "@wordpress/element";
 import {InnerBlocks, useBlockProps} from "@wordpress/block-editor";
 
-import ServerSideRender from '@wordpress/server-side-render';
+import ServerSideRender from "@wordpress/server-side-render";
 
 import WidgetInspectorControls from "./inspector";
 import {useSelect} from "@wordpress/data";
 export default function Edit(props) {
 	const {
-		attributes: { filter_options, layout, search, enable_job_filter,search_placeholder},
-		setAttributes,
+		attributes: {
+			filter_options,
+			layout,
+			listing_per_page,
+			search,
+			enable_job_filter,
+			search_placeholder
+		},
+		setAttributes
 	} = props;
 
 	const blockProps = useBlockProps();
@@ -58,8 +65,8 @@ export default function Edit(props) {
 		<div {...blockProps}>
 			<WidgetInspectorControls {...props} />
 			<ServerSideRender
-			 block = "wp-job-openings/wjo-block"
-			 attributes  = {props.attributes}
+				block="wp-job-openings/wjo-block"
+				attributes={props.attributes}
 			/>
 		</div>
 	);

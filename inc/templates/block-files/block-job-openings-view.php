@@ -1,15 +1,15 @@
 <?php
 /**
  * Template for displaying job openings in block
- * 
+ *
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$attributes = isset( $block_atts_set ) ? $block_atts_set : array(); 
-$query = awsm_jobs_query( $attributes );
+$attributes = isset( $block_atts_set ) ? $block_atts_set : array();
+$query      = awsm_jobs_query( $attributes );
 
 if ( $query->have_posts() ) : ?>
 	<div class="awsm-job-wrap<?php awsm_jobs_wrapper_class(); ?>">

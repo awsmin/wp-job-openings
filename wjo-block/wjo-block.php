@@ -33,7 +33,7 @@ class Awsm_Job_Guten_Blocks {
 		register_block_type( __DIR__ . '/build', $args );
 	}
 
-	public function block_render_callback( $atts, $content ) { 
+	public function block_render_callback( $atts, $content ) {
 		if ( isset( $atts['filter_options'] ) && is_array( $atts['filter_options'] ) ) {
 			$atts['filter_options'] = implode( ',', $atts['filter_options'] );
 		}
@@ -46,14 +46,17 @@ class Awsm_Job_Guten_Blocks {
 			$atts['enable_job_filter'] = 'enable';
 		}
 
+		if ( isset( $atts['listing_per_page'] ) ) {
+			$atts['listing_per_page'] = $atts['listing_per_page'];
+		}
 
-		/* 
-		if ( isset( $atts['layout'] ) && is_array( $atts['layout'] ) ) { 
+		/*
+		if ( isset( $atts['layout'] ) && is_array( $atts['layout'] ) ) {
 			$atts['layout'] = implode( ',', $atts['layout'] );
 		} */
 
 		$class_block_init = AWSM_Job_Openings_Block::init();
-		$block_content =  $class_block_init->awsm_jobs_block_attributes($atts);
+		$block_content    = $class_block_init->awsm_jobs_block_attributes( $atts );
 		return $block_content;
 	}
 
