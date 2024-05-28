@@ -9,11 +9,16 @@
   "description": "Example block scaffolded with Create Block tool.",
   "attributes": {
     "filter_options": {
-      "type": "array"
+      "type": "array",
+      "default": "job-location,job-type,job-category"
     },
     "layout": {
       "type": "string",
       "default": "list"
+    },
+    "listing_per_page": {
+      "type": "number",
+      "default": 10
     },
     "pagination": {
       "type": "string",
