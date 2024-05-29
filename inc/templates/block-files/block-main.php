@@ -13,7 +13,8 @@ $view          = isset( $attributes['specs'] ) ? $attributes['specs'] : get_opti
 $awsm_filters  = get_option( 'awsm_jobs_filter' );
 $filter_data   = isset( $attributes['filter_options'] ) ? $attributes['filter_options'] : '';
 $search        = isset( $attributes['search'] ) ? $attributes['search'] : '';
-$listing_specs = awsm_block_job_filters_explode( $filter_data );
+/* $listing_specs = awsm_block_job_filters_explode( $filter_data ); */
+$listing_specs = get_option( 'awsm_jobs_listing_specs' );
 
 /**
  * Fires before The Loop to query for jobs.
