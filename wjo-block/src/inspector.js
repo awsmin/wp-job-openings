@@ -82,11 +82,13 @@ const WidgetInspectorControls = props => {
 					onChange={search => setAttributes({search})}
 				/>
 
-				<TextControl
-					label={__("Search Placeholder", "wp-job-openings")}
-					value={search_placeholder}
-					onChange={search_placeholder => setAttributes({search_placeholder})}
-				/>
+				{search && search == true && (
+					<TextControl
+						label={__("Search Placeholder", "wp-job-openings")}
+						value={search_placeholder}
+						onChange={search_placeholder => setAttributes({search_placeholder})}
+					/>
+				)}
 
 				<ToggleControl
 					label={__("Enable Job Filters", "wp-job-openings")}
@@ -106,7 +108,7 @@ const WidgetInspectorControls = props => {
 					onChange ={(listing_order)=>setAttributes({listing_order})}
 				/> */}
 			</PanelBody>
-			{enable_job_filter && enable_job_filter == 1 && (
+			{enable_job_filter && enable_job_filter == true && (
 				<PanelBody title={__("Filter Options", "wp-job-openings")}>
 					{specifications.length > 0 &&
 						specifications.map(spec => {
