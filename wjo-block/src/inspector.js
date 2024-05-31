@@ -12,6 +12,7 @@ const WidgetInspectorControls = props => {
 	const {
 		attributes: {
 			filter_options,
+			other_options,
 			layout,
 			listing_per_page,
 			search,
@@ -44,6 +45,21 @@ const WidgetInspectorControls = props => {
 				modfilteroptions.push(specKey);
 			}
 			setAttributes({filter_options: modfilteroptions});
+		}
+	};
+	const other_options_handler = (toggleValue, specKey) => {
+		if (typeof other_options !== "undefined") {
+			jQuery(".awsm-job-select-control").selectric("destroy");
+
+			let modfilteroptions = [...other_options];
+			if (!toggleValue) {
+				modfilteroptions = modfilteroptions.filter(
+					specOption => specOption !== specKey
+				);
+			} else {
+				modfilteroptions.push(specKey);
+			}
+			setAttributes({other_options: modfilteroptions});
 		}
 	};
 
@@ -127,6 +143,23 @@ const WidgetInspectorControls = props => {
 						})}
 				</PanelBody>
 			)}
+			<PanelBody title={__("Other Options", "wp-job-openings")}>
+					{specifications.length > 0 &&
+						specifications.map(spec => {
+							return (
+								<ToggleControl
+									label={spec.label}
+									checked={
+										typeof other_options !== "undefined" &&
+										other_options.includes(spec.key)
+									}
+									onChange={toggleValue =>
+										other_options_handler(toggleValue, spec.key)
+									}
+								/>
+							);
+						})}
+				</PanelBody>
 		</InspectorControls>
 	);
 };

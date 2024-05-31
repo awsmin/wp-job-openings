@@ -33,6 +33,7 @@ class AWSM_Job_Openings_Block {
 			'uid'                => $this->unique_listing_id,
 			'layout'             => isset( $blockatts['layout'] ) ? $blockatts['layout'] : '',
 			'filter_options'     => isset( $blockatts['filter_options'] ) ? $blockatts['filter_options'] : '',
+			'other_options'     => isset( $blockatts['other_options'] ) ? $blockatts['other_options'] : '',
 			'search'             => isset( $blockatts['search'] ) ? $blockatts['search'] : '',
 			'listings'           => isset( $blockatts['listing_per_page'] ) ? $blockatts['listing_per_page'] : '',
 			'loadmore'           => 'yes',

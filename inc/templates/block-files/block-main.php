@@ -11,10 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 $attributes    = isset( $attributes ) ? $attributes : array();
 $view          = isset( $attributes['specs'] ) ? $attributes['specs'] : get_option( 'awsm_jobs_listing_view' );
 $awsm_filters  = get_option( 'awsm_jobs_filter' );
-$filter_data   = isset( $attributes['filter_options'] ) ? $attributes['filter_options'] : '';
-$search        = isset( $attributes['search'] ) ? $attributes['search'] : '';
-/* $listing_specs = awsm_block_job_filters_explode( $filter_data ); */
-$listing_specs = get_option( 'awsm_jobs_listing_specs' );
+$listing_specs        = isset( $attributes['other_options'] ) ? $attributes['other_options'] : '';
+$listing_specs = awsm_block_job_filters_explode( $listing_specs  );
 
 /**
  * Fires before The Loop to query for jobs.

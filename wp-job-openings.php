@@ -1737,10 +1737,11 @@ class AWSM_Job_Openings {
 				if ( ! empty( $listing_specs ) ) {
 					$display = false;
 					if ( isset( $listing_specs['specs'] ) && is_array( $listing_specs['specs'] ) && in_array( $taxonomy, $listing_specs['specs'] ) ) {
-						$display = true;
-					}
-				}
-				if ( $display ) {
+			$display = true;
+		}
+	}
+	if ( $display ) {
+					// error_log( json_encode( $listing_specs . 'display', JSON_PRETTY_PRINT ) );
 					$terms = get_the_terms( $post_id, $taxonomy );
 					/**
 					 * Filter the job specification terms.
