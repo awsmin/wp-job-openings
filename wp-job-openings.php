@@ -1573,7 +1573,7 @@ class AWSM_Job_Openings {
 		}
 
 		$list_per_page          = self::get_listings_per_page( $shortcode_atts );
-		$hide_expired_jobs      = get_option( 'awsm_jobs_expired_jobs_listings' );
+		$hide_expired_jobs      = get_option( 'awsm_jobs_expired_jobs_listings' ); 
 		$args['post_type']      = 'awsm_job_openings';
 		$args['posts_per_page'] = $list_per_page;
 		if ( $hide_expired_jobs === 'expired' ) {

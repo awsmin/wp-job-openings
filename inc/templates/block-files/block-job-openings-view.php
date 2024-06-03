@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $attributes = isset( $block_atts_set ) ? $block_atts_set : array();
-$query      = awsm_jobs_query( $attributes );
+$query      = awsm_block_jobs_query( $attributes );
 
 if ( $query->have_posts() ) : ?>
 	<div class="awsm-job-wrap<?php awsm_jobs_wrapper_class(); ?>">
@@ -30,7 +30,7 @@ if ( $query->have_posts() ) : ?>
 			do_action( 'awsm_block_filter_form', $attributes );
 		?>
 
-		<div <?php awsm_jobs_view_class_block( '', $attributes ); ?><?php awsm_jobs_data_attrs( array(), $attributes ); ?>>
+		<div <?php awsm_block_jobs_view_class( '', $attributes ); ?><?php awsm_block_jobs_data_attrs( array(), $attributes ); ?>>
 			<?php
 				include get_awsm_jobs_template_path( 'block-main', 'block-files' );
 			?>

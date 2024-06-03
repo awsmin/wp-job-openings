@@ -18,7 +18,8 @@ const WidgetInspectorControls = props => {
 			search,
 			pagination,
 			enable_job_filter,
-			search_placeholder
+			search_placeholder,
+			hide_expired_jobs
 		},
 		setAttributes
 	} = props;
@@ -91,6 +92,13 @@ const WidgetInspectorControls = props => {
 					]}
 					onChange={pagination => setAttributes({pagination})}
 				/>
+
+				<ToggleControl
+					label={__("Hide Expired Jobs", "wp-job-openings")}
+					checked={hide_expired_jobs}
+					onChange={hide_expired_jobs => setAttributes({hide_expired_jobs})}
+				/>
+
 
 				<ToggleControl
 					label={__("Enable Search", "wp-job-openings")}

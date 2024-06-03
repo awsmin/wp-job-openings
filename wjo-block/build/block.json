@@ -28,6 +28,10 @@
       "type": "string",
       "default": "modern"
     },
+    "hide_expired_jobs": {
+      "type": "boolean",
+      "default": true
+    },
     "search": {
       "type": "boolean",
       "default": true

@@ -2,7 +2,7 @@
 
 'use strict';
 
-jQuery(function($) {
+jQuery(function($) { 
 	var rootWrapperSelector = '.awsm-job-wrap';
 	var wrapperSelector = '.awsm-job-listings';
 
@@ -12,11 +12,16 @@ jQuery(function($) {
 	var currentUrl = window.location.protocol + '//' + window.location.host + window.location.pathname;
 	var triggerFilter = true;
 
-	function getListingsData($wrapper) {
+	function getListingsData($wrapper) {  
 		var data = [];
 		var parsedListingsAttrs = [ 'listings', 'specs', 'search', 'lang', 'taxonomy', 'termId' ];
+
+		/* added for block */
+		parsedListingsAttrs.push('layout');
+		/* end */
+
 		var dataAttrs = $wrapper.data();
-		$.each(dataAttrs, function(dataAttr, value) {
+		$.each(dataAttrs, function(dataAttr, value) { 
 			if ($.inArray(dataAttr, parsedListingsAttrs) === -1) {
 				data.push({
 					name: dataAttr,
@@ -27,12 +32,16 @@ jQuery(function($) {
 		return data;
 	}
 
-	function awsmJobFilters($rootWrapper) {
+	function awsmJobFilters($rootWrapper) { 
 		var $wrapper = $rootWrapper.find(wrapperSelector);
 		var $filterForm = $rootWrapper.find(filterSelector + ' form');
 		var formData = $filterForm.serializeArray();
 		var listings = $wrapper.data('listings');
 		var specs = $wrapper.data('specs');
+
+		/* added for block */
+		var layout = $wrapper.data('layout');
+		/* end */
 		formData.push({
 			name: 'listings_per_page',
 			value: listings
@@ -43,6 +52,16 @@ jQuery(function($) {
 				value: specs
 			});
 		}
+
+		/* added for block */
+		if (typeof layout !== 'undefined') {
+			formData.push({
+				name: 'layout',
+				value: layout
+			});
+		}
+		/* end */
+
 		var listingsData = getListingsData($wrapper);
 		if (listingsData.length > 0) {
 			formData = formData.concat(listingsData);
@@ -159,7 +178,7 @@ jQuery(function($) {
 		}
 	};
 
-	$(filterSelector + ' .awsm-filter-option').on('change', function(e) {
+	$(filterSelector + ' .awsm-filter-option').on('change', function(e) { 
 		e.preventDefault();
 		var $elem = $(this);
 		var $selected = $elem.find('option:selected');
@@ -278,6 +297,16 @@ jQuery(function($) {
 				value: specs
 			});
 		}
+
+		/* added for block */
+		if (typeof layout !== 'undefined') {
+			wpData.push({
+				name: 'layout',
+				value: layout
+			});
+		}
+		/* end */
+
 		if (typeof lang !== 'undefined') {
 			wpData.push({
 				name: 'lang',
