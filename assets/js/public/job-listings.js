@@ -227,6 +227,10 @@ jQuery(function($) {
 		var lang = $listingsContainer.data('lang');
 		var searchQuery = $listingsContainer.data('search');
 
+		/* added for block */
+		var layout = $listingsContainer.data('layout');
+		/* end */
+
 		if (isDefaultPagination) {
 			$triggerElem.prop('disabled', true);
 			paged = $triggerElem.data('page');

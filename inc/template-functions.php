@@ -214,7 +214,7 @@ if ( ! function_exists( 'awsm_jobs_paginate_links' ) ) {
 }
 
 if ( ! function_exists( 'awsm_jobs_load_more' ) ) {
-	function awsm_jobs_load_more( $query, $shortcode_atts = array() ) {
+	function awsm_jobs_load_more( $query, $shortcode_atts = array() ) { 
 		$loadmore      = isset( $shortcode_atts['loadmore'] ) && $shortcode_atts['loadmore'] === 'no' ? false : true;
 		$max_num_pages = $query->max_num_pages;
 		if ( $loadmore && $max_num_pages > 1 ) {
