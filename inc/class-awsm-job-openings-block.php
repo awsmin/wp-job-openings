@@ -35,7 +35,7 @@ class AWSM_Job_Openings_Block {
 			'filter_options'     => isset( $blockatts['filter_options'] ) ? $blockatts['filter_options'] : '',
 			'other_options'      => isset( $blockatts['other_options'] ) ? $blockatts['other_options'] : '',
 			'search'             => isset( $blockatts['search'] ) ? $blockatts['search'] : '',
-			'listings'           => isset( $blockatts['listing_per_page'] ) ? $blockatts['listing_per_page'] : '',
+			'listings'           => isset( $blockatts['listing_per_page'] ) ? $blockatts['listing_per_page'] : 10,
 			'loadmore'           => 'yes',
 			'pagination'         => isset( $blockatts['pagination'] ) ? $blockatts['pagination'] : 'modern',
 			//'layout'             => isset( $blockatts['layout'] ) ? $blockatts['layout'] : '',
