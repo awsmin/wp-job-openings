@@ -1,6 +1,6 @@
-import {useEffect} from "@wordpress/element";
-import {__} from "@wordpress/i18n";
-import {InspectorControls} from "@wordpress/block-editor";
+import { useEffect } from "@wordpress/element";
+import { __ } from "@wordpress/i18n";
+import { InspectorControls } from "@wordpress/block-editor";
 import {
 	PanelBody,
 	ToggleControl,
@@ -29,7 +29,7 @@ const WidgetInspectorControls = props => {
 	useEffect(() => {
 		if (specifications.length > 0 && typeof filter_options === "undefined") {
 			let initialspecs = specifications.map(spec => spec.key);
-			setAttributes({filter_options: initialspecs});
+			setAttributes({ filter_options: initialspecs });
 		}
 	});
 
@@ -45,7 +45,7 @@ const WidgetInspectorControls = props => {
 			} else {
 				modfilteroptions.push(specKey);
 			}
-			setAttributes({filter_options: modfilteroptions});
+			setAttributes({ filter_options: modfilteroptions });
 		}
 	};
 	const other_options_handler = (toggleValue, specKey) => {
@@ -60,7 +60,7 @@ const WidgetInspectorControls = props => {
 			} else {
 				modfilteroptions.push(specKey);
 			}
-			setAttributes({other_options: modfilteroptions});
+			setAttributes({ other_options: modfilteroptions });
 		}
 	};
 
@@ -76,10 +76,10 @@ const WidgetInspectorControls = props => {
 					label={__("Layout", "wp-job-openings")}
 					value={layout}
 					options={[
-						{label: __("List Layout", "wp-job-openings"), value: "list"},
-						{label: __("Grid Layout", "wp-job-openings"), value: "grid"}
+						{ label: __("List Layout", "wp-job-openings"), value: "list" },
+						{ label: __("Grid Layout", "wp-job-openings"), value: "grid" }
 					]}
-					onChange={layout => setAttributes({layout})}
+					onChange={layout => setAttributes({ layout })}
 				/>
 
 				<TextControl
@@ -92,37 +92,37 @@ const WidgetInspectorControls = props => {
 					label={__("Pagination", "wp-job-openings")}
 					value={pagination}
 					options={[
-						{label: __("Classic", "wp-job-openings"), value: "classic"},
-						{label: __("Modern", "wp-job-openings"), value: "modern"}
+						{ label: __("Classic", "wp-job-openings"), value: "classic" },
+						{ label: __("Modern", "wp-job-openings"), value: "modern" }
 					]}
-					onChange={pagination => setAttributes({pagination})}
+					onChange={pagination => setAttributes({ pagination })}
 				/>
 
 				<ToggleControl
 					label={__("Hide Expired Jobs", "wp-job-openings")}
 					checked={hide_expired_jobs}
-					onChange={hide_expired_jobs => setAttributes({hide_expired_jobs})}
+					onChange={hide_expired_jobs => setAttributes({ hide_expired_jobs })}
 				/>
 
 
 				<ToggleControl
 					label={__("Enable Search", "wp-job-openings")}
 					checked={search}
-					onChange={search => setAttributes({search})}
+					onChange={search => setAttributes({ search })}
 				/>
 
 				{search && search == true && (
 					<TextControl
 						label={__("Search Placeholder", "wp-job-openings")}
 						value={search_placeholder}
-						onChange={search_placeholder => setAttributes({search_placeholder})}
+						onChange={search_placeholder => setAttributes({ search_placeholder })}
 					/>
 				)}
 
 				<ToggleControl
 					label={__("Enable Job Filters", "wp-job-openings")}
 					checked={enable_job_filter}
-					onChange={enable_job_filter => setAttributes({enable_job_filter})}
+					onChange={enable_job_filter => setAttributes({ enable_job_filter })}
 				/>
 
 				{/* <SelectControl
@@ -157,22 +157,22 @@ const WidgetInspectorControls = props => {
 				</PanelBody>
 			)}
 			<PanelBody title={__("Other Options", "wp-job-openings")}>
-					{specifications.length > 0 &&
-						specifications.map(spec => {
-							return (
-								<ToggleControl
-									label={spec.label}
-									checked={
-										typeof other_options !== "undefined" &&
-										other_options.includes(spec.key)
-									}
-									onChange={toggleValue =>
-										other_options_handler(toggleValue, spec.key)
-									}
-								/>
-							);
-						})}
-				</PanelBody>
+				{specifications.length > 0 &&
+					specifications.map(spec => {
+						return (
+							<ToggleControl
+								label={spec.label}
+								checked={
+									typeof other_options !== "undefined" &&
+									other_options.includes(spec.key)
+								}
+								onChange={toggleValue =>
+									other_options_handler(toggleValue, spec.key)
+								}
+							/>
+						);
+					})}
+			</PanelBody>
 		</InspectorControls>
 	);
 };
