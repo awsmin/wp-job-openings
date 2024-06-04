@@ -64,6 +64,11 @@ const WidgetInspectorControls = props => {
 		}
 	};
 
+	const onchange_listing_per_page = (value) => { 
+		const numberValue = parseInt(value, 10);
+		setAttributes({ listing_per_page: isNaN(numberValue) ? 10 : numberValue });
+	};
+
 	return (
 		<InspectorControls>
 			<PanelBody title={__("Appearance", "wp-job-openings")}>
@@ -80,7 +85,7 @@ const WidgetInspectorControls = props => {
 				<TextControl
 					label={__("Listing per page", "wp-job-openings")}
 					value={listing_per_page}
-					onChange={listing_per_page => setAttributes({listing_per_page})}
+					onChange={(listing_per_page) => onchange_listing_per_page(listing_per_page)}
 				/>
 
 				<SelectControl
