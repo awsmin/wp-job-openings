@@ -28,20 +28,20 @@ while ( $query->have_posts() ) {
 	$query->the_post();
 	$job_details = get_awsm_job_details();
 
-	$attrs  = awsm_jobs_listing_item_class( array( "awsm-{$view}-item" ) );
-	$attrs .= sprintf( ' id="awsm-%1$s-item-%2$s"', esc_attr( $view ), esc_attr( $job_details['id'] ) );
+	$attrs  = awsm_jobs_listing_item_class( array( "awsm-b-{$view}-item" ) );
+	$attrs .= sprintf( ' id="awsm-b-%1$s-item-%2$s"', esc_attr( $view ), esc_attr( $job_details['id'] ) );
 
 	echo '<div ' . $attrs . '>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	?>
-		<?php echo ( $view === 'grid' ) ? sprintf( '<a href="%s" class="awsm-job-item">', esc_url( $job_details['permalink'] ) ) : '<div class="awsm-job-item">'; ?>
-			<div class="awsm-<?php echo esc_attr( $view ); ?>-left-col">
+		<?php echo ( $view === 'grid' ) ? sprintf( '<a href="%s" class="awsm-b-job-item">', esc_url( $job_details['permalink'] ) ) : '<div class="awsm-b-job-item">'; ?>
+			<div class="awsm-b-<?php echo esc_attr( $view ); ?>-left-col">
 				<?php
 					do_action_deprecated( 'before_awsm_block_jobs_listing_left_col_content', array( $job_details['id'], $attributes ), '3.0.0', 'before_awsm_block_jobs_listing_title' );
 				?>
 
 				<?php awsm_jobs_featured_image(); ?>
 
-				<h2 class="awsm-job-post-title">
+				<h2 class="awsm-b-job-post-title">
 					<?php
 						$job_title = ( $view === 'grid' ) ? esc_html( $job_details['title'] ) : sprintf( '<a href="%2$s">%1$s</a>', esc_html( $job_details['title'] ), esc_url( $job_details['permalink'] ) );
 						echo apply_filters( 'awsm_jobs_block_listing_title', $job_title, $view ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -63,7 +63,7 @@ while ( $query->have_posts() ) {
 				?>
 			</div>
 
-			<div class="awsm-<?php echo esc_attr( $view ); ?>-right-col">
+			<div class="awsm-b-<?php echo esc_attr( $view ); ?>-right-col">
 				<?php
 
 					/**
