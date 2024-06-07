@@ -303,6 +303,10 @@ class AWSM_Job_Openings_Block {
 			$attributes['listings'] = intval( $_POST['listings_per_page'] );
 		}
 
+		if ( isset( $_POST['hide_expired_jobs'] ) ) {
+			$attributes['hide_expired_jobs'] = $_POST['hide_expired_jobs'];
+		}
+
 		if ( isset( $_POST['lang'] ) ) {
 			AWSM_Job_Openings::set_current_language( $_POST['lang'] );
 		}
@@ -408,9 +412,10 @@ class AWSM_Job_Openings_Block {
 	}
 
 	public static function get_block_job_listing_data_attrs( $shortcode_atts = array() ) {
-		$attrs             = array();
-		$attrs['listings'] = AWSM_Job_Openings::get_listings_per_page( $shortcode_atts );
-		$attrs['layout']    = isset( $shortcode_atts['layout'] ) ? $shortcode_atts['layout'] : '';
+		$attrs             			= array();
+		$attrs['listings'] 			= AWSM_Job_Openings::get_listings_per_page( $shortcode_atts );
+		$attrs['layout']    		= isset( $shortcode_atts['layout'] ) ? $shortcode_atts['layout'] : '';
+		$attrs['hide_expired_jobs'] = isset( $shortcode_atts['hide_expired_jobs'] ) ? $shortcode_atts['hide_expired_jobs'] : '';
 
 		$current_lang = AWSM_Job_Openings::get_current_language();
 		if ( ! empty( $current_lang ) ) {
