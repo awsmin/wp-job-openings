@@ -104,13 +104,13 @@ a.awsm-b-job-item {
 	margin-bottom: 14px;
 }
 
-.awsm-b-job-item h2.awsm-job-post-title {
+.awsm-b-job-item h2.awsm-b-job-post-title {
 	margin: 0 0 15px;
 	font-size: 18px;
 	text-align: left;
 }
 
-.awsm-b-job-item h2.awsm-job-post-title a {
+.awsm-b-job-item h2.awsm-b-job-post-title a {
 	font-size: 18px;
 }
 
@@ -182,7 +182,7 @@ a.awsm-b-job-item {
 		flex-wrap: wrap;
 		width: calc(100% - 250px);
 	}
-	.awsm-filter-toggle{
+	.awsm-b-filter-toggle{
 		display: none;
 	}
 	.awsm-b-filter-item-search{
@@ -303,7 +303,7 @@ a.awsm-b-job-item {
 	width: 100%;
 }
 
-.awsm-b-list-item h2.awsm-job-post-title {
+.awsm-b-list-item h2.awsm-job-b-post-title {
 	margin-bottom: 0;
 }
 
