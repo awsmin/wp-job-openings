@@ -36,7 +36,7 @@
     "cross-env": "^5.2.1",
     "eslint": "^5.16.0",
     "eslint-config-wordpress": "^2.0.0",
-    "gulp": "^4.0.2",
+    "gulp": "^5.0.0",
     "gulp-autoprefixer": "^5.0.0",
     "gulp-clean-css": "^3.10.0",
     "gulp-concat": "^2.6.1",
