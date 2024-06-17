@@ -24,7 +24,7 @@ const WidgetInspectorControls = props => {
 		setAttributes
 	} = props;
 
-	const specifications = awsmJobsAdmin.awsm_filters;
+	const specifications = awsmJobsAdmin.awsm_filters_block; 
 
 	useEffect(() => {
 		if (specifications.length > 0 && typeof filter_options === "undefined") {
@@ -33,7 +33,7 @@ const WidgetInspectorControls = props => {
 		}
 	});
 
-	const specifications_handler = (toggleValue, specKey) => {
+	const specifications_handler = (toggleValue, specKey) => { 
 		if (typeof filter_options !== "undefined") {
 			jQuery(".awsm-job-select-control").selectric("destroy");
 

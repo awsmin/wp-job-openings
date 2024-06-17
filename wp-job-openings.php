@@ -1123,6 +1123,7 @@ class AWSM_Job_Openings {
 					),
 				),
 				'awsm_filters' => self::get_filter_specifications(),
+				'awsm_filters_block' => AWSM_Job_Openings_Block::get_block_filter_specifications(),
 			)
 		);
 
@@ -1140,15 +1141,15 @@ class AWSM_Job_Openings {
 	}
 
 
-	public static function get_filter_specifications( $specs_keys = array() ) {
-		$awsm_filters = get_option( 'awsm_jobs_filter' );
-		$spec_keys    = wp_list_pluck( $awsm_filters, 'taxonomy' );
+	public static function get_filter_specifications( $specs_keys = array() ) { 
+		$awsm_filters = get_option( 'awsm_jobs_filter' ); 
+		$spec_keys    = wp_list_pluck( $awsm_filters, 'taxonomy' ); 
 		if ( ! is_array( $specs_keys ) ) {
 			$specs_keys = explode( ',', $specs_keys );
-		}
-		$specs = array();
-		if ( ! empty( $specs_keys ) ) {
-			foreach ( $specs_keys as $spec_key ) {
+		} 
+		$specs = array(); 
+		if ( ! empty( $specs_keys ) ) { 
+			foreach ( $specs_keys as $spec_key ) { 
 				$terms = self::get_spec_terms( $spec_key );
 				if ( ! empty( $terms ) ) {
 					$tax_obj = get_taxonomy( $spec_key );
@@ -1159,10 +1160,10 @@ class AWSM_Job_Openings {
 							'terms' => $terms,
 						);
 					}
-				}
+				} 
 			}
 		} else {
-			$taxonomy_objects = get_object_taxonomies( 'awsm_job_openings', 'objects' );
+			$taxonomy_objects = get_object_taxonomies( 'awsm_job_openings', 'objects' ); 
 			foreach ( $taxonomy_objects as $spec => $spec_details ) {
 				if ( ! in_array( $spec, $spec_keys, true ) ) {
 					continue;
@@ -1175,9 +1176,9 @@ class AWSM_Job_Openings {
 						'terms' => $terms,
 					);
 				}
-			}
+			} 
 		}
-
+		
 		return $specs;
 	}
 
