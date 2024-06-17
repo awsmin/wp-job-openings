@@ -26,7 +26,7 @@ const WidgetInspectorControls = props => {
 
 	const specifications = awsmJobsAdmin.awsm_filters_block; 
 
-	useEffect(() => {
+	useEffect(() => { 
 		if (specifications.length > 0 && typeof filter_options === "undefined") {
 			let initialspecs = specifications.map(spec => spec.key);
 			setAttributes({ filter_options: initialspecs });
@@ -66,7 +66,7 @@ const WidgetInspectorControls = props => {
 
 	const onchange_listing_per_page = (value) => { 
 		const numberValue = parseInt(value, 10);
-		setAttributes({ listing_per_page: isNaN(numberValue) ? 10 : numberValue });
+		setAttributes({ listing_per_page: isNaN(numberValue) ? 0 : numberValue }); 
 	};
 
 	return (

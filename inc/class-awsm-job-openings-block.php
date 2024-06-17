@@ -497,7 +497,6 @@ class AWSM_Job_Openings_Block {
 		}
 		return $terms;
 	}
-
 }
 
 AWSM_Job_Openings_Block::init();
