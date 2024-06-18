@@ -303,6 +303,14 @@ class AWSM_Job_Openings_Block {
 			$attributes['listings'] = intval( $_POST['listings_per_page'] );
 		}
 
+		if ( isset( $_POST['hide_expired_jobs'] ) ) {
+			$attributes['hide_expired_jobs'] = $_POST['hide_expired_jobs'];
+		}
+
+		if ( isset( $_POST['other_options'] ) ) {
+			$attributes['other_options'] = $_POST['other_options'];
+		}
+
 		if ( isset( $_POST['lang'] ) ) {
 			AWSM_Job_Openings::set_current_language( $_POST['lang'] );
 		}
@@ -408,9 +416,11 @@ class AWSM_Job_Openings_Block {
 	}
 
 	public static function get_block_job_listing_data_attrs( $shortcode_atts = array() ) {
-		$attrs             = array();
-		$attrs['listings'] = AWSM_Job_Openings::get_listings_per_page( $shortcode_atts );
-		$attrs['layout']    = isset( $shortcode_atts['layout'] ) ? $shortcode_atts['layout'] : '';
+		$attrs             			= array();
+		$attrs['listings'] 			= AWSM_Job_Openings::get_listings_per_page( $shortcode_atts );
+		$attrs['layout']    		= isset( $shortcode_atts['layout'] ) ? $shortcode_atts['layout'] : '';
+		$attrs['hide_expired_jobs'] = isset( $shortcode_atts['hide_expired_jobs'] ) ? $shortcode_atts['hide_expired_jobs'] : '';
+		$attrs['other_options'] 	= isset( $shortcode_atts['other_options'] ) ? $shortcode_atts['other_options'] : '';
 
 		$current_lang = AWSM_Job_Openings::get_current_language();
 		if ( ! empty( $current_lang ) ) {
@@ -435,6 +445,58 @@ class AWSM_Job_Openings_Block {
 		return apply_filters( 'awsm_block_job_listing_data_attrs', $attrs, $shortcode_atts );
 	}
 
+	public static function get_block_filter_specifications( $specs_keys = array() ) { 
+		$awsm_filters = get_option( 'awsm_jobs_filter' ); 
+		$spec_keys    = wp_list_pluck( $awsm_filters, 'taxonomy' ); 
+		if ( ! is_array( $specs_keys ) ) {
+			$specs_keys = explode( ',', $specs_keys );
+		} 
+		$specs = array(); 
+		if ( ! empty( $specs_keys ) ) { 
+			foreach ( $specs_keys as $spec_key ) { 
+				$terms = self::get_block_spec_terms( $spec_key );
+				if ( ! empty( $terms ) ) {
+					$tax_obj = get_taxonomy( $spec_key );
+					if ( ! empty( $tax_obj ) ) {
+						$specs[] = array(
+							'key'   => $spec_key,
+							'label' => $tax_obj->label,
+							'terms' => $terms,
+						);
+					}
+				} 
+			}
+		} else {
+			$taxonomy_objects = get_object_taxonomies( 'awsm_job_openings', 'objects' ); 
+			foreach ( $taxonomy_objects as $spec => $spec_details ) {
+				if ( ! in_array( $spec, $spec_keys, true ) ) {
+					continue;
+				}
+				$terms = self::get_block_spec_terms( $spec );
+				if ( ! empty( $terms ) ) {
+					$specs[] = array(
+						'key'   => $spec,
+						'label' => $spec_details->label,
+						'terms' => $terms,
+					);
+				}
+			} 
+		}
+		
+		return $specs;
+	}
+
+	public static function get_block_spec_terms( $spec ) {
+		$terms_args = array(
+			'taxonomy'   => $spec,
+			'hide_empty' => false,
+		);
+		$terms      = get_terms( $terms_args );
+		if ( is_wp_error( $terms ) ) {
+			$terms = array();
+		}
+		return $terms;
+	}
 }
 
 AWSM_Job_Openings_Block::init();

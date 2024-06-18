@@ -51,7 +51,7 @@ export default function Edit(props) {
 
 	const blockProps = useBlockProps();
 
-	let specifications = awsmJobsAdmin.awsm_filters;
+	let specifications = awsmJobsAdmin.awsm_filters_block;
 	specifications = specifications.filter(spec => {
 		if (
 			typeof filter_options !== "undefined" &&
@@ -61,26 +61,26 @@ export default function Edit(props) {
 		}
 	});
 
-		const awsmDropDown = $elem => {
-		if (
-			"selectric" in awsmJobsPublic.vendors &&
-			awsmJobsPublic.vendors.selectric
-		) {
-			$elem.selectric({
-				onInit: function(select, selectric) {
-					var id = select.id;
-					var $input = jQuery(selectric.elements.input);
-					jQuery(select).attr("id", "selectric-" + id);
-					$input.attr("id", id);
-				},
-				arrowButtonMarkup:
-					'<span class="awsm-selectric-arrow-drop">&#x25be;</span>',
-				customClass: {
-					prefix: "awsm-selectric",
-					camelCase: false
-				}
-			});
-		}
+	const awsmDropDown = $elem => {
+	if (
+		"selectric" in awsmJobsPublic.vendors &&
+		awsmJobsPublic.vendors.selectric
+	) {
+		$elem.selectric({
+			onInit: function(select, selectric) {
+				var id = select.id;
+				var $input = jQuery(selectric.elements.input);
+				jQuery(select).attr("id", "selectric-" + id);
+				$input.attr("id", id);
+			},
+			arrowButtonMarkup:
+				'<span class="awsm-selectric-arrow-drop">&#x25be;</span>',
+			customClass: {
+				prefix: "awsm-selectric",
+				camelCase: false
+			}
+		});
+	    }
 	};
 
 	useEffect(() => {

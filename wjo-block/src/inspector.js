@@ -24,16 +24,16 @@ const WidgetInspectorControls = props => {
 		setAttributes
 	} = props;
 
-	const specifications = awsmJobsAdmin.awsm_filters;
+	const specifications = awsmJobsAdmin.awsm_filters_block; 
 
-	useEffect(() => {
+	useEffect(() => { 
 		if (specifications.length > 0 && typeof filter_options === "undefined") {
 			let initialspecs = specifications.map(spec => spec.key);
 			setAttributes({ filter_options: initialspecs });
 		}
 	});
 
-	const specifications_handler = (toggleValue, specKey) => {
+	const specifications_handler = (toggleValue, specKey) => { 
 		if (typeof filter_options !== "undefined") {
 			jQuery(".awsm-job-select-control").selectric("destroy");
 
@@ -66,7 +66,7 @@ const WidgetInspectorControls = props => {
 
 	const onchange_listing_per_page = (value) => { 
 		const numberValue = parseInt(value, 10);
-		setAttributes({ listing_per_page: isNaN(numberValue) ? 10 : numberValue });
+		setAttributes({ listing_per_page: isNaN(numberValue) ? 0 : numberValue }); 
 	};
 
 	return (
