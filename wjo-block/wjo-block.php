@@ -77,7 +77,7 @@ class Awsm_Job_Guten_Blocks {
 			'awsm-block-job-admin',
 			plugins_url( 'src/editor.css', dirname( __FILE__ ) ),
 			array(),
-			'',
+			'1.0.0',
 			'all'
 		);
 	}
