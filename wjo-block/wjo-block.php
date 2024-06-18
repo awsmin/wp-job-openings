@@ -72,6 +72,14 @@ class Awsm_Job_Guten_Blocks {
 			$awsm_job_openings = AWSM_Job_Openings::init();
 			$awsm_job_openings->awsm_enqueue_scripts();
 		}
+
+		wp_enqueue_style(
+			'awsm-block-job-admin',
+			plugins_url( 'src/editor.css', dirname( __FILE__ ) ),
+			array(),
+			'',
+			'all'
+		);
 	}
 }
 
