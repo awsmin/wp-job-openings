@@ -720,27 +720,3 @@ ul.awsm-error-message li {
 .awsm-jobs-is-block-theme .site-title {
 	margin-bottom: 0;
 }
-
-.awsm-b-filter-item label.awsm-b-sr-only {
-
-	padding: 15px;
-	padding-right: 50px;
-    border: 1px solid #dddfe3;
-    min-width: 160px;
-	font-size: 14px;
-	position: relative;
-	-moz-appearance: none;
-	-webkit-appearance: none;
-	appearance: none;
-	//background: #fff url(../../assets/img/arrow.svg) no-repeat ;
-	background-position: right 10px top 50%;
-	box-shadow: 0 1px 4px 0 rgb(0 0 0 / 5%);
-    font-size: 12px;
-    line-height: 46px;
-    color: #444;
-    height: 46px;
-}
-.awsm-b-filter-item .awsm-filter-option {
-   display: none;
-}
-
