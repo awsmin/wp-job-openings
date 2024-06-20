@@ -251,7 +251,12 @@ class AWSM_Job_Openings_Block {
 			 */
 				$toggle_control = apply_filters( 'awsm_job_filters_block_toggle_btn', $toggle_control );
 
-				$specs_filter_content = sprintf( '<a href="#" class="awsm-b-filter-toggle" role="button" aria-pressed="false">%2$s</a><div class="awsm-b-filter-items">%1$s</div>', $specs_filter_content, $toggle_control );
+				$filter_class_admin = ''; 
+				if ( self::is_edit_or_add_page() ) {
+					$filter_class_admin = 'awsm-b-filter-admin';
+				}
+
+				$specs_filter_content = sprintf( '<a href="#" class="awsm-b-filter-toggle" role="button" aria-pressed="false">%2$s</a><div class="awsm-b-filter-items '.$filter_class_admin.'">%1$s</div>', $specs_filter_content, $toggle_control );
 			}
 
 			$wrapper_class = 'awsm-b-filter-wrap';
@@ -262,6 +267,30 @@ class AWSM_Job_Openings_Block {
 		}
 
 		echo apply_filters( 'awsm_filter_block_content', $filter_content, $available_filters_arr ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	}
+
+	public static function is_edit_or_add_page( $type = '' ) {
+		// Check if the request is a REST API request, which is used by the block editor
+		if ( wp_is_json_request() ) {
+			return true;
+		}
+	
+		if ( is_admin() ) {
+			$screen = get_current_screen();
+			if ( $screen ) {
+				// Check for edit or add new pages
+				if ( 'post' === $screen->base && ( 'post' === $screen->id || 'edit' === $screen->id ) ) {
+					return true;
+				}
+				if ( 'page' === $screen->base && ( 'page' === $screen->id || 'edit-page' === $screen->id ) ) {
+					return true;
+				}
+				if ( $type && ( $type === $screen->post_type ) && ( 'post' === $screen->base || 'edit' === $screen->base ) ) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	public static function get_block_filters_query_args( $filters = false ) {
