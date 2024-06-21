@@ -55,7 +55,7 @@ class AWSM_Job_Openings_Block {
 
 	public static function get_job_listing_view_class_block( $attributes = array() ) {
 		$view       = $attributes['layout'];
-		$view_class = 'awsm-b-lists';
+		$view_class = 'awsm-lists awsm-b-lists';
 		if ( $view === 'grid' ) {
 			$number_columns = get_option( 'awsm_jobs_number_of_columns' );
 			$view_class     = 'awsm-b-row';
@@ -65,7 +65,7 @@ class AWSM_Job_Openings_Block {
 			}
 			$view_class .= ' ' . $column_class;
 		}
-		return sprintf( 'awsm-b-job-listings %s', $view_class );
+		return sprintf( 'awsm-job-listings awsm-b-job-listings %s', $view_class );
 	}
 
 	public function display_block_filter_form( $shortcode_atts ) {
@@ -107,7 +107,7 @@ class AWSM_Job_Openings_Block {
 			 */
 			$placeholder_text = apply_filters( 'awsm_jobs_block_search_field_placeholder', _x( $placeholder_search, 'job filter', 'wp-job-openings' ) );
 			$search_icon      = '<span class="awsm-job-search-btn awsm-b-job-search-icon-wrapper"><i class="awsm-job-icon-search"></i></span><span class="awsm-job-search-close-btn awsm-b-job-search-icon-wrapper awsm-b-job-hide"><i class="awsm-job-icon-close-circle"></i></span>';
-			$search_content   = sprintf( '<div class="awsm-b-filter-item-search"><div class="awsm-b-filter-item-search-in"><label for="awsm-jq%4$s" class="awsm-b-sr-only">%1$s</label><input type="text" id="awsm-jq%4$s" name="jq" value="%2$s" placeholder="%1$s" class="awsm-job-search awsm-b-job-form-control">%3$s</div></div>', esc_attr( $placeholder_text ), esc_attr( $search_query ), $search_icon, esc_attr( $uid ) );
+			$search_content   = sprintf( '<div class="awsm-job-search-btn awsm-b-filter-item-search"><div class="awsm-filter-item-search awsm-b-filter-item-search-in"><label for="awsm-jq%4$s" class="awsm-sr-only awsm-b-sr-only">%1$s</label><input type="text" id="awsm-jq%4$s" name="jq" value="%2$s" placeholder="%1$s" class="awsm-job-search awsm-b-job-form-control">%3$s</div></div>', esc_attr( $placeholder_text ), esc_attr( $search_query ), $search_icon, esc_attr( $uid ) );
 			/**
 			 * Filters the search field content.
 			 *
@@ -206,7 +206,7 @@ class AWSM_Job_Openings_Block {
 						 */
 						$filter_label = apply_filters( 'awsm_filter_block_label', esc_html_x( 'All', 'job filter', 'wp-job-openings' ) . ' ' . $spec_name, $taxonomy, $tax_details );
 
-						$dropdown_content = sprintf( '<div class="awsm-b-filter-item" data-filter="%2$s"><label for="awsm-%1$s-filter-option%5$s" class="awsm-b-sr-only">%3$s</label><select name="awsm_job_spec[%1$s]" class="awsm-filter-option awsm-%1$s-filter-option" id="awsm-%1$s-filter-option%5$s" aria-label="%3$s"><option value="">%3$s</option>%4$s</select></div>', esc_attr( $taxonomy ), esc_attr( $filter_key . '_spec' ), esc_html( $filter_label ), $options_content, esc_attr( $uid ) );
+						$dropdown_content = sprintf( '<div class="awsm-filter-item awsm-b-filter-item" data-filter="%2$s"><label for="awsm-%1$s-filter-option%5$s" class="awsm-b-sr-only awsm-sr-only">%3$s</label><select name="awsm_job_spec[%1$s]" class="awsm-filter-option awsm-%1$s-filter-option" id="awsm-%1$s-filter-option%5$s" aria-label="%3$s"><option value="">%3$s</option>%4$s</select></div>', esc_attr( $taxonomy ), esc_attr( $filter_key . '_spec' ), esc_html( $filter_label ), $options_content, esc_attr( $uid ) );
 						/**
 						 * Filter the job filter dropdown content.
 						 *
@@ -239,7 +239,7 @@ class AWSM_Job_Openings_Block {
 
 				$toggle_text_wrapper_class = 'awsm-filter-toggle-text-wrapper';
 				if ( $enable_search === 'enable' ) {
-					$toggle_text_wrapper_class .= ' awsm-b-sr-only';
+					$toggle_text_wrapper_class .= ' awsm-sr-only awsm-b-sr-only';
 				}
 				$toggle_control = sprintf( '<span class="%2$s">%1$s</span>%3$s', esc_html_x( 'Filter by', 'job filter', 'wp-job-openings' ), esc_attr( $toggle_text_wrapper_class ), $toggle_icon );
 				/**
@@ -253,10 +253,10 @@ class AWSM_Job_Openings_Block {
 
 				$filter_class_admin = ''; 
 				if ( self::is_edit_or_add_page() ) {
-					$filter_class_admin = 'awsm-b-filter-admin';
+					//$filter_class_admin = 'awsm-b-filter-admin';
 				}
 
-				$specs_filter_content = sprintf( '<a href="#" class="awsm-b-filter-toggle" role="button" aria-pressed="false">%2$s</a><div class="awsm-b-filter-items '.$filter_class_admin.'">%1$s</div>', $specs_filter_content, $toggle_control );
+				$specs_filter_content = sprintf( '<a href="#" class="awsm-filter-toggle awsm-b-filter-toggle" role="button" aria-pressed="false">%2$s</a><div class="awsm-filter-items awsm-b-filter-items '.$filter_class_admin.'">%1$s</div>', $specs_filter_content, $toggle_control );
 			}
 
 			$wrapper_class = 'awsm-b-filter-wrap';
