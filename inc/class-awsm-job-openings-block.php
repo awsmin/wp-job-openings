@@ -58,10 +58,10 @@ class AWSM_Job_Openings_Block {
 		$view_class = 'awsm-lists awsm-b-lists';
 		if ( $view === 'grid' ) {
 			$number_columns = get_option( 'awsm_jobs_number_of_columns' );
-			$view_class     = 'awsm-b-row';
-			$column_class   = 'awsm-b-grid-col-' . $number_columns;
+			$view_class     = 'awsm-row awsm-b-row';
+			$column_class   = 'awsm-grid-col-' . $number_columns;
 			if ( $number_columns == 1 ) {
-				$column_class = 'awsm-b-grid-col';
+				$column_class = 'awsm-grid-col awsm-b-grid-col';
 			}
 			$view_class .= ' ' . $column_class;
 		}
@@ -106,8 +106,9 @@ class AWSM_Job_Openings_Block {
 			 * @param string $text Placeholder text.
 			 */
 			$placeholder_text = apply_filters( 'awsm_jobs_block_search_field_placeholder', _x( $placeholder_search, 'job filter', 'wp-job-openings' ) );
-			$search_icon      = '<span class="awsm-job-search-btn awsm-b-job-search-icon-wrapper"><i class="awsm-job-icon-search"></i></span><span class="awsm-job-search-close-btn awsm-b-job-search-icon-wrapper awsm-b-job-hide"><i class="awsm-job-icon-close-circle"></i></span>';
-			$search_content   = sprintf( '<div class="awsm-job-search-btn awsm-b-filter-item-search"><div class="awsm-filter-item-search awsm-b-filter-item-search-in"><label for="awsm-jq%4$s" class="awsm-sr-only awsm-b-sr-only">%1$s</label><input type="text" id="awsm-jq%4$s" name="jq" value="%2$s" placeholder="%1$s" class="awsm-job-search awsm-b-job-form-control">%3$s</div></div>', esc_attr( $placeholder_text ), esc_attr( $search_query ), $search_icon, esc_attr( $uid ) );
+			$search_icon      = '<span class="awsm-job-search-btn awsm-b-job-search-btn awsm-job-search-icon-wrapper awsm-b-job-search-icon-wrapper"><i class="awsm-job-icon-search awsm-b-job-icon-search"></i></span><span class="awsm-job-search-close-btn awsm-b-job-search-close-btn awsm-job-search-icon-wrapper awsm-b-job-search-icon-wrapper awsm-job-hide awsm-b-job-hide"><i class="awsm-job-icon-close-circle awsm-b-job-icon-close-circle"></i></span>';
+			$search_content   = sprintf( '<div class="awsm-filter-item-search awsm-b-filter-item-search"><div class="awsm-filter-item-search-in awsm-b-filter-item-search-in"><label for="awsm-jq%4$s" class="awsm-sr-only awsm-b-sr-only">%1$s</label><input type="text" id="awsm-jq%4$s" name="jq" value="%2$s" placeholder="%1$s" class="awsm-job-search awsm-job-form-control">%3$s</div></div>', esc_attr( $placeholder_text ), esc_attr( $search_query ), $search_icon, esc_attr( $uid ) );
+
 			/**
 			 * Filters the search field content.
 			 *
@@ -253,15 +254,15 @@ class AWSM_Job_Openings_Block {
 
 				$filter_class_admin = ''; 
 				if ( self::is_edit_or_add_page() ) {
-					//$filter_class_admin = 'awsm-b-filter-admin';
+					$filter_class_admin = 'awsm-b-filter-admin';
 				}
 
 				$specs_filter_content = sprintf( '<a href="#" class="awsm-filter-toggle awsm-b-filter-toggle" role="button" aria-pressed="false">%2$s</a><div class="awsm-filter-items awsm-b-filter-items '.$filter_class_admin.'">%1$s</div>', $specs_filter_content, $toggle_control );
 			}
 
-			$wrapper_class = 'awsm-b-filter-wrap';
+			$wrapper_class = 'awsm-filter-wrap awsm-b-filter-wrap';
 			if ( $enable_search !== 'enable' ) {
-				$wrapper_class .= ' awsm-b-no-search-filter-wrap';
+				$wrapper_class .= ' awsm-no-search-filter-wrap awsm-b-no-search-filter-wrap';
 			}
 			$filter_content = sprintf( '<div class="%3$s"><form action="%2$s/wp-admin/admin-ajax.php" method="POST">%1$s</form></div>', $search_content . $specs_filter_content . $hidden_fields_content, esc_url( site_url() ), esc_attr( $wrapper_class ) );
 		}
@@ -372,9 +373,9 @@ class AWSM_Job_Openings_Block {
 		} else {
 			$no_jobs_content = '';
 			if ( $filter_action !== 'loadmore' ) {
-				$no_jobs_content = sprintf( '<div class="awsm-b-jobs-none-container"><p>%s</p></div>', esc_html__( 'Sorry! No jobs to show.', 'wp-job-openings' ) );
+				$no_jobs_content = sprintf( '<div class="awsm-jobs-none-container awsm-b-jobs-none-container"><p>%s</p></div>', esc_html__( 'Sorry! No jobs to show.', 'wp-job-openings' ) );
 			} else {
-				$no_jobs_content = sprintf( '<div class="awsm-b-jobs-pagination awsm-b-load-more-main awsm-no-more-jobs-container"><p>%s</p></div>', esc_html__( 'Sorry! No more jobs to show.', 'wp-job-openings' ) );
+				$no_jobs_content = sprintf( '<div class="awsm-jobs-pagination awsm-b-jobs-pagination awsm-load-more-main awsm-b-load-more-main awsm-no-more-jobs-container awsm-b-no-more-jobs-container"><p>%s</p></div>', esc_html__( 'Sorry! No more jobs to show.', 'wp-job-openings' ) );
 			}
 			/**
 			 * Filters the HTML content for no jobs when filtered.
