@@ -12,8 +12,8 @@ class AWSM_Job_Openings_Block {
 		add_action( 'awsm_block_filter_form', array( $this, 'display_block_filter_form' ) );
 		add_action( 'wp_ajax_block_jobfilter', array( $this, 'awsm_block_posts_filters' ) );
 		add_action( 'wp_ajax_nopriv_block_jobfilter', array( $this, 'awsm_block_posts_filters' ) );
-		add_action( 'wp_ajax_loadmore', array( $this, 'awsm_block_posts_filters' ) );
-		add_action( 'wp_ajax_nopriv_loadmore', array( $this, 'awsm_block_posts_filters' ) );
+		add_action( 'wp_ajax_block_loadmore', array( $this, 'awsm_block_posts_filters' ) );
+		add_action( 'wp_ajax_nopriv_block_loadmore', array( $this, 'awsm_block_posts_filters' ) );
 	}
 
 	public static function init() {
