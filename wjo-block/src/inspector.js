@@ -19,12 +19,17 @@ const WidgetInspectorControls = props => {
 			pagination,
 			enable_job_filter,
 			search_placeholder,
-			hide_expired_jobs
+			hide_expired_jobs,
+			position_filled, // pro setting
 		},
 		setAttributes
 	} = props;
 
 	const specifications = awsmJobsAdmin.awsm_filters_block; 
+
+	// Assuming isProPluginActive is a global variable or can be imported from your plugin settings
+    //const isProPluginActive = awsmJobsAdmin.isProPluginActive; 
+	const isProPluginActive = true; 
 
 	useEffect(() => { 
 		if (specifications.length > 0 && typeof filter_options === "undefined") {
@@ -68,6 +73,10 @@ const WidgetInspectorControls = props => {
 		const numberValue = parseInt(value, 10);
 		setAttributes({ listing_per_page: isNaN(numberValue) ? 0 : numberValue }); 
 	};
+
+	if (!isProPluginActive) {
+        return null; // Don't render anything if the pro plugin is not active
+    }
 
 	return (
 		<InspectorControls>
@@ -173,6 +182,15 @@ const WidgetInspectorControls = props => {
 						);
 					})}
 			</PanelBody>
+			{isProPluginActive && (
+                <PanelBody title={__("Pro Plugin Settings", "wp-job-openings")}>
+                   <ToggleControl
+					label={__("Position Filled", "wp-job-openings")}
+					checked={position_filled}
+					onChange={position_filled => setAttributes({ position_filled })}
+				/>
+                </PanelBody>
+            )}
 		</InspectorControls>
 	);
 };
