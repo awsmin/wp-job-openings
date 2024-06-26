@@ -1,6 +1,7 @@
-import { useEffect } from "@wordpress/element";
+import { useEffect, Fragment, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { InspectorControls } from "@wordpress/block-editor";
+import { InspectorControls, BlockEdit } from "@wordpress/block-editor";
+import { addFilter } from '@wordpress/hooks';
 import {
 	PanelBody,
 	ToggleControl,
@@ -19,24 +20,25 @@ const WidgetInspectorControls = props => {
 			pagination,
 			enable_job_filter,
 			search_placeholder,
-			hide_expired_jobs,
-			position_filled, // pro setting
+			hide_expired_jobs
 		},
 		setAttributes
 	} = props;
 
 	const specifications = awsmJobsAdmin.awsm_filters_block; 
-
-	// Assuming isProPluginActive is a global variable or can be imported from your plugin settings
-    //const isProPluginActive = awsmJobsAdmin.isProPluginActive; 
-	const isProPluginActive = true; 
+	const [isProEnabled, setIsProEnabled] = useState(false);
 
 	useEffect(() => { 
 		if (specifications.length > 0 && typeof filter_options === "undefined") {
 			let initialspecs = specifications.map(spec => spec.key);
 			setAttributes({ filter_options: initialspecs });
 		}
-	});
+
+		// Set the pro add-on status
+        if (typeof awsmJobsAdmin !== "undefined" && awsmJobsAdmin.isProEnabled) {
+            setIsProEnabled(true);
+        }
+	}, []);
 
 	const specifications_handler = (toggleValue, specKey) => { 
 		if (typeof filter_options !== "undefined") {
@@ -73,10 +75,6 @@ const WidgetInspectorControls = props => {
 		const numberValue = parseInt(value, 10);
 		setAttributes({ listing_per_page: isNaN(numberValue) ? 0 : numberValue }); 
 	};
-
-	if (!isProPluginActive) {
-        return null; // Don't render anything if the pro plugin is not active
-    }
 
 	return (
 		<InspectorControls>
@@ -182,17 +180,36 @@ const WidgetInspectorControls = props => {
 						);
 					})}
 			</PanelBody>
-			{isProPluginActive && (
-                <PanelBody title={__("Pro Plugin Settings", "wp-job-openings")}>
-                   <ToggleControl
-					label={__("Position Filled", "wp-job-openings")}
-					checked={position_filled}
-					onChange={position_filled => setAttributes({ position_filled })}
-				/>
+			
+			{isProEnabled && (
+                <PanelBody title={__("Pro Options", "wp-job-openings")}>
+                    {/* Add your pro options here */}
                 </PanelBody>
             )}
 		</InspectorControls>
 	);
 };
+
+// Define the HOC to add custom inspector controls
+const withCustomInspectorControls = (BlockEdit) => (props) => { 
+    if (props.name !== 'wp-job-openings/wjo-block') {
+        return <BlockEdit {...props} />;
+    }
+
+    return (
+        <Fragment>
+            <BlockEdit {...props} />
+            <WidgetInspectorControls {...props} />
+        </Fragment>
+    );
+};
+
+// Add the filter to extend the block's inspector controls
+addFilter(
+    'editor.BlockEdit',
+    'awsm-job-block-settings/awsm-block-inspector-controls',
+    withCustomInspectorControls
+);
+
 
 export default WidgetInspectorControls;

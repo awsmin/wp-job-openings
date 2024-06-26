@@ -75,7 +75,7 @@ class Awsm_Job_Guten_Blocks {
 
 		wp_enqueue_style(
 			'awsm-block-job-admin',
-			plugins_url( 'src/editor.css', dirname( __FILE__ ) ),
+			plugins_url( 'wjo-block/src/editor.scss', dirname( __FILE__ ) ),
 			array(),
 			'1.0.0',
 			'all'

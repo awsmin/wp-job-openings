@@ -43,6 +43,10 @@
 		"enable_job_filter" : {
 			"type": "boolean",
 			"default" : true
+		},
+		"position_filling" : {
+			"type": "boolean",
+			"default" : false
 		}
 	},
 	"example": {},
