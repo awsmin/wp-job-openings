@@ -20,7 +20,8 @@ const WidgetInspectorControls = props => {
 			pagination,
 			enable_job_filter,
 			search_placeholder,
-			hide_expired_jobs
+			hide_expired_jobs,
+			position_filling,
 		},
 		setAttributes
 	} = props;
@@ -183,7 +184,11 @@ const WidgetInspectorControls = props => {
 			
 			{isProEnabled && (
                 <PanelBody title={__("Pro Options", "wp-job-openings")}>
-                    {/* Add your pro options here */}
+                    <ToggleControl
+					label={__("Hide Position Filling", "wp-job-openings")}
+					checked={position_filling}
+					onChange={position_filling => setAttributes({ position_filling })}
+				/>
                 </PanelBody>
             )}
 		</InspectorControls>
@@ -212,4 +217,4 @@ addFilter(
 );
 
 
-export default WidgetInspectorControls;
+export default withCustomInspectorControls;

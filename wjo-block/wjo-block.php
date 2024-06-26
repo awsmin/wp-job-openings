@@ -61,6 +61,10 @@ class Awsm_Job_Guten_Blocks {
 			$atts['layout'] = $atts['layout'];
 		}
 
+		if ( isset( $atts['position_filling'] ) && $atts['position_filling'] === true ) {
+			$atts['position_filling'] = 'filled';
+		}
+		
 		$class_block_init = AWSM_Job_Openings_Block::init();
 		$block_content    = $class_block_init->awsm_jobs_block_attributes( $atts );
 		return $block_content;

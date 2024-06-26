@@ -42,8 +42,9 @@ class AWSM_Job_Openings_Block {
 			'enable_job_filter'  => isset( $blockatts['enable_job_filter'] ) ? $blockatts['enable_job_filter'] : '',
 			'search_placeholder' => isset( $blockatts['search_placeholder'] ) ? $blockatts['search_placeholder'] : '',
 			'hide_expired_jobs'  => isset( $blockatts['hide_expired_jobs'] ) ? $blockatts['hide_expired_jobs'] : '',
+			'position_filling'   => isset( $blockatts['position_filling'] ) ? $blockatts['position_filling'] : '',
 		);
-
+	
 		$this->unique_listing_id++;
 
 		ob_start();
@@ -390,7 +391,7 @@ class AWSM_Job_Openings_Block {
 		// phpcs:enable
 	}
 
-	public static function awsm_block_job_query_args( $filters = array(), $attributes = array() ) { 
+	public static function awsm_block_job_query_args( $filters = array(), $attributes = array() ) {
 		$args = array();
 		if ( is_tax() ) {
 			$q_obj    = get_queried_object();
@@ -425,6 +426,12 @@ class AWSM_Job_Openings_Block {
 		} else {
 			$args['post_status'] = array( 'publish', 'expired' );
 		}
+
+		// pro feature code //
+		if ( isset($attributes['position_filling']) && $attributes['position_filling'] === 'filled' ) {
+			$args['meta_query'][] = self::get_block_job_meta_query( 'awsm_job_filled', 'filled' );
+		} 
+		// end //
 
 		// phpcs:ignore WordPress.Security.NonceVerification.Missing
 		if ( ! AWSM_Job_Openings::is_default_pagination( $attributes ) && ! isset( $_POST['awsm_pagination_base'] ) ) {
@@ -473,6 +480,21 @@ class AWSM_Job_Openings_Block {
 		 * @param array $shortcode_atts The shortcode attributes.
 		 */
 		return apply_filters( 'awsm_block_job_listing_data_attrs', $attrs, $shortcode_atts );
+	}
+
+	public static function get_block_job_meta_query( $key, $value ) {
+		return array(
+			'relation' => 'OR',
+			array(
+				'key'     => $key,
+				'compare' => 'NOT EXISTS',
+			),
+			array(
+				'key'     => $key,
+				'value'   => $value,
+				'compare' => '!=',
+			),
+		);
 	}
 
 	public static function get_block_filter_specifications( $specs_keys = array() ) { 

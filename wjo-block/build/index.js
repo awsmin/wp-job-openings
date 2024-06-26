@@ -209,6 +209,7 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
     enable_job_filter = _props$attributes.enable_job_filter,
     search_placeholder = _props$attributes.search_placeholder,
     hide_expired_jobs = _props$attributes.hide_expired_jobs,
+    position_filling = _props$attributes.position_filling,
     setAttributes = props.setAttributes;
   var specifications = awsmJobsAdmin.awsm_filters_block;
   var _useState = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_4__.useState)(false),
@@ -360,7 +361,15 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
     });
   })), isProEnabled && (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.PanelBody, {
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Pro Options", "wp-job-openings")
-  }));
+  }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.ToggleControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Hide Position Filling", "wp-job-openings"),
+    checked: position_filling,
+    onChange: function onChange(position_filling) {
+      return setAttributes({
+        position_filling: position_filling
+      });
+    }
+  })));
 };
 
 // Define the HOC to add custom inspector controls
@@ -375,7 +384,7 @@ var withCustomInspectorControls = function withCustomInspectorControls(BlockEdit
 
 // Add the filter to extend the block's inspector controls
 (0,_wordpress_hooks__WEBPACK_IMPORTED_MODULE_7__.addFilter)('editor.BlockEdit', 'awsm-job-block-settings/awsm-block-inspector-controls', withCustomInspectorControls);
-/* harmony default export */ __webpack_exports__["default"] = (WidgetInspectorControls);
+/* harmony default export */ __webpack_exports__["default"] = (withCustomInspectorControls);
 
 /***/ }),
 
