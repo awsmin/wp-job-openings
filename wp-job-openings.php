@@ -1124,7 +1124,7 @@ class AWSM_Job_Openings {
 				),
 				'awsm_filters' => self::get_filter_specifications(),
 				'awsm_filters_block' => AWSM_Job_Openings_Block::get_block_filter_specifications(),
-				'isProEnabled' => true,
+				'isProEnabled' => class_exists( 'AWSM_Job_Openings_Pro_Pack' ),
 			)
 		);
 
