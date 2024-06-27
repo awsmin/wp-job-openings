@@ -32,7 +32,7 @@ if ( ! function_exists( 'awsm_block_job_filters_explode' ) ) {
 }
 
 if ( ! function_exists( 'awsm_block_jobs_query' ) ) {
-	function awsm_block_jobs_query( $attributes = array() ) { 
+	function awsm_block_jobs_query( $attributes = array() ) {
 		$args  = AWSM_Job_Openings_Block::awsm_block_job_query_args( array(), $attributes );
 		$query = new WP_Query( $args );
 		return $query;

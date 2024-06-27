@@ -20,6 +20,7 @@ jQuery(function($) {
 		parsedListingsAttrs.push('layout');
 		parsedListingsAttrs.push('hide_expired_jobs');
 		parsedListingsAttrs.push('other_options');
+		parsedListingsAttrs.push('position_filling');
 		/* end */
 
 		var dataAttrs = $wrapper.data();
@@ -43,9 +44,10 @@ jQuery(function($) {
 		
 
 		/* added for block */
-		var layout = $wrapper.data('layout');
-		var hide_expired_jobs = $wrapper.data('hide_expired_jobs'); 
-		var other_options = $wrapper.data('other_options'); 
+		var layout 				= $wrapper.data('layout');
+		var hide_expired_jobs   = $wrapper.data('hide_expired_jobs'); 
+		var other_options 		= $wrapper.data('other_options'); 
+		var position_filling 	= $wrapper.data('position_filling'); 
 		/* end */
 		formData.push({
 			name: 'listings_per_page',
@@ -77,6 +79,13 @@ jQuery(function($) {
 			formData.push({
 				name: 'other_options',
 				value: other_options
+			});
+		}
+
+		if (typeof position_filling !== 'undefined') {
+			formData.push({
+				name: 'position_filling',
+				value: position_filling
 			});
 		}
 		/* end */
@@ -250,6 +259,7 @@ jQuery(function($) {
 		var layout = $listingsContainer.data('layout');
 		var hide_expired_jobs = $listingsContainer.data('hide_expired_jobs');
 		var other_options = $listingsContainer.data('other_options');
+		var position_filling = $listingsContainer.data('position_filling');
 		/* end */
 
 		if (isDefaultPagination) {
@@ -340,6 +350,12 @@ jQuery(function($) {
 			wpData.push({
 				name: 'other_options',
 				value: other_options
+			});
+		}
+		if (typeof position_filling !== 'undefined') {
+			wpData.push({
+				name: 'position_filling',
+				value: position_filling
 			});
 		}
 		/* end */
