@@ -14,7 +14,11 @@
 		},
 		"other_options": {
 			"type": "array",
-			"default": "array"
+			"default": [
+				"job-location",
+				"job-type",
+				"job-category"
+			  ]
 		},
 		"layout" : {
 			"type": "string",
