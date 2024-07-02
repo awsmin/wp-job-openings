@@ -431,12 +431,6 @@ class AWSM_Job_Openings_Block {
 			$args['post_status'] = array( 'publish', 'expired' );
 		}
 
-		// pro feature code //
-		if ( isset( $attributes['position_filling'] ) && $attributes['position_filling'] === 'filled' ) {
-			$args['meta_query'][] = self::get_block_job_meta_query( 'awsm_job_filled', 'filled' );
-		}
-		// end //
-
 		// phpcs:ignore WordPress.Security.NonceVerification.Missing
 		if ( ! AWSM_Job_Openings::is_default_pagination( $attributes ) && ! isset( $_POST['awsm_pagination_base'] ) ) {
 			// Handle classic pagination on page load.
@@ -453,7 +447,7 @@ class AWSM_Job_Openings_Block {
 		 * @param array $filters Applicable filters.
 		 * @param array $shortcode_atts Shortcode attributes.
 		 */
-		return apply_filters( 'awsm_job_query_args', $args, $filters, $attributes );
+		return apply_filters( 'awsm_job_block_query_args', $args, $filters, $attributes );
 	}
 
 	public static function get_block_job_listing_data_attrs( $shortcode_atts = array() ) {
@@ -485,21 +479,6 @@ class AWSM_Job_Openings_Block {
 		 * @param array $shortcode_atts The shortcode attributes.
 		 */
 		return apply_filters( 'awsm_block_job_listing_data_attrs', $attrs, $shortcode_atts );
-	}
-
-	public static function get_block_job_meta_query( $key, $value ) {
-		return array(
-			'relation' => 'OR',
-			array(
-				'key'     => $key,
-				'compare' => 'NOT EXISTS',
-			),
-			array(
-				'key'     => $key,
-				'value'   => $value,
-				'compare' => '!=',
-			),
-		);
 	}
 
 	public static function get_block_filter_specifications( $specs_keys = array() ) {
