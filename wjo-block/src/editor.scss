@@ -727,6 +727,9 @@ ul.awsm-error-message li {
     line-height: 46px;
     color: #444;
     height: 46px;
+	white-space: nowrap;
+  	overflow: hidden;
+  	text-overflow: ellipsis;
 }
 .awsm-b-filter-admin .awsm-filter-option {
    display: none;
