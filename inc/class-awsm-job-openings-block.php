@@ -512,13 +512,12 @@ class AWSM_Job_Openings_Block {
 				if ( ! empty( $terms ) ) {
 					$specs[] = array(
 						'key'   => $spec,
-						'label' => $spec_details->label,
+						'label' => html_entity_decode( $spec_details->label ),
 						'terms' => $terms,
 					);
 				}
 			}
 		}
-
 		return $specs;
 	}
 
