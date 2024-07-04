@@ -26,22 +26,22 @@ const WidgetInspectorControls = props => {
 		setAttributes
 	} = props;
 
-	const specifications = awsmJobsAdmin.awsm_filters_block; 
+	const specifications = awsmJobsAdmin.awsm_filters_block;
 	const [isProEnabled, setIsProEnabled] = useState(false);
 
-	useEffect(() => { 
+	useEffect(() => {
 		if (specifications.length > 0 && typeof filter_options === "undefined") {
 			let initialspecs = specifications.map(spec => spec.key);
 			setAttributes({ filter_options: initialspecs });
 		}
 
 		// Set the pro add-on status
-        if (typeof awsmJobsAdmin !== "undefined" && awsmJobsAdmin.isProEnabled) {
-            setIsProEnabled(true);
-        }
+		if (typeof awsmJobsAdmin !== "undefined" && awsmJobsAdmin.isProEnabled) {
+			setIsProEnabled(true);
+		}
 	}, []);
 
-	const specifications_handler = (toggleValue, specKey) => { 
+	const specifications_handler = (toggleValue, specKey) => {
 		if (typeof filter_options !== "undefined") {
 			jQuery(".awsm-job-select-control").selectric("destroy");
 
@@ -72,9 +72,9 @@ const WidgetInspectorControls = props => {
 		}
 	};
 
-	const onchange_listing_per_page = (value) => { 
+	const onchange_listing_per_page = (value) => {
 		const numberValue = parseInt(value, 10);
-		setAttributes({ listing_per_page: isNaN(numberValue) ? 0 : numberValue }); 
+		setAttributes({ listing_per_page: isNaN(numberValue) ? 0 : numberValue });
 	};
 
 	return (
@@ -112,27 +112,6 @@ const WidgetInspectorControls = props => {
 					onChange={hide_expired_jobs => setAttributes({ hide_expired_jobs })}
 				/>
 
-
-				<ToggleControl
-					label={__("Enable Search", "wp-job-openings")}
-					checked={search}
-					onChange={search => setAttributes({ search })}
-				/>
-
-				{search && search == true && (
-					<TextControl
-						label={__("Search Placeholder", "wp-job-openings")}
-						value={search_placeholder}
-						onChange={search_placeholder => setAttributes({ search_placeholder })}
-					/>
-				)}
-
-				<ToggleControl
-					label={__("Enable Job Filters", "wp-job-openings")}
-					checked={enable_job_filter}
-					onChange={enable_job_filter => setAttributes({ enable_job_filter })}
-				/>
-
 				{/* <SelectControl
 					label = {__("Listing Order", "wp-job-openings")}
 					value = {listing_order}
@@ -145,26 +124,46 @@ const WidgetInspectorControls = props => {
 					onChange ={(listing_order)=>setAttributes({listing_order})}
 				/> */}
 			</PanelBody>
-			{enable_job_filter && enable_job_filter == true && (
+			{specifications.length > 0 && (
 				<PanelBody title={__("Filter Options", "wp-job-openings")}>
-					{specifications.length > 0 &&
-						specifications.map(spec => {
-							return (
+					<ToggleControl
+						label={__("Enable Search", "wp-job-openings")}
+						checked={search}
+						onChange={search => setAttributes({ search })}
+					/>
+
+					{search && (
+						<TextControl
+							label={__("Search Placeholder", "wp-job-openings")}
+							value={search_placeholder}
+							onChange={search_placeholder => setAttributes({ search_placeholder })}
+						/>
+					)}
+
+					<ToggleControl
+						label={__("Enable Job Filters", "wp-job-openings")}
+						checked={enable_job_filter}
+						onChange={enable_job_filter => setAttributes({ enable_job_filter })}
+					/>
+
+					{enable_job_filter && (
+						<>
+							<h2>Available filters</h2>
+							{specifications.map(spec => (
 								<ToggleControl
+									key={spec.key}
 									label={spec.label}
-									checked={
-										typeof filter_options !== "undefined" &&
-										filter_options.includes(spec.key)
-									}
-									onChange={toggleValue =>
-										specifications_handler(toggleValue, spec.key)
-									}
+									checked={filter_options.includes(spec.key)}
+									onChange={toggleValue => specifications_handler(toggleValue, spec.key)}
 								/>
-							);
-						})}
+							))}
+						</>
+					)}
 				</PanelBody>
 			)}
+
 			<PanelBody title={__("Other Options", "wp-job-openings")}>
+				<h2>Job specs in the listing</h2>
 				{specifications.length > 0 &&
 					specifications.map(spec => {
 						return (
@@ -181,39 +180,39 @@ const WidgetInspectorControls = props => {
 						);
 					})}
 			</PanelBody>
-			
+
 			{isProEnabled && (
-                <PanelBody title={__("Pro Options", "wp-job-openings")}>
-                    <ToggleControl
-					label={__("Hide Position Filling", "wp-job-openings")}
-					checked={position_filling}
-					onChange={position_filling => setAttributes({ position_filling })}
-				/>
-                </PanelBody>
-            )}
+				<PanelBody title={__("Pro Options", "wp-job-openings")}>
+					<ToggleControl
+						label={__("Hide Position Filling", "wp-job-openings")}
+						checked={position_filling}
+						onChange={position_filling => setAttributes({ position_filling })}
+					/>
+				</PanelBody>
+			)}
 		</InspectorControls>
 	);
 };
 
 // Define the HOC to add custom inspector controls
-const withCustomInspectorControls = (BlockEdit) => (props) => { 
-    if (props.name !== 'wp-job-openings/wjo-block') {
-        return <BlockEdit {...props} />;
-    }
+const withCustomInspectorControls = (BlockEdit) => (props) => {
+	if (props.name !== 'wp-job-openings/wjo-block') {
+		return <BlockEdit {...props} />;
+	}
 
-    return (
-        <Fragment>
-            <BlockEdit {...props} />
-            <WidgetInspectorControls {...props} />
-        </Fragment>
-    );
+	return (
+		<Fragment>
+			<BlockEdit {...props} />
+			<WidgetInspectorControls {...props} />
+		</Fragment>
+	);
 };
 
 // Add the filter to extend the block's inspector controls
 addFilter(
-    'editor.BlockEdit',
-    'awsm-job-block-settings/awsm-block-inspector-controls',
-    withCustomInspectorControls
+	'editor.BlockEdit',
+	'awsm-job-block-settings/awsm-block-inspector-controls',
+	withCustomInspectorControls
 );
 
 
