@@ -12,6 +12,7 @@ class Awsm_Job_Guten_Blocks {
 	public function __construct() {
 		add_action( 'init', array( $this, 'register_dynamic_block' ) );
 		add_action( 'enqueue_block_assets', array( $this, 'block_assets' ) );
+		add_action( 'enqueue_block_editor_assets', array( $this, 'block_editor_assets' ) );
 	}
 
 	public static function get_instance() {
@@ -76,15 +77,15 @@ class Awsm_Job_Guten_Blocks {
 			$awsm_job_openings = AWSM_Job_Openings::init();
 			$awsm_job_openings->awsm_enqueue_scripts();
 		}
-
-		wp_enqueue_style(
-			'awsm-block-job-admin',
-			plugins_url( 'wjo-block/src/editor.scss', dirname( __FILE__ ) ),
-			array( 'wp-blocks' ),
-			'1.0.0',
-			'all'
-		);
 	}
+
+	public function block_editor_assets() {
+		wp_enqueue_style( 'awsm-block-job-admin', plugins_url( 'wjo-block/src/editor.min.css', dirname( __FILE__ ) ), array( 'wp-edit-blocks' ), '1.0.0', );
+
+		// Enqueue the stylesheet for your block
+		wp_enqueue_style( 'awsm-block-job-admin' );
+	}
+
 }
 
 Awsm_Job_Guten_Blocks::get_instance();

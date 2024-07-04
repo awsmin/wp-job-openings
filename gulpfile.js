@@ -8,6 +8,14 @@
 "use strict";
 
 /*============================= Dependencies =============================*/
+const sass = require('gulp-sass')(require('sass'));
+
+// Paths to your SCSS and CSS files
+const scssFiles = [
+	'wjo-block/src/editor.scss',
+    'wjo-block/src/style.scss'
+];
+
 
 const gulp = require("gulp"),
 	config = require("./config"),
@@ -53,6 +61,19 @@ let bsReload = cb => {
 };
 browserSync.description = `Initialize Browsersync and proxy ${config.previewURL}`;
 gulp.task("browser-sync", browserSync);
+// Task to compile SCSS to CSS
+gulp.task('sass', function() {
+    return gulp.src(scssFiles, { sourcemaps: config.debug ? true : false })
+        .pipe(sass().on('error', sass.logError))
+        .pipe(autoprefixer())
+        .pipe(cleanCSS({ compatibility: 'ie9' }))
+        .pipe(rename({ suffix: '.min' }))
+        .pipe(lineEC())
+        .pipe(gulp.dest(function(file) {
+            return file.base; // Compiled CSS will be placed in the same directory as the SCSS file
+        }, { sourcemaps: config.debug ? '.' : false }))
+        .pipe(bs.stream());
+});
 
 /* --- Tasks: CSS --- */
 
@@ -148,6 +169,12 @@ const genericTasks = [
 
 /* --- Tasks: Watch files for any change --- */
 
+// Watch task for SCSS files
+gulp.task('watch-sass', function() {
+    gulp.watch(scssFiles, gulp.series('sass'));
+});
+
+
 let watchFiles = () => {
 	gulp.watch("./**/*.php", bsReload);
 	for (let type in config.style) {
@@ -162,6 +189,7 @@ let watchFiles = () => {
 			gulp.series(`load-${type}-scripts`)
 		);
 	}
+	gulp.watch(scssFiles, gulp.series('sass'));
 };
 watchFiles.description = "Watch PHP, JS and CSS files for any change";
 gulp.task(
@@ -188,4 +216,27 @@ gulp.task(
 		init,
 		gulp.parallel(...genericTasks)
 	)
+);
+
+
+gulp.task(
+    "watch",
+    gulp.series(browserSync, gulp.parallel(...genericTasks, 'sass'), watchFiles)
+);
+
+gulp.task(
+    "default",
+    gulp.series(
+        init,
+        gulp.parallel(...genericTasks, 'sass'),
+        browserSync
+    )
+);
+
+gulp.task(
+    "build",
+    gulp.series(
+        init,
+        gulp.parallel(...genericTasks, 'sass')
+    )
 );
