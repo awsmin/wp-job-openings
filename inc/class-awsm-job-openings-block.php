@@ -36,7 +36,7 @@ class AWSM_Job_Openings_Block {
 			'other_options'      => isset( $blockatts['other_options'] ) ? $blockatts['other_options'] : '',
 			'search'             => isset( $blockatts['search'] ) ? $blockatts['search'] : '',
 			'listings'           => isset( $blockatts['listing_per_page'] ) ? $blockatts['listing_per_page'] : 10,
-			'loadmore'           => 'yes',
+			'block_loadmore'     => 'yes',
 			'pagination'         => isset( $blockatts['pagination'] ) ? $blockatts['pagination'] : 'modern',
 			//'layout'             => isset( $blockatts['layout'] ) ? $blockatts['layout'] : '',
 			'enable_job_filter'  => isset( $blockatts['enable_job_filter'] ) ? $blockatts['enable_job_filter'] : '',
@@ -380,7 +380,7 @@ class AWSM_Job_Openings_Block {
 			if ( $filter_action !== 'loadmore' ) {
 				$no_jobs_content = sprintf( '<div class="awsm-jobs-none-container awsm-b-jobs-none-container"><p>%s</p></div>', esc_html__( 'Sorry! No jobs to show.', 'wp-job-openings' ) );
 			} else {
-				$no_jobs_content = sprintf( '<div class="awsm-jobs-pagination awsm-b-jobs-pagination awsm-load-more-main awsm-b-load-more-main awsm-no-more-jobs-container awsm-b-no-more-jobs-container"><p>%s</p></div>', esc_html__( 'Sorry! No more jobs to show.', 'wp-job-openings' ) );
+				$no_jobs_content = sprintf( '<div class="awsm-b-jobs-pagination awsm-b-load-more-main awsm-no-more-jobs-container awsm-b-no-more-jobs-container"><p>%s</p></div>', esc_html__( 'Sorry! No more jobs to show.', 'wp-job-openings' ) );
 			}
 			/**
 			 * Filters the HTML content for no jobs when filtered.

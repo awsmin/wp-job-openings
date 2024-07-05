@@ -90,4 +90,4 @@ while ( $query->have_posts() ) {
 
 wp_reset_postdata();
 
-awsm_jobs_load_more( $query, $attributes );
+awsm_block_jobs_load_more( $query, $attributes );
