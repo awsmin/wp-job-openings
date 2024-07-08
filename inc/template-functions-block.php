@@ -24,9 +24,7 @@ if ( ! function_exists( 'awsm_block_job_filters_explode' ) ) {
 
 		if ( ! empty( $filter_data ) ) {
 			$available_filters = explode( ',', $filter_data );
-		} else {
-			$available_filters = get_option( 'awsm_jobs_listing_specs' );
-		}
+		} 
 		return $available_filters;
 	}
 }
