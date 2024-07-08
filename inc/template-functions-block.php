@@ -62,7 +62,7 @@ if ( ! function_exists( 'awsm_block_jobs_load_more' ) ) {
 			if ( AWSM_Job_Openings::is_default_pagination( $shortcode_atts ) ) {
 				$paged = ( $query->query_vars['paged'] ) ? $query->query_vars['paged'] : 1;
 				if ( $paged < $max_num_pages ) {
-					$load_more_content = sprintf( '<div class="awsm-b-jobs-pagination awsm-b-load-more-main"><a href="#" class="awsm-load-more awsm-b-load-more awsm-load-more-btn awsm-b-load-more-btn" data-page="%2$s">%1$s</a></div>', esc_html__( 'Load more...', 'wp-job-openings' ), esc_attr( $paged ) );
+					 $load_more_content = sprintf( '<div class="awsm-b-jobs-pagination awsm-b-load-more-main"><a href="#" class="awsm-b-load-more awsm-b-load-more-btn" data-page="%2$s">%1$s</a></div>', esc_html__( 'Load more...', 'wp-job-openings' ), esc_attr( $paged ) );
 					/**
 					 * Filters the load more content.
 					 *
