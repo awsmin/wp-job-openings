@@ -10,18 +10,11 @@
 	"attributes": {
 		"filter_options": {
 			"type": "array",
-			"default": [
-				"job-location",
-				"job-type",
-				"job-category"
-			  ]
+			"default": []
 		},
 		"other_options": {
 			"type": "array",
-			"default": [
-				"job-location",
-				"job-category"
-			  ]
+			"default": []
 		},
 		"layout" : {
 			"type": "string",

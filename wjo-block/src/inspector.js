@@ -56,18 +56,18 @@ const WidgetInspectorControls = props => {
 			setAttributes({ filter_options: modfilteroptions });
 		}
 	};
-	const other_options_handler = (toggleValue, specKey) => {
+	const other_options_handler = (toggleValue, specKey) => { 
 		if (typeof other_options !== "undefined") {
 			jQuery(".awsm-job-select-control").selectric("destroy");
 
 			let modfilteroptions = [...other_options];
-			if (!toggleValue) {
+			if (!toggleValue) { 
 				modfilteroptions = modfilteroptions.filter(
 					specOption => specOption !== specKey
 				);
 			} else {
 				modfilteroptions.push(specKey);
-			}
+			} 
 			setAttributes({ other_options: modfilteroptions });
 		}
 	};

@@ -517,7 +517,7 @@ class AWSM_Job_Openings_Block {
 					);
 				}
 			}
-		}
+		} 
 		return $specs;
 	}
 
