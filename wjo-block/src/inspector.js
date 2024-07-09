@@ -179,17 +179,15 @@ const WidgetInspectorControls = props => {
 							/>
 						);
 					})}
-			</PanelBody>
 
-			{isProEnabled && (
-				<PanelBody title={__("Pro Options", "wp-job-openings")}>
-					<ToggleControl
-						label={__("Hide Position Filling", "wp-job-openings")}
-						checked={position_filling}
-						onChange={position_filling => setAttributes({ position_filling })}
-					/>
-				</PanelBody>
-			)}
+					{isProEnabled && (
+						<ToggleControl
+							label={__("Hide Position Filling", "wp-job-openings")}
+							checked={position_filling}
+							onChange={position_filling => setAttributes({ position_filling })}
+						/>
+					)}
+			</PanelBody>
 		</InspectorControls>
 	);
 };
