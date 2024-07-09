@@ -15,14 +15,6 @@ jQuery(function($) {
 	function getListingsData($wrapper) {  
 		var data = [];
 		var parsedListingsAttrs = [ 'listings', 'specs', 'search', 'lang', 'taxonomy', 'termId' ];
-
-		/* added for block */
-		parsedListingsAttrs.push('layout');
-		parsedListingsAttrs.push('hide_expired_jobs');
-		parsedListingsAttrs.push('other_options');
-		parsedListingsAttrs.push('position_filling');
-		/* end */
-
 		var dataAttrs = $wrapper.data();
 		$.each(dataAttrs, function(dataAttr, value) { 
 			if ($.inArray(dataAttr, parsedListingsAttrs) === -1) {
@@ -42,13 +34,6 @@ jQuery(function($) {
 		var listings = $wrapper.data('listings');
 		var specs = $wrapper.data('specs');
 		
-
-		/* added for block */
-		var layout 				= $wrapper.data('layout');
-		var hide_expired_jobs   = $wrapper.data('hide_expired_jobs'); 
-		var other_options 		= $wrapper.data('other_options'); 
-		var position_filling 	= $wrapper.data('position_filling'); 
-		/* end */
 		formData.push({
 			name: 'listings_per_page',
 			value: listings
@@ -59,36 +44,6 @@ jQuery(function($) {
 				value: specs
 			});
 		}
-
-		/* added for block */
-		if (typeof layout !== 'undefined') {
-			formData.push({
-				name: 'layout',
-				value: layout
-			});
-		}
-
-		if (typeof hide_expired_jobs !== 'undefined') {
-			formData.push({
-				name: 'hide_expired_jobs',
-				value: hide_expired_jobs
-			});
-		}
-
-		if (typeof other_options !== 'undefined') {
-			formData.push({
-				name: 'other_options',
-				value: other_options
-			});
-		}
-
-		if (typeof position_filling !== 'undefined') {
-			formData.push({
-				name: 'position_filling',
-				value: position_filling
-			});
-		}
-		/* end */
 
 		var listingsData = getListingsData($wrapper);
 		if (listingsData.length > 0) {
@@ -255,13 +210,6 @@ jQuery(function($) {
 		var lang = $listingsContainer.data('lang');
 		var searchQuery = $listingsContainer.data('search');
 
-		/* added for block */
-		var layout = $listingsContainer.data('layout');
-		var hide_expired_jobs = $listingsContainer.data('hide_expired_jobs');
-		var other_options = $listingsContainer.data('other_options');
-		var position_filling = $listingsContainer.data('position_filling');
-		/* end */
-
 		if (isDefaultPagination) {
 			$triggerElem.prop('disabled', true);
 			paged = $triggerElem.data('page');
@@ -332,33 +280,6 @@ jQuery(function($) {
 				value: specs
 			});
 		}
-
-		/* added for block */
-		if (typeof layout !== 'undefined') {
-			wpData.push({
-				name: 'layout',
-				value: layout
-			});
-		}
-		if (typeof hide_expired_jobs !== 'undefined') {
-			wpData.push({
-				name: 'hide_expired_jobs',
-				value: hide_expired_jobs
-			});
-		}
-		if (typeof other_options !== 'undefined') {
-			wpData.push({
-				name: 'other_options',
-				value: other_options
-			});
-		}
-		if (typeof position_filling !== 'undefined') {
-			wpData.push({
-				name: 'position_filling',
-				value: position_filling
-			});
-		}
-		/* end */
 
 		if (typeof lang !== 'undefined') {
 			wpData.push({

@@ -238,7 +238,6 @@ jQuery(function($) {
 	});
 
 	/* ========== Job Listings Load More ========== */
-	console.log('sdf');
 	$(wrapperSelector).on('click', '.awsm-b-jobs-pagination .awsm-b-load-more-btn, .awsm-b-jobs-pagination a.page-numbers', function(e) {
 		e.preventDefault(); 
 		var $triggerElem = $(this);
