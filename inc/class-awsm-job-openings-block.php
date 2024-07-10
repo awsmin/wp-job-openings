@@ -68,13 +68,13 @@ class AWSM_Job_Openings_Block {
 		return sprintf( 'awsm-job-listings awsm-b-job-listings %s', $view_class );
 	}
 
-	public function display_block_filter_form( $shortcode_atts ) {
+	public function display_block_filter_form( $block_atts ) {
 			$search_content       = '';
 			$specs_filter_content = '';
-			$filters_attr         = isset( $shortcode_atts['filter_options'] ) ? $shortcode_atts['filter_options'] : '';
-			$enable_job_filters   = isset( $shortcode_atts['enable_job_filter'] ) ? $shortcode_atts['enable_job_filter'] : '';
-			$enable_search        = isset( $shortcode_atts['search'] ) ? $shortcode_atts['search'] : '';
-			$placeholder_search   = isset( $shortcode_atts['search_placeholder'] ) ? $shortcode_atts['search_placeholder'] : '';
+			$filters_attr         = isset( $block_atts['filter_options'] ) ? $block_atts['filter_options'] : '';
+			$enable_job_filters   = isset( $block_atts['enable_job_filter'] ) ? $block_atts['enable_job_filter'] : '';
+			$enable_search        = isset( $block_atts['search'] ) ? $block_atts['search'] : '';
+			$placeholder_search   = isset( $block_atts['search_placeholder'] ) ? $block_atts['search_placeholder'] : '';
 
 			/**
 			 * Enable search in the job listing or not.
@@ -82,9 +82,9 @@ class AWSM_Job_Openings_Block {
 			 * @since new version
 			 *
 			 * @param mixed $enable_search Enable the search or not.
-			 * @param array $shortcode_atts The shortcode attributes.
+			 * @param array $block_atts The shortcode attributes.
 			 */
-			//$enable_search = apply_filters( 'awsm_job_filters_enable_search', $enable_search, $shortcode_atts );
+			//$enable_search = apply_filters( 'awsm_job_filters_enable_search', $enable_search, $block_atts );
 
 			// if ( $filters_attr == '' ) {
 			// 	return;
@@ -94,7 +94,7 @@ class AWSM_Job_Openings_Block {
 			// 	return;
 			// }
 
-			$uid = isset( $shortcode_atts['uid'] ) ? '-' . $shortcode_atts['uid'] : '';
+			$uid = isset( $block_atts['uid'] ) ? '-' . $block_atts['uid'] : '';
 
 		if ( $enable_search === 'enable' ) {
 			$search_query = isset( $_GET['jq'] ) ? $_GET['jq'] : '';
@@ -127,13 +127,13 @@ class AWSM_Job_Openings_Block {
 		}
 			/*
 			// Hide filters if specs shortcode attribute is applied.
-			if ( ! empty( $shortcode_atts['specs'] ) ) {
+			if ( ! empty( $block_atts['specs'] ) ) {
 				$display_filters = false;
 			} */
 
 			$available_filters = get_option( 'awsm_jobs_listing_available_filters' );
 
-			$available_filters = explode( ',', $shortcode_atts['filter_options'] );
+			$available_filters = explode( ',', $block_atts['filter_options'] );
 			$available_filters = is_array( $available_filters ) ? $available_filters : array();
 		if ( empty( $available_filters ) ) {
 			$display_filters = true;
@@ -148,9 +148,9 @@ class AWSM_Job_Openings_Block {
 			 * @since new version
 			 *
 			 * @param array $available_filters The available filters.
-			 * @param array $shortcode_atts The shortcode attributes.
+			 * @param array $block_atts The block attributes.
 			 */
-			$available_filters = apply_filters( 'awsm_active_block_job_filters', $available_filters, $shortcode_atts );
+			$available_filters = apply_filters( 'awsm_active_block_job_filters', $available_filters, $block_atts );
 			foreach ( $taxonomies as $taxonomy => $tax_details ) {
 				if ( in_array( $taxonomy, $available_filters ) ) {
 
@@ -230,7 +230,7 @@ class AWSM_Job_Openings_Block {
 			if ( ! empty( $current_lang ) ) {
 				$hidden_fields_content .= sprintf( '<input type="hidden" name="lang" value="%s">', esc_attr( $current_lang ) );
 			}
-			if ( ! AWSM_Job_Openings::is_default_pagination( $shortcode_atts ) ) {
+			if ( ! AWSM_Job_Openings::is_default_pagination( $block_atts ) ) {
 				$paged                  = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
 				$hidden_fields_content .= sprintf( '<input type="hidden" name="awsm_pagination_base" value="%1$s"><input type="hidden" name="paged" value="%2$s">', esc_url( get_pagenum_link() ), absint( $paged ) );
 			}
@@ -444,18 +444,18 @@ class AWSM_Job_Openings_Block {
 		 *
 		 * @param array $args arguments.
 		 * @param array $filters Applicable filters.
-		 * @param array $shortcode_atts Shortcode attributes.
+		 * @param array $attributes Block attributes.
 		 */
 		return apply_filters( 'awsm_job_block_query_args', $args, $filters, $attributes );
 	}
 
-	public static function get_block_job_listing_data_attrs( $shortcode_atts = array() ) {
+	public static function get_block_job_listing_data_attrs( $block_atts = array() ) {
 		$attrs                      = array();
-		$attrs['listings']          = AWSM_Job_Openings::get_listings_per_page( $shortcode_atts );
-		$attrs['layout']            = isset( $shortcode_atts['layout'] ) ? $shortcode_atts['layout'] : '';
-		$attrs['hide_expired_jobs'] = isset( $shortcode_atts['hide_expired_jobs'] ) ? $shortcode_atts['hide_expired_jobs'] : '';
-		$attrs['other_options']     = isset( $shortcode_atts['other_options'] ) ? $shortcode_atts['other_options'] : '';
-		$attrs['position_filling']  = isset( $shortcode_atts['position_filling'] ) ? $shortcode_atts['position_filling'] : '';
+		$attrs['listings']          = AWSM_Job_Openings::get_listings_per_page( $block_atts );
+		$attrs['layout']            = isset( $block_atts['layout'] ) ? $block_atts['layout'] : '';
+		$attrs['hide_expired_jobs'] = isset( $block_atts['hide_expired_jobs'] ) ? $block_atts['hide_expired_jobs'] : '';
+		$attrs['other_options']     = isset( $block_atts['other_options'] ) ? $block_atts['other_options'] : '';
+		$attrs['position_filling']  = isset( $block_atts['position_filling'] ) ? $block_atts['position_filling'] : '';
 
 		$current_lang = AWSM_Job_Openings::get_current_language();
 		if ( ! empty( $current_lang ) ) {
@@ -475,9 +475,9 @@ class AWSM_Job_Openings_Block {
 		 * Filters the data attributes for the job listings div element.
 		 *
 		 * @param array $attrs The data attributes.
-		 * @param array $shortcode_atts The shortcode attributes.
+		 * @param array $block_atts The block attributes.
 		 */
-		return apply_filters( 'awsm_block_job_listing_data_attrs', $attrs, $shortcode_atts );
+		return apply_filters( 'awsm_block_job_listing_data_attrs', $attrs, $block_atts );
 	}
 
 	public static function get_block_filter_specifications( $specs_keys = array() ) {
