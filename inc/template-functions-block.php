@@ -1,6 +1,6 @@
 <?php
 /**
- * Template specific functions for block
+ * Template specific functions for block editor
  *
  */
 
@@ -24,7 +24,7 @@ if ( ! function_exists( 'awsm_block_job_filters_explode' ) ) {
 
 		if ( ! empty( $filter_data ) ) {
 			$available_filters = explode( ',', $filter_data );
-		} 
+		}
 		return $available_filters;
 	}
 }
@@ -53,7 +53,7 @@ if ( ! function_exists( 'awsm_block_jobs_data_attrs' ) ) {
 }
 
 if ( ! function_exists( 'awsm_block_jobs_load_more' ) ) {
-	function awsm_block_jobs_load_more( $query, $shortcode_atts = array() ) { 
+	function awsm_block_jobs_load_more( $query, $shortcode_atts = array() ) {
 		$loadmore      = isset( $shortcode_atts['block_loadmore'] ) && $shortcode_atts['block_loadmore'] === 'no' ? false : true;
 		$max_num_pages = $query->max_num_pages;
 		if ( $loadmore && $max_num_pages > 1 ) {

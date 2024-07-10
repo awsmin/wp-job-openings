@@ -16,16 +16,15 @@ if ( $query->have_posts() ) : ?>
 
 		<?php
 			/**
-			 * awsm_filter_form hook
+			 * awsm_block_filter_form hook
 			 *
 			 * Display filter form for job listings
 			 *
-			 * @hooked AWSM_Job_Openings_Filters::display_filter_form()
+			 * @hooked AWSM_Job_Openings_Block::display_block_filter_form()
 			 *
 			 * @since 1.0.0
-			 * @since 1.3.0 The `$shortcode_atts` parameter was added.
 			 *
-			 * @param array $shortcode_atts Attributes array if shortcode is used, else an empty array.
+			 * @param array $attributes Attributes array from block.
 			 */
 			do_action( 'awsm_block_filter_form', $attributes );
 		?>

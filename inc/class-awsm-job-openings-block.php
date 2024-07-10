@@ -23,7 +23,6 @@ class AWSM_Job_Openings_Block {
 		return self::$instance;
 	}
 
-
 	public function awsm_jobs_block_attributes( $blockatts ) {
 		if ( ! function_exists( 'awsm_jobs_query' ) ) {
 			return;
@@ -517,7 +516,7 @@ class AWSM_Job_Openings_Block {
 					);
 				}
 			}
-		} 
+		}
 		return $specs;
 	}
 

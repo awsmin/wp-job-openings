@@ -3,7 +3,7 @@
   "apiVersion": 3,
   "name": "wp-job-openings/wjo-block",
   "version": "0.2.0",
-  "title": "Wjo Block",
+  "title": "Job Listings",
   "category": "widgets",
   "icon": "smiley",
   "description": "Example block scaffolded with Create Block tool.",

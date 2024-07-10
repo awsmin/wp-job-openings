@@ -18,9 +18,8 @@ $listing_specs = awsm_block_job_filters_explode( $listing_specs );
  * Fires before The Loop to query for jobs.
  *
  * @since 1.1.0
- * @since 2.2.0 The `$shortcode_atts` parameter was added.
  *
- * @param array $shortcode_atts Attributes array if shortcode is used, else an empty array.
+ * @param array $attributes Attributes array from block side .
  */
 do_action( 'before_awsm_block_jobs_listing_loop', $attributes );
 
