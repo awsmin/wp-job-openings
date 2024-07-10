@@ -82,12 +82,10 @@ class Awsm_Job_Guten_Blocks {
 	}
 
 	public function block_editor_assets() {
-		wp_enqueue_style( 'awsm-block-job-admin', plugins_url( 'wjo-block/src/editor.min.css', dirname( __FILE__ ) ), array( 'wp-edit-blocks' ), '1.0.0', );
+		wp_enqueue_style( 'awsm-block-job-admin', plugins_url( 'blocks/src/editor.min.css', dirname( __FILE__ ) ), array( 'wp-edit-blocks' ), '1.0.0', );
 
 		// Enqueue the stylesheet for your block
 		wp_enqueue_style( 'awsm-block-job-admin' );
 	}
-
 }
-
 Awsm_Job_Guten_Blocks::get_instance();

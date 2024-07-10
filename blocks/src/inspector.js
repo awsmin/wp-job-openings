@@ -194,7 +194,7 @@ const WidgetInspectorControls = props => {
 
 // Define the HOC to add custom inspector controls
 const withCustomInspectorControls = (BlockEdit) => (props) => {
-	if (props.name !== 'wp-job-openings/wjo-block') {
+	if (props.name !== 'wp-job-openings/blocks') {
 		return <BlockEdit {...props} />;
 	}
 

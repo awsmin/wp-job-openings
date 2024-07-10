@@ -12,8 +12,8 @@ const sass = require('gulp-sass')(require('sass'));
 
 // Paths to your SCSS and CSS files
 const scssFiles = [
-	'wjo-block/src/editor.scss',
-    'wjo-block/src/style.scss'
+	'blocks/src/editor.scss',
+    'blocks/src/style.scss'
 ];
 
 

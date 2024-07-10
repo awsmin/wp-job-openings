@@ -91,7 +91,7 @@ export default function Edit(props) {
 		<div {...blockProps}>
 			<WidgetInspectorControls {...props} />
 			<ServerSideRender
-				block="wp-job-openings/wjo-block"
+				block="wp-job-openings/blocks"
 				attributes={props.attributes}
 			/>
 		</div>
