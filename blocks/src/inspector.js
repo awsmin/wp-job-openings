@@ -22,17 +22,24 @@ const WidgetInspectorControls = props => {
 			search_placeholder,
 			hide_expired_jobs,
 			position_filling,
+			featured_image_size
 		},
 		setAttributes
 	} = props;
 
-	const specifications = awsmJobsAdmin.awsm_filters_block;
+	const specifications 	   = awsmJobsAdmin.awsm_filters_block;
+	const intermediate_image_sizes = awsmJobsAdmin.awsm_featured_image_block; 
 	const [isProEnabled, setIsProEnabled] = useState(false);
 
 	useEffect(() => {
 		if (specifications.length > 0 && typeof filter_options === "undefined") {
-			let initialspecs = specifications.map(spec => spec.key);
+			let initialspecs = specifications.map(spec => spec.value);
 			setAttributes({ filter_options: initialspecs });
+		}
+
+		if (intermediate_image_sizes.length > 0 && typeof featured_image_size === "undefined") {
+			let sizes = intermediate_image_sizes.map(image => image.value); 
+			setAttributes({ featured_image_size: sizes });
 		}
 
 		// Set the pro add-on status
@@ -75,6 +82,10 @@ const WidgetInspectorControls = props => {
 	const onchange_listing_per_page = (value) => {
 		const numberValue = parseInt(value, 10);
 		setAttributes({ listing_per_page: isNaN(numberValue) ? 0 : numberValue });
+	};
+
+	const onchange_featured_image_size = (value) => { 
+		setAttributes({ featured_image_size: value });
 	};
 
 	return (
@@ -181,11 +192,23 @@ const WidgetInspectorControls = props => {
 					})}
 
 					{isProEnabled && (
-						<ToggleControl
-							label={__("Hide Position Filling", "wp-job-openings")}
-							checked={position_filling}
-							onChange={position_filling => setAttributes({ position_filling })}
-						/>
+						<Fragment>
+							<ToggleControl
+								label={__("Hide Position Filling", "wp-job-openings")}
+								checked={position_filling}
+								onChange={position_filling => setAttributes({ position_filling })}
+							/>
+							
+							<SelectControl
+								label={__("Featured Image", "wp-job-openings")}
+								value={featured_image_size}
+								options={intermediate_image_sizes.map(image => ({
+									label: image.text,
+									value: image.value,
+								}))}
+								onChange={onchange_featured_image_size}
+							/>
+						</Fragment>
 					)}
 			</PanelBody>
 		</InspectorControls>

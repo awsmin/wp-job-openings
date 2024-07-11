@@ -1122,9 +1122,10 @@ class AWSM_Job_Openings {
 						'btn_text' => esc_html__( 'Choose', 'wp-job-openings' ),
 					),
 				),
-				'awsm_filters'       => self::get_filter_specifications(),
-				'awsm_filters_block' => AWSM_Job_Openings_Block::get_block_filter_specifications(),
-				'isProEnabled'       => class_exists( 'AWSM_Job_Openings_Pro_Pack' ),
+				'awsm_filters'       		=> self::get_filter_specifications(),
+				'awsm_filters_block' 		=> AWSM_Job_Openings_Block::get_block_filter_specifications(),
+				'awsm_featured_image_block' => AWSM_Job_Openings_Block::get_block_featured_image_size(),
+				'isProEnabled'       		=> class_exists( 'AWSM_Job_Openings_Pro_Pack' ),
 			)
 		);
 

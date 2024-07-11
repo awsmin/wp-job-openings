@@ -47,6 +47,10 @@
 		"position_filling" : {
 			"type": "boolean",
 			"default" : false
+		},
+		"featured_image_size": {
+			"type": "array",
+			"default": []
 		}
 	},
 	"example": {},

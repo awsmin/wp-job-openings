@@ -520,6 +520,24 @@ class AWSM_Job_Openings_Block {
 		return $specs;
 	}
 
+	public static function get_block_featured_image_size(){
+		$image_size_choices = array();
+		if( get_option( 'awsm_jobs_enable_featured_image' ) === 'enable' ){
+			$image_sizes = get_intermediate_image_sizes();
+			if ( ! in_array( 'full', $image_sizes, true ) ) {
+				$image_sizes[] = 'full';
+			}
+			
+			foreach ( $image_sizes as $image_size ) {
+				$image_size_choices[] = array(
+					'value' => $image_size,
+					'text'  => $image_size,
+				);
+			}
+		}
+		return $image_size_choices;
+	}
+
 	public static function get_block_spec_terms( $spec ) {
 		$terms_args = array(
 			'taxonomy'   => $spec,
