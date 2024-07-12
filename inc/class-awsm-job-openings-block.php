@@ -455,7 +455,6 @@ class AWSM_Job_Openings_Block {
 		$attrs['layout']            = isset( $block_atts['layout'] ) ? $block_atts['layout'] : '';
 		$attrs['hide_expired_jobs'] = isset( $block_atts['hide_expired_jobs'] ) ? $block_atts['hide_expired_jobs'] : '';
 		$attrs['other_options']     = isset( $block_atts['other_options'] ) ? $block_atts['other_options'] : '';
-		// $attrs['position_filling']  = isset( $block_atts['position_filling'] ) ? $block_atts['position_filling'] : '';
 
 		$current_lang = AWSM_Job_Openings::get_current_language();
 		if ( ! empty( $current_lang ) ) {
@@ -520,14 +519,14 @@ class AWSM_Job_Openings_Block {
 		return $specs;
 	}
 
-	public static function get_block_featured_image_size(){
+	public static function get_block_featured_image_size() {
 		$image_size_choices = array();
-		if( get_option( 'awsm_jobs_enable_featured_image' ) === 'enable' ){
+		if ( get_option( 'awsm_jobs_enable_featured_image' ) === 'enable' ) {
 			$image_sizes = get_intermediate_image_sizes();
 			if ( ! in_array( 'full', $image_sizes, true ) ) {
 				$image_sizes[] = 'full';
 			}
-			
+
 			foreach ( $image_sizes as $image_size ) {
 				$image_size_choices[] = array(
 					'value' => $image_size,
