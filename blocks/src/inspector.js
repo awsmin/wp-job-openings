@@ -21,7 +21,6 @@ const WidgetInspectorControls = props => {
 			enable_job_filter,
 			search_placeholder,
 			hide_expired_jobs,
-			position_filling,
 			featured_image_size
 		},
 		setAttributes
@@ -191,25 +190,6 @@ const WidgetInspectorControls = props => {
 						);
 					})}
 
-					{isProEnabled && (
-						<Fragment>
-							<ToggleControl
-								label={__("Hide Position Filling", "wp-job-openings")}
-								checked={position_filling}
-								onChange={position_filling => setAttributes({ position_filling })}
-							/>
-							
-							<SelectControl
-								label={__("Featured Image", "wp-job-openings")}
-								value={featured_image_size}
-								options={intermediate_image_sizes.map(image => ({
-									label: image.text,
-									value: image.value,
-								}))}
-								onChange={onchange_featured_image_size}
-							/>
-						</Fragment>
-					)}
 			</PanelBody>
 		</InspectorControls>
 	);
@@ -235,6 +215,5 @@ addFilter(
 	'awsm-job-block-settings/awsm-block-inspector-controls',
 	withCustomInspectorControls
 );
-
 
 export default withCustomInspectorControls;

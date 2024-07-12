@@ -62,10 +62,10 @@ class Awsm_Job_Guten_Blocks {
 			$atts['layout'] = $atts['layout'];
 		}
 
-		if ( isset( $atts['position_filling'] ) && $atts['position_filling'] === true ) {
-			$atts['position_filling'] = 'filled';
-		}
-
+		//if ( isset( $atts['position_filling'] ) && $atts['position_filling'] === true ) {
+			//$atts['position_filling'] = 'filled';
+		//}
+		
 		$class_block_init = AWSM_Job_Openings_Block::init();
 		$block_content    = $class_block_init->awsm_jobs_block_attributes( $atts );
 		return $block_content;
@@ -82,7 +82,7 @@ class Awsm_Job_Guten_Blocks {
 	}
 
 	public function block_editor_assets() {
-		wp_enqueue_style( 'awsm-block-job-admin', plugins_url( 'blocks/src/editor.min.css', dirname( __FILE__ ) ), array( 'wp-edit-blocks' ), '1.0.0', );
+		wp_enqueue_style( 'awsm-block-job-admin', plugins_url( 'blocks/src/editor.min.css', dirname( __FILE__ ) ), array( 'wp-edit-blocks' ), '1.0.0' );
 
 		// Enqueue the stylesheet for your block
 		wp_enqueue_style( 'awsm-block-job-admin' );
