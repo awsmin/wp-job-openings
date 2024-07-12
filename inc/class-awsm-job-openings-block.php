@@ -455,7 +455,7 @@ class AWSM_Job_Openings_Block {
 		$attrs['layout']            = isset( $block_atts['layout'] ) ? $block_atts['layout'] : '';
 		$attrs['hide_expired_jobs'] = isset( $block_atts['hide_expired_jobs'] ) ? $block_atts['hide_expired_jobs'] : '';
 		$attrs['other_options']     = isset( $block_atts['other_options'] ) ? $block_atts['other_options'] : '';
-		$attrs['position_filling']  = isset( $block_atts['position_filling'] ) ? $block_atts['position_filling'] : '';
+		// $attrs['position_filling']  = isset( $block_atts['position_filling'] ) ? $block_atts['position_filling'] : '';
 
 		$current_lang = AWSM_Job_Openings::get_current_language();
 		if ( ! empty( $current_lang ) ) {
