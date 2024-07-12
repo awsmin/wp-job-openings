@@ -77,21 +77,24 @@ class AWSM_Job_Openings_Meta {
 	}
 
 	public function get_applicant_meta_details_list( $post_id, $preset_values = array() ) {
-		$list           = '';
+		$list = '';
+		$name = '';
+    	$email = '';
+    	$meta_details = array();
 		$applicant_meta = apply_filters(
 			'awsm_jobs_applicant_meta',
 			array(
 				'awsm_applicant_name'   => array(
 					'label' => __( 'Name', 'wp-job-openings' ),
 				),
-				'awsm_applicant_phone'  => array(
-					'label' => __( 'Phone', 'wp-job-openings' ),
-				),
 				'awsm_applicant_email'  => array(
-					'label' => __( 'Email', 'wp-job-openings' ),
+					'label' => __( 'Email Address', 'wp-job-openings' ),
+				),
+				'awsm_applicant_phone'  => array(
+					'label' => __( 'Phone Number', 'wp-job-openings' ),
 				),
 				'awsm_applicant_letter' => array(
-					'label'      => __( 'Cover Letter', 'wp-job-openings' ),
+					'label'      => __( 'Bio', 'wp-job-openings' ),
 					'multi-line' => true,
 				),
 			),
@@ -110,6 +113,14 @@ class AWSM_Job_Openings_Meta {
 						$value = $meta_options['value'];
 					} else {
 						$value = get_post_meta( $post_id, $meta_key, true );
+					}
+
+					// Separate the name
+					if ( $meta_key === 'awsm_applicant_name' ) {
+						$name = $value;
+						continue; // Skip adding the name to the list
+					} elseif ( $meta_key === 'awsm_applicant_email' ) {
+						$email = $value;
 					}
 
 					$meta_content = '';
@@ -142,12 +153,21 @@ class AWSM_Job_Openings_Meta {
 					if ( ! empty( $meta_content ) || is_numeric( $meta_content ) ) {
 						$is_meta_group = ( isset( $meta_options['group'] ) ) ? $meta_options['group'] : false;
 						$meta_content  = ( ! $is_meta_group ) ? '<span>' . $meta_content . '</span>' : $meta_content;
-						$list         .= sprintf( '<li><label>%1$s</label>%2$s</li>', esc_html( $label ), $meta_content );
+						$list         .= sprintf( '<li><label>%1$s</label>%2$s</li>', esc_html( $label ), '<div>' .$meta_content. '</div>');
 					}
+					// Add to meta details array
+					$meta_details[$meta_key] = $value;
 				}
 			}
 		}
-		return apply_filters( 'awsm_jobs_applicant_meta_details_list', $list, $applicant_meta, $post_id );
+		$list = apply_filters( 'awsm_jobs_applicant_meta_details_list', $list, $applicant_meta, $post_id );
+
+		return array(
+			'name' => $name,
+			'email' => $email,
+			'list' => $list,
+			'meta_details' => $meta_details
+		);
 	}
 
 	public function get_attached_file_details( $attachment_id ) {
@@ -235,4 +255,5 @@ class AWSM_Job_Openings_Meta {
 			</div>
 		<?php
 	}
+
 }
