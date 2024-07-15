@@ -41,8 +41,10 @@ class AWSM_Job_Openings_Block {
 			'enable_job_filter'  => isset( $blockatts['enable_job_filter'] ) ? $blockatts['enable_job_filter'] : '',
 			'search_placeholder' => isset( $blockatts['search_placeholder'] ) ? $blockatts['search_placeholder'] : '',
 			'hide_expired_jobs'  => isset( $blockatts['hide_expired_jobs'] ) ? $blockatts['hide_expired_jobs'] : '',
-			'position_filling'   => isset( $blockatts['position_filling'] ) ? $blockatts['position_filling'] : '',
+			//'position_filling'   => isset( $blockatts['position_filling'] ) ? $blockatts['position_filling'] : '',
 		);
+
+		$block_atts_set = apply_filters( 'awsm_jobs_block_attributes_set', $block_atts_set ,$blockatts );
 
 		$this->unique_listing_id++;
 
@@ -341,10 +343,6 @@ class AWSM_Job_Openings_Block {
 			$attributes['other_options'] = $_POST['other_options'];
 		}
 
-		if ( isset( $_POST['position_filling'] ) ) {
-			$attributes['position_filling'] = $_POST['position_filling'];
-		}
-
 		if ( isset( $_POST['lang'] ) ) {
 			AWSM_Job_Openings::set_current_language( $_POST['lang'] );
 		}
@@ -355,6 +353,8 @@ class AWSM_Job_Openings_Block {
 		} else {
 			$attributes['pagination'] = 'modern';
 		}
+
+		$attributes = apply_filters( 'awsm_jobs_block_post_filters', $attributes , $_POST);
 
 		$args = self::awsm_block_job_query_args( $filters, $attributes );
 

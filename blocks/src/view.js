@@ -10,7 +10,7 @@ jQuery(function($) {
 	var currentUrl = window.location.protocol + '//' + window.location.host + window.location.pathname;
 	var triggerFilter = true;
 
-	function getListingsData($wrapper) {  
+	function getListingsData($wrapper) { 
 		var data = [];
 		var parsedListingsAttrs = [ 'listings', 'specs', 'search', 'lang', 'taxonomy', 'termId' ];
 
@@ -18,8 +18,8 @@ jQuery(function($) {
 		parsedListingsAttrs.push('layout');
 		parsedListingsAttrs.push('hide_expired_jobs');
 		parsedListingsAttrs.push('other_options');
-		parsedListingsAttrs.push('position_filling');
 		/* end */
+		$(document).trigger('awsmJobBlockListingsData', [ parsedListingsAttrs ]);
 
 		var dataAttrs = $wrapper.data();
 		$.each(dataAttrs, function(dataAttr, value) { 
@@ -45,7 +45,6 @@ jQuery(function($) {
 		var layout 				= $wrapper.data('layout');
 		var hide_expired_jobs   = $wrapper.data('hide_expired_jobs'); 
 		var other_options 		= $wrapper.data('other_options'); 
-		var position_filling 	= $wrapper.data('position_filling'); 
 		/* end */
 		formData.push({
 			name: 'listings_per_page',
@@ -79,19 +78,16 @@ jQuery(function($) {
 				value: other_options
 			});
 		}
-
-		if (typeof position_filling !== 'undefined') {
-			formData.push({
-				name: 'position_filling',
-				value: position_filling
-			});
-		}
 		/* end */
 
 		var listingsData = getListingsData($wrapper);
 		if (listingsData.length > 0) {
 			formData = formData.concat(listingsData);
 		}
+
+		// Trigger custom event to provide formData
+		$(document).trigger('awsmJobBlockFiltersFormData', [$wrapper,formData]);
+
 		if (triggerFilter) {
 
 			// stop the duplicate requests.
@@ -256,7 +252,7 @@ jQuery(function($) {
 		var layout = $listingsContainer.data('layout');
 		var hide_expired_jobs = $listingsContainer.data('hide_expired_jobs');
 		var other_options = $listingsContainer.data('other_options');
-		var position_filling = $listingsContainer.data('position_filling');
+		//var position_filling = $listingsContainer.data('position_filling');
 		/* end */
 
 		if (isDefaultPagination) {
@@ -349,12 +345,12 @@ jQuery(function($) {
 				value: other_options
 			});
 		}
-		if (typeof position_filling !== 'undefined') {
+		/* if (typeof position_filling !== 'undefined') {
 			wpData.push({
 				name: 'position_filling',
 				value: position_filling
 			});
-		}
+		} */
 		/* end */
 
 		if (typeof lang !== 'undefined') {
