@@ -44,7 +44,7 @@ class AWSM_Job_Openings_Block {
 			//'position_filling'   => isset( $blockatts['position_filling'] ) ? $blockatts['position_filling'] : '',
 		);
 
-		$block_atts_set = apply_filters( 'awsm_jobs_block_attributes_set', $block_atts_set ,$blockatts );
+		$block_atts_set = apply_filters( 'awsm_jobs_block_attributes_set', $block_atts_set, $blockatts );
 
 		$this->unique_listing_id++;
 
@@ -354,7 +354,7 @@ class AWSM_Job_Openings_Block {
 			$attributes['pagination'] = 'modern';
 		}
 
-		$attributes = apply_filters( 'awsm_jobs_block_post_filters', $attributes , $_POST);
+		$attributes = apply_filters( 'awsm_jobs_block_post_filters', $attributes, $_POST );
 
 		$args = self::awsm_block_job_query_args( $filters, $attributes );
 

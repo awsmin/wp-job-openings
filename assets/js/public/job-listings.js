@@ -197,7 +197,7 @@ jQuery(function($) {
 	/* ========== Job Listings Load More ========== */
 
 	$(wrapperSelector).on('click', '.awsm-jobs-pagination .awsm-load-more-btn, .awsm-jobs-pagination a.page-numbers', function(e) {
-		e.preventDefault();
+		e.preventDefault(); 
 		var $triggerElem = $(this);
 		var isDefaultPagination = $triggerElem.hasClass('awsm-load-more-btn');
 		var paged = 1;

@@ -1029,8 +1029,6 @@ class AWSM_Job_Openings {
 		}
 		wp_enqueue_script( 'awsm-job-scripts', AWSM_JOBS_PLUGIN_URL . '/assets/js/script.min.js', array( 'jquery' ), AWSM_JOBS_PLUGIN_VERSION, true );
 
-		//wp_enqueue_script( 'awsm-block-job-admin', AWSM_JOBS_PLUGIN_URL . '/assets/js/public/block-job-listings.js', array(), '1.0.0', true );
-
 		$enable_search = get_option( 'awsm_enable_job_search' ) === 'enable' && isset( $_GET['jq'] );
 		global $post;
 
