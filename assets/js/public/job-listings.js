@@ -2,7 +2,7 @@
 
 'use strict';
 
-jQuery(function($) { 
+jQuery(function($) {  
 	var rootWrapperSelector = '.awsm-job-wrap';
 	var wrapperSelector = '.awsm-job-listings';
 
