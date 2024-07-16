@@ -5,7 +5,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $applicant_email = esc_attr( get_post_meta( $post->ID, 'awsm_applicant_email', true ) );
 $applicant_details = $this->get_applicant_meta_details_list( $post->ID, array( 'awsm_applicant_email' => $applicant_email ) );
-
+$tab_applicant_single_view  = AWSM_Job_Openings_Meta::set_applicant_single_view_tab();
+//var_dump($tab_applicant_single_view);
 /**
  * Initialize applicant meta box.
  *
@@ -30,7 +31,9 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
             ?>
             <div class="awsm-applicant-info">
                 <h3><?php echo esc_html( $applicant_details['name'] ); ?></h3>
-                <p><?php esc_html_e( 'Woocommerce Developer', 'wp-job-openings' ); ?></p>
+              <?php $title = esc_html( sprintf(get_post_meta( $post->ID, 'awsm_apply_for', true ) ) ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+                ?>
+                <p><?php esc_html_e( $title, 'wp-job-openings' ); ?></p>
             </div>
             <!-- .awsm-applicant-info -->
             <?php
@@ -45,7 +48,12 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
         <!-- .awsm-application-head -->
         <div class="application-main-cnt">
             <ul class="application-main-tab">
-                <li><a href="#" class="active"><?php esc_html_e( 'Profile', 'wp-job-openings' ); ?></a></li>
+                <?php foreach ($tab_applicant_single_view as $key => $label): ?>
+                    <li><a href="#" <?php echo $key === 'profile' ? 'class="active"' : ''; ?>>
+                        <?php echo esc_html($label); ?>
+                        
+                    </a></li>
+                <?php endforeach; ?>
             </ul>
             <div class="application-main-tab-items">
                 <div id="awsm-applicant-profile" class="application-main-tab-item awsm-applicant-profile active">
@@ -64,7 +72,7 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
                         $resume_details = $this->get_attached_file_details( $attachment_id );
                         if ( ! empty( $resume_details ) ) :
                             $file_size_display = ! empty( $resume_details['file_size']['display'] ) ? $resume_details['file_size']['display'] : '';
-                            $file_name_display = ! empty( $resume_details['file_name'] ) ? $resume_details['file_name'] : ''; ?>
+                            //$file_name_display = ! empty( $resume_details['file_name'] ) ? $resume_details['file_name'] : ''; ?>
                             <li>
                                 <label><?php esc_html_e( 'Resume', 'wp-job-openings' ); ?></label>
                                 <div class="awsm-applicant-resume">
@@ -94,7 +102,7 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
                      *
                      * @since 1.6.0
                      */
-                    do_action( 'after_awsm_job_applicant_mb_details_list', $post->ID );
+                    //do_action( 'after_awsm_job_applicant_mb_details_list', $post->ID );
                     ?>
                 </div>
             </div>

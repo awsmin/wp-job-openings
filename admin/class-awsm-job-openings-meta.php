@@ -76,6 +76,16 @@ class AWSM_Job_Openings_Meta {
 		remove_meta_box( 'submitdiv', 'awsm_job_application', 'side' );
 	}
 
+	public static function set_applicant_single_view_tab() {
+		$tab_list =  array(
+			'profile'        => esc_html__( 'Profile', 'wp-job-openings' ),
+			//'email'     => esc_html__( 'Email', 'wp-job-openings' ),
+			//'resume-preview' => esc_html__( 'Resume Preview', 'wp-job-openings' ),
+			//'notes'           => esc_html__( 'Notes', 'wp-job-openings' ),
+		);
+		return apply_filters( 'awsm_jobs_opening_applicant_single_tab_list', $tab_list );
+	}
+
 	public function get_applicant_meta_details_list( $post_id, $preset_values = array() ) {
 		$list = '';
 		$name = '';
