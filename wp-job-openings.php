@@ -1865,11 +1865,14 @@ class AWSM_Job_Openings {
 		if ( $new_status !== 'publish' && $new_status !== $old_status && $post->post_type === 'awsm_job_openings' ) {
 			if ( $new_status === 'expired' ) {
 				if ( $enable_expiry === 'enable' ) {
-					$job_id             = $post->ID;
-					$admin_email        = get_option( 'admin_email' );
-					$hr_mail            = get_option( 'awsm_hr_email_address' );
-					$company_name       = get_option( 'awsm_job_company_name' );
-					$from               = ( ! empty( $company_name ) ) ? $company_name : get_option( 'blogname' );
+					$job_id       = $post->ID;
+					$admin_email  = get_option( 'admin_email' );
+					$hr_mail      = get_option( 'awsm_hr_email_address' );
+					$company_name = get_option( 'awsm_job_company_name' );
+					$from         = ( ! empty( $company_name ) ) ? $company_name : get_option( 'blogname' );
+					if ( ! class_exists( 'AWSM_Job_Openings_Settings' ) ) {
+						require_once AWSM_JOBS_PLUGIN_DIR . '/admin/class-awsm-job-openings-settings.php';
+					}
 					$default_from_email = AWSM_Job_Openings_Settings::awsm_from_email();
 					$from_email         = get_option( 'awsm_jobs_author_from_email_notification', $default_from_email );
 					$to                 = get_option( 'awsm_jobs_author_to_notification', $expiry_default_options['to'] );
