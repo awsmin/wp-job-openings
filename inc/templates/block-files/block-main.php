@@ -38,7 +38,7 @@ while ( $query->have_posts() ) {
 					do_action_deprecated( 'before_awsm_block_jobs_listing_left_col_content', array( $job_details['id'], $attributes ), '3.0.0', 'before_awsm_block_jobs_listing_title' );
 				?>
 
-				<?php awsm_jobs_featured_image(); ?>
+				<?php awsm_jobs_block_featured_image(); ?>
 
 				<h2 class="awsm-job-post-title awsm-b-job-post-title">
 					<?php

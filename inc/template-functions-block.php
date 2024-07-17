@@ -113,3 +113,32 @@ if ( ! function_exists( 'awsm_block_jobs_paginate_links' ) ) {
 	}
 }
 
+
+if ( ! function_exists( 'awsm_jobs_block_featured_image' ) ) {
+	function awsm_jobs_block_featured_image( $echo = true, $size = 'thumbnail', $attr = '' ) {
+		$content                = '';
+		$post_thumbnail_id      = get_post_thumbnail_id();
+		$featured_image_support = get_option( 'awsm_jobs_enable_featured_image' );
+		if ( $featured_image_support === 'enable' && $post_thumbnail_id ) {
+			$content = wp_get_attachment_image( $post_thumbnail_id, $size, false, $attr );
+		}
+		/**
+		 * Filters the featured image content.
+		 *
+		 * @since 1.1.0
+		 *
+		 * @param string $content The image content.
+		 * @param int $post_thumbnail_id The post thumbnail ID.
+		 */
+		$content = apply_filters( 'awsm_jobs_block_featured_image_content', $content, $post_thumbnail_id );
+		if ( ! empty( $content ) ) {
+			$content = '<div class="awsm-job-featured-image">' . $content . '</div>';
+		}
+		if ( $echo ) {
+			echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		} else {
+			return $content;
+		}
+	}
+}
+

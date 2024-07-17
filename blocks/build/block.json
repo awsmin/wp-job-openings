@@ -43,10 +43,6 @@
     "enable_job_filter": {
       "type": "boolean",
       "default": true
-    },
-    "featured_image_size": {
-      "type": "array",
-      "default": []
     }
   },
   "example": {},
