@@ -566,6 +566,41 @@ ul.awsm-error-message li {
 
 /*---- Accessibility ----*/
 
+.awsm-filter-wrap .awsm-filter-items{
+	display: none;
+}
+
+.awsm-filter-wrap.awsm-full-width-search-filter-wrap .awsm-filter-items,
+.awsm-filter-wrap.awsm-no-search-filter-wrap .awsm-filter-items {
+	width: 100%;
+}
+
+@media (min-width:768px){
+	.awsm-filter-wrap .awsm-filter-items{
+		display: flex !important;
+		flex-wrap: wrap;
+		width: calc(100% - 250px);
+	}
+	.awsm-filter-toggle{
+		display: none;
+	}
+	.awsm-filter-item-search{
+		width: 250px;
+	}
+}
+
+@media (max-width:768px){
+	.awsm-filter-wrap .awsm-filter-items{
+		width: 100%;
+	}
+	.awsm-filter-item-search{
+		width: calc(100% - 66px);
+	}
+	.awsm-filter-wrap .awsm-filter-item .awsm-selectric-wrapper{
+		min-width: 100%;
+	}
+}
+
 .awsm-b-sr-only {
 	position: absolute;
 	width: 1px;

@@ -209,7 +209,7 @@ class AWSM_Job_Openings_Block {
 						 */
 						$filter_label = apply_filters( 'awsm_filter_block_label', esc_html_x( 'All', 'job filter', 'wp-job-openings' ) . ' ' . $spec_name, $taxonomy, $tax_details );
 
-						$dropdown_content = sprintf( '<div class="awsm-filter-item awsm-b-filter-item" data-filter="%2$s"><label for="awsm-%1$s-filter-option%5$s" class="awsm-b-sr-only awsm-sr-only">%3$s</label><select name="awsm_job_spec[%1$s]" class="awsm-filter-option awsm-%1$s-filter-option" id="awsm-%1$s-filter-option%5$s" aria-label="%3$s"><option value="">%3$s</option>%4$s</select></div>', esc_attr( $taxonomy ), esc_attr( $filter_key . '_spec' ), esc_html( $filter_label ), $options_content, esc_attr( $uid ) );
+						$dropdown_content = sprintf( '<div class="awsm-filter-item awsm-b-filter-item" data-filter="%2$s"><label for="awsm-%1$s-filter-option%5$s" class="awsm-b-sr-only awsm-sr-only">%3$s</label><select name="awsm_job_spec[%1$s]" class="awsm-filter-option awsm-%1$s-filter-option awsm-job-select-control" id="awsm-%1$s-filter-option%5$s" aria-label="%3$s"><option value="">%3$s</option>%4$s</select></div>', esc_attr( $taxonomy ), esc_attr( $filter_key . '_spec' ), esc_html( $filter_label ), $options_content, esc_attr( $uid ) );
 						/**
 						 * Filter the job filter dropdown content.
 						 *
@@ -259,7 +259,8 @@ class AWSM_Job_Openings_Block {
 					$filter_class_admin = 'awsm-b-filter-admin';
 				}
 
-				$specs_filter_content = sprintf( '<a href="#" class="awsm-filter-toggle awsm-b-filter-toggle" role="button" aria-pressed="false">%2$s</a><div class="awsm-filter-items awsm-b-filter-items ' . $filter_class_admin . '">%1$s</div>', $specs_filter_content, $toggle_control );
+				$specs_filter_content = sprintf( '<a href="#" class="awsm-filter-toggle awsm-b-filter-toggle" role="button" aria-pressed="false">%2$s</a><div class="awsm-filter-items">%1$s</div>', $specs_filter_content, $toggle_control );
+				
 			}
 
 			$wrapper_class = 'awsm-filter-wrap awsm-b-filter-wrap awsm-full-width-search-filter-wrap';
