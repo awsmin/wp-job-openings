@@ -410,24 +410,24 @@ jQuery(function($) {
 
 	/* ========== Custom select box - selectric ========== */
 
-	function awsmDropDown($elem) {
-		if ('selectric' in awsmJobsPublic.vendors && awsmJobsPublic.vendors.selectric) {
-			$elem.selectric({
-				onInit: function(select, selectric) {
-					var id = select.id;
-					var $input = $(selectric.elements.input);
-					$(select).attr('id', 'selectric-' + id);
-					$input.attr('id', id);
-				},
-				arrowButtonMarkup: '<span class="awsm-selectric-arrow-drop">&#x25be;</span>',
-				customClass: {
-					prefix: 'awsm-selectric',
-					camelCase: false
-				}
-			});
-		}
-	}
-	awsmDropDown($('.awsm-job-select-control'));
+	// function awsmDropDown($elem) {
+	// 	if ('selectric' in awsmJobsPublic.vendors && awsmJobsPublic.vendors.selectric) {
+	// 		$elem.selectric({
+	// 			onInit: function(select, selectric) {
+	// 				var id = select.id;
+	// 				var $input = $(selectric.elements.input);
+	// 				$(select).attr('id', 'selectric-' + id);
+	// 				$input.attr('id', id);
+	// 			},
+	// 			arrowButtonMarkup: '<span class="awsm-selectric-arrow-drop">&#x25be;</span>',
+	// 			customClass: {
+	// 				prefix: 'awsm-selectric',
+	// 				camelCase: false
+	// 			}
+	// 		});
+	// 	}
+	// }
+	// awsmDropDown($('.awsm-job-select-control'));
 
 	$(".awsm-filter-item select").each(function(index) {
 		awsmDropDown($('.awsm-filter-item select'));
