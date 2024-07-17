@@ -429,9 +429,9 @@ jQuery(function($) {
 	// }
 	// awsmDropDown($('.awsm-job-select-control'));
 
-	$(".awsm-filter-item select").each(function(index) {
+	/* $(".awsm-filter-item select").each(function(index) {
 		awsmDropDown($('.awsm-filter-item select'));
-	});
+	}); */
 
 	/**
 	 * Handle the filters toggle button in the job listing.
