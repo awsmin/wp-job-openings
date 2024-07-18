@@ -528,4 +528,21 @@ jQuery(document).ready(function($) {
 			$('#awsm-jobs-setup-btn').prop('disabled', false);
 		});
 	});
+
+	/*================ Application detail view tab ================*/
+	
+	$('.application-main-tab a').on( 'click', function(e) {
+        e.preventDefault();
+        $('.application-main-tab a').removeClass('active');
+        $('.application-main-tab-item').removeClass('active');
+        $(this).addClass('active');
+        var target = $(this).attr('href');
+        $(target).addClass('active');
+    });
+	//Mail tab active class
+	$('.awsm-applicant-meta-mail-tabs-new a').on('click', function(e){
+		e.preventDefault();
+		$('.awsm-applicant-meta-mail-tabs-new a').removeClass('active');
+		$(this).addClass('active');
+	});
 });

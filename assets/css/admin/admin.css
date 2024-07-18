@@ -1589,7 +1589,8 @@ a.awsm-plugin-item p {
 	align-items: center;
 	gap: 12px;
 }
-.awsm-applicant-resume-cta a{
+.awsm-applicant-resume-cta a,
+.awsm-applicant-resume-cta #awsm-print-apps{
 	display: inline-flex;
 	align-items: center;
 	gap: 6px;
@@ -1598,9 +1599,11 @@ a.awsm-plugin-item p {
 	border: 1px solid #D0D5DD;
 	background: #FFF;
 	color: #161616;
-	text-decoration: none;	
+	text-decoration: none;
+	line-height: normal;	
 }
-.awsm-applicant-resume-cta a:hover, .awsm-applicant-resume-cta a:focus{
+.awsm-applicant-resume-cta a:hover, .awsm-applicant-resume-cta a:focus,
+.awsm-applicant-resume-cta #awsm-print-apps:hover, .awsm-applicant-resume-cta #awsm-print-apps:focus{
 	text-decoration: none;
 	border-color: #6CFAE4;
 	background: #6CFAE4;

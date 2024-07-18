@@ -49,7 +49,7 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
         <div class="application-main-cnt">
             <ul class="application-main-tab">
                 <?php foreach ($tab_applicant_single_view as $key => $label): ?>
-                    <li><a href="#" <?php echo $key === 'profile' ? 'class="active"' : ''; ?>>
+                    <li><a href="#awsm-applicant-<?php echo $key; ?>" <?php echo $key === 'profile' ? 'class="active"' : ''; ?>>
                         <?php echo esc_html($label); ?>
                         
                     </a></li>
@@ -83,7 +83,17 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
                                             <?php echo esc_html( $file_size_display ); ?>
                                         </span>
                                     </span>
+                                    
                                     <div class="awsm-applicant-resume-cta">
+                                        <?php
+                                            /**
+                                             * Fires after applicant details list.
+                                             *
+                                             * @since 1.6.0
+                                             */
+                                            
+                                            do_action( 'after_awsm_job_applicant_mb_details_list', $post->ID );
+                                        ?>
                                         <a href="<?php echo esc_url( $this->get_attached_file_download_url( $attachment_id ) ); ?>">
                                             <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" version="1.1" preserveAspectRatio="xMinYMin">
                                                 <path xmlns="http://www.w3.org/2000/svg" fill="black" d="M8.66667 7.99998H10.6667L8 10.6666L5.33333 7.99998H7.33333V5.33331H8.66667V7.99998ZM10 2.66665H3.33333V13.3333H12.6667V5.33331H10V2.66665ZM2 1.99451C2 1.62935 2.29833 1.33331 2.66567 1.33331H10.6667L13.9998 4.66665L14 13.995C14 14.3659 13.7034 14.6666 13.3377 14.6666H2.66227C2.29651 14.6666 2 14.3631 2 14.0054V1.99451Z"
@@ -91,19 +101,24 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
                                             </svg>
                                             <?php esc_html_e( 'Download', 'wp-job-openings' ); ?>
                                         </a>
+                                        <div class="awsm-applicant-print-message awsm-error-message awsm-hidden"><p><?php esc_html_e( 'Error in fetching the application details!', 'pro-pack-for-wp-job-openings' ); ?></p></div>
                                     </div>
                                 </div>
                             </li>
                         <?php endif; ?>
                     </ul>
+                    
+                </div>
+                <div id="awsm-applicant-email" class="application-main-tab-item awsm-application-email">
+                <?php
+            
+                    do_action( 'awsm_job_applicant_profile_details_email', $post->ID );
+                ?>
+                </div>
+                <div id="awsm-applicant-notes" class="application-main-tab-item awsm-application-notes">
                     <?php
-                    /**
-                     * Fires after applicant details list.
-                     *
-                     * @since 1.6.0
-                     */
-                    //do_action( 'after_awsm_job_applicant_mb_details_list', $post->ID );
-                    ?>
+                        do_action( 'awsm_job_applicant_profile_details_note', $post->ID );
+                    ?> 
                 </div>
             </div>
             <!-- .application-main-tab-items -->
