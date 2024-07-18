@@ -12,7 +12,6 @@ class Awsm_Job_Guten_Blocks {
 	public function __construct() {
 		add_action( 'init', array( $this, 'register_dynamic_block' ) );
 		add_action( 'enqueue_block_assets', array( $this, 'block_assets' ) );
-		add_action( 'enqueue_block_editor_assets', array( $this, 'block_editor_assets' ) );
 	}
 
 	public static function get_instance() {
@@ -71,17 +70,12 @@ class Awsm_Job_Guten_Blocks {
 
 	public function block_assets() {
 		wp_enqueue_script( 'awsm-job-admin' );
-		if ( ! wp_style_is( 'awsm-jobs-style' ) || ! wp_script_is( 'awsm-job-scripts' ) ) {
+		 if ( ! wp_style_is( 'awsm-jobs-style' ) || ! wp_script_is( 'awsm-job-scripts' ) ) {
 			$awsm_job_openings = AWSM_Job_Openings::init();
 			$awsm_job_openings->awsm_enqueue_scripts();
-		}
-	}
-
-	public function block_editor_assets() {
-		wp_enqueue_style( 'awsm-block-job-admin', plugins_url( 'blocks/src/editor.min.css', dirname( __FILE__ ) ), array( 'wp-edit-blocks' ), '1.0.0' );
-
-		// Enqueue the stylesheet for your block
-		wp_enqueue_style( 'awsm-block-job-admin' );
+		} 
+		
+		wp_enqueue_script( 'awsm-block-job-selectric', AWSM_JOBS_PLUGIN_URL . '/assets/js/public/vendors/jquery.selectric.js', array( 'jquery' ), AWSM_JOBS_PLUGIN_VERSION, true );
 	}
 }
 Awsm_Job_Guten_Blocks::get_instance();
