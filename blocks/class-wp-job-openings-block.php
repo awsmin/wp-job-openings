@@ -68,14 +68,12 @@ class Awsm_Job_Guten_Blocks {
 		return $block_content;
 	}
 
-	public function block_assets() {
+	public function block_assets() { 
 		wp_enqueue_script( 'awsm-job-admin' );
 		 if ( ! wp_style_is( 'awsm-jobs-style' ) || ! wp_script_is( 'awsm-job-scripts' ) ) {
 			$awsm_job_openings = AWSM_Job_Openings::init();
 			$awsm_job_openings->awsm_enqueue_scripts();
 		} 
-		
-		wp_enqueue_script( 'awsm-block-job-selectric', AWSM_JOBS_PLUGIN_URL . '/assets/js/public/vendors/jquery.selectric.js', array( 'jquery' ), AWSM_JOBS_PLUGIN_VERSION, true );
 	}
 }
 Awsm_Job_Guten_Blocks::get_instance();

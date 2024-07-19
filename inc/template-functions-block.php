@@ -1,6 +1,6 @@
 <?php
 /**
- * Template specific functions for block editor
+ * Template specific functions for block
  *
  */
 
@@ -64,7 +64,7 @@ if ( ! function_exists( 'awsm_block_jobs_load_more' ) ) {
 					/**
 					 * Filters the load more content.
 					 *
-					 * @since 2.3.0
+					 * @since 3.5.0
 					 *
 					 * @param string $load_more_content The HTML content.
 					 * @param WP_Query $query The Query object.
@@ -102,7 +102,7 @@ if ( ! function_exists( 'awsm_block_jobs_paginate_links' ) ) {
 		/**
 		 * Filters the paginate links content.
 		 *
-		 * @since 3.0.0
+		 * @since 3.5.0
 		 *
 		 * @param string $pagination_content The HTML content.
 		 * @param WP_Query $query The Query object.
@@ -125,7 +125,7 @@ if ( ! function_exists( 'awsm_jobs_block_featured_image' ) ) {
 		/**
 		 * Filters the featured image content.
 		 *
-		 * @since 1.1.0
+		 * @since 3.5.0
 		 *
 		 * @param string $content The image content.
 		 * @param int $post_thumbnail_id The post thumbnail ID.

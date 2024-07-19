@@ -42,8 +42,6 @@ const WidgetInspectorControls = props => {
 
 	const specifications_handler = (toggleValue, specKey) => {
 		if (typeof filter_options !== "undefined") {
-			//jQuery(".awsm-job-select-control").selectric("destroy");
-
 			let modfilteroptions = [...filter_options];
 			if (!toggleValue) {
 				modfilteroptions = modfilteroptions.filter(
@@ -57,8 +55,6 @@ const WidgetInspectorControls = props => {
 	};
 	const other_options_handler = (toggleValue, specKey) => { 
 		if (typeof other_options !== "undefined") {
-			//jQuery(".awsm-job-select-control").selectric("destroy");
-
 			let modfilteroptions = [...other_options];
 			if (!toggleValue) { 
 				modfilteroptions = modfilteroptions.filter(

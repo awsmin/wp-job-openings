@@ -1019,7 +1019,7 @@ class AWSM_Job_Openings {
 		wp_register_style( 'awsm-jobs-general', AWSM_JOBS_PLUGIN_URL . '/assets/css/general.min.css', array(), AWSM_JOBS_PLUGIN_VERSION, 'all' );
 	}
 
-	public function awsm_enqueue_scripts() { 
+	public function awsm_enqueue_scripts() {
 		wp_enqueue_style( 'awsm-jobs-general' );
 		wp_enqueue_style( 'awsm-jobs-style', AWSM_JOBS_PLUGIN_URL . '/assets/css/style.min.css', array( 'awsm-jobs-general' ), AWSM_JOBS_PLUGIN_VERSION, 'all' );
 
@@ -1027,9 +1027,9 @@ class AWSM_Job_Openings {
 		if ( is_singular( 'awsm_job_openings' ) && $is_recaptcha_set ) {
 			wp_enqueue_script( 'g-recaptcha', 'https://www.google.com/recaptcha/api.js', array(), '2.0', false );
 		}
-		wp_register_script( 'awsm-job-scripts', AWSM_JOBS_PLUGIN_URL . '/assets/js/script.min.js', array( 'jquery' ), AWSM_JOBS_PLUGIN_VERSION, true );
+		wp_enqueue_script( 'awsm-job-scripts', AWSM_JOBS_PLUGIN_URL . '/assets/js/script.min.js', array( 'jquery' ), AWSM_JOBS_PLUGIN_VERSION, true );
 
-		wp_enqueue_script( 'awsm-job-scripts' );
+		wp_enqueue_script( 'awsm-block-job-selectric', AWSM_JOBS_PLUGIN_URL . '/assets/js//jquery.selectric.js', array( 'jquery' ), AWSM_JOBS_PLUGIN_VERSION, true );
 
 		$enable_search = get_option( 'awsm_enable_job_search' ) === 'enable' && isset( $_GET['jq'] );
 		global $post;

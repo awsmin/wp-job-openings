@@ -17,7 +17,7 @@ $listing_specs = awsm_block_job_filters_explode( $listing_specs );
 /**
  * Fires before The Loop to query for jobs.
  *
- * @since 1.1.0
+ * @since 3.5.0
  *
  * @param array $attributes Attributes array from block side .
  */
@@ -57,7 +57,7 @@ while ( $query->have_posts() ) {
 					/**
 					 * after_awsm_jobs_listing_title hook
 					 *
-					 * @since 3.0.0
+					 * @since 3.5.0
 					 *
 					 * @param int $job_id The Job ID.
 					 * @param array $shortcode_atts Attributes array if shortcode is used, else an empty array.
@@ -74,7 +74,7 @@ while ( $query->have_posts() ) {
 					/**
 					 * before_awsm_block_jobs_listing_specs_content hook
 					 *
-					 * @since 3.0.0
+					 * @since 3.5.0
 					 *
 					 * @param int $job_id The Job ID.
 					 * @param array $shortcode_atts Attributes array if shortcode is used, else an empty array.

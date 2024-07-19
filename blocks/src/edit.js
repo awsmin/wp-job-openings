@@ -29,13 +29,10 @@ import "./editor.scss";
  *
  * @return {Element} Element to render.
  */
-import {useEffect} from "@wordpress/element";
-import {InnerBlocks, useBlockProps} from "@wordpress/block-editor";
-
+import {useBlockProps} from "@wordpress/block-editor";
 import ServerSideRender from "@wordpress/server-side-render";
-
 import WidgetInspectorControls from "./inspector";
-import {useSelect} from "@wordpress/data";
+
 export default function Edit(props) {
 	const {
 		attributes: {

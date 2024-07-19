@@ -37,11 +37,9 @@ class AWSM_Job_Openings_Block {
 			'listings'           => isset( $blockatts['listing_per_page'] ) ? $blockatts['listing_per_page'] : 10,
 			'block_loadmore'     => 'yes',
 			'pagination'         => isset( $blockatts['pagination'] ) ? $blockatts['pagination'] : 'modern',
-			//'layout'             => isset( $blockatts['layout'] ) ? $blockatts['layout'] : '',
 			'enable_job_filter'  => isset( $blockatts['enable_job_filter'] ) ? $blockatts['enable_job_filter'] : '',
 			'search_placeholder' => isset( $blockatts['search_placeholder'] ) ? $blockatts['search_placeholder'] : '',
 			'hide_expired_jobs'  => isset( $blockatts['hide_expired_jobs'] ) ? $blockatts['hide_expired_jobs'] : '',
-			//'position_filling'   => isset( $blockatts['position_filling'] ) ? $blockatts['position_filling'] : '',
 		);
 
 		$block_atts_set = apply_filters( 'awsm_jobs_block_attributes_set', $block_atts_set, $blockatts );
@@ -81,21 +79,11 @@ class AWSM_Job_Openings_Block {
 			/**
 			 * Enable search in the job listing or not.
 			 *
-			 * @since new version
+			 * @since 3.5.0
 			 *
 			 * @param mixed $enable_search Enable the search or not.
 			 * @param array $block_atts The shortcode attributes.
 			 */
-			//$enable_search = apply_filters( 'awsm_job_filters_enable_search', $enable_search, $block_atts );
-
-			// if ( $filters_attr == '' ) {
-			// 	return;
-			// }
-
-			// if ( is_archive() && ! is_post_type_archive( 'awsm_job_openings' ) ) {
-			// 	return;
-			// }
-
 			$uid = isset( $block_atts['uid'] ) ? '-' . $block_atts['uid'] : '';
 
 		if ( $enable_search === 'enable' ) {
@@ -103,7 +91,7 @@ class AWSM_Job_Openings_Block {
 			/**
 			 * Filters the search field placeholder text.
 			 *
-			 * @since new version
+			 * @since 3.5.0
 			 *
 			 * @param string $text Placeholder text.
 			 */
@@ -114,7 +102,7 @@ class AWSM_Job_Openings_Block {
 			/**
 			 * Filters the search field content.
 			 *
-			 * @since 1.6.0
+			 * @since 3.5.0
 			 *
 			 * @param string $search_content Search field content.
 			 */
@@ -127,11 +115,6 @@ class AWSM_Job_Openings_Block {
 		if ( $enable_job_filters !== 'enable' || $filters_attr === '' ) {
 			$display_filters = false;
 		}
-			/*
-			// Hide filters if specs shortcode attribute is applied.
-			if ( ! empty( $block_atts['specs'] ) ) {
-				$display_filters = false;
-			} */
 
 			$available_filters = get_option( 'awsm_jobs_listing_available_filters' );
 
@@ -147,7 +130,7 @@ class AWSM_Job_Openings_Block {
 			/**
 			 * Modifies the available or active filters to be displayed in the job listing.
 			 *
-			 * @since new version
+			 * @since 3.5.0
 			 *
 			 * @param array $available_filters The available filters.
 			 * @param array $block_atts The block attributes.
@@ -159,7 +142,7 @@ class AWSM_Job_Openings_Block {
 					/**
 					 * Filter arguments for the specification terms in the job filter.
 					 *
-					 * @since new version
+					 * @since 3.5.0
 					 *
 					 * @param array $terms_args Array of arguments.
 					 */
@@ -185,7 +168,7 @@ class AWSM_Job_Openings_Block {
 							/**
 							 * Filter the job filter dropdown option content.
 							 *
-							 * @since new version
+							 * @since 3.5.0
 							 *
 							 * @param string $option_content Filter dropdown option content.
 							 * @param WP_Term $term Job spec term.
@@ -201,7 +184,7 @@ class AWSM_Job_Openings_Block {
 						/**
 						 * Filters the default label for the job filter.
 						 *
-						 * @since new version
+						 * @since 3.5.0
 						 *
 						 * @param string $filter_label The label for the filter.
 						 * @param string $taxonomy Taxonomy key.
@@ -213,7 +196,7 @@ class AWSM_Job_Openings_Block {
 						/**
 						 * Filter the job filter dropdown content.
 						 *
-						 * @since new version
+						 * @since 3.5.0
 						 *
 						 * @param string $dropdown_content Filter dropdown content.
 						 */
@@ -248,7 +231,7 @@ class AWSM_Job_Openings_Block {
 				/**
 				 * Filters the HTML content for the specifications toggle button.
 				 *
-				 * @since new version
+				 * @since 3.5.0
 				 *
 				 * @param string $toggle_control Toogle button HTML content.
 			 */
@@ -323,10 +306,6 @@ class AWSM_Job_Openings_Block {
 			}
 		}
 
-		/* if ( ! empty( $_POST['shortcode_specs'] ) ) {
-			$attributes['specs'] = sanitize_text_field( $_POST['shortcode_specs'] );
-		} */
-
 		if ( ! empty( $_POST['layout'] ) ) {
 			$attributes['layout'] = sanitize_text_field( $_POST['layout'] );
 		}
@@ -384,7 +363,7 @@ class AWSM_Job_Openings_Block {
 			/**
 			 * Filters the HTML content for no jobs when filtered.
 			 *
-			 * @since 2.3.0
+			 * @since 3.5.0
 			 *
 			 * @param string $no_jobs_content The HTML content.
 			 */
@@ -440,7 +419,7 @@ class AWSM_Job_Openings_Block {
 		/**
 		 * Filters the arguments for the jobs query.
 		 *
-		 * @since 1.4
+		 * @since 3.5.0
 		 *
 		 * @param array $args arguments.
 		 * @param array $filters Applicable filters.
@@ -473,6 +452,8 @@ class AWSM_Job_Openings_Block {
 		/**
 		 * Filters the data attributes for the job listings div element.
 		 *
+		 * @since 3.5.0
+		 * 
 		 * @param array $attrs The data attributes.
 		 * @param array $block_atts The block attributes.
 		 */

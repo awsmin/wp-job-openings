@@ -1,6 +1,6 @@
 <?php
 /**
- * Template for displaying job openings in block
+ * Template for displaying job openings for block side
  *
  */
 
@@ -22,7 +22,7 @@ if ( $query->have_posts() ) : ?>
 			 *
 			 * @hooked AWSM_Job_Openings_Block::display_block_filter_form()
 			 *
-			 * @since 1.0.0
+			 * @since 3.5.0
 			 *
 			 * @param array $attributes Attributes array from block.
 			 */
