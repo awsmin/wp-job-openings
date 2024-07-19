@@ -1029,7 +1029,7 @@ class AWSM_Job_Openings {
 		}
 		wp_enqueue_script( 'awsm-job-scripts', AWSM_JOBS_PLUGIN_URL . '/assets/js/script.min.js', array( 'jquery' ), AWSM_JOBS_PLUGIN_VERSION, true );
 
-		wp_enqueue_script( 'awsm-block-job-selectric', AWSM_JOBS_PLUGIN_URL . '/assets/js//jquery.selectric.js', array( 'jquery' ), AWSM_JOBS_PLUGIN_VERSION, true );
+		wp_enqueue_script( 'awsm-job-selectric', AWSM_JOBS_PLUGIN_URL . '/assets/js/jquery.selectric.js', array( 'jquery' ), AWSM_JOBS_PLUGIN_VERSION, true );
 
 		$enable_search = get_option( 'awsm_enable_job_search' ) === 'enable' && isset( $_GET['jq'] );
 		global $post;
