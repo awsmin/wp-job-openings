@@ -42,7 +42,7 @@ const WidgetInspectorControls = props => {
 
 	const specifications_handler = (toggleValue, specKey) => {
 		if (typeof filter_options !== "undefined") {
-			jQuery(".awsm-job-select-control").selectric("destroy");
+			//jQuery(".awsm-job-select-control").selectric("destroy");
 
 			let modfilteroptions = [...filter_options];
 			if (!toggleValue) {
@@ -57,7 +57,7 @@ const WidgetInspectorControls = props => {
 	};
 	const other_options_handler = (toggleValue, specKey) => { 
 		if (typeof other_options !== "undefined") {
-			jQuery(".awsm-job-select-control").selectric("destroy");
+			//jQuery(".awsm-job-select-control").selectric("destroy");
 
 			let modfilteroptions = [...other_options];
 			if (!toggleValue) { 
@@ -110,18 +110,6 @@ const WidgetInspectorControls = props => {
 					checked={hide_expired_jobs}
 					onChange={hide_expired_jobs => setAttributes({ hide_expired_jobs })}
 				/>
-
-				{/* <SelectControl
-					label = {__("Listing Order", "wp-job-openings")}
-					value = {listing_order}
-					options = {
-					[
-						{label: __('Ascending', 'wp-job-openings'),value :"ascending"},
-						{label: __('Descending', 'wp-job-openings'),value :"descending"}
-					]
-					}
-					onChange ={(listing_order)=>setAttributes({listing_order})}
-				/> */}
 			</PanelBody>
 			{specifications.length > 0 && (
 				<PanelBody title={__("Filter Options", "wp-job-openings")}>

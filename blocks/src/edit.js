@@ -40,11 +40,6 @@ export default function Edit(props) {
 	const {
 		attributes: {
 			filter_options,
-			layout,
-			listing_per_page,
-			search,
-			enable_job_filter,
-			search_placeholder
 		},
 		setAttributes
 	} = props;
@@ -59,32 +54,6 @@ export default function Edit(props) {
 		) {
 			return spec;
 		}
-	});
-
-	const awsmDropDown = $elem => {
-	if (
-		"selectric" in awsmJobsPublic.vendors &&
-		awsmJobsPublic.vendors.selectric
-	) {
-		$elem.selectric({
-			onInit: function(select, selectric) {
-				var id = select.id;
-				var $input = jQuery(selectric.elements.input);
-				jQuery(select).attr("id", "selectric-" + id);
-				$input.attr("id", id);
-			},
-			arrowButtonMarkup:
-				'<span class="awsm-selectric-arrow-drop">&#x25be;</span>',
-			customClass: {
-				prefix: "awsm-selectric",
-				camelCase: false
-			}
-		});
-	    }
-	};
-
-	useEffect(() => {
-		awsmDropDown(jQuery(".awsm-job-select-control"));
 	});
 
 	return (
