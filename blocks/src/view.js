@@ -365,6 +365,8 @@ jQuery(function($) {
 				value: searchQuery
 			});
 		}
+
+		$(document).trigger('awsmjobs_block_load_more', [ $listingsContainer,wpData ]);
 		var listingsData = getListingsData($listingsContainer);
 		if (listingsData.length > 0) {
 			wpData = wpData.concat(listingsData);
