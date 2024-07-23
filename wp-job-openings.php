@@ -49,7 +49,7 @@ if ( ! defined( 'AWSM_JOBS_DEBUG' ) ) {
 // Helper functions
 require_once AWSM_JOBS_PLUGIN_DIR . '/inc/helper-functions.php';
 if ( function_exists( 'register_block_type' ) ) {
-	require_once AWSM_JOBS_PLUGIN_DIR . '/blocks/class-wp-job-openings-block.php';
+	require_once AWSM_JOBS_PLUGIN_DIR . '/blocks/class-awsm-job-guten-blocks.php';
 }
 
 class AWSM_Job_Openings {
