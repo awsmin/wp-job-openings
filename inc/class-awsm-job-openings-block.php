@@ -76,6 +76,9 @@ class AWSM_Job_Openings_Block {
 			$enable_search        = isset( $block_atts['search'] ) ? $block_atts['search'] : '';
 			$placeholder_search   = isset( $block_atts['search_placeholder'] ) ? $block_atts['search_placeholder'] : '';
 
+			$placeholder_search = isset( $block_atts['search_placeholder'] ) ? $block_atts['search_placeholder'] : '';
+			$default_text       = _x( 'Search Jobs', 'job filter', 'wp-job-openings' );
+
 			/**
 			 * Enable search in the job listing or not.
 			 *
@@ -95,7 +98,7 @@ class AWSM_Job_Openings_Block {
 			 *
 			 * @param string $text Placeholder text.
 			 */
-			$placeholder_text = apply_filters( 'awsm_jobs_block_search_field_placeholder', _x( $placeholder_search, 'job filter', 'wp-job-openings' ) );
+			$placeholder_text = apply_filters( 'awsm_jobs_block_search_field_placeholder', $placeholder_search ? $placeholder_search : $default_text );
 			$search_icon      = '<span class="awsm-job-search-btn awsm-b-job-search-btn awsm-job-search-icon-wrapper awsm-b-job-search-icon-wrapper"><i class="awsm-job-icon-search awsm-b-job-icon-search"></i></span><span class="awsm-job-search-close-btn awsm-b-job-search-close-btn awsm-job-search-icon-wrapper awsm-b-job-search-icon-wrapper awsm-job-hide awsm-b-job-hide"><i class="awsm-job-icon-close-circle awsm-b-job-icon-close-circle"></i></span>';
 			$search_content   = sprintf( '<div class="awsm-filter-item-search awsm-b-filter-item-search"><div class="awsm-filter-item-search-in awsm-b-filter-item-search-in"><label for="awsm-jq%4$s" class="awsm-sr-only awsm-b-sr-only">%1$s</label><input type="text" id="awsm-jq%4$s" name="jq" value="%2$s" placeholder="%1$s" class="awsm-job-search awsm-job-form-control">%3$s</div></div>', esc_attr( $placeholder_text ), esc_attr( $search_query ), $search_icon, esc_attr( $uid ) );
 
