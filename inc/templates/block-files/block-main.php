@@ -37,13 +37,13 @@ while ( $query->have_posts() ) {
 				<?php
 					do_action_deprecated( 'before_awsm_block_jobs_listing_left_col_content', array( $job_details['id'], $attributes ), '3.0.0', 'before_awsm_block_jobs_listing_title' );
 				?>
-                
-				<?php 
+				
+				<?php
 					$featured_image = 'thumbnail';
-				    if( isset($attributes['featured_image_size']) && $attributes['featured_image_size'] != '' ){
-						$featured_image = $attributes['featured_image_size'];
-					}
-				 	awsm_jobs_block_featured_image( true,$featured_image,'',$attributes ); 
+				if ( isset( $attributes['featured_image_size'] ) && $attributes['featured_image_size'] != '' ) {
+					$featured_image = $attributes['featured_image_size'];
+				}
+					awsm_jobs_block_featured_image( true, $featured_image, '', $attributes );
 				?>
 
 				<h2 class="awsm-job-post-title awsm-b-job-post-title">

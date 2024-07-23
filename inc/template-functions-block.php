@@ -115,7 +115,7 @@ if ( ! function_exists( 'awsm_block_jobs_paginate_links' ) ) {
 
 
 if ( ! function_exists( 'awsm_jobs_block_featured_image' ) ) {
-	function awsm_jobs_block_featured_image( $echo = true, $size = 'thumbnail', $attr = '' , $block_atts = array() ) {
+	function awsm_jobs_block_featured_image( $echo = true, $size = 'thumbnail', $attr = '', $block_atts = array() ) {
 		$content                = '';
 		$post_thumbnail_id      = get_post_thumbnail_id();
 		$featured_image_support = get_option( 'awsm_jobs_enable_featured_image' );

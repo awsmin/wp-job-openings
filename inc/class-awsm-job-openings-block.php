@@ -334,7 +334,7 @@ class AWSM_Job_Openings_Block {
 		}
 
 		$attributes = apply_filters( 'awsm_jobs_block_post_filters', $attributes, $_POST );
-		
+
 		$args = self::awsm_block_job_query_args( $filters, $attributes );
 
 		if ( isset( $_POST['jq'] ) && ! empty( $_POST['jq'] ) ) {
@@ -453,7 +453,7 @@ class AWSM_Job_Openings_Block {
 		 * Filters the data attributes for the job listings div element.
 		 *
 		 * @since 3.5.0
-		 * 
+		 *
 		 * @param array $attrs The data attributes.
 		 * @param array $block_atts The block attributes.
 		 */
