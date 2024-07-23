@@ -71,7 +71,15 @@ function Edit(props) {
       return spec;
     }
   });
-  return (0,react__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", _objectSpread({}, blockProps), (0,react__WEBPACK_IMPORTED_MODULE_1__.createElement)(_inspector__WEBPACK_IMPORTED_MODULE_6__["default"], _objectSpread({}, props)), (0,react__WEBPACK_IMPORTED_MODULE_1__.createElement)((_wordpress_server_side_render__WEBPACK_IMPORTED_MODULE_5___default()), {
+
+  // Event handler to ignore clicks
+  var handleClick = function handleClick(event) {
+    event.preventDefault();
+    event.stopPropagation();
+  };
+  return (0,react__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", _objectSpread(_objectSpread({}, blockProps), {}, {
+    onClick: handleClick
+  }), (0,react__WEBPACK_IMPORTED_MODULE_1__.createElement)(_inspector__WEBPACK_IMPORTED_MODULE_6__["default"], _objectSpread({}, props)), (0,react__WEBPACK_IMPORTED_MODULE_1__.createElement)((_wordpress_server_side_render__WEBPACK_IMPORTED_MODULE_5___default()), {
     block: "wp-job-openings/blocks",
     attributes: props.attributes
   }));

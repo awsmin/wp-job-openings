@@ -53,8 +53,14 @@ export default function Edit(props) {
 		}
 	});
 
+	// Event handler to ignore clicks
+    const handleClick = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+    };
+
 	return (
-		<div {...blockProps}>
+		<div {...blockProps} onClick={handleClick}>
 			<WidgetInspectorControls {...props} />
 			<ServerSideRender
 				block="wp-job-openings/blocks"
