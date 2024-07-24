@@ -46,24 +46,26 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
         </div>
         <!-- .awsm-application-head -->
         <div class="application-main-cnt">
+            
             <ul class="application-main-tab">
-                <?php foreach ( $tab_applicant_single_view as $key => $tab_data ): ?>
+                <?php foreach ($tab_applicant_single_view as $key => $tab_data): ?>
                     <li>
-                        <a href="#awsm-applicant-<?php echo esc_attr( $key ); ?>" <?php echo $key === 'profile' ? 'class="active"' : ''; ?>>
+                        <a href="#awsm-applicant-<?php echo esc_attr($key); ?>" <?php echo $key === 'profile' ? 'class="active"' : ''; ?>>
                             <?php 
-                            if ( is_array( $tab_data ) && isset( $tab_data['label'] ) ) {
-                                echo esc_html( $tab_data['label'] ); 
-                                if ( isset( $tab_data['count'] ) ) {
-                                    echo '<span>' . intval( $tab_data['count'] ) . '</span>';
+                            if (is_array($tab_data) && isset($tab_data['label'])) {
+                                echo esc_html($tab_data['label']); 
+                                if (isset($tab_data['count'])) {
+                                    echo '<span>' . intval($tab_data['count']) . '</span>';
                                 }
                             } else {
-                                echo esc_html( $tab_data );
+                                echo esc_html($tab_data);
                             }
                             ?>                        
                         </a>
                     </li>
                 <?php endforeach; ?>
             </ul>
+
             <div class="application-main-tab-items">
                 <div id="awsm-applicant-profile" class="application-main-tab-item awsm-applicant-profile active">
                     <?php
