@@ -509,9 +509,9 @@ a.awsm-text-red:hover {
 	font-weight: 600;
 }
 
-.awsm-applicant-details-list li span {
+/* .awsm-applicant-details-list li span {
 	display: block;
-}
+} */
 
 .awsm-applicant-details-list li span p:first-child {
 	margin-top: 0;
@@ -1704,7 +1704,13 @@ a.awsm-plugin-item p {
 	gap: 10px;
 }
 
-
+.application-main-tab a:focus,
+.awsm-application-email-left ul a:focus{
+	box-shadow: none;
+}
+.application-main-tab li{
+	margin-bottom: 0;
+}
 
  @media (min-width: 991px){
  	.awsm-application-email-left{
