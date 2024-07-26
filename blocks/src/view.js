@@ -438,18 +438,18 @@ jQuery(function($) {
 	/**
 	 * Handle the filters toggle button in the job listing.
 	 */
-	$(document).on('click', '.awsm-filter-toggle', function(e) {
-		e.preventDefault();
-		var $elem = $(this);
-		$elem.toggleClass('awsm-on');
-		if ($elem.hasClass('awsm-on')) {
-			$elem.attr('aria-pressed', 'true');
-		} else {
-			$elem.attr('aria-pressed', 'false');
-		}
-		var $parent = $elem.parent();
-		$parent.find('.awsm-filter-items').slideToggle();
-	});
+	// $(document).on('click', '.awsm-filter-toggle', function(e) {
+	// 	e.preventDefault();
+	// 	var $elem = $(this);
+	// 	$elem.toggleClass('awsm-on');
+	// 	if ($elem.hasClass('awsm-on')) {
+	// 		$elem.attr('aria-pressed', 'true');
+	// 	} else {
+	// 		$elem.attr('aria-pressed', 'false');
+	// 	}
+	// 	var $parent = $elem.parent();
+	// 	$parent.find('.awsm-filter-items').slideToggle();
+	// });
 
 	/**
 	 * Handle the responsive styles for filters in the job listing when search is enabled.
