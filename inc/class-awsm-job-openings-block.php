@@ -245,7 +245,7 @@ class AWSM_Job_Openings_Block {
 					$filter_class_admin = 'awsm-b-filter-admin';
 				}
 
-				$specs_filter_content = sprintf( '<a href="#" class="awsm-filter-toggle awsm-b-filter-toggle" role="button" aria-pressed="false">%2$s</a><div class="awsm-filter-items awsm-b-filter-items ' . $filter_class_admin . '">%1$s</div>', $specs_filter_content, $toggle_control );
+				$specs_filter_content = sprintf( '<a href="#" class="awsm-b-filter-toggle" role="button" aria-pressed="false">%2$s</a><div class="awsm-filter-items awsm-b-filter-items ' . $filter_class_admin . '">%1$s</div>', $specs_filter_content, $toggle_control );
 			}
 
 			$wrapper_class = 'awsm-filter-wrap awsm-b-filter-wrap awsm-full-width-search-filter-wrap';
