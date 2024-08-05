@@ -12,7 +12,7 @@ $attributes = isset( $block_atts_set ) ? $block_atts_set : array();
 $query      = awsm_block_jobs_query( $attributes );
 
 if ( $query->have_posts() ) : ?>
-	<div class="awsm-job-wrap awsm-b-job-wrap<?php awsm_jobs_wrapper_class(); ?>">
+	<div class="awsm-b-job-wrap<?php awsm_jobs_wrapper_class(); ?>">
 
 		<?php
 			/**

@@ -164,11 +164,11 @@ a.awsm-b-job-item {
   display: none;
 }
 
-.awsm-b-filter-wrap.awsm-full-width-search-filter-wrap .awsm-b-filter-item-search {
+.awsm-b-filter-wrap.awsm-b-full-width-search-filter-wrap .awsm-b-filter-item-search {
   width: 100%;
 }
 
-.awsm-b-filter-wrap.awsm-full-width-search-filter-wrap .awsm-b-filter-items,
+.awsm-b-filter-wrap.awsm-b-full-width-search-filter-wrap .awsm-b-filter-items,
 .awsm-b-filter-wrap.awsm-b-no-search-filter-wrap .awsm-b-filter-items {
   width: 100%;
 }
@@ -611,17 +611,17 @@ ul.awsm-error-message li {
 }
 
 /*---- Accessibility ----*/
-.awsm-filter-wrap .awsm-filter-items {
+.awsm-b-filter-wrap .awsm-b-filter-items {
   display: none;
 }
 
-.awsm-filter-wrap.awsm-full-width-search-filter-wrap .awsm-filter-items,
-.awsm-filter-wrap.awsm-no-search-filter-wrap .awsm-filter-items {
+.awsm-b-filter-wrap.awsm-b-full-width-search-filter-wrap .awsm-b-filter-items,
+.awsm-b-filter-wrap.awsm-b-no-search-filter-wrap .awsm-b-filter-items {
   width: 100%;
 }
 
 @media (min-width: 768px) {
-  .awsm-filter-wrap .awsm-filter-items {
+  .awsm-b-filter-wrap .awsm-b-filter-items {
     display: -webkit-box !important;
     display: -webkit-flex !important;
     display: -ms-flexbox !important;
@@ -634,18 +634,18 @@ ul.awsm-error-message li {
   .awsm-filter-toggle {
     display: none;
   }
-  .awsm-filter-item-search {
+  .awsm-b-filter-item-search {
     width: 250px;
   }
 }
 @media (max-width: 768px) {
-  .awsm-filter-wrap .awsm-filter-items {
+  .awsm-b-filter-wrap .awsm-b-filter-items {
     width: 100%;
   }
-  .awsm-filter-item-search {
+  .awsm-b-filter-item-search {
     width: calc(100% - 66px);
   }
-  .awsm-filter-wrap .awsm-filter-item .awsm-selectric-wrapper {
+  .awsm-b-filter-wrap .awsm-b-filter-item .awsm-selectric-wrapper {
     min-width: 100%;
   }
 }
@@ -816,6 +816,67 @@ ul.awsm-error-message li {
   text-overflow: ellipsis;
 }
 
-.awsm-b-filter-admin .awsm-filter-option {
+.awsm-b-filter-admin .awsm-b-filter-option {
   display: none !important;
+}
+
+.awsm-b-job-icon-search:before {
+  content: "\f002";
+}
+
+.awsm-b-job-icon-close-circle:before {
+  content: "\e900";
+  color: #a6a6a6;
+}
+
+.awsm-b-filter-wrap.awsm-full-width-search-filter-wrap .awsm-b-filter-items,
+.awsm-b-filter-wrap.awsm-b-no-search-filter-wrap .awsm-b-filter-items {
+  width: 100%;
+}
+
+.awsm-b-filter-wrap.awsm-b-no-search-filter-wrap .awsm-b-filter-toggle {
+  width: 100%;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  text-decoration: none;
+}
+
+.awsm-b-filter-wrap.awsm-b-no-search-filter-wrap .awsm-b-filter-toggle svg {
+  width: 22px;
+  height: 22px;
+}
+
+.awsm-b-filter-wrap.awsm-b-full-width-search-filter-wrap.awsm-b-jobs-alerts-on .awsm-b-filter-items, .awsm-b-filter-wrap.awsm-b-no-search-filter-wrap.awsm-b-jobs-alerts-on .awsm-b-filter-items {
+  width: calc(100% - 80px);
+}
+
+.awsm-b-filter-wrap.awsm-b-no-search-filter-wrap.awsm-b-jobs-alerts-on .awsm-b-filter-toggle {
+  width: calc(100% - 100px);
+}
+
+@media (max-width: 767px) {
+  .awsm-b-jobs-alerts-on .awsm-b-filter-item-search {
+    width: calc(100% - 146px);
+  }
+}
+@media (min-width: 768px) {
+  .awsm-b-filter-wrap.awsm-b-jobs-alerts-on .awsm-b-filter-items {
+    width: calc(100% - 330px);
+    -webkit-box-ordinal-group: 3;
+    -webkit-order: 2;
+        -ms-flex-order: 2;
+            order: 2;
+  }
+  .awsm-jobs-alerts-popup-trigger-btn {
+    -webkit-box-ordinal-group: 4;
+    -webkit-order: 3;
+        -ms-flex-order: 3;
+            order: 3;
+  }
 }
