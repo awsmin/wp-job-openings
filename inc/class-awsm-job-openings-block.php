@@ -50,7 +50,8 @@ class AWSM_Job_Openings_Block {
 		include get_awsm_jobs_template_path( 'block-job-openings-view', 'block-files' );
 		$block_content = ob_get_clean();
 
-		return $block_content;
+		return apply_filters( 'awsm_jobs_block_output_content', $block_content );
+
 	}
 
 	public static function get_job_listing_view_class_block( $attributes = array() ) {
