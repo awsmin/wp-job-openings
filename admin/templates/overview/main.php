@@ -77,15 +77,31 @@ do_action( 'add_meta_boxes_' . AWSM_Job_Openings_Overview::$screen_id, null );
 			</div><!-- .awsm-jobs-overview-col-head -->
 			<div class="awsm-jobs-overview-col-content">
 				<?php 
-					if ( ! class_exists( 'AWSM_Job_Openings_Pro_Pack' )  ) {
+				if ( ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) {
 					$pro_link = sprintf( esc_html__( 'This feature requires %1$sPRO Plan%2$s to work', 'wp-job-openings' ), '<a href="https://awsm.in/get/wpjo-pro/">', '</a>' );
 					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					printf( '<div class="awsm-jobs-overview-widget-wrapper"><div class="awsm-jobs-pro-feature"><img src="%2$s"><p>%1$s</p></div></div>', $pro_link, esc_url('https://i.ibb.co/vXyz24d/Screenshot-2024-03-05-at-12-41-12-PM.png' ) );
+				} else {
+					// Ensure the AWSM_Job_Openings_Pro_Overview class is initialized
+					$overview_instance = AWSM_Job_Openings_Pro_Overview::init();
+
+					// Set the unique ID for which you want the template path
+					$unique_id = 'awsm-jobs-overview-applications-by-status';
+
+					// Get the template path
+					$template_path = $overview_instance->pro_widget_template_path('', $unique_id);
+
+					// Include the template file if it exists
+					if (file_exists($template_path)) {
+						include $template_path;
+					} else {
+						echo '<p>' . esc_html__('Template not found.', 'wp-job-openings') . '</p>';
 					}
-					
-					?>
-				<!-- Replace this image with chart.js -->
-			</div><!-- .awsm-jobs-overview-col-content -->
+				}
+				?>
+			<!-- Replace this image with chart.js -->
+		</div><!-- .awsm-jobs-overview-col-content -->
+
 		</div><!-- .awsm-jobs-overview-chart -->
 	</div><!-- .awsm-jobs-overview-col -->
 	<div class="awsm-jobs-overview-col">
