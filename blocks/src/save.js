@@ -15,7 +15,19 @@ import { useBlockProps } from '@wordpress/block-editor';
  *
  * @return {Element} Element to render.
  */
-export default function save() {
+export default function save(props) {
+	const { attributes: { backgroundColor, textColor },clientId } = props;
+
+	const uniqueClass = `wp-block-${clientId}`; console.log(uniqueClass);
+
+	const blockProps = useBlockProps.save({
+        className: uniqueClass,
+        style: {
+            backgroundColor: backgroundColor,
+            color: textColor,
+        }
+    });
+
 	return (
 		<p { ...useBlockProps.save() }>
 		</p>

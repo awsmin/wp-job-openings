@@ -1,6 +1,6 @@
 import { useEffect, Fragment, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { InspectorControls, BlockEdit } from "@wordpress/block-editor";
+import { InspectorControls, BlockEdit,ColorPalette } from "@wordpress/block-editor";
 import { addFilter } from '@wordpress/hooks';
 import {
 	PanelBody,
@@ -8,10 +8,13 @@ import {
 	TextControl,
 	SelectControl
 } from "@wordpress/components";
+import { registerBlockStyle } from "@wordpress/blocks";
 
 const WidgetInspectorControls = props => {
 	const {
 		attributes: {
+			backgroundColor,
+            textColor,
 			filter_options,
 			other_options,
 			layout,
@@ -164,7 +167,26 @@ const WidgetInspectorControls = props => {
 					})}
 
 			</PanelBody>
+
+			<PanelBody title={__("Block Variations", "wp-job-openings")}>
+					<div>
+						<label>{__("Background Color", "wp-job-openings")}</label>
+						<ColorPalette
+							value={backgroundColor}
+							onChange={(color) => setAttributes({ backgroundColor: color })}
+						/>
+					</div>
+
+					<div>
+						<label>{__("Text Color", "wp-job-openings")}</label>
+						<ColorPalette
+							value={textColor}
+							onChange={(color) => setAttributes({ textColor: color })}
+						/>
+					</div>
+			</PanelBody>
 		</InspectorControls>
+		
 	);
 };
 

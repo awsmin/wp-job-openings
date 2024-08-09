@@ -62,7 +62,10 @@ function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t =
 
 
 function Edit(props) {
-  var filter_options = props.attributes.filter_options,
+  var _props$attributes = props.attributes,
+    filter_options = _props$attributes.filter_options,
+    backgroundColor = _props$attributes.backgroundColor,
+    textColor = _props$attributes.textColor,
     setAttributes = props.setAttributes;
   var blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__.useBlockProps)();
   var specifications = awsmJobsAdmin.awsm_filters_block;
@@ -217,6 +220,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_7__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_9__);
 
 
 
@@ -228,8 +233,11 @@ function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t =
 
 
 
+
 var WidgetInspectorControls = function WidgetInspectorControls(props) {
   var _props$attributes = props.attributes,
+    backgroundColor = _props$attributes.backgroundColor,
+    textColor = _props$attributes.textColor,
     filter_options = _props$attributes.filter_options,
     other_options = _props$attributes.other_options,
     layout = _props$attributes.layout,
@@ -387,7 +395,23 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
         return other_options_handler(toggleValue, spec.key);
       }
     });
-  })));
+  })), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.PanelBody, {
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Block Variations", "wp-job-openings")
+  }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)("label", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Background Color", "wp-job-openings")), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_6__.ColorPalette, {
+    value: backgroundColor,
+    onChange: function onChange(color) {
+      return setAttributes({
+        backgroundColor: color
+      });
+    }
+  })), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)("label", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Text Color", "wp-job-openings")), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_6__.ColorPalette, {
+    value: textColor,
+    onChange: function onChange(color) {
+      return setAttributes({
+        textColor: color
+      });
+    }
+  }))));
 };
 
 // Define the HOC to add custom inspector controls
@@ -442,7 +466,20 @@ function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t =
  *
  * @return {Element} Element to render.
  */
-function save() {
+function save(props) {
+  var _props$attributes = props.attributes,
+    backgroundColor = _props$attributes.backgroundColor,
+    textColor = _props$attributes.textColor,
+    clientId = props.clientId;
+  var uniqueClass = "wp-block-".concat(clientId);
+  console.log(uniqueClass);
+  var blockProps = _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps.save({
+    className: uniqueClass,
+    style: {
+      backgroundColor: backgroundColor,
+      color: textColor
+    }
+  });
   return (0,react__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", _objectSpread({}, _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps.save()));
 }
 
@@ -873,7 +910,7 @@ function _unsupportedIterableToArray(r, a) {
   \************************/
 /***/ (function(module) {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"wp-job-openings/blocks","version":"1.0.0","title":"","category":"","icon":"","description":"","attributes":{"filter_options":{"type":"array","default":[]},"other_options":{"type":"array","default":[]},"layout":{"type":"string","default":"list"},"listing_per_page":{"type":"number","default":10},"pagination":{"type":"string","default":"modern"},"hide_expired_jobs":{"type":"boolean","default":true},"search":{"type":"boolean","default":true},"search_placeholder":{"type":"string","default":""},"enable_job_filter":{"type":"boolean","default":true}},"example":{},"supports":{"html":false},"textdomain":"wp-job-openings","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"wp-job-openings/blocks","version":"1.0.0","title":"","category":"","icon":"","description":"","attributes":{"backgroundColor":{"type":"string","default":""},"textColor":{"type":"string","default":""},"filter_options":{"type":"array","default":[]},"other_options":{"type":"array","default":[]},"layout":{"type":"string","default":"list"},"listing_per_page":{"type":"number","default":10},"pagination":{"type":"string","default":"modern"},"hide_expired_jobs":{"type":"boolean","default":true},"search":{"type":"boolean","default":true},"search_placeholder":{"type":"string","default":""},"enable_job_filter":{"type":"boolean","default":true}},"example":{},"supports":{"html":false},"textdomain":"wp-job-openings","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ })
 

@@ -8,6 +8,14 @@
 	"icon": "",
 	"description": "",
 	"attributes": {
+		"backgroundColor": {
+            "type": "string",
+            "default": ""
+        },
+        "textColor": {
+            "type": "string",
+            "default": ""
+        },
 		"filter_options": {
 			"type": "array",
 			"default": []

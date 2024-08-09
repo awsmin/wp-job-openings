@@ -36,7 +36,7 @@ import WidgetInspectorControls from "./inspector";
 export default function Edit(props) {
 	const {
 		attributes: {
-			filter_options,
+			filter_options,backgroundColor, textColor
 		},
 		setAttributes
 	} = props;
