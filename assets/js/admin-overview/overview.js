@@ -11,6 +11,13 @@ jQuery(document).ready(function($) {
 	postboxes.add_postbox_toggles(awsmJobsAdminOverview.screen_id);
 
 	/*================ Charts ================*/
+	// Define the chartAreaPlugin
+
+
+
+
+
+	//--------------------------------------------
 
 	var chartAreaPlugin = {
 		id: 'chartAreaCustomizer',
@@ -48,17 +55,18 @@ jQuery(document).ready(function($) {
 		labels: awsmJobsAdminOverview.analytics_data.labels,
 		datasets: [ {
 			label: awsmJobsAdminOverview.i18n.chart_label,
-			data: awsmJobsAdminOverview.analytics_data.data,
-			fill: false,
-			borderColor: '#149efe',
-			backgroundColor: '#149efe',
-			pointBackgroundColor: '#0091ff',
-			pointBorderColor: '#e9f5fe',
-			borderWidth: 4,
-			pointBorderWidth: 2,
-			pointRadius: 4,
-			pointHoverRadius: 5,
-			tension: 0.1
+            data: awsmJobsAdminOverview.analytics_data.data,
+            backgroundColor: 'rgba(108, 250, 228, 0.15)', 
+            borderColor: '#6CFAE4', // Border color
+            pointBorderColor: '#6CFAE4',
+            pointBackgroundColor: '#6CFAE4',
+            pointHoverBackgroundColor: '#6CFAE4',
+            pointHoverBorderColor: '#6CFAE4',
+            pointRadius: 0,
+            borderWidth: 4, // Border width
+            pointHitRadius: 10,
+            fill: true,
+            tension: 0.4 // Smooth curve
 		} ]
 	};
 	var options = {
@@ -67,11 +75,13 @@ jQuery(document).ready(function($) {
 				grid: {
 					borderWidth: 1.5,
 					drawOnChartArea: false,
-					tickWidth: 1.5
+					tickWidth: 1.5,
+					display: false, // Remove vertical grid lines
+					drawBorder: false
 				},
 				ticks: {
 					font: {
-						weight: 'bold'
+						weight: 'normal'
 					}
 				}
 			},
@@ -79,25 +89,39 @@ jQuery(document).ready(function($) {
 				grid: {
 					drawBorder: false,
 					tickLength: 10,
-					tickWidth: 0
+					tickWidth: 0,
+					color: '#F2F2F2', // Set grid line color
+                    borderDash: [5, 5],
+					drawBorder: false // Set grid lines as dotted
 				},
 				ticks: {
 					font: {
-						weight: 'bold'
+						weight: 'normal'
 					},
-					precision: 0
+					precision: 0,
+					stepSize: 5,
+					
 				}
 			}
 		},
+		elements: {
+            line: {
+                borderColor: '#6CFAE4',
+                borderWidth: 4
+            },
+            point: {
+                radius: 0 // Hide the points
+            }
+        },
+		layout: {
+            padding: {
+                right: 20, // Padding to the right for y-axis
+                bottom: 20 // Padding to the bottom for x-axis
+            }
+        },
 		plugins: {
 			legend: {
 				display: false
-			},
-			chartAreaCustomizer: {
-				chartArea: {
-					primaryBgColor: '#fafafa',
-					secondaryBgColor: '#fff'
-				}
 			}
 		}
 	};

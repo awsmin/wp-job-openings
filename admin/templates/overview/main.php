@@ -104,7 +104,7 @@ do_action( 'add_meta_boxes_' . AWSM_Job_Openings_Overview::$screen_id, null );
 
 		</div><!-- .awsm-jobs-overview-chart -->
 	</div><!-- .awsm-jobs-overview-col -->
-	<div class="awsm-jobs-overview-col">
+	<div class="awsm-jobs-overview-col" id="awsm-jobs-overview-applications-analytics">
 		<div class="awsm-jobs-overview-chart flex-item">
 			<div class="awsm-jobs-overview-col-head">
 				<h2><?php esc_html_e( 'Application Analytics', 'wp-job-openings' ); ?></h2>
@@ -115,6 +115,11 @@ do_action( 'add_meta_boxes_' . AWSM_Job_Openings_Overview::$screen_id, null );
 					$pro_link = sprintf( esc_html__( 'This feature requires %1$sPRO Plan%2$s to work', 'wp-job-openings' ), '<a href="https://awsm.in/get/wpjo-pro/">', '</a>' );
 					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					printf( '<div class="awsm-jobs-overview-widget-wrapper"><div class="awsm-jobs-pro-feature"><img src="%2$s"><p>%1$s</p></div></div>', $pro_link, esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/Screenshot-2024-03-05-at-12-53-06-PM.png' ) );
+					}
+					else {
+						$widget_id = 'awsm-jobs-overview-applications-by-analytics';
+						// Include your template here
+						include( AWSM_JOBS_PLUGIN_DIR . '/admin/templates/overview/widgets/applications-analytics.php' ); 
 					}
 					?><!-- Replace this image with chart.js -->
 			</div><!-- .awsm-jobs-overview-col-content -->
