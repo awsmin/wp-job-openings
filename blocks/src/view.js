@@ -457,7 +457,7 @@ jQuery(function($) {
 	function filtersResponsiveStylesHandler() {
 		var $filtersWrap = $('.awsm-b-filter-wrap').not('.awsm-b-no-search-filter-wrap');
 		$filtersWrap.each(function() {
-			var $wrapper = $(this);
+			var $wrapper = $(this); 
 			var filterFirstTop = $wrapper.find('.awsm-b-filter-item').first().offset().top;
 			var filterLastTop = $wrapper.find('.awsm-b-filter-item').last().offset().top;
 			if (filterLastTop > filterFirstTop) {
