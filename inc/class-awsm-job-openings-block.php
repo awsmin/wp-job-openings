@@ -216,7 +216,14 @@ class AWSM_Job_Openings_Block {
 		}
 
 			$filter_content = '';
-		if ( ! empty( $search_content ) || ! empty( $specs_filter_content ) ) {
+
+			$action_content = '';
+			ob_start(); // Start output buffering
+			do_action('awsm_block_filter_contents',$block_atts); // Trigger the action
+			$output = ob_get_clean(); // Get the output and clean the buffer
+			$action_content = $output;
+
+		if ( ! empty( $search_content ) || ! empty( $specs_filter_content ) || ! empty( $action_content ) ) {
 			$current_lang          = AWSM_Job_Openings::get_current_language();
 			$hidden_fields_content = '';
 			if ( ! empty( $current_lang ) ) {
@@ -256,7 +263,8 @@ class AWSM_Job_Openings_Block {
 			if ( ! $enable_search ) {
 				$wrapper_class .= ' awsm-b-no-search-filter-wrap';
 			}
-			$filter_content = sprintf( '<div class="%3$s"><form action="%2$s/wp-admin/admin-ajax.php" method="POST">%1$s</form></div>', $search_content . $specs_filter_content . $hidden_fields_content, esc_url( site_url() ), esc_attr( $wrapper_class ) );
+
+			$filter_content = sprintf( '<div class="%3$s"><form action="%2$s/wp-admin/admin-ajax.php" method="POST">%1$s</form></div>', $search_content . $specs_filter_content . $hidden_fields_content . $action_content, esc_url( site_url() ), esc_attr( $wrapper_class ) );
 		}
 
 		echo apply_filters( 'awsm_filter_block_content', $filter_content, $available_filters_arr ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
