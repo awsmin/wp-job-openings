@@ -218,9 +218,9 @@ class AWSM_Job_Openings_Block {
 			$filter_content = '';
 
 			$action_content = '';
-			ob_start(); // Start output buffering
-			do_action('awsm_block_filter_contents',$block_atts); // Trigger the action
-			$output = ob_get_clean(); // Get the output and clean the buffer
+			ob_start(); 
+			do_action('awsm_block_filter_contents',$block_atts); 
+			$output = ob_get_clean(); 
 			$action_content = $output;
 
 		if ( ! empty( $search_content ) || ! empty( $specs_filter_content ) || ! empty( $action_content ) ) {
