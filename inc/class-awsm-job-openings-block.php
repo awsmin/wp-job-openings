@@ -195,8 +195,12 @@ class AWSM_Job_Openings_Block {
 						 * @param WP_Taxonomy $tax_details Taxonomy details.
 						 */
 						$filter_label = apply_filters( 'awsm_filter_block_label', esc_html_x( 'All', 'job filter', 'wp-job-openings' ) . ' ' . $spec_name, $taxonomy, $tax_details );
+						$filter_class_admin_select_control = '';
+						if ( ! self::is_edit_or_add_page() ) {
+							$filter_class_admin_select_control = ' awsm-job-select-control';
+						}
 
-						$dropdown_content = sprintf( '<div class="awsm-b-filter-item" data-filter="%2$s"><label for="awsm-%1$s-filter-option%5$s" class="awsm-b-sr-only">%3$s</label><select name="awsm_job_spec[%1$s]" class="awsm-b-filter-option awsm-%1$s-filter-option awsm-job-select-control" id="awsm-%1$s-filter-option%5$s" aria-label="%3$s"><option value="">%3$s</option>%4$s</select></div>', esc_attr( $taxonomy ), esc_attr( $filter_key . '_spec' ), esc_html( $filter_label ), $options_content, esc_attr( $uid ) );
+						$dropdown_content = sprintf( '<div class="awsm-b-filter-item" data-filter="%2$s"><label for="awsm-%1$s-filter-option%5$s" class="awsm-b-sr-only">%3$s</label><select name="awsm_job_spec[%1$s]" class="awsm-b-filter-option awsm-%1$s-filter-option '. $filter_class_admin_select_control .'" id="awsm-%1$s-filter-option%5$s" aria-label="%3$s"><option value="">%3$s</option>%4$s</select></div>', esc_attr( $taxonomy ), esc_attr( $filter_key . '_spec' ), esc_html( $filter_label ), $options_content, esc_attr( $uid ) );
 						/**
 						 * Filter the job filter dropdown content.
 						 *
