@@ -345,14 +345,7 @@ jQuery(function($) {
 				value: other_options
 			});
 		}
-		/* if (typeof position_filling !== 'undefined') {
-			wpData.push({
-				name: 'position_filling',
-				value: position_filling
-			});
-		} */
-		/* end */
-
+		
 		if (typeof lang !== 'undefined') {
 			wpData.push({
 				name: 'lang',
@@ -409,31 +402,6 @@ jQuery(function($) {
 			console.log(xhr);
 		});
 	});
-
-	/* ========== Custom select box - selectric ========== */
-
-	// function awsmDropDown($elem) {
-	// 	if ('selectric' in awsmJobsPublic.vendors && awsmJobsPublic.vendors.selectric) {
-	// 		$elem.selectric({
-	// 			onInit: function(select, selectric) {
-	// 				var id = select.id;
-	// 				var $input = $(selectric.elements.input);
-	// 				$(select).attr('id', 'selectric-' + id);
-	// 				$input.attr('id', id);
-	// 			},
-	// 			arrowButtonMarkup: '<span class="awsm-selectric-arrow-drop">&#x25be;</span>',
-	// 			customClass: {
-	// 				prefix: 'awsm-selectric',
-	// 				camelCase: false
-	// 			}
-	// 		});
-	// 	}
-	// }
-	// awsmDropDown($('.awsm-b-job-select-control'));
-
-	// $(".awsm-b-filter-item select").each(function(index) {
-	// 	awsmDropDown($('.awsm-b-filter-item select'));
-	// }); 
 
 	/**
 	 * Handle the filters toggle button in the job listing.

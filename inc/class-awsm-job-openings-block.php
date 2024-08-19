@@ -69,25 +69,25 @@ class AWSM_Job_Openings_Block {
 	}
 
 	public function display_block_filter_form( $block_atts ) {
-			$search_content       = '';
-			$specs_filter_content = '';
-			$filters_attr         = isset( $block_atts['filter_options'] ) ? $block_atts['filter_options'] : '';
-			$enable_job_filters   = isset( $block_atts['enable_job_filter'] ) ? $block_atts['enable_job_filter'] : '';
-			$enable_search        = isset( $block_atts['search'] ) ? $block_atts['search'] : '';
-			$placeholder_search   = isset( $block_atts['search_placeholder'] ) ? $block_atts['search_placeholder'] : '';
+		$search_content       = '';
+		$specs_filter_content = '';
+		$filters_attr         = isset( $block_atts['filter_options'] ) ? $block_atts['filter_options'] : '';
+		$enable_job_filters   = isset( $block_atts['enable_job_filter'] ) ? $block_atts['enable_job_filter'] : '';
+		$enable_search        = isset( $block_atts['search'] ) ? $block_atts['search'] : '';
+		$placeholder_search   = isset( $block_atts['search_placeholder'] ) ? $block_atts['search_placeholder'] : '';
 
-			$placeholder_search = isset( $block_atts['search_placeholder'] ) ? $block_atts['search_placeholder'] : '';
-			$default_text       = _x( 'Search Jobs', 'job filter', 'wp-job-openings' );
+		$placeholder_search = isset( $block_atts['search_placeholder'] ) ? $block_atts['search_placeholder'] : '';
+		$default_text       = _x( 'Search Jobs', 'job filter', 'wp-job-openings' );
 
-			/**
-			 * Enable search in the job listing or not.
-			 *
-			 * @since 3.5.0
-			 *
-			 * @param mixed $enable_search Enable the search or not.
-			 * @param array $block_atts The shortcode attributes.
-			 */
-			$uid = isset( $block_atts['uid'] ) ? '-' . $block_atts['uid'] : '';
+		/**
+		 * Enable search in the job listing or not.
+		 *
+		 * @since 3.5.0
+		 *
+		 * @param mixed $enable_search Enable the search or not.
+		 * @param array $block_atts The shortcode attributes.
+		 */
+		$uid = isset( $block_atts['uid'] ) ? '-' . $block_atts['uid'] : '';
 
 		if ( $enable_search === 'enable' ) {
 			$search_query = isset( $_GET['jq'] ) ? $_GET['jq'] : '';
@@ -99,7 +99,7 @@ class AWSM_Job_Openings_Block {
 			 * @param string $text Placeholder text.
 			 */
 			$placeholder_text = apply_filters( 'awsm_jobs_block_search_field_placeholder', $placeholder_search ? $placeholder_search : $default_text );
-			
+
 			$search_icon = '<span class="awsm-job-search-btn awsm-b-job-search-btn awsm-job-search-icon-wrapper awsm-b-job-search-icon-wrapper"><i class="awsm-job-icon-search awsm-b-job-icon-search"></i></span><span class="awsm-job-search-close-btn awsm-b-job-search-close-btn awsm-job-search-icon-wrapper awsm-b-job-search-icon-wrapper awsm-job-hide awsm-b-job-hide"><i class="awsm-job-icon-close-circle awsm-b-job-icon-close-circle"></i></span>';
 
 			$search_content = sprintf( '<div class="awsm-b-filter-item-search"><div class="awsm-b-filter-item-search-in"><label for="awsm-jq%4$s" class="awsm-b-sr-only ">%1$s</label><input type="text" id="awsm-jq%4$s" name="jq" value="%2$s" placeholder="%1$s" class="awsm-b-job-search awsm-b-job-form-control">%3$s</div></div>', esc_attr( $placeholder_text ), esc_attr( $search_query ), $search_icon, esc_attr( $uid ) );
@@ -114,22 +114,21 @@ class AWSM_Job_Openings_Block {
 			$search_content = apply_filters( 'awsm_jobs_block_search_field_content', $search_content );
 		}
 
-			$taxonomies = get_object_taxonomies( 'awsm_job_openings', 'objects' );
-
-			$display_filters = true;
+		$taxonomies = get_object_taxonomies( 'awsm_job_openings', 'objects' );
+		$display_filters = true;
 		if ( $enable_job_filters !== 'enable' || $filters_attr === '' ) {
 			$display_filters = false;
 		}
 
-			$available_filters = get_option( 'awsm_jobs_listing_available_filters' );
+		$available_filters = get_option( 'awsm_jobs_listing_available_filters' );
 
-			$available_filters = explode( ',', $block_atts['filter_options'] );
-			$available_filters = is_array( $available_filters ) ? $available_filters : array();
+		$available_filters = explode( ',', $block_atts['filter_options'] );
+		$available_filters = is_array( $available_filters ) ? $available_filters : array();
 		if ( empty( $available_filters ) ) {
 			$display_filters = true;
 		}
 
-			$available_filters_arr = array();
+		$available_filters_arr = array();
 		if ( $display_filters && ! empty( $taxonomies ) ) {
 			$selected_filters = self::get_block_filters_query_args( $available_filters );
 			/**
@@ -213,13 +212,21 @@ class AWSM_Job_Openings_Block {
 			}
 		}
 
-			$filter_content = '';
+		$filter_content = '';
+		$block_content  = '';
 
-			$block_content = '';
-			ob_start(); 
-			do_action('awsm_block_filter_contents',$block_atts); 
-			$output = ob_get_clean(); 
-			$block_content = $output;
+		ob_start();
+		/**
+		 * Fires action that should be placed in before job listing in the block Block
+		 *
+		 * @since 3.5.0
+		 *
+		 * @param array $block_atts The attributes array.
+		*/
+
+		do_action( 'awsm_job_listing_filter_form', $block_atts );
+		$block_alert_output = ob_get_clean();
+		$block_content      = $block_alert_output;
 
 		if ( ! empty( $search_content ) || ! empty( $specs_filter_content ) || ! empty( $block_content ) ) {
 			$current_lang          = AWSM_Job_Openings::get_current_language();
@@ -262,7 +269,7 @@ class AWSM_Job_Openings_Block {
 				$wrapper_class .= ' awsm-b-no-search-filter-wrap';
 			}
 
-			$filter_content = sprintf( '<div class="%3$s"><form action="%2$s/wp-admin/admin-ajax.php" method="POST">%1$s</form>'.$block_content.'</div>', $search_content . $specs_filter_content . $hidden_fields_content , esc_url( site_url() ), esc_attr( $wrapper_class ) );
+			$filter_content = sprintf( '<div class="%3$s"><form action="%2$s/wp-admin/admin-ajax.php" method="POST">%1$s</form>' . $block_content . '</div>', $search_content . $specs_filter_content . $hidden_fields_content, esc_url( site_url() ), esc_attr( $wrapper_class ) );
 		}
 
 		echo apply_filters( 'awsm_filter_block_content', $filter_content, $available_filters_arr ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

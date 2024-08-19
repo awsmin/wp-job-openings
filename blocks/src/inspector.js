@@ -131,7 +131,7 @@ const WidgetInspectorControls = props => {
 
 					{enable_job_filter && (
 						<>
-							<h2>Available filters</h2>
+							<h2>{__("Available filters", "wp-job-openings")}</h2>
 							{specifications.map(spec => (
 								<ToggleControl
 									key={spec.key}
@@ -146,7 +146,7 @@ const WidgetInspectorControls = props => {
 			)}
 
 			<PanelBody title={__("Other Options", "wp-job-openings")}>
-				<h2>Job specs in the listing</h2>
+				<h2>{__("Job specs in the listing", "wp-job-openings")}</h2>
 				{specifications.length > 0 &&
 					specifications.map(spec => {
 						return (
