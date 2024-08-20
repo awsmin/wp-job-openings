@@ -217,22 +217,8 @@ class AWSM_Job_Openings_Block {
 		}
 
 		$filter_content = '';
-		$block_content  = '';
 
-		ob_start();
-		/**
-		 * Fires action that should be placed in before job listing in the block Block
-		 *
-		 * @since 3.5.0
-		 *
-		 * @param array $block_atts The attributes array.
-		*/
-
-		do_action( 'awsm_job_listing_filter_form', $block_atts );
-		$block_alert_output = ob_get_clean();
-		$block_content      = $block_alert_output;
-
-		if ( ! empty( $search_content ) || ! empty( $specs_filter_content ) || ! empty( $block_content ) ) {
+		if ( ! empty( $search_content ) || ! empty( $specs_filter_content ) ) {
 			$current_lang          = AWSM_Job_Openings::get_current_language();
 			$hidden_fields_content = '';
 			if ( ! empty( $current_lang ) ) {
@@ -273,7 +259,7 @@ class AWSM_Job_Openings_Block {
 				$wrapper_class .= ' awsm-b-no-search-filter-wrap';
 			}
 
-			$filter_content = sprintf( '<div class="%3$s"><form action="%2$s/wp-admin/admin-ajax.php" method="POST">%1$s</form>' . $block_content . '</div>', $search_content . $specs_filter_content . $hidden_fields_content, esc_url( site_url() ), esc_attr( $wrapper_class ) );
+			$filter_content = sprintf( '<div class="%3$s"><form action="%2$s/wp-admin/admin-ajax.php" method="POST">%1$s</form></div>', $search_content . $specs_filter_content . $hidden_fields_content, esc_url( site_url() ), esc_attr( $wrapper_class ) );
 		}
 
 		echo apply_filters( 'awsm_filter_block_content', $filter_content, $available_filters_arr ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
