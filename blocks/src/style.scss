@@ -720,3 +720,8 @@ ul.awsm-error-message li {
 .awsm-jobs-is-block-theme .site-title {
 	margin-bottom: 0;
 }
+
+.awsm-b-job-wrap, .awsm-b-job-wrap * {
+	box-sizing: border-box;
+ }
+ 
