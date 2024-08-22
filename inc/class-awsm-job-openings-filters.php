@@ -234,7 +234,24 @@ class AWSM_Job_Openings_Filters {
 			if ( $enable_search !== 'enable' ) {
 				$wrapper_class .= ' awsm-no-search-filter-wrap';
 			}
-			$filter_content = sprintf( '<div class="%3$s"><form action="%2$s/wp-admin/admin-ajax.php" method="POST">%1$s</form></div>', $search_content . $specs_filter_content . $hidden_fields_content, esc_url( site_url() ), esc_attr( $wrapper_class ) );
+
+			ob_start();
+			do_action( 'awsm_filter_form_inside' );
+			$custom_action_content = ob_get_clean();
+
+			$alert_existing_class = '';
+			if ( class_exists( 'AWSM_Job_Openings_Alert_Main_Blocks' ) ) {
+				$alert_existing_class = ' awsm-jobs-alerts-on';
+			}
+
+			$filter_content = sprintf(
+				'<div class="%3$s%5$s"><form action="%2$s/wp-admin/admin-ajax.php" method="POST">%1$s%4$s</form></div>',
+				$search_content . $specs_filter_content . $hidden_fields_content,
+				esc_url( site_url() ),
+				esc_attr( $wrapper_class ),
+				$custom_action_content,
+				$alert_existing_class
+			);
 		}
 
 		echo apply_filters( 'awsm_filter_content', $filter_content, $available_filters_arr ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

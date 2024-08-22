@@ -45,6 +45,7 @@ if ( $query->have_posts() ) : ?>
 			 * @param array $shortcode_atts Attributes array if shortcode is used, else an empty array.
 			 */
 			do_action( 'awsm_filter_form', $shortcode_atts );
+			do_action( 'awsm_filter_after_form' );
 		?>
 
 		<div <?php awsm_jobs_view_class( '', $shortcode_atts ); ?><?php awsm_jobs_data_attrs( array(), $shortcode_atts ); ?>>
