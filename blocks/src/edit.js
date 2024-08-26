@@ -59,6 +59,33 @@ export default function Edit(props) {
         event.stopPropagation();
     };
 
+	const filtersResponsiveStylesHandler = () => {
+		const filtersWraps = document.querySelectorAll('.awsm-b-filter-wrap:not(.awsm-no-search-filter-wrap)');
+		
+		filtersWraps.forEach(wrapper => {
+			const filterItems = wrapper.querySelectorAll('.awsm-b-filter-item');
+			
+			if (filterItems.length > 0) {
+				const filterFirstTop = filterItems[0].getBoundingClientRect().top;
+				const filterLastTop = filterItems[filterItems.length - 1].getBoundingClientRect().top;
+	
+				if (filterLastTop > filterFirstTop) {
+					wrapper.classList.add('awsm-b-full-width-search-filter-wrap');
+				} else {
+					wrapper.classList.remove('awsm-b-full-width-search-filter-wrap');
+				}
+			}
+		});
+	};
+	
+	// Check if there are any relevant elements and set up event listener
+	const filtersWraps = document.querySelectorAll('.awsm-b-filter-wrap:not(.awsm-no-search-filter-wrap)');
+	if (filtersWraps.length > 0) { 
+		filtersResponsiveStylesHandler();
+		window.addEventListener('resize', filtersResponsiveStylesHandler);
+	}
+	
+
 	return (
 		<div {...blockProps} onClick={handleClick}>
 			<WidgetInspectorControls {...props} />
