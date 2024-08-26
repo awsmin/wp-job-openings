@@ -200,6 +200,13 @@ class AWSM_Job_Openings_Filters {
 		}
 
 		$filter_content = '';
+		
+		/* Action for custom content for job listing */
+		ob_start();
+		do_action( 'awsm_filter_form_inside' );
+		$custom_action_content = ob_get_clean();
+		/* end */
+
 		if ( ! empty( $search_content ) || ! empty( $specs_filter_content ) ) {
 			$current_lang          = AWSM_Job_Openings::get_current_language();
 			$hidden_fields_content = '';
@@ -228,7 +235,12 @@ class AWSM_Job_Openings_Filters {
 				 */
 				$toggle_control = apply_filters( 'awsm_job_filters_toggle_btn', $toggle_control );
 
-				$specs_filter_content = sprintf( '<a href="#" class="awsm-filter-toggle" role="button" aria-pressed="false">%2$s</a><div class="awsm-filter-items">%1$s</div>', $specs_filter_content, $toggle_control );
+				$custom_action_content_filter = '';
+				if( !empty($custom_action_content) ){
+                   $custom_action_content_filter = $custom_action_content;
+				}
+
+				$specs_filter_content = sprintf( '<a href="#" class="awsm-filter-toggle" role="button" aria-pressed="false">%2$s</a>'.$custom_action_content_filter.'<div class="awsm-filter-items">%1$s</div>', $specs_filter_content, $toggle_control );
 			}
 
 			$wrapper_class = 'awsm-filter-wrap';
@@ -236,18 +248,19 @@ class AWSM_Job_Openings_Filters {
 				$wrapper_class .= ' awsm-no-search-filter-wrap';
 			}
 
-			ob_start();
-			do_action( 'awsm_filter_form_inside' );
-			$custom_action_content = ob_get_clean();
-
 			$alert_existing_class = '';
 			if ( class_exists( 'AWSM_Job_Openings_Alert_Main_Blocks' ) ) {
 				$alert_existing_class = ' awsm-jobs-alerts-on';
 			}
 
+			$custom_action_content_main = '';
+			if( !empty($custom_action_content) && empty($specs_filter_content) ){
+				$custom_action_content_main = $custom_action_content;
+			}
+
 			$filter_content = sprintf(
 				'<div class="%3$s%5$s"><form action="%2$s/wp-admin/admin-ajax.php" method="POST">%1$s%4$s</form></div>',
-				$search_content . $custom_action_content . $specs_filter_content . $hidden_fields_content,
+				$search_content . $custom_action_content_main . $specs_filter_content . $hidden_fields_content,
 				esc_url( site_url() ),
 				esc_attr( $wrapper_class ),
 				'',
