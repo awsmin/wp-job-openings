@@ -40,11 +40,12 @@ class AWSM_Job_Openings_Filters {
 	}
 
 	public function display_filter_form( $shortcode_atts ) {
-		$search_content       = '';
-		$specs_filter_content = '';
-		$filters_attr         = isset( $shortcode_atts['filters'] ) ? $shortcode_atts['filters'] : '';
-		$enable_job_filters   = get_option( 'awsm_enable_job_filter_listing' );
-		$enable_search        = get_option( 'awsm_enable_job_search' );
+		$search_content        = '';
+		$specs_filter_content  = '';
+		$custom_action_content = '';
+		$filters_attr          = isset( $shortcode_atts['filters'] ) ? $shortcode_atts['filters'] : '';
+		$enable_job_filters    = get_option( 'awsm_enable_job_filter_listing' );
+		$enable_search         = get_option( 'awsm_enable_job_search' );
 
 		/**
 		 * Enable search in the job listing or not.
@@ -246,10 +247,10 @@ class AWSM_Job_Openings_Filters {
 
 			$filter_content = sprintf(
 				'<div class="%3$s%5$s"><form action="%2$s/wp-admin/admin-ajax.php" method="POST">%1$s%4$s</form></div>',
-				$search_content . $specs_filter_content . $hidden_fields_content,
+				$search_content . $custom_action_content . $specs_filter_content . $hidden_fields_content,
 				esc_url( site_url() ),
 				esc_attr( $wrapper_class ),
-				$custom_action_content,
+				'',
 				$alert_existing_class
 			);
 		}

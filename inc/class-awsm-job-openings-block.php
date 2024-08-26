@@ -69,8 +69,9 @@ class AWSM_Job_Openings_Block {
 	}
 
 	public function display_block_filter_form( $block_atts ) {
-		$search_content       = '';
-		$specs_filter_content = '';
+		$search_content        = '';
+		$specs_filter_content  = '';
+		$custom_action_content = '';
 		$filters_attr         = isset( $block_atts['filter_options'] ) ? $block_atts['filter_options'] : '';
 		$enable_job_filters   = isset( $block_atts['enable_job_filter'] ) ? $block_atts['enable_job_filter'] : '';
 		$enable_search        = isset( $block_atts['search'] ) ? $block_atts['search'] : '';
@@ -270,10 +271,11 @@ class AWSM_Job_Openings_Block {
 
 			$filter_content = sprintf(
 				'<div class="%3$s%5$s"><form action="%2$s/wp-admin/admin-ajax.php" method="POST">%1$s %4$s</form></div>',
-				$search_content . $specs_filter_content . $hidden_fields_content,
+				$search_content  . $custom_action_content  . $specs_filter_content   . $hidden_fields_content,
 				esc_url( site_url() ),
 				esc_attr( $wrapper_class ),
-				$custom_action_content,
+			//	$custom_action_content,
+			'',
 				$alert_existing_class
 			);
 		}
