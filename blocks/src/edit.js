@@ -60,7 +60,7 @@ export default function Edit(props) {
         event.stopPropagation();
     };
 
-	// Effect to handle responsive styles on resize
+	
 useEffect(() => {
     // Define the handler function
     const handleResize = () => {

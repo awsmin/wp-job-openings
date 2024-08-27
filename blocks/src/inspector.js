@@ -16,6 +16,7 @@ const WidgetInspectorControls = props => {
 			other_options,
 			layout,
 			listing_per_page,
+			number_of_columns,
 			search,
 			pagination,
 			enable_job_filter,
@@ -89,6 +90,18 @@ const WidgetInspectorControls = props => {
 					label={__("Listing per page", "wp-job-openings")}
 					value={listing_per_page}
 					onChange={(listing_per_page) => onchange_listing_per_page(listing_per_page)}
+				/>
+
+				<SelectControl
+					label={__("Number of Columns", "wp-job-openings")}
+					value={number_of_columns}
+					options={[
+						{ label: __("1 Column", "wp-job-openings"), value: "1" },
+						{ label: __("2 Columns", "wp-job-openings"), value: "2" },
+						{ label: __("3 Columns", "wp-job-openings"), value: "3" },
+						{ label: __("4 Columns", "wp-job-openings"), value: "4" }
+					]}
+					onChange={number_of_columns => setAttributes({ number_of_columns })}
 				/>
 
 				<SelectControl

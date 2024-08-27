@@ -80,8 +80,6 @@ function Edit(props) {
     event.preventDefault();
     event.stopPropagation();
   };
-
-  // Effect to handle responsive styles on resize
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_7__.useEffect)(function () {
     // Define the handler function
     var handleResize = function handleResize() {
@@ -269,6 +267,7 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
     other_options = _props$attributes.other_options,
     layout = _props$attributes.layout,
     listing_per_page = _props$attributes.listing_per_page,
+    number_of_columns = _props$attributes.number_of_columns,
     search = _props$attributes.search,
     pagination = _props$attributes.pagination,
     enable_job_filter = _props$attributes.enable_job_filter,
@@ -353,6 +352,27 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
     value: listing_per_page,
     onChange: function onChange(listing_per_page) {
       return onchange_listing_per_page(listing_per_page);
+    }
+  }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.SelectControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Number of Columns", "wp-job-openings"),
+    value: number_of_columns,
+    options: [{
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("1 Column", "wp-job-openings"),
+      value: "1"
+    }, {
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("2 Columns", "wp-job-openings"),
+      value: "2"
+    }, {
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("3 Columns", "wp-job-openings"),
+      value: "3"
+    }, {
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("4 Columns", "wp-job-openings"),
+      value: "4"
+    }],
+    onChange: function onChange(number_of_columns) {
+      return setAttributes({
+        number_of_columns: number_of_columns
+      });
     }
   }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.SelectControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Pagination", "wp-job-openings"),
@@ -908,7 +928,7 @@ function _unsupportedIterableToArray(r, a) {
   \************************/
 /***/ (function(module) {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"wp-job-openings/blocks","version":"1.0.0","title":"","category":"","icon":"","description":"","attributes":{"filter_options":{"type":"array","default":[]},"other_options":{"type":"array","default":[]},"layout":{"type":"string","default":"list"},"listing_per_page":{"type":"number","default":10},"pagination":{"type":"string","default":"modern"},"hide_expired_jobs":{"type":"boolean","default":true},"search":{"type":"boolean","default":true},"search_placeholder":{"type":"string","default":""},"enable_job_filter":{"type":"boolean","default":true}},"example":{},"supports":{"html":false},"textdomain":"wp-job-openings","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"wp-job-openings/blocks","version":"1.0.0","title":"","category":"","icon":"","description":"","attributes":{"filter_options":{"type":"array","default":[]},"other_options":{"type":"array","default":[]},"layout":{"type":"string","default":"list"},"listing_per_page":{"type":"number","default":10},"number_of_columns":{"type":"number","default":3},"pagination":{"type":"string","default":"modern"},"hide_expired_jobs":{"type":"boolean","default":true},"search":{"type":"boolean","default":true},"search_placeholder":{"type":"string","default":""},"enable_job_filter":{"type":"boolean","default":true}},"example":{},"supports":{"html":false},"textdomain":"wp-job-openings","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ })
 

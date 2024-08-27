@@ -35,6 +35,7 @@ class AWSM_Job_Openings_Block {
 			'other_options'      => isset( $blockatts['other_options'] ) ? $blockatts['other_options'] : '',
 			'search'             => isset( $blockatts['search'] ) ? $blockatts['search'] : '',
 			'listings'           => isset( $blockatts['listing_per_page'] ) ? $blockatts['listing_per_page'] : 10,
+			'number_of_columns'  => isset( $blockatts['number_of_columns'] ) ? $blockatts['number_of_columns'] : 3,
 			'block_loadmore'     => 'yes',
 			'pagination'         => isset( $blockatts['pagination'] ) ? $blockatts['pagination'] : 'modern',
 			'enable_job_filter'  => isset( $blockatts['enable_job_filter'] ) ? $blockatts['enable_job_filter'] : '',
@@ -53,11 +54,11 @@ class AWSM_Job_Openings_Block {
 		return apply_filters( 'awsm_jobs_block_output_content', $block_content );
 	}
 
-	public static function get_job_listing_view_class_block( $attributes = array() ) {
+	public static function get_job_listing_view_class_block( $attributes = array() ) { 
 		$view       = $attributes['layout'];
 		$view_class = 'awsm-lists awsm-b-lists';
 		if ( $view === 'grid' ) {
-			$number_columns = get_option( 'awsm_jobs_number_of_columns' );
+			$number_columns = isset( $attributes['number_of_columns']) &&  !empty($attributes['number_of_columns']) ? $attributes['number_of_columns'] : 3;
 			$view_class     = 'awsm-row awsm-b-row';
 			$column_class   = 'awsm-grid-col-' . $number_columns;
 			if ( $number_columns == 1 ) {

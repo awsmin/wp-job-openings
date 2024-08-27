@@ -62,6 +62,10 @@ class Awsm_Job_Guten_Blocks {
 			$atts['layout'] = $atts['layout'];
 		}
 
+		if ( isset( $atts['number_of_columns'] ) && is_array( $atts['number_of_columns'] ) ) {
+			$atts['number_of_columns'] = $atts['number_of_columns'];
+		}
+
 		$atts = apply_filters( 'awsm_jobs_listings_block_attributes', $atts );
 
 		$class_block_init = AWSM_Job_Openings_Block::init();

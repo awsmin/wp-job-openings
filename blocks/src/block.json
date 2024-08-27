@@ -23,7 +23,11 @@
 		"listing_per_page": {
 			"type": "number",
 			"default": 10
-		  },
+		},
+		"number_of_columns": {
+			"type": "number",
+			"default": 3
+		},
 		"pagination": {
 			"type": "string",
 			"default" : "modern"
