@@ -59,8 +59,8 @@ class AWSM_Job_Openings_Block {
 		$view_class = 'awsm-b-lists';
 		if ( $view === 'grid' ) {
 			$number_columns = isset( $attributes['number_of_columns'] ) && ! empty( $attributes['number_of_columns'] ) ? $attributes['number_of_columns'] : 3;
-			$view_class     = 'awsm-row awsm-b-row';
-			$column_class   = 'awsm-grid-col-' . $number_columns;
+			$view_class     = 'awsm-b-row';
+			$column_class   = 'awsm-b-grid-col-' . $number_columns;
 			if ( $number_columns == 1 ) {
 				$column_class = 'awsm-b-grid-col';
 			}
