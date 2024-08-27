@@ -347,13 +347,7 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
         layout: layout
       });
     }
-  }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.TextControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Listing per page", "wp-job-openings"),
-    value: listing_per_page,
-    onChange: function onChange(listing_per_page) {
-      return onchange_listing_per_page(listing_per_page);
-    }
-  }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.SelectControl, {
+  }), typeof layout !== "undefined" && layout == "grid" && (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.SelectControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Number of Columns", "wp-job-openings"),
     value: number_of_columns,
     options: [{
@@ -373,6 +367,12 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
       return setAttributes({
         number_of_columns: number_of_columns
       });
+    }
+  }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.TextControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Listing per page", "wp-job-openings"),
+    value: listing_per_page,
+    onChange: function onChange(listing_per_page) {
+      return onchange_listing_per_page(listing_per_page);
     }
   }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.SelectControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Pagination", "wp-job-openings"),
