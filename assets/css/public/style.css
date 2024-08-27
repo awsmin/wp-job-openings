@@ -699,3 +699,8 @@ ul.awsm-error-message li {
 .awsm-jobs-is-block-theme .site-title {
 	margin-bottom: 0;
 }
+
+.awsm-job-featured-image img {
+    max-width: 100%;
+    height: auto;
+}
