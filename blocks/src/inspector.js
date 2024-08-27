@@ -74,7 +74,7 @@ const WidgetInspectorControls = props => {
 	};
 
 	const onchange_number_of_columns = (value) => {
-		const columnsValue = parseInt(value, 3);
+		const columnsValue = parseInt(value, 10);		
 		setAttributes({ number_of_columns: isNaN(columnsValue) ? 0 : columnsValue });
 	};
 
