@@ -61,38 +61,38 @@ export default function Edit(props) {
     };
 
 	
-useEffect(() => {
-    // Define the handler function
-    const handleResize = () => {
-        const filtersWraps = document.querySelectorAll('.awsm-b-filter-wrap:not(.awsm-no-search-filter-wrap)');
-        
-        filtersWraps.forEach(wrapper => {
-            const filterItems = wrapper.querySelectorAll('.awsm-b-filter-item');
+    useEffect(() => {
+        // Define the handler function
+        const handleResize = () => {
+            const filtersWraps = document.querySelectorAll('.awsm-b-filter-wrap:not(.awsm-no-search-filter-wrap)');
             
-            if (filterItems.length > 0) {
-                const filterFirstTop = filterItems[0].getBoundingClientRect().top;
-                const filterLastTop = filterItems[filterItems.length - 1].getBoundingClientRect().top;
-    
-                if (filterLastTop > filterFirstTop) {
-                    wrapper.classList.add('awsm-b-full-width-search-filter-wrap');
-                } else {
-                    wrapper.classList.remove('awsm-b-full-width-search-filter-wrap');
+            filtersWraps.forEach(wrapper => {
+                const filterItems = wrapper.querySelectorAll('.awsm-b-filter-item');
+                
+                if (filterItems.length > 0) {
+                    const filterFirstTop = filterItems[0].getBoundingClientRect().top;
+                    const filterLastTop = filterItems[filterItems.length - 1].getBoundingClientRect().top;
+        
+                    if (filterLastTop > filterFirstTop) {
+                        wrapper.classList.add('awsm-b-full-width-search-filter-wrap');
+                    } else {
+                        wrapper.classList.remove('awsm-b-full-width-search-filter-wrap');
+                    }
                 }
-            }
-        });
-    };
+            });
+        };
 
-    // Call the handler initially
-    handleResize();
-    
-    // Add resize event listener
-    window.addEventListener('resize', handleResize);
+        // Call the handler initially
+        handleResize();
+        
+        // Add resize event listener
+        window.addEventListener('resize', handleResize);
 
-    // Cleanup function to remove the event listener
-    return () => {
-        window.removeEventListener('resize', handleResize);
-    };
-}, []); // Empty dependency array means this effect runs only once
+        // Cleanup function to remove the event listener
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []); // Empty dependency array means this effect runs only once
 	
 	return (
 		<div {...blockProps} onClick={handleClick}>

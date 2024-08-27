@@ -73,6 +73,11 @@ const WidgetInspectorControls = props => {
 		setAttributes({ listing_per_page: isNaN(numberValue) ? 0 : numberValue });
 	};
 
+	const onchange_number_of_columns = (value) => {
+		const columnsValue = parseInt(value, 3);
+		setAttributes({ number_of_columns: isNaN(columnsValue) ? 0 : columnsValue });
+	};
+
 	return (
 		<InspectorControls>
 			<PanelBody title={__("Appearance", "wp-job-openings")}>
@@ -91,20 +96,21 @@ const WidgetInspectorControls = props => {
 						label={__("Number of Columns", "wp-job-openings")}
 						value={number_of_columns}
 						options={[
-							{ label: __("1 Column", "wp-job-openings"), value: "1" },
+							{ label: __("1 Column", "wp-job-openings"),  value: "1" },
 							{ label: __("2 Columns", "wp-job-openings"), value: "2" },
 							{ label: __("3 Columns", "wp-job-openings"), value: "3" },
 							{ label: __("4 Columns", "wp-job-openings"), value: "4" }
 						]}
-						onChange={number_of_columns => setAttributes({ number_of_columns })}
+						onChange={number_of_columns => onchange_number_of_columns(number_of_columns)}
 					/>
-				)}
+				)} 
 
 				<TextControl
 					label={__("Listing per page", "wp-job-openings")}
 					value={listing_per_page}
 					onChange={(listing_per_page) => onchange_listing_per_page(listing_per_page)}
 				/>
+
 				<SelectControl
 					label={__("Pagination", "wp-job-openings")}
 					value={pagination}
