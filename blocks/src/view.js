@@ -15,9 +15,9 @@ jQuery(function($) {
 		var parsedListingsAttrs = [ 'listings', 'specs', 'search', 'lang', 'taxonomy', 'termId' ];
 
 		/* added for block */
-		parsedListingsAttrs.push('layout');
-		parsedListingsAttrs.push('hide_expired_jobs');
-		parsedListingsAttrs.push('other_options');
+		parsedListingsAttrs.push('awsm-layout');
+		parsedListingsAttrs.push('awsm-hide-expired-jobs');
+		parsedListingsAttrs.push('awsm-other-options');
 		/* end */
 		$(document).trigger('awsmJobBlockListingsData', [ parsedListingsAttrs ]);
 
@@ -42,9 +42,9 @@ jQuery(function($) {
 		
 
 		/* added for block */
-		var layout 				= $wrapper.data('layout');
-		var hide_expired_jobs   = $wrapper.data('hide_expired_jobs'); 
-		var other_options 		= $wrapper.data('other_options'); 
+		var layout 				= $wrapper.data('awsm-layout');
+		var hide_expired_jobs   = $wrapper.data('awsm-hide-expired-jobs'); 
+		var other_options 		= $wrapper.data('awsm-other-options'); 
 		/* end */
 		formData.push({
 			name: 'listings_per_page',
@@ -60,21 +60,21 @@ jQuery(function($) {
 		/* added for block */
 		if (typeof layout !== 'undefined') {
 			formData.push({
-				name: 'layout',
+				name: 'awsm-layout',
 				value: layout
 			});
 		}
 
 		if (typeof hide_expired_jobs !== 'undefined') {
 			formData.push({
-				name: 'hide_expired_jobs',
+				name: 'awsm-hide-expired-jobs',
 				value: hide_expired_jobs
 			});
 		}
 
 		if (typeof other_options !== 'undefined') {
 			formData.push({
-				name: 'other_options',
+				name: 'awsm-other-options',
 				value: other_options
 			});
 		}
@@ -249,10 +249,9 @@ jQuery(function($) {
 		var searchQuery = $listingsContainer.data('search');
 
 		/* added for block */
-		var layout = $listingsContainer.data('layout');
-		var hide_expired_jobs = $listingsContainer.data('hide_expired_jobs');
-		var other_options = $listingsContainer.data('other_options');
-		//var position_filling = $listingsContainer.data('position_filling');
+		var layout = $listingsContainer.data('awsm-layout');
+		var hide_expired_jobs = $listingsContainer.data('awsm-hide-expired-jobs');
+		var other_options = $listingsContainer.data('awsm-other-options');
 		/* end */
 
 		if (isDefaultPagination) {
@@ -329,19 +328,19 @@ jQuery(function($) {
 		/* added for block */
 		if (typeof layout !== 'undefined') {
 			wpData.push({
-				name: 'layout',
+				name: 'awsm-layout',
 				value: layout
 			});
 		}
 		if (typeof hide_expired_jobs !== 'undefined') {
 			wpData.push({
-				name: 'hide_expired_jobs',
+				name: 'awsm-hide-expired-jobs',
 				value: hide_expired_jobs
 			});
 		}
 		if (typeof other_options !== 'undefined') {
 			wpData.push({
-				name: 'other_options',
+				name: 'awsm-other-options',
 				value: other_options
 			});
 		}

@@ -54,29 +54,29 @@ class AWSM_Job_Openings_Block {
 		return apply_filters( 'awsm_jobs_block_output_content', $block_content );
 	}
 
-	public static function get_job_listing_view_class_block( $attributes = array() ) { 
+	public static function get_job_listing_view_class_block( $attributes = array() ) {
 		$view       = $attributes['layout'];
-		$view_class = 'awsm-lists awsm-b-lists';
+		$view_class = 'awsm-b-lists';
 		if ( $view === 'grid' ) {
-			$number_columns = isset( $attributes['number_of_columns']) &&  !empty($attributes['number_of_columns']) ? $attributes['number_of_columns'] : 3;
+			$number_columns = isset( $attributes['number_of_columns'] ) && ! empty( $attributes['number_of_columns'] ) ? $attributes['number_of_columns'] : 3;
 			$view_class     = 'awsm-row awsm-b-row';
 			$column_class   = 'awsm-grid-col-' . $number_columns;
 			if ( $number_columns == 1 ) {
-				$column_class = 'awsm-grid-col awsm-b-grid-col';
+				$column_class = 'awsm-b-grid-col';
 			}
 			$view_class .= ' ' . $column_class;
 		}
-		return sprintf( 'awsm-job-listings awsm-b-job-listings %s', $view_class );
+		return sprintf( 'awsm-b-job-listings %s', $view_class );
 	}
 
 	public function display_block_filter_form( $block_atts ) {
 		$search_content        = '';
 		$specs_filter_content  = '';
 		$custom_action_content = '';
-		$filters_attr         = isset( $block_atts['filter_options'] ) ? $block_atts['filter_options'] : '';
-		$enable_job_filters   = isset( $block_atts['enable_job_filter'] ) ? $block_atts['enable_job_filter'] : '';
-		$enable_search        = isset( $block_atts['search'] ) ? $block_atts['search'] : '';
-		$placeholder_search   = isset( $block_atts['search_placeholder'] ) ? $block_atts['search_placeholder'] : '';
+		$filters_attr          = isset( $block_atts['filter_options'] ) ? $block_atts['filter_options'] : '';
+		$enable_job_filters    = isset( $block_atts['enable_job_filter'] ) ? $block_atts['enable_job_filter'] : '';
+		$enable_search         = isset( $block_atts['search'] ) ? $block_atts['search'] : '';
+		$placeholder_search    = isset( $block_atts['search_placeholder'] ) ? $block_atts['search_placeholder'] : '';
 
 		$placeholder_search = isset( $block_atts['search_placeholder'] ) ? $block_atts['search_placeholder'] : '';
 		$default_text       = _x( 'Search Jobs', 'job filter', 'wp-job-openings' );
@@ -260,11 +260,11 @@ class AWSM_Job_Openings_Block {
 				}
 
 				$custom_action_content_filter = '';
-				if( !empty($custom_action_content) ){
-                   $custom_action_content_filter = $custom_action_content;
+				if ( ! empty( $custom_action_content ) ) {
+					$custom_action_content_filter = $custom_action_content;
 				}
 
-				$specs_filter_content = sprintf( '<a href="#" class="awsm-b-filter-toggle" role="button" aria-pressed="false">%2$s</a>'.$custom_action_content_filter.'<div class="awsm-b-filter-items' . $filter_class_admin . '">%1$s</div>', $specs_filter_content, $toggle_control );
+				$specs_filter_content = sprintf( '<a href="#" class="awsm-b-filter-toggle" role="button" aria-pressed="false">%2$s</a>' . $custom_action_content_filter . '<div class="awsm-b-filter-items' . $filter_class_admin . '">%1$s</div>', $specs_filter_content, $toggle_control );
 			}
 
 			$wrapper_class = 'awsm-b-filter-wrap';
@@ -278,13 +278,13 @@ class AWSM_Job_Openings_Block {
 			}
 
 			$custom_action_content_main = '';
-			if( !empty($custom_action_content) && empty($specs_filter_content) ){
+			if ( ! empty( $custom_action_content ) && empty( $specs_filter_content ) ) {
 				$custom_action_content_main = $custom_action_content;
 			}
-			
+
 			$filter_content = sprintf(
 				'<div class="%3$s%5$s"><form action="%2$s/wp-admin/admin-ajax.php" method="POST">%1$s %4$s</form></div>',
-				$search_content . $custom_action_content_main . $specs_filter_content   . $hidden_fields_content,
+				$search_content . $custom_action_content_main . $specs_filter_content . $hidden_fields_content,
 				esc_url( site_url() ),
 				esc_attr( $wrapper_class ),
 				'',
@@ -346,20 +346,20 @@ class AWSM_Job_Openings_Block {
 			}
 		}
 
-		if ( ! empty( $_POST['layout'] ) ) {
-			$attributes['layout'] = sanitize_text_field( $_POST['layout'] );
+		if ( ! empty( $_POST['awsm-layout'] ) ) {
+			$attributes['layout'] = sanitize_text_field( $_POST['awsm-layout'] );
 		}
 
 		if ( isset( $_POST['listings_per_page'] ) ) {
 			$attributes['listings'] = intval( $_POST['listings_per_page'] );
 		}
 
-		if ( isset( $_POST['hide_expired_jobs'] ) ) {
-			$attributes['hide_expired_jobs'] = $_POST['hide_expired_jobs'];
+		if ( isset( $_POST['awsm-hide-expired-jobs'] ) ) {
+			$attributes['hide_expired_jobs'] = $_POST['awsm-hide-expired-jobs'];
 		}
 
-		if ( isset( $_POST['other_options'] ) ) {
-			$attributes['other_options'] = $_POST['other_options'];
+		if ( isset( $_POST['awsm-other-options'] ) ) {
+			$attributes['other_options'] = $_POST['awsm-other-options'];
 		}
 
 		if ( isset( $_POST['lang'] ) ) {
@@ -469,11 +469,11 @@ class AWSM_Job_Openings_Block {
 	}
 
 	public static function get_block_job_listing_data_attrs( $block_atts = array() ) {
-		$attrs                      = array();
-		$attrs['listings']          = AWSM_Job_Openings::get_listings_per_page( $block_atts );
-		$attrs['layout']            = isset( $block_atts['layout'] ) ? $block_atts['layout'] : '';
-		$attrs['hide_expired_jobs'] = isset( $block_atts['hide_expired_jobs'] ) ? $block_atts['hide_expired_jobs'] : '';
-		$attrs['other_options']     = isset( $block_atts['other_options'] ) ? $block_atts['other_options'] : '';
+		$attrs                           = array();
+		$attrs['listings']               = AWSM_Job_Openings::get_listings_per_page( $block_atts );
+		$attrs['awsm-layout']            = isset( $block_atts['layout'] ) ? $block_atts['layout'] : '';
+		$attrs['awsm-hide-expired-jobs'] = isset( $block_atts['hide_expired_jobs'] ) ? $block_atts['hide_expired_jobs'] : '';
+		$attrs['awsm-other-options']     = isset( $block_atts['other_options'] ) ? $block_atts['other_options'] : '';
 
 		$current_lang = AWSM_Job_Openings::get_current_language();
 		if ( ! empty( $current_lang ) ) {

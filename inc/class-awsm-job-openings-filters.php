@@ -200,7 +200,7 @@ class AWSM_Job_Openings_Filters {
 		}
 
 		$filter_content = '';
-		
+
 		/* Action for custom content for job listing */
 		ob_start();
 		do_action( 'awsm_filter_form_inside' );
@@ -236,11 +236,11 @@ class AWSM_Job_Openings_Filters {
 				$toggle_control = apply_filters( 'awsm_job_filters_toggle_btn', $toggle_control );
 
 				$custom_action_content_filter = '';
-				if( !empty($custom_action_content) ){
-                   $custom_action_content_filter = $custom_action_content;
+				if ( ! empty( $custom_action_content ) ) {
+					$custom_action_content_filter = $custom_action_content;
 				}
 
-				$specs_filter_content = sprintf( '<a href="#" class="awsm-filter-toggle" role="button" aria-pressed="false">%2$s</a>'.$custom_action_content_filter.'<div class="awsm-filter-items">%1$s</div>', $specs_filter_content, $toggle_control );
+				$specs_filter_content = sprintf( '<a href="#" class="awsm-filter-toggle" role="button" aria-pressed="false">%2$s</a>' . $custom_action_content_filter . '<div class="awsm-filter-items">%1$s</div>', $specs_filter_content, $toggle_control );
 			}
 
 			$wrapper_class = 'awsm-filter-wrap';
@@ -254,7 +254,7 @@ class AWSM_Job_Openings_Filters {
 			}
 
 			$custom_action_content_main = '';
-			if( !empty($custom_action_content) && empty($specs_filter_content) ){
+			if ( ! empty( $custom_action_content ) && empty( $specs_filter_content ) ) {
 				$custom_action_content_main = $custom_action_content;
 			}
 
