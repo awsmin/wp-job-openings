@@ -178,7 +178,7 @@ class AWSM_Job_Openings_Meta {
 					if ( ! empty( $meta_content ) || is_numeric( $meta_content ) ) {
 						$is_meta_group = ( isset( $meta_options['group'] ) ) ? $meta_options['group'] : false;
 						$meta_content  = ( ! $is_meta_group ) ? '<span>' . $meta_content . '</span>' : $meta_content;
-						$list         .= sprintf( '<li><label>%1$s</label>%2$s</li>', esc_html( $label ), '<div>' .$meta_content. '</div>');
+						$list         .= sprintf( '<li><label>%1$s</label>%2$s</li>', esc_html( $label ), '<div class="'.$meta_key.'">' .$meta_content. '</div>');
 					}
 					// Add to meta details array
 					$meta_details[$meta_key] = $value;
