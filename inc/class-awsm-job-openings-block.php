@@ -435,7 +435,7 @@ class AWSM_Job_Openings_Block {
 			}
 		}
 
-		$list_per_page 			= AWSM_Job_Openings::get_listings_per_page( $attributes );
+		$list_per_page          = AWSM_Job_Openings::get_listings_per_page( $attributes );
 		$args['post_type']      = 'awsm_job_openings';
 		$args['posts_per_page'] = $list_per_page;
 		if ( isset( $attributes['hide_expired_jobs'] ) && $attributes['hide_expired_jobs'] === 'expired' ) {
