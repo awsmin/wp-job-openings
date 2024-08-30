@@ -46,7 +46,22 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
         </div>
         <!-- .awsm-application-head -->
         <div class="application-main-cnt">
-            
+            <?php
+
+                if (isset($_GET['action']) && $_GET['action'] === 'edit' && isset($_GET['application']) && $_GET['application'] === 'edit') {
+                    
+                    if (isset($_GET['form-id'])) {
+                        $form_id = sanitize_text_field($_GET['form-id']); 
+                        
+                        do_action('awsm_job_applicantion_edit', $form_id);
+                    } else {
+                        
+                        echo "Form ID is missing in the URL.";
+                    }
+                }
+                else{
+                
+            ?>
             <ul class="application-main-tab">
                 <?php foreach ($tab_applicant_single_view as $key => $tab_data): ?>
                     <li>
@@ -135,6 +150,7 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
                     ?> 
                 </div>
             </div>
+            <?php } ?>
             <!-- .application-main-tab-items -->
         </div>
         <!-- .application-main-cnt -->
