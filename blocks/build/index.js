@@ -344,10 +344,10 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Layout", "wp-job-openings"),
     value: layout,
     options: [{
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("List Layout", "wp-job-openings"),
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("List view", "wp-job-openings"),
       value: "list"
     }, {
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Grid Layout", "wp-job-openings"),
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Grid view", "wp-job-openings"),
       value: "grid"
     }],
     onChange: function onChange(layout) {
@@ -422,7 +422,7 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
         enable_job_filter: enable_job_filter
       });
     }
-  }), enable_job_filter && (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_4__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)("h2", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Available filters", "wp-job-openings")), specifications.map(function (spec) {
+  }), enable_job_filter && (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_4__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)("h2", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Available Filters", "wp-job-openings")), specifications.map(function (spec) {
     return (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.ToggleControl, {
       key: spec.key,
       label: spec.label,
@@ -441,7 +441,7 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
         hide_expired_jobs: hide_expired_jobs
       });
     }
-  }), wp.hooks.doAction('after_awsm_block_job_listing', block_job_listing, props), block_job_listing, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)("h2", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Job specs in the listing", "wp-job-openings")), specifications.length > 0 && specifications.map(function (spec) {
+  }), wp.hooks.doAction('after_awsm_block_job_listing', block_job_listing, props), block_job_listing, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)("h2", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Job specs in the Listing", "wp-job-openings")), specifications.length > 0 && specifications.map(function (spec) {
     return (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.ToggleControl, {
       label: spec.label,
       checked: typeof other_options !== "undefined" && other_options.includes(spec.key),

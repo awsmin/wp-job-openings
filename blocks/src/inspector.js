@@ -88,8 +88,8 @@ const WidgetInspectorControls = props => {
 					label={__("Layout", "wp-job-openings")}
 					value={layout}
 					options={[
-						{ label: __("List Layout", "wp-job-openings"), value: "list" },
-						{ label: __("Grid Layout", "wp-job-openings"), value: "grid" }
+						{ label: __("List view", "wp-job-openings"), value: "list" },
+						{ label: __("Grid view", "wp-job-openings"), value: "grid" }
 					]}
 					onChange={layout => setAttributes({ layout })}
 				/>
@@ -152,7 +152,7 @@ const WidgetInspectorControls = props => {
 
 					{enable_job_filter && (
 						<>
-							<h2>{__("Available filters", "wp-job-openings")}</h2>
+							<h2>{__("Available Filters", "wp-job-openings")}</h2>
 							{specifications.map(spec => (
 								<ToggleControl
 									key={spec.key}
@@ -177,7 +177,7 @@ const WidgetInspectorControls = props => {
 				{ wp.hooks.doAction( 'after_awsm_block_job_listing',block_job_listing,props ) }
 				{ block_job_listing }
 
-				<h2>{__("Job specs in the listing", "wp-job-openings")}</h2>
+				<h2>{__("Job specs in the Listing", "wp-job-openings")}</h2>
 				{specifications.length > 0 &&
 					specifications.map(spec => {
 						return (
