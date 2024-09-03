@@ -26,6 +26,9 @@ const WidgetInspectorControls = props => {
 		setAttributes
 	} = props;
 
+	let block_appearance_list = [];
+	let block_job_listing = [];
+
 	const specifications = awsmJobsAdmin.awsm_filters_block;
 	const [isProEnabled, setIsProEnabled] = useState(false);
 
@@ -80,7 +83,7 @@ const WidgetInspectorControls = props => {
 
 	return (
 		<InspectorControls>
-			<PanelBody title={__("Appearance", "wp-job-openings")}>
+			<PanelBody title={__("Layout Options", "wp-job-openings")}>
 				<SelectControl
 					label={__("Layout", "wp-job-openings")}
 					value={layout}
@@ -93,7 +96,7 @@ const WidgetInspectorControls = props => {
 
 				{typeof layout !== "undefined" && layout == "grid" && (
 					<SelectControl
-						label={__("Number of Columns", "wp-job-openings")}
+						label={__("Columns", "wp-job-openings")}
 						value={number_of_columns}
 						options={[
 							{ label: __("1 Column", "wp-job-openings"),  value: "1" },
@@ -106,7 +109,7 @@ const WidgetInspectorControls = props => {
 				)} 
 
 				<TextControl
-					label={__("Listing per page", "wp-job-openings")}
+					label={__("Listings per page", "wp-job-openings")}
 					value={listing_per_page}
 					onChange={(listing_per_page) => onchange_listing_per_page(listing_per_page)}
 				/>
@@ -121,14 +124,11 @@ const WidgetInspectorControls = props => {
 					onChange={pagination => setAttributes({ pagination })}
 				/>
 
-				<ToggleControl
-					label={__("Hide Expired Jobs", "wp-job-openings")}
-					checked={hide_expired_jobs}
-					onChange={hide_expired_jobs => setAttributes({ hide_expired_jobs })}
-				/>
+				{ wp.hooks.doAction( 'after_awsm_job_appearance',block_appearance_list,props ) }
+				{ block_appearance_list }
 			</PanelBody>
 			{specifications.length > 0 && (
-				<PanelBody title={__("Filter Options", "wp-job-openings")}>
+				<PanelBody title={__("Search & Filters", "wp-job-openings")}>
 					<ToggleControl
 						label={__("Enable Search", "wp-job-openings")}
 						checked={search}
@@ -140,11 +140,12 @@ const WidgetInspectorControls = props => {
 							label={__("Search Placeholder", "wp-job-openings")}
 							value={search_placeholder}
 							onChange={search_placeholder => setAttributes({ search_placeholder })}
+							placeholder={__("Search Jobs", "wp-job-openings")}
 						/>
 					)}
 
 					<ToggleControl
-						label={__("Enable Job Filters", "wp-job-openings")}
+						label={__("Enable Filters", "wp-job-openings")}
 						checked={enable_job_filter}
 						onChange={enable_job_filter => setAttributes({ enable_job_filter })}
 					/>
@@ -162,10 +163,7 @@ const WidgetInspectorControls = props => {
 							))}
 						</>
 					)}
-				</PanelBody>
-			)}
 
-			<PanelBody title={__("Other Options", "wp-job-openings")}>
 				<h2>{__("Job specs in the listing", "wp-job-openings")}</h2>
 				{specifications.length > 0 &&
 					specifications.map(spec => {
@@ -181,8 +179,18 @@ const WidgetInspectorControls = props => {
 								}
 							/>
 						);
-					})}
+					})}				
+				</PanelBody>
+			)}
 
+			<PanelBody title={__("Job Listing", "wp-job-openings")}>
+				<ToggleControl
+					label={__("Hide Expired Jobs", "wp-job-openings")}
+					checked={hide_expired_jobs}
+					onChange={hide_expired_jobs => setAttributes({ hide_expired_jobs })}
+				/>
+				{ wp.hooks.doAction( 'after_awsm_block_job_listing',block_job_listing,props ) }
+				{ block_job_listing }
 			</PanelBody>
 		</InspectorControls>
 	);

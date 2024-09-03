@@ -274,6 +274,8 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
     search_placeholder = _props$attributes.search_placeholder,
     hide_expired_jobs = _props$attributes.hide_expired_jobs,
     setAttributes = props.setAttributes;
+  var block_appearance_list = [];
+  var block_job_listing = [];
   var specifications = awsmJobsAdmin.awsm_filters_block;
   var _useState = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_4__.useState)(false),
     _useState2 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_2__["default"])(_useState, 2),
@@ -337,7 +339,7 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
     });
   };
   return (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_6__.InspectorControls, null, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.PanelBody, {
-    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Appearance", "wp-job-openings")
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Layout Options", "wp-job-openings")
   }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.SelectControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Layout", "wp-job-openings"),
     value: layout,
@@ -354,7 +356,7 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
       });
     }
   }), typeof layout !== "undefined" && layout == "grid" && (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.SelectControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Number of Columns", "wp-job-openings"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Columns", "wp-job-openings"),
     value: number_of_columns,
     options: [{
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("1 Column", "wp-job-openings"),
@@ -373,7 +375,7 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
       return onchange_number_of_columns(number_of_columns);
     }
   }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.TextControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Listing per page", "wp-job-openings"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Listings per page", "wp-job-openings"),
     value: listing_per_page,
     onChange: function onChange(listing_per_page) {
       return onchange_listing_per_page(listing_per_page);
@@ -393,16 +395,8 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
         pagination: pagination
       });
     }
-  }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.ToggleControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Hide Expired Jobs", "wp-job-openings"),
-    checked: hide_expired_jobs,
-    onChange: function onChange(hide_expired_jobs) {
-      return setAttributes({
-        hide_expired_jobs: hide_expired_jobs
-      });
-    }
-  })), specifications.length > 0 && (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.PanelBody, {
-    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Filter Options", "wp-job-openings")
+  }), wp.hooks.doAction('after_awsm_job_appearance', block_appearance_list, props), block_appearance_list), specifications.length > 0 && (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.PanelBody, {
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Search & Filters", "wp-job-openings")
   }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.ToggleControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Enable Search", "wp-job-openings"),
     checked: search,
@@ -418,9 +412,10 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
       return setAttributes({
         search_placeholder: search_placeholder
       });
-    }
+    },
+    placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Search Jobs", "wp-job-openings")
   }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.ToggleControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Enable Job Filters", "wp-job-openings"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Enable Filters", "wp-job-openings"),
     checked: enable_job_filter,
     onChange: function onChange(enable_job_filter) {
       return setAttributes({
@@ -436,9 +431,7 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
         return specifications_handler(toggleValue, spec.key);
       }
     });
-  }))), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.PanelBody, {
-    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Other Options", "wp-job-openings")
-  }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)("h2", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Job specs in the listing", "wp-job-openings")), specifications.length > 0 && specifications.map(function (spec) {
+  })), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)("h2", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Job specs in the listing", "wp-job-openings")), specifications.length > 0 && specifications.map(function (spec) {
     return (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.ToggleControl, {
       label: spec.label,
       checked: typeof other_options !== "undefined" && other_options.includes(spec.key),
@@ -446,7 +439,17 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
         return other_options_handler(toggleValue, spec.key);
       }
     });
-  })));
+  })), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.PanelBody, {
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Job Listing", "wp-job-openings")
+  }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.ToggleControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Hide Expired Jobs", "wp-job-openings"),
+    checked: hide_expired_jobs,
+    onChange: function onChange(hide_expired_jobs) {
+      return setAttributes({
+        hide_expired_jobs: hide_expired_jobs
+      });
+    }
+  }), wp.hooks.doAction('after_awsm_block_job_listing', block_job_listing, props), block_job_listing));
 };
 
 // Define the HOC to add custom inspector controls
