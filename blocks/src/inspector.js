@@ -164,6 +164,19 @@ const WidgetInspectorControls = props => {
 						</>
 					)}
 
+				
+				</PanelBody>
+			)}
+
+			<PanelBody title={__("Job Listing", "wp-job-openings")}>
+				<ToggleControl
+					label={__("Hide Expired Jobs", "wp-job-openings")}
+					checked={hide_expired_jobs}
+					onChange={hide_expired_jobs => setAttributes({ hide_expired_jobs })}
+				/>
+				{ wp.hooks.doAction( 'after_awsm_block_job_listing',block_job_listing,props ) }
+				{ block_job_listing }
+
 				<h2>{__("Job specs in the listing", "wp-job-openings")}</h2>
 				{specifications.length > 0 &&
 					specifications.map(spec => {
@@ -179,18 +192,7 @@ const WidgetInspectorControls = props => {
 								}
 							/>
 						);
-					})}				
-				</PanelBody>
-			)}
-
-			<PanelBody title={__("Job Listing", "wp-job-openings")}>
-				<ToggleControl
-					label={__("Hide Expired Jobs", "wp-job-openings")}
-					checked={hide_expired_jobs}
-					onChange={hide_expired_jobs => setAttributes({ hide_expired_jobs })}
-				/>
-				{ wp.hooks.doAction( 'after_awsm_block_job_listing',block_job_listing,props ) }
-				{ block_job_listing }
+				})}				
 			</PanelBody>
 		</InspectorControls>
 	);
