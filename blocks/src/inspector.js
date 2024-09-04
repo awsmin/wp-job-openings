@@ -177,7 +177,7 @@ const WidgetInspectorControls = props => {
 				{ wp.hooks.doAction( 'after_awsm_block_job_listing',block_job_listing,props ) }
 				{ block_job_listing }
 
-				<h2>{__("Job specs in the Listing", "wp-job-openings")}</h2>
+				<h2>{__("Job Specs in the Listing", "wp-job-openings")}</h2>
 				{specifications.length > 0 &&
 					specifications.map(spec => {
 						return (
