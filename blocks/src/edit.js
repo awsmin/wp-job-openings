@@ -60,30 +60,51 @@ export default function Edit(props) {
         event.stopPropagation();
     };
 
+    const handleResize = () => {            
+        const filtersWraps = document.querySelectorAll('.awsm-b-filter-wrap:not(.awsm-no-search-filter-wrap)');
+        
+        filtersWraps.forEach(wrapper => {
+            const filterItems = wrapper.querySelectorAll('.awsm-b-filter-item');
+            
+            if (filterItems.length > 0) {
+                const filterFirstTop = filterItems[0].getBoundingClientRect().top;
+                const filterLastTop = filterItems[filterItems.length - 1].getBoundingClientRect().top;
+                if(window.innerWidth < 768) {
+                    wrapper.classList.remove('awsm-b-full-width-search-filter-wrap');
+                    return;
+                }
+                if (filterLastTop > filterFirstTop) {
+                    wrapper.classList.add('awsm-b-full-width-search-filter-wrap');
+                } 
+            }
+        });
+    };
+
+    const checkElement = () => {
+        const dynamicElement = document.querySelector('.awsm-b-job-wrap');
+        if (dynamicElement && handleResize) {
+            handleResize();
+        } else {
+            // Retry after a short delay until the element is found
+            setTimeout(checkElement, 300);
+        }
+    };
+
+    useEffect(() => {handleResize(); checkElement()}, [props.attributes.enable_job_filter, props.attributes.filter_options]);
 	
     useEffect(() => {
-        // Define the handler function
-        const handleResize = () => {
-            const filtersWraps = document.querySelectorAll('.awsm-b-filter-wrap:not(.awsm-no-search-filter-wrap)');
-            
-            filtersWraps.forEach(wrapper => {
-                const filterItems = wrapper.querySelectorAll('.awsm-b-filter-item');
-                
-                if (filterItems.length > 0) {
-                    const filterFirstTop = filterItems[0].getBoundingClientRect().top;
-                    const filterLastTop = filterItems[filterItems.length - 1].getBoundingClientRect().top;
+        // document.addEventListener('DOMContentLoaded', () => {
+          
         
-                    if (filterLastTop > filterFirstTop) {
-                        wrapper.classList.add('awsm-b-full-width-search-filter-wrap');
-                    } else {
-                        wrapper.classList.remove('awsm-b-full-width-search-filter-wrap');
-                    }
-                }
-            });
-        };
+            // Start checking for the element
+            checkElement();
+        // });
+
+        // Define the handler function
+       
 
         // Call the handler initially
-        handleResize();
+        // handleResize();
         
         // Add resize event listener
         window.addEventListener('resize', handleResize);

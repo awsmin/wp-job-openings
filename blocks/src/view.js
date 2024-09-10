@@ -427,10 +427,12 @@ jQuery(function($) {
 			var $wrapper = $(this); 
 			var filterFirstTop = $wrapper.find('.awsm-b-filter-item').first().offset().top;
 			var filterLastTop = $wrapper.find('.awsm-b-filter-item').last().offset().top;
+			if(window.innerWidth < 768) {
+				$wrapper.removeClass('awsm-b-full-width-search-filter-wrap');
+				return;
+			}
 			if (filterLastTop > filterFirstTop) {
 				$wrapper.addClass('awsm-b-full-width-search-filter-wrap');
-			} else {
-				$wrapper.removeClass('awsm-b-full-width-search-filter-wrap');
 			}
 		});
 	}

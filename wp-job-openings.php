@@ -1744,7 +1744,6 @@ class AWSM_Job_Openings {
 					}
 				}
 				if ( $display ) {
-					// error_log( json_encode( $listing_specs . 'display', JSON_PRETTY_PRINT ) );
 					$terms = get_the_terms( $post_id, $taxonomy );
 					/**
 					 * Filter the job specification terms.
