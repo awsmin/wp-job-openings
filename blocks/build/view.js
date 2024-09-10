@@ -412,6 +412,7 @@ jQuery(function ($) {
       var filterFirstTop = $wrapper.find('.awsm-b-filter-item').first().offset().top;
       var filterLastTop = $wrapper.find('.awsm-b-filter-item').last().offset().top;
       if (window.innerWidth < 768) {
+        console.log('enter');
         $wrapper.removeClass('awsm-b-full-width-search-filter-wrap');
         return;
       }
