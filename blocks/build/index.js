@@ -81,56 +81,55 @@ function Edit(props) {
     event.stopPropagation();
   };
   var handleResize = function handleResize() {
-    var filtersWraps = document.querySelectorAll('.awsm-b-filter-wrap:not(.awsm-no-search-filter-wrap)');
+    var filtersWraps = document.querySelectorAll(".awsm-b-filter-wrap:not(.awsm-no-search-filter-wrap)");
     filtersWraps.forEach(function (wrapper) {
-      var filterItems = wrapper.querySelectorAll('.awsm-b-filter-item');
+      var filterItems = wrapper.querySelectorAll(".awsm-b-filter-item");
       if (filterItems.length > 0) {
         var filterFirstTop = filterItems[0].getBoundingClientRect().top;
         var filterLastTop = filterItems[filterItems.length - 1].getBoundingClientRect().top;
         if (window.innerWidth < 768) {
-          wrapper.classList.remove('awsm-b-full-width-search-filter-wrap');
+          wrapper.classList.remove("awsm-b-full-width-search-filter-wrap");
           return;
         }
         if (filterLastTop > filterFirstTop) {
-          wrapper.classList.add('awsm-b-full-width-search-filter-wrap');
+          wrapper.classList.add("awsm-b-full-width-search-filter-wrap");
         }
       }
     });
   };
   var checkElement = function checkElement() {
-    var dynamicElement = document.querySelector('.awsm-b-job-wrap');
-    if (dynamicElement && handleResize) {
+    var dynamicElement = document.querySelector(".awsm-b-job-wrap");
+    if (dynamicElement) {
       handleResize();
     } else {
-      // Retry after a short delay until the element is found
       setTimeout(checkElement, 300);
     }
   };
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_7__.useEffect)(function () {
+    checkElement();
     handleResize();
-    checkElement();
-  }, [props.attributes.enable_job_filter, props.attributes.filter_options]);
-  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_7__.useEffect)(function () {
-    // document.addEventListener('DOMContentLoaded', () => {
-
-    // Start checking for the element
-    checkElement();
-    // });
-
-    // Define the handler function
-
-    // Call the handler initially
-    // handleResize();
-
-    // Add resize event listener
-    window.addEventListener('resize', handleResize);
-
-    // Cleanup function to remove the event listener
     return function () {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
-  }, []); // Empty dependency array means this effect runs only once
-
+  }, []);
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_7__.useEffect)(function () {
+    handleFilterCountChange();
+  }, [props.attributes.enable_job_filter, props.attributes.filter_options]);
+  var handleFilterCountChange = function handleFilterCountChange() {
+    var selectFiltersWrap = document.querySelector("#block-" + props.clientId + " .awsm-b-filter-items");
+    if (selectFiltersWrap) {
+      var filterWrapWidth = selectFiltersWrap === null || selectFiltersWrap === void 0 ? void 0 : selectFiltersWrap.clientWidth;
+      if (filterWrapWidth < filter_options.length * 160) {
+        setAttributes({
+          select_filter_full: true
+        });
+      } else {
+        setAttributes({
+          select_filter_full: false
+        });
+      }
+    }
+  };
   return (0,react__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", _objectSpread(_objectSpread({}, blockProps), {}, {
     onClick: handleClick
   }), (0,react__WEBPACK_IMPORTED_MODULE_1__.createElement)(_inspector__WEBPACK_IMPORTED_MODULE_6__["default"], _objectSpread({}, props)), (0,react__WEBPACK_IMPORTED_MODULE_1__.createElement)((_wordpress_server_side_render__WEBPACK_IMPORTED_MODULE_5___default()), {
@@ -956,7 +955,7 @@ function _unsupportedIterableToArray(r, a) {
   \************************/
 /***/ (function(module) {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"wp-job-openings/blocks","version":"1.0.0","title":"","category":"","icon":"","description":"","attributes":{"filter_options":{"type":"array","default":[]},"other_options":{"type":"array","default":[]},"layout":{"type":"string","default":"list"},"listing_per_page":{"type":"number","default":10},"number_of_columns":{"type":"number","default":3},"pagination":{"type":"string","default":"modern"},"hide_expired_jobs":{"type":"boolean","default":true},"search":{"type":"boolean","default":true},"search_placeholder":{"type":"string","default":""},"enable_job_filter":{"type":"boolean","default":true}},"example":{},"supports":{"html":false},"textdomain":"wp-job-openings","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"wp-job-openings/blocks","version":"1.0.0","title":"","category":"","icon":"","description":"","attributes":{"filter_options":{"type":"array","default":[]},"select_filter_full":{"type":"boolean","default":false},"other_options":{"type":"array","default":[]},"layout":{"type":"string","default":"list"},"listing_per_page":{"type":"number","default":10},"number_of_columns":{"type":"number","default":3},"pagination":{"type":"string","default":"modern"},"hide_expired_jobs":{"type":"boolean","default":true},"search":{"type":"boolean","default":true},"search_placeholder":{"type":"string","default":""},"enable_job_filter":{"type":"boolean","default":true}},"example":{},"supports":{"html":false},"textdomain":"wp-job-openings","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ })
 

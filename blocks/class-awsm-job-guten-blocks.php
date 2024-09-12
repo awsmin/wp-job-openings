@@ -65,11 +65,15 @@ class Awsm_Job_Guten_Blocks {
 		if ( isset( $atts['number_of_columns'] ) && is_array( $atts['number_of_columns'] ) ) {
 			$atts['number_of_columns'] = $atts['number_of_columns'];
 		}
+		
+		if ( isset( $atts['select_filter_full'] ) && is_array( $atts['select_filter_full'] ) ) {
+			$atts['select_filter_full'] = $atts['select_filter_full'];
+		}
 
 		$atts = apply_filters( 'awsm_jobs_listings_block_attributes', $atts );
 
 		$class_block_init = AWSM_Job_Openings_Block::init();
-		$block_content    = $class_block_init->awsm_jobs_block_attributes( $atts );
+		$block_content    = $class_block_init->awsm_jobs_block_attributes( $atts );		
 		return $block_content;
 	}
 

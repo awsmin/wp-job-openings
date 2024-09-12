@@ -41,6 +41,7 @@ class AWSM_Job_Openings_Block {
 			'enable_job_filter'  => isset( $blockatts['enable_job_filter'] ) ? $blockatts['enable_job_filter'] : '',
 			'search_placeholder' => isset( $blockatts['search_placeholder'] ) ? $blockatts['search_placeholder'] : '',
 			'hide_expired_jobs'  => isset( $blockatts['hide_expired_jobs'] ) ? $blockatts['hide_expired_jobs'] : '',
+			'select_filter_full'  => isset( $blockatts['select_filter_full'] ) ? $blockatts['select_filter_full'] : '',
 		);
 
 		$block_atts_set = apply_filters( 'awsm_jobs_block_attributes_set', $block_atts_set, $blockatts );
@@ -77,6 +78,7 @@ class AWSM_Job_Openings_Block {
 		$enable_job_filters    = isset( $block_atts['enable_job_filter'] ) ? $block_atts['enable_job_filter'] : '';
 		$enable_search         = isset( $block_atts['search'] ) ? $block_atts['search'] : '';
 		$placeholder_search    = isset( $block_atts['search_placeholder'] ) ? $block_atts['search_placeholder'] : '';
+		$select_filter_full    = isset( $block_atts['select_filter_full'] ) ? $block_atts['select_filter_full'] : '';
 
 		$placeholder_search = isset( $block_atts['search_placeholder'] ) ? $block_atts['search_placeholder'] : '';
 		$default_text       = _x( 'Search Jobs', 'job filter', 'wp-job-openings' );
@@ -270,6 +272,10 @@ class AWSM_Job_Openings_Block {
 			$wrapper_class = 'awsm-b-filter-wrap';
 			if ( ! $enable_search ) {
 				$wrapper_class .= ' awsm-b-no-search-filter-wrap';
+			}
+			
+			if ( self::is_edit_or_add_page() && $select_filter_full ) {
+				$wrapper_class .= ' awsm-b-full-width-search-filter-wrap';
 			}
 
 			$alert_existing_class = '';

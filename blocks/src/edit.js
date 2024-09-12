@@ -32,13 +32,11 @@ import "./editor.scss";
 import {useBlockProps} from "@wordpress/block-editor";
 import ServerSideRender from "@wordpress/server-side-render";
 import WidgetInspectorControls from "./inspector";
-import { useEffect } from '@wordpress/element';
+import {useEffect} from "@wordpress/element";
 
 export default function Edit(props) {
 	const {
-		attributes: {
-			filter_options,
-		},
+		attributes: {filter_options},
 		setAttributes
 	} = props;
 
@@ -55,66 +53,68 @@ export default function Edit(props) {
 	});
 
 	// Event handler to ignore clicks
-    const handleClick = (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-    };
+	const handleClick = event => {
+		event.preventDefault();
+		event.stopPropagation();
+	};
 
-    const handleResize = () => {            
-        const filtersWraps = document.querySelectorAll('.awsm-b-filter-wrap:not(.awsm-no-search-filter-wrap)');
-        
-        filtersWraps.forEach(wrapper => {
-            const filterItems = wrapper.querySelectorAll('.awsm-b-filter-item');
-            
-            if (filterItems.length > 0) {
-                const filterFirstTop = filterItems[0].getBoundingClientRect().top;
-                const filterLastTop = filterItems[filterItems.length - 1].getBoundingClientRect().top;
-                if(window.innerWidth < 768) {
-                    wrapper.classList.remove('awsm-b-full-width-search-filter-wrap');
-                    return;
-                }
-                if (filterLastTop > filterFirstTop) {
-                    wrapper.classList.add('awsm-b-full-width-search-filter-wrap');
-                } 
-            }
-        });
-    };
+	const handleResize = () => {
+		const filtersWraps = document.querySelectorAll(
+			".awsm-b-filter-wrap:not(.awsm-no-search-filter-wrap)"
+		);
+		filtersWraps.forEach(wrapper => {
+			const filterItems = wrapper.querySelectorAll(".awsm-b-filter-item");
+			if (filterItems.length > 0) {
+				const filterFirstTop = filterItems[0].getBoundingClientRect().top;
+				const filterLastTop = filterItems[
+					filterItems.length - 1
+				].getBoundingClientRect().top;
+				if (window.innerWidth < 768) {
+					wrapper.classList.remove("awsm-b-full-width-search-filter-wrap");
+					return;
+				}
+				if (filterLastTop > filterFirstTop) {
+					wrapper.classList.add("awsm-b-full-width-search-filter-wrap");
+				}
+			}
+		});
+	};
 
-    const checkElement = () => {
-        const dynamicElement = document.querySelector('.awsm-b-job-wrap');
-        if (dynamicElement && handleResize) {
-            handleResize();
-        } else {
-            // Retry after a short delay until the element is found
-            setTimeout(checkElement, 300);
-        }
-    };
+	const checkElement = () => {
+		const dynamicElement = document.querySelector(".awsm-b-job-wrap");
+		if (dynamicElement) {
+			handleResize();
+		} else {
+			setTimeout(checkElement, 300);
+		}
+	};
 
-    useEffect(() => {handleResize(); checkElement()}, [props.attributes.enable_job_filter, props.attributes.filter_options]);
-	
-    useEffect(() => {
-        // document.addEventListener('DOMContentLoaded', () => {
-          
-        
-            // Start checking for the element
-            checkElement();
-        // });
+	useEffect(() => {
+		checkElement();
+		handleResize();
 
-        // Define the handler function
-       
+		return () => {
+			window.removeEventListener("resize", handleResize);
+		};
+	}, []);
+	useEffect(() => {
+		handleFilterCountChange();
+	}, [props.attributes.enable_job_filter, props.attributes.filter_options]);
 
-        // Call the handler initially
-        // handleResize();
-        
-        // Add resize event listener
-        window.addEventListener('resize', handleResize);
+	const handleFilterCountChange = () => {
+		const selectFiltersWrap = document.querySelector(
+			"#block-" + props.clientId + " .awsm-b-filter-items"
+		);
+		if (selectFiltersWrap) {
+			const filterWrapWidth = selectFiltersWrap?.clientWidth;
+			if (filterWrapWidth < filter_options.length * 160) {
+				setAttributes({select_filter_full: true});
+			} else {
+				setAttributes({select_filter_full: false});
+			}
+		}
+	};
 
-        // Cleanup function to remove the event listener
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []); // Empty dependency array means this effect runs only once
-	
 	return (
 		<div {...blockProps} onClick={handleClick}>
 			<WidgetInspectorControls {...props} />

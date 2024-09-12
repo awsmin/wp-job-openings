@@ -12,6 +12,10 @@
       "type": "array",
       "default": []
     },
+    "select_filter_full": {
+      "type": "boolean",
+      "default": false
+    },
     "other_options": {
       "type": "array",
       "default": []
