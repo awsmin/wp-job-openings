@@ -3,7 +3,7 @@
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
  */
-import {__} from "@wordpress/i18n";
+import { __ } from "@wordpress/i18n";
 
 /**
  * React hook that is used to mark the block wrapper element.
@@ -29,99 +29,121 @@ import "./editor.scss";
  *
  * @return {Element} Element to render.
  */
-import {useBlockProps} from "@wordpress/block-editor";
+import { useBlockProps } from "@wordpress/block-editor";
 import ServerSideRender from "@wordpress/server-side-render";
 import WidgetInspectorControls from "./inspector";
-import {useEffect} from "@wordpress/element";
+import { useEffect, useRef } from "@wordpress/element";
 
 export default function Edit(props) {
-	const {
-		attributes: {filter_options},
-		setAttributes
-	} = props;
+    const {
+        attributes: { filter_options },
+        setAttributes
+    } = props;
 
-	const blockProps = useBlockProps();
+    const blockProps = useBlockProps();
 
-	let specifications = awsmJobsAdmin.awsm_filters_block;
-	specifications = specifications.filter(spec => {
-		if (
-			typeof filter_options !== "undefined" &&
-			filter_options.includes(spec.key)
-		) {
-			return spec;
-		}
-	});
+    let specifications = awsmJobsAdmin.awsm_filters_block;
+    specifications = specifications.filter(spec => {
+        if (
+            typeof filter_options !== "undefined" &&
+            filter_options.includes(spec.key)
+        ) {
+            return spec;
+        }
+    });
 
-	// Event handler to ignore clicks
-	const handleClick = event => {
-		event.preventDefault();
-		event.stopPropagation();
-	};
+    // Event handler to ignore clicks
+    const handleClick = event => {
+        event.preventDefault();
+        event.stopPropagation();
+    };
 
-	const handleResize = () => {
-		const filtersWraps = document.querySelectorAll(
-			".awsm-b-filter-wrap:not(.awsm-no-search-filter-wrap)"
-		);
-		filtersWraps.forEach(wrapper => {
-			const filterItems = wrapper.querySelectorAll(".awsm-b-filter-item");
-			if (filterItems.length > 0) {
-				const filterFirstTop = filterItems[0].getBoundingClientRect().top;
-				const filterLastTop = filterItems[
-					filterItems.length - 1
-				].getBoundingClientRect().top;
-				if (window.innerWidth < 768) {
-					wrapper.classList.remove("awsm-b-full-width-search-filter-wrap");
-					return;
-				}
-				if (filterLastTop > filterFirstTop) {
-					wrapper.classList.add("awsm-b-full-width-search-filter-wrap");
-				}
-			}
-		});
-	};
+    const handleResize = () => {
+        const filtersWraps = document.querySelectorAll(
+            ".awsm-b-filter-wrap:not(.awsm-no-search-filter-wrap)"
+        );
+        filtersWraps.forEach(wrapper => {
+            const filterItems = wrapper.querySelectorAll(".awsm-b-filter-item");
+            if (filterItems.length > 0) {
+                const filterFirstTop = filterItems[0].getBoundingClientRect().top;
+                const filterLastTop = filterItems[
+                    filterItems.length - 1
+                ].getBoundingClientRect().top;
+                if (window.innerWidth < 768) {
+                    wrapper.classList.remove("awsm-b-full-width-search-filter-wrap");
+                    return;
+                }
+                if (filterLastTop > filterFirstTop) {
+                    wrapper.classList.add("awsm-b-full-width-search-filter-wrap");
+                }
+            }
+        });
+    };
 
-	const checkElement = () => {
-		const dynamicElement = document.querySelector(".awsm-b-job-wrap");
-		if (dynamicElement) {
-			handleResize();
-		} else {
-			setTimeout(checkElement, 300);
-		}
-	};
+    const checkElement = () => {
+        const dynamicElement = document.querySelector(".awsm-b-job-wrap");
+        if (dynamicElement) {
+            handleResize();
+        } else {
+            setTimeout(checkElement, 300);
+        }
+    };
 
-	useEffect(() => {
-		checkElement();
-		handleResize();
+    useEffect(() => {
+        checkElement();
+        handleResize();
 
-		return () => {
-			window.removeEventListener("resize", handleResize);
-		};
-	}, []);
-	useEffect(() => {
-		handleFilterCountChange();
-	}, [props.attributes.enable_job_filter, props.attributes.filter_options]);
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, []);
+    useEffect(() => {
+    }, [props.attributes.enable_job_filter, props.attributes.filter_options]);
 
-	const handleFilterCountChange = () => {
-		const selectFiltersWrap = document.querySelector(
-			"#block-" + props.clientId + " .awsm-b-filter-items"
-		);
-		if (selectFiltersWrap) {
-			const filterWrapWidth = selectFiltersWrap?.clientWidth;
-			if (filterWrapWidth < filter_options.length * 160) {
-				setAttributes({select_filter_full: true});
-			} else {
-				setAttributes({select_filter_full: false});
-			}
-		}
-	};
+    const checkFilters = () => {
+        const wrapper = document.querySelector(
+            "#block-" + props.clientId + " .awsm-b-filter-wrap"
+        );
 
-	return (
-		<div {...blockProps} onClick={handleClick}>
-			<WidgetInspectorControls {...props} />
-			<ServerSideRender
-				block="wp-job-openings/blocks"
-				attributes={props.attributes}
-			/>
-		</div>
-	);
+        if (!wrapper) {
+            return;
+        }
+        const filterItems = document.querySelectorAll("#block-" + props.clientId + " .awsm-b-filter-item");
+
+        if (filterItems.length > 0) {
+            const filterFirstTop = filterItems[0].getBoundingClientRect().top;
+            const filterLastTop = filterItems[
+                filterItems.length - 1
+            ].getBoundingClientRect().top;
+            if (window.innerWidth < 768) {
+                wrapper.classList.remove("awsm-b-full-width-search-filter-wrap");
+                return;
+            }
+            if (filterLastTop > filterFirstTop) {
+                wrapper.classList.add("awsm-b-full-width-search-filter-wrap");
+            }
+        }
+    };
+
+    useEffect(() => {
+        const observer = new MutationObserver(() => {
+            checkFilters();
+        });
+
+
+        observer.observe(document.querySelector("#block-" + props.clientId), { childList: true, subtree: true });
+        () => {
+            observer.disconnect();
+        }
+    }, []);
+
+    return (
+        <div {...blockProps} onClick={handleClick}>
+            <WidgetInspectorControls {...props} />
+            <ServerSideRender
+                block="wp-job-openings/blocks"
+                attributes={props.attributes}
+            />
+        </div>
+    );
 }

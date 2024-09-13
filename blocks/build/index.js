@@ -112,24 +112,37 @@ function Edit(props) {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_7__.useEffect)(function () {
-    handleFilterCountChange();
-  }, [props.attributes.enable_job_filter, props.attributes.filter_options]);
-  var handleFilterCountChange = function handleFilterCountChange() {
-    var selectFiltersWrap = document.querySelector("#block-" + props.clientId + " .awsm-b-filter-items");
-    if (selectFiltersWrap) {
-      var filterWrapWidth = selectFiltersWrap === null || selectFiltersWrap === void 0 ? void 0 : selectFiltersWrap.clientWidth;
-      if (filterWrapWidth < filter_options.length * 160) {
-        setAttributes({
-          select_filter_full: true
-        });
-      } else {
-        setAttributes({
-          select_filter_full: false
-        });
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_7__.useEffect)(function () {}, [props.attributes.enable_job_filter, props.attributes.filter_options]);
+  var checkFilters = function checkFilters() {
+    var wrapper = document.querySelector("#block-" + props.clientId + " .awsm-b-filter-wrap");
+    if (!wrapper) {
+      return;
+    }
+    var filterItems = document.querySelectorAll("#block-" + props.clientId + " .awsm-b-filter-item");
+    if (filterItems.length > 0) {
+      var filterFirstTop = filterItems[0].getBoundingClientRect().top;
+      var filterLastTop = filterItems[filterItems.length - 1].getBoundingClientRect().top;
+      if (window.innerWidth < 768) {
+        wrapper.classList.remove("awsm-b-full-width-search-filter-wrap");
+        return;
+      }
+      if (filterLastTop > filterFirstTop) {
+        wrapper.classList.add("awsm-b-full-width-search-filter-wrap");
       }
     }
   };
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_7__.useEffect)(function () {
+    var observer = new MutationObserver(function () {
+      checkFilters();
+    });
+    observer.observe(document.querySelector("#block-" + props.clientId), {
+      childList: true,
+      subtree: true
+    });
+    (function () {
+      observer.disconnect();
+    });
+  }, []);
   return (0,react__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", _objectSpread(_objectSpread({}, blockProps), {}, {
     onClick: handleClick
   }), (0,react__WEBPACK_IMPORTED_MODULE_1__.createElement)(_inspector__WEBPACK_IMPORTED_MODULE_6__["default"], _objectSpread({}, props)), (0,react__WEBPACK_IMPORTED_MODULE_1__.createElement)((_wordpress_server_side_render__WEBPACK_IMPORTED_MODULE_5___default()), {

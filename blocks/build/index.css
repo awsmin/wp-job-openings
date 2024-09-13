@@ -885,15 +885,4 @@ ul.awsm-error-message li {
           box-sizing: border-box;
 }
 
-.awsm-b-select-label {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-
 /*# sourceMappingURL=index.css.map*/
