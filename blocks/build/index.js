@@ -135,10 +135,13 @@ function Edit(props) {
     var observer = new MutationObserver(function () {
       checkFilters();
     });
-    observer.observe(document.querySelector("#block-" + props.clientId), {
-      childList: true,
-      subtree: true
-    });
+    var observeItem = document.querySelector("#block-" + props.clientId);
+    if (observeItem) {
+      observer.observe(observeItem, {
+        childList: true,
+        subtree: true
+      });
+    }
     (function () {
       observer.disconnect();
     });

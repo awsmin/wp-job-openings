@@ -130,8 +130,12 @@ export default function Edit(props) {
             checkFilters();
         });
 
+        const observeItem = document.querySelector("#block-" + props.clientId);
+       
+        if(observeItem) {
+            observer.observe( observeItem, { childList: true, subtree: true });
+        }
 
-        observer.observe(document.querySelector("#block-" + props.clientId), { childList: true, subtree: true });
         () => {
             observer.disconnect();
         }
