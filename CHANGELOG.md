@@ -1,5 +1,9 @@
 ## Changelog
 
+### V 3.4.7 - 2024-09-24
+* Fixed: Recaptcha won't reset after submitting the application form.
+* Minor bug fixes and code improvements.
+
 ### V 3.4.6 - 2024-04-02
 * Fixed: Author email template tag is not working properly in job expiry notification.
 * Minor bug fixes and code improvements.
