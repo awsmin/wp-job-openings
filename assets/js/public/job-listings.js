@@ -339,10 +339,12 @@ jQuery(function($) {
 		if ('selectric' in awsmJobsPublic.vendors && awsmJobsPublic.vendors.selectric) {
 			$elem.selectric({
 				onInit: function(select, selectric) {
-					var id = select.id;
-					var $input = $(selectric.elements.input);
-					$(select).attr('id', 'selectric-' + id);
-					$input.attr('id', id);
+					var id = select.id; 
+					if (selectric && selectric.elements && selectric.elements.input) {
+						var $input = $(selectric.elements.input);
+						$(select).attr('id', 'selectric-' + id);
+						$input.attr('id', id);
+					}
 				},
 				arrowButtonMarkup: '<span class="awsm-selectric-arrow-drop">&#x25be;</span>',
 				customClass: {
