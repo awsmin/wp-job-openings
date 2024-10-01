@@ -96,7 +96,7 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
                         <?php
                         $attachment_id  = get_post_meta( $post->ID, 'awsm_attachment_id', true );
                         $resume_details = $this->get_attached_file_details( $attachment_id );
-                        $full_file_name = get_post_meta( $attachment_id, 'actual_file_name', true );
+                        $full_file_name = get_post_meta( $attachment_id, 'awsm_actual_file_name', true );
                         
                         if ( ! empty( $resume_details ) ) :
                             $file_size_display = ! empty( $resume_details['file_size']['display'] ) ? $resume_details['file_size']['display'] : ''; ?>

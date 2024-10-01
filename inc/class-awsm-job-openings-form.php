@@ -529,8 +529,21 @@ class AWSM_Job_Openings_Form {
 						$attach_id       = wp_insert_attachment( $attachment_data, $movefile['file'], $application_id, true );
 
 						if ( ! is_wp_error( $attach_id ) ) {
+							// Generate attachment metadata
 							$attach_data = wp_generate_attachment_metadata( $attach_id, $movefile['file'] );
 							wp_update_attachment_metadata( $attach_id, $attach_data );
+						
+							// Save the actual file name as a meta field for the attachment
+							$original_file_name = isset( $attachment['name'] ) ? sanitize_text_field( $attachment['name'] ) : '';
+							
+							if ( ! empty( $original_file_name ) ) {
+								update_post_meta( $attach_id, 'awsm_actual_file_name', $original_file_name );
+								$updated_meta = get_post_meta( $attach_id, 'awsm_actual_file_name', true );
+								error_log( 'Updated Post Meta for Attachment ID ' . $attach_id . ': ' . $updated_meta );
+
+							}
+						
+							// Add the applicant details as meta data
 							$applicant_details = array(
 								'awsm_job_id'           => $job_id,
 								'awsm_apply_for'        => html_entity_decode( esc_html( get_the_title( $job_id ) ) ),
@@ -544,15 +557,17 @@ class AWSM_Job_Openings_Form {
 							if ( ! empty( $agree_privacy_policy ) ) {
 								$applicant_details['awsm_agree_privacy_policy'] = $agree_privacy_policy;
 							}
+						
 							foreach ( $applicant_details as $meta_key => $meta_value ) {
 								update_post_meta( $application_id, $meta_key, $meta_value );
 							}
+						
 							// Now, send notification email
 							$applicant_details['application_id'] = $application_id;
 							$this->notification_email( $applicant_details );
-
+						
 							$awsm_response['success'][] = esc_html__( 'Your application has been submitted.', 'wp-job-openings' );
-
+						
 							/**
 							 * Fires after successful job application submission
 							 *
@@ -561,7 +576,7 @@ class AWSM_Job_Openings_Form {
 							 * @param int $application_id Application ID
 							 */
 							do_action( 'awsm_job_application_submitted', $application_id );
-
+						
 						} else {
 							AWSM_Job_Openings::log( $attach_id );
 							$awsm_response['error'][] = $generic_err_msg;
@@ -579,7 +594,7 @@ class AWSM_Job_Openings_Form {
 		}
 		return $awsm_response;
 		// phpcs:enable
-	}
+}
 
 	public function is_recaptcha_set() {
 		$is_set           = false;

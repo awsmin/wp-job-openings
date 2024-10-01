@@ -545,4 +545,5 @@ jQuery(document).ready(function($) {
 		$('.awsm-applicant-meta-mail-tabs-new a').removeClass('active');
 		$(this).addClass('active');
 	});
+	
 });
