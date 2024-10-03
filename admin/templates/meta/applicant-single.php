@@ -156,7 +156,7 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
                 </div>
                 <div id="awsm-applicant-resume" class="application-main-tab-item awsm-application-resume">
                     <?php
-                        do_action( 'awsm_job_applicant_profile_details_resume_preview', $post->ID );
+                        do_action( 'awsm_job_applicant_profile_details_resume_preview', $attachment_id );
                     ?>
                 </div>
                 <div id="awsm-applicant-notes" class="application-main-tab-item awsm-application-notes">
