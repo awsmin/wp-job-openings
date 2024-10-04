@@ -539,7 +539,7 @@ class AWSM_Job_Openings_Form {
 							if ( ! empty( $original_file_name ) ) {
 								update_post_meta( $attach_id, 'awsm_actual_file_name', $original_file_name );
 								$updated_meta = get_post_meta( $attach_id, 'awsm_actual_file_name', true );
-								//error_log( 'Updated Post Meta for Attachment ID ' . $attach_id . ': ' . $updated_meta );
+								
 
 							}
 						
