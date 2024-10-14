@@ -658,10 +658,15 @@ class AWSM_Job_Openings_Settings {
 
 	public function awsm_jobs_filter_handle( $filters ) {
 		$old_value = get_option( 'awsm_jobs_filter' );
+		$new_specs_added = false;
 		if ( ! empty( $filters ) ) {
 			foreach ( $filters as $index => $filter ) {
 				$spec_name = isset( $filter['filter'] ) ? sanitize_text_field( $filter['filter'] ) : '';
 				$spec_key  = isset( $filter['taxonomy'] ) ? sanitize_title_with_dashes( $filter['taxonomy'] ) : '';
+
+				if ( !empty( $spec_key ) && ( empty( $old_value ) || ! array_key_exists( $spec_key, $old_value ) ) ) {
+					$new_specs_added = true;
+				}
 
 				// Job specifications validation.
 				if ( empty( $spec_name ) || empty( $spec_key ) ) {
@@ -709,6 +714,9 @@ class AWSM_Job_Openings_Settings {
 					}
 				}
 			}
+		}
+		if ( $new_specs_added ) {
+			do_action('awsm_specification_added', $filters);
 		}
 		return $filters;
 	}
