@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	if ( ! empty( $analytics_data ) ) :
 		?>
 		<div class="awsm-jobs-overview-chart-wrapper">
-		<canvas id="awsm-jobs-overview-applications-analytics-chart"></canvas>
+			<canvas id="awsm-jobs-overview-applications-analytics-chart"></canvas>
 		</div>
 	<?php else : ?>
 		<div class="awsm-jobs-overview-empty-wrapper">
