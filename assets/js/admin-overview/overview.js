@@ -11,13 +11,6 @@ jQuery(document).ready(function($) {
 	postboxes.add_postbox_toggles(awsmJobsAdminOverview.screen_id);
 
 	/*================ Charts ================*/
-	// Define the chartAreaPlugin
-
-
-
-
-
-	//--------------------------------------------
 
 	var chartAreaPlugin = {
 		id: 'chartAreaCustomizer',
@@ -55,18 +48,20 @@ jQuery(document).ready(function($) {
 		labels: awsmJobsAdminOverview.analytics_data.labels,
 		datasets: [ {
 			label: awsmJobsAdminOverview.i18n.chart_label,
-            data: awsmJobsAdminOverview.analytics_data.data,
-            backgroundColor: 'rgba(108, 250, 228, 0.15)', 
-            borderColor: '#6CFAE4', // Border color
-            pointBorderColor: '#6CFAE4',
-            pointBackgroundColor: '#6CFAE4',
-            pointHoverBackgroundColor: '#6CFAE4',
-            pointHoverBorderColor: '#6CFAE4',
-            pointRadius: 0,
-            borderWidth: 4, // Border width
-            pointHitRadius: 10,
-            fill: true,
-            tension: 0.4 // Smooth curve
+			data: awsmJobsAdminOverview.analytics_data.data,
+			fill: true,
+			borderColor: '#6CFAE4',
+			backgroundColor: 'rgba(108, 250, 228, 0.15)', 
+			pointBackgroundColor: '#6CFAE4',
+			pointHoverBackgroundColor: '#6CFAE4',
+			pointHoverBorderColor: '#6CFAE4',
+			borderWidth: 4,
+			pointBorderWidth: 2,
+			pointRadius: 1,
+			pointHoverRadius: 5,
+			tension: 0.4,
+			pointHitRadius: 10,
+            
 		} ]
 	};
 	var options = {
@@ -110,7 +105,7 @@ jQuery(document).ready(function($) {
                 borderWidth: 4
             },
             point: {
-                radius: 0 // Hide the points
+                radius: 1 // Hide the points
             }
         },
 		layout: {
