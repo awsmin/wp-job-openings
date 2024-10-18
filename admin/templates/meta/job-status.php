@@ -96,11 +96,35 @@ if ( $post->post_type === 'awsm_job_application' ) {
 				esc_html( $formatted_date ),
 			);
 
+			// if ( $post_count > 1 ) {
+			// 	// phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
+			// 	$next = $prev = $current = 0;
+			// 	// phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
+			// 	$prev_btn = $next_btn = '';
+			// 	foreach ( $applications as $index => $application_id ) {
+			// 		if ( intval( $post->ID ) === $application_id ) {
+			// 			$current = $index + 1;
+			// 			if ( isset( $applications[ $index + 1 ] ) ) {
+			// 				$prev = $applications[ $index + 1 ];
+			// 			}
+			// 			if ( isset( $applications[ $index - 1 ] ) ) {
+			// 				$next = $applications[ $index - 1 ];
+			// 			}
+			// 		}
+			// 	}
+			// 	$pagination = sprintf( '<span class="awsm-job-status-pagination">%1$s<br />%2$s</span>', esc_html( "{$current}/{$post_count}" ), esc_html__( 'Applications', 'wp-job-openings' ) );
+			// 	$prev_btn = sprintf( '<a class="button awsm-job-prev-application-btn%3$s" href="%2$s">&larr; %1$s</a>', esc_html__( 'Prev', 'wp-job-openings' ), $prev ? esc_url( get_edit_post_link( $prev ) ) : '#', ! $prev ? ' btn-disabled' : '' );
+
+			// 	$next_btn = sprintf( '<a class="button awsm-job-next-application-btn%3$s" href="%2$s">%1$s &rarr;</a>', esc_html__( 'Next', 'wp-job-openings' ), $next ? esc_url( get_edit_post_link( $next ) ) : '#', ! $next ? ' btn-disabled' : '' );
+
+			// 	$data_rows['actions'][0] = '<div class="awsm-job-status-btn-wrapper">' . $pagination  . $prev_btn . $next_btn . '</div>';
+			// }
 			if ( $post_count > 1 ) {
 				// phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
 				$next = $prev = $current = 0;
 				// phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
 				$prev_btn = $next_btn = '';
+				
 				foreach ( $applications as $index => $application_id ) {
 					if ( intval( $post->ID ) === $application_id ) {
 						$current = $index + 1;
@@ -112,15 +136,35 @@ if ( $post->post_type === 'awsm_job_application' ) {
 						}
 					}
 				}
-
-				$prev_btn = sprintf( '<a class="button awsm-job-prev-application-btn%3$s" href="%2$s">&larr; %1$s</a>', esc_html__( 'Prev', 'wp-job-openings' ), $prev ? esc_url( get_edit_post_link( $prev ) ) : '#', ! $prev ? ' btn-disabled' : '' );
-
-				$pagination = sprintf( '<span class="awsm-job-status-pagination">%1$s<br />%2$s</span>', esc_html( "{$current}/{$post_count}" ), esc_html__( 'Applications', 'wp-job-openings' ) );
-
-				$next_btn = sprintf( '<a class="button awsm-job-next-application-btn%3$s" href="%2$s">%1$s &rarr;</a>', esc_html__( 'Next', 'wp-job-openings' ), $next ? esc_url( get_edit_post_link( $next ) ) : '#', ! $next ? ' btn-disabled' : '' );
-
-				$data_rows['actions'][0] = '<div class="awsm-job-status-btn-wrapper">' . $prev_btn . $pagination . $next_btn . '</div>';
+				
+				// Pagination display
+				$pagination = sprintf(
+					'<span class="awsm-job-status-pagination">%1$s of %2$s %3$s</span>', 
+					esc_html( $current ), 
+					esc_html( $post_count ), 
+					esc_html__( 'Applications', 'wp-job-openings' )
+				);
+				
+				// Previous button
+				$prev_btn = sprintf( 
+					'<a class="button awsm-job-prev-application-btn%3$s" href="%2$s">%1$s</a>', 
+					esc_html__( 'Previous', 'wp-job-openings' ), 
+					$prev ? esc_url( get_edit_post_link( $prev ) ) : '#', 
+					! $prev ? ' btn-disabled' : '' 
+				);
+				
+				// Next button
+				$next_btn = sprintf( 
+					'<a class="button awsm-job-next-application-btn%3$s" href="%2$s">%1$s</a>', 
+					esc_html__( 'Next', 'wp-job-openings' ), 
+					$next ? esc_url( get_edit_post_link( $next ) ) : '#', 
+					! $next ? ' btn-disabled' : '' 
+				);
+			
+				// Wrapping the pagination and buttons in correct order
+				$data_rows['actions'][0] = '<div class="awsm-job-status-btn-wrapper">' . $pagination . $prev_btn . $next_btn . '</div>';
 			}
+			
 		}
 
 		/**
