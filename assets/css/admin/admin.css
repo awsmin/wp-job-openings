@@ -459,11 +459,14 @@ a.awsm-text-red:hover {
 }
 
 .awsm-applicant-image {
-	padding-bottom: 20px;
 	text-align: center;
 }
 .awsm-applicant-image img{
+	min-width: 76px;
+	width: 76px;
+	height: 76px;
 	border-radius: 50%;
+	object-fit: cover;
 }
 .awsm-applicant-image-container .button {
 	padding: 5px 7px;
@@ -521,6 +524,13 @@ a.awsm-text-red:hover {
     margin: 0;
     padding: 0;
 }
+.awsm-application-rating-pub-section{
+	display: flex;
+	gap: 5px;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+}
 
 .awsm-application-rating-pub-section-disabled {
 	display: flex;
@@ -556,16 +566,36 @@ a.awsm-text-red:hover {
 	margin: 10px -15px 0;
 	padding: 10px 15px 0;
 	border-top: 1px solid #DADFE5;
-	text-align: center;
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	justify-content: space-between;
 }
-.awsm-job-status-btn-wrapper a{
-	margin: 0 5px;
+.awsm-job-status-btn-wrapper a.button{
+	background: #fff;
+	border: 1px solid #D0D5DD;
+	padding: 7px 18px;
+	color: #161616;
+	min-height: 32px;
+	height: 32px;
+	line-height: 1.2;
+	border-radius: 4px;
+}
+.awsm-job-status-btn-wrapper a.button:hover{
+	border-color: #6CFAE4;
+	background-color: #6CFAE4;
+	color: #161616;
+}
+.awsm-job-status-btn-wrapper a.button:focus{
+	border-color: #fff;
+	background-color: #6CFAE4;
+	color: #161616;
 }
 .awsm-job-prev-application-btn{
-	float: left;
+	margin-left: auto !important;
 }
 .awsm-job-next-application-btn{
-	float: right;
+	
 }
 .awsm-job-status-btn-wrapper a.btn-disabled{
 	opacity: 0.2;
@@ -971,8 +1001,14 @@ p.description.awsm-jobs-invalid {
 	margin-top: 51px;
 }
 
-.awsm-job-admin-nav-page .wrap {
+.wrap {
 	padding-left: 20px;
+}
+.post-php.post-type-awsm_job_application.awsm-job-admin-nav-page .wrap{
+	max-width: 1100px;
+	padding: 0 20px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .awsm-job-admin-nav-page.focus-on .awsm-job-admin-nav-header {
@@ -1288,14 +1324,14 @@ a.awsm-plugin-item p {
 	transition: all 0.3s ease;
 }
 .post-type-awsm_job_application .postbox .postbox-header{
-	padding: 20px 20px 12px;
+	padding: 8px 8px 0;
 	border-bottom: 1px solid #EAECF0;
 }
 .post-type-awsm_job_application .postbox .handle-actions{
 	display: none;
 }
 .post-type-awsm_job_application .postbox .inside{
-	padding: 20px;
+	padding: 10px 20px 16px;
 }
 .post-type-awsm_job_application .postbox-header  h2, 
 .post-type-awsm_job_application .postbox-header  h3.hndle{
@@ -1321,14 +1357,74 @@ a.awsm-plugin-item p {
 	display: flex;
 	align-items: center;
 	gap:  16px;
+	justify-content: space-between;
+	flex-wrap: wrap;
 }
-.awsm-application-head > img{
-	min-width: 76px;
-	width: 76px;
-	height: 76px;
-	border-radius: 50%;
-	object-fit: cover;
+.awsm-application-head-main{
+	display: flex;
+	display: flex;
+	align-items: center;
+	gap:  16px;
 }
+.awsm-application-actions{
+	display: flex;
+	align-items: center;
+	gap:  20px;
+}
+.awsm-application-action{
+	position: relative;
+}
+.awsm-application-action-btn{
+	display: flex;
+	width: 26px;
+	height: 26px;
+	align-items: center;
+	justify-content: center;
+	background: #EAECF0;
+	border: 1px solid #EAECF0;
+	border-radius: 4px;
+	cursor: pointer;
+}
+.awsm-application-action-btn:hover,
+.awsm-application-action:hover .awsm-application-action-btn{
+	background: #6CFAE4;
+	border-color: #6CFAE4;
+}
+.awsm-application-action-btn:active{
+	border-color: #EAECF0;
+}
+.awsm-application-action:hover .awsm-application-action-list{
+	opacity: 1;
+	visibility: visible;
+}
+.awsm-application-action-list{
+	position: absolute;
+	right: 0;
+	top: calc(100% + 4px);
+	width: 124px;
+	background: #fff;
+	border: 1px solid #EAECF0;
+	border-radius: 4px;
+	box-shadow: 1px 1px 10px -4px rgba(0, 0, 0, 0.25);
+	opacity: 0;
+	visibility: hidden;
+	transition: all 0.4s ease;
+	padding: 5px;
+}
+.awsm-application-action-list a{
+	display: block;
+	padding: 8px 12px;
+	font-weight: 600;
+	font-size: 12px;
+	color: #424242;
+	text-decoration: none;
+	border-radius: 4px;
+}
+.awsm-application-action-list a:hover,
+.awsm-application-action-list a:focus{
+	background-color: #6CFAE4;
+}
+
 .awsm-applicant-info h3{
 	font-size: 16px;
 	font-weight: 600;
@@ -1436,12 +1532,12 @@ a.awsm-plugin-item p {
 	color: #898989;
 	margin: 0;
 	width: 25%;
-	font-weight: 500;
+	font-weight: 400;
 }
 .awsm-applicant-profile ul li > div{
 	width: calc(75% - 10px);
 	color: #161616;
-	font-weight: 600;
+	font-weight: 400;
 	margin: 0;
 }
 .awsm-applicant-profile ul li > div p{
@@ -1467,17 +1563,17 @@ a.awsm-plugin-item p {
 	color: #161616;
 	font-family: inherit;
 	font-size: 12px;
-	font-weight: 600;
+	font-weight: normal;
 	letter-spacing: -0.06px;
 	line-height: 1.333;
 }
 .awsm-form-control::placeholder {
-  color: #161616;
+  color: #898989;
   opacity: 1;
 }
 
 .awsm-form-control::-ms-input-placeholder {
-	color: #161616;
+	color: #898989;
 }
 .form-control-foot{
 	display: flex;
@@ -1684,7 +1780,7 @@ a.awsm-plugin-item p {
 	margin-bottom: 12px;
 	border-radius: 6px;
 	border: 1px solid #EAECF0;
-	padding: 20px 50px 20px 20px;
+	padding: 16px 50px 16px 16px;
 	position: relative;
 }
 .awsm-application-note-item .awsm-dropdown{
@@ -1694,15 +1790,18 @@ a.awsm-plugin-item p {
 }
 .awsm-application-note-item p:not(:last-child){
 	color: #161616;
-	font-weight: 600;
+	font-weight: 400;
 	margin: 0 0 12px;
+	linline-height: 16px;
 }
-.awsm-application-note-item p:last-child{
+.awsm-application-note-item p:not(.awsm-jobs-note-content){
 	margin: 0;
 	display: flex;
 	font-weight: 400;
 	justify-content: space-between;
 	gap: 10px;
+	color: #898989;
+	linline-height: 16px;
 }
 
 .application-main-tab a:focus,
@@ -1881,4 +1980,12 @@ a.awsm-plugin-item p {
 		float: none;
 		margin: 0 0 20px;
 	}
+}
+
+.submitbox #misc-publishing-actions{
+	padding: 10px 10px 8px;
+}
+.submitbox #major-publishing-actions{
+	padding-left: 20px;
+	padding-right: 20px;
 }

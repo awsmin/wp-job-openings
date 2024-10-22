@@ -148,7 +148,7 @@ if ( $post->post_type === 'awsm_job_application' ) {
 				// Previous button
 				$prev_btn = sprintf( 
 					'<a class="button awsm-job-prev-application-btn%3$s" href="%2$s">%1$s</a>', 
-					esc_html__( 'Previous', 'wp-job-openings' ), 
+					esc_html__( 'Prev', 'wp-job-openings' ), 
 					$prev ? esc_url( get_edit_post_link( $prev ) ) : '#', 
 					! $prev ? ' btn-disabled' : '' 
 				);
