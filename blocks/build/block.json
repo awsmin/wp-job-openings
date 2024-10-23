@@ -38,11 +38,11 @@
     },
     "hide_expired_jobs": {
       "type": "boolean",
-      "default": true
+      "default": false
     },
     "search": {
       "type": "boolean",
-      "default": true
+      "default": false
     },
     "search_placeholder": {
       "type": "string",
