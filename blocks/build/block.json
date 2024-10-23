@@ -1,0 +1,65 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "wp-job-openings/blocks",
+  "version": "1.0.0",
+  "title": "",
+  "category": "",
+  "icon": "",
+  "description": "",
+  "attributes": {
+    "filter_options": {
+      "type": "array",
+      "default": []
+    },
+    "select_filter_full": {
+      "type": "boolean",
+      "default": false
+    },
+    "other_options": {
+      "type": "array",
+      "default": []
+    },
+    "layout": {
+      "type": "string",
+      "default": "list"
+    },
+    "listing_per_page": {
+      "type": "number",
+      "default": 10
+    },
+    "number_of_columns": {
+      "type": "number",
+      "default": 3
+    },
+    "pagination": {
+      "type": "string",
+      "default": "modern"
+    },
+    "hide_expired_jobs": {
+      "type": "boolean",
+      "default": false
+    },
+    "search": {
+      "type": "boolean",
+      "default": false
+    },
+    "search_placeholder": {
+      "type": "string",
+      "default": ""
+    },
+    "enable_job_filter": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "example": {},
+  "supports": {
+    "html": false
+  },
+  "textdomain": "wp-job-openings",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "viewScript": "file:./view.js"
+}

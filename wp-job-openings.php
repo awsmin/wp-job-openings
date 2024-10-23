@@ -48,6 +48,9 @@ if ( ! defined( 'AWSM_JOBS_DEBUG' ) ) {
 
 // Helper functions
 require_once AWSM_JOBS_PLUGIN_DIR . '/inc/helper-functions.php';
+if ( function_exists( 'register_block_type' ) ) {
+	require_once AWSM_JOBS_PLUGIN_DIR . '/blocks/class-awsm-job-guten-blocks.php';
+}
 
 class AWSM_Job_Openings {
 	private static $instance = null;
@@ -115,7 +118,7 @@ class AWSM_Job_Openings {
 
 	public static function load_classes() {
 		$prefix  = 'class-awsm-job-openings';
-		$classes = array( 'core', 'ui-builder', 'filters', 'mail-customizer', 'form', 'third-party' );
+		$classes = array( 'core', 'ui-builder', 'filters', 'mail-customizer', 'form', 'third-party', 'block' );
 		foreach ( $classes as $class ) {
 			require_once AWSM_JOBS_PLUGIN_DIR . "/inc/{$prefix}-{$class}.php";
 		}
@@ -210,6 +213,7 @@ class AWSM_Job_Openings {
 
 	public function template_functions() {
 		include_once AWSM_JOBS_PLUGIN_DIR . '/inc/template-functions.php';
+		include_once AWSM_JOBS_PLUGIN_DIR . '/inc/template-functions-block.php';
 	}
 
 	public function init_actions() {
@@ -1025,6 +1029,8 @@ class AWSM_Job_Openings {
 		}
 		wp_enqueue_script( 'awsm-job-scripts', AWSM_JOBS_PLUGIN_URL . '/assets/js/script.min.js', array( 'jquery' ), AWSM_JOBS_PLUGIN_VERSION, true );
 
+		wp_enqueue_script( 'awsm-job-selectric', AWSM_JOBS_PLUGIN_URL . '/assets/js/jquery.selectric.js', array( 'jquery' ), AWSM_JOBS_PLUGIN_VERSION, true );
+
 		$enable_search = get_option( 'awsm_enable_job_search' ) === 'enable' && isset( $_GET['jq'] );
 		global $post;
 
@@ -1103,10 +1109,10 @@ class AWSM_Job_Openings {
 			'awsm-job-admin',
 			'awsmJobsAdmin',
 			array(
-				'ajaxurl'    => admin_url( 'admin-ajax.php' ),
-				'plugin_url' => AWSM_JOBS_PLUGIN_URL,
-				'nonce'      => wp_create_nonce( 'awsm-admin-nonce' ),
-				'i18n'       => array(
+				'ajaxurl'                   => admin_url( 'admin-ajax.php' ),
+				'plugin_url'                => AWSM_JOBS_PLUGIN_URL,
+				'nonce'                     => wp_create_nonce( 'awsm-admin-nonce' ),
+				'i18n'                      => array(
 					'select2_no_page' => esc_html__( 'Select a page', 'wp-job-openings' ),
 					'image_upload'    => array(
 						'select'   => esc_html__( 'Select Image', 'wp-job-openings' ),
@@ -1116,6 +1122,10 @@ class AWSM_Job_Openings {
 						'btn_text' => esc_html__( 'Choose', 'wp-job-openings' ),
 					),
 				),
+				'awsm_filters'              => self::get_filter_specifications(),
+				'awsm_filters_block'        => AWSM_Job_Openings_Block::get_block_filter_specifications(),
+				'awsm_featured_image_block' => AWSM_Job_Openings_Block::get_block_featured_image_size(),
+				'isProEnabled'              => class_exists( 'AWSM_Job_Openings_Pro_Pack' ),
 			)
 		);
 
@@ -1130,6 +1140,60 @@ class AWSM_Job_Openings {
 				),
 			)
 		);
+	}
+
+
+	public static function get_filter_specifications( $specs_keys = array() ) {
+		$awsm_filters = get_option( 'awsm_jobs_filter' );
+		$spec_keys    = wp_list_pluck( $awsm_filters, 'taxonomy' );
+		if ( ! is_array( $specs_keys ) ) {
+			$specs_keys = explode( ',', $specs_keys );
+		}
+		$specs = array();
+		if ( ! empty( $specs_keys ) ) {
+			foreach ( $specs_keys as $spec_key ) {
+				$terms = self::get_spec_terms( $spec_key );
+				if ( ! empty( $terms ) ) {
+					$tax_obj = get_taxonomy( $spec_key );
+					if ( ! empty( $tax_obj ) ) {
+						$specs[] = array(
+							'key'   => $spec_key,
+							'label' => $tax_obj->label,
+							'terms' => $terms,
+						);
+					}
+				}
+			}
+		} else {
+			$taxonomy_objects = get_object_taxonomies( 'awsm_job_openings', 'objects' );
+			foreach ( $taxonomy_objects as $spec => $spec_details ) {
+				if ( ! in_array( $spec, $spec_keys, true ) ) {
+					continue;
+				}
+				$terms = self::get_spec_terms( $spec );
+				if ( ! empty( $terms ) ) {
+					$specs[] = array(
+						'key'   => $spec,
+						'label' => $spec_details->label,
+						'terms' => $terms,
+					);
+				}
+			}
+		}
+
+		return $specs;
+	}
+
+	public static function get_spec_terms( $spec ) {
+		$terms_args = array(
+			'taxonomy'   => $spec,
+			'hide_empty' => true,
+		);
+		$terms      = get_terms( $terms_args );
+		if ( is_wp_error( $terms ) ) {
+			$terms = array();
+		}
+		return $terms;
 	}
 
 	public static function get_template_path( $template_name, $sub_dir_name = false ) {
