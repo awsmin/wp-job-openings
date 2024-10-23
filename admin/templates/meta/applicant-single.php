@@ -6,6 +6,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 $applicant_email = esc_attr( get_post_meta( $post->ID, 'awsm_applicant_email', true ) );
 $applicant_details = $this->get_applicant_meta_details_list( $post->ID, array( 'awsm_applicant_email' => $applicant_email ) );
 $tab_applicant_single_view  = AWSM_Job_Openings_Meta::set_applicant_single_view_tab();
+$attachment_id  = get_post_meta( $post->ID, 'awsm_attachment_id', true );
+$resume_details = $this->get_attached_file_details( $attachment_id );
+$full_file_name = get_post_meta( $attachment_id, 'awsm_actual_file_name', true );
 
 /**
  * Initialize applicant meta box.
@@ -48,20 +51,24 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
             <!-- .awsm-application-head-main -->
             <div class="awsm-application-actions">
                 <!-- Rating -->
-                <div class="awsm-application-rating-pub-section">
-                    <div class="awsm-application-rating-fieldset">
-                      <span class="awsm-application-rating-container">
-                        <?php
-                            $rating = get_post_meta( get_the_ID(), 'awsm_application_rating', true );
-                        for ( $i = 5; $i >= 1; $i-- ) :
-                            $checked = ( $i === (int) $rating ) ? ' checked' : '';
-                            ?>
-                                  <input type="radio" id="awsm_application_rating-<?php echo esc_attr( $i ); ?>" name="awsm_application_rating" value="<?php echo esc_attr( $i ); ?>"<?php echo esc_attr( $checked ); ?>/><label for="awsm_application_rating-<?php echo esc_attr( $i ); ?>"><?php echo esc_html( $i ); ?></label>
-                        <?php endfor; ?>
-                                <input type="radio" id="awsm_application_rating-0" class="star-cb-clear" name="awsm_application_rating" value="0" /><label for="awsm_application_rating-0">0</label>
-                      </span>
-                    </div>
-                </div>
+                <?php do_action('awsm_application_rating'); 
+                if (! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) { ?>
+                <div class="misc-pub-section awsm-application-rating-pub-section-disabled">
+				<div class="awsm-application-rating-disabled">
+					<?php
+						wp_star_rating(
+							array(
+								'rating' => 3,
+								'type'   => 'rating',
+							)
+						);
+						?>
+				</div>
+				<div class="awsm-application-pro-features-btn-wrapper">
+					<span class="awsm-jobs-get-pro-btn"><?php esc_html_e( 'Pro Features', 'wp-job-openings' ); ?></span>
+				</div>
+                <?php }?>
+			
                 <!-- End of Rating -->
                 <!-- Action start -->
                     <div class="awsm-application-action">
@@ -73,10 +80,15 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
                             </svg>
                         </a>
                         <div class="awsm-application-action-list">
-                            <a href="#">Edit Profile</a>
-                            <a href="#">Download</a>
-                            <a href="#">Print</a>
-                            <a href="#">Delete</a>
+                            <?php 
+                            if (class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ){ ?>
+                                <button id="awsm-button-edit-application" >
+                                    <?php esc_html_e( 'Edit Profile', 'pro-pack-for-wp-job-openings' ); ?>
+                                </button>
+                            <?php }
+                            ?>
+                            <a href="<?php echo esc_url( $this->get_attached_file_download_url( $attachment_id ) ); ?>"  rel="nofollow"><?php esc_html_e( 'Download', 'wp-job-openings' ); ?></a>
+                            <?php do_action( 'after_awsm_job_applicant_mb_details_list', $post->ID ); ?>
                         </div><!-- .awsm-application-action-list -->
                     </div><!-- .awsm-application-action -->
                 <!-- Action End -->
@@ -133,10 +145,6 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
                     <ul class="awsm-applicant-details-list">
                         <?php echo wp_kses_post( $applicant_details['list'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                         <?php
-                        $attachment_id  = get_post_meta( $post->ID, 'awsm_attachment_id', true );
-                        $resume_details = $this->get_attached_file_details( $attachment_id );
-                        $full_file_name = get_post_meta( $attachment_id, 'awsm_actual_file_name', true );
-                        
                         if ( ! empty( $resume_details ) ) :
                             $file_size_display = ! empty( $resume_details['file_size']['display'] ) ? $resume_details['file_size']['display'] : ''; ?>
                             <li>
@@ -168,7 +176,6 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
                                              * @since 1.6.0
                                              */
                                             
-                                            //do_action( 'after_awsm_job_applicant_mb_details_list', $post->ID );
                                             do_action( 'after_awsm_job_applicant_details_list_preview_resume', $post->ID );
                                             
                                         ?>

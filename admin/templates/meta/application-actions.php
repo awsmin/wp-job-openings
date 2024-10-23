@@ -38,21 +38,7 @@ $application_id = $post->ID;
 				</div>
 			</div>
 			<!-- Rating -->
-			<div class="misc-pub-section awsm-application-rating-pub-section-disabled">
-				<div class="awsm-application-rating-disabled">
-					<?php
-						wp_star_rating(
-							array(
-								'rating' => 3,
-								'type'   => 'rating',
-							)
-						);
-						?>
-				</div>
-				<div class="awsm-application-pro-features-btn-wrapper">
-					<span class="awsm-jobs-get-pro-btn"><?php esc_html_e( 'Pro Features', 'wp-job-openings' ); ?></span>
-				</div>
-			</div>
+			
 			<!-- End of Rating -->
 		</div>
 		<div class="clear"></div>
