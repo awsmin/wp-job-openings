@@ -49,28 +49,23 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
                 ?>
             </div>
             <!-- .awsm-application-head-main -->
-            <div class="awsm-application-actions">
-                <!-- Rating -->
-                <?php do_action('awsm_application_rating'); 
-                if (! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) { ?>
-                <div class="misc-pub-section awsm-application-rating-pub-section-disabled">
-				<div class="awsm-application-rating-disabled">
-					<?php
-						wp_star_rating(
-							array(
-								'rating' => 3,
-								'type'   => 'rating',
-							)
-						);
-						?>
-				</div>
-				<div class="awsm-application-pro-features-btn-wrapper">
-					<span class="awsm-jobs-get-pro-btn"><?php esc_html_e( 'Pro Features', 'wp-job-openings' ); ?></span>
-				</div>
-                <?php }?>
-			
-                <!-- End of Rating -->
-                <!-- Action start -->
+            <div class="awsm-application-actions <?php if(! class_exists( 'AWSM_Job_Openings_Pro_Pack' )){echo 'pro-feature'; }?>">
+                <span class="pro-ft"><?php esc_html_e( 'Pro Features', 'wp-job-openings' ); ?></span>
+                <?php 
+                if (class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) {
+                    do_action('awsm_application_rating'); 
+                } else { ?>
+                    <div class="awsm-application-rating-disabled">
+                            <?php
+                                wp_star_rating(
+                                    array(
+                                        'rating' => 3,
+                                        'type'   => 'rating',
+                                    )
+                                );
+                                ?>
+                        </div>
+                <?php } ?>
                     <div class="awsm-application-action">
                         <a class="awsm-application-action-btn" href="#">
                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -79,18 +74,17 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
                                 <path d="M6.40008 14.4C6.40008 15.2837 7.11642 16 8.00009 16C8.88375 16 9.6001 15.2837 9.6001 14.4C9.6001 13.5163 8.88375 12.8 8.00009 12.8C7.11642 12.8 6.40008 13.5163 6.40008 14.4Z" fill="#161616"/>
                             </svg>
                         </a>
-                        <div class="awsm-application-action-list">
-                            <?php 
-                            if (class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ){ ?>
+                        <?php 
+                        if (class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ){ ?>
+                            <div class="awsm-application-action-list">
                                 <button id="awsm-button-edit-application" >
                                     <?php esc_html_e( 'Edit Profile', 'pro-pack-for-wp-job-openings' ); ?>
-                                </button>
-                            <?php }
-                            ?>
-                            <a href="<?php echo esc_url( $this->get_attached_file_download_url( $attachment_id ) ); ?>"  rel="nofollow"><?php esc_html_e( 'Download', 'wp-job-openings' ); ?></a>
-                            <?php do_action( 'after_awsm_job_applicant_mb_details_list', $post->ID ); ?>
-                        </div><!-- .awsm-application-action-list -->
+                                </button>   
+                                <?php do_action( 'after_awsm_job_applicant_mb_details_list', $post->ID ); ?>
+                            </div><!-- .awsm-application-action-list -->
+                        <?php } ?>           
                     </div><!-- .awsm-application-action -->
+                
                 <!-- Action End -->
             </div>
             <!-- .awsm-application-head-actions -->

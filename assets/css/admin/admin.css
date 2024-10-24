@@ -1309,6 +1309,54 @@ a.awsm-plugin-item p {
 .awsm-application-post-status-disabled, .awsm-application-rating-disabled{
 	opacity: 0.5;
 }
+
+/*--------Rating,Status hover to show pro feature label----------*/
+.awsm-application-actions.pro-feature,
+.awsm-application-post-status.pro-feature {
+	position: relative;
+}
+
+.awsm-application-actions.pro-feature::after,
+.awsm-application-post-status.pro-feature::after{
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: -1px;
+	bottom: 0;
+	background: rgba(255, 255, 255, 0.5);
+}
+
+.awsm-application-actions .pro-ft,
+.awsm-application-post-status .pro-ft {
+	opacity: 0;
+	visibility: hidden;
+	transition: all 0.3s ease;
+	background: #161616;
+	padding: 4px 8px;
+	border-radius: 4px;
+	font-size: 11px;
+	color: #6CFAE4;
+	line-height: 1;
+	position: absolute;
+}
+
+.awsm-application-actions.pro-feature .pro-ft {
+	left: -90px;
+	top: 8px;
+}
+
+.awsm-application-post-status.pro-feature .pro-ft,
+.awsm-application-post-status .pro-ft{
+	right: 0;
+	z-index: 10;
+}
+
+.awsm-application-actions.pro-feature:hover .pro-ft,
+.awsm-application-post-status.pro-feature:hover .pro-ft{	
+	opacity: 1;
+	visibility: visible;
+}
 /*---Applications--*/
 
 
@@ -1411,7 +1459,16 @@ a.awsm-plugin-item p {
 	transition: all 0.4s ease;
 	padding: 5px;
 }
-.awsm-application-action-list a{
+.awsm-application-action-list button{
+	border: none;
+	border: none;
+    background: 0 0;
+    width: 100%;
+    text-align: left;
+	cursor: pointer;
+}
+.awsm-application-action-list a,
+.awsm-application-action-list button{
 	display: block;
 	padding: 8px 12px;
 	font-weight: 600;
@@ -1421,7 +1478,9 @@ a.awsm-plugin-item p {
 	border-radius: 4px;
 }
 .awsm-application-action-list a:hover,
-.awsm-application-action-list a:focus{
+.awsm-application-action-list a:focus,
+.awsm-application-action-list button:hover,
+.awsm-application-action-list button:focus{
 	background-color: #6CFAE4;
 }
 
@@ -1442,6 +1501,7 @@ a.awsm-plugin-item p {
 }
 .application-main-cnt{
 	padding: 0 20px 20px;
+	width: 100%;
 }
 .application-main-tab{
 	list-style: none;
