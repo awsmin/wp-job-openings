@@ -10,6 +10,22 @@ $attachment_id  = get_post_meta( $post->ID, 'awsm_attachment_id', true );
 $resume_details = $this->get_attached_file_details( $attachment_id );
 $full_file_name = get_post_meta( $attachment_id, 'awsm_actual_file_name', true );
 
+$job_id = get_post_meta( $post->ID, 'awsm_job_id', true);
+
+$form_meta = get_post_meta( $job_id, 'awsm_pro_application_form', true );
+
+if ( ! empty( $form_meta ) ) {
+    $form_data = maybe_unserialize( $form_meta ); 
+
+    if ( is_array( $form_data ) && isset( $form_data['id'] ) ) {
+        $form_id = $form_data['id'];
+    } else {
+        $form_id = null; 
+    }
+} else {
+    $form_id = null; 
+}
+
 /**
  * Initialize applicant meta box.
  *
@@ -77,9 +93,11 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
                         <?php 
                         if (class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ){ ?>
                             <div class="awsm-application-action-list">
-                                <button id="awsm-button-edit-application" >
-                                    <?php esc_html_e( 'Edit Profile', 'pro-pack-for-wp-job-openings' ); ?>
-                                </button>   
+                            <a href="<?php echo esc_url( admin_url( 'post.php?post=' . $post->ID . '&action=edit&application=edit&form-id=' . $form_id . '&job-id=' . $job_id ) ); ?>" 
+                                id="awsm-button-edit-application">
+                                <?php esc_html_e( 'Edit Profile', 'pro-pack-for-wp-job-openings' ); ?>
+                            </a>
+
                                 <?php do_action( 'after_awsm_job_applicant_mb_details_list', $post->ID ); ?>
                             </div><!-- .awsm-application-action-list -->
                         <?php } ?>           
