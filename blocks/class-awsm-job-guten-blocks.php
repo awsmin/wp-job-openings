@@ -70,6 +70,15 @@ class Awsm_Job_Guten_Blocks {
 			$atts['select_filter_full'] = $atts['select_filter_full'];
 		}
 
+		 /**
+		 * Filters the block attributes.
+		 *
+		 * Allows modification of block attributes prior to rendering.
+		 *
+		 * @since 3.5.0
+		 *
+		 * @param array $atts List of supported attributes.
+		 */
 		$atts = apply_filters( 'awsm_jobs_listings_block_attributes', $atts );
 
 		$class_block_init = AWSM_Job_Openings_Block::init();
