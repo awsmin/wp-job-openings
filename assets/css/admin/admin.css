@@ -2033,7 +2033,21 @@ textarea.awsm-form-control {
 .application-main-tab li {
 	margin-bottom: 0;
 }
-
+/*-----Application edit error-----*/
+.application_edit_wrapper .error-message{
+	color: #b32d2e;
+    font-weight: 400;
+    line-height: 3;
+}
+.awsm-dzfile-hide{
+	display: none;
+}
+.awsm-dzfile-show{
+	display: block;
+}
+.awsm-application-edit-file-group-listing .awsm-form-drag-and-drop-file-control{
+	min-height: auto;
+}
 @media (min-width:991px) {
 	.awsm-application-email-left {
 		width: 157px;

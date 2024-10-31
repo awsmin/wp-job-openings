@@ -23,7 +23,7 @@ if ( ! empty( $form_meta ) ) {
         $form_id = null; 
     }
 } else {
-    $form_id = null; 
+    $form_id = 'default'; 
 }
 
 /**
