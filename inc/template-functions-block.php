@@ -1,7 +1,7 @@
 <?php
 /**
  * Template specific functions for block
- * 
+ *
  * @package wp-job-openings
  * @version 3.5.0
  */
