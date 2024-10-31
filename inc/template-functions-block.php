@@ -1,7 +1,9 @@
 <?php
 /**
  * Template specific functions for block
- *
+ * 
+ * @package wp-job-openings
+ * @version 3.5.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -113,7 +115,6 @@ if ( ! function_exists( 'awsm_block_jobs_paginate_links' ) ) {
 	}
 }
 
-
 if ( ! function_exists( 'awsm_jobs_block_featured_image' ) ) {
 	function awsm_jobs_block_featured_image( $echo = true, $size = 'thumbnail', $attr = '', $block_atts = array() ) {
 		$content                = '';
@@ -155,7 +156,7 @@ if ( ! function_exists( 'awsm_jobs_block_listing_item_class' ) ) {
 		/**
 		 * Filters the classes for each job listing item.
 		 *
-		 * @since 2.1.0
+		 * @since 3.5.0
 		 *
 		 * @param array $classes Array of class names.
 		 * @param int $job_id The Job ID.

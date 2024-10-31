@@ -44,6 +44,16 @@ class AWSM_Job_Openings_Block {
 			'select_filter_full' => isset( $blockatts['select_filter_full'] ) ? $blockatts['select_filter_full'] : '',
 		);
 
+		 /**
+		 * Filter the attribute set for the Job Listing block.
+		 *
+		 * Allows modification of the attributes set for the job listings block before rendering.
+		 *
+		 * @since 3.5.0
+		 *
+		 * @param array $block_atts_set List of attributes used for rendering the block.
+		 * @param array $blockatts      Original attributes passed to the block.
+		 */
 		$block_atts_set = apply_filters( 'awsm_jobs_block_attributes_set', $block_atts_set, $blockatts );
 
 		$this->unique_listing_id++;
@@ -52,6 +62,15 @@ class AWSM_Job_Openings_Block {
 		include get_awsm_jobs_template_path( 'block-job-openings-view', 'block-files' );
 		$block_content = ob_get_clean();
 
+		/**
+		 * Filter the output content for the Job Listing block.
+		 *
+		 * Allows modification of the rendered block content before it is returned.
+		 *
+		 * @since 3.5.0
+		 *
+		 * @param string $block_content The rendered block content.
+		 */
 		return apply_filters( 'awsm_jobs_block_output_content', $block_content );
 	}
 
@@ -298,6 +317,16 @@ class AWSM_Job_Openings_Block {
 			);
 		}
 
+		/**
+		 * Filter the rendered content of the job listings block.
+		 *
+		 * Allows customization of the job listings filter block content, which includes
+		 *
+		 * @since 3.5.0
+		 *
+		 * @param string $filter_content          The generated HTML content for the filter block.
+		 * @param array  $available_filters_arr   Array of filters available for the block.
+		 */
 		echo apply_filters( 'awsm_filter_block_content', $filter_content, $available_filters_arr ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
