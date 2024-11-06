@@ -668,8 +668,13 @@ class AWSM_Job_Openings {
 	}
 
 	public function send_email_digest() {
-		$to            = get_option( 'awsm_hr_email_address' );
-		$enable_digest = get_option( 'awsm_jobs_email_digest' );
+		$to              = get_option( 'awsm_hr_email_address' );
+		$enable_digest   = get_option( 'awsm_jobs_email_digest' );
+		$current_user_id = get_current_user_id();
+		$locale          = get_user_locale( $current_user_id );
+
+		self::set_current_language( $locale );
+
 		if ( $enable_digest === 'enable' ) {
 			if ( ! class_exists( 'AWSM_Job_Openings_Settings' ) ) {
 				require_once AWSM_JOBS_PLUGIN_DIR . '/admin/class-awsm-job-openings-settings.php';
