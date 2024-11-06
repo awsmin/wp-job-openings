@@ -1056,7 +1056,8 @@ p.description.awsm-jobs-invalid {
 	padding-left: 20px;
 }
 
-.post-php.post-type-awsm_job_application.awsm-job-admin-nav-page .wrap {
+.post-php.post-type-awsm_job_application.awsm-job-admin-nav-page .wrap,
+.awsm-job-admin-nav-page.awsm_job_openings_page_awsm-jobs-overview .wrap {
 	max-width: 1100px;
 	padding: 0 20px;
 	margin-left: auto;

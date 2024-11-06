@@ -277,6 +277,7 @@
 	min-width: 36px;
 	width: 100%;
 	border-radius: 50%;
+	height: auto;
 }
 .awsm-jobs-overview-list-item span.count{
 	width: 36px;
