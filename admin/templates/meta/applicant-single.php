@@ -5,6 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $applicant_email = esc_attr( get_post_meta( $post->ID, 'awsm_applicant_email', true ) );
 $applicant_details = $this->get_applicant_meta_details_list( $post->ID, array( 'awsm_applicant_email' => $applicant_email ) );
+
 $tab_applicant_single_view  = AWSM_Job_Openings_Meta::set_applicant_single_view_tab();
 $attachment_id  = get_post_meta( $post->ID, 'awsm_attachment_id', true );
 $resume_details = $this->get_attached_file_details( $attachment_id );
@@ -12,7 +13,7 @@ $full_file_name = get_post_meta( $attachment_id, 'awsm_actual_file_name', true )
 
 $job_id = get_post_meta( $post->ID, 'awsm_job_id', true);
 
-$form_meta = get_post_meta( $job_id, 'awsm_pro_application_form', true );
+$form_meta = get_post_meta($job_id, 'awsm_pro_application_form', true);
 
 if ( ! empty( $form_meta ) ) {
     $form_data = maybe_unserialize( $form_meta ); 
@@ -25,6 +26,7 @@ if ( ! empty( $form_meta ) ) {
 } else {
     $form_id = 'default'; 
 }
+$file_label  = AWSM_Job_Openings_Form::get_awsm_file_label( $form_id, $job_id );
 
 /**
  * Initialize applicant meta box.
@@ -162,8 +164,13 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
                             <li>
                                 <label>
                                     <?php 
-                                    esc_html_e( 'Resume', 'wp-job-openings' ); ?>
-                                    </label>
+                                        if (!empty($file_label)) {
+                                            echo esc_html($file_label);
+                                        } else {
+                                            echo esc_html__('Resume', 'wp-job-openings');
+                                        }
+                                    ?>
+                                </label>
                                 <div class="awsm-applicant-resume">
                                     <span class="hs-reume-info">
                                         <span>
@@ -213,7 +220,7 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
                 </div>
                 <div id="awsm-applicant-resume" class="application-main-tab-item awsm-application-resume">
                     <?php
-                        do_action( 'awsm_job_applicant_profile_details_resume_preview', $attachment_id );
+                        //do_action( 'awsm_job_applicant_profile_details_resume_preview', $attachment_id );
                     ?>
                 </div>
                 <div id="awsm-applicant-notes" class="application-main-tab-item awsm-application-notes">
