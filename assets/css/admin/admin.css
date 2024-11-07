@@ -1507,14 +1507,17 @@ a.awsm-plugin-item p {
 
 .awsm-application-action-btn {
 	display: flex;
-	width: 26px;
-	height: 26px;
 	align-items: center;
 	justify-content: center;
 	background: #EAECF0;
 	border: 1px solid #EAECF0;
 	border-radius: 4px;
 	cursor: pointer;
+	padding: 4px;
+}
+.awsm-application-action-btn svg{
+	width: 20px;
+	height: auto;
 }
 
 .awsm-application-action-btn:hover,
