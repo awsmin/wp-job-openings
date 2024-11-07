@@ -7,7 +7,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language-Team: AWSM innovations <hello@awsm.in>\n"
-"POT-Creation-Date: 2024-11-04 10:45+0000\n"
+"POT-Creation-Date: 2024-11-07 04:47+0000\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -31,7 +31,7 @@ msgstr ""
 msgid "Job ID"
 msgstr ""
 
-#: wp-job-openings.php:355, wp-job-openings.php:1140, admin/class-awsm-job-openings-info.php:260, inc/class-awsm-job-openings-core.php:121, inc/class-awsm-job-openings-core.php:123, inc/class-awsm-job-openings-core.php:124, inc/widgets/class-awsm-job-openings-dashboard-widget.php:58, admin/templates/meta/job-status.php:118, admin/templates/overview/widgets/job-listings.php:27
+#: wp-job-openings.php:355, wp-job-openings.php:1145, admin/class-awsm-job-openings-info.php:260, inc/class-awsm-job-openings-core.php:121, inc/class-awsm-job-openings-core.php:123, inc/class-awsm-job-openings-core.php:124, inc/widgets/class-awsm-job-openings-dashboard-widget.php:58, admin/templates/meta/job-status.php:118, admin/templates/overview/widgets/job-listings.php:27
 msgid "Applications"
 msgstr ""
 
@@ -71,7 +71,7 @@ msgstr ""
 msgid "ago"
 msgstr ""
 
-#: wp-job-openings.php:523, wp-job-openings.php:543, wp-job-openings.php:799, wp-job-openings.php:2079, admin/templates/meta/job-status.php:54
+#: wp-job-openings.php:523, wp-job-openings.php:543, wp-job-openings.php:804, wp-job-openings.php:2084, admin/templates/meta/job-status.php:54
 msgid "Expired"
 msgstr ""
 
@@ -82,155 +82,155 @@ msgid_plural "Expired <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: wp-job-openings.php:734
+#: wp-job-openings.php:739
 msgid "Email Digest - WP Job Openings"
 msgstr ""
 
-#: wp-job-openings.php:796
+#: wp-job-openings.php:801
 msgid "Published"
 msgstr ""
 
-#: wp-job-openings.php:796
+#: wp-job-openings.php:801
 msgid "Current Openings"
 msgstr ""
 
-#: wp-job-openings.php:799
+#: wp-job-openings.php:804
 msgid "Inactive"
 msgstr ""
 
-#: wp-job-openings.php:820
+#: wp-job-openings.php:825
 msgid "All Jobs"
 msgstr ""
 
-#: wp-job-openings.php:898
+#: wp-job-openings.php:903
 msgid "JavaScript is required! Please enable it in your browser."
 msgstr ""
 
 #. translators: %1$s: opening html tag, %2$s: closing html tag, %3$s: Jobs count, %4$s: Plugin rating site
-#: wp-job-openings.php:916
+#: wp-job-openings.php:921
 msgid "That's awesome! You have just published %3$sth job posting on your wesbite using %1$sWP Job Openings%2$s. Could you please do us a BIG favor and give it a %1$s5-star%2$s rating on %4$s? Just to help us spread the word and boost our motivation."
 msgstr ""
 
 #. translators: %1$s: opening html tag, %2$s: closing html tag, %3$s: Applications count, %4$s: Plugin rating site
-#: wp-job-openings.php:919
+#: wp-job-openings.php:924
 msgid "You have received over %1$s%3$s%2$s job applications through %1$sWP Job Openings%2$s. That's awesome! May we ask you to give it a %1$s5-Star%2$s rating on %4$s. It will help us spread the word and boost our motivation."
 msgstr ""
 
-#: wp-job-openings.php:925
+#: wp-job-openings.php:930
 msgid "Ok, you deserve it"
 msgstr ""
 
-#: wp-job-openings.php:926
+#: wp-job-openings.php:931
 msgid "I already did"
 msgstr ""
 
-#: wp-job-openings.php:927
+#: wp-job-openings.php:932
 msgid "Maybe later"
 msgstr ""
 
-#: wp-job-openings.php:996
+#: wp-job-openings.php:1001
 msgid "Invalid request!"
 msgstr ""
 
-#: wp-job-openings.php:1002
+#: wp-job-openings.php:1007
 msgid "Invalid context!"
 msgstr ""
 
-#: wp-job-openings.php:1050
+#: wp-job-openings.php:1055
 msgid "Loading..."
 msgstr ""
 
-#: wp-job-openings.php:1052
+#: wp-job-openings.php:1057
 msgid "Error in submitting your application. Please try again later!"
 msgstr ""
 
-#: wp-job-openings.php:1053
+#: wp-job-openings.php:1058
 msgid "The file you have selected is too large."
 msgstr ""
 
-#: wp-job-openings.php:1117, admin/templates/general.php:20
+#: wp-job-openings.php:1122, admin/templates/general.php:20
 msgid "Select a page"
 msgstr ""
 
-#: wp-job-openings.php:1119, admin/class-awsm-job-openings-settings.php:1144
+#: wp-job-openings.php:1124, admin/class-awsm-job-openings-settings.php:1144
 msgid "Select Image"
 msgstr ""
 
-#: wp-job-openings.php:1120, admin/class-awsm-job-openings-settings.php:1147
+#: wp-job-openings.php:1125, admin/class-awsm-job-openings-settings.php:1147
 msgid "Change Image"
 msgstr ""
 
-#: wp-job-openings.php:1121, admin/class-awsm-job-openings-settings.php:1143
+#: wp-job-openings.php:1126, admin/class-awsm-job-openings-settings.php:1143
 msgid "No Image selected"
 msgstr ""
 
-#: wp-job-openings.php:1122
+#: wp-job-openings.php:1127
 msgid "Select or Upload an Image"
 msgstr ""
 
-#: wp-job-openings.php:1123
+#: wp-job-openings.php:1128
 msgid "Choose"
 msgstr ""
 
 #. translators: %1$s: application id, %2$s: job title
-#: wp-job-openings.php:1293
+#: wp-job-openings.php:1298
 msgid "Application #%1$s for %2$s"
 msgstr ""
 
 #. translators: %s: application submission time
-#: wp-job-openings.php:1302
+#: wp-job-openings.php:1307
 msgid "Submitted on %s"
 msgstr ""
 
-#: wp-job-openings.php:1306
+#: wp-job-openings.php:1311
 msgid "from IP "
 msgstr ""
 
-#: wp-job-openings.php:1527
+#: wp-job-openings.php:1532
 msgid "View Applications"
 msgstr ""
 
-#: wp-job-openings.php:1719
+#: wp-job-openings.php:1724
 msgid "Closing on"
 msgstr ""
 
-#: wp-job-openings.php:1721
+#: wp-job-openings.php:1726
 msgid "Expired on"
 msgstr ""
 
-#: wp-job-openings.php:1723
+#: wp-job-openings.php:1728
 msgid "M j, Y"
 msgstr ""
 
-#: wp-job-openings.php:1832
+#: wp-job-openings.php:1837
 msgid "Full Time"
 msgstr ""
 
-#: wp-job-openings.php:1833
+#: wp-job-openings.php:1838
 msgid "Part Time"
 msgstr ""
 
-#: wp-job-openings.php:1834
+#: wp-job-openings.php:1839
 msgid "Freelance"
 msgstr ""
 
-#: wp-job-openings.php:1835
+#: wp-job-openings.php:1840
 msgid "Temporary"
 msgstr ""
 
-#: wp-job-openings.php:1836
+#: wp-job-openings.php:1841
 msgid "Intern"
 msgstr ""
 
-#: wp-job-openings.php:1837
+#: wp-job-openings.php:1842
 msgid "Volunteer"
 msgstr ""
 
-#: wp-job-openings.php:1838
+#: wp-job-openings.php:1843
 msgid "Per Diem"
 msgstr ""
 
-#: wp-job-openings.php:1839
+#: wp-job-openings.php:1844
 msgid "Other"
 msgstr ""
 
