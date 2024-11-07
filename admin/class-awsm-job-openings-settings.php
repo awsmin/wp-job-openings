@@ -470,6 +470,7 @@ class AWSM_Job_Openings_Settings {
 				/* translators: %1$s: Site link, %2$s: Plugin website link */
 				'footer_text' => sprintf( esc_html__( 'Sent from %1$s by %2$s Plugin', 'wp-job-openings' ), '<a href="{site-url}">{site-title}</a>', '<a href="https://wpjobopenings.com">' . esc_html__( 'WP Job Openings', 'wp-job-openings' ) . '</a>' ),
 			),
+			'awsm_jobs_email_digest'                => 'enable',
 		);
 		if ( ! empty( $option_name ) ) {
 			if ( isset( $options[ $option_name ] ) ) {

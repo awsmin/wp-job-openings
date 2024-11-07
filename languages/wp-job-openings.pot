@@ -7,7 +7,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language-Team: AWSM innovations <hello@awsm.in>\n"
-"POT-Creation-Date: 2024-11-07 04:47+0000\n"
+"POT-Creation-Date: 2024-11-07 08:28+0000\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -152,15 +152,15 @@ msgstr ""
 msgid "Select a page"
 msgstr ""
 
-#: wp-job-openings.php:1124, admin/class-awsm-job-openings-settings.php:1144
+#: wp-job-openings.php:1124, admin/class-awsm-job-openings-settings.php:1145
 msgid "Select Image"
 msgstr ""
 
-#: wp-job-openings.php:1125, admin/class-awsm-job-openings-settings.php:1147
+#: wp-job-openings.php:1125, admin/class-awsm-job-openings-settings.php:1148
 msgid "Change Image"
 msgstr ""
 
-#: wp-job-openings.php:1126, admin/class-awsm-job-openings-settings.php:1143
+#: wp-job-openings.php:1126, admin/class-awsm-job-openings-settings.php:1144
 msgid "No Image selected"
 msgstr ""
 
@@ -472,7 +472,7 @@ msgstr ""
 msgid "Job Location"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:456, admin/class-awsm-job-openings-settings.php:777
+#: admin/class-awsm-job-openings-settings.php:456, admin/class-awsm-job-openings-settings.php:778
 msgid "By using this form you agree with the storage and handling of your data by this website."
 msgstr ""
 
@@ -481,175 +481,175 @@ msgstr ""
 msgid "Sent from %1$s by %2$s Plugin"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:526
+#: admin/class-awsm-job-openings-settings.php:527
 msgid "URL slug cannot be empty."
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:534
+#: admin/class-awsm-job-openings-settings.php:535
 msgid "The slug cannot be updated."
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:536
+#: admin/class-awsm-job-openings-settings.php:537
 msgid "The URL slug is not valid."
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:538
+#: admin/class-awsm-job-openings-settings.php:539
 msgid "A page with the same slug exists. Please choose a different URL slug or disable the archive page for Job Openings and try again!"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:548
+#: admin/class-awsm-job-openings-settings.php:549
 msgid "Invalid site key provided."
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:558
+#: admin/class-awsm-job-openings-settings.php:559
 msgid "Invalid secret key provided."
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:627
+#: admin/class-awsm-job-openings-settings.php:628
 msgid "Listings per page must be greater than or equal to 1."
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:653
+#: admin/class-awsm-job-openings-settings.php:654
 msgid "Block theme detected! It is recommended to use a theme template instead of plugin generated template."
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:668
+#: admin/class-awsm-job-openings-settings.php:669
 msgid "Job Specification and Key cannot be empty!"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:672
+#: admin/class-awsm-job-openings-settings.php:673
 msgid "Job specification key must not exceed 32 characters."
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:676, admin/class-awsm-job-openings-settings.php:1216, admin/templates/specifications.php:83
+#: admin/class-awsm-job-openings-settings.php:677, admin/class-awsm-job-openings-settings.php:1217, admin/templates/specifications.php:83
 msgid "The job specification key should only contain alphanumeric, latin characters separated by hyphen/underscore, and cannot begin or end with a hyphen/underscore."
 msgstr ""
 
 #. translators: %1$s: job specification key, %2$s: specific error message
-#: admin/class-awsm-job-openings-settings.php:682
+#: admin/class-awsm-job-openings-settings.php:683
 msgid "Error in registering Job Specification with key: %1$s. %2$s"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:682
+#: admin/class-awsm-job-openings-settings.php:683
 msgid "Taxonomy already exist!"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:761
+#: admin/class-awsm-job-openings-settings.php:762
 msgid "Error in saving file upload types!"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:785
+#: admin/class-awsm-job-openings-settings.php:786
 msgid "Notification content cannot be empty."
 msgstr ""
 
 #. translators: %1$s: opening anchor tag, %2$s: closing anchor tag
-#: admin/class-awsm-job-openings-settings.php:845
+#: admin/class-awsm-job-openings-settings.php:846
 msgid "Please refresh the %1$sPermalink Settings%2$s to reflect the changes."
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:897
+#: admin/class-awsm-job-openings-settings.php:898
 msgid "You do not have sufficient permissions to manage options."
 msgstr ""
 
 #. translators: %s: option name
-#: admin/class-awsm-job-openings-settings.php:915
+#: admin/class-awsm-job-openings-settings.php:916
 msgid "Error in updating option: '%s'"
 msgstr ""
 
 #. translators: %s Settings slug
-#: admin/class-awsm-job-openings-settings.php:978
+#: admin/class-awsm-job-openings-settings.php:979
 msgid "Error: Invalid %s settings. Please make sure that all the required fields are filled and valid, then submit the form."
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:1147, admin/class-awsm-job-openings-settings.php:1144
+#: admin/class-awsm-job-openings-settings.php:1148, admin/class-awsm-job-openings-settings.php:1145
 msgid "Remove"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:1216
+#: admin/class-awsm-job-openings-settings.php:1217
 msgid "Specification key"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:1251, admin/templates/specifications.php:7
+#: admin/class-awsm-job-openings-settings.php:1252, admin/templates/specifications.php:7
 msgid "Enter a specification"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:1257, admin/templates/specifications.php:9
+#: admin/class-awsm-job-openings-settings.php:1258, admin/templates/specifications.php:9
 msgid "Select icon"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:1260, admin/templates/specifications.php:8
+#: admin/class-awsm-job-openings-settings.php:1261, admin/templates/specifications.php:8
 msgid "Enter options"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:1262
+#: admin/class-awsm-job-openings-settings.php:1263
 msgid "Delete"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:1272
+#: admin/class-awsm-job-openings-settings.php:1273
 msgid "Applicant Name:"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:1273
+#: admin/class-awsm-job-openings-settings.php:1274
 msgid "Application ID:"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:1274
+#: admin/class-awsm-job-openings-settings.php:1275
 msgid "Applicant Email:"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:1275
+#: admin/class-awsm-job-openings-settings.php:1276
 msgid "Applicant Phone:"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:1276
+#: admin/class-awsm-job-openings-settings.php:1277
 msgid "Applicant Resume:"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:1277
+#: admin/class-awsm-job-openings-settings.php:1278
 msgid "Cover letter:"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:1278
+#: admin/class-awsm-job-openings-settings.php:1279
 msgid "Job Title:"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:1279
+#: admin/class-awsm-job-openings-settings.php:1280
 msgid "Job ID:"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:1280
+#: admin/class-awsm-job-openings-settings.php:1281
 msgid "Job Expiry Date:"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:1281
+#: admin/class-awsm-job-openings-settings.php:1282
 msgid "Site Title:"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:1282
+#: admin/class-awsm-job-openings-settings.php:1283
 msgid "Site Tagline:"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:1283
+#: admin/class-awsm-job-openings-settings.php:1284
 msgid "Site URL:"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:1284
+#: admin/class-awsm-job-openings-settings.php:1285
 msgid "Site admin email:"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:1285
+#: admin/class-awsm-job-openings-settings.php:1286
 msgid "HR Email:"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:1286
+#: admin/class-awsm-job-openings-settings.php:1287
 msgid "Company Name:"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:1287
+#: admin/class-awsm-job-openings-settings.php:1288
 msgid "Author Email:"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:1288
+#: admin/class-awsm-job-openings-settings.php:1289
 msgid "Default from email:"
 msgstr ""
 
