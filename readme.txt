@@ -103,8 +103,9 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 
 == Changelog ==
 
-= V 3.5.0 - 2024-10-31 =
+= V 3.5.0 - 2024-11-07 =
 * Added: Job listing block.
+* Fixed: Translation issue in email digest.
 * Minor bug fixes and code improvements.
 
 = V 3.4.7 - 2024-09-24 =
