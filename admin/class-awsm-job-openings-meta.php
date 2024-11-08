@@ -237,18 +237,6 @@ class AWSM_Job_Openings_Meta {
 		return $details;
 	}
 
-	// public function get_attached_file_download_url( $attachment_id, $type = 'resume', $label = '' ) {
-	// 	$query_vars = array(
-	// 		'awsm_id'     => $attachment_id,
-	// 		'awsm_nonce'  => wp_create_nonce( 'awsm_' . $type . '_download' ),
-	// 		'awsm_action' => 'download_' . $type,
-	// 	);
-	// 	if ( ! empty( $label ) ) {
-	// 		$query_vars['attachment_label'] = sanitize_title( $label );
-	// 	}
-	// 	$download_url = add_query_arg( $query_vars, get_edit_post_link() );
-	// 	return esc_url( $download_url );
-	// }
 	public function get_attached_file_download_url( $attachment_id, $type = 'resume', $label = '' ) {
 		// Check if the attachment exists in the media library
 		$file_path = get_attached_file( $attachment_id );
