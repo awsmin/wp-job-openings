@@ -102,7 +102,6 @@ class AWSM_Job_Openings_Meta {
     }
 
 	
-	
 	public function get_applicant_meta_details_list( $post_id, $preset_values = array() ) {
 		$list = '';
 		$name = '';
@@ -125,7 +124,6 @@ class AWSM_Job_Openings_Meta {
 					'label'      => __( 'Bio', 'wp-job-openings' ),
 					'multi-line' => true,
 				),
-				
 			),
 			$post_id
 		);
@@ -143,10 +141,13 @@ class AWSM_Job_Openings_Meta {
 						$value = $preset_values[ $meta_key ];
 					} elseif ( isset( $meta_options['value'] ) ) {
 						$value = $meta_options['value'];
+						
 					} else {
 						$value = get_post_meta( $post_id, $meta_key, true );
+						
 					}
-	
+					$valuee = get_post_meta( $post_id);
+					
 					// Skip if the value is empty
 					if ( empty( $value ) ) {
 						continue;
@@ -163,11 +164,19 @@ class AWSM_Job_Openings_Meta {
 					$meta_content = '';
 					if ( isset( $meta_options['type'] ) && ! empty( $value ) ) {
 						if ( $meta_options['type'] === 'file' ) {
-							$meta_content = sprintf(
-								'<a href="%2$s" rel="nofollow"><strong>%1$s</strong></a>',
-								esc_html__( 'Download File', 'wp-job-openings' ),
-								$this->get_attached_file_download_url( $value, 'file', $label )
-							);
+							// Check if the attachment exists
+							$file_url = $this->get_attached_file_download_url( $value, 'file', $label );
+							
+							if ( $file_url ) {
+								$meta_content = sprintf(
+									'<a href="%2$s" rel="nofollow"><strong>%1$s</strong></a>',
+									esc_html__( 'Download File', 'wp-job-openings' ),
+									esc_url( $file_url )
+								);
+							} else {
+								// Skip if the file does not exist
+								continue;
+							}
 						} elseif ( $meta_options['type'] === 'url' ) {
 							$meta_content = sprintf(
 								'<a href="%s" target="_blank" rel="nofollow">%s</a>',
@@ -228,19 +237,40 @@ class AWSM_Job_Openings_Meta {
 		return $details;
 	}
 
+	// public function get_attached_file_download_url( $attachment_id, $type = 'resume', $label = '' ) {
+	// 	$query_vars = array(
+	// 		'awsm_id'     => $attachment_id,
+	// 		'awsm_nonce'  => wp_create_nonce( 'awsm_' . $type . '_download' ),
+	// 		'awsm_action' => 'download_' . $type,
+	// 	);
+	// 	if ( ! empty( $label ) ) {
+	// 		$query_vars['attachment_label'] = sanitize_title( $label );
+	// 	}
+	// 	$download_url = add_query_arg( $query_vars, get_edit_post_link() );
+	// 	return esc_url( $download_url );
+	// }
 	public function get_attached_file_download_url( $attachment_id, $type = 'resume', $label = '' ) {
+		// Check if the attachment exists in the media library
+		$file_path = get_attached_file( $attachment_id );
+		if ( ! $file_path || ! file_exists( $file_path ) ) {
+			return null;
+		}
+	
+		// If the attachment exists, proceed to build the download URL
 		$query_vars = array(
 			'awsm_id'     => $attachment_id,
 			'awsm_nonce'  => wp_create_nonce( 'awsm_' . $type . '_download' ),
 			'awsm_action' => 'download_' . $type,
 		);
+	
 		if ( ! empty( $label ) ) {
 			$query_vars['attachment_label'] = sanitize_title( $label );
 		}
+	
 		$download_url = add_query_arg( $query_vars, get_edit_post_link() );
 		return esc_url( $download_url );
 	}
-
+	
 	public function attached_file_download_handler( $type, $suffix ) {
 		if ( current_user_can( 'edit_others_applications' ) && isset( $_GET['awsm_id'] ) && isset( $_GET['awsm_nonce'] ) ) {
 			if ( ! wp_verify_nonce( $_GET['awsm_nonce'], 'awsm_' . $type . '_download' ) ) {

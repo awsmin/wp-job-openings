@@ -14,6 +14,7 @@ $full_file_name = get_post_meta( $attachment_id, 'awsm_actual_file_name', true )
 $job_id = get_post_meta( $post->ID, 'awsm_job_id', true);
 
 $form_meta = get_post_meta($job_id, 'awsm_pro_application_form', true);
+$postmeta = get_post_meta( $post->ID);
 
 if ( ! empty( $form_meta ) ) {
     $form_data = maybe_unserialize( $form_meta ); 
@@ -95,12 +96,12 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
                         <?php 
                         if (class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ){ ?>
                             <div class="awsm-application-action-list">
-                            <a href="<?php echo esc_url( admin_url( 'post.php?post=' . $post->ID . '&action=edit&application=edit&form-id=' . $form_id . '&job-id=' . $job_id ) ); ?>" 
+                            <a href="<?php echo esc_url( admin_url( 'post.php?post=' . $post->ID . '&action=edit&application=edit' ) ); ?>" 
                                 id="awsm-button-edit-application">
                                 <?php esc_html_e( 'Edit Profile', 'pro-pack-for-wp-job-openings' ); ?>
                             </a>
 
-                                <?php do_action( 'after_awsm_job_applicant_mb_details_list', $post->ID ); ?>
+                            <?php do_action( 'after_awsm_job_applicant_mb_details_list', $post->ID ); ?>
                             </div><!-- .awsm-application-action-list -->
                         <?php } ?>           
                     </div><!-- .awsm-application-action -->
@@ -115,8 +116,8 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 
                 if (isset($_GET['action']) && $_GET['action'] === 'edit' && isset($_GET['application']) && $_GET['application'] === 'edit') {
                     
-                    if (isset($_GET['form-id'])) {
-                        $form_id = sanitize_text_field($_GET['form-id']); 
+                    if (isset($form_id)) {
+                        // $form_id = sanitize_text_field($_GET['form-id']); 
                        
                         do_action('awsm_job_applicantion_edit', $form_id);
                     } else {

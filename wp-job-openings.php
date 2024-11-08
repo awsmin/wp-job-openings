@@ -5,7 +5,7 @@
  * Description: Super simple Job Listing plugin to manage Job Openings and Applicants on your WordPress site.
  * Author: AWSM Innovations
  * Author URI: https://awsm.in/
- * Version: 3.4.6
+ * Version: 3.4.8
  * Requires at least: 4.8
  * Requires PHP: 5.6
  * License: GPLv2
@@ -481,7 +481,7 @@ class AWSM_Job_Openings {
 		switch ( $columns ) {
 			case 'awsm-photo':
 				$applicant_email = esc_attr( get_post_meta( $post_id, 'awsm_applicant_email', true ) );
-				$avatar          = apply_filters( 'awsm_applicant_photo', get_avatar( $applicant_email, 32 ) );
+				$avatar          = apply_filters( 'awsm_applicant_photo', get_avatar( $applicant_email, 36 ) );
 				echo $avatar; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				break;
 			case 'application_id':
