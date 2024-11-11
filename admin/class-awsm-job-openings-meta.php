@@ -101,7 +101,6 @@ class AWSM_Job_Openings_Meta {
         return $sorted_tab_list;
     }
 
-	
 	public function get_applicant_meta_details_list( $post_id, $preset_values = array() ) {
 		$list = '';
 		$name = '';
@@ -141,13 +140,10 @@ class AWSM_Job_Openings_Meta {
 						$value = $preset_values[ $meta_key ];
 					} elseif ( isset( $meta_options['value'] ) ) {
 						$value = $meta_options['value'];
-						
 					} else {
 						$value = get_post_meta( $post_id, $meta_key, true );
-						
 					}
-					$valuee = get_post_meta( $post_id);
-					
+	
 					// Skip if the value is empty
 					if ( empty( $value ) ) {
 						continue;
@@ -164,19 +160,11 @@ class AWSM_Job_Openings_Meta {
 					$meta_content = '';
 					if ( isset( $meta_options['type'] ) && ! empty( $value ) ) {
 						if ( $meta_options['type'] === 'file' ) {
-							// Check if the attachment exists
-							$file_url = $this->get_attached_file_download_url( $value, 'file', $label );
-							
-							if ( $file_url ) {
-								$meta_content = sprintf(
-									'<a href="%2$s" rel="nofollow"><strong>%1$s</strong></a>',
-									esc_html__( 'Download File', 'wp-job-openings' ),
-									esc_url( $file_url )
-								);
-							} else {
-								// Skip if the file does not exist
-								continue;
-							}
+							$meta_content = sprintf(
+								'<a href="%2$s" rel="nofollow"><strong>%1$s</strong></a>',
+								esc_html__( 'Download File', 'wp-job-openings' ),
+								$this->get_attached_file_download_url( $value, 'file', $label )
+							);
 						} elseif ( $meta_options['type'] === 'url' ) {
 							$meta_content = sprintf(
 								'<a href="%s" target="_blank" rel="nofollow">%s</a>',
@@ -184,6 +172,8 @@ class AWSM_Job_Openings_Meta {
 								esc_html( $value )
 							);
 						}
+						
+						
 					} else {
 						$meta_content = empty( $multi_line ) ? esc_html( $value ) : wp_kses(
 							wpautop( $value ),
@@ -217,7 +207,6 @@ class AWSM_Job_Openings_Meta {
 			'meta_details' => $meta_details,
 		);
 	}
-	
 	public function get_attached_file_details( $attachment_id ) {
 		$details         = array();
 		$attachment_file = get_attached_file( $attachment_id );
