@@ -107,6 +107,7 @@ jQuery(document).ready(function($) {
 				})
 				.always(function() {
 					$submitBtn.prop('disabled', false).val(submitBtnText).removeClass('awsm-application-submit-btn-disabled');
+					grecaptcha.reset();
 				});
 		}
 	};

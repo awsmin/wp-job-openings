@@ -5,7 +5,7 @@
  * Description: Super simple Job Listing plugin to manage Job Openings and Applicants on your WordPress site.
  * Author: AWSM Innovations
  * Author URI: https://awsm.in/
- * Version: 3.4.9
+ * Version: 3.4.6
  * Requires at least: 4.8
  * Requires PHP: 5.6
  * License: GPLv2
@@ -37,7 +37,7 @@ if ( ! defined( 'AWSM_JOBS_PLUGIN_URL' ) ) {
 	define( 'AWSM_JOBS_PLUGIN_URL', untrailingslashit( plugin_dir_url( __FILE__ ) ) );
 }
 if ( ! defined( 'AWSM_JOBS_PLUGIN_VERSION' ) ) {
-	define( 'AWSM_JOBS_PLUGIN_VERSION', '3.4.5' );
+	define( 'AWSM_JOBS_PLUGIN_VERSION', '3.4.6' );
 }
 if ( ! defined( 'AWSM_JOBS_UPLOAD_DIR_NAME' ) ) {
 	define( 'AWSM_JOBS_UPLOAD_DIR_NAME', 'awsm-job-openings' );
@@ -1918,7 +1918,7 @@ class AWSM_Job_Openings {
 
 					if ( ! empty( $subject ) && ! empty( $content ) ) {
 						$subject    = str_replace( $tag_names, $tag_values, $subject );
-						$from_email = str_replace( $tag_names, $tag_values, $from_email );
+						$from_email = str_replace( $email_tag_names, $email_tag_values, $from_email );
 						$to         = str_replace( $email_tag_names, $email_tag_values, $to );
 						$reply_to   = str_replace( $email_tag_names, $email_tag_values, $reply_to );
 						$cc         = str_replace( $email_tag_names, $email_tag_values, $cc );

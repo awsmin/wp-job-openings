@@ -51,6 +51,9 @@ class AWSM_Job_Openings_Mail_Customizer {
 	}
 
 	public static function get_settings() {
+		if ( ! class_exists( 'AWSM_Job_Openings_Settings' ) ) {
+			require_once AWSM_JOBS_PLUGIN_DIR . '/admin/class-awsm-job-openings-settings.php';
+		}
 		$default_from_email = AWSM_Job_Openings_Settings::awsm_from_email( true );
 		/**
 		 * Filters the notification customizer default values.
