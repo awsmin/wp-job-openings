@@ -28,7 +28,12 @@ $application_id = $post->ID;
 				</span>
 			</div>
 			<div class="misc-pub-section">
-				<div class="awsm-application-post-status <?php if(! class_exists( 'AWSM_Job_Openings_Pro_Pack' )){echo 'pro-feature'; }?>"">
+				<div class="awsm-application-post-status 
+				<?php
+				if ( ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) {
+					echo 'pro-feature'; }
+				?>
+				"">
 					<span class="pro-ft"><?php esc_html_e( 'Pro Feature', 'wp-job-openings' ); ?></span>
 					<p><label for="post_status"><?php esc_html_e( 'Status:', 'wp-job-openings' ); ?></label></p>
 					<p>
