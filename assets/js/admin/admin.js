@@ -539,11 +539,6 @@ jQuery(document).ready(function($) {
         var target = $(this).attr('href');
         $(target).addClass('active');
     });
-	//Mail tab active class
-	$('.awsm-applicant-meta-mail-tabs-new a').on('click', function(e){
-		e.preventDefault();
-		$('.awsm-applicant-meta-mail-tabs-new a').removeClass('active');
-		$(this).addClass('active');
-	});
+	
 	
 });

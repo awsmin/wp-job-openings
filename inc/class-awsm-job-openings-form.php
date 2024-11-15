@@ -131,19 +131,19 @@ class AWSM_Job_Openings_Form {
 		return $form_fields;
 	}
 
-	public function display_dynamic_fields_for_application_edit( $form_attrs ) {
-        $dynamic_form_fields = $this->dynamic_form_fields( $form_attrs );
-        if ( ! empty( $dynamic_form_fields ) ) {
-            $ordered_form_fields = array();
-            $form_fields_order = apply_filters( 'awsm_application_form_fields_order', $this->form_fields_order, $form_attrs );
-            foreach ( $form_fields_order as $form_field_order ) {
-                $ordered_form_fields[ $form_field_order ] = $dynamic_form_fields[ $form_field_order ];
-            }
-            $dynamic_form_fields = $ordered_form_fields;
-            return $dynamic_form_fields; // Returning the dynamic form fields
-        }
-        return array(); // Return empty if no dynamic form fields
-    }
+	// public function display_dynamic_fields_for_application_edit( $form_attrs ) {
+    //     $dynamic_form_fields = $this->dynamic_form_fields( $form_attrs );
+    //     if ( ! empty( $dynamic_form_fields ) ) {
+    //         $ordered_form_fields = array();
+    //         $form_fields_order = apply_filters( 'awsm_application_form_fields_order', $this->form_fields_order, $form_attrs );
+    //         foreach ( $form_fields_order as $form_field_order ) {
+    //             $ordered_form_fields[ $form_field_order ] = $dynamic_form_fields[ $form_field_order ];
+    //         }
+    //         $dynamic_form_fields = $ordered_form_fields;
+    //         return $dynamic_form_fields; // Returning the dynamic form fields
+    //     }
+    //     return array(); // Return empty if no dynamic form fields
+    // }
 	
 	public function display_dynamic_fields( $form_attrs ) {
 		$dynamic_form_fields = $this->dynamic_form_fields( $form_attrs );
@@ -1006,40 +1006,6 @@ class AWSM_Job_Openings_Form {
 			}
 		}
 	}
-	public static function get_awsm_file_label( $form_id, $job_id ) {
-		$form_data = [];
 	
-		// Check if the form is dynamically generated or has saved form meta
-		if ($form_id === 0 || $form_id === 'default') {
-			// Create an instance of the class
-			$instance = new self();
-			// Call the non-static method on the instance
-			$form_data = $instance->display_dynamic_fields_for_application_edit($job_id);
-		} else {
-			$form_data = get_post_meta($form_id, 'awsm_jobs_form_builder', true);
-		}
-	
-		$awsm_file_label = '';
-	
-		if (!empty($form_data)) {
-			foreach ($form_data as $field) {
-				// Case 1: If form data has keys as an array with nested field attributes
-				if (is_array($field) && isset($field['name']) && $field['name'] === 'awsm_file') {
-					if (isset($field['label'])) {
-						$awsm_file_label = $field['label'];
-					}
-					break;
-				}
-	
-				// Case 2: If form data has keys as a structured associative array
-				if (isset($form_data['awsm_file']) && is_array($form_data['awsm_file'])) {
-					$awsm_file_label = $form_data['awsm_file']['label'] ?? '';
-					break;
-				}
-			}
-		}
-	
-		return $awsm_file_label;
-	}
 	
 }
