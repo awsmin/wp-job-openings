@@ -19,7 +19,7 @@ class AWSM_Job_Openings_Meta {
 				add_action( 'plugins_loaded', array( $this, 'download_file_handle' ) );
 			}
 		}
-		add_filter('awsm_jobs_opening_applicant_single_tab_list', array($this, 'custom_set_applicant_single_view_tab_order'), 100);
+		add_filter( 'awsm_jobs_opening_applicant_single_tab_list', array( $this, 'custom_set_applicant_single_view_tab_order' ), 100 );
 
 	}
 
@@ -79,34 +79,34 @@ class AWSM_Job_Openings_Meta {
 	}
 
 	public static function set_applicant_single_view_tab() {
-		$tab_list =  array(
-			'profile'        => esc_html__( 'Profile', 'wp-job-openings' ),
-			
+		$tab_list = array(
+			'profile' => esc_html__( 'Profile', 'wp-job-openings' ),
+
 		);
 		return apply_filters( 'awsm_jobs_opening_applicant_single_tab_list', $tab_list );
 	}
 
-	public function custom_set_applicant_single_view_tab_order($tab_list) {
-        // Define the desired order of tabs
-        $desired_order = array('profile', 'email', 'resume', 'notes');
-        $sorted_tab_list = array();
+	public function custom_set_applicant_single_view_tab_order( $tab_list ) {
+		// Define the desired order of tabs
+		$desired_order   = array( 'profile', 'email', 'resume', 'notes' );
+		$sorted_tab_list = array();
 
-        // Loop through the desired order and construct a new array
-        foreach ($desired_order as $key) {
-            if (isset($tab_list[$key])) {
-                $sorted_tab_list[$key] = $tab_list[$key];
-            }
-        }
+		// Loop through the desired order and construct a new array
+		foreach ( $desired_order as $key ) {
+			if ( isset( $tab_list[ $key ] ) ) {
+				$sorted_tab_list[ $key ] = $tab_list[ $key ];
+			}
+		}
 
-        return $sorted_tab_list;
-    }
+		return $sorted_tab_list;
+	}
 
 	// public function get_applicant_meta_details_list( $post_id, $preset_values = array() ) {
 	// 	$list = '';
 	// 	$name = '';
 	// 	$email = '';
 	// 	$meta_details = array();
-	
+
 	// 	$applicant_meta = apply_filters(
 	// 		'awsm_jobs_applicant_meta',
 	// 		array(
@@ -123,20 +123,20 @@ class AWSM_Job_Openings_Meta {
 	// 				'label'      => __( 'Bio', 'wp-job-openings' ),
 	// 				'multi-line' => true,
 	// 			),
-				
+
 	// 		),
 	// 		$post_id
 	// 	);
-	
+
 	// 	if ( ! empty( $applicant_meta ) && is_array( $applicant_meta ) ) {
 	// 		foreach ( $applicant_meta as $meta_key => $meta_options ) {
 	// 			$visible    = isset( $meta_options['visible'] ) ? $meta_options['visible'] : true;
 	// 			$multi_line = isset( $meta_options['multi-line'] ) ? $meta_options['multi-line'] : false;
-	
+
 	// 			if ( $visible ) {
 	// 				$label = isset( $meta_options['label'] ) ? $meta_options['label'] : '';
 	// 				$value = '';
-	
+
 	// 				if ( ! empty( $preset_values ) && isset( $preset_values[ $meta_key ] ) ) {
 	// 					$value = $preset_values[ $meta_key ];
 	// 				} elseif ( isset( $meta_options['value'] ) ) {
@@ -144,12 +144,12 @@ class AWSM_Job_Openings_Meta {
 	// 				} else {
 	// 					$value = get_post_meta( $post_id, $meta_key, true );
 	// 				}
-	
+
 	// 				// Skip if the value is empty
 	// 				if ( empty( $value ) ) {
 	// 					continue;
 	// 				}
-	
+
 	// 				// Separate the name
 	// 				if ( $meta_key === 'awsm_applicant_name' ) {
 	// 					$name = $value;
@@ -157,7 +157,7 @@ class AWSM_Job_Openings_Meta {
 	// 				} elseif ( $meta_key === 'awsm_applicant_email' ) {
 	// 					$email = $value;
 	// 				}
-	
+
 	// 				$meta_content = '';
 	// 				if ( isset( $meta_options['type'] ) && ! empty( $value ) ) {
 	// 					if ( $meta_options['type'] === 'file' ) {
@@ -173,8 +173,8 @@ class AWSM_Job_Openings_Meta {
 	// 							esc_html( $value )
 	// 						);
 	// 					}
-						
-						
+
+
 	// 				} else {
 	// 					$meta_content = empty( $multi_line ) ? esc_html( $value ) : wp_kses(
 	// 						wpautop( $value ),
@@ -184,23 +184,23 @@ class AWSM_Job_Openings_Meta {
 	// 						)
 	// 					);
 	// 				}
-	
+
 	// 				$meta_content = apply_filters( 'awsm_jobs_applicant_meta_content', $meta_content, $meta_key, $applicant_meta, $post_id );
-	
+
 	// 				if ( ! empty( $meta_content ) || is_numeric( $meta_content ) ) {
 	// 					$is_meta_group = isset( $meta_options['group'] ) ? $meta_options['group'] : false;
 	// 					$meta_content  = ! $is_meta_group ? '<span>' . $meta_content . '</span>' : $meta_content;
 	// 					$list         .= sprintf( '<li><label>%1$s</label>%2$s</li>', esc_html( $label ), '<div class="' . $meta_key . '">' . $meta_content . '</div>' );
 	// 				}
-	
+
 	// 				// Add to meta details array
 	// 				$meta_details[ $meta_key ] = $value;
 	// 			}
 	// 		}
 	// 	}
-	
+
 	// 	$list = apply_filters( 'awsm_jobs_applicant_meta_details_list', $list, $applicant_meta, $post_id );
-	
+
 	// 	return array(
 	// 		'name' => $name,
 	// 		'email' => $email,
@@ -209,11 +209,11 @@ class AWSM_Job_Openings_Meta {
 	// 	);
 	// }
 	public function get_applicant_meta_details_list( $post_id, $preset_values = array() ) {
-		$list = '';
-		$name = '';
-		$email = '';
+		$list         = '';
+		$name         = '';
+		$email        = '';
 		$meta_details = array();
-	
+
 		$applicant_meta = apply_filters(
 			'awsm_jobs_applicant_meta',
 			array(
@@ -232,22 +232,22 @@ class AWSM_Job_Openings_Meta {
 				),
 				// Added awsm_file metadata
 				'awsm_file'             => array(
-					'label'      => __( 'Upload CV/Resume', 'wp-job-openings' ),
-					'type'       => 'file', // Marking it as a file type for proper handling
+					'label' => __( 'Upload CV/Resume', 'wp-job-openings' ),
+					'type'  => 'file', // Marking it as a file type for proper handling
 				),
 			),
 			$post_id
 		);
-	
+
 		if ( ! empty( $applicant_meta ) && is_array( $applicant_meta ) ) {
 			foreach ( $applicant_meta as $meta_key => $meta_options ) {
 				$visible    = isset( $meta_options['visible'] ) ? $meta_options['visible'] : true;
 				$multi_line = isset( $meta_options['multi-line'] ) ? $meta_options['multi-line'] : false;
-	
+
 				if ( $visible ) {
 					$label = isset( $meta_options['label'] ) ? $meta_options['label'] : '';
 					$value = '';
-	
+
 					if ( ! empty( $preset_values ) && isset( $preset_values[ $meta_key ] ) ) {
 						$value = $preset_values[ $meta_key ];
 					} elseif ( isset( $meta_options['value'] ) ) {
@@ -255,12 +255,12 @@ class AWSM_Job_Openings_Meta {
 					} else {
 						$value = get_post_meta( $post_id, $meta_key, true );
 					}
-	
+
 					// Skip if the value is empty
 					if ( empty( $value ) ) {
 						continue;
 					}
-	
+
 					// Separate the name
 					if ( $meta_key === 'awsm_applicant_name' ) {
 						$name = $value;
@@ -268,7 +268,7 @@ class AWSM_Job_Openings_Meta {
 					} elseif ( $meta_key === 'awsm_applicant_email' ) {
 						$email = $value;
 					}
-	
+
 					$meta_content = '';
 					if ( isset( $meta_options['type'] ) && ! empty( $value ) ) {
 						if ( $meta_options['type'] === 'file' ) {
@@ -298,31 +298,31 @@ class AWSM_Job_Openings_Meta {
 							)
 						);
 					}
-	
+
 					$meta_content = apply_filters( 'awsm_jobs_applicant_meta_content', $meta_content, $meta_key, $applicant_meta, $post_id );
-	
+
 					if ( ! empty( $meta_content ) || is_numeric( $meta_content ) ) {
 						$is_meta_group = isset( $meta_options['group'] ) ? $meta_options['group'] : false;
 						$meta_content  = ! $is_meta_group ? '<span>' . $meta_content . '</span>' : $meta_content;
 						$list         .= sprintf( '<li><label>%1$s</label>%2$s</li>', esc_html( $label ), '<div class="' . $meta_key . '">' . $meta_content . '</div>' );
 					}
-	
+
 					// Add to meta details array
 					$meta_details[ $meta_key ] = $value;
 				}
 			}
 		}
-	
+
 		$list = apply_filters( 'awsm_jobs_applicant_meta_details_list', $list, $applicant_meta, $post_id );
-	
+
 		return array(
-			'name' => $name,
-			'email' => $email,
-			'list' => $list,
+			'name'         => $name,
+			'email'        => $email,
+			'list'         => $list,
 			'meta_details' => $meta_details,
 		);
 	}
-	
+
 	public function get_attached_file_details( $attachment_id ) {
 		$details         = array();
 		$attachment_file = get_attached_file( $attachment_id );
@@ -348,22 +348,22 @@ class AWSM_Job_Openings_Meta {
 		if ( ! $file_path || ! file_exists( $file_path ) ) {
 			return null;
 		}
-	
+
 		// If the attachment exists, proceed to build the download URL
 		$query_vars = array(
 			'awsm_id'     => $attachment_id,
 			'awsm_nonce'  => wp_create_nonce( 'awsm_' . $type . '_download' ),
 			'awsm_action' => 'download_' . $type,
 		);
-	
+
 		if ( ! empty( $label ) ) {
 			$query_vars['attachment_label'] = sanitize_title( $label );
 		}
-	
+
 		$download_url = add_query_arg( $query_vars, get_edit_post_link() );
 		return esc_url( $download_url );
 	}
-	
+
 	public function attached_file_download_handler( $type, $suffix ) {
 		if ( current_user_can( 'edit_others_applications' ) && isset( $_GET['awsm_id'] ) && isset( $_GET['awsm_nonce'] ) ) {
 			if ( ! wp_verify_nonce( $_GET['awsm_nonce'], 'awsm_' . $type . '_download' ) ) {

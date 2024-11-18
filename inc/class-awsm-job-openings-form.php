@@ -132,19 +132,19 @@ class AWSM_Job_Openings_Form {
 	}
 
 	// public function display_dynamic_fields_for_application_edit( $form_attrs ) {
-    //     $dynamic_form_fields = $this->dynamic_form_fields( $form_attrs );
-    //     if ( ! empty( $dynamic_form_fields ) ) {
-    //         $ordered_form_fields = array();
-    //         $form_fields_order = apply_filters( 'awsm_application_form_fields_order', $this->form_fields_order, $form_attrs );
-    //         foreach ( $form_fields_order as $form_field_order ) {
-    //             $ordered_form_fields[ $form_field_order ] = $dynamic_form_fields[ $form_field_order ];
-    //         }
-    //         $dynamic_form_fields = $ordered_form_fields;
-    //         return $dynamic_form_fields; // Returning the dynamic form fields
-    //     }
-    //     return array(); // Return empty if no dynamic form fields
-    // }
-	
+	//     $dynamic_form_fields = $this->dynamic_form_fields( $form_attrs );
+	//     if ( ! empty( $dynamic_form_fields ) ) {
+	//         $ordered_form_fields = array();
+	//         $form_fields_order = apply_filters( 'awsm_application_form_fields_order', $this->form_fields_order, $form_attrs );
+	//         foreach ( $form_fields_order as $form_field_order ) {
+	//             $ordered_form_fields[ $form_field_order ] = $dynamic_form_fields[ $form_field_order ];
+	//         }
+	//         $dynamic_form_fields = $ordered_form_fields;
+	//         return $dynamic_form_fields; // Returning the dynamic form fields
+	//     }
+	//     return array(); // Return empty if no dynamic form fields
+	// }
+
 	public function display_dynamic_fields( $form_attrs ) {
 		$dynamic_form_fields = $this->dynamic_form_fields( $form_attrs );
 		if ( ! empty( $dynamic_form_fields ) ) {
@@ -546,17 +546,16 @@ class AWSM_Job_Openings_Form {
 							// Generate attachment metadata
 							$attach_data = wp_generate_attachment_metadata( $attach_id, $movefile['file'] );
 							wp_update_attachment_metadata( $attach_id, $attach_data );
-						
+
 							// Save the actual file name as a meta field for the attachment
 							$original_file_name = isset( $attachment['name'] ) ? sanitize_text_field( $attachment['name'] ) : '';
-							
+
 							if ( ! empty( $original_file_name ) ) {
 								update_post_meta( $attach_id, 'awsm_actual_file_name', $original_file_name );
 								$updated_meta = get_post_meta( $attach_id, 'awsm_actual_file_name', true );
-								
 
 							}
-						
+
 							// Add the applicant details as meta data
 							$applicant_details = array(
 								'awsm_job_id'           => $job_id,
@@ -571,17 +570,17 @@ class AWSM_Job_Openings_Form {
 							if ( ! empty( $agree_privacy_policy ) ) {
 								$applicant_details['awsm_agree_privacy_policy'] = $agree_privacy_policy;
 							}
-						
+
 							foreach ( $applicant_details as $meta_key => $meta_value ) {
 								update_post_meta( $application_id, $meta_key, $meta_value );
 							}
-						
+
 							// Now, send notification email
 							$applicant_details['application_id'] = $application_id;
 							$this->notification_email( $applicant_details );
-						
+
 							$awsm_response['success'][] = esc_html__( 'Your application has been submitted.', 'wp-job-openings' );
-						
+
 							/**
 							 * Fires after successful job application submission
 							 *
@@ -590,7 +589,7 @@ class AWSM_Job_Openings_Form {
 							 * @param int $application_id Application ID
 							 */
 							do_action( 'awsm_job_application_submitted', $application_id );
-						
+
 						} else {
 							AWSM_Job_Openings::log( $attach_id );
 							$awsm_response['error'][] = $generic_err_msg;
@@ -608,7 +607,7 @@ class AWSM_Job_Openings_Form {
 		}
 		return $awsm_response;
 		// phpcs:enable
-}
+	}
 
 	public function is_recaptcha_set() {
 		$is_set           = false;
@@ -1006,6 +1005,6 @@ class AWSM_Job_Openings_Form {
 			}
 		}
 	}
-	
-	
+
+
 }
