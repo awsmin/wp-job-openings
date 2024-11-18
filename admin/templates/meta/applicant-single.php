@@ -89,7 +89,8 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 		<!-- .awsm-application-head -->
 		<div class="application-main-cnt">
 			<?php
-			   do_action( 'awsm_job_applicantion_edit' );
+			   do_action( 'awsm_job_application_edit' );
+			   if ( ! isset( $_GET['application'] ) || $_GET['application'] !== 'edit' ) {
 			?>
 			<div class="application-main-cnt-tab-sec">
 				<ul class="application-main-tab">
@@ -186,11 +187,12 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 							//do_action( 'awsm_job_applicant_profile_details_resume_preview', $attachment_id );
 						?>
 					</div>
-						<?php
-							do_action( 'awsm_job_applicant_profile_details_note', $post->ID );
-						?>
-										</div>
+					<?php
+						do_action( 'awsm_job_applicant_profile_details_note', $post->ID );
+					?>
+				</div>
 			</div>
+			<?php } ?>
 			<!-- .application-main-tab-items -->
 		</div>
 		<!-- .application-main-cnt -->

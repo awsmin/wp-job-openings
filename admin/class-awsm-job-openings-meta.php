@@ -272,17 +272,13 @@ class AWSM_Job_Openings_Meta {
 					$meta_content = '';
 					if ( isset( $meta_options['type'] ) && ! empty( $value ) ) {
 						if ( $meta_options['type'] === 'file' ) {
-							// Handling the awsm_file or any file type field
-							//var_dump($value);
-							// $attachment_file = get_attached_file( $value );
-							// if ( ! empty( $attachment_file ) ) {
 								$meta_content = sprintf(
 									'<a href="%2$s" rel="nofollow"><strong>%1$s</strong></a>',
 									esc_html__( 'Download File', 'wp-job-openings' ),
 									$this->get_attached_file_download_url( $value, 'file', $label )
 								);
-							// }
-						} elseif ( $meta_options['type'] === 'url' ) {
+						} 					
+						elseif ( $meta_options['type'] === 'url' ) {
 							$meta_content = sprintf(
 								'<a href="%s" target="_blank" rel="nofollow">%s</a>',
 								esc_url( $value ),
