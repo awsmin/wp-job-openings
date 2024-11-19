@@ -86,7 +86,15 @@ class AWSM_Job_Openings {
 		add_action( 'init', array( $this, 'init_actions' ) );
 		add_action( 'wp_head', array( $this, 'awsm_wp_head' ) );
 		add_action( 'awsm_check_for_expired_jobs', array( $this, 'check_date_and_change_status' ) );
-		add_action( 'awsm_jobs_email_digest', array( $this, 'send_email_digest' ) );
+		if ( defined( 'POLYLANG_VERSION' ) ) {
+			add_action('pll_init', function() {
+				// error_log( json_encode( 'enter', JSON_PRETTY_PRINT ) );
+				add_action('awsm_jobs_email_digest', array($this, 'send_email_digest'));
+			});
+		} else {
+			add_action( 'awsm_jobs_email_digest', array( $this, 'send_email_digest' ) );
+		}
+		
 		add_action( 'awsm_job_application_submitted', array( $this, 'plugin_rating_check' ) );
 		add_action( 'wp_loaded', array( $this, 'register_scripts' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'awsm_enqueue_scripts' ) );
@@ -667,13 +675,52 @@ class AWSM_Job_Openings {
 		return $timezone_string;
 	}
 
+	public static function get_current_language() {
+		// Check if Polylang is active
+		if (function_exists('pll_current_language')) {
+			$current_lang = pll_current_language('slug');
+			// error_log( json_encode( $current_lang, JSON_PRETTY_PRINT ) );
+			if ($current_lang !== false) {
+				return $current_lang;
+			}
+			
+
+		}
+		
+		// Check if WPML is active
+		if (defined('ICL_SITEPRESS_VERSION')) {
+			global $sitepress;
+			if ($sitepress) {
+				return $sitepress->get_current_language();
+			}
+		}
+		
+		// Fallback to WordPress locale if neither Polylang nor WPML is active or working
+		return substr(get_locale(), 0, 2);
+	}
+
+	public static function translate_string( $string, $lang = 'en' ) {
+		if( function_exists('pll_translate_string')) {
+			$translated_string = pll_translate_string( $string, $lang );
+		} else {
+			$translated_string = esc_html_e( $string, 'wp-job-openings' );
+		}
+		return $translated_string;
+	}
+
 	public function send_email_digest() {
 		$to              = get_option( 'awsm_hr_email_address' );
 		$enable_digest   = get_option( 'awsm_jobs_email_digest' );
 		$current_user_id = get_current_user_id();
 		$locale          = get_user_locale( $current_user_id );
 
-		self::set_current_language( $locale );
+		$current_language = self::get_current_language(); // Use the new function here
+		// error_log( json_encode( $current_language, JSON_PRETTY_PRINT ) );
+
+
+        self::set_current_language($current_language);
+
+		// self::set_current_language( $locale );
 
 		if ( $enable_digest === 'enable' ) {
 			if ( ! class_exists( 'AWSM_Job_Openings_Settings' ) ) {
@@ -1656,19 +1703,44 @@ class AWSM_Job_Openings {
 		return sprintf( 'awsm-job-listings %s', $view_class );
 	}
 
-	public static function get_current_language() {
-		$current_lang = null;
-		// WPML and Polylang support.
-		if ( defined( 'ICL_SITEPRESS_VERSION' ) || defined( 'POLYLANG_VERSION' ) ) {
-			$current_lang = apply_filters( 'wpml_current_language', null );
-		}
-		return $current_lang;
-	}
+	// public static function get_current_language() {
+	// 	$current_lang = null;
+	// 	// WPML and Polylang support.
+	// 	if ( defined( 'ICL_SITEPRESS_VERSION' ) || defined( 'POLYLANG_VERSION' ) ) {
+	// 		$current_lang = apply_filters( 'wpml_current_language', null );
+	// 	}
+	// 	return $current_lang;
+	// }
 
-	public static function set_current_language( $language ) {
-		// WPML and Polylang support.
-		if ( defined( 'ICL_SITEPRESS_VERSION' ) || defined( 'POLYLANG_VERSION' ) ) {
-			do_action( 'wpml_switch_language', $language );
+	// public static function set_current_language( $language ) {
+	// 	// WPML and Polylang support.
+	// 	if ( defined( 'ICL_SITEPRESS_VERSION' ) || defined( 'POLYLANG_VERSION' ) ) {
+	// 		do_action( 'wpml_switch_language', $language );
+	// 	}
+	// }
+
+	public static function set_current_language($language) {
+		// Polylang support
+		
+		// $langs = PLL()->model->get_languages_list();
+		// foreach ($langs as $l) {
+		// 	if ($l->slug == $language) {
+		// 		PLL()->curlang = $l;
+		// 		// error_log( json_encode( PLL()->curlang, JSON_PRETTY_PRINT ) );
+		// 	}
+		// }
+		// pll_current_language();
+		// pll_set_post_language($post_id, $lang);
+		// switch_to_locale($language);
+		// $polylang->model->set_language($polylang->curlang);
+		// error_log( json_encode( $polylang->curlang, JSON_PRETTY_PRINT ) );
+		// if (function_exists('pll_switch_language')) {
+		// 	error_log( json_encode($language , JSON_PRETTY_PRINT ) );
+		// 	pll_switch_language($language);
+		// }
+		// WPML support
+		if (defined('ICL_SITEPRESS_VERSION')) {
+			do_action('wpml_switch_language', $language);
 		}
 	}
 
