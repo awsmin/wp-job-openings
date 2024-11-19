@@ -5,7 +5,7 @@
  * Description: Super simple Job Listing plugin to manage Job Openings and Applicants on your WordPress site.
  * Author: AWSM Innovations
  * Author URI: https://awsm.in/
- * Version: 3.4.7
+ * Version: 3.5.0
  * Requires at least: 4.8
  * Requires PHP: 5.6
  * License: GPLv2
@@ -37,7 +37,7 @@ if ( ! defined( 'AWSM_JOBS_PLUGIN_URL' ) ) {
 	define( 'AWSM_JOBS_PLUGIN_URL', untrailingslashit( plugin_dir_url( __FILE__ ) ) );
 }
 if ( ! defined( 'AWSM_JOBS_PLUGIN_VERSION' ) ) {
-	define( 'AWSM_JOBS_PLUGIN_VERSION', '3.4.7' );
+	define( 'AWSM_JOBS_PLUGIN_VERSION', '3.5.0' );
 }
 if ( ! defined( 'AWSM_JOBS_UPLOAD_DIR_NAME' ) ) {
 	define( 'AWSM_JOBS_UPLOAD_DIR_NAME', 'awsm-job-openings' );
@@ -48,6 +48,9 @@ if ( ! defined( 'AWSM_JOBS_DEBUG' ) ) {
 
 // Helper functions
 require_once AWSM_JOBS_PLUGIN_DIR . '/inc/helper-functions.php';
+if ( function_exists( 'register_block_type' ) ) {
+	require_once AWSM_JOBS_PLUGIN_DIR . '/blocks/class-awsm-job-guten-blocks.php';
+}
 
 class AWSM_Job_Openings {
 	private static $instance = null;
@@ -115,7 +118,7 @@ class AWSM_Job_Openings {
 
 	public static function load_classes() {
 		$prefix  = 'class-awsm-job-openings';
-		$classes = array( 'core', 'ui-builder', 'filters', 'mail-customizer', 'form', 'third-party' );
+		$classes = array( 'core', 'ui-builder', 'filters', 'mail-customizer', 'form', 'third-party', 'block' );
 		foreach ( $classes as $class ) {
 			require_once AWSM_JOBS_PLUGIN_DIR . "/inc/{$prefix}-{$class}.php";
 		}
@@ -210,6 +213,7 @@ class AWSM_Job_Openings {
 
 	public function template_functions() {
 		include_once AWSM_JOBS_PLUGIN_DIR . '/inc/template-functions.php';
+		include_once AWSM_JOBS_PLUGIN_DIR . '/inc/template-functions-block.php';
 	}
 
 	public function init_actions() {
@@ -664,72 +668,80 @@ class AWSM_Job_Openings {
 	}
 
 	public function send_email_digest() {
-		$to = get_option( 'awsm_hr_email_address' );
-		if ( ! class_exists( 'AWSM_Job_Openings_Settings' ) ) {
-			require_once AWSM_JOBS_PLUGIN_DIR . '/admin/class-awsm-job-openings-settings.php';
-		}
-		$default_from_email = AWSM_Job_Openings_Settings::awsm_from_email();
-		if ( ! empty( $to ) ) {
-			$applications = self::get_recent_applications( 3 );
-			if ( ! empty( $applications ) ) {
-				$company_name = get_option( 'awsm_job_company_name', '' );
-				$from         = ( ! empty( $company_name ) ) ? $company_name : get_option( 'blogname' );
-				$admin_email  = get_option( 'admin_email' );
-				$from_email   = get_option( 'awsm_jobs_admin_from_email_notification', $default_from_email );
+		$to              = get_option( 'awsm_hr_email_address' );
+		$enable_digest   = get_option( 'awsm_jobs_email_digest' );
+		$current_user_id = get_current_user_id();
+		$locale          = get_user_locale( $current_user_id );
 
-				ob_start();
-				include self::get_template_path( 'email-digest.php', 'mail' );
-				$mail_content = ob_get_clean();
+		self::set_current_language( $locale );
 
-				/**
-				 * Filters the daily email digest template content.
-				 *
-				 * @since 2.0.0
-				 *
-				 * @param string $mail_content Mail template content.
-				 */
-				$mail_content = apply_filters( 'awsm_jobs_email_digest_template_content', $mail_content );
+		if ( $enable_digest === 'enable' ) {
+			if ( ! class_exists( 'AWSM_Job_Openings_Settings' ) ) {
+				require_once AWSM_JOBS_PLUGIN_DIR . '/admin/class-awsm-job-openings-settings.php';
+			}
+			$default_from_email = AWSM_Job_Openings_Settings::awsm_from_email();
+			if ( ! empty( $to ) ) {
+				$applications = self::get_recent_applications( 3 );
+				if ( ! empty( $applications ) ) {
+					$company_name = get_option( 'awsm_job_company_name', '' );
+					$from         = ( ! empty( $company_name ) ) ? $company_name : get_option( 'blogname' );
+					$admin_email  = get_option( 'admin_email' );
+					$from_email   = get_option( 'awsm_jobs_admin_from_email_notification', $default_from_email );
 
-				if ( ! empty( $mail_content ) ) {
-					$tags         = self::get_mail_generic_template_tags(
-						array(
-							'admin_email'        => $admin_email,
-							'hr_email'           => $to,
-							'company_name'       => $company_name,
-							'default_from_email' => $default_from_email,
-						)
-					);
-					$tag_names    = array_keys( $tags );
-					$tag_values   = array_values( $tags );
-					$from_email   = str_replace( $tag_names, $tag_values, $from_email );
-					$mail_content = str_replace( $tag_names, $tag_values, $mail_content );
+					ob_start();
+					include self::get_template_path( 'email-digest.php', 'mail' );
+					$mail_content = ob_get_clean();
+
 					/**
-					 * Filters the daily email digest headers.
+					 * Filters the daily email digest template content.
 					 *
 					 * @since 2.0.0
 					 *
-					 * @param array $headers Additional headers
+					 * @param string $mail_content Mail template content.
 					 */
-					$headers = apply_filters(
-						'awsm_jobs_email_digest_mail_headers',
-						array(
-							'content_type' => 'Content-Type: text/html; charset=UTF-8',
-							'from'         => sprintf( 'From: %1$s <%2$s>', $from, $from_email ),
-						)
-					);
+					$mail_content = apply_filters( 'awsm_jobs_email_digest_template_content', $mail_content );
 
-					/**
-					 * Filters the daily email digest subject.
-					 *
-					 * @since 2.0.0
-					 *
-					 * @param string $subject Email subject.
-					 */
-					$subject = apply_filters( 'awsm_jobs_email_digest_subject', esc_html__( 'Email Digest - WP Job Openings', 'wp-job-openings' ) );
+					if ( ! empty( $mail_content ) ) {
+						$tags         = self::get_mail_generic_template_tags(
+							array(
+								'admin_email'        => $admin_email,
+								'hr_email'           => $to,
+								'company_name'       => $company_name,
+								'default_from_email' => $default_from_email,
+							)
+						);
+						$tag_names    = array_keys( $tags );
+						$tag_values   = array_values( $tags );
+						$from_email   = str_replace( $tag_names, $tag_values, $from_email );
+						$mail_content = str_replace( $tag_names, $tag_values, $mail_content );
+						/**
+						 * Filters the daily email digest headers.
+						 *
+						 * @since 2.0.0
+						 *
+						 * @param array $headers Additional headers
+						 */
+						$headers = apply_filters(
+							'awsm_jobs_email_digest_mail_headers',
+							array(
+								'content_type' => 'Content-Type: text/html; charset=UTF-8',
+								'from'         => sprintf( 'From: %1$s <%2$s>', $from, $from_email ),
+							)
+						);
 
-					add_filter( 'wp_mail_content_type', 'awsm_jobs_mail_content_type' );
-					wp_mail( $to, $subject, $mail_content, array_values( $headers ) );
-					remove_filter( 'wp_mail_content_type', 'awsm_jobs_mail_content_type' );
+						/**
+						 * Filters the daily email digest subject.
+						 *
+						 * @since 2.0.0
+						 *
+						 * @param string $subject Email subject.
+						 */
+						$subject = apply_filters( 'awsm_jobs_email_digest_subject', esc_html__( 'Email Digest - WP Job Openings', 'wp-job-openings' ) );
+
+						add_filter( 'wp_mail_content_type', 'awsm_jobs_mail_content_type' );
+						wp_mail( $to, $subject, $mail_content, array_values( $headers ) );
+						remove_filter( 'wp_mail_content_type', 'awsm_jobs_mail_content_type' );
+					}
 				}
 			}
 		}
@@ -1103,10 +1115,10 @@ class AWSM_Job_Openings {
 			'awsm-job-admin',
 			'awsmJobsAdmin',
 			array(
-				'ajaxurl'    => admin_url( 'admin-ajax.php' ),
-				'plugin_url' => AWSM_JOBS_PLUGIN_URL,
-				'nonce'      => wp_create_nonce( 'awsm-admin-nonce' ),
-				'i18n'       => array(
+				'ajaxurl'                   => admin_url( 'admin-ajax.php' ),
+				'plugin_url'                => AWSM_JOBS_PLUGIN_URL,
+				'nonce'                     => wp_create_nonce( 'awsm-admin-nonce' ),
+				'i18n'                      => array(
 					'select2_no_page' => esc_html__( 'Select a page', 'wp-job-openings' ),
 					'image_upload'    => array(
 						'select'   => esc_html__( 'Select Image', 'wp-job-openings' ),
@@ -1116,6 +1128,10 @@ class AWSM_Job_Openings {
 						'btn_text' => esc_html__( 'Choose', 'wp-job-openings' ),
 					),
 				),
+				'awsm_filters'              => self::get_filter_specifications(),
+				'awsm_filters_block'        => AWSM_Job_Openings_Block::get_block_filter_specifications(),
+				'awsm_featured_image_block' => AWSM_Job_Openings_Block::get_block_featured_image_size(),
+				'isProEnabled'              => class_exists( 'AWSM_Job_Openings_Pro_Pack' ),
 			)
 		);
 
@@ -1130,6 +1146,60 @@ class AWSM_Job_Openings {
 				),
 			)
 		);
+	}
+
+
+	public static function get_filter_specifications( $specs_keys = array() ) {
+		$awsm_filters = get_option( 'awsm_jobs_filter' );
+		$spec_keys    = wp_list_pluck( $awsm_filters, 'taxonomy' );
+		if ( ! is_array( $specs_keys ) ) {
+			$specs_keys = explode( ',', $specs_keys );
+		}
+		$specs = array();
+		if ( ! empty( $specs_keys ) ) {
+			foreach ( $specs_keys as $spec_key ) {
+				$terms = self::get_spec_terms( $spec_key );
+				if ( ! empty( $terms ) ) {
+					$tax_obj = get_taxonomy( $spec_key );
+					if ( ! empty( $tax_obj ) ) {
+						$specs[] = array(
+							'key'   => $spec_key,
+							'label' => $tax_obj->label,
+							'terms' => $terms,
+						);
+					}
+				}
+			}
+		} else {
+			$taxonomy_objects = get_object_taxonomies( 'awsm_job_openings', 'objects' );
+			foreach ( $taxonomy_objects as $spec => $spec_details ) {
+				if ( ! in_array( $spec, $spec_keys, true ) ) {
+					continue;
+				}
+				$terms = self::get_spec_terms( $spec );
+				if ( ! empty( $terms ) ) {
+					$specs[] = array(
+						'key'   => $spec,
+						'label' => $spec_details->label,
+						'terms' => $terms,
+					);
+				}
+			}
+		}
+
+		return $specs;
+	}
+
+	public static function get_spec_terms( $spec ) {
+		$terms_args = array(
+			'taxonomy'   => $spec,
+			'hide_empty' => true,
+		);
+		$terms      = get_terms( $terms_args );
+		if ( is_wp_error( $terms ) ) {
+			$terms = array();
+		}
+		return $terms;
 	}
 
 	public static function get_template_path( $template_name, $sub_dir_name = false ) {
