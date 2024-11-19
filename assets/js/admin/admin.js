@@ -540,5 +540,13 @@ jQuery(document).ready(function($) {
         $(target).addClass('active');
     });
 	
+	//Preview button click 
+
+	$('#awsm-preview-resume-edit').on('click', function() {
+		$('.application-main-tab li a').removeClass('active');
+		$('a[href="#awsm-applicant-resume"]').addClass('active');
+		$('.application-main-tab-item').removeClass('active');
+		$('#awsm-applicant-resume').addClass('active');
+	});
 	
 });
