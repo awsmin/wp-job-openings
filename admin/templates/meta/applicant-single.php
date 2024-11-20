@@ -8,7 +8,7 @@ $applicant_details = $this->get_applicant_meta_details_list( $post->ID, array( '
 
 $attachment_id             = get_post_meta( $post->ID, 'awsm_attachment_id', true );
 $tab_applicant_single_view = AWSM_Job_Openings_Meta::set_applicant_single_view_tab();
-$tab_content 			   = AWSM_Job_Openings_Meta::get_applicant_single_view_content($post->ID, $attachment_id );
+$tab_content               = AWSM_Job_Openings_Meta::get_applicant_single_view_content( $post->ID, $attachment_id );
 $resume_details            = $this->get_attached_file_details( $attachment_id );
 $full_file_name            = get_post_meta( $attachment_id, 'awsm_actual_file_name', true );
 
@@ -60,7 +60,8 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 				<span class="pro-ft"><?php esc_html_e( 'Pro Features', 'wp-job-openings' ); ?></span>
 				<?php
 				if ( class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) {
-					do_action( 'awsm_application_rating' );
+
+					do_action( 'awsm_application_rating_data' );
 				} else {
 					?>
 					<div class="awsm-application-rating-disabled">
@@ -187,11 +188,14 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 						
 					</div>
 					<?php
-					foreach ( $tab_content as $key => $tab ) { ?>
-						<div id="awsm-applicant-<?php echo esc_attr( $key ); ?>" class="application-main-tab-item awsm-applicant-<?php echo esc_attr( $key ); ?>">
-							<?php echo $tab['content']; ?>
-						</div>
-					<?php } ?>
+					foreach ( $tab_content as $key => $tab ) {
+						?>
+							<div id="awsm-applicant-<?php echo esc_attr( $key ); ?>" class="application-main-tab-item awsm-applicant-<?php echo esc_attr( $key ); ?>-tab">
+								<?php echo $tab['content']; ?>
+							</div>
+						<?php
+					}
+					?>
 				</div>
 			</div>
 			<?php } ?>

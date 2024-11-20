@@ -131,7 +131,7 @@ class AWSM_Job_Openings_Form {
 		return $form_fields;
 	}
 
-	
+
 	public function display_dynamic_fields( $form_attrs ) {
 		$dynamic_form_fields = $this->dynamic_form_fields( $form_attrs );
 		if ( ! empty( $dynamic_form_fields ) ) {
