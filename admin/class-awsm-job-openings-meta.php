@@ -19,9 +19,7 @@ class AWSM_Job_Openings_Meta {
 				add_action( 'plugins_loaded', array( $this, 'download_file_handle' ) );
 			}
 		}
-		add_filter( 'awsm_jobs_opening_applicant_single_tab_list', array( $this, 'custom_set_applicant_single_view_tab_order' ), 100 );
 		add_action( 'awsm_job_applicant_profile_details_resume_preview', array( $this, 'docs_viewer_handle' ) );
-
 	}
 
 	public static function init() {
@@ -87,6 +85,7 @@ class AWSM_Job_Openings_Meta {
 		);
 		return apply_filters( 'awsm_jobs_opening_applicant_single_tab_list', $tab_list );
 	}
+
 	public static function get_applicant_single_view_content( $post_id, $attachment_id ) {
 		$tab_content = array(
 			'resume' => array(
@@ -97,20 +96,6 @@ class AWSM_Job_Openings_Meta {
 		);
 
 		return apply_filters( 'awsm_jobs_opening_applicant_single_view_content', $tab_content, $post_id );
-	}
-	public function custom_set_applicant_single_view_tab_order( $tab_list ) {
-		// Define the desired order of tabs
-		$desired_order   = array( 'profile', 'email', 'resume', 'notes' );
-		$sorted_tab_list = array();
-
-		// Loop through the desired order and construct a new array
-		foreach ( $desired_order as $key ) {
-			if ( isset( $tab_list[ $key ] ) ) {
-				$sorted_tab_list[ $key ] = $tab_list[ $key ];
-			}
-		}
-
-		return $sorted_tab_list;
 	}
 
 	public function get_applicant_meta_details_list( $post_id, $preset_values = array() ) {

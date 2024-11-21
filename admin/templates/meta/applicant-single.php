@@ -152,7 +152,7 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 						<!-- Additional Tabs -->
 						<?php foreach ( $tab_content as $key => $tab ) : ?>
 							<div id="awsm-applicant-<?php echo esc_attr( $key ); ?>" class="application-main-tab-item awsm-applicant-<?php echo esc_attr( $key ); ?>-tab">
-								<?php echo wp_kses_post( $tab['content'] ); ?>
+							<?php echo $tab['content']; ?>
 							</div>
 						<?php endforeach; ?>
 					</div>
