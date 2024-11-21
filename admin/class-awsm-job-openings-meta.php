@@ -19,8 +19,7 @@ class AWSM_Job_Openings_Meta {
 				add_action( 'plugins_loaded', array( $this, 'download_file_handle' ) );
 			}
 		}
-		add_filter( 'awsm_jobs_opening_applicant_single_tab_list', array( $this, 'custom_set_applicant_single_view_tab_order' ), 100 );
-
+		add_action( 'awsm_job_applicant_profile_details_resume_preview', array( $this, 'docs_viewer_handle' ) );
 	}
 
 	public static function init() {
@@ -81,24 +80,22 @@ class AWSM_Job_Openings_Meta {
 	public static function set_applicant_single_view_tab() {
 		$tab_list = array(
 			'profile' => esc_html__( 'Profile', 'wp-job-openings' ),
+			'resume'  => esc_html__( 'Resume Preview', 'pro-pack-for-wp-job-openings' ),
 
 		);
 		return apply_filters( 'awsm_jobs_opening_applicant_single_tab_list', $tab_list );
 	}
 
-	public function custom_set_applicant_single_view_tab_order( $tab_list ) {
-		// Define the desired order of tabs
-		$desired_order   = array( 'profile', 'email', 'resume', 'notes' );
-		$sorted_tab_list = array();
+	public static function get_applicant_single_view_content( $post_id, $attachment_id ) {
+		$tab_content = array(
+			'resume' => array(
+				'id'      => 'awsm-applicant-resume',
+				'title'   => esc_html__( 'Resume Preview', 'wp-job-openings' ),
+				'content' => self::docs_viewer_handle( $attachment_id ),
+			),
+		);
 
-		// Loop through the desired order and construct a new array
-		foreach ( $desired_order as $key ) {
-			if ( isset( $tab_list[ $key ] ) ) {
-				$sorted_tab_list[ $key ] = $tab_list[ $key ];
-			}
-		}
-
-		return $sorted_tab_list;
+		return apply_filters( 'awsm_jobs_opening_applicant_single_view_content', $tab_content, $post_id );
 	}
 
 	public function get_applicant_meta_details_list( $post_id, $preset_values = array() ) {
@@ -123,6 +120,7 @@ class AWSM_Job_Openings_Meta {
 					'label'      => __( 'Bio', 'wp-job-openings' ),
 					'multi-line' => true,
 				),
+
 			),
 			$post_id
 		);
@@ -205,6 +203,7 @@ class AWSM_Job_Openings_Meta {
 			'meta_details' => $meta_details,
 		);
 	}
+
 	public function get_attached_file_details( $attachment_id ) {
 		$details         = array();
 		$attachment_file = get_attached_file( $attachment_id );
@@ -300,4 +299,27 @@ class AWSM_Job_Openings_Meta {
 		<?php
 	}
 
+	public static function docs_viewer_handle( $attachment_id ) {
+		ob_start();
+		?>
+		
+		<?php
+		$attachment_url = wp_get_attachment_url( intval( $attachment_id ) );
+		if ( $attachment_url ) :
+			?>
+			<iframe src="<?php echo esc_url( 'https://docs.google.com/viewer?embedded=true&url=' . $attachment_url ); ?>" style="width: 100%; height: 400px; border: none;">
+			</iframe>
+			<?php
+		else :
+			?>
+			<div class="awsm-resume-none">
+				<h2><strong><?php esc_html_e( 'No resume to preview. File not found!', 'docs-viewer-add-on-for-wp-job-openings' ); ?></strong></h2>
+			</div>
+			<?php
+		endif;
+		?>
+		
+		<?php
+		return ob_get_clean();
+	}
 }

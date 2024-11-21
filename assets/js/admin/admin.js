@@ -539,11 +539,14 @@ jQuery(document).ready(function($) {
         var target = $(this).attr('href');
         $(target).addClass('active');
     });
-	//Mail tab active class
-	$('.awsm-applicant-meta-mail-tabs-new a').on('click', function(e){
-		e.preventDefault();
-		$('.awsm-applicant-meta-mail-tabs-new a').removeClass('active');
-		$(this).addClass('active');
+	
+	//Preview button click 
+
+	$('#awsm-preview-resume-edit').on('click', function() {
+		$('.application-main-tab li a').removeClass('active');
+		$('a[href="#awsm-applicant-resume"]').addClass('active');
+		$('.application-main-tab-item').removeClass('active');
+		$('#awsm-applicant-resume').addClass('active');
 	});
 	
 });
