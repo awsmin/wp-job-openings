@@ -192,7 +192,38 @@ const WidgetInspectorControls = props => {
 								}
 							/>
 						);
-				})}				
+				})}		
+
+				{specifications.length > 0 &&
+					specifications.map(spec => {
+						return (
+							<div key={spec.key}>
+								<h3>{spec.label}</h3> {/* Main heading for the specification label */}
+								{spec.terms && spec.terms.length > 0 && (
+									<ul>
+										{spec.terms.map(term => (
+											<li key={term.term_id}>
+												<label>
+													<input
+														type="checkbox"
+														checked={
+															typeof other_options !== "undefined" &&
+															other_options.includes(term.term_id)
+														}
+														onChange={e =>
+															other_options_handler(e.target.checked, term.term_id)
+														}
+													/>
+													{term.name}
+												</label>
+											</li>
+										))}
+									</ul>
+								)}
+							</div>
+						);
+					})}
+
 			</PanelBody>
 		</InspectorControls>
 	);
