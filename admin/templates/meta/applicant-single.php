@@ -3,8 +3,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$applicant_email   = esc_attr( get_post_meta( $post->ID, 'awsm_applicant_email', true ) );
-$applicant_details = $this->get_applicant_meta_details_list( $post->ID, array( 'awsm_applicant_email' => $applicant_email ) );
+$applicant_email           = esc_attr( get_post_meta( $post->ID, 'awsm_applicant_email', true ) );
+$applicant_details         = $this->get_applicant_meta_details_list( $post->ID, array( 'awsm_applicant_email' => $applicant_email ) );
 $attachment_id             = get_post_meta( $post->ID, 'awsm_attachment_id', true );
 $tab_applicant_single_view = AWSM_Job_Openings_Meta::set_applicant_single_view_tab();
 $tab_content               = AWSM_Job_Openings_Meta::get_applicant_single_view_content( $post->ID, $attachment_id );
@@ -77,22 +77,22 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 			</div><!-- .awsm-application-head-actions -->
 		</div><!-- .awsm-application-head -->
 		<div class="application-main-cnt">
-			<?php do_action('awsm_job_application_edit'); ?>
-			<?php if (!isset($_GET['application']) || $_GET['application'] !== 'edit') : ?>
+			<?php do_action( 'awsm_job_application_edit' ); ?>
+			<?php if ( ! isset( $_GET['application'] ) || $_GET['application'] !== 'edit' ) : ?>
 				<div class="application-main-cnt-tab-sec">
 					<!-- Tabs Navigation -->
 					<ul class="application-main-tab">
-						<?php foreach ($tab_applicant_single_view as $key => $tab_data) : ?>
+						<?php foreach ( $tab_applicant_single_view as $key => $tab_data ) : ?>
 							<li>
-								<a href="#awsm-applicant-<?php echo esc_attr($key); ?>" class="<?php echo $key === 'profile' ? 'active' : ''; ?>">
+								<a href="#awsm-applicant-<?php echo esc_attr( $key ); ?>" class="<?php echo $key === 'profile' ? 'active' : ''; ?>">
 									<?php
-									if (is_array($tab_data) && isset($tab_data['label'])) {
-										echo esc_html($tab_data['label']);
-										if (isset($tab_data['count'])) {
-											echo '<span>' . intval($tab_data['count']) . '</span>';
+									if ( is_array( $tab_data ) && isset( $tab_data['label'] ) ) {
+										echo esc_html( $tab_data['label'] );
+										if ( isset( $tab_data['count'] ) ) {
+											echo '<span>' . intval( $tab_data['count'] ) . '</span>';
 										}
 									} else {
-										echo esc_html($tab_data);
+										echo esc_html( $tab_data );
 									}
 									?>
 								</a>
@@ -104,44 +104,44 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 						<!-- Profile Tab -->
 						<div id="awsm-applicant-profile" class="application-main-tab-item awsm-applicant-profile active">
 							<?php
-							do_action('before_awsm_job_applicant_mb_details_list', $post->ID);
+							do_action( 'before_awsm_job_applicant_mb_details_list', $post->ID );
 							?>
 							<ul class="awsm-applicant-details-list">
 								<?php
-								echo wp_kses_post($applicant_details['list']); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-								if (!empty($resume_details)) :
+								echo wp_kses_post( $applicant_details['list'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+								if ( ! empty( $resume_details ) ) :
 									$file_size_display = $resume_details['file_size']['display'] ?? '';
 									?>
 									<li>
 										<label>
-											<?php echo !empty($file_label) ? esc_html($file_label) : esc_html__('Resume', 'wp-job-openings'); ?>
+											<?php echo ! empty( $file_label ) ? esc_html( $file_label ) : esc_html__( 'Resume', 'wp-job-openings' ); ?>
 										</label>
 										<div class="awsm-applicant-resume">
 											<span class="hs-resume-info">
 												<span>
 													<strong>
 														<?php
-														echo !empty($full_file_name)
-															? esc_html($full_file_name)
-															: esc_html__('Resume.pdf', 'wp-job-openings');
+														echo ! empty( $full_file_name )
+															? esc_html( $full_file_name )
+															: esc_html__( 'Resume.pdf', 'wp-job-openings' );
 														?>
 													</strong>
-													<?php echo esc_html($file_size_display); ?>
+													<?php echo esc_html( $file_size_display ); ?>
 												</span>
 											</span>
 											<div class="awsm-applicant-resume-cta">
-												<?php do_action('after_awsm_job_applicant_details_list_preview_resume', $post->ID); ?>
-												<a href="javascript:void(0)" id="awsm-preview-resume-edit" aria-label="<?php esc_attr_e('Preview Resume', 'pro-pack-for-wp-job-openings'); ?>">
+												<?php do_action( 'after_awsm_job_applicant_details_list_preview_resume', $post->ID ); ?>
+												<a href="javascript:void(0)" id="awsm-preview-resume-edit" aria-label="<?php esc_attr_e( 'Preview Resume', 'pro-pack-for-wp-job-openings' ); ?>">
 													<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" version="1.1" preserveAspectRatio="xMinYMin">
 														<path xmlns="http://www.w3.org/2000/svg" fill="black" d="M10 2.66665H3.33333V13.3333H12.6667V5.33331H10V2.66665ZM2 1.99451C2 1.62935 2.29833 1.33331 2.66567 1.33331H10.6667L13.9998 4.66665L14 13.995C14 14.3659 13.7034 14.6666 13.3377 14.6666H2.66227C2.29651 14.6666 2 14.3631 2 14.0054V1.99451ZM9.01933 9.63091C7.99673 10.2349 6.65755 10.0976 5.77893 9.21891C4.73753 8.17751 4.73753 6.48909 5.77893 5.44769C6.82033 4.4063 8.50873 4.4063 9.55013 5.44769C10.4288 6.32632 10.5661 7.66551 9.96213 8.68811L11.4358 10.1617L10.493 11.1046L9.01933 9.63091ZM8.60733 8.27611C9.12807 7.75545 9.12807 6.91118 8.60733 6.39051C8.08667 5.86981 7.24247 5.86981 6.72173 6.39051C6.20104 6.91118 6.20104 7.75545 6.72173 8.27611C7.24247 8.79685 8.08667 8.79685 8.60733 8.27611Z"/>
 													</svg>
-													<?php esc_html_e('Preview', 'pro-pack-for-wp-job-openings'); ?>
+													<?php esc_html_e( 'Preview', 'pro-pack-for-wp-job-openings' ); ?>
 												</a>
-												<a href="<?php echo esc_url($this->get_attached_file_download_url($attachment_id)); ?>" rel="nofollow" aria-label="<?php esc_attr_e('Download Resume', 'wp-job-openings'); ?>">
+												<a href="<?php echo esc_url( $this->get_attached_file_download_url( $attachment_id ) ); ?>" rel="nofollow" aria-label="<?php esc_attr_e( 'Download Resume', 'wp-job-openings' ); ?>">
 													<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" version="1.1" preserveAspectRatio="xMinYMin">
 														<path xmlns="http://www.w3.org/2000/svg" fill="black" d="M8.66667 7.99998H10.6667L8 10.6666L5.33333 7.99998H7.33333V5.33331H8.66667V7.99998ZM10 2.66665H3.33333V13.3333H12.6667V5.33331H10V2.66665ZM2 1.99451C2 1.62935 2.29833 1.33331 2.66567 1.33331H10.6667L13.9998 4.66665L14 13.995C14 14.3659 13.7034 14.6666 13.3377 14.6666H2.66227C2.29651 14.6666 2 14.3631 2 14.0054V1.99451Z"/>
 													</svg>
-													<?php esc_html_e('Download', 'wp-job-openings'); ?>
+													<?php esc_html_e( 'Download', 'wp-job-openings' ); ?>
 												</a>
 											</div>
 										</div>
@@ -150,9 +150,9 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 							</ul>
 						</div>
 						<!-- Additional Tabs -->
-						<?php foreach ($tab_content as $key => $tab) : ?>
-							<div id="awsm-applicant-<?php echo esc_attr($key); ?>" class="application-main-tab-item awsm-applicant-<?php echo esc_attr($key); ?>-tab">
-								<?php echo wp_kses_post($tab['content']); ?>
+						<?php foreach ( $tab_content as $key => $tab ) : ?>
+							<div id="awsm-applicant-<?php echo esc_attr( $key ); ?>" class="application-main-tab-item awsm-applicant-<?php echo esc_attr( $key ); ?>-tab">
+								<?php echo wp_kses_post( $tab['content'] ); ?>
 							</div>
 						<?php endforeach; ?>
 					</div>
