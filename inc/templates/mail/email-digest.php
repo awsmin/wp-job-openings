@@ -41,7 +41,16 @@ foreach ($texts as $key => $text) {
 	<tr>
 		<td class="main-content-in-1">
 			<div style="padding: 0 10px; text-align: center; max-width: 576px; margin: 0 auto;">
-				<h2><?php echo AWSM_Job_Openings::translate_string( $texts['overview_heading'], $current_language ); ?></h2>
+				<h2><?php echo AWSM_Job_Openings::translate_string( $texts['overview_heading'], $current_language ); ?>
+				<?php if( function_exists('pll_translate_string')) {
+					echo pll_translate_string( 'this is test listings polylang', $lang );
+				}  else {
+						esc_html_e( 'Here’s a quick overview of your job listings', 'wp-job-openings' );
+						esc_html_e( 'this is test listings', 'wp-job-openings' );
+					}
+				
+			?>
+			</h2>
 				<p>
 					<?php
 						/* translators: %s: Site title */

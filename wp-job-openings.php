@@ -702,9 +702,10 @@ class AWSM_Job_Openings {
 	public static function translate_string( $string, $lang = 'en' ) {
 		if( function_exists('pll_translate_string')) {
 			$translated_string = pll_translate_string( $string, $lang );
-		} else {
-			$translated_string = esc_html_e( $string, 'wp-job-openings' );
-		}
+		} 
+		// else {
+		// 	$translated_string = esc_html_e( $string, 'wp-job-openings' );
+		// }
 		return $translated_string;
 	}
 
