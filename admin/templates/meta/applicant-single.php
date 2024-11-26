@@ -10,6 +10,8 @@ $tab_applicant_single_view = AWSM_Job_Openings_Meta::set_applicant_single_view_t
 $tab_content               = AWSM_Job_Openings_Meta::get_applicant_single_view_content( $post->ID, $attachment_id );
 $resume_details            = $this->get_attached_file_details( $attachment_id );
 $full_file_name            = get_post_meta( $attachment_id, 'awsm_actual_file_name', true );
+$applicant_job_id          = get_post_meta( $post->ID, 'awsm_job_id', true );
+$resume_field_label        = ( new AWSM_Job_Openings_Form() )->dynamic_form_fields( $applicant_job_id )['awsm_file']['label'];
 
 /**
  * Initialize applicant meta box.
@@ -114,7 +116,7 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 									?>
 									<li>
 										<label>
-											<?php echo ! empty( $file_label ) ? esc_html( $file_label ) : esc_html__( 'Resume', 'wp-job-openings' ); ?>
+											<?php echo ! empty( $resume_field_label ) ? esc_html( $resume_field_label ) : esc_html__( 'Resume', 'wp-job-openings' ); ?>
 										</label>
 										<div class="awsm-applicant-resume">
 											<span class="hs-resume-info">
