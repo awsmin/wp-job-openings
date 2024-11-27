@@ -237,40 +237,47 @@ do_action( 'add_meta_boxes_' . AWSM_Job_Openings_Overview::$screen_id, null );
 					  </a>
 				   </div><!-- .awsm-jobs-overview-col-head -->
 				   <div class="awsm-jobs-overview-col-content">
-					<?php
+				   <?php
 					if ( ! empty( $jobs ) ) :
 						foreach ( $jobs as $job ) :
-							$job_title      = get_the_title( $job->ID );
-							$published_date = get_the_date( 'F j, Y', $job->ID );
-							?>
-						<a href="<?php echo esc_url( get_edit_post_link( $job->ID ) ); ?>" class="awsm-jobs-overview-list-item">
-							<span class="count"><?php echo esc_html( $job->applications_count ); ?></span>
-							<p>
-								<strong>
-								<?php
-								if ( current_user_can( 'edit_post', $job->ID ) ) {
-									printf( '<span>%1$s</span>', esc_html( $job_title ) );
-								} else {
-									echo esc_html( $job_title );
-								}
+							$jobmeta = get_post_meta( $job->ID );
+							$expiry_date = isset( $jobmeta['awsm_job_expiry'][0] ) ? $jobmeta['awsm_job_expiry'][0] : null;
+
+							// Check if the job is not expired
+							if ( ! $expiry_date || strtotime( $expiry_date ) >= strtotime( current_time( 'Y-m-d' ) ) ) :
+								$job_title      = get_the_title( $job->ID );
+								$published_date = get_the_date( 'F j, Y', $job->ID );
 								?>
-								</strong>
-								<?php printf( esc_html__( 'Published on: %s', 'wp-job-openings' ), sprintf( esc_html( $published_date ) ) ); ?>
+								<a href="<?php echo esc_url( get_edit_post_link( $job->ID ) ); ?>" class="awsm-jobs-overview-list-item">
+									<span class="count"><?php echo esc_html( $job->applications_count ); ?></span>
+									<p>
+										<strong>
+										<?php
+										if ( current_user_can( 'edit_post', $job->ID ) ) {
+											printf( '<span>%1$s</span>', esc_html( $job_title ) );
+										} else {
+											echo esc_html( $job_title );
+										}
+										?>
+										</strong>
+										<?php printf( esc_html__( 'Published on: %s', 'wp-job-openings' ), sprintf( esc_html( $published_date ) ) ); ?>
+									</p>
+									<svg width="4.922" height="8.333" viewBox="0 0 4.922 8.333" xmlns="http://www.w3.org/2000/svg" version="1.1" preserveAspectRatio="xMinYMin">
+										<path xmlns="http://www.w3.org/2000/svg" d="M0.41139,0.133199 L0.13652,0.406167 C0.05068,0.492077 0.00339,0.606377 0.00339,0.728527 C0.00339,0.850617 0.05068,0.965047 0.13652,1.050957 L3.2505,4.164807 L0.13306,7.282237 C0.04722,7.368017 4.4408921e-16,7.482447 4.4408921e-16,7.604537 C4.4408921e-16,7.726617 0.04722,7.841117 0.13306,7.926967 L0.40624,8.199997 C0.58388,8.377777 0.87325,8.377777 1.05089,8.199997 L4.77592,4.488317 C4.86169,4.402547 4.92213,4.288247 4.92213,4.165077 L4.92213,4.163647 C4.92213,4.041497 4.86162,3.927197 4.77592,3.841427 L1.06098,0.133199 C0.97521,0.04729 0.85746,0.000135 0.73537,2.22044605e-16 C0.61322,2.22044605e-16 0.49709,0.04729 0.41139,0.133199 Z"/>
+									</svg>
+								</a>
+								<?php
+							endif;
+						endforeach;
+					else : ?>
+						<div class="awsm-jobs-overview-empty-wrapper">
+							<p>💼
+								<?php
+									/* translators: %1$s: opening anchor tag, %2$s: closing anchor tag */
+									printf( '&nbsp;' . esc_html__( 'Looks empty! %1$sAdd some%2$s', 'wp-job-openings' ), '<a href="' . esc_url( admin_url( 'post-new.php?post_type=awsm_job_openings' ) ) . '">', '</a>' );
+								?>
 							</p>
-							<svg width="4.922" height="8.333" viewBox="0 0 4.922 8.333" xmlns="http://www.w3.org/2000/svg" version="1.1" preserveAspectRatio="xMinYMin">
-								<path xmlns="http://www.w3.org/2000/svg" d="M0.41139,0.133199 L0.13652,0.406167 C0.05068,0.492077 0.00339,0.606377 0.00339,0.728527 C0.00339,0.850617 0.05068,0.965047 0.13652,1.050957 L3.2505,4.164807 L0.13306,7.282237 C0.04722,7.368017 4.4408921e-16,7.482447 4.4408921e-16,7.604537 C4.4408921e-16,7.726617 0.04722,7.841117 0.13306,7.926967 L0.40624,8.199997 C0.58388,8.377777 0.87325,8.377777 1.05089,8.199997 L4.77592,4.488317 C4.86169,4.402547 4.92213,4.288247 4.92213,4.165077 L4.92213,4.163647 C4.92213,4.041497 4.86162,3.927197 4.77592,3.841427 L1.06098,0.133199 C0.97521,0.04729 0.85746,0.000135 0.73537,2.22044605e-16 C0.61322,2.22044605e-16 0.49709,0.04729 0.41139,0.133199 Z"/>
-							</svg>
-						</a>
-							<?php endforeach; ?>
-						<?php else : ?>
-					<div class="awsm-jobs-overview-empty-wrapper">
-						<p>💼
-							<?php
-							/* translators: %1$s: opening anchor tag, %2$s: closing anchor tag */
-							printf( '&nbsp;' . esc_html__( 'Looks empty! %1$sAdd some%2$s', 'wp-job-openings' ), '<a href="' . esc_url( admin_url( 'post-new.php?post_type=awsm_job_openings' ) ) . '">', '</a>' );
-							?>
-						</p>
-					</div>
+						</div>
 					<?php endif; ?>
 				   </div>
 			</div><!-- .awsm-jobs-overview-list -->
