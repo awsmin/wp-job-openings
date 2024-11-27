@@ -29,8 +29,8 @@ import { __ } from "@wordpress/i18n";
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
  */
 registerBlockType( metadata.name, {
-	title: __( 'Job Listings', 'wp-job-openings' ), // Block title.
-	description: __( 'Super simple Job Listing plugin to manage Job Openings and Applicants on your WordPress site.', 'wp-job-openings' ), // Block description
+	title: __( 'HireSuit Job Listings', 'wp-job-openings' ), // Block title.
+	description: __( 'Add and customise your Job Listing layout', 'wp-job-openings' ), // Block description
 	icon: icon.block, // Block icon
 	category: 'widgets', // Block category,
 	keywords: [ __( 'jobs listings', 'wp-job-openings' ), __( 'add jobs', 'wp-job-openings' ), __( 'job application', 'wp-job-openings' ) ], // Access the block easily with keyword aliases

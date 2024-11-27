@@ -822,4 +822,16 @@ ul.awsm-error-message li {
 	box-sizing: border-box;
  }
 
+
+.custom-tab-panel {
+    padding: 15px; /* Add your desired padding */
+    background-color: #f9f9f9; /* Optional: Add a light background for visibility */
+    border: 1px solid #ddd; /* Optional: Add a border for structure */
+    border-radius: 5px; /* Optional: Smooth corners */
+}
+
+.custom-tab-panel .wp-block-editor-components-tab-panel__tab {
+    margin-bottom: 10px; /* Add spacing between tabs and content */
+}
+
  

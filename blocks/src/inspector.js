@@ -6,7 +6,11 @@ import {
 	PanelBody,
 	ToggleControl,
 	TextControl,
-	SelectControl
+	SelectControl,
+	TabPanel,
+	Button,
+	__experimentalToggleGroupControl as ToggleGroupControl,
+    __experimentalToggleGroupControlOption as ToggleGroupControlOption,
 } from "@wordpress/components";
 
 const WidgetInspectorControls = props => {
@@ -83,36 +87,146 @@ const WidgetInspectorControls = props => {
 
 	return (
 		<InspectorControls>
-			<PanelBody title={__("Layout Options", "wp-job-openings")}>
-				<SelectControl
-					label={__("Layout", "wp-job-openings")}
-					value={layout}
-					options={[
-						{ label: __("List view", "wp-job-openings"), value: "list" },
-						{ label: __("Grid view", "wp-job-openings"), value: "grid" }
-					]}
-					onChange={layout => setAttributes({ layout })}
+			<PanelBody title={__("Search & Filters", "wp-job-openings")}>
+				<ToggleControl
+					label={__("Enable Search & Filters", "wp-job-openings")}
 				/>
 
-				{typeof layout !== "undefined" && layout == "grid" && (
-					<SelectControl
-						label={__("Columns", "wp-job-openings")}
-						value={number_of_columns}
-						options={[
-							{ label: __("1 Column", "wp-job-openings"),  value: "1" },
-							{ label: __("2 Columns", "wp-job-openings"), value: "2" },
-							{ label: __("3 Columns", "wp-job-openings"), value: "3" },
-							{ label: __("4 Columns", "wp-job-openings"), value: "4" }
-						]}
-						onChange={number_of_columns => onchange_number_of_columns(number_of_columns)}
-					/>
-				)} 
-
+			<ToggleGroupControl
+				label="Placement"
+				value="top"
+				isBlock
+				__nextHasNoMarginBottom
+				__next40pxDefaultSize
+       		>
+           		<ToggleGroupControlOption value="top" label="Top" />
+            	<ToggleGroupControlOption value="slide" label="Slide" />
+        	</ToggleGroupControl>
+				
 				<TextControl
-					label={__("Listings per page", "wp-job-openings")}
-					value={listing_per_page}
-					onChange={(listing_per_page) => onchange_listing_per_page(listing_per_page)}
+					label={__("Search Placeholder", "wp-job-openings")}
+					value={search_placeholder}
+					onChange={(search_placeholder) =>
+						setAttributes({ search_placeholder })
+					}
+					placeholder={__("Search Jobs", "wp-job-openings")}
 				/>
+
+				{enable_job_filter && (
+					<>
+						<h2>{__("Available Filters", "wp-job-openings")}</h2>
+						{specifications.map(spec => (
+							<ToggleControl
+								key={spec.key}
+								label={spec.label}
+								checked={filter_options.includes(spec.key)}
+								onChange={toggleValue => specifications_handler(toggleValue, spec.key)}
+							/>
+						))}
+					</>
+				)}
+
+				<Button isPrimary>
+                    {__("Dropdown", "my-text-domain")}
+                </Button>
+
+				<Button isPrimary>
+                    {__("Checkbox", "my-text-domain")}
+                </Button>
+
+			</PanelBody>
+			<PanelBody title={__("Job Listing", "wp-job-openings")}>
+			    <h2>{__("List Type", "wp-job-openings")}</h2>
+				<TabPanel
+					className="placement-tab-panel"
+					activeClass="is-active"
+					tabs={[
+						{
+							name: 'all',
+							title: 'All Jobs',
+							className: 'placement-top',
+						},
+						{
+							name: 'filtered',
+							title: 'Filtered List',
+							className: 'placement-slide',
+						},
+					]}
+				>
+					{(tab) => {
+						if (tab.name === 'all') {
+						}
+
+						if (tab.name === 'filtered') {
+						}
+
+						return null;
+					}}
+				</TabPanel>
+				<p> Disply all jobs or filtered by job specifications </p>
+
+				<h2>{__("Layout", "wp-job-openings")}</h2>
+				<TabPanel
+					className="placement-tab-panel"
+					activeClass="is-active"
+					tabs={[
+						{
+							name: 'list',
+							title: 'List',
+							className: 'placement-top',
+						},
+						{
+							name: 'grid',
+							title: 'Grid',
+							className: 'placement-slide',
+						},
+						{
+							name: 'stack',
+							title: 'Stack',
+							className: 'placement-slide',
+						},
+					]}
+				>
+					{(tab) => {
+						if (tab.name === 'list') {
+						}
+
+						if (tab.name === 'grid') {
+						}
+
+						if (tab.name === 'stack') {
+						}
+
+						return null;
+					}}
+				</TabPanel>
+
+				<h2>{__("Available Filters", "wp-job-openings")}</h2>
+					{specifications.map(spec => (
+						<ToggleControl
+							key={spec.key}
+							label={spec.label}
+							checked={filter_options.includes(spec.key)}
+							onChange={toggleValue => specifications_handler(toggleValue, spec.key)}
+						/>
+				))}
+
+				<SelectControl
+					label={__("Order By", "wp-job-openings")}
+					options={[
+						{ label: __("Newest to oldest", "wp-job-openings"),  value: "new" },
+						{ label: __("Oldest to newest", "wp-job-openings"), value: "old" },
+					]}
+				/>
+
+				<ToggleControl
+					label={__("Hide Expired Jobs", "wp-job-openings")}
+					checked={hide_expired_jobs}
+					onChange={hide_expired_jobs => setAttributes({ hide_expired_jobs })}
+				/>
+
+				{ wp.hooks.doAction( 'after_awsm_block_job_listing',block_job_listing,props ) }
+				{ block_job_listing }
 
 				<SelectControl
 					label={__("Pagination", "wp-job-openings")}
@@ -123,106 +237,6 @@ const WidgetInspectorControls = props => {
 					]}
 					onChange={pagination => setAttributes({ pagination })}
 				/>
-
-				{ wp.hooks.doAction( 'after_awsm_job_appearance',block_appearance_list,props ) }
-				{ block_appearance_list }
-			</PanelBody>
-			{specifications.length > 0 && (
-				<PanelBody title={__("Search & Filters", "wp-job-openings")}>
-					<ToggleControl
-						label={__("Enable Search", "wp-job-openings")}
-						checked={search}
-						onChange={search => setAttributes({ search })}
-					/>
-
-					{search && (
-						<TextControl
-							label={__("Search Placeholder", "wp-job-openings")}
-							value={search_placeholder}
-							onChange={search_placeholder => setAttributes({ search_placeholder })}
-							placeholder={__("Search Jobs", "wp-job-openings")}
-						/>
-					)}
-
-					<ToggleControl
-						label={__("Enable Filters", "wp-job-openings")}
-						checked={enable_job_filter}
-						onChange={enable_job_filter => setAttributes({ enable_job_filter })}
-					/>
-
-					{enable_job_filter && (
-						<>
-							<h2>{__("Available Filters", "wp-job-openings")}</h2>
-							{specifications.map(spec => (
-								<ToggleControl
-									key={spec.key}
-									label={spec.label}
-									checked={filter_options.includes(spec.key)}
-									onChange={toggleValue => specifications_handler(toggleValue, spec.key)}
-								/>
-							))}
-						</>
-					)}
-
-				
-				</PanelBody>
-			)}
-
-			<PanelBody title={__("Job Listing", "wp-job-openings")}>
-				<ToggleControl
-					label={__("Hide Expired Jobs", "wp-job-openings")}
-					checked={hide_expired_jobs}
-					onChange={hide_expired_jobs => setAttributes({ hide_expired_jobs })}
-				/>
-				{ wp.hooks.doAction( 'after_awsm_block_job_listing',block_job_listing,props ) }
-				{ block_job_listing }
-
-				<h2>{__("Job Specs in the Listing", "wp-job-openings")}</h2>
-				{specifications.length > 0 &&
-					specifications.map(spec => {
-						return (
-							<ToggleControl
-								label={spec.label}
-								checked={
-									typeof other_options !== "undefined" &&
-									other_options.includes(spec.key)
-								}
-								onChange={toggleValue =>
-									other_options_handler(toggleValue, spec.key)
-								}
-							/>
-						);
-				})}		
-
-				{specifications.length > 0 &&
-					specifications.map(spec => {
-						return (
-							<div key={spec.key}>
-								<h3>{spec.label}</h3> {/* Main heading for the specification label */}
-								{spec.terms && spec.terms.length > 0 && (
-									<ul>
-										{spec.terms.map(term => (
-											<li key={term.term_id}>
-												<label>
-													<input
-														type="checkbox"
-														checked={
-															typeof other_options !== "undefined" &&
-															other_options.includes(term.term_id)
-														}
-														onChange={e =>
-															other_options_handler(e.target.checked, term.term_id)
-														}
-													/>
-													{term.name}
-												</label>
-											</li>
-										))}
-									</ul>
-								)}
-							</div>
-						);
-					})}
 
 			</PanelBody>
 		</InspectorControls>

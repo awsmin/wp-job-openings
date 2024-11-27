@@ -1,6 +1,6 @@
 const icon = {
     block: <svg width="31" height="41" viewBox="0 0 31 41" version="1.1">
-    <title>Job Listings</title>
+    <title>HireSuit Job Listings</title>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <g id="wpjo-logo-v12" transform="translate(-9, -3.9998)" fill="#000000" fill-rule="nonzero">
             <g id="path42" transform="translate(24.5, 24.4998) rotate(180) translate(-24.5, -24.4998)translate(9, 3.9998)">
