@@ -226,6 +226,8 @@
 	font-size: 12px;
 	line-height: 1.3333;
 	letter-spacing: -0.24px;
+	outline: none;
+	box-shadow: none;
 }
 .awsm-jobs-overview-get-started ul a svg{
 	min-width: 10px;
