@@ -316,6 +316,8 @@ class AWSM_Job_Openings_Meta {
 						style="width:100%; height:600px;" 
 						frameborder="0"
 						data-original-src="<?php echo esc_url( $file_url ); ?>"
+						onload="document.getElementById('<?php echo esc_js( $unique_id ); ?>').querySelector('.awsm-preview-reload-btn').style.display = 'none';"
+						onerror="document.getElementById('<?php echo esc_js( $unique_id ); ?>').querySelector('.awsm-preview-reload-btn').style.display = 'block';"
 					></iframe>
 					<?php
 				} elseif ( in_array( $file_extension, ['doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx'] ) ) {
@@ -327,23 +329,30 @@ class AWSM_Job_Openings_Meta {
 						style="width:100%; height:600px;" 
 						frameborder="0"
 						data-original-src="<?php echo esc_url( $google_drive_viewer_url ); ?>"
+						onload="document.getElementById('<?php echo esc_js( $unique_id ); ?>').querySelector('.awsm-preview-reload-btn').style.display = 'none';"
+						onerror="document.getElementById('<?php echo esc_js( $unique_id ); ?>').querySelector('.awsm-preview-reload-btn').style.display = 'block';"
 					></iframe>
 					<?php
 				} else {
 					?>
-					<p><?php esc_html_e( 'This file type cannot be previewed. Please download the file to view it.', 'pro-pack-for-wp-job-openings' ); ?></p>
+					<p><?php esc_html_e( 'This file type cannot be previewed. Please download the file to view it.', 'wp-job-openings' ); ?></p>
 					<?php
 				}
 				?>
-				<div class="awsm-preview-document-btn awsm-preview-reload-btn" role="button" style="display:none;">
-					<img src="<?php echo esc_url( plugins_url( 'assets/img/reload.svg', __FILE__ ) ); ?>" alt="<?php esc_attr_e( 'Reload', 'pro-pack-for-wp-job-openings' ); ?>" width="12" height="12"/>
-					<?php esc_html_e( 'Reload document', 'pro-pack-for-wp-job-openings' ); ?>
+				<div 
+					class="awsm-preview-document-btn awsm-preview-reload-btn" 
+					role="button" 
+					data-reloading-text="<?php esc_attr_e( 'Reloading...', 'wp-job-openings' ); ?>"
+					data-reset-text="<?php esc_attr_e( 'Reload document', 'wp-job-openings' ); ?>"
+				>
+					<img src="<?php echo esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/reload.svg' ); ?>" alt="<?php esc_attr_e( 'Reload', 'wp-job-openings' ); ?>" width="12" height="12"/>
+					<?php esc_html_e( 'Reload document', 'wp-job-openings' ); ?>
 				</div>
 			</div>
 			<?php
 		} else {
 			?>
-			<p><?php esc_html_e( 'File not available for preview.', 'pro-pack-for-wp-job-openings' ); ?></p>
+			<p><?php esc_html_e( 'File not available for preview.', 'wp-job-openings' ); ?></p>
 			<?php
 		}
 		return ob_get_clean();
