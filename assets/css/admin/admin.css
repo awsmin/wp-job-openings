@@ -565,6 +565,11 @@ a.awsm-text-red:hover {
 
 .awsm-job-stat-table td {
 	padding: 3px 0;
+	width: 50%;
+}
+.awsm-job-stat-table td .awsm-job-move-application-wrapper{
+	padding: 3px 0;
+	margin: -3px 0;
 }
 
 .awsm-job-stat-table td:not(:first-child) {
@@ -1445,7 +1450,7 @@ a.awsm-plugin-item p {
 }
 
 .post-type-awsm_job_application .postbox .postbox-header {
-	padding: 8px 8px 0;
+	padding: 4px 8px;
 	border-bottom: 1px solid #EAECF0;
 }
 
