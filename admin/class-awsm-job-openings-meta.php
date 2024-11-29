@@ -42,6 +42,7 @@ class AWSM_Job_Openings_Meta {
 		add_meta_box( 'awsm-expiry-meta', esc_html__( 'Job Expiry', 'wp-job-openings' ), array( $this, 'awsm_job_expiration' ), 'awsm_job_openings', 'side', 'low' );
 
 		add_meta_box( 'awsm-job-details-meta', esc_html__( 'Applicant Details', 'wp-job-openings' ), array( $this, 'awsm_job_application_handle' ), 'awsm_job_application', 'normal', 'high' );
+		add_meta_box( 'awsm-job-resume-preview', esc_html__( 'Resume Preview', 'wp-job-openings' ), array( $this, 'awsm_job_application_attachment_preview' ), 'awsm_job_application', 'normal', 'high' );
 		if ( ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) {
 			add_meta_box( 'awsm-application-actions-meta', esc_html__( 'Actions', 'wp-job-openings' ), array( $this, 'application_actions_meta_handler' ), 'awsm_job_application', 'side', 'high' );
 			add_meta_box( 'awsm-get-the-pro-pack-meta', esc_html__( 'Upgrade to WPJO Pro', 'wp-job-openings' ), array( $this, 'get_pro_meta_handler' ), 'awsm_job_application', 'side', 'low' );
@@ -64,6 +65,13 @@ class AWSM_Job_Openings_Meta {
 		include $this->cpath . '/templates/meta/applicant-single.php';
 	}
 
+	public function awsm_job_application_attachment_preview( $post ) {
+		$awsm_attachment_id  = get_post_meta( $post->ID, 'awsm_attachment_id', true );
+		if(!empty($awsm_attachment_id)){
+			include $this->cpath . '/templates/meta/resume-preview.php';
+		}
+	}
+
 	public function application_actions_meta_handler( $post ) {
 		include $this->cpath . '/templates/meta/application-actions.php';
 	}
@@ -80,21 +88,12 @@ class AWSM_Job_Openings_Meta {
 	public static function set_applicant_single_view_tab() {
 		$tab_list = array(
 			'profile' => esc_html__( 'Profile', 'wp-job-openings' ),
-			'resume'  => esc_html__( 'Resume Preview', 'pro-pack-for-wp-job-openings' ),
-
 		);
 		return apply_filters( 'awsm_jobs_opening_applicant_single_tab_list', $tab_list );
 	}
 
 	public static function get_applicant_single_view_content( $post_id, $attachment_id ) {
-		$tab_content = array(
-			'resume' => array(
-				'id'      => 'awsm-applicant-resume',
-				'title'   => esc_html__( 'Resume Preview', 'wp-job-openings' ),
-				'content' => self::docs_viewer_handle( $attachment_id ),
-			),
-		);
-
+		$tab_content = array();
 		return apply_filters( 'awsm_jobs_opening_applicant_single_view_content', $tab_content, $post_id );
 	}
 
@@ -298,65 +297,5 @@ class AWSM_Job_Openings_Meta {
 			</div>
 		<?php
 	}
-
-	public static function docs_viewer_handle( $attachment_id ) {
-		ob_start();
-		$file_url = wp_get_attachment_url( intval( $attachment_id ) );
-		if ( $file_url ) {
-			$file_extension = strtolower( pathinfo( $file_url, PATHINFO_EXTENSION ) );
-			$unique_id = 'awsm-preview-' . $attachment_id;
-			?>
-			<div class="awsm-preview-document" id="<?php echo esc_attr( $unique_id ); ?>">
-				<?php
-				if ( $file_extension === 'pdf' ) {
-					?>
-					<iframe 
-						class="awsm-preview-iframe" 
-						src="<?php echo esc_url( $file_url ); ?>" 
-						style="width:100%; height:600px;" 
-						frameborder="0"
-						data-original-src="<?php echo esc_url( $file_url ); ?>"
-						onload="document.getElementById('<?php echo esc_js( $unique_id ); ?>').querySelector('.awsm-preview-reload-btn').style.display = 'none';"
-						onerror="document.getElementById('<?php echo esc_js( $unique_id ); ?>').querySelector('.awsm-preview-reload-btn').style.display = 'block';"
-					></iframe>
-					<?php
-				} elseif ( in_array( $file_extension, ['doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx'] ) ) {
-					$google_drive_viewer_url = 'https://docs.google.com/gview?url=' . urlencode( $file_url ) . '&embedded=true';
-					?>
-					<iframe 
-						class="awsm-preview-iframe" 
-						src="<?php echo esc_url( $google_drive_viewer_url ); ?>" 
-						style="width:100%; height:600px;" 
-						frameborder="0"
-						data-original-src="<?php echo esc_url( $google_drive_viewer_url ); ?>"
-						onload="document.getElementById('<?php echo esc_js( $unique_id ); ?>').querySelector('.awsm-preview-reload-btn').style.display = 'none';"
-						onerror="document.getElementById('<?php echo esc_js( $unique_id ); ?>').querySelector('.awsm-preview-reload-btn').style.display = 'block';"
-					></iframe>
-					<?php
-				} else {
-					?>
-					<p><?php esc_html_e( 'This file type cannot be previewed. Please download the file to view it.', 'wp-job-openings' ); ?></p>
-					<?php
-				}
-				?>
-				<div 
-					class="awsm-preview-document-btn awsm-preview-reload-btn" 
-					role="button" 
-					data-reloading-text="<?php esc_attr_e( 'Reloading...', 'wp-job-openings' ); ?>"
-					data-reset-text="<?php esc_attr_e( 'Reload document', 'wp-job-openings' ); ?>"
-				>
-					<img src="<?php echo esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/reload.svg' ); ?>" alt="<?php esc_attr_e( 'Reload', 'wp-job-openings' ); ?>" width="12" height="12"/>
-					<?php esc_html_e( 'Reload document', 'wp-job-openings' ); ?>
-				</div>
-			</div>
-			<?php
-		} else {
-			?>
-			<p><?php esc_html_e( 'File not available for preview.', 'wp-job-openings' ); ?></p>
-			<?php
-		}
-		return ob_get_clean();
-	}
-	
 	
 }
