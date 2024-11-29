@@ -240,7 +240,7 @@ do_action( 'add_meta_boxes_' . AWSM_Job_Openings_Overview::$screen_id, null );
 				   <?php
 					if ( ! empty( $jobs ) ) :
 						foreach ( $jobs as $job ) :
-							$jobmeta = get_post_meta( $job->ID );
+							$jobmeta     = get_post_meta( $job->ID );
 							$expiry_date = isset( $jobmeta['awsm_job_expiry'][0] ) ? $jobmeta['awsm_job_expiry'][0] : null;
 
 							// Check if the job is not expired
@@ -269,7 +269,8 @@ do_action( 'add_meta_boxes_' . AWSM_Job_Openings_Overview::$screen_id, null );
 								<?php
 							endif;
 						endforeach;
-					else : ?>
+					else :
+						?>
 						<div class="awsm-jobs-overview-empty-wrapper">
 							<p>💼
 								<?php
