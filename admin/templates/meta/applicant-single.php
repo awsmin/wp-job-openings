@@ -66,8 +66,8 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 						?>
 					</div>
 				<?php endif; ?>
-				<div class="awsm-application-action">
-					<a class="awsm-application-action-btn" href="#">
+				<div class="awsm-application-action awsm-dropdown">
+					<a class="awsm-application-action-btn awsm-dropdown-toggle" href="#">
 						<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 							<path d="M6.40008 1.60001C6.40008 2.48367 7.11642 3.20002 8.00009 3.20002C8.88375 3.20002 9.6001 2.48367 9.6001 1.60001C9.6001 0.716349 8.88375 -3.13126e-08 8.00009 -6.99387e-08C7.11642 -1.08565e-07 6.40008 0.716349 6.40008 1.60001Z" fill="#161616"/>
 							<path d="M6.40008 7.99997C6.40008 8.88364 7.11642 9.59999 8.00009 9.59999C8.88375 9.59999 9.6001 8.88364 9.6001 7.99997C9.6001 7.11631 8.88375 6.39996 8.00009 6.39996C7.11642 6.39996 6.40008 7.11631 6.40008 7.99997Z" fill="#161616"/>

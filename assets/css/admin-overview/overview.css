@@ -4,12 +4,18 @@
 .awsm-jobs-button{
 	border-radius: 4px;
 	background: #6CFAE4;
-	padding: 7px 18px;
+	padding: 12px 18px;
 	color: #161616;
-	font-size: 12px;
+	font-size: 14px;
 	font-weight: 600;
 	line-height: 1.333;
 	letter-spacing: -0.24px;
+	display: inline-block;
+	transition: all 0.3s ease;
+}
+.awsm-jobs-button:hover{
+	background: #161616;
+	color: #6CFAE4;
 }
 .awsm-jobs-pro-feature {
 	position: relative;
@@ -48,6 +54,7 @@
 .awsm-jobs-overview {
 	position: relative;	
 	font-family: Inter;
+	margin-top: 30px;
 }
 .awsm-jobs-overview, .awsm-jobs-overview *{
 	box-sizing: border-box;
@@ -98,7 +105,6 @@
 	display: flex;
 	align-items: center;
 	gap: 10px;
-	font-size: 12px;
 	color: #161616;
 	line-height: 1.333;
 	font-weight: 500;
@@ -113,7 +119,6 @@
 	display: flex;
 	align-items: center;
 	gap:  6px;
-	font-size: 12px;
 	color: #161616;
 	line-height: 1.333;
 	font-weight: 500;
@@ -126,6 +131,7 @@
 .awsm-jobs-overview-welcome {
 	font-size: 16px;
 	padding: 20px;
+	display: flex;
 	flex-wrap: wrap;
 	flex-direction: row;
 	flex: 0 0 auto;
@@ -175,7 +181,6 @@
 	background: #DEFFFA;
 	width: calc(33.3333% - 10px);
 	letter-spacing: -0.24px;
-	font-size: 12px;
 	color: #525252;
 	display: flex;
 	flex-direction: column;
@@ -223,9 +228,11 @@
 	align-items: center;
 	gap:  6px;
 	color: #161616;
-	font-size: 12px;
+	font-size: 13px;
 	line-height: 1.3333;
 	letter-spacing: -0.24px;
+	outline: none;
+	box-shadow: none;
 }
 .awsm-jobs-overview-get-started ul a svg{
 	min-width: 10px;
@@ -246,7 +253,6 @@
 	position: relative;
 	gap:  8px;
 	color: #898989;
-	font-size: 12px;
 	line-height: 1.333;
 	letter-spacing: -0.24px;
 }
@@ -328,7 +334,6 @@
 	display: flex;
 	flex-direction: column;
 	gap: 8px;
-	font-size: 12px;
 	line-height: 1.333;
 	letter-spacing: -0.24px;
 	font-weight: 600;
@@ -379,7 +384,7 @@
 
 
 @media (min-width: 992px) {
-	.awsm-jobs-overview-col:not(.awsm-jobs-overview-welcome){
+	.awsm-jobs-overview-col:not(.awsm-jobs-overview-col-fw){
 		width: 33.333%;
 	}
 	.awsm-jobs-overview-welcome-left {
@@ -390,4 +395,56 @@
 		width: 75%;
 		padding-left: 20px;
 	}	
+}
+
+.awsm-wpjo-addon-items{
+	background: #fff;
+	border-radius: 10px;
+	padding: 0 20px;
+}
+.awsm-wpjo-addon-item{
+	padding: 20px 0;
+}
+.awsm-wpjo-addon-item:not(:last-child){
+	border-bottom: 1px solid #E2E2E8;
+}
+.awsm-wpjo-addon-item-head{
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	gap:  10px;
+	font-size: 13px;
+	margin-bottom: 10px;
+}
+.awsm-wpjo-addon-item-head h3{
+	font-size: 13px;
+	font-weight: bold;
+	color: #161616;
+	margin: 0 0 2px;
+}
+.awsm-wpjo-addon-item-head p{
+	color: #161616;
+	margin: 0;
+	font-weight: 500;
+}
+.awsm-wpjo-addon-item-head a{
+	border-radius: 4px;
+	border: 1px solid #D1D1D1;
+	background: #FFF;
+	padding: 7px 18px;
+	font-size: 13px;
+	line-height: 1.2;
+	letter-spacing: -0.24px;
+	color: #161616;
+	text-decoration: none;
+	box-shadow: none;
+}
+.awsm-wpjo-addon-item-head a:hover{
+	background: #6CFAE4;
+	color: #161616;
+}
+.awsm-wpjo-addon-item > p{
+	margin: 0;
+	color: #666;
+	font-size: 13px;
 }

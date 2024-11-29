@@ -428,7 +428,7 @@ a.awsm-text-red:hover {
 /* to fix application meta box styling issue */
 .awsm-application-submission-info {
 	display: block;
-	color: #72777C;
+	color: #666;
 	font-size: 14px;
 	margin: 0;
 }
@@ -487,7 +487,7 @@ a.awsm-text-red:hover {
 .awsm-applicant-image-container .button span {
 	display: block;
 	text-transform: uppercase;
-	font-size: 12px;
+	font-size: 13px;
 }
 
 .awsm-applicant-details {
@@ -548,7 +548,7 @@ a.awsm-text-red:hover {
 	padding: 0 8px;
 	min-height: 20px;
 	border-radius: 3px;
-	font-size: 12px;
+	font-size: 13px;
 }
 
 .awsm-application-rating-disabled {
@@ -620,7 +620,7 @@ a.awsm-text-red:hover {
 .awsm-job-status-btn-wrapper span {
 	display: inline-block;
 	vertical-align: middle;
-	color: #72777C;
+	color: #666;
 	font-size: 13px;
 	margin: 0 5px;
 	line-height: 1.15;
@@ -842,10 +842,10 @@ a.awsm-text-red:hover {
 }
 
 .awsm-job-setup-l h1 a {
-	background: url('../img/logo-b.svg') no-repeat;
-	background-size: 253px 33px;
+	background: url('../img/new-logo-b.svg') no-repeat;
+	background-size: 253px 36px;
 	width: 253px;
-	height: 33px;
+	height: 36px;
 	text-indent: -99999px;
 	display: block
 }
@@ -942,7 +942,7 @@ a.awsm-text-red:hover {
 }
 
 .awsm-job-form-group p {
-	font-size: 12px;
+	font-size: 13px;
 	opacity: 0.6;
 	margin: 5px 0 0;
 }
@@ -1034,7 +1034,7 @@ p.description.awsm-jobs-invalid {
 
 .awsm-jobs-empty-list p {
 	font-size: 16px;
-	color: #72777C;
+	color: #666;
 	margin: 0 0 25px;
 }
 
@@ -1087,10 +1087,10 @@ p.description.awsm-jobs-invalid {
 
 .awsm-job-admin-nav-logo a {
 	margin: 0;
-	background: url('../img/logo-b.svg') no-repeat;
-	width: 168px;
-	height: 21px;
-	background-size: 168px 21px;
+	background: url('../img/new-logo-b.svg') no-repeat;
+	width: 235px;
+	height: 33px;
+	background-size: 235px 33px;
 	text-indent: -99999px;
 	display: inline-block;
 }
@@ -1446,7 +1446,7 @@ a.awsm-plugin-item p {
 }
 
 .post-type-awsm_job_application .postbox .postbox-header {
-	padding: 8px 8px 0;
+	padding: 4px 8px;
 	border-bottom: 1px solid #EAECF0;
 }
 
@@ -1499,29 +1499,25 @@ a.awsm-plugin-item p {
 .awsm-application-actions {
 	display: flex;
 	align-items: center;
-	gap: 20px;
+	gap: 5px;
 }
 
 .awsm-application-action {
 	position: relative;
 }
 
-.awsm-application-action-btn {
+/* .awsm-application-action-btn {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background: #EAECF0;
-	border: 1px solid #EAECF0;
+	background: none;
+	border: 1px solid #666;
 	border-radius: 4px;
 	cursor: pointer;
-	padding: 4px;
-}
-.awsm-application-action-btn svg{
-	width: 20px;
-	height: auto;
-}
+	padding: 6px;
+} */
 
-.awsm-application-action-btn:hover,
+/* .awsm-application-action-btn:hover,
 .awsm-application-action:hover .awsm-application-action-btn {
 	background: #6CFAE4;
 	border-color: #6CFAE4;
@@ -1529,9 +1525,9 @@ a.awsm-plugin-item p {
 
 .awsm-application-action-btn:active {
 	border-color: #EAECF0;
-}
+} */
 
-.awsm-application-action:hover .awsm-application-action-list {
+/* .awsm-application-action:hover .awsm-application-action-list {
 	opacity: 1;
 	visibility: visible;
 }
@@ -1549,9 +1545,9 @@ a.awsm-plugin-item p {
 	visibility: hidden;
 	transition: all 0.4s ease;
 	padding: 5px;
-}
+} */
 
-.awsm-application-action-list button {
+/* .awsm-application-action-list button {
 	border: none;
 	border: none;
 	background: 0 0;
@@ -1565,7 +1561,7 @@ a.awsm-plugin-item p {
 	display: block;
 	padding: 8px 12px;
 	font-weight: 600;
-	font-size: 12px;
+	font-size: 13px;
 	color: #424242;
 	text-decoration: none;
 	border-radius: 4px;
@@ -1576,7 +1572,7 @@ a.awsm-plugin-item p {
 .awsm-application-action-list button:hover,
 .awsm-application-action-list button:focus {
 	background-color: #6CFAE4;
-}
+} */
 
 .awsm-applicant-info h3 {
 	font-size: 16px;
@@ -1587,8 +1583,8 @@ a.awsm-plugin-item p {
 }
 
 .awsm-applicant-info p {
-	font-size: 12px;
-	color: #898989;
+	font-size: 13px;
+	color: #666;
 	font-weight: 500;
 	letter-spacing: -0.06px;
 	line-height: 1.3333;
@@ -1615,8 +1611,8 @@ a.awsm-plugin-item p {
 	display: flex;
 	align-items: center;
 	gap: 4px;
-	color: #898989;
-	font-size: 12px;
+	color: #161616;
+	font-size: 13px;
 	font-weight: 600;
 	letter-spacing: -0.06px;
 	line-height: 1.333;
@@ -1659,12 +1655,45 @@ a.awsm-plugin-item p {
 	font-size: 10px;
 }
 
+.application-main-tab .pro-feature{
+	position: relative;
+	display: flex;
+	gap:  30px;
+}
+.application-main-tab .pro-feature::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(255, 255, 255, 0.6);
+	z-index: 10;
+}
+.application-main-tab .pro-feature .pro-ft{
+	opacity: 0;
+	visibility: hidden;
+	transition: all 0.3s ease;
+	background: #161616;
+	padding: 4px 8px;
+	border-radius: 4px;
+	font-size: 11px;
+	color: #6CFAE4;
+	line-height: 1;
+	position: absolute;
+	right: -110px;
+  top: 18px;
+}
+.application-main-tab .pro-feature:hover .pro-ft{
+	opacity: 1;
+	visibility: visible;
+}
+
 .application-main-tab-items {
-	font-size: 12px;
-	font-weight: 500;
+	font-size: 13px;
 	line-height: 1.33;
 	letter-spacing: -0.06px;
-	color: #898989;
+	color: #666;
 }
 
 .application-main-tab-item {
@@ -1679,7 +1708,7 @@ a.awsm-plugin-item p {
 	list-style: none;
 	padding: 0;
 	margin: 0;
-	font-size: 12px;
+	font-size: 13px;
 	font-weight: 500;
 	line-height: 1.33;
 	letter-spacing: -0.06px;
@@ -1697,7 +1726,7 @@ a.awsm-plugin-item p {
 }
 
 .awsm-applicant-profile ul li > label {
-	color: #898989;
+	color: #666;
 	margin: 0;
 	width: 25%;
 	font-weight: 400;
@@ -1721,7 +1750,7 @@ a.awsm-plugin-item p {
 .awsm-form-group label {
 	display: block;
 	margin: 0 0 6px;
-	color: #898989;
+	color: #666;
 	font-weight: 500;
 }
 
@@ -1744,26 +1773,24 @@ select.awsm-form-control,
 textarea.awsm-form-control {
 	display: block;
 	width: 100%;
-	padding: 14px 23px;
-	height: 44px;
-	border-radius: 10px;
-	border: 1px solid #EAECF0;
-	background: #FCFDFF;
+	height: 32px;
+	border-radius: 4px;
+	border: 1px solid #666;
 	color: #161616;
 	font-family: inherit;
-	font-size: 12px;
+	font-size: 13px;
 	font-weight: normal;
 	letter-spacing: -0.06px;
 	line-height: 1.333;
 }
 
 .awsm-form-control::placeholder {
-	color: #898989;
+	color: #666;
 	opacity: 1;
 }
 
 .awsm-form-control::-ms-input-placeholder {
-	color: #898989;
+	color: #666;
 }
 
 .form-control-foot {
@@ -1790,7 +1817,7 @@ textarea.awsm-form-control {
 	background: #6CFAE4;
 	border: 1px solid #6CFAE4;
 	color: #161616;
-	font-size: 12px;
+	font-size: 14px;
 	font-weight: 600;
 	letter-spacing: -0.24px;
 	line-height: 1.333;
@@ -1823,6 +1850,7 @@ textarea.awsm-form-control {
 	text-decoration: none;
 	display: inline-flex;
 	align-items: center;
+	outline: none;
 }
 
 .awsm-dropdown-toggle:focus {
@@ -1850,17 +1878,23 @@ textarea.awsm-form-control {
 	visibility: visible;
 }
 
-.awsm-dropdown-items a {
+.awsm-dropdown-items a, .awsm-dropdown-items button {
 	display: block;
 	text-decoration: none;
 	color: #424242;
 	font-weight: 600;
 	padding: 7px 15px;
 	border-radius: 4px;
+	border: none;
+	background: none;
+	width: 100%;
+	text-align: left;
 }
 
 .awsm-dropdown-items a:hover,
-.awsm-dropdown-items a:focus {
+.awsm-dropdown-items a:focus,
+.awsm-dropdown-items button:hover,
+.awsm-dropdown-items button:focus{
 	background: #6CFAE4;
 }
 
@@ -1880,7 +1914,7 @@ textarea.awsm-form-control {
 }
 
 .hs-reume-info span {
-	color: #898989;
+	color: #666;
 }
 
 .hs-reume-info strong {
@@ -1938,20 +1972,20 @@ textarea.awsm-form-control {
 
 .awsm-application-email-left ul a {
 	display: block;
-	padding: 7px 18px;
-	font-size: 12px;
+	padding: 5px 0 5px 15px;
+	font-size: 13px;
 	color: #1D2939;
 	font-weight: 500;
 	letter-spacing: -0.24px;
-	line-height: 1.333;
-	border-radius: 4px;
+	line-height: 1.2;
 	text-decoration: none;
+	border-left: 2px solid #fff;
 }
 
 .awsm-application-email-left ul a.active {
-	background: #6CFAE4;
 	font-weight: 600;
-	color: #161616;
+	color: #0bcfb1;
+	border-left-color: #0bcfb1;
 }
 
 .awsm-application-email-right {
@@ -1972,14 +2006,14 @@ textarea.awsm-form-control {
 	background: #FCFDFF;
 	margin-bottom: 12px;
 	padding: 20px;
-	font-size: 12px;
-	color: #898989;
+	font-size: 13px;
+	color: #666;
 	line-height: 1.333;
 	letter-spacing: -0.06px;
 }
 
 .awsm-application-email-item h3 {
-	font-size: 12px;
+	font-size: 13px;
 	color: #161616;
 	line-height: 1.333;
 	letter-spacing: -0.06px;
@@ -1988,6 +2022,9 @@ textarea.awsm-form-control {
 
 .awsm-application-email-item p {
 	margin: 0 0 12px;
+}
+.awsm-application-email-item h3{
+	margin-bottom: 14px;
 }
 
 .awsm-application-email-item p:last-child {
@@ -2006,7 +2043,7 @@ textarea.awsm-form-control {
 .awsm-application-note-item {
 	margin-bottom: 12px;
 	border-radius: 6px;
-	border: 1px solid #EAECF0;
+	border: 1px solid #ccc;
 	padding: 16px 50px 16px 16px;
 	position: relative;
 }
@@ -2030,7 +2067,7 @@ textarea.awsm-form-control {
 	font-weight: 400;
 	justify-content: space-between;
 	gap: 10px;
-	color: #898989;
+	color: #666;
 	linline-height: 16px;
 }
 

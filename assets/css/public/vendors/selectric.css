@@ -13,8 +13,7 @@
 }
 
 .awsm-selectric {
-  border: 1px solid #dddfe3;
-  box-shadow: 0 1px 4px 0 rgb(0 0 0 / 5%);
+  border: 1px solid #d5d5d5;
   background: #fff;
   position: relative;
   overflow: hidden;
@@ -250,7 +249,7 @@
   content: "";
   width: 14px;
   height: 14px;
-  border: 1px solid #dddfe3;
+  border: 1px solid #d5d5d5;
   position: absolute;
   left: 10px;
   top: calc(50% - 7px);
