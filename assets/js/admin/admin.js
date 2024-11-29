@@ -549,4 +549,20 @@ jQuery(document).ready(function($) {
 		$('#awsm-applicant-resume').addClass('active');
 	});
 	
+	$('.awsm-preview-reload-btn').on('click', function (e) {
+        e.preventDefault();
+        var $button = $(this);
+        var $wrapper = $button.closest('.awsm-preview-document');
+        var $iframe = $wrapper.find('.awsm-preview-iframe');
+        var iframeSrc = $iframe.attr('data-original-src');
+
+        $button.text($button.data('reloading-text')).addClass('loading');
+
+        $iframe.attr('src', iframeSrc);
+
+        $iframe.on('load', function () {
+            $button.text($button.data('reset-text')).removeClass('loading').hide();
+        });
+    });
+	
 });

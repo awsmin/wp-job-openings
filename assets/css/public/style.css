@@ -118,6 +118,11 @@ a.awsm-job-item {
 .awsm-filter-wrap * {
 	box-sizing: border-box;
 }
+
+.awsm-job-wrap, .awsm-job-wrap * {
+	box-sizing: border-box;
+  }
+  
 .awsm-filter-wrap {
 	margin: 0 -10px 20px;
 }

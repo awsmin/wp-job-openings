@@ -534,14 +534,17 @@ class AWSM_Job_Openings_Form {
 							$attach_data = wp_generate_attachment_metadata( $attach_id, $movefile['file'] );
 							wp_update_attachment_metadata( $attach_id, $attach_data );
 
+
 							// Save the actual file name as a meta field for the attachment
 							$original_file_name = isset( $attachment['name'] ) ? sanitize_text_field( $attachment['name'] ) : '';
+
 
 							if ( ! empty( $original_file_name ) ) {
 								update_post_meta( $attach_id, 'awsm_actual_file_name', $original_file_name );
 								$updated_meta = get_post_meta( $attach_id, 'awsm_actual_file_name', true );
 
 							}
+
 
 							// Add the applicant details as meta data
 							$applicant_details = array(
@@ -723,10 +726,13 @@ class AWSM_Job_Openings_Form {
 	 * @return array
 	 */
 	public static function get_notification_options( $type ) {
-		$options            = array();
-		$admin_email        = get_option( 'admin_email' );
-		$hr_email           = get_option( 'awsm_hr_email_address' );
-		$expired_options    = self::get_expired_notification_content();
+		$options         = array();
+		$admin_email     = get_option( 'admin_email' );
+		$hr_email        = get_option( 'awsm_hr_email_address' );
+		$expired_options = self::get_expired_notification_content();
+		if ( ! class_exists( 'AWSM_Job_Openings_Settings' ) ) {
+			require_once AWSM_JOBS_PLUGIN_DIR . '/admin/class-awsm-job-openings-settings.php';
+		}
 		$default_from_email = AWSM_Job_Openings_Settings::awsm_from_email();
 
 		if ( $type === 'applicant' ) {
@@ -804,13 +810,16 @@ class AWSM_Job_Openings_Form {
 			}
 
 			if ( $enable ) {
-				$admin_email        = get_option( 'admin_email' );
-				$hr_mail            = get_option( 'awsm_hr_email_address' );
-				$applicant_email    = $applicant_details['awsm_applicant_email'];
-				$company_name       = get_option( 'awsm_job_company_name' );
-				$from               = ( ! empty( $company_name ) ) ? $company_name : get_option( 'blogname' );
-				$author_id          = get_post_field( 'post_author', $applicant_details['awsm_job_id'] );
-				$author_email       = get_the_author_meta( 'user_email', intval( $author_id ) );
+				$admin_email     = get_option( 'admin_email' );
+				$hr_mail         = get_option( 'awsm_hr_email_address' );
+				$applicant_email = $applicant_details['awsm_applicant_email'];
+				$company_name    = get_option( 'awsm_job_company_name' );
+				$from            = ( ! empty( $company_name ) ) ? $company_name : get_option( 'blogname' );
+				$author_id       = get_post_field( 'post_author', $applicant_details['awsm_job_id'] );
+				$author_email    = get_the_author_meta( 'user_email', intval( $author_id ) );
+				if ( ! class_exists( 'AWSM_Job_Openings_Settings' ) ) {
+					require_once AWSM_JOBS_PLUGIN_DIR . '/admin/class-awsm-job-openings-settings.php';
+				}
 				$default_from_email = AWSM_Job_Openings_Settings::awsm_from_email();
 
 				$tags             = $this->get_mail_template_tags(

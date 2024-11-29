@@ -2127,6 +2127,37 @@ textarea.awsm-form-control {
 	top: 0;
 }
 */
+.awsm-preview-document {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+}
+
+.awsm-preview-reload-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+    color: #fff; /* White text */
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    z-index: 10; /* Ensure it appears above other elements */
+    text-align: center;
+    
+}
+
+.awsm-preview-reload-btn img {
+    margin-right: 8px;
+    vertical-align: middle;
+}
+.awsm-preview-reload-btn.loading {
+    background-color: rgba(0, 0, 0, 0.9); /* Darker background */
+    cursor: progress; /* Show progress cursor */
+    pointer-events: none; /* Disable button interaction */
+}
 @media (min-width:701px) {
 	.awsm-job-setup {
 		position: absolute;

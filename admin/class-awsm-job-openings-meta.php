@@ -224,23 +224,14 @@ class AWSM_Job_Openings_Meta {
 	}
 
 	public function get_attached_file_download_url( $attachment_id, $type = 'resume', $label = '' ) {
-		// Check if the attachment exists in the media library
-		$file_path = get_attached_file( $attachment_id );
-		if ( ! $file_path || ! file_exists( $file_path ) ) {
-			return null;
-		}
-
-		// If the attachment exists, proceed to build the download URL
 		$query_vars = array(
 			'awsm_id'     => $attachment_id,
 			'awsm_nonce'  => wp_create_nonce( 'awsm_' . $type . '_download' ),
 			'awsm_action' => 'download_' . $type,
 		);
-
 		if ( ! empty( $label ) ) {
 			$query_vars['attachment_label'] = sanitize_title( $label );
 		}
-
 		$download_url = add_query_arg( $query_vars, get_edit_post_link() );
 		return esc_url( $download_url );
 	}
@@ -301,25 +292,62 @@ class AWSM_Job_Openings_Meta {
 
 	public static function docs_viewer_handle( $attachment_id ) {
 		ob_start();
-		?>
-		
-		<?php
-		$attachment_url = wp_get_attachment_url( intval( $attachment_id ) );
-		if ( $attachment_url ) :
+		$file_url = wp_get_attachment_url( intval( $attachment_id ) );
+		if ( $file_url ) {
+			$file_extension = strtolower( pathinfo( $file_url, PATHINFO_EXTENSION ) );
+			$unique_id = 'awsm-preview-' . $attachment_id;
 			?>
-			<iframe src="<?php echo esc_url( 'https://docs.google.com/viewer?embedded=true&url=' . $attachment_url ); ?>" style="width: 100%; height: 400px; border: none;">
-			</iframe>
-			<?php
-		else :
-			?>
-			<div class="awsm-resume-none">
-				<h2><strong><?php esc_html_e( 'No resume to preview. File not found!', 'docs-viewer-add-on-for-wp-job-openings' ); ?></strong></h2>
+			<div class="awsm-preview-document" id="<?php echo esc_attr( $unique_id ); ?>">
+				<?php
+				if ( $file_extension === 'pdf' ) {
+					?>
+					<iframe 
+						class="awsm-preview-iframe" 
+						src="<?php echo esc_url( $file_url ); ?>" 
+						style="width:100%; height:600px;" 
+						frameborder="0"
+						data-original-src="<?php echo esc_url( $file_url ); ?>"
+						onload="document.getElementById('<?php echo esc_js( $unique_id ); ?>').querySelector('.awsm-preview-reload-btn').style.display = 'none';"
+						onerror="document.getElementById('<?php echo esc_js( $unique_id ); ?>').querySelector('.awsm-preview-reload-btn').style.display = 'block';"
+					></iframe>
+					<?php
+				} elseif ( in_array( $file_extension, ['doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx'] ) ) {
+					$google_drive_viewer_url = 'https://docs.google.com/gview?url=' . urlencode( $file_url ) . '&embedded=true';
+					?>
+					<iframe 
+						class="awsm-preview-iframe" 
+						src="<?php echo esc_url( $google_drive_viewer_url ); ?>" 
+						style="width:100%; height:600px;" 
+						frameborder="0"
+						data-original-src="<?php echo esc_url( $google_drive_viewer_url ); ?>"
+						onload="document.getElementById('<?php echo esc_js( $unique_id ); ?>').querySelector('.awsm-preview-reload-btn').style.display = 'none';"
+						onerror="document.getElementById('<?php echo esc_js( $unique_id ); ?>').querySelector('.awsm-preview-reload-btn').style.display = 'block';"
+					></iframe>
+					<?php
+				} else {
+					?>
+					<p><?php esc_html_e( 'This file type cannot be previewed. Please download the file to view it.', 'wp-job-openings' ); ?></p>
+					<?php
+				}
+				?>
+				<div 
+					class="awsm-preview-document-btn awsm-preview-reload-btn" 
+					role="button" 
+					data-reloading-text="<?php esc_attr_e( 'Reloading...', 'wp-job-openings' ); ?>"
+					data-reset-text="<?php esc_attr_e( 'Reload document', 'wp-job-openings' ); ?>"
+				>
+					<img src="<?php echo esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/reload.svg' ); ?>" alt="<?php esc_attr_e( 'Reload', 'wp-job-openings' ); ?>" width="12" height="12"/>
+					<?php esc_html_e( 'Reload document', 'wp-job-openings' ); ?>
+				</div>
 			</div>
 			<?php
-		endif;
-		?>
-		
-		<?php
+		} else {
+			?>
+			<p><?php esc_html_e( 'File not available for preview.', 'wp-job-openings' ); ?></p>
+			<?php
+		}
 		return ob_get_clean();
 	}
+	
+	
 }
