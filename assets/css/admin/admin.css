@@ -1659,6 +1659,40 @@ a.awsm-plugin-item p {
 	font-size: 10px;
 }
 
+.application-main-tab .pro-feature{
+	position: relative;
+	display: flex;
+	gap:  30px;
+}
+.application-main-tab .pro-feature::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(255, 255, 255, 0.6);
+	z-index: 10;
+}
+.application-main-tab .pro-feature .pro-ft{
+	opacity: 0;
+	visibility: hidden;
+	transition: all 0.3s ease;
+	background: #161616;
+	padding: 4px 8px;
+	border-radius: 4px;
+	font-size: 11px;
+	color: #6CFAE4;
+	line-height: 1;
+	position: absolute;
+	right: -110px;
+  top: 18px;
+}
+.application-main-tab .pro-feature:hover .pro-ft{
+	opacity: 1;
+	visibility: visible;
+}
+
 .application-main-tab-items {
 	font-size: 13px;
 	line-height: 1.33;
@@ -1942,20 +1976,20 @@ textarea.awsm-form-control {
 
 .awsm-application-email-left ul a {
 	display: block;
-	padding: 7px 18px;
+	padding: 5px 0 5px 15px;
 	font-size: 13px;
 	color: #1D2939;
 	font-weight: 500;
 	letter-spacing: -0.24px;
-	line-height: 1.333;
-	border-radius: 4px;
+	line-height: 1.2;
 	text-decoration: none;
+	border-left: 2px solid #fff;
 }
 
 .awsm-application-email-left ul a.active {
-	background: #6CFAE4;
 	font-weight: 600;
-	color: #161616;
+	color: #0bcfb1;
+	border-left-color: #0bcfb1;
 }
 
 .awsm-application-email-right {
