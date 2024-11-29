@@ -565,6 +565,7 @@ a.awsm-text-red:hover {
 
 .awsm-job-stat-table td {
 	padding: 3px 0;
+	width: 50%;
 }
 
 .awsm-job-stat-table td:not(:first-child) {
