@@ -567,10 +567,6 @@ a.awsm-text-red:hover {
 	padding: 3px 0;
 	width: 50%;
 }
-.awsm-job-stat-table td .awsm-job-move-application-wrapper{
-	padding: 3px 0;
-	margin: -3px 0;
-}
 
 .awsm-job-stat-table td:not(:first-child) {
 	font-weight: bold;
