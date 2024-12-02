@@ -538,7 +538,6 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
         return handleTermChange(newTokens, spec.key, spec);
       } // Update selected terms
       ,
-      placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Add terms", "wp-job-openings"),
       suggestions: spec.terms.map(function (term) {
         return term.name;
       }) // Suggestion list based on terms
