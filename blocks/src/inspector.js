@@ -27,6 +27,7 @@ const WidgetInspectorControls = props => {
 			enable_job_filter,
 			search_placeholder,
 			hide_expired_jobs,
+			layout,
 		},
 		setAttributes
 	} = props;
@@ -42,7 +43,7 @@ const WidgetInspectorControls = props => {
 	const [placement, setPlacement] = useState("top");
 	const [filter_type, setFilterType] = useState("dropdown");
 	const [listType, setListType] = useState("all");
-	const [layout, setLayout] = useState("list");
+	//const [layout, setLayout] = useState("list");
 	const [orderBy, setOrderBy] = useState('new');
 	const [selectedTerm, setSelectedTerm] = useState({}); // Will store term selections by spec key
 	const [selectedTerms, setSelectedTerms] = useState([]); // Local state for terms in the token field
@@ -124,6 +125,18 @@ const WidgetInspectorControls = props => {
 
 	return (
 		<InspectorControls>
+			<PanelBody title={__("Layout Options", "wp-job-openings")}>
+				<SelectControl
+					label={__("Layout", "wp-job-openings")}
+					value={layout}
+					options={[
+						{ label: __("List view", "wp-job-openings"), value: "list" },
+						{ label: __("Grid view", "wp-job-openings"), value: "grid" }
+					]}
+					onChange={layout => setAttributes({ layout })}
+				/>
+			</PanelBody>
+
 			<PanelBody title={__("Search & Filters", "wp-job-openings")}>
 				<ToggleControl
 					label={__("Enable Search & Filters", "wp-job-openings")}
@@ -188,7 +201,7 @@ const WidgetInspectorControls = props => {
 				</ToggleGroupControl>
 				<p> Display all jobs or filtered by job specifications </p>
 				
-				<ToggleGroupControl
+				{/* <ToggleGroupControl
 					label="Layout"
 					value={layout}
         			onChange={handleLayoutChange}
@@ -199,29 +212,29 @@ const WidgetInspectorControls = props => {
 					<ToggleGroupControlOption value="list" label="List" />
 					<ToggleGroupControlOption value="grid" label="Grid" />
 					<ToggleGroupControlOption value="stack" label="Stack" />
-				</ToggleGroupControl>
+				</ToggleGroupControl> */}
 
 				<h2>{__("Available Filters", "wp-job-openings")}</h2>
 				{specifications.map(spec => (
 					<div key={spec.key} className="filter-item">
 						{/* ToggleControl for the specification */}
 						<ToggleControl
-						label={spec.label}
-						checked={filter_options.includes(spec.key)}
-						onChange={toggleValue => specifications_handler(toggleValue, spec.key)}
+							label={spec.label}
+							checked={filter_options.includes(spec.key)}
+							onChange={toggleValue => specifications_handler(toggleValue, spec.key)}
 						/>
 
 						<FormTokenField
-						value={selectedTerms[spec.key] ? selectedTerms[spec.key].map(id => {
-							const term = spec.terms.find(term => term.term_id === id);
-							return term ? term.name : '';
-						}) : []}
-						onChange={(newTokens) => handleTermChange(newTokens, spec.key, spec)}
-						suggestions={spec.terms.map(term => term.name)}
-						addItemLabel="" // Set to an empty string to remove the label
+							value={selectedTerms[spec.key] ? selectedTerms[spec.key].map(id => {
+								const term = spec.terms.find(term => term.term_id === id);
+								return term ? term.name : '';
+							}) : []}
+							onChange={(newTokens) => handleTermChange(newTokens, spec.key, spec)}
+							suggestions={spec.terms.map(term => term.name)}
+							label=""  
 						/>
 						)
-					</div>
+					</div> 
 				))}
 
 				<SelectControl
