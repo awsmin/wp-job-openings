@@ -313,7 +313,7 @@ class AWSM_Job_Openings_Info {
 									$extra_atts .= ' target="' . esc_attr( $nav_item['target'] ) . '"';
 								}
 								// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-								printf( '<li><a href="%2$s"%3$s>%1$s</a></li>', esc_html( $nav_item['label'] ), esc_url( $nav_item['url'] ), $extra_atts );
+								printf( '<li><a href="%2$s"%3$s>%1$s</a></li>', wp_kses_post( $nav_item['label'] ), esc_url( $nav_item['url'] ), $extra_atts );
 							}
 						}
 						?>

@@ -177,15 +177,16 @@ if ( $post->post_type === 'awsm_job_application' ) {
 		 */
 		$data_rows = apply_filters( 'awsm_job_status_mb_data_rows', $data_rows, $job_id, $post->ID );
 
-		foreach ( $data_rows as $data_row ) {
+		foreach ( $data_rows as $key => $data_row ) {
 			$column_content = '';
+			
 			if ( isset( $data_row[0] ) && ! isset( $data_row[1] ) ) {
 				$column_content = '<td colspan="2">' . $data_row[0] . '</td>';
 			} else {
 				$column_content = sprintf( '<td>%1$s</td><td>%2$s</td>', isset( $data_row[0] ) ? $data_row[0] : '', isset( $data_row[1] ) ? $data_row[1] : '' );
 			}
-
-			echo '<tr>' . $column_content . '</tr>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		
+			echo '<tr class="awsm-' . esc_attr( $key ) . '">' . $column_content . '</tr>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 		?>
 </table>

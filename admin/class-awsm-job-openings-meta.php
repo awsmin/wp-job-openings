@@ -30,24 +30,35 @@ class AWSM_Job_Openings_Meta {
 	}
 
 	public function awsm_register_meta_boxes() {
-		global $action;
+		global $action, $post;
+	
 		if ( $action === 'edit' ) {
 			add_meta_box( 'awsm-status-meta', esc_html__( 'Job Status', 'wp-job-openings' ), array( $this, 'awsm_job_status' ), 'awsm_job_openings', 'side', 'low' );
 			add_meta_box( 'awsm-status-meta-applicant', esc_html__( 'Job Details', 'wp-job-openings' ), array( $this, 'awsm_job_status' ), 'awsm_job_application', 'side', 'low' );
 		}
+	
 		$awsm_filters = get_option( 'awsm_jobs_filter' );
 		if ( ! empty( $awsm_filters ) ) {
 			add_meta_box( 'awsm-job-meta', esc_html__( 'Job Specifications', 'wp-job-openings' ), array( $this, 'awsm_job_handle' ), 'awsm_job_openings', 'normal', 'high' );
 		}
+	
 		add_meta_box( 'awsm-expiry-meta', esc_html__( 'Job Expiry', 'wp-job-openings' ), array( $this, 'awsm_job_expiration' ), 'awsm_job_openings', 'side', 'low' );
-
+	
 		add_meta_box( 'awsm-job-details-meta', esc_html__( 'Applicant Details', 'wp-job-openings' ), array( $this, 'awsm_job_application_handle' ), 'awsm_job_application', 'normal', 'high' );
-		add_meta_box( 'awsm-job-resume-preview', esc_html__( 'Resume Preview', 'wp-job-openings' ), array( $this, 'awsm_job_application_attachment_preview' ), 'awsm_job_application', 'normal', 'high' );
+	
+		if ( isset( $post ) && $post->post_type === 'awsm_job_application' ) {
+			$awsm_attachment_id = get_post_meta( $post->ID, 'awsm_attachment_id', true );
+			if ( ! empty( $awsm_attachment_id ) ) {
+				add_meta_box( 'awsm-job-resume-preview', esc_html__( 'Resume Preview', 'wp-job-openings' ), array( $this, 'awsm_job_application_attachment_preview' ), 'awsm_job_application', 'normal', 'high' );
+			}
+		}
+	
 		if ( ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) {
 			add_meta_box( 'awsm-application-actions-meta', esc_html__( 'Actions', 'wp-job-openings' ), array( $this, 'application_actions_meta_handler' ), 'awsm_job_application', 'side', 'high' );
 			add_meta_box( 'awsm-get-the-pro-pack-meta', esc_html__( 'Upgrade to WPJO Pro', 'wp-job-openings' ), array( $this, 'get_pro_meta_handler' ), 'awsm_job_application', 'side', 'low' );
 		}
 	}
+	
 
 	public function awsm_job_status( $post ) {
 		include $this->cpath . '/templates/meta/job-status.php';
@@ -67,10 +78,11 @@ class AWSM_Job_Openings_Meta {
 
 	public function awsm_job_application_attachment_preview( $post ) {
 		$awsm_attachment_id = get_post_meta( $post->ID, 'awsm_attachment_id', true );
-		if ( ! empty( $awsm_attachment_id ) ) {
+		if ( ! empty( $awsm_attachment_id ) && is_string( $awsm_attachment_id ) && strlen( $awsm_attachment_id ) > 0 ) {
 			include $this->cpath . '/templates/meta/resume-preview.php';
 		}
 	}
+	
 
 	public function application_actions_meta_handler( $post ) {
 		include $this->cpath . '/templates/meta/application-actions.php';
@@ -222,23 +234,14 @@ class AWSM_Job_Openings_Meta {
 	}
 
 	public function get_attached_file_download_url( $attachment_id, $type = 'resume', $label = '' ) {
-		// Check if the attachment exists in the media library
-		$file_path = get_attached_file( $attachment_id );
-		if ( ! $file_path || ! file_exists( $file_path ) ) {
-			return null;
-		}
-
-		// If the attachment exists, proceed to build the download URL
 		$query_vars = array(
 			'awsm_id'     => $attachment_id,
 			'awsm_nonce'  => wp_create_nonce( 'awsm_' . $type . '_download' ),
 			'awsm_action' => 'download_' . $type,
 		);
-
 		if ( ! empty( $label ) ) {
 			$query_vars['attachment_label'] = sanitize_title( $label );
 		}
-
 		$download_url = add_query_arg( $query_vars, get_edit_post_link() );
 		return esc_url( $download_url );
 	}
@@ -296,8 +299,5 @@ class AWSM_Job_Openings_Meta {
 			</div>
 		<?php
 	}
-
-
-
-
+	
 }

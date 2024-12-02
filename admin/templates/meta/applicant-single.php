@@ -65,8 +65,8 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 						?>
 					</div>
 				<?php endif; ?>
-				<div class="awsm-application-action">
-					<a class="awsm-application-action-btn" href="#">
+				<div class="awsm-application-action awsm-dropdown">
+					<a class="awsm-application-action-btn awsm-dropdown-toggle" href="#">
 						<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 							<path d="M6.40008 1.60001C6.40008 2.48367 7.11642 3.20002 8.00009 3.20002C8.88375 3.20002 9.6001 2.48367 9.6001 1.60001C9.6001 0.716349 8.88375 -3.13126e-08 8.00009 -6.99387e-08C7.11642 -1.08565e-07 6.40008 0.716349 6.40008 1.60001Z" fill="#161616"/>
 							<path d="M6.40008 7.99997C6.40008 8.88364 7.11642 9.59999 8.00009 9.59999C8.88375 9.59999 9.6001 8.88364 9.6001 7.99997C9.6001 7.11631 8.88375 6.39996 8.00009 6.39996C7.11642 6.39996 6.40008 7.11631 6.40008 7.99997Z" fill="#161616"/>
@@ -99,6 +99,13 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 								</a>
 							</li>
 						<?php endforeach; ?>
+						<?php if ( ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) : ?>
+							<li class="pro-feature">
+							<div class="pro-ft">Pro Features</div>
+							<a href="#"><?php echo esc_html__( 'Email', 'wp-job-openings' ); ?><span>8</span></a>
+							<a href="#"><?php echo esc_html__( 'Notes', 'wp-job-openings' ); ?><span>8</span></a>
+							</li>
+						<?php endif; ?>
 					</ul>
 					<!-- Tabs Content -->
 					<div class="application-main-tab-items">
@@ -132,6 +139,12 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 											</span>
 											<div class="awsm-applicant-resume-cta">
 												<?php do_action( 'after_awsm_job_applicant_details_list_preview_resume', $post->ID ); ?>
+												<!-- <a href="javascript:void(0)" id="awsm-preview-resume-edit" aria-label="<?php esc_attr_e( 'Preview Resume', 'pro-pack-for-wp-job-openings' ); ?>">
+													<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" version="1.1" preserveAspectRatio="xMinYMin">
+														<path xmlns="http://www.w3.org/2000/svg" fill="black" d="M10 2.66665H3.33333V13.3333H12.6667V5.33331H10V2.66665ZM2 1.99451C2 1.62935 2.29833 1.33331 2.66567 1.33331H10.6667L13.9998 4.66665L14 13.995C14 14.3659 13.7034 14.6666 13.3377 14.6666H2.66227C2.29651 14.6666 2 14.3631 2 14.0054V1.99451ZM9.01933 9.63091C7.99673 10.2349 6.65755 10.0976 5.77893 9.21891C4.73753 8.17751 4.73753 6.48909 5.77893 5.44769C6.82033 4.4063 8.50873 4.4063 9.55013 5.44769C10.4288 6.32632 10.5661 7.66551 9.96213 8.68811L11.4358 10.1617L10.493 11.1046L9.01933 9.63091ZM8.60733 8.27611C9.12807 7.75545 9.12807 6.91118 8.60733 6.39051C8.08667 5.86981 7.24247 5.86981 6.72173 6.39051C6.20104 6.91118 6.20104 7.75545 6.72173 8.27611C7.24247 8.79685 8.08667 8.79685 8.60733 8.27611Z"/>
+													</svg>
+													<?php esc_html_e( 'Preview', 'pro-pack-for-wp-job-openings' ); ?>
+												</a> -->
 												<a href="<?php echo esc_url( $this->get_attached_file_download_url( $attachment_id ) ); ?>" rel="nofollow" aria-label="<?php esc_attr_e( 'Download Resume', 'wp-job-openings' ); ?>">
 													<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" version="1.1" preserveAspectRatio="xMinYMin">
 														<path xmlns="http://www.w3.org/2000/svg" fill="black" d="M8.66667 7.99998H10.6667L8 10.6666L5.33333 7.99998H7.33333V5.33331H8.66667V7.99998ZM10 2.66665H3.33333V13.3333H12.6667V5.33331H10V2.66665ZM2 1.99451C2 1.62935 2.29833 1.33331 2.66567 1.33331H10.6667L13.9998 4.66665L14 13.995C14 14.3659 13.7034 14.6666 13.3377 14.6666H2.66227C2.29651 14.6666 2 14.3631 2 14.0054V1.99451Z"/>
