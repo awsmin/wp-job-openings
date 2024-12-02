@@ -525,27 +525,24 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
       onChange: function onChange(toggleValue) {
         return specifications_handler(toggleValue, spec.key);
       }
-    }), specifications && specifications.length > 0 && specifications.map(function (spec) {
-      return spec.terms && spec.terms.length > 0 && (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.FormTokenField, {
-        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Select Terms", "wp-job-openings"),
-        value: selectedTerms[spec.key] ? selectedTerms[spec.key].map(function (id) {
-          // Find the term by term_id (id is coming from selectedTerms)
-          var term = spec.terms.find(function (term) {
-            return term.term_id === id;
-          });
-          return term ? term.name : ''; // Return the term name or an empty string
-        }) : [] // Display selected term names as tokens
-        ,
-        onChange: function onChange(newTokens) {
-          return handleTermChange(newTokens, spec.key, spec);
-        } // Update selected terms
-        ,
-        placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Add terms", "wp-job-openings"),
-        suggestions: spec.terms.map(function (term) {
-          return term.name;
-        }) // Suggestion list based on terms
-      });
-    }));
+    }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.FormTokenField, {
+      value: selectedTerms[spec.key] ? selectedTerms[spec.key].map(function (id) {
+        // Find the term by term_id (id is coming from selectedTerms)
+        var term = spec.terms.find(function (term) {
+          return term.term_id === id;
+        });
+        return term ? term.name : ''; // Return the term name or an empty string
+      }) : [] // Display selected term names as tokens
+      ,
+      onChange: function onChange(newTokens) {
+        return handleTermChange(newTokens, spec.key, spec);
+      } // Update selected terms
+      ,
+      placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Add terms", "wp-job-openings"),
+      suggestions: spec.terms.map(function (term) {
+        return term.name;
+      }) // Suggestion list based on terms
+    }), ")");
   }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.SelectControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Order By", "wp-job-openings"),
     value: orderBy,

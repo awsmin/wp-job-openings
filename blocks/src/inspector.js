@@ -211,21 +211,18 @@ const WidgetInspectorControls = props => {
 						onChange={toggleValue => specifications_handler(toggleValue, spec.key)}
 						/>
 
-						{specifications && specifications.length > 0 && specifications.map((spec) => (
-							spec.terms && spec.terms.length > 0 && (
-								<FormTokenField
-								label={__("Select Terms", "wp-job-openings")}
-								value={selectedTerms[spec.key] ? selectedTerms[spec.key].map(id => {
-									// Find the term by term_id (id is coming from selectedTerms)
-									const term = spec.terms.find(term => term.term_id === id);
-									return term ? term.name : ''; // Return the term name or an empty string
-								}) : []} // Display selected term names as tokens
-								onChange={(newTokens) => handleTermChange(newTokens, spec.key,spec)} // Update selected terms
-								placeholder={__("Add terms", "wp-job-openings")}
-								suggestions={spec.terms.map(term => term.name)} // Suggestion list based on terms
-								/>
+						<FormTokenField
+						value={selectedTerms[spec.key] ? selectedTerms[spec.key].map(id => {
+							// Find the term by term_id (id is coming from selectedTerms)
+							const term = spec.terms.find(term => term.term_id === id);
+							return term ? term.name : ''; // Return the term name or an empty string
+						}) : []} // Display selected term names as tokens
+						onChange={(newTokens) => handleTermChange(newTokens, spec.key,spec)} // Update selected terms
+						placeholder={__("Add terms", "wp-job-openings")}
+						suggestions={spec.terms.map(term => term.name)} // Suggestion list based on terms
+						/>
 							)
-						))}
+		
 					</div>
 				))}
 
