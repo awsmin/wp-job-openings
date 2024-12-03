@@ -1872,8 +1872,11 @@ textarea.awsm-form-control {
 	transition: all 0.3s ease;
 	z-index: 10;
 }
+.awsm-application-action-list{
+	min-width: 137px;
+}
 
-.awsm-dropdown-toggle:focus ~ .awsm-dropdown-items {
+.awsm-dropdown:hover  .awsm-dropdown-items {
 	opacity: 1;
 	visibility: visible;
 }
