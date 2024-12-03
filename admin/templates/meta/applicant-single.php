@@ -12,6 +12,7 @@ $resume_details            = $this->get_attached_file_details( $attachment_id );
 $full_file_name            = get_post_meta( $attachment_id, 'awsm_actual_file_name', true );
 $applicant_job_id          = get_post_meta( $post->ID, 'awsm_job_id', true );
 $resume_field_label        = ( new AWSM_Job_Openings_Form() )->dynamic_form_fields( $applicant_job_id )['awsm_file']['label'];
+$this->is_main_applicant_viewed( $post->ID );
 /**
  * Initialize applicant meta box.
  *
