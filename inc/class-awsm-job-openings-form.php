@@ -534,17 +534,14 @@ class AWSM_Job_Openings_Form {
 							$attach_data = wp_generate_attachment_metadata( $attach_id, $movefile['file'] );
 							wp_update_attachment_metadata( $attach_id, $attach_data );
 
-
 							// Save the actual file name as a meta field for the attachment
 							$original_file_name = isset( $attachment['name'] ) ? sanitize_text_field( $attachment['name'] ) : '';
-
 
 							if ( ! empty( $original_file_name ) ) {
 								update_post_meta( $attach_id, 'awsm_actual_file_name', $original_file_name );
 								$updated_meta = get_post_meta( $attach_id, 'awsm_actual_file_name', true );
 
 							}
-
 
 							// Add the applicant details as meta data
 							$applicant_details = array(

@@ -12,7 +12,6 @@ $resume_details            = $this->get_attached_file_details( $attachment_id );
 $full_file_name            = get_post_meta( $attachment_id, 'awsm_actual_file_name', true );
 $applicant_job_id          = get_post_meta( $post->ID, 'awsm_job_id', true );
 $resume_field_label        = ( new AWSM_Job_Openings_Form() )->dynamic_form_fields( $applicant_job_id )['awsm_file']['label'];
-
 /**
  * Initialize applicant meta box.
  *
@@ -100,6 +99,13 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 								</a>
 							</li>
 						<?php endforeach; ?>
+						<?php if ( ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) : ?>
+							<li class="pro-feature">
+							<div class="pro-ft">Pro Features</div>
+							<a href="#"><?php echo esc_html__( 'Email', 'wp-job-openings' ); ?><span>8</span></a>
+							<a href="#"><?php echo esc_html__( 'Notes', 'wp-job-openings' ); ?><span>8</span></a>
+							</li>
+						<?php endif; ?>
 					</ul>
 					<!-- Tabs Content -->
 					<div class="application-main-tab-items">
@@ -162,6 +168,7 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 			<?php endif; ?>
 		</div><!-- .application-main-cnt -->
 	</div><!-- .awsm-application-main -->
+	
 	<?php
 	// Compatibility fix for Pro version.
 	if ( defined( 'AWSM_JOBS_PRO_PLUGIN_VERSION' ) && version_compare( AWSM_JOBS_PRO_PLUGIN_VERSION, '1.4.0', '<' ) ) :
@@ -175,3 +182,4 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 	endif;
 	?>
 </div>
+
