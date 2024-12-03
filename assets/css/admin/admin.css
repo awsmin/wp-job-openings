@@ -1860,7 +1860,8 @@ textarea.awsm-form-control {
 
 .awsm-button:hover,
 .awsm-button:focus {
-	background: none;
+	background: #0bcfb1;
+	border-color: #0bcfb1;
 }
 
 .align-right .awsm-button {
