@@ -1905,7 +1905,7 @@ textarea.awsm-form-control {
 	transition: all 0.3s ease;
 	z-index: 10;
 }
-.awsm-application-action-list{
+.awsm-application-action-list.awsm-dropdown-items{
 	min-width: 137px;
 }
 
