@@ -2361,3 +2361,15 @@ textarea.awsm-form-control {
 	padding-left: 20px;
 	padding-right: 20px;
 }
+
+.awsm-application-unviewed-count {
+	vertical-align: top;
+	box-sizing: border-box;
+	margin: 1px 0 -1px 2px;
+	padding: 0 5px;
+	min-width: 18px;
+	height: 18px;
+	border-radius: 9px;
+	background-color: #d63638;
+  	color: #fff;
+}

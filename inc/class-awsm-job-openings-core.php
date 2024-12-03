@@ -163,7 +163,7 @@ class AWSM_Job_Openings_Core {
 		register_post_type( 'awsm_job_application', $args );
 	}
 
-	public function get_unviewed_applications_count() {
+	public static function get_unviewed_applications_count() {
 		$args = array(
 			'post_type'   => 'awsm_job_application',
 			'post_status' => 'publish',
