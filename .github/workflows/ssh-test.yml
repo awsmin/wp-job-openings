@@ -15,6 +15,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           script: |
+            ls -la /home/awsmstaging/public_html/jobs/wp-content/
             echo "Testing file creation..."
             echo "This file was created by GitHub Actions on $(date)" > ${{ secrets.REMOTE_PATH }}/test.txt
             if [ -f "${{ secrets.REMOTE_PATH }}/test.txt" ]; then
