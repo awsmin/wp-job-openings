@@ -1,16 +1,13 @@
 name: Deploy WordPress Plugin
-
 env:
   PHP_VERSION: '8.1'
   NODE_VERSION: '16'
   PLUGIN_NAME: 'wp-job-openings'
-
 on:
   push:
     branches:
       - main
   workflow_dispatch:
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -18,18 +15,15 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
-
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ env.PHP_VERSION }}
-
       - name: Cache Composer packages
         uses: actions/cache@v3
         with:
@@ -37,32 +31,22 @@ jobs:
           key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-php-
-
       - name: Install NPM Dependencies
         run: npm ci
-
       - name: Install Composer Dependencies
         if: hashFiles('composer.json')
         run: composer install --no-dev --optimize-autoloader
-
       - name: Build Assets
         run: npm run build
-
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
           eval $(ssh-agent -s)
-          expect << 'EOF'
-            spawn ssh-add ~/.ssh/deploy_key
-            expect "Enter passphrase"
-            send "${{ secrets.SSH_PASSPHRASE }}\r"
-            expect eof
-          EOF
+          ssh-add ~/.ssh/deploy_key
           echo "${{ secrets.REMOTE_HOST }} ssh-rsa $(ssh-keyscan -t rsa ${{ secrets.REMOTE_HOST }} | cut -d' ' -f3-)" >> ~/.ssh/known_hosts
         shell: bash
-
       - name: Deploy with rsync
         run: |
           rsync -avz -e "ssh -i ~/.ssh/deploy_key" --delete \
@@ -81,7 +65,6 @@ jobs:
           --exclude='.eslintignore' \
           --exclude='.browserslistrc' \
           ./ ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:${{ secrets.REMOTE_PATH }}/wp-content/plugins/${{ env.PLUGIN_NAME }}/
-
       - name: Verify deployment
         uses: appleboy/ssh-action@v1.0.0
         with:
