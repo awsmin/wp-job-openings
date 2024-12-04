@@ -8,7 +8,7 @@ env:
 on:
   push:
     branches:
-      - dev
+      - main
   workflow_dispatch:
 
 jobs:
@@ -30,14 +30,6 @@ jobs:
         with:
           php-version: ${{ env.PHP_VERSION }}
 
-      - name: Cache NPM packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
       - name: Cache Composer packages
         uses: actions/cache@v3
         with:
@@ -56,35 +48,46 @@ jobs:
       - name: Build Assets
         run: npm run build
 
-      - name: Create deployment package
-        run: |
-          mkdir build
-          rsync -av --progress . build/ \
-          --exclude=/.git/ \
-          --exclude=/.github/ \
-          --exclude=/node_modules/ \
-          --exclude=/build/ \
-          --exclude=/src/ \
-          --exclude=.gitignore \
-          --exclude=.eslintrc \
-          --exclude=gulpfile.js \
-          --exclude=package.json \
-          --exclude=package-lock.json \
-          --exclude=composer.json \
-          --exclude=composer.lock \
-          --exclude=README.md \
-          --exclude=.eslintignore \
-          --exclude=.browserslistrc
+      # Add SSH key setup step
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          known_hosts: unnecessary
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          if_key_exists: replace
 
-      - name: Deploy to server
-        uses: easingthemes/ssh-deploy@main
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          PASSPHRASE: ${{ secrets.SSH_PASSPHRASE }}
-          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-          REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          SOURCE: "build/"
-          TARGET: "${{ secrets.REMOTE_PATH }}/wp-content/plugins/${{ env.PLUGIN_NAME }}/"
-          ARGS: "-rltgoDzvO --delete"
-          SCRIPT_AFTER: |
-            chmod -R 755 "${{ secrets.REMOTE_PATH }}/wp-content/plugins/${{ env.PLUGIN_NAME }}"
+      # Add known_hosts
+      - name: Adding Known Hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy with rsync
+        run: |
+          rsync -avz --delete \
+          --exclude='.git' \
+          --exclude='.github' \
+          --exclude='node_modules' \
+          --exclude='vendor' \
+          --exclude='.gitignore' \
+          --exclude='.eslintrc' \
+          --exclude='gulpfile.js' \
+          --exclude='package.json' \
+          --exclude='package-lock.json' \
+          --exclude='composer.json' \
+          --exclude='composer.lock' \
+          --exclude='README.md' \
+          --exclude='.eslintignore' \
+          --exclude='.browserslistrc' \
+          ./ ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:${{ secrets.REMOTE_PATH }}/wp-content/plugins/${{ env.PLUGIN_NAME }}/
+
+      - name: Set permissions
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          script: |
+            chmod -R 755 ${{ secrets.REMOTE_PATH }}/wp-content/plugins/${{ env.PLUGIN_NAME }}
