@@ -1,44 +1,19 @@
-name: Deploy WordPress Plugin
-env:
-  PHP_VERSION: '8.1'
-  NODE_VERSION: '16'
-  PLUGIN_NAME: 'wp-job-openings'
+# See https://zellwk.com/blog/github-actions-deploy/ an explanation of this code
+name: deploy
 on:
   push:
     branches:
       - main
       - master
-  workflow_dispatch:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ env.PHP_VERSION }}
-      - name: Cache Composer packages
-        uses: actions/cache@v3
-        with:
-          path: vendor
-          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-php-
-      - name: Install NPM Dependencies
-        run: npm ci
-      - name: Install Composer Dependencies
-        if: hashFiles('composer.json')
-        run: composer install --no-dev --optimize-autoloader
-      - name: Build Assets
-        run: npm run build
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+
+      - run: npm install
+      - run: npm run build
 
       - name: Install SSH Key
         uses: shimataro/ssh-key-action@v2
@@ -46,7 +21,8 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           known_hosts: unnecessary
 
+      - name: Adding Known Hosts
+        run: ssh-keyscan -p 22 -H ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts
+
       - name: Deploy with rsync
-        run: |
-          rsync -avz -e "ssh -p 22" \
-          ./ ${{ env.REMOTE_USER }}@${{ env.REMOTE_HOST }}:${{ env.REMOTE_PATH }}/wp-content/plugins/${{ env.PLUGIN_NAME }}/
+        run: rsync -avz -e "ssh -p 22" .  ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/home/awsmstaging/public_html/jobs/wp-content/plugins/wp/
