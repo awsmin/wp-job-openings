@@ -47,4 +47,5 @@ jobs:
           known_hosts: unnecessary
 
       - name: Deploy with rsync
-        run: rsync -avz -e "ssh -p 22" ./  ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:{{ secrets.REMOTE_PATH }}/wp-content/plugins/${{ env.PLUGIN_NAME }}/
+         rsync -avz -e "ssh -p 22" \
+          ./ ${{ env.REMOTE_USER }}@${{ env.REMOTE_HOST }}:${{ env.REMOTE_PATH }}/wp-content/plugins/${{ env.PLUGIN_NAME }}/
