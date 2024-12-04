@@ -4,8 +4,6 @@ env:
   REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
   REMOTE_USER: ${{ secrets.REMOTE_USER }}
   REMOTE_PATH: ${{ secrets.REMOTE_PATH }}
-  SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-  DEPLOY_KEY_PATH: ~/.ssh/deploy_key
 
 on:
   workflow_dispatch:
@@ -14,36 +12,18 @@ jobs:
   test-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Debug SSH Key
-        run: |
-          if [ -z "${{ secrets.SSH_PRIVATE_KEY }}" ]; then
-            echo "SSH_PRIVATE_KEY is empty"
-            exit 1
-          else
-            echo "SSH_PRIVATE_KEY is set"
-          fi
-
-      - name: Setup SSH
-        if: success()
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ${{ env.DEPLOY_KEY_PATH }}
-          chmod 600 ${{ env.DEPLOY_KEY_PATH }}
-          chmod 700 ~/.ssh
-          eval $(ssh-agent -s)
-          ssh-add ${{ env.DEPLOY_KEY_PATH }}
-          ssh-keyscan -H ${{ env.REMOTE_HOST }} >> ~/.ssh/known_hosts
-          # Debug SSH connection
-          ssh -v -i ${{ env.DEPLOY_KEY_PATH }} -o StrictHostKeyChecking=no ${{ env.REMOTE_USER }}@${{ env.REMOTE_HOST }} 'pwd'
-        shell: bash
+      - uses: actions/checkout@v3
+      
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          known_hosts: ${{ secrets.REMOTE_HOST }}
+          if_key_exists: replace
 
       - name: Test Rsync
-        if: success()
         run: |
-          rsync -avzh --stats --progress -e "ssh -i ${{ env.DEPLOY_KEY_PATH }}" --delete \
+          rsync -avzh --stats --progress -e "ssh -o StrictHostKeyChecking=no" --delete \
           --exclude='.git' \
           --exclude='.github' \
           --exclude='node_modules' \
