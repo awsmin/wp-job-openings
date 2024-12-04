@@ -1,13 +1,13 @@
-name: Test SSH Connection
+name: Test SSH File Creation
 
 on: 
-  workflow_dispatch:  # This allows manual trigger
+  workflow_dispatch:  # Manual trigger
 
 jobs:
   test-ssh:
     runs-on: ubuntu-latest
     steps:
-      - name: Test SSH Connection
+      - name: Test SSH File Creation
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.REMOTE_HOST }}
@@ -15,13 +15,12 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           script: |
-            pwd
-            ls -la
-            echo "Connection successful!"
-            echo "Current directory: $PWD"
-            echo "Testing path exists: ${{ secrets.REMOTE_PATH }}"
-            if [ -d "${{ secrets.REMOTE_PATH }}" ]; then
-              echo "✅ Path exists"
+            echo "Testing file creation..."
+            echo "This file was created by GitHub Actions on $(date)" > ${{ secrets.REMOTE_PATH }}/test.txt
+            if [ -f "${{ secrets.REMOTE_PATH }}/test.txt" ]; then
+              echo "✅ File created successfully"
+              cat "${{ secrets.REMOTE_PATH }}/test.txt"
             else
-              echo "❌ Path does not exist"
+              echo "❌ File creation failed"
             fi
+            ls -la ${{ secrets.REMOTE_PATH }}
