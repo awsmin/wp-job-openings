@@ -38,22 +38,19 @@ jobs:
         run: composer install --no-dev --optimize-autoloader
       - name: Build Assets
         run: npm run build
-      - name: Setup SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
-          chmod 600 ~/.ssh/deploy_key
-          eval $(ssh-agent -s)
-          ssh-add ~/.ssh/deploy_key
-          echo "${{ secrets.REMOTE_HOST }} ssh-rsa $(ssh-keyscan -t rsa ${{ secrets.REMOTE_HOST }} | cut -d' ' -f3-)" >> ~/.ssh/known_hosts
-        shell: bash
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          known_hosts: unnecessary
+      - name: Adding Known Hosts
+        run: ssh-keyscan -p 22 -H ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts
       - name: Deploy with rsync
         run: |
           rsync -avz -e "ssh -i ~/.ssh/deploy_key" --delete \
           --exclude='.git' \
           --exclude='.github' \
           --exclude='node_modules' \
-          --exclude='vendor' \
           --exclude='.gitignore' \
           --exclude='.eslintrc' \
           --exclude='gulpfile.js' \
@@ -61,7 +58,6 @@ jobs:
           --exclude='package-lock.json' \
           --exclude='composer.json' \
           --exclude='composer.lock' \
-          --exclude='README.md' \
           --exclude='.eslintignore' \
           --exclude='.browserslistrc' \
           ./ ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:${{ secrets.REMOTE_PATH }}/wp-content/plugins/${{ env.PLUGIN_NAME }}/
