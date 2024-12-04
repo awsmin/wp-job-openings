@@ -48,24 +48,19 @@ jobs:
       - name: Build Assets
         run: npm run build
 
-      # Add SSH key setup step
-      - name: Install SSH Key
-        uses: shimataro/ssh-key-action@v2
-        with:
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          known_hosts: unnecessary
-          passphrase: ${{ secrets.SSH_PASSPHRASE }}
-          if_key_exists: replace
-
-      # Add known_hosts
-      - name: Adding Known Hosts
+      # Setup SSH key properly
+      - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
-          ssh-keyscan -H ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          eval $(ssh-agent -s)
+          ssh-add -k ~/.ssh/deploy_key
+          echo "${{ secrets.REMOTE_HOST }} ssh-rsa $(ssh-keyscan -t rsa ${{ secrets.REMOTE_HOST }} | cut -d' ' -f3-)" >> ~/.ssh/known_hosts
 
       - name: Deploy with rsync
         run: |
-          rsync -avz --delete \
+          rsync -avz -e "ssh -i ~/.ssh/deploy_key" --delete \
           --exclude='.git' \
           --exclude='.github' \
           --exclude='node_modules' \
@@ -82,12 +77,12 @@ jobs:
           --exclude='.browserslistrc' \
           ./ ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:${{ secrets.REMOTE_PATH }}/wp-content/plugins/${{ env.PLUGIN_NAME }}/
 
-      - name: Set permissions
+      - name: Verify deployment
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.REMOTE_HOST }}
           username: ${{ secrets.REMOTE_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          passphrase: ${{ secrets.SSH_PASSPHRASE }}
           script: |
+            ls -la ${{ secrets.REMOTE_PATH }}/wp-content/plugins/${{ env.PLUGIN_NAME }}/
             chmod -R 755 ${{ secrets.REMOTE_PATH }}/wp-content/plugins/${{ env.PLUGIN_NAME }}
