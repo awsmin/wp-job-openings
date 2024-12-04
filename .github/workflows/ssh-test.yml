@@ -1,41 +1,28 @@
-name: Test Deployment
-env:
-  PLUGIN_NAME: 'wp-job-openings'
-  REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-  REMOTE_USER: ${{ secrets.REMOTE_USER }}
-  REMOTE_PATH: ${{ secrets.REMOTE_PATH }}
-
+# See https://zellwk.com/blog/github-actions-deploy/ an explanation of this code
+name: deploy
 on:
-  workflow_dispatch:
-
+  push:
+    branches:
+      - main
+      - master
 jobs:
-  test-deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      
-      - name: Install SSH key
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+
+      - run: npm install
+      - run: npm run build
+
+      - name: Install SSH Key
         uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          known_hosts: ${{ secrets.REMOTE_HOST }}
-          if_key_exists: replace
+          known_hosts: unnecessary
 
-      - name: Test Rsync
-        run: |
-          rsync -avzh --stats --progress -e "ssh -o StrictHostKeyChecking=no" --delete \
-          --exclude='.git' \
-          --exclude='.github' \
-          --exclude='node_modules' \
-          --exclude='vendor' \
-          --exclude='.gitignore' \
-          --exclude='.eslintrc' \
-          --exclude='gulpfile.js' \
-          --exclude='package.json' \
-          --exclude='package-lock.json' \
-          --exclude='composer.json' \
-          --exclude='composer.lock' \
-          --exclude='README.md' \
-          --exclude='.eslintignore' \
-          --exclude='.browserslistrc' \
-          ./ ${{ env.REMOTE_USER }}@${{ env.REMOTE_HOST }}:${{ env.REMOTE_PATH }}/wp-content/plugins/${{ env.PLUGIN_NAME }}/
+      - name: Adding Known Hosts
+        run: ssh-keyscan -p 22 -H ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy with rsync
+        run: rsync -avz -e "ssh -p 22" ./dist/ ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/home/awsmstaging/public_html/jobs/wp-content/plugins/
