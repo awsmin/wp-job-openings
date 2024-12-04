@@ -1,0 +1,27 @@
+name: Test SSH Connection
+
+on: 
+  workflow_dispatch:  # This allows manual trigger
+
+jobs:
+  test-ssh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test SSH Connection
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          script: |
+            pwd
+            ls -la
+            echo "Connection successful!"
+            echo "Current directory: $PWD"
+            echo "Testing path exists: ${{ secrets.REMOTE_PATH }}"
+            if [ -d "${{ secrets.REMOTE_PATH }}" ]; then
+              echo "✅ Path exists"
+            else
+              echo "❌ Path does not exist"
+            fi
