@@ -48,15 +48,20 @@ jobs:
       - name: Build Assets
         run: npm run build
 
-      # Setup SSH key properly
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
           eval $(ssh-agent -s)
-          ssh-add -k ~/.ssh/deploy_key
+          expect << 'EOF'
+            spawn ssh-add ~/.ssh/deploy_key
+            expect "Enter passphrase"
+            send "${{ secrets.SSH_PASSPHRASE }}\r"
+            expect eof
+          EOF
           echo "${{ secrets.REMOTE_HOST }} ssh-rsa $(ssh-keyscan -t rsa ${{ secrets.REMOTE_HOST }} | cut -d' ' -f3-)" >> ~/.ssh/known_hosts
+        shell: bash
 
       - name: Deploy with rsync
         run: |
