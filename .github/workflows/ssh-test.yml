@@ -25,4 +25,4 @@ jobs:
         run: ssh-keyscan -p 22 -H ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts
 
       - name: Deploy with rsync
-        run: rsync -avz -e "ssh -p 22" ./dist/ ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/home/awsmstaging/public_html/jobs/wp-content/plugins/
+        run: rsync -avz -e "ssh -p 22" .  ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/home/awsmstaging/public_html/jobs/wp-content/plugins/
