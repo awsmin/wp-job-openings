@@ -8,49 +8,49 @@
   "icon": "",
   "description": "",
   "attributes": {
-    "filter_options": {
-      "type": "array",
-      "default": []
-    },
-    "select_filter_full": {
-      "type": "boolean",
-      "default": false
-    },
-    "other_options": {
-      "type": "array",
-      "default": []
-    },
-    "layout": {
-      "type": "string",
-      "default": "list"
-    },
-    "listing_per_page": {
-      "type": "number",
-      "default": 10
-    },
-    "number_of_columns": {
-      "type": "number",
-      "default": 3
-    },
-    "pagination": {
-      "type": "string",
-      "default": "modern"
-    },
-    "hide_expired_jobs": {
-      "type": "boolean",
-      "default": false
-    },
     "search": {
       "type": "boolean",
       "default": false
+    },
+    "placement": {
+      "type": "string",
+      "default": "top"
     },
     "search_placeholder": {
       "type": "string",
       "default": ""
     },
-    "enable_job_filter": {
+    "filter_options": {
+      "type": "array",
+      "default": []
+    },
+    "listType": {
+      "type": "string",
+      "default": "top"
+    },
+    "layout": {
+      "type": "string",
+      "default": "list"
+    },
+    "selectedTerms": {
+      "type": "array",
+      "default": []
+    },
+    "orderBy": {
+      "type": "string",
+      "default": "new"
+    },
+    "hide_expired_jobs": {
       "type": "boolean",
-      "default": true
+      "default": false
+    },
+    "jobsPerPage": {
+      "type": "number",
+      "default": 5
+    },
+    "pagination": {
+      "type": "string",
+      "default": "modern"
     }
   },
   "example": {},

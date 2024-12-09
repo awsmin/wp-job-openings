@@ -18,16 +18,17 @@ import {
 const WidgetInspectorControls = props => {
 	const {
 		attributes: {
-			filter_options,
-			other_options,
-			listing_per_page,
-			number_of_columns,
 			search,
+			placement,
+			filter_options,
 			pagination,
-			enable_job_filter,
 			search_placeholder,
 			hide_expired_jobs,
+			orderBy,
+			listType,
+			jobsPerPage,
 			layout,
+			selectedTerms
 		},
 		setAttributes
 	} = props;
@@ -35,163 +36,153 @@ const WidgetInspectorControls = props => {
 	let block_appearance_list = [];
 	let block_job_listing = [];
 
-
 	// Local state for block settings
 	const specifications = awsmJobsAdmin.awsm_filters_block;
 	const [isProEnabled, setIsProEnabled] = useState(false);
-	const [sliderValue, setSliderValue] = useState(50);
-	const [placement, setPlacement] = useState("top");
-	const [filter_type, setFilterType] = useState("dropdown");
-	const [listType, setListType] = useState("all");
-	//const [layout, setLayout] = useState("list");
-	const [orderBy, setOrderBy] = useState('new');
-	const [selectedTerm, setSelectedTerm] = useState({}); // Will store term selections by spec key
-	const [selectedTerms, setSelectedTerms] = useState([]); // Local state for terms in the token field
-
-	// Handle changes to the placement setting
-	const handlePlacementChange = (newValue) => {
-		setPlacement(newValue);
-	};
-
-	// Handle changes to the filter type (dropdown or checkbox)
-	const handleFilterTypeChange = (newValue) => { 
-		setFilterType(newValue);
-	};
-
-	// Handle changes to the list type (all or filtered)
-	const handleListTypeChange = (newValue) => {
-		setListType(newValue);
-	};
-
-	// Handle changes to the layout (list, grid, stack)
-	const handleLayoutChange = (newValue) => {
-		setLayout(newValue);
-	};
-
-	// Handle changes to the order by setting
-	const handleOrderChange = (newValue) => {
-		setOrderBy(newValue);
-	};
-
-	// Handle term selection changes in the token field
-	const handleTermChange = (newTokens, specKey, spec) => {
-		// Convert token names back to term_ids
-		const newTermIds = newTokens.map(token => {
-		  const term = spec.terms.find(t => t.name === token);
-		  return term ? term.term_id : null;
-		});
-	  
-		setSelectedTerms(prev => ({
-		  ...prev,
-		  [specKey]: newTermIds.filter(id => id !== null), // Save only valid term IDs
-		}));
-	};
+	const [selectedTermsState, setSelectedTermsState] = useState(selectedTerms || {});
+	
 	// Sync selected terms with props on mount or when selectedTerm changes
 	useEffect(() => {
-		if (specifications.length > 0 && typeof filter_options === "undefined") {
-			let initialspecs = specifications.map(spec => spec.value);
-			setAttributes({ filter_options: initialspecs });
-		}
-
 		// Set the pro add-on status
 		if (typeof awsmJobsAdmin !== "undefined" && awsmJobsAdmin.isProEnabled) {
 			setIsProEnabled(true);
 		}
 
-		// Ensure the selected terms are populated correctly based on the spec key
-		if (specifications && specifications.length > 0) {
-			specifications.forEach(spec => {
-				setSelectedTerms(prev => ({
-					...prev,
-					[spec.key]: selectedTerm[spec.key] || [],
-				}));
-			});
-		}
-	}, [selectedTerm, specifications]);
+		// Initialize selectedTerms if not already initialized
+		const initialSelectedTerms = specifications.reduce((acc, spec) => {
+			acc[spec.key] = [];
+			return acc;
+		}, {});
+		  
+		setSelectedTermsState(initialSelectedTerms);
+	},[specifications]);
 
 	const specifications_handler = (toggleValue, specKey) => {
 		if (typeof filter_options !== "undefined") {
-			let modfilteroptions = [...filter_options];
-			if (!toggleValue) {
-				modfilteroptions = modfilteroptions.filter(
-					specOption => specOption !== specKey
-				);
-			} else {
-				modfilteroptions.push(specKey);
+		let modfilteroptions = [...filter_options];
+		const existingOptionIndex = modfilteroptions.findIndex(option => option.specKey === specKey);
+	
+		if (!toggleValue) {
+			if (existingOptionIndex !== -1) {
+			modfilteroptions.splice(existingOptionIndex, 1);
 			}
-			setAttributes({ filter_options: modfilteroptions });
+		} else {
+			if (existingOptionIndex === -1) {
+			modfilteroptions.push({ specKey: specKey, value: "dropdown" });
+			}
 		}
+		setAttributes({ filter_options: modfilteroptions });
+		}
+  	};
+  
+  	const updateFilterValue = (newValue, specKey) => {
+		if (typeof filter_options !== "undefined") {
+		let modfilteroptions = [...filter_options];
+	
+		const existingOptionIndex = modfilteroptions.findIndex(option => option.specKey === specKey);
+	
+		if (existingOptionIndex !== -1) {
+			modfilteroptions[existingOptionIndex].value = newValue;
+		}
+		setAttributes({ filter_options: modfilteroptions });
+		}
+  	};
+
+	const handleTermChange = (newTokens, specKey, spec) => {
+	
+		setSelectedTermsState(prevSelectedTerms => {
+		  const updatedSelectedTerms = { ...prevSelectedTerms };
+	
+		  const newTermIds = newTokens.map(token => {
+			const term = spec.terms.find(t => t.name === token);
+			return term ? term.term_id : null;
+		  }).filter(id => id !== null); // Filter out null values
+	
+		  updatedSelectedTerms[specKey] = newTermIds;
+	
+		  setAttributes({ selectedTerms: updatedSelectedTerms });  
+		  return updatedSelectedTerms; 
+		});
 	};
 
 	return (
 		<InspectorControls>
-			<PanelBody title={__("Layout Options", "wp-job-openings")}>
-				<SelectControl
-					label={__("Layout", "wp-job-openings")}
-					value={layout}
-					options={[
-						{ label: __("List view", "wp-job-openings"), value: "list" },
-						{ label: __("Grid view", "wp-job-openings"), value: "grid" }
-					]}
-					onChange={layout => setAttributes({ layout })}
-				/>
-			</PanelBody>
-
+			{/* Search and Filters */}
 			<PanelBody title={__("Search & Filters", "wp-job-openings")}>
 				<ToggleControl
 					label={__("Enable Search & Filters", "wp-job-openings")}
 					checked={search}
 					onChange={search => setAttributes({ search })}
 				/>
-
-				<ToggleGroupControl
-					label="Placement"
-					value={placement}
-					onChange={handlePlacementChange}
-					isBlock
-					__nextHasNoMarginBottom
-					__next40pxDefaultSize
-				>
-					<ToggleGroupControlOption value="top" label="Top" />
-					<ToggleGroupControlOption value="slide" label="Slide" />
-				</ToggleGroupControl>
 				
-				<TextControl
-					label={__("Search Placeholder", "wp-job-openings")}
-					value={search_placeholder}
-					onChange={(search_placeholder) =>
-						setAttributes({ search_placeholder })
-					}
-					placeholder={__("Search Jobs", "wp-job-openings")}
-				/>
-
-				<h2>{__("Available Filters", "wp-job-openings")}</h2>
-				{specifications.map(spec => (
-					<ToggleControl
-						key={spec.key}
-						label={spec.label}
-						checked={filter_options.includes(spec.key)}
-						onChange={toggleValue => specifications_handler(toggleValue, spec.key)}
+				{search && (
+				<>
+					<ToggleGroupControl
+						label="Placement"
+						value={placement}
+						onChange={placement => setAttributes({ placement })}
+						isBlock
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
+					>
+						<ToggleGroupControlOption value="top" label="Top" />
+						<ToggleGroupControlOption value="slide" label="Slide" />
+					</ToggleGroupControl>
+					
+					<TextControl
+						label={__("Search Placeholder", "wp-job-openings")}
+						value={search_placeholder}
+						onChange={(search_placeholder) =>
+							setAttributes({ search_placeholder })
+						}
+						placeholder={__("Search Jobs", "wp-job-openings")}
 					/>
-				))}
 
-				<ToggleGroupControl
-					value={filter_type}
-					onChange={handleFilterTypeChange}
-					isBlock
-					__nextHasNoMarginBottom
-					__next40pxDefaultSize
-				>
-					<ToggleGroupControlOption value="dropdown" label="Dropdown" />
-					<ToggleGroupControlOption value="checkbox" label="Checkbox" />
-				</ToggleGroupControl>
+					<>
+					<h2>{__("Available Filters", "wp-job-openings")}</h2>
+					{specifications.map(spec => { 
+						const filterOption = filter_options.find(option => option.specKey === spec.key); // Find the corresponding filter option
+						return (
+						<div key={spec.key}>
+							<ToggleControl
+							label={spec.label}
+							checked={filterOption !== undefined} // Check if the specKey is in the filter options
+							onChange={toggleValue => specifications_handler(toggleValue, spec.key)}
+							/>
+
+							{/* Conditionally render the ToggleGroupControl if the toggle is checked */}
+							{filterOption && (
+							<div style={{ marginTop: '10px' }}>
+								<ToggleGroupControl
+								value={filterOption.value || "dropdown"} // Default to "dropdown" if no value is set
+								onChange={(newValue) => {
+									// Update the selected value for this specific filter
+									updateFilterValue(newValue, spec.key);
+								}}
+								isBlock
+								__nextHasNoMarginBottom
+								__next40pxDefaultSize
+								>
+								<ToggleGroupControlOption label={__("Dropdown", "wp-job-openings")} value="dropdown" />
+								<ToggleGroupControlOption label={__("Checkbox", "wp-job-openings")} value="checkbox" />
+								</ToggleGroupControl>
+							</div>
+							)}
+						</div>
+						);
+					})}
+					</>
+
+				</>
+				)}
 			</PanelBody>
+			{/* End */}
 
 			<PanelBody title={__("Job Listing", "wp-job-openings")}>
 				<ToggleGroupControl
 					label="List Type"
 					value={listType}
-        			onChange={handleListTypeChange}
+        			onChange={listType => setAttributes({ listType })}
 					isBlock
 					__nextHasNoMarginBottom
 					__next40pxDefaultSize
@@ -201,10 +192,10 @@ const WidgetInspectorControls = props => {
 				</ToggleGroupControl>
 				<p> Display all jobs or filtered by job specifications </p>
 				
-				{/* <ToggleGroupControl
+				<ToggleGroupControl
 					label="Layout"
 					value={layout}
-        			onChange={handleLayoutChange}
+					onChange={layout => setAttributes({ layout })}
 					isBlock
 					__nextHasNoMarginBottom
 					__next40pxDefaultSize
@@ -212,29 +203,29 @@ const WidgetInspectorControls = props => {
 					<ToggleGroupControlOption value="list" label="List" />
 					<ToggleGroupControlOption value="grid" label="Grid" />
 					<ToggleGroupControlOption value="stack" label="Stack" />
-				</ToggleGroupControl> */}
+				</ToggleGroupControl>
 
 				<h2>{__("Available Filters", "wp-job-openings")}</h2>
 				{specifications.map(spec => (
 					<div key={spec.key} className="filter-item">
-						{/* ToggleControl for the specification */}
-						<ToggleControl
-							label={spec.label}
-							checked={filter_options.includes(spec.key)}
-							onChange={toggleValue => specifications_handler(toggleValue, spec.key)}
-						/>
+					{/* ToggleControl for the specification */}
+					<ToggleControl
+						label={spec.label}
+						checked={filter_options.includes(spec.key)}
+						onChange={toggleValue => specifications_handler(toggleValue, spec.key)}
+					/>
 
-						<FormTokenField
-							value={selectedTerms[spec.key] ? selectedTerms[spec.key].map(id => {
-								const term = spec.terms.find(term => term.term_id === id);
-								return term ? term.name : '';
-							}) : []}
-							onChange={(newTokens) => handleTermChange(newTokens, spec.key, spec)}
-							suggestions={spec.terms.map(term => term.name)}
-							label=""  
-						/>
-						)
-					</div> 
+					<FormTokenField
+						value={(selectedTerms[spec.key] || []).map(id => {
+							// Ensure the ID is valid and map it to the corresponding term name
+							const term = spec.terms.find(t => t.term_id === id);
+							return term ? term.name : '';  // Return the term name or an empty string if not found
+						})}
+						onChange={(newTokens) => handleTermChange(newTokens, spec.key, spec)}
+						suggestions={spec.terms.map(term => term.name)}  // Suggestions are the names of all terms
+						label=""  
+					/>
+					</div>
 				))}
 
 				<SelectControl
@@ -244,7 +235,7 @@ const WidgetInspectorControls = props => {
 						{ label: __("Newest to oldest", "wp-job-openings"),  value: "new" },
 						{ label: __("Oldest to newest", "wp-job-openings"), value: "old" },
 					]}
-					onChange={handleOrderChange}
+					onChange={orderBy => setAttributes({ orderBy })}
 				/>
 
 				<ToggleControl
@@ -261,8 +252,8 @@ const WidgetInspectorControls = props => {
 
 				<RangeControl
                         label={__("Jobs Per Page", "my-text-domain")}
-                        onChange={(value) => setSliderValue(value)}
-						value={sliderValue}
+                        onChange={(sliderValue) => setAttributes({ jobsPerPage: sliderValue })}  // Update the correct attribute here
+    					value={jobsPerPage} 
                         min={1} 
                         max={10} 
                         step={1}

@@ -33,9 +33,14 @@ class Awsm_Job_Guten_Blocks {
 		register_block_type( __DIR__ . '/build', $args );
 	}
 
-	public function block_render_callback( $atts, $content ) {
-		if ( isset( $atts['filter_options'] ) && is_array( $atts['filter_options'] ) ) {
+	public function block_render_callback( $atts, $content ) { 
+		error_log( print_r( $atts ,true) );
+		/* if ( isset( $atts['filter_options'] ) && is_array( $atts['filter_options'] ) ) {
 			$atts['filter_options'] = implode( ',', $atts['filter_options'] );
+		}
+
+		if ( isset( $atts['placement'] ) ) {
+			$atts['placement'] = $atts['placement'];
 		}
 
 		if ( isset( $atts['other_options'] ) && is_array( $atts['other_options'] ) ) {
@@ -68,7 +73,7 @@ class Awsm_Job_Guten_Blocks {
 
 		if ( isset( $atts['select_filter_full'] ) && is_array( $atts['select_filter_full'] ) ) {
 			$atts['select_filter_full'] = $atts['select_filter_full'];
-		}
+		} */
 
 		 /**
 		 * Filters the block attributes.

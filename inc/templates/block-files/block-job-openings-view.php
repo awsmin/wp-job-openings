@@ -12,8 +12,39 @@ $attributes = isset( $block_atts_set ) ? $block_atts_set : array();
 $query      = awsm_block_jobs_query( $attributes );
 
 if ( $query->have_posts() ) : ?>
-	<div class="awsm-b-job-wrap<?php awsm_jobs_wrapper_class(); ?> awsm-job-form-plugin-style awsm-job-2-col">
-		<div class="awsm-filter-wrap awsm-jobs-alerts-on">
+
+<?php 
+$position = 'slide'; 
+if( $position == 'top' ){ ?>
+<div class="awsm-b-job-wrap<?php awsm_jobs_wrapper_class(); ?>">
+
+<?php
+	/**
+	 * awsm_block_filter_form hook
+	 *
+	 * Display filter form for job listings
+	 *
+	 * @hooked AWSM_Job_Openings_Block::display_block_filter_form()
+	 *
+	 * @since 3.5.0
+	 *
+	 * @param array $attributes Attributes array from block.
+	 */
+	do_action( 'awsm_block_filter_form', $attributes );
+	do_action( 'awsm_block_form_outside', $attributes );
+?>
+
+<div <?php awsm_block_jobs_view_class( '', $attributes ); ?><?php awsm_block_jobs_data_attrs( array(), $attributes ); ?>>
+	<?php
+		include get_awsm_jobs_template_path( 'block-main', 'block-files' );
+	?>
+</div>
+</div>
+<?php 
+	}else{
+?>
+<div class="awsm-b-job-wrap<?php awsm_jobs_wrapper_class(); ?> awsm-job-form-plugin-style awsm-job-2-col">
+	<div class="awsm-filter-wrap awsm-jobs-alerts-on">
 		<form action="https://demo.wpjobopenings.com/wp-admin/admin-ajax.php" method="POST">
 			<div class="awsm-filter-item-search">
 				<div class="awsm-filter-item-search-in"><label for="awsm-jq-1" class="awsm-sr-only">Search</label><input type="text" id="awsm-jq-1" name="jq" value="" placeholder="Search" class="awsm-job-search awsm-job-form-control"><span class="awsm-job-search-btn awsm-job-search-icon-wrapper"><i class="awsm-job-icon-search"></i></span><span class="awsm-job-search-close-btn awsm-job-search-icon-wrapper awsm-job-hide"><i class="awsm-job-icon-close-circle"></i></span></div>
@@ -176,6 +207,7 @@ if ( $query->have_posts() ) : ?>
 			</div>
 			<input type="hidden" name="action" value="jobfilter">
 		</form>
+
 		<div class="awsm-jobs-alerts-widget-wrapper">
 			<div class="awsm-jobs-alerts-widget-content awsm-hide">
 				<h2>Job Alerts</h2>
@@ -424,28 +456,32 @@ if ( $query->have_posts() ) : ?>
 				</form>
 			</div>
 		</div>
+
+	</div>
+
+	<div class="awsm-job-listings">
+		<div class="awsm-job-sort-wrap">
+			<div class="awsm-job-results">
+				Showing 1 – 10 of 16 results
+			</div>
+			<div class="awsm-job-sort">
+				<label>Sort by</label>
+				<select>
+					<option>Random</option>
+					<option>Date up</option>
+					<option>Date down</option>
+				</select>
+			</div>
 		</div>
-		<div class="awsm-job-listings">
-			<div class="awsm-job-sort-wrap">
-				<div class="awsm-job-results">
-					Showing 1 – 10 of 16 results
-				</div>
-				<div class="awsm-job-sort">
-					<label>Sort by</label>
-					<select>
-						<option>Random</option>
-						<option>Date up</option>
-						<option>Date down</option>
-					</select>
-				</div>
-			</div>
-			<div class="awsm-row awsm-grid-col-3" data-listings="9">
-				<?php
-					include get_awsm_jobs_template_path( 'block-main', 'block-files' );
-				?>
-			</div>
+		<div class="awsm-row awsm-grid-col-3" data-listings="9">
+			<?php
+				include get_awsm_jobs_template_path( 'block-main', 'block-files' );
+			?>
+		</div>
 		</div>
 	</div>
+<?php } ?>
+	
 	<?php
 else :
 	?>
