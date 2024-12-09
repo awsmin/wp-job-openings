@@ -81,6 +81,7 @@ do_action( 'add_meta_boxes_' . AWSM_Job_Openings_Overview::$screen_id, null );
 					<div class="awsm-jobs-overview-col-content">
 						<?php
 						if ( ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) {
+							// Translators: %1$s is the opening <a> tag for the PRO Plan link, %2$s is the closing </a> tag.
 							$pro_link = sprintf( esc_html__( 'This feature requires %1$sPRO Plan%2$s to work', 'wp-job-openings' ), '<a href="https://awsm.in/get/wpjo-pro/">', '</a>' );
 							// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 							printf( '<div class="awsm-jobs-overview-widget-wrapper"><div class="awsm-jobs-pro-feature"><img src="%2$s"><p>%1$s</p></div></div>', $pro_link, esc_url( 'https://i.ibb.co/vXyz24d/Screenshot-2024-03-05-at-12-41-12-PM.png' ) );
