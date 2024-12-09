@@ -52,6 +52,8 @@ if ( $post->post_type === 'awsm_job_application' ) {
 			$data_rows['current_status'][1] = '<span class="awsm-text-green">' . esc_html__( 'Active', 'wp-job-openings' ) . '</span>';
 		} elseif ( $check_status === 'expired' ) {
 			$data_rows['current_status'][1] = '<span class="awsm-text-red">' . esc_html__( 'Expired', 'wp-job-openings' ) . '</span>';
+		} elseif( $check_status === 'trash') {
+			$data_rows['current_status'][1] = '<span class="awsm-text-red">' . esc_html__( 'Trashed', 'wp-job-openings' ) . '</span>';
 		} else {
 			$data_rows['current_status'][1] = '<span>' . esc_html__( 'Pending', 'wp-job-openings' ) . '</span>';
 		}
