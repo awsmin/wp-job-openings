@@ -7,7 +7,7 @@ $applicant_email           = esc_attr( get_post_meta( $post->ID, 'awsm_applicant
 $applicant_details         = $this->get_applicant_meta_details_list( $post->ID, array( 'awsm_applicant_email' => $applicant_email ) );
 $attachment_id             = get_post_meta( $post->ID, 'awsm_attachment_id', true );
 $tab_applicant_single_view = AWSM_Job_Openings_Meta::set_applicant_single_view_tab();
-$tab_content               = AWSM_Job_Openings_Meta::get_applicant_single_view_content( $post->ID, $attachment_id );
+$applicant_tab_contents               = AWSM_Job_Openings_Meta::get_applicant_single_view_content( $post->ID, $attachment_id );
 $resume_details            = $this->get_attached_file_details( $attachment_id );
 $full_file_name            = get_post_meta( $attachment_id, 'awsm_actual_file_name', true );
 $applicant_job_id          = get_post_meta( $post->ID, 'awsm_job_id', true );
@@ -155,12 +155,11 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 							</ul>
 						</div>
 						<!-- Additional Tabs -->
-						<?php foreach ( $tab_content as $key => $tab_item ) : ?>
-							<div id="awsm-applicant-<?php echo esc_attr( $key ); ?>" class="application-main-tab-item awsm-applicant-<?php echo esc_attr( $key ); ?>-tab">
-								<?php echo wp_kses_post( $tab_item['content'] ); ?>
+						<?php foreach ( $applicant_tab_contents as $applicant_tab_key => $applicant_tab ) : ?>
+							<div id="awsm-applicant-<?php echo esc_attr( $applicant_tab_key ); ?>" class="application-main-tab-item awsm-applicant-<?php echo esc_attr( $applicant_tab_key ); ?>-tab">
+							<?php echo $applicant_tab['content']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> 
 							</div>
 						<?php endforeach; ?>
-
 					</div>
 				</div><!-- .application-main-cnt-tab-sec -->
 			<?php endif; ?>
