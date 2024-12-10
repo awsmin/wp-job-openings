@@ -311,8 +311,6 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
     layout = _props$attributes.layout,
     selectedTerms = _props$attributes.selectedTerms,
     setAttributes = props.setAttributes;
-  var block_appearance_list = [];
-  var block_job_listing = [];
 
   // Local state for block settings
   var specifications = awsmJobsAdmin.awsm_filters_block;
@@ -327,58 +325,60 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
 
   // Sync selected terms with props on mount or when selectedTerm changes
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_4__.useEffect)(function () {
-    // Set the pro add-on status
     if (typeof awsmJobsAdmin !== "undefined" && awsmJobsAdmin.isProEnabled) {
       setIsProEnabled(true);
     }
 
-    // Initialize selectedTerms if not already initialized
+    // Sync state with selectedTerms attribute
     var initialSelectedTerms = specifications.reduce(function (acc, spec) {
-      acc[spec.key] = [];
+      acc[spec.key] = selectedTerms[spec.key] || []; // Initialize with existing selected terms or empty array
       return acc;
     }, {});
     setSelectedTermsState(initialSelectedTerms);
-  }, [specifications]);
+  }, [specifications, selectedTerms]);
+
+  // Update filter options when toggling filters
   var specifications_handler = function specifications_handler(toggleValue, specKey) {
-    if (typeof filter_options !== "undefined") {
-      var modfilteroptions = (0,_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_1__["default"])(filter_options);
-      var existingOptionIndex = modfilteroptions.findIndex(function (option) {
-        return option.specKey === specKey;
-      });
-      if (!toggleValue) {
-        if (existingOptionIndex !== -1) {
-          modfilteroptions.splice(existingOptionIndex, 1);
-        }
-      } else {
-        if (existingOptionIndex === -1) {
-          modfilteroptions.push({
-            specKey: specKey,
-            value: "dropdown"
-          });
-        }
-      }
-      setAttributes({
-        filter_options: modfilteroptions
-      });
-    }
-  };
-  var updateFilterValue = function updateFilterValue(newValue, specKey) {
-    if (typeof filter_options !== "undefined") {
-      var modfilteroptions = (0,_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_1__["default"])(filter_options);
-      var existingOptionIndex = modfilteroptions.findIndex(function (option) {
-        return option.specKey === specKey;
-      });
+    var modfilteroptions = (0,_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_1__["default"])(filter_options);
+    var existingOptionIndex = modfilteroptions.findIndex(function (option) {
+      return option.specKey === specKey;
+    });
+    if (!toggleValue) {
       if (existingOptionIndex !== -1) {
-        modfilteroptions[existingOptionIndex].value = newValue;
+        modfilteroptions.splice(existingOptionIndex, 1);
       }
-      setAttributes({
-        filter_options: modfilteroptions
-      });
+    } else {
+      if (existingOptionIndex === -1) {
+        modfilteroptions.push({
+          specKey: specKey,
+          value: "dropdown"
+        });
+      }
     }
+    setAttributes({
+      filter_options: modfilteroptions
+    });
   };
+
+  // Update filter value (dropdown or checkbox)
+  var updateFilterValue = function updateFilterValue(newValue, specKey) {
+    var modfilteroptions = (0,_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_1__["default"])(filter_options);
+    var existingOptionIndex = modfilteroptions.findIndex(function (option) {
+      return option.specKey === specKey;
+    });
+    if (existingOptionIndex !== -1) {
+      modfilteroptions[existingOptionIndex].value = newValue;
+    }
+    setAttributes({
+      filter_options: modfilteroptions
+    });
+  };
+
+  // Handle the term selection/deselection
   var handleTermChange = function handleTermChange(newTokens, specKey, spec) {
     setSelectedTermsState(function (prevSelectedTerms) {
       var updatedSelectedTerms = _objectSpread({}, prevSelectedTerms);
+      var selectedTokens = (0,_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_1__["default"])(newTokens);
       var newTermIds = newTokens.map(function (token) {
         var term = spec.terms.find(function (t) {
           return t.name === token;
@@ -386,12 +386,12 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
         return term ? term.term_id : null;
       }).filter(function (id) {
         return id !== null;
-      }); // Filter out null values
+      }); // Filter out invalid IDs
 
       updatedSelectedTerms[specKey] = newTermIds;
-      setAttributes({
-        selectedTerms: updatedSelectedTerms
-      });
+
+      //setAttributes({ selectedTerms: updatedSelectedTerms });
+      console.log('Selected tokens:', updatedSelectedTerms);
       return updatedSelectedTerms;
     });
   };
@@ -431,29 +431,26 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
       });
     },
     placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Search Jobs", "wp-job-openings")
-  }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_4__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)("h2", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Available Filters", "wp-job-openings")), specifications.map(function (spec) {
+  }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)("h2", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Available Filters", "wp-job-openings")), specifications.map(function (spec) {
     var filterOption = filter_options.find(function (option) {
       return option.specKey === spec.key;
-    }); // Find the corresponding filter option
+    });
     return (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)("div", {
       key: spec.key
     }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.ToggleControl, {
       label: spec.label,
-      checked: filterOption !== undefined // Check if the specKey is in the filter options
-      ,
+      checked: filterOption !== undefined,
       onChange: function onChange(toggleValue) {
         return specifications_handler(toggleValue, spec.key);
       }
     }), filterOption && (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)("div", {
       style: {
-        marginTop: '10px'
+        marginTop: "10px"
       }
     }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalToggleGroupControl, {
-      value: filterOption.value || "dropdown" // Default to "dropdown" if no value is set
-      ,
+      value: filterOption.value || "dropdown",
       onChange: function onChange(newValue) {
-        // Update the selected value for this specific filter
-        updateFilterValue(newValue, spec.key);
+        return updateFilterValue(newValue, spec.key);
       },
       isBlock: true,
       __nextHasNoMarginBottom: true,
@@ -465,7 +462,7 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Checkbox", "wp-job-openings"),
       value: "checkbox"
     }))));
-  })))), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.PanelBody, {
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.PanelBody, {
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Job Listing", "wp-job-openings")
   }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalToggleGroupControl, {
     label: "List Type",
@@ -515,19 +512,18 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
         return specifications_handler(toggleValue, spec.key);
       }
     }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.FormTokenField, {
-      value: (selectedTerms[spec.key] || []).map(function (id) {
-        // Ensure the ID is valid and map it to the corresponding term name
+      value: (selectedTermsState[spec.key] || []).map(function (id) {
         var term = spec.terms.find(function (t) {
           return t.term_id === id;
         });
-        return term ? term.name : ''; // Return the term name or an empty string if not found
+        return term ? term.name : "";
       }),
       onChange: function onChange(newTokens) {
         return handleTermChange(newTokens, spec.key, spec);
       },
       suggestions: spec.terms.map(function (term) {
         return term.name;
-      }) // Suggestions are the names of all terms
+      }) // Suggestions are term names
       ,
       label: ""
     }));
@@ -554,14 +550,13 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
         hide_expired_jobs: hide_expired_jobs
       });
     }
-  }), wp.hooks.doAction('after_awsm_job_appearance', block_appearance_list, props), block_appearance_list, wp.hooks.doAction('after_awsm_block_job_listing', block_job_listing, props), block_job_listing, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.RangeControl, {
+  }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.RangeControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Jobs Per Page", "my-text-domain"),
     onChange: function onChange(sliderValue) {
       return setAttributes({
         jobsPerPage: sliderValue
       });
-    } // Update the correct attribute here
-    ,
+    },
     value: jobsPerPage,
     min: 1,
     max: 10,
@@ -1068,7 +1063,7 @@ function _unsupportedIterableToArray(r, a) {
   \************************/
 /***/ (function(module) {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"wp-job-openings/blocks","version":"1.0.0","title":"","category":"","icon":"","description":"","attributes":{"search":{"type":"boolean","default":false},"placement":{"type":"string","default":"top"},"search_placeholder":{"type":"string","default":""},"filter_options":{"type":"array","default":[]},"listType":{"type":"string","default":"top"},"layout":{"type":"string","default":"list"},"selectedTerms":{"type":"array","default":[]},"orderBy":{"type":"string","default":"new"},"hide_expired_jobs":{"type":"boolean","default":false},"jobsPerPage":{"type":"number","default":5},"pagination":{"type":"string","default":"modern"}},"example":{},"supports":{"html":false},"textdomain":"wp-job-openings","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"wp-job-openings/blocks","version":"1.0.0","title":"","category":"","icon":"","description":"","attributes":{"search":{"type":"boolean","default":false},"placement":{"type":"string","default":"top"},"search_placeholder":{"type":"string","default":""},"filter_options":{"type":"array","default":[]},"listType":{"type":"string","default":"top"},"layout":{"type":"string","default":"list"},"selectedTerms":{"type":"string","default":[]},"orderBy":{"type":"string","default":"new"},"hide_expired_jobs":{"type":"boolean","default":false},"jobsPerPage":{"type":"number","default":5},"pagination":{"type":"string","default":"modern"}},"example":{},"supports":{"html":false},"textdomain":"wp-job-openings","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ })
 

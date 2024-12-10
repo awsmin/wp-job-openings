@@ -33,7 +33,7 @@
       "default": "list"
     },
     "selectedTerms": {
-      "type": "array",
+      "type": "string",
       "default": []
     },
     "orderBy": {
