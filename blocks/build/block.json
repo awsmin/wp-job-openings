@@ -26,15 +26,15 @@
     },
     "listType": {
       "type": "string",
-      "default": "top"
+      "default": "all"
     },
     "layout": {
       "type": "string",
       "default": "list"
     },
     "selectedTerms": {
-      "type": "string",
-      "default": []
+      "type": "object",
+      "default": {}
     },
     "orderBy": {
       "type": "string",

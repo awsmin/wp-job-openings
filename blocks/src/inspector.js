@@ -99,9 +99,9 @@ const WidgetInspectorControls = (props) => {
 				.filter((id) => id !== null); // Filter out invalid IDs
 	
 			updatedSelectedTerms[specKey] = newTermIds;
-	
-		    //setAttributes({ selectedTerms: updatedSelectedTerms });
-			console.log('Selected tokens:', updatedSelectedTerms);
+			console.log('Selected tokens before:', selectedTerms);
+		    setAttributes({ selectedTerms: updatedSelectedTerms });
+			console.log('Selected tokens:', selectedTerms);
 	
 			return updatedSelectedTerms;
 		});
