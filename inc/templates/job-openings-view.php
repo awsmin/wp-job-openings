@@ -57,8 +57,26 @@ if ( $query->have_posts() ) : ?>
 else :
 	?>
 	<div class="jobs-none-container">
-		<p><?php awsm_no_jobs_msg(); ?></p>
-	</div>
+		<p>
+		<?php
+		if ( ! $_GET ) {
+			awsm_no_jobs_msg();
+		} else {
+			?>
+		<div class="awsm-job-wrap<?php awsm_jobs_wrapper_class(); ?>">
+			<?php
+				do_action( 'awsm_filter_form', $shortcode_atts );
+				do_action( 'awsm_filter_after_form' );
+			?>
+			<div <?php awsm_jobs_view_class( '', $shortcode_atts ); ?><?php awsm_jobs_data_attrs( array(), $shortcode_atts ); ?>>
+				<?php include get_awsm_jobs_template_path( 'main', 'job-openings' ); ?>
+			</div>
+			</div>
+				<?php
+		}
+		?>
+			</p>
+		</div>
 	<?php
 endif;
 

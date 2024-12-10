@@ -7,7 +7,7 @@ $applicant_email           = esc_attr( get_post_meta( $post->ID, 'awsm_applicant
 $applicant_details         = $this->get_applicant_meta_details_list( $post->ID, array( 'awsm_applicant_email' => $applicant_email ) );
 $attachment_id             = get_post_meta( $post->ID, 'awsm_attachment_id', true );
 $tab_applicant_single_view = AWSM_Job_Openings_Meta::set_applicant_single_view_tab();
-$applicant_tab_contents               = AWSM_Job_Openings_Meta::get_applicant_single_view_content( $post->ID, $attachment_id );
+$applicant_tab_contents    = AWSM_Job_Openings_Meta::get_applicant_single_view_content( $post->ID, $attachment_id );
 $resume_details            = $this->get_attached_file_details( $attachment_id );
 $full_file_name            = get_post_meta( $attachment_id, 'awsm_actual_file_name', true );
 $applicant_job_id          = get_post_meta( $post->ID, 'awsm_job_id', true );
