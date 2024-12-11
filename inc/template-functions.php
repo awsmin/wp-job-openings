@@ -44,7 +44,7 @@ if ( ! function_exists( 'awsm_jobs_query' ) ) {
 
         $filters = get_option( 'awsm_jobs_listing_available_filters' );
 
-        if ( $_GET ) {
+        // if ( $_GET ) {
             if ( ! empty( $filters ) ) {
                 foreach ( $filters as $filter ) {
                     $current_filter_key = str_replace( '-', '__', $filter ) . $filter_suffix;
@@ -61,13 +61,40 @@ if ( ! function_exists( 'awsm_jobs_query' ) ) {
                     }
                 }
             }
-        }
+        // }
 
         $args  = AWSM_Job_Openings::awsm_job_query_args( $query_args, $shortcode_atts, $is_term_or_slug );
         $query = new WP_Query( $args );
 
         return $query;
     }
+}
+
+if ( ! function_exists( 'get_filtered_job_terms' ) ) {
+	function get_filtered_job_terms() {
+		$filter_suffix   = '_spec';
+		$filters         = get_option('awsm_jobs_listing_available_filters');
+		$filtered_terms  = array();
+
+		if (!empty($filters)) {
+			foreach ($filters as $filter) {
+				$current_filter_key = str_replace('-', '__', $filter) . $filter_suffix;
+
+				if (isset($_GET[$current_filter_key])) {
+					$term_slug = sanitize_title($_GET[$current_filter_key]);
+					$term      = get_term_by('slug', $term_slug, $filter);
+
+					if ($term && !is_wp_error($term)) {
+						$filtered_terms[$filter] = $term;
+					} else {
+						$filtered_terms[$filter] = null;
+					}
+				}
+			}
+		}
+
+		return $filtered_terms;
+	}
 }
 
 if ( ! function_exists( 'awsm_jobs_view' ) ) {
@@ -372,3 +399,14 @@ if ( ! function_exists( 'awsm_jobs_single_featured_image' ) ) {
 	}
 }
 add_action( 'before_awsm_jobs_single_content', 'awsm_jobs_single_featured_image' );
+
+add_filter( 'query_vars', 'register_custom_query_vars' );
+function register_custom_query_vars( $vars ) {
+    $filters = get_option( 'awsm_jobs_listing_available_filters' );
+    if ( $filters ) {
+        foreach ( $filters as $filter ) {
+            $vars[] = str_replace( '-', '__', $filter ) . '_spec';
+        }
+    }
+    return $vars;
+}
