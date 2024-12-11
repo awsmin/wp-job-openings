@@ -7,7 +7,7 @@ $applicant_email           = esc_attr( get_post_meta( $post->ID, 'awsm_applicant
 $applicant_details         = $this->get_applicant_meta_details_list( $post->ID, array( 'awsm_applicant_email' => $applicant_email ) );
 $attachment_id             = get_post_meta( $post->ID, 'awsm_attachment_id', true );
 $tab_applicant_single_view = AWSM_Job_Openings_Meta::set_applicant_single_view_tab();
-$tab_content               = AWSM_Job_Openings_Meta::get_applicant_single_view_content( $post->ID, $attachment_id );
+$applicant_tab_contents    = AWSM_Job_Openings_Meta::get_applicant_single_view_content( $post->ID, $attachment_id );
 $resume_details            = $this->get_attached_file_details( $attachment_id );
 $full_file_name            = get_post_meta( $attachment_id, 'awsm_actual_file_name', true );
 $applicant_job_id          = get_post_meta( $post->ID, 'awsm_job_id', true );
@@ -39,7 +39,9 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 				<div class="awsm-applicant-info">
 					<h3><?php echo esc_html( $applicant_details['name'] ); ?></h3>
 					<?php $title = esc_html( sprintf( get_post_meta( $post->ID, 'awsm_apply_for', true ) ) ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited ?>
-					<p><?php esc_html_e( $title, 'wp-job-openings' ); ?></p>
+					<!-- Translators: %s is the title to display in the paragraph. -->
+					<p><?php printf( esc_html__( '%s', 'wp-job-openings' ), esc_html( $title ) ); ?></p>
+
 				</div><!-- .awsm-applicant-info -->
 				<?php
 				/**
@@ -119,7 +121,7 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 								<?php
 								echo wp_kses_post( $applicant_details['list'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 								if ( ! empty( $resume_details ) ) :
-									$file_size_display = $resume_details['file_size']['display'] ?? '';
+									$file_size_display = isset( $resume_details['file_size']['display'] ) ? $resume_details['file_size']['display'] : '';
 									?>
 									<li>
 										<label>
@@ -153,9 +155,9 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 							</ul>
 						</div>
 						<!-- Additional Tabs -->
-						<?php foreach ( $tab_content as $key => $tab ) : ?>
-							<div id="awsm-applicant-<?php echo esc_attr( $key ); ?>" class="application-main-tab-item awsm-applicant-<?php echo esc_attr( $key ); ?>-tab">
-							<?php echo $tab['content']; ?>
+						<?php foreach ( $applicant_tab_contents as $applicant_tab_key => $applicant_tab ) : ?>
+							<div id="awsm-applicant-<?php echo esc_attr( $applicant_tab_key ); ?>" class="application-main-tab-item awsm-applicant-<?php echo esc_attr( $applicant_tab_key ); ?>-tab">
+							<?php echo $applicant_tab['content']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> 
 							</div>
 						<?php endforeach; ?>
 					</div>

@@ -12,6 +12,20 @@ $total_applications = intval( $overview_data['total_applications'] );
 
 // Enable meta-box support.
 do_action( 'add_meta_boxes_' . AWSM_Job_Openings_Overview::$screen_id, null );
+
+if ( get_transient( '_awsm_add_ons_data' ) === false ) {
+	$response = wp_remote_get( esc_url( 'http://dev.awsm.in/innovations/wp-json/awsm-plugins/v1/job-add-ons' ) );
+	if ( is_wp_error( $response ) ) {
+		return;
+	}
+	$response_body = wp_remote_retrieve_body( $response );
+	if ( is_wp_error( $response_body ) ) {
+		return;
+	}
+	if ( wp_remote_retrieve_response_code( $response ) === 200 ) {
+		set_transient( '_awsm_add_ons_data', $response_body, DAY_IN_SECONDS );
+	}
+}
 ?>
 <div class="wrap">
 <h1></h1>
@@ -81,6 +95,7 @@ do_action( 'add_meta_boxes_' . AWSM_Job_Openings_Overview::$screen_id, null );
 					<div class="awsm-jobs-overview-col-content">
 						<?php
 						if ( ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) {
+							// Translators: %1$s is the opening <a> tag for the PRO Plan link, %2$s is the closing </a> tag.
 							$pro_link = sprintf( esc_html__( 'This feature requires %1$sPRO Plan%2$s to work', 'wp-job-openings' ), '<a href="https://awsm.in/get/wpjo-pro/">', '</a>' );
 							// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 							printf( '<div class="awsm-jobs-overview-widget-wrapper"><div class="awsm-jobs-pro-feature"><img src="%2$s"><p>%1$s</p></div></div>', $pro_link, esc_url( 'https://i.ibb.co/vXyz24d/Screenshot-2024-03-05-at-12-41-12-PM.png' ) );
