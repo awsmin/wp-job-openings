@@ -37,33 +37,37 @@ if ( ! function_exists( 'awsm_jobs_get_footer' ) ) {
 }
 
 if ( ! function_exists( 'awsm_jobs_query' ) ) {
-	function awsm_jobs_query( $shortcode_atts = array() ) {
-		$query_args    = array();
-		$filter_suffix = '_spec';
+    function awsm_jobs_query( $shortcode_atts = array() ) {
+        $query_args      = array();
+        $is_term_or_slug = array();
+        $filter_suffix   = '_spec';
 
-		if ( empty( $filters ) ) {
-			$filters = get_option( 'awsm_jobs_listing_available_filters' );
-		}
+        $filters = get_option( 'awsm_jobs_listing_available_filters' );
 
-		if ( $_GET ) {
-			if ( ! empty( $filters ) ) {
-				foreach ( $filters as $filter ) {
-					$current_filter_key = str_replace( '-', '__', $filter ) . $filter_suffix;
-					if ( isset( $_GET[ $current_filter_key ] ) ) {
-						$term_slug = sanitize_title( $_GET[ $current_filter_key ] );
-						$term      = get_term_by( 'slug', $term_slug, $filter );
-						if ( $term && ! is_wp_error( $term ) ) {
-							$query_args[ $filter ] = $term->term_id;
-						}
-					}
-				}
-			}
-		}
+        if ( $_GET ) {
+            if ( ! empty( $filters ) ) {
+                foreach ( $filters as $filter ) {
+                    $current_filter_key = str_replace( '-', '__', $filter ) . $filter_suffix;
+                    if ( isset( $_GET[ $current_filter_key ] ) ) {
+                        $term_slug = sanitize_title( $_GET[ $current_filter_key ] );
+                        $term      = get_term_by( 'slug', $term_slug, $filter );
+                        if ( $term && ! is_wp_error( $term ) ) {
+                            $query_args[ $filter ]      = $term->term_id;
+                            $is_term_or_slug[ $filter ] = 'term_id';
+                        } else {
+                            $query_args[ $filter ]      = $term_slug;
+                            $is_term_or_slug[ $filter ] = 'slug';
+                        }
+                    }
+                }
+            }
+        }
 
-		$args  = AWSM_Job_Openings::awsm_job_query_args( $query_args, $shortcode_atts );
-		$query = new WP_Query( $args );
-		return $query;
-	}
+        $args  = AWSM_Job_Openings::awsm_job_query_args( $query_args, $shortcode_atts, $is_term_or_slug );
+        $query = new WP_Query( $args );
+
+        return $query;
+    }
 }
 
 if ( ! function_exists( 'awsm_jobs_view' ) ) {

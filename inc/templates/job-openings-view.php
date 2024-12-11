@@ -61,7 +61,7 @@ else :
 		<?php
 		if ( ! $_GET ) {
 			awsm_no_jobs_msg();
-		} else {
+		} else {			
 			?>
 		<div class="awsm-job-wrap<?php awsm_jobs_wrapper_class(); ?>">
 			<?php
