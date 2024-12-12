@@ -77,7 +77,7 @@ else :
 				get_filtered_job_terms();
 				$no_jobs_content = sprintf(
 					'<div class="awsm-jobs-pagination awsm-load-more-main awsm-no-more-jobs-container awsm-job-no-more-jobs-get"><p>%s</p></div>',
-					esc_html__('Sorry! No more jobs to show.', 'wp-job-openings')
+					esc_html__('Sorry! No jobs to show.', 'wp-job-openings')
 				);
 				echo $no_jobs_content;
 				?>
