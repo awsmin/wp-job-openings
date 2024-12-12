@@ -164,12 +164,7 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 							'link_text' => __( 'Get Support', 'wp-job-openings' ),
 						),
 					);
-					if ( ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) {
-						$support_link_key = array_search( 'support', wp_list_pluck( $get_started_links, 'id' ) );
-						if ( $support_link_key !== false ) {
-							unset( $get_started_links[ $support_link_key ] );
-						}
-					}
+					
 
 					/**
 						* Filters the overview get started widget links.

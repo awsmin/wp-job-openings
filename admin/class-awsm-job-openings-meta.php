@@ -49,7 +49,10 @@ class AWSM_Job_Openings_Meta {
 		if ( isset( $post ) && $post->post_type === 'awsm_job_application' ) {
 			$awsm_attachment_id = get_post_meta( $post->ID, 'awsm_attachment_id', true );
 			if ( ! empty( $awsm_attachment_id ) ) {
-				add_meta_box( 'awsm-job-resume-preview', esc_html__( 'Resume Preview', 'wp-job-openings' ), array( $this, 'awsm_job_application_attachment_preview' ), 'awsm_job_application', 'normal', 'high' );
+				$attachment_post = get_post( $awsm_attachment_id );
+				if ( $attachment_post && $attachment_post->post_type === 'attachment' ) {
+					add_meta_box( 'awsm-job-resume-preview', esc_html__( 'Resume Preview', 'wp-job-openings' ), array( $this, 'awsm_job_application_attachment_preview' ), 'awsm_job_application', 'normal', 'high' );
+				}	
 			}
 		}
 

@@ -132,8 +132,8 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 											<?php echo ! empty( $resume_field_label ) ? esc_html( $resume_field_label ) : esc_html__( 'Resume', 'wp-job-openings' ); ?>
 										</label>
 										<div class="awsm-applicant-resume">
-											<span class="hs-resume-info">
-												<span>
+											<span >
+												
 													<strong>
 														<?php
 														echo ! empty( $full_file_name )
@@ -142,7 +142,7 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 														?>
 													</strong>
 													<?php echo esc_html( $file_size_display ); ?>
-												</span>
+												
 											</span>
 											<div class="awsm-applicant-resume-cta">
 												<?php do_action( 'after_awsm_job_applicant_details_list_preview_resume', $post->ID ); ?>
