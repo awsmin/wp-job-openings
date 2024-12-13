@@ -1559,58 +1559,37 @@ class AWSM_Job_Openings {
 		return ( isset( $shortcode_atts['listings'] ) && is_numeric( $shortcode_atts['listings'] ) && $shortcode_atts['listings'] > 0 ) ? intval( $shortcode_atts['listings'] ) : get_option( 'awsm_jobs_list_per_page' );
 	}
 
-	public static function awsm_job_query_args( $filters = array(), $shortcode_atts = array() ) {
+	public static function awsm_job_query_args( $filters = array(), $shortcode_atts = array(), $is_term_or_slug = array() ) {
 		$args = array();
+	
 		if ( is_tax() ) {
 			$q_obj    = get_queried_object();
 			$taxonomy = $q_obj->taxonomy;
 			$term_id  = $q_obj->term_id;
 			$filters  = array( $taxonomy => $term_id );
+			$is_term_or_slug[ $taxonomy ] = 'term_id';
 		}
-
+	
 		if ( ! empty( $filters ) ) {
-			foreach ( $filters as $taxonomy => $term_id ) {
-				if ( ! empty( $term_id ) ) {
-					$spec                = array(
+			foreach ( $filters as $taxonomy => $value ) {
+				if ( ! empty( $value ) ) {
+					$field_type = isset( $is_term_or_slug[ $taxonomy ] ) ? $is_term_or_slug[ $taxonomy ] : 'term_id';
+					$spec       = array(
 						'taxonomy' => $taxonomy,
-						'field'    => 'term_id',
-						'terms'    => $term_id,
+						'field'    => $field_type,
+						'terms'    => (array) $value,
 					);
 					$args['tax_query'][] = $spec;
 				}
 			}
 		}
-
+	
 		$list_per_page          = self::get_listings_per_page( $shortcode_atts );
 		$hide_expired_jobs      = get_option( 'awsm_jobs_expired_jobs_listings' );
 		$args['post_type']      = 'awsm_job_openings';
 		$args['posts_per_page'] = $list_per_page;
-		if ( $hide_expired_jobs === 'expired' ) {
-			if ( $list_per_page > 0 ) {
-				$args['post_status'] = array( 'publish' );
-			} else {
-				$args['numberposts'] = -1;
-			}
-		} else {
-			$args['post_status'] = array( 'publish', 'expired' );
-		}
-
-		// phpcs:ignore WordPress.Security.NonceVerification.Missing
-		if ( ! self::is_default_pagination( $shortcode_atts ) && ! isset( $_POST['awsm_pagination_base'] ) ) {
-			// Handle classic pagination on page load.
-			$paged         = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ) : 1;
-			$args['paged'] = $paged;
-		}
-
-		/**
-		 * Filters the arguments for the jobs query.
-		 *
-		 * @since 1.4
-		 *
-		 * @param array $args arguments.
-		 * @param array $filters Applicable filters.
-		 * @param array $shortcode_atts Shortcode attributes.
-		 */
+		$args['post_status']    = ( $hide_expired_jobs === 'expired' ) ? array( 'publish' ) : array( 'publish', 'expired' );
+	
 		return apply_filters( 'awsm_job_query_args', $args, $filters, $shortcode_atts );
 	}
 

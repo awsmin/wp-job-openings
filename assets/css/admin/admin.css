@@ -1752,6 +1752,7 @@ a.awsm-plugin-item p {
 	flex-wrap: wrap;
 	padding: 12px 0;
 	gap: 10px;
+	align-items: center; 
 }
 
 .awsm-applicant-profile ul li:not(:last-child) {
@@ -1775,7 +1776,9 @@ a.awsm-plugin-item p {
 .awsm-applicant-profile ul li > div p {
 	margin: 0 0 12px;
 }
-
+.awsm-applicant-profile ul li > div p:last-child{
+	margin-bottom: 0;
+}
 .awsm-form-group {
 	margin-bottom: 12px;
 }

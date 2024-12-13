@@ -39,8 +39,12 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 				<div class="awsm-applicant-info">
 					<h3><?php echo esc_html( $applicant_details['name'] ); ?></h3>
 					<?php $title = esc_html( sprintf( get_post_meta( $post->ID, 'awsm_apply_for', true ) ) ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited ?>
-					<!-- Translators: %s is the title to display in the paragraph. -->
-					<p><?php printf( esc_html__( '%s', 'wp-job-openings' ), esc_html( $title ) ); ?></p>
+					<p>
+					<?php
+					// phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment, WordPress.WP.I18n.NoEmptyStrings
+					printf( esc_html__( '%s', 'wp-job-openings' ), esc_html( $title ) );
+					?>
+					</p>
 
 				</div><!-- .awsm-applicant-info -->
 				<?php
@@ -128,8 +132,8 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 											<?php echo ! empty( $resume_field_label ) ? esc_html( $resume_field_label ) : esc_html__( 'Resume', 'wp-job-openings' ); ?>
 										</label>
 										<div class="awsm-applicant-resume">
-											<span class="hs-resume-info">
-												<span>
+											<span >
+												
 													<strong>
 														<?php
 														echo ! empty( $full_file_name )
@@ -138,7 +142,7 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 														?>
 													</strong>
 													<?php echo esc_html( $file_size_display ); ?>
-												</span>
+												
 											</span>
 											<div class="awsm-applicant-resume-cta">
 												<?php do_action( 'after_awsm_job_applicant_details_list_preview_resume', $post->ID ); ?>

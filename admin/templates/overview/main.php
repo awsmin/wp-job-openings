@@ -164,12 +164,7 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 							'link_text' => __( 'Get Support', 'wp-job-openings' ),
 						),
 					);
-					if ( ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) {
-						$support_link_key = array_search( 'support', wp_list_pluck( $get_started_links, 'id' ) );
-						if ( $support_link_key !== false ) {
-							unset( $get_started_links[ $support_link_key ] );
-						}
-					}
+					
 
 					/**
 						* Filters the overview get started widget links.
@@ -192,7 +187,7 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 						<ul>
 							<?php
 							foreach ( $get_started_links as $gs_link ) {
-								printf( '<li><a href="%2$s" target="_blank" rel="noopener">%1$s%3$s</a></li>', esc_html( $gs_link['link_text'] ), esc_url( $gs_link['url'] ), $svg );
+								printf( '<li><a href="%2$s" target="_blank" rel="noopener">%1$s%3$s</a></li>', esc_html( $gs_link['link_text'] ), esc_url( $gs_link['url'] ), $svg ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 							}
 							?>
 						</ul>
@@ -223,7 +218,7 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 						$submission_time = human_time_diff( get_the_time( 'U', $application->ID ), current_time( 'timestamp' ) ) . ' ' . __( 'ago', 'wp-job-openings' );
 						?>
 					<a href="<?php echo esc_url( $edit_link ); ?>" class="awsm-jobs-overview-list-item">
-						<?php echo $avatar; ?>
+						<?php echo $avatar; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 						<p>
 							<strong><?php echo esc_html( $application->post_title ); ?></strong>
 						<?php echo esc_html( get_post_meta( $application->ID, 'awsm_apply_for', true ) ); ?>
@@ -275,7 +270,7 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 										}
 										?>
 											</strong>
-										<?php printf( esc_html__( 'Published on: %s', 'wp-job-openings' ), sprintf( esc_html( $published_date ) ) ); ?>
+										<?php printf( esc_html__( 'Published on: %s', 'wp-job-openings' ), sprintf( esc_html( $published_date ) ) ); // phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment ?>
 										</p>
 										<svg width="4.922" height="8.333" viewBox="0 0 4.922 8.333" xmlns="http://www.w3.org/2000/svg" version="1.1" preserveAspectRatio="xMinYMin">
 											<path xmlns="http://www.w3.org/2000/svg" d="M0.41139,0.133199 L0.13652,0.406167 C0.05068,0.492077 0.00339,0.606377 0.00339,0.728527 C0.00339,0.850617 0.05068,0.965047 0.13652,1.050957 L3.2505,4.164807 L0.13306,7.282237 C0.04722,7.368017 4.4408921e-16,7.482447 4.4408921e-16,7.604537 C4.4408921e-16,7.726617 0.04722,7.841117 0.13306,7.926967 L0.40624,8.199997 C0.58388,8.377777 0.87325,8.377777 1.05089,8.199997 L4.77592,4.488317 C4.86169,4.402547 4.92213,4.288247 4.92213,4.165077 L4.92213,4.163647 C4.92213,4.041497 4.86162,3.927197 4.77592,3.841427 L1.06098,0.133199 C0.97521,0.04729 0.85746,0.000135 0.73537,2.22044605e-16 C0.61322,2.22044605e-16 0.49709,0.04729 0.41139,0.133199 Z"/>
@@ -355,10 +350,10 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 														'url'  => $add_on['url'],
 													);
 													$awsm_info      = new AWSM_Job_Openings_Info();
-													echo $awsm_info->get_add_on_btn_content(
-														$add_on['wp_plugin'],
-														$add_on_details
-													); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+													echo $awsm_info->get_add_on_btn_content( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+														$add_on['wp_plugin'], // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+														$add_on_details // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+													);
 												} else {
 													printf(
 														'<p>%s</p>',
