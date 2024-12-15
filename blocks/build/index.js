@@ -359,7 +359,6 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
           toggle: true
         });
       } else {
-        // Update the toggle to true (meaning filter is active)
         modfilteroptions[existingOptionIndex].toggle = true;
       }
     }
@@ -533,7 +532,7 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
       onChange: function onChange(isChecked) {
         return handleToggleChange(spec.key, isChecked);
       } // Update the toggle state on change
-    }), toggleState[spec.key] && filter_options.includes(spec.key) && (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_9__.FormTokenField, {
+    }), toggleState[spec.key] && (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_9__.FormTokenField, {
       value: (selectedTermsState[spec.key] || []).map(function (id) {
         var term = spec.terms.find(function (t) {
           return t.term_id === id;

@@ -69,7 +69,6 @@ const WidgetInspectorControls = (props) => {
 			if (existingOptionIndex === -1) {
 				modfilteroptions.push({ specKey: specKey, value: "dropdown", toggle: true });
 			} else {
-				// Update the toggle to true (meaning filter is active)
 				modfilteroptions[existingOptionIndex].toggle = true;
 			}
 		}
@@ -84,7 +83,7 @@ const WidgetInspectorControls = (props) => {
 		const existingOptionIndex = modfilteroptions.findIndex(
 		(option) => option.specKey === specKey
 		);
-	
+
 		if (existingOptionIndex !== -1) {
 			modfilteroptions[existingOptionIndex].value = newValue;
 		} else {
@@ -113,7 +112,7 @@ const WidgetInspectorControls = (props) => {
 		});
 	};	
 
-	const handleToggleChange = (specKey, isChecked) => {
+	const handleToggleChange = (specKey, isChecked) => { 
 		// Update the toggle state when the ToggleControl is toggled
 		setToggleState((prevState) => ({
 		  ...prevState,
@@ -234,7 +233,7 @@ const WidgetInspectorControls = (props) => {
 						/>
 
 						{/* Show FormTokenField only when toggle is on */}
-						{toggleState[spec.key] && filter_options.includes(spec.key) && (
+						{toggleState[spec.key] && (
 							<FormTokenField
 							value={(selectedTermsState[spec.key] || []).map((id) => {
 								const term = spec.terms.find((t) => t.term_id === id);

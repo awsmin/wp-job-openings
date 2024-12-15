@@ -34,13 +34,8 @@ class Awsm_Job_Guten_Blocks {
 	}
 
 	public function block_render_callback( $atts, $content ) { 
-		error_log( print_r( $atts ,true) );
 		/* if ( isset( $atts['filter_options'] ) && is_array( $atts['filter_options'] ) ) {
 			$atts['filter_options'] = implode( ',', $atts['filter_options'] );
-		}
-
-		if ( isset( $atts['placement'] ) ) {
-			$atts['placement'] = $atts['placement'];
 		}
 
 		if ( isset( $atts['other_options'] ) && is_array( $atts['other_options'] ) ) {
@@ -73,7 +68,59 @@ class Awsm_Job_Guten_Blocks {
 
 		if ( isset( $atts['select_filter_full'] ) && is_array( $atts['select_filter_full'] ) ) {
 			$atts['select_filter_full'] = $atts['select_filter_full'];
-		} */
+		}  */
+
+		/* new attributes */
+
+		if ( isset( $atts['search'] ) && $atts['search'] === true ) {
+			$atts['search'] = 'enable';
+		}
+
+		if ( isset( $atts['filter_options'] ) && is_array( $atts['filter_options'] ) ) {
+			$atts['filter_options'] = $atts['filter_options'];
+		}
+
+		if ( isset( $atts['layout'] ) && is_array( $atts['layout'] ) ) {
+			$atts['layout'] = $atts['layout'];
+		}
+
+		if ( isset( $atts['hide_expired_jobs'] ) && $atts['hide_expired_jobs'] === true ) {
+			$atts['hide_expired_jobs'] = 'expired';
+		}
+
+		if ( isset( $atts['placement'] ) ) {
+			$atts['placement'] = $atts['placement'];
+		}
+
+		if ( isset( $atts['search_placeholder'] ) && $atts['search_placeholder'] === true ) {
+			$atts['search_placeholder'] = $atts['search_placeholder'];
+		}
+
+		if ( isset( $atts['search_placeholder'] ) && $atts['search_placeholder'] === true ) {
+			$atts['search_placeholder'] = $atts['search_placeholder'];
+		}
+
+		if ( isset( $atts['listType'] ) && $atts['listType'] === true ) {
+			$atts['listType'] = $atts['listType'];
+		}
+
+		if ( isset( $atts['selectedTerms'] ) && is_array( $atts['selectedTerms'] ) ) {
+			$atts['selectedTerms'] = $atts['selectedTerms'];
+		}
+
+		if ( isset( $atts['orderBy'] ) && $atts['orderBy'] === true ) {
+			$atts['orderBy'] = $atts['orderBy'];
+		}
+
+		if ( isset( $atts['jobsPerPage'] ) && $atts['jobsPerPage'] === true ) {
+			$atts['jobsPerPage'] = $atts['jobsPerPage'];
+		}
+
+		if ( isset( $atts['pagination'] ) && $atts['pagination'] === true ) {
+			$atts['pagination'] = $atts['pagination'];
+		}
+
+		/** end */
 
 		 /**
 		 * Filters the block attributes.
