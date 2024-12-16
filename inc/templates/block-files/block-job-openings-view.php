@@ -310,7 +310,7 @@ if( $attributes['placement'] == 'top' ){ ?>
 		<!-- end -->
 	</div>
 
-	<div <?php awsm_block_jobs_view_class( '', $attributes ); ?>>
+	<div <?php awsm_block_jobs_view_class( '', $attributes ); ?><?php awsm_block_jobs_data_attrs( array(), $attributes ); ?>>
 		<div class="awsm-job-sort-wrap">
 			<div class="awsm-job-results">
 				Showing 1 – 10 of 16 results
