@@ -710,7 +710,7 @@ class AWSM_Job_Openings_Block {
 
 								foreach ( $terms as $term ) { 
 									$filter_list_items .= sprintf(
-										'<div class="awsm-b-filter-list-item">
+										'<div class="awsm-filter-list-item">
 											<label>
 												<input type="checkbox" name="job_location[]" value="%1$s">
 												<div>
@@ -728,7 +728,7 @@ class AWSM_Job_Openings_Block {
 								
 								// Main filter container HTML
 								$filter_container = sprintf(
-									'<div class="awsm-filter-item" data-filter="job__location_spec">
+									'<div class="awsm-b-filter-item" data-filter="job__location_spec">
 										<div class="awsm-filter-list">
 											<label for="awsm-job-location-filter-option-1">%2$s</label>
 											<div class="awm-filter-list-items">
