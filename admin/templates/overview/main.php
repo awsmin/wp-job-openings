@@ -208,7 +208,7 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 						</a>
 					</div><!-- .awsm-jobs-overview-col-head -->
 				<?php
-					$applications = AWSM_Job_Openings::get_recent_applications( 10, false );
+					$applications = AWSM_Job_Openings::get_recent_applications( 7, false );
 				if ( ! empty( $applications ) ) :
 					foreach ( $applications as $application ) :
 						$applicant_email = get_post_meta( $application->ID, 'awsm_applicant_email', true );
