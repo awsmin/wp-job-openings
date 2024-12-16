@@ -2,7 +2,7 @@
 
 jQuery(function($) { 
 	var rootWrapperSelector = '.awsm-b-job-wrap';
-	var wrapperSelector = '.awsm-b-job-listings';
+	var wrapperSelector = '.awsm-b-job-listings'; 
 
 	/* ========== Job Search and Filtering ========== */
 
@@ -151,11 +151,11 @@ jQuery(function($) {
 		awsmJobFilters($rootWrapper);
 	}
 
-	if ($(rootWrapperSelector).length > 0) {
+	if ($(rootWrapperSelector).length > 0) { 
 		$(rootWrapperSelector).each(function() {
 			var $currentWrapper = $(this);
-			var $filterForm = $currentWrapper.find(filterSelector + ' form');
-			if (awsmJobsPublic.is_search.length > 0 || filterCheck($filterForm)) {
+			var $filterForm = $currentWrapper.find(filterSelector + ' form'); 
+			if (awsmJobsPublic.is_search.length > 0 || filterCheck($filterForm)) { 
 				triggerFilter = true;
 				awsmJobFilters($currentWrapper);
 			}

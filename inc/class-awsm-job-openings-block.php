@@ -639,9 +639,9 @@ class AWSM_Job_Openings_Block {
 			$search_query = isset( $_GET['jq'] ) ? $_GET['jq'] : '';
 			$placeholder_text = apply_filters( 'awsm_jobs_block_search_field_slide_placeholder', $placeholder_search ? $placeholder_search : $default_text );
 	
-			$search_icon = '<span class="awsm-job-search-btn awsm-job-search-icon-wrapper"><i class="awsm-job-icon-search"></i></span><span class="awsm-job-search-close-btn awsm-job-search-icon-wrapper awsm-job-hide"><i class="awsm-job-icon-close-circle"></i></span>';
+			$search_icon = '<span class="awsm-b-job-search-btn awsm-b-job-search-icon-wrapper"><i class="awsm-b-job-icon-search"></i></span><span class="awsm-b-job-search-close-btn awsm-b-job-search-icon-wrapper awsm-job-hide"><i class="awsm-job-icon-close-circle"></i></span>';
 	
-			$search_content = sprintf( '<div class="awsm-filter-item-search"><div class="awsm-filter-item-search-in"><label for="awsm-jq-1" class="awsm-sr-only">%1$s</label><input type="text" id="awsm-jq%4$s" name="jq" value="%2$s" placeholder="%1$s" class="awsm-job-search awsm-job-form-control">%3$s</div></div>', esc_attr( $placeholder_text ), esc_attr( $search_query ), $search_icon, esc_attr( $uid ) );
+			$search_content = sprintf( '<div class="awsm-b-filter-item-search"><div class="awsm-b-filter-item-search-in"><label for="awsm-jq-1" class="awsm-b-sr-only">%1$s</label><input type="text" id="awsm-jq%4$s" name="jq" value="%2$s" placeholder="%1$s" class="awsm-b-job-search awsm-b-job-form-control">%3$s</div></div>', esc_attr( $placeholder_text ), esc_attr( $search_query ), $search_icon, esc_attr( $uid ) );
 	
 			$search_content = apply_filters( 'awsm_jobs_block_search_field_content_placement_slide', $search_content );
 		}
@@ -693,7 +693,7 @@ class AWSM_Job_Openings_Block {
 								$filter_class_admin_select_control = ! self::is_edit_or_add_page() ? ' awsm-job-select-control' : '';
 								// Generate dropdown content
 								$dropdown_content = sprintf( 
-									'<div class="awsm-filter-item" data-filter="%2$s">
+									'<div class="awsm-b-filter-item" data-filter="%2$s">
 										<label for="awsm-%1$s-filter-option-1">%3$s</label>
 										<select name="awsm_job_spec[%1$s]" class="awsm-b-filter-option awsm-%1$s-filter-option ' . $filter_class_admin_select_control . '" id="awsm-%1$s-filter-option%5$s" aria-label="%3$s">
 											<option value="">%3$s</option>%4$s
@@ -710,7 +710,7 @@ class AWSM_Job_Openings_Block {
 
 								foreach ( $terms as $term ) { 
 									$filter_list_items .= sprintf(
-										'<div class="awsm-filter-list-item">
+										'<div class="awsm-b-filter-list-item">
 											<label>
 												<input type="checkbox" name="job_location[]" value="%1$s">
 												<div>
@@ -752,7 +752,7 @@ class AWSM_Job_Openings_Block {
 		// Combine search and filter content into the form
 		$filter_content = sprintf(
 			'<form action="%2$s/wp-admin/admin-ajax.php" method="POST">%1$s</form>',
-			$search_content . '<div class="awsm-filter-items">'.$specs_filter_content.$hidden_fields_content.'</div>',
+			$search_content . '<div class="awsm-b-filter-items">'.$specs_filter_content.$hidden_fields_content.'</div>',
 			esc_url( site_url() )
 		);
 	

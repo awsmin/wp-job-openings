@@ -789,36 +789,36 @@ ul.awsm-error-message li {
     margin-left: -15px;
     margin-right: -15px;
   }
-  .awsm-job-2-col .awsm-filter-wrap {
+  .awsm-job-2-col .awsm-b-filter-wrap {
     width: 33.333%;
     padding-left: 15px;
     padding-right: 15px;
     margin-left: 0;
     margin-right: 0;
   }
-  .awsm-job-2-col .awsm-job-listings {
+  .awsm-job-2-col .awsm-b-job-listings {
     width: 66.6666%;
     padding-left: 15px;
     padding-right: 15px;
   }
-  .awsm-job-2-col .awsm-filter-item-search,
-  .awsm-job-2-col .awsm-filter-wrap .awsm-filter-item,
+  .awsm-job-2-col .awsm-b-filter-item-search,
+  .awsm-job-2-col .awsm-b-filter-wrap .awsm-b-filter-item,
   .awsm-job-2-col .awsm-jobs-alerts-popup-trigger-btn {
     padding-left: 0;
     padding-right: 0;
   }
-  .awsm-job-2-col .awsm-filter-wrap.awsm-full-width-search-filter-wrap.awsm-jobs-alerts-on .awsm-filter-items,
-  .awsm-job-2-col .awsm-filter-wrap.awsm-no-search-filter-wrap.awsm-jobs-alerts-on .awsm-filter-items {
+  .awsm-job-2-col .awsm-b-filter-wrap.awsm-full-width-search-filter-wrap.awsm-jobs-alerts-on .awsm-b-filter-items,
+  .awsm-job-2-col .awsm-b-filter-wrap.awsm-no-search-filter-wrap.awsm-jobs-alerts-on .awsm-b-filter-items {
     width: 100% !important;
   }
-  .awsm-job-2-col .awsm-filter-wrap .awsm-filter-item {
+  .awsm-job-2-col .awsm-b-filter-wrap .awsm-filter-item {
     min-width: 100%;
   }
-  .awsm-job-2-col .awsm-filter-wrap form {
+  .awsm-job-2-col .awsm-b-filter-wrap form {
     padding: 30px;
     border: 1px solid #ccc;
   }
-  .awsm-job-2-col .awsm-filter-wrap.awsm-jobs-alerts-on form {
+  .awsm-job-2-col .awsm-b-filter-wrap.awsm-jobs-alerts-on form {
     margin-bottom: 80px;
     position: relative;
   }
@@ -835,18 +835,18 @@ ul.awsm-error-message li {
   .awsm-job-2-col .awsm-jobs-alerts-trigger-btn span {
     display: block;
   }
-  .awsm-job-2-col .awsm-filter-item:not(:last-child),
-  .awsm-job-2-col .awsm-filter-item-search {
+  .awsm-job-2-col .awsm-b-filter-item:not(:last-child),
+  .awsm-job-2-col .awsm-b-filter-item-search {
     padding-bottom: 30px;
   }
 }
-.awsm-filter-item:not(:first-child) .awsm-filter-list {
+.awsm-b-filter-item:not(:first-child) .awsm-filter-list {
   border-top: 1px solid #ccc;
   padding-top: 30px;
 }
 
 @media (max-width: 768px) {
-  .awsm-filter-item:not(:first-child) .awsm-filter-list {
+  .awsm-b-filter-item:not(:first-child) .awsm-filter-list {
     margin-top: 20px;
   }
 }

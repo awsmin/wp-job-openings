@@ -41,7 +41,7 @@ if( $attributes['placement'] == 'top' ){ ?>
 	}else{
 ?>
 <div class="awsm-b-job-wrap<?php awsm_jobs_wrapper_class(); ?> awsm-job-form-plugin-style awsm-job-2-col">
-	<div class="awsm-filter-wrap awsm-jobs-alerts-on">
+	<div class="awsm-b-filter-wrap awsm-jobs-alerts-on">
 		<!-- left side bar  -->
 		<?php
 			/**
@@ -310,7 +310,7 @@ if( $attributes['placement'] == 'top' ){ ?>
 		<!-- end -->
 	</div>
 
-	<div class="awsm-job-listings">
+	<div <?php awsm_block_jobs_view_class( '', $attributes ); ?>>
 		<div class="awsm-job-sort-wrap">
 			<div class="awsm-job-results">
 				Showing 1 – 10 of 16 results
