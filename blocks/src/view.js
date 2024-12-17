@@ -216,6 +216,30 @@ jQuery(function($) {
 		awsmJobFilters($rootWrapper);
 	});
 
+	$(filterSelector + ' .awsm-filter-checkbox').on('change', function(e) { 
+		var selectedFilters = {};
+		var $elem = $(this);
+		var $rootWrapper = $elem.parents(rootWrapperSelector); alert('dfdf');
+		var currentSpec = $elem.parents('.awsm-b-filter-item').data('filter');
+		var slug = 'verkoop';
+
+		$('.awsm-filter-checkbox:checked').each(function() {
+            var taxonomy = $(this).data('taxonomy');
+            var termId = $(this).data('term-id');
+            if (!selectedFilters[taxonomy]) {
+                selectedFilters[taxonomy] = [];
+            }
+            selectedFilters[taxonomy].push(termId);
+        });
+
+		if (awsmJobsPublic.deep_linking.spec) {
+			var $paginationBase = $rootWrapper.find('input[name="awsm_pagination_base"]');
+			updateQuery(currentSpec, slug, $paginationBase.val());
+		}
+		awsmJobFilters($rootWrapper);
+		
+	});
+
 	$(filterSelector + ' .awsm-b-job-search-btn').on('click', function() {
 		searchJobs($(this));
 	});

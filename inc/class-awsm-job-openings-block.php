@@ -392,9 +392,9 @@ class AWSM_Job_Openings_Block {
 
 	public function awsm_block_posts_filters() {
         // phpcs:disable WordPress.Security.NonceVerification.Missing
-		$filters = $attributes = array(); // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
+		$filters = $filters_list = $attributes = array(); // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
 
-		$filter_action = isset( $_POST['action'] ) ? $_POST['action'] : '';
+		$filter_action = isset( $_POST['action'] ) ? $_POST['action'] : ''; 
 
 		if ( ! empty( $_POST['awsm_job_spec'] ) ) {
 			$job_specs = $_POST['awsm_job_spec'];
@@ -402,6 +402,10 @@ class AWSM_Job_Openings_Block {
 				$taxonomy             = sanitize_text_field( $taxonomy );
 				$filters[ $taxonomy ] = intval( $term_id );
 			}
+		}
+
+		if ( ! empty( $_POST['awsm_job_spec_list'] ) ) {
+			$filters_list = $_POST['awsm_job_spec_list'];
 		}
 
 		if ( ! empty( $_POST['awsm-layout'] ) ) {
@@ -433,7 +437,7 @@ class AWSM_Job_Openings_Block {
 
 		$attributes = apply_filters( 'awsm_jobs_block_post_filters', $attributes, $_POST );
 
-		$args = self::awsm_block_job_query_args( $filters, $attributes );
+		$args = self::awsm_block_job_query_args( $filters, $attributes, $filters_list);
 
 		if ( isset( $_POST['jq'] ) && ! empty( $_POST['jq'] ) ) {
 			$args['s'] = sanitize_text_field( $_POST['jq'] );
@@ -471,7 +475,7 @@ class AWSM_Job_Openings_Block {
 		// phpcs:enable
 	}
 
-	public static function awsm_block_job_query_args( $filters = array(), $attributes = array() ) {
+	public static function awsm_block_job_query_args( $filters = array(), $attributes = array() , $filters_list = array() ) {
 		$args = array();
 		if ( is_tax() ) {
 			$q_obj    = get_queried_object();
@@ -489,6 +493,19 @@ class AWSM_Job_Openings_Block {
 						'terms'    => $term_id,
 					);
 					$args['tax_query'][] = $spec;
+				}
+			}
+		}
+
+		if ( ! empty( $filters_list ) ) {
+			foreach ( $filters_list as $taxonomy => $term_ids ) {
+				if ( ! empty( $term_ids ) && is_array( $term_ids ) ) {
+					$args['tax_query'][] = array(
+						'taxonomy' => $taxonomy,      
+						'field'    => 'term_id',      
+						'terms'    => $term_ids,      
+						'operator' => 'IN',           
+					);
 				}
 			}
 		}
@@ -712,17 +729,18 @@ class AWSM_Job_Openings_Block {
 									$filter_list_items .= sprintf(
 										'<div class="awsm-filter-list-item">
 											<label>
-												<input type="checkbox" name="job_location[]" value="%1$s">
+												<input type="checkbox" name="awsm_job_spec_list[%5$s][]" class="awsm-filter-checkbox" value="%1$s" data-taxonomy="%5$s" data-term-id="%1$s">
 												<div>
 													<span class="awsm-filter-checkbox-item">%2$s</span>
 													%4$s %3$s
 												</div>
 											</label>
 										</div>',
-										esc_attr($term->slug),
+										esc_attr($term->term_id),
 										$checkbox_svg_icon,
 										sprintf('<span class="awsm-filter-item-count">%s</span>', 10),
-										esc_attr( $term->name )
+										esc_attr( $term->name ),
+										esc_attr( $spec['specKey'])
 									);
 								}
 								
