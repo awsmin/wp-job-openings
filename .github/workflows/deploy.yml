@@ -18,34 +18,34 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+      #- name: Setup Node.js
+        #uses: actions/setup-node@v3
+        #with:
+          #node-version: ${{ env.NODE_VERSION }}
+          #cache: 'npm'
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ env.PHP_VERSION }}
+      #- name: Setup PHP
+        #uses: shivammathur/setup-php@v2
+        #with:
+          #php-version: ${{ env.PHP_VERSION }}
 
-      - name: Cache Composer packages
-        uses: actions/cache@v3
-        with:
-          path: vendor
-          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-php-
+      #- name: Cache Composer packages
+        #uses: actions/cache@v3
+        #with:
+          #path: vendor
+          #key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          #restore-keys: |
+            #${{ runner.os }}-php-
 
-      - name: Install NPM Dependencies
-        run: npm ci
+      #- name: Install NPM Dependencies
+        #run: npm ci
 
-      - name: Install Composer Dependencies
-        if: hashFiles('composer.json')
-        run: composer install --no-dev --optimize-autoloader
+      #- name: Install Composer Dependencies
+        #if: hashFiles('composer.json')
+        #run: composer install --no-dev --optimize-autoloader
 
-      - name: Build Assets
-        run: npm run build
+      #- name: Build Assets
+        #run: npm run build
 
       - name: Install SSH Key
         uses: shimataro/ssh-key-action@v2
