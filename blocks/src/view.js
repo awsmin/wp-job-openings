@@ -219,7 +219,7 @@ jQuery(function($) {
 	$(filterSelector + ' .awsm-filter-checkbox').on('change', function(e) { 
 		var selectedFilters = {};
 		var $elem = $(this);
-		var $rootWrapper = $elem.parents(rootWrapperSelector); alert('dfdf');
+		var $rootWrapper = $elem.parents(rootWrapperSelector);
 		var currentSpec = $elem.parents('.awsm-b-filter-item').data('filter');
 		var slug = 'verkoop';
 
