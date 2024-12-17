@@ -4,6 +4,7 @@
 
 /*================ Setup screen ================*/
 jQuery(window).on('load', function() {
+	jQuery('body').addClass('awsmloging');
 	jQuery('.awsm-job-setup').addClass('loaded');
 });
 
