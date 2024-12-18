@@ -29,7 +29,7 @@ class AWSM_Job_Openings_Block {
 		if ( ! function_exists( 'awsm_jobs_query' ) ) {
 			return;
 		}
-
+		
 		$block_atts_set = array(
 			'uid'                 => $this->unique_listing_id,
 			'search'              => isset( $blockatts['search'] ) ? $blockatts['search'] : '',
@@ -641,6 +641,7 @@ class AWSM_Job_Openings_Block {
 		$enable_search = isset( $block_atts['search'] ) ? $block_atts['search'] : '';
 		$placeholder_search = isset( $block_atts['search_placeholder'] ) ? $block_atts['search_placeholder'] : '';
 		$filter_options = isset( $block_atts['filter_options'] ) ? $block_atts['filter_options'] : '';
+		$default_text = 'search';
 	
 		// Check if search is enabled
 		if ( $enable_search === 'enable' ) {

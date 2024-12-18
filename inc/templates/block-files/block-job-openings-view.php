@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $attributes = isset( $block_atts_set ) ? $block_atts_set : array();
-$query      = awsm_block_jobs_query( $attributes ); 
+$query      = awsm_block_jobs_query( $attributes );  
 
 if ( $query->have_posts() ) : ?>
 <?php 
@@ -38,7 +38,7 @@ if( $attributes['placement'] == 'top' ){ ?>
 	</div>
 </div>
 <?php 
-	}else{
+	}else{ 
 ?>
 <div class="awsm-b-job-wrap<?php awsm_jobs_wrapper_class(); ?> awsm-job-form-plugin-style awsm-job-2-col">
 	<div class="awsm-b-filter-wrap awsm-jobs-alerts-on">

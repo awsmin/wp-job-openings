@@ -40,7 +40,7 @@ const WidgetInspectorControls = (props) => {
 	const [selectedTermsState, setSelectedTermsState] 	= useState(selectedTerms || {});
   
 	// Sync selected terms with props on mount or when selectedTerm changes
-	useEffect(() => {
+	useEffect(() => { console.log(placement);
 		if (typeof awsmJobsAdmin !== "undefined" && awsmJobsAdmin.isProEnabled) {
 			setIsProEnabled(true);
 		}

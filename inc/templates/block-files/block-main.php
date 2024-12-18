@@ -10,9 +10,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $attributes    = isset( $attributes ) ? $attributes : array();
 $view          = isset( $attributes['layout'] ) ? $attributes['layout'] : get_option( 'awsm_jobs_listing_view' );
-$awsm_filters  = get_option( 'awsm_jobs_filter' );
-$listing_specs = isset( $attributes['other_options'] ) ? $attributes['other_options'] : '';
-$listing_specs = awsm_block_job_filters_explode( $listing_specs );
+$awsm_filters  = get_option( 'awsm_jobs_filter' ); 
+//$listing_specs = isset( $attributes['other_options'] ) ? $attributes['other_options'] : '';
+//$listing_specs = awsm_block_job_filters_explode( $listing_specs );
+$listing_specs = array('job-category','job-location');
 
 /**
  * Fires before The Loop to query for jobs.
@@ -53,6 +54,8 @@ while ( $query->have_posts() ) {
 					?>
 				</h2>
 
+				<?php awsm_job_listing_spec_content( $job_details['id'], $awsm_filters, $listing_specs, false ); ?>
+
 				<?php
 					/**
 					 * after_awsm_jobs_listing_title hook
@@ -82,8 +85,6 @@ while ( $query->have_posts() ) {
 					do_action( 'before_awsm_block_jobs_listing_specs_content', $job_details['id'], $attributes );
 
 					do_action_deprecated( 'before_awsm_block_jobs_listing_right_col_content', array( $job_details['id'], $attributes ), '3.0.0', 'before_awsm_block_jobs_listing_specs_content' );
-
-					awsm_job_listing_spec_content( $job_details['id'], $awsm_filters, $listing_specs, false );
 
 					awsm_job_more_details( $job_details['permalink'], $view );
 				?>

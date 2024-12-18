@@ -331,6 +331,7 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
 
   // Sync selected terms with props on mount or when selectedTerm changes
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_5__.useEffect)(function () {
+    console.log(placement);
     if (typeof awsmJobsAdmin !== "undefined" && awsmJobsAdmin.isProEnabled) {
       setIsProEnabled(true);
     }
