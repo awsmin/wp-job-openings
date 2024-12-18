@@ -75,7 +75,7 @@ class AWSM_Job_Openings_Block {
 		return apply_filters( 'awsm_jobs_block_output_content', $block_content );
 	}
 
-	public static function get_job_listing_view_class_block( $attributes = array() ) {
+	public static function get_job_listing_view_class_block( $attributes = array() ) { 
 		$view       = $attributes['layout'];
 		$view_class = 'awsm-b-lists';
 		if ( $view === 'grid' ) {
@@ -86,6 +86,8 @@ class AWSM_Job_Openings_Block {
 				$column_class = 'awsm-b-grid-col';
 			}
 			$view_class .= ' ' . $column_class;
+		}else if ( $view === 'stack' ) {
+			$view_class = 'awsm-b-row awsm-list-stacked';
 		}
 		return sprintf( 'awsm-b-job-listings %s', $view_class );
 	}
