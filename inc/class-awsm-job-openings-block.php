@@ -30,8 +30,6 @@ class AWSM_Job_Openings_Block {
 			return;
 		}
 
-		//echo '<pre>';print_r( $blockatts  );die;
-
 		$block_atts_set = array(
 			'uid'                 => $this->unique_listing_id,
 			'search'              => isset( $blockatts['search'] ) ? $blockatts['search'] : '',
@@ -43,10 +41,9 @@ class AWSM_Job_Openings_Block {
 			'listType'  		  => isset( $blockatts['listType'] ) ? $blockatts['listType'] : '',
 			'selectedTerms'       => isset( $blockatts['selectedTerms'] ) ? $blockatts['selectedTerms'] : '',
 			'orderBy'             => isset( $blockatts['orderBy'] ) ? $blockatts['orderBy'] : '',
-			'jobsPerPage'         => isset( $blockatts['jobsPerPage'] ) ? $blockatts['jobsPerPage'] : '',
+			'listings'    		  => isset( $blockatts['listing_per_page'] ) ? $blockatts['listing_per_page'] : '',
 			'pagination'          => isset( $blockatts['pagination'] ) ? $blockatts['pagination'] : '',
 		);
-
 
 		 /**
 		 * Filter the attribute set for the Job Listing block.
