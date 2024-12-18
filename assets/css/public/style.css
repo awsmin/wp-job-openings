@@ -707,3 +707,10 @@ ul.awsm-error-message li {
 .awsm-selectric{
 	border-radius: 5px;
 }
+.awsm-screen-reader-text{
+	position: absolute !important;
+    height: 1px; width: 1px;
+    overflow: hidden;
+    clip: rect(1px 1px 1px 1px); 
+    clip: rect(1px, 1px, 1px, 1px);
+}
