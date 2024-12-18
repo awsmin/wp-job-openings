@@ -69,6 +69,7 @@ class AWSM_Job_Openings_Overview {
 		}
 	}
 
+
 	public function register_overview_widgets() {
 		$widgets = array(
 			'applications-analytics' => array(
@@ -252,7 +253,7 @@ class AWSM_Job_Openings_Overview {
 		return apply_filters( 'awsm_overview_jobs', $results, $parsed_args );
 	}
 
-	public static function get_jobs_by_author( $numberjobs = 10 ) {
+	public static function get_jobs_by_author( $numberjobs = 7 ) {
 		$args = array(
 			'numberjobs' => $numberjobs,
 			'author_id'  => get_current_user_id(),
@@ -265,7 +266,7 @@ class AWSM_Job_Openings_Overview {
 		if ( ! current_user_can( 'edit_applications' ) ) {
 			return $analytics_data;
 		}
-
+		$analytics_option = get_option( 'awsm_jobs_analytics_data' );
 		if ( empty( $date_query ) ) {
 			$date_query = array(
 				array(
