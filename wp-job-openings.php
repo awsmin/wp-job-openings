@@ -256,7 +256,7 @@ class AWSM_Job_Openings {
 			add_filter( 'months_dropdown_results', array( $this, 'awsm_job_month_dropdown' ), 10, 2 );
 			add_filter( 'views_edit-awsm_job_openings', array( $this, 'modified_post_status_filter' ) );
 			add_filter( 'views_edit-awsm_job_application', array( $this, 'awsm_job_application_action_links' ) );
-			//add_filter( 'bulk_actions-edit-awsm_job_application', array( $this, 'awsm_job_application_bulk_actions' ) );
+			add_filter( 'bulk_actions-edit-awsm_job_application', array( $this, 'awsm_job_application_bulk_actions' ) );
 			add_filter( 'post_row_actions', array( $this, 'awsm_posts_row_actions' ), 10, 2 );
 		}
 	}

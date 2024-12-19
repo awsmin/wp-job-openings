@@ -158,7 +158,7 @@ class AWSM_Job_Openings_Core {
 				'capabilities'    => array(
 					'create_posts' => 'do_not_allow',
 				),
-				'supports'        => ['title'],
+				'supports'        => false,
 				'rewrite'         => false,
 			)
 		);
