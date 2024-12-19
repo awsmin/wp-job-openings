@@ -125,15 +125,16 @@ $applications_count = AWSM_Job_Openings_Core::get_unviewed_applications_count();
 				<div class="awsm-jobs-overview-chart flex-item">
 					<div class="awsm-jobs-overview-col-head">
 						<h2><?php esc_html_e( 'Application Analytics', 'wp-job-openings' ); ?></h2>
+					
+						
+							<?php
+								$widget_id = 'awsm-jobs-overview-applications-by-analytics';
+								// Include your template here
+								require AWSM_JOBS_PLUGIN_DIR . '/admin/templates/overview/widgets/applications-analytics.php';
+							?>
+								<!-- Replace this image with chart.js -->
+						
 					</div><!-- .awsm-jobs-overview-col-head -->
-					<div class="awsm-jobs-overview-col-content">
-						<?php
-							$widget_id = 'awsm-jobs-overview-applications-by-analytics';
-							// Include your template here
-							require AWSM_JOBS_PLUGIN_DIR . '/admin/templates/overview/widgets/applications-analytics.php';
-						?>
-							<!-- Replace this image with chart.js -->
-					</div><!-- .awsm-jobs-overview-col-content -->
 				</div><!-- .awsm-jobs-overview-chart -->
 			</div><!-- .awsm-jobs-overview-col -->
 			<div class="awsm-jobs-overview-col">
@@ -237,7 +238,7 @@ $applications_count = AWSM_Job_Openings_Core::get_unviewed_applications_count();
 				</div><!-- .awsm-jobs-overview-list -->
 			</div><!-- .awsm-jobs-overview-col -->
 			<div class="awsm-jobs-overview-col">
-				<div class="awsm-jobs-overview-list flex-item">
+				<div class="awsm-jobs-overview-list awsm-jobs-overview-positions flex-item">
 					<div class="awsm-jobs-overview-col-head">
 						<h2><?php esc_html_e( 'Open Job Positions', 'wp-job-openings' ); ?></h2>
 						<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_openings' ) ); ?>">
@@ -247,10 +248,11 @@ $applications_count = AWSM_Job_Openings_Core::get_unviewed_applications_count();
 							</svg>
 						</a>
 					</div><!-- .awsm-jobs-overview-col-head -->
-					<div class="awsm-jobs-overview-col-content">
+					
 					<?php
-					if ( ! empty( $jobs ) ) :
-						foreach ( $jobs as $job ) :
+					if ( ! empty( $jobs ) ) : ?>
+					<div class="awsm-jobs-overview-col-content">
+						<?php foreach ( $jobs as $job ) :
 							$jobmeta     = get_post_meta( $job->ID );
 							$expiry_date = isset( $jobmeta['awsm_job_expiry'][0] ) ? $jobmeta['awsm_job_expiry'][0] : null;
 
@@ -279,8 +281,9 @@ $applications_count = AWSM_Job_Openings_Core::get_unviewed_applications_count();
 									</a>
 									<?php
 								endif;
-							endforeach;
-						else :
+							endforeach; ?>
+							</div>
+						<?php else :
 							?>
 							<div class="awsm-jobs-overview-empty-wrapper">
 								<p><img src="<?php echo esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/icon-1.svg' ); ?>" align="Icon">
@@ -291,7 +294,7 @@ $applications_count = AWSM_Job_Openings_Core::get_unviewed_applications_count();
 								</p>
 							</div>
 						<?php endif; ?>
-					</div>
+					
 				</div><!-- .awsm-jobs-overview-list -->
 			</div><!-- .awsm-jobs-overview-col -->
 			<div class="awsm-jobs-overview-col">
