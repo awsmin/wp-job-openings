@@ -258,6 +258,7 @@ class AWSM_Job_Openings_Overview {
 		$args = array(
 			'numberjobs' => $numberjobs,
 			'author_id'  => get_current_user_id(),
+			'job_status' => 'publish',
 		);
 		return self::get_jobs( $args );
 	}

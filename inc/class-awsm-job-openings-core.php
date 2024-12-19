@@ -24,6 +24,9 @@ class AWSM_Job_Openings_Core {
 		// WooCommerce - Allow the backend access for users with HR Role.
 		add_filter( 'woocommerce_disable_admin_bar', array( $this, 'woocommerce_disable_backend_access' ) );
 		add_filter( 'woocommerce_prevent_admin_access', array( $this, 'woocommerce_disable_backend_access' ) );
+
+
+
 	}
 
 	public static function init() {
@@ -155,7 +158,7 @@ class AWSM_Job_Openings_Core {
 				'capabilities'    => array(
 					'create_posts' => 'do_not_allow',
 				),
-				'supports'        => false,
+				'supports'        => ['title'],
 				'rewrite'         => false,
 			)
 		);
@@ -463,4 +466,7 @@ class AWSM_Job_Openings_Core {
 		}
 		return $disable;
 	}
+
+	
+	
 }
