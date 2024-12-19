@@ -178,7 +178,8 @@ class AWSM_Job_Openings_Overview {
 		$parsed_args = apply_filters( 'awsm_overview_jobs_args', $parsed_args, $defaults );
 
 		$values = array();
-		$join   = "LEFT JOIN {$wpdb->posts} AS applications ON {$wpdb->posts}.ID = applications.post_parent AND applications.post_type = 'awsm_job_application'";
+		//$join   = "LEFT JOIN {$wpdb->posts} AS applications ON {$wpdb->posts}.ID = applications.post_parent AND applications.post_type = 'awsm_job_application'";
+		$join   = "LEFT JOIN {$wpdb->posts} AS applications ON {$wpdb->posts}.ID = applications.post_parent AND applications.post_type = 'awsm_job_application' AND applications.post_status != 'trash'";
 		$where  = 'WHERE 1=1';
 		if ( isset( $parsed_args['tax_query'] ) && is_array( $parsed_args['tax_query'] ) ) {
 			$in       = array();
@@ -298,4 +299,5 @@ class AWSM_Job_Openings_Overview {
 		}
 		return $analytics_data;
 	}
+	
 }

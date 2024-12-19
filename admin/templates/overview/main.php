@@ -10,6 +10,7 @@ $active_jobs               = intval( $overview_data['active_jobs'] );
 $new_applications          = intval( $overview_data['new_applications'] );
 $total_applications        = intval( $overview_data['total_applications'] );
 $total_active_applications = intval( $overview_data['active_applications'] );
+$applications_count = intval( $overview_data['unread_applications'] );
 // Enable meta-box support.
 do_action( 'add_meta_boxes_' . AWSM_Job_Openings_Overview::$screen_id, null );
 
@@ -26,7 +27,7 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 		set_transient( '_awsm_add_ons_data', $response_body, DAY_IN_SECONDS );
 	}
 }
-$applications_count = AWSM_Job_Openings_Core::get_unviewed_applications_count();
+
 ?>
 <div class="wrap">
 <h1></h1>
@@ -250,7 +251,9 @@ $applications_count = AWSM_Job_Openings_Core::get_unviewed_applications_count();
 					</div><!-- .awsm-jobs-overview-col-head -->
 					
 					<?php
-					if ( ! empty( $jobs ) ) : ?>
+					if ( ! empty( $jobs ) ) : 
+					// echo '<pre>';
+					// var_dump($jobs);?>
 					<div class="awsm-jobs-overview-col-content">
 						<?php foreach ( $jobs as $job ) :
 							$jobmeta     = get_post_meta( $job->ID );
@@ -258,11 +261,12 @@ $applications_count = AWSM_Job_Openings_Core::get_unviewed_applications_count();
 
 							// Check if the job is not expired
 							if ( ! $expiry_date || strtotime( $expiry_date ) >= strtotime( current_time( 'Y-m-d' ) ) ) :
+								
 								$job_title      = get_the_title( $job->ID );
 								$published_date = get_the_date( 'F j, Y', $job->ID );
 								?>
 									<a href="<?php echo esc_url( get_edit_post_link( $job->ID ) ); ?>" class="awsm-jobs-overview-list-item">
-										<span class="count"><?php echo esc_html( $job->applications_count ); ?></span>
+										<span class="count"><?php echo esc_html( $job->applications_count );  ?></span>
 										<p>
 											<strong>
 										<?php
