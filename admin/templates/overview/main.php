@@ -230,7 +230,7 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 					<?php endforeach; ?>
 					<?php else : ?>
 					<div class="awsm-jobs-overview-empty-wrapper">
-						<p>📂 <?php esc_html_e( 'Awaiting applications', 'wp-job-openings' ); ?></p>
+						<p><img src="<?php echo esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/icon-3.svg' ); ?>" align="Icon"> <?php esc_html_e( 'Awaiting applications', 'wp-job-openings' ); ?></p>
 					</div>
 					<?php endif; ?>
 				</div><!-- .awsm-jobs-overview-list -->
@@ -282,10 +282,10 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 						else :
 							?>
 							<div class="awsm-jobs-overview-empty-wrapper">
-								<p>💼
+								<p><img src="<?php echo esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/icon-1.svg' ); ?>" align="Icon">
 									<?php
 										/* translators: %1$s: opening anchor tag, %2$s: closing anchor tag */
-										printf( '&nbsp;' . esc_html__( 'Looks empty! %1$sAdd some%2$s', 'wp-job-openings' ), '<a href="' . esc_url( admin_url( 'post-new.php?post_type=awsm_job_openings' ) ) . '">', '</a>' );
+										printf( '&nbsp;' . esc_html__( 'It Looks empty here! %1$sAdd a Job Opening%2$s', 'wp-job-openings' ), '<a href="' . esc_url( admin_url( 'post-new.php?post_type=awsm_job_openings' ) ) . '">', '</a>' );
 									?>
 								</p>
 							</div>

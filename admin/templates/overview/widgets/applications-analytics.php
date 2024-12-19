@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<?php else : ?>
 		<div class="awsm-jobs-overview-empty-wrapper">
 			<img src="<?php echo esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/applications-analytics-chart.png' ); ?>">
-			<p>📂 <?php esc_html_e( 'Awaiting applications', 'wp-job-openings' ); ?></p>
+			<p><img src="<?php echo esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/icon-3.svg' ); ?>" align="Icon"> <?php esc_html_e( 'Awaiting applications', 'wp-job-openings' ); ?></p>
 		</div>
 		<?php
 		endif;
