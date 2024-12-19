@@ -59,10 +59,26 @@ if( $attributes['placement'] == 'top' ){ ?>
 		?>
 	</div>
 
-	<div <?php awsm_block_jobs_view_class( '', $attributes ); ?><?php awsm_block_jobs_data_attrs( array(), $attributes ); ?>>
-		<?php
-			include get_awsm_jobs_template_path( 'block-main', 'block-files' );
-		?>
+	<!-- <div <?php //awsm_block_jobs_view_class( '', $attributes ); ?><?php //awsm_block_jobs_data_attrs( array(), $attributes ); ?>> -->
+    <div class="awsm-b-job-listings">
+		<div class="awsm-job-sort-wrap">
+			<div class="awsm-job-results">
+				Showing 1 – 10 of 16 results
+			</div>
+			<div class="awsm-job-sort">
+				<label>Sort by</label>
+				<select>
+					<option>Random</option>
+					<option>Date up</option>
+					<option>Date down</option>
+				</select>
+			</div>
+		</div>
+		<div <?php awsm_block_jobs_view_class( '', $attributes ); ?><?php awsm_block_jobs_data_attrs( array(), $attributes ); ?>>
+			<?php
+				include get_awsm_jobs_template_path( 'block-main-slide', 'block-files' );
+			?>
+		</div>
 	</div>
 </div>
 <?php } ?>

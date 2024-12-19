@@ -89,7 +89,7 @@ class AWSM_Job_Openings_Block {
 		}else if ( $view === 'stack' ) {
 			$view_class = 'awsm-b-row awsm-list-stacked';
 		}
-		return sprintf( 'awsm-b-job-listings %s', $view_class );
+		return sprintf( '%s', $view_class );
 	}
 
 	public function display_block_filter_form( $block_atts ) {
