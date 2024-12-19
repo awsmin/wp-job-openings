@@ -834,4 +834,37 @@ ul.awsm-error-message li {
     margin-bottom: 10px; /* Add spacing between tabs and content */
 }
 
+.awsm-list-stacked{
+
+}
+.awsm-b-stack-item{
+	width: 100%;
+	margin-bottom: 30px;
+	padding: 0 15px;
+}
+.awsm-b-stack-item .awsm-b-job-item{
+	border-radius: 8px;
+	border: 1px solid #CBCBCB;
+	padding: 30px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	gap: 10px;
+}
+.awsm-b-stack-left-col{
+	display: flex;
+	gap: 15px;
+	flex-wrap: wrap;
+	.awsm-job-featured-image{
+		max-width: 55px;
+		border-radius: 10px
+	}
+	.awsm-job-specification-wrapper{
+		display: flex;
+		gap: 15px 30px;
+		align-items: center;
+		flex-wrap: wrap;
+	}
+}
+
  
