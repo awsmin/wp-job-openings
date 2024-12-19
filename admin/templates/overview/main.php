@@ -4,12 +4,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$user_obj           = wp_get_current_user();
-$overview_data      = AWSM_Job_Openings::get_overview_data();
-$active_jobs        = intval( $overview_data['active_jobs'] );
-$new_applications   = intval( $overview_data['new_applications'] );
-$total_applications = intval( $overview_data['total_applications'] );
-
+$user_obj                  = wp_get_current_user();
+$overview_data             = AWSM_Job_Openings::get_overview_data();
+$active_jobs               = intval( $overview_data['active_jobs'] );
+$new_applications          = intval( $overview_data['new_applications'] );
+$total_applications        = intval( $overview_data['total_applications'] );
+$total_active_applications = intval( $overview_data['active_applications'] );
+$applications_count = intval( $overview_data['unread_applications'] );
 // Enable meta-box support.
 do_action( 'add_meta_boxes_' . AWSM_Job_Openings_Overview::$screen_id, null );
 
@@ -26,6 +27,7 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 		set_transient( '_awsm_add_ons_data', $response_body, DAY_IN_SECONDS );
 	}
 }
+
 ?>
 <div class="wrap">
 <h1></h1>
@@ -45,9 +47,9 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 							if ( $active_jobs === 0 ) {
 									esc_html_e( "Welcome to WP Job Openings! Let's get started?", 'wp-job-openings' );
 							} else {
-								if ( current_user_can( 'edit_others_applications' ) && $new_applications > 0 ) {
+								if ( current_user_can( 'edit_others_applications' ) && $applications_count > 0 ) {
 									/* translators: %s: New applications count */
-									printf( esc_html__( 'You have %s new applications to review', 'wp-job-openings' ), esc_html( $new_applications ) );
+									printf( esc_html__( 'You have %s new applications to review', 'wp-job-openings' ), esc_html( $applications_count ) );
 								}
 							}
 							?>
@@ -73,12 +75,12 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 							<li>
 								<img src="<?php echo esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/icon-2.svg' ); ?>" align="Icon">
 								<?php esc_html_e( 'New Applications', 'wp-job-openings' ); ?>
-								<span><?php echo esc_html( $new_applications ); ?></span>
+								<span><?php echo esc_html( $applications_count ); ?></span>
 							</li>
 							<li>
 								<img src="<?php echo esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/icon-3.svg' ); ?>" align="Icon">
 								<?php esc_html_e( 'Total Applications', 'wp-job-openings' ); ?>
-								<span><?php echo esc_html( $total_applications ); ?></span>
+								<span><?php echo esc_html( $total_active_applications  ); ?></span>
 							</li>
 							<?php endif; ?>
 						</ul>
@@ -124,15 +126,16 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 				<div class="awsm-jobs-overview-chart flex-item">
 					<div class="awsm-jobs-overview-col-head">
 						<h2><?php esc_html_e( 'Application Analytics', 'wp-job-openings' ); ?></h2>
+					
+						
+							<?php
+								$widget_id = 'awsm-jobs-overview-applications-by-analytics';
+								// Include your template here
+								require AWSM_JOBS_PLUGIN_DIR . '/admin/templates/overview/widgets/applications-analytics.php';
+							?>
+								<!-- Replace this image with chart.js -->
+						
 					</div><!-- .awsm-jobs-overview-col-head -->
-					<div class="awsm-jobs-overview-col-content">
-						<?php
-							$widget_id = 'awsm-jobs-overview-applications-by-analytics';
-							// Include your template here
-							require AWSM_JOBS_PLUGIN_DIR . '/admin/templates/overview/widgets/applications-analytics.php';
-						?>
-							<!-- Replace this image with chart.js -->
-					</div><!-- .awsm-jobs-overview-col-content -->
 				</div><!-- .awsm-jobs-overview-chart -->
 			</div><!-- .awsm-jobs-overview-col -->
 			<div class="awsm-jobs-overview-col">
@@ -164,7 +167,7 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 							'link_text' => __( 'Get Support', 'wp-job-openings' ),
 						),
 					);
-					
+
 
 					/**
 						* Filters the overview get started widget links.
@@ -230,13 +233,13 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 					<?php endforeach; ?>
 					<?php else : ?>
 					<div class="awsm-jobs-overview-empty-wrapper">
-						<p>📂 <?php esc_html_e( 'Awaiting applications', 'wp-job-openings' ); ?></p>
+						<p><img src="<?php echo esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/icon-3.svg' ); ?>" align="Icon"> <?php esc_html_e( 'Awaiting applications', 'wp-job-openings' ); ?></p>
 					</div>
 					<?php endif; ?>
 				</div><!-- .awsm-jobs-overview-list -->
 			</div><!-- .awsm-jobs-overview-col -->
 			<div class="awsm-jobs-overview-col">
-				<div class="awsm-jobs-overview-list flex-item">
+				<div class="awsm-jobs-overview-list awsm-jobs-overview-positions flex-item">
 					<div class="awsm-jobs-overview-col-head">
 						<h2><?php esc_html_e( 'Open Job Positions', 'wp-job-openings' ); ?></h2>
 						<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_openings' ) ); ?>">
@@ -246,10 +249,11 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 							</svg>
 						</a>
 					</div><!-- .awsm-jobs-overview-col-head -->
-					<div class="awsm-jobs-overview-col-content">
+					
 					<?php
-					if ( ! empty( $jobs ) ) :
-						foreach ( $jobs as $job ) :
+					if ( ! empty( $jobs ) ) : ?>
+					<div class="awsm-jobs-overview-col-content">
+						<?php foreach ( $jobs as $job ) :
 							$jobmeta     = get_post_meta( $job->ID );
 							$expiry_date = isset( $jobmeta['awsm_job_expiry'][0] ) ? $jobmeta['awsm_job_expiry'][0] : null;
 
@@ -259,7 +263,7 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 								$published_date = get_the_date( 'F j, Y', $job->ID );
 								?>
 									<a href="<?php echo esc_url( get_edit_post_link( $job->ID ) ); ?>" class="awsm-jobs-overview-list-item">
-										<span class="count"><?php echo esc_html( $job->applications_count ); ?></span>
+										<span class="count"><?php echo esc_html( $job->applications_count );  ?></span>
 										<p>
 											<strong>
 										<?php
@@ -278,19 +282,20 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 									</a>
 									<?php
 								endif;
-							endforeach;
-						else :
+							endforeach; ?>
+							</div>
+						<?php else :
 							?>
 							<div class="awsm-jobs-overview-empty-wrapper">
-								<p>💼
+								<p><img src="<?php echo esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/icon-1.svg' ); ?>" align="Icon">
 									<?php
 										/* translators: %1$s: opening anchor tag, %2$s: closing anchor tag */
-										printf( '&nbsp;' . esc_html__( 'Looks empty! %1$sAdd some%2$s', 'wp-job-openings' ), '<a href="' . esc_url( admin_url( 'post-new.php?post_type=awsm_job_openings' ) ) . '">', '</a>' );
+										printf( '&nbsp;' . esc_html__( 'It Looks empty here! %1$sAdd a Job Opening%2$s', 'wp-job-openings' ), '<a href="' . esc_url( admin_url( 'post-new.php?post_type=awsm_job_openings' ) ) . '">', '</a>' );
 									?>
 								</p>
 							</div>
 						<?php endif; ?>
-					</div>
+					
 				</div><!-- .awsm-jobs-overview-list -->
 			</div><!-- .awsm-jobs-overview-col -->
 			<div class="awsm-jobs-overview-col">

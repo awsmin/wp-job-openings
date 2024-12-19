@@ -999,5 +999,18 @@ class AWSM_Job_Openings_Form {
 		}
 	}
 
+	public function get_attachment_label( $applicant_job_id = null ) {
+
+		if ( has_filter( 'awsm_jobs_application_attachment_label' ) ) {
+			$filtered_label = apply_filters( 'awsm_jobs_application_attachment_label', $applicant_job_id );
+
+			if ( $filtered_label !== null ) {
+				return $filtered_label;
+			}
+		}
+		$form_fields = $this->dynamic_form_fields( $applicant_job_id );
+		return isset( $form_fields['awsm_file']['label'] ) ? $form_fields['awsm_file']['label'] : __( 'Upload CV/Resume', 'wp-job-openings' );
+
+	}
 
 }
