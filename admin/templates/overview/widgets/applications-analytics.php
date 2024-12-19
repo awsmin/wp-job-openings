@@ -16,6 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		do_action( 'before_awsm_jobs_overview_widget_content', $widget_id );
 
 		$analytics_data = AWSM_Job_Openings_Overview::get_applications_analytics_data();
+
 	if ( ! empty( $analytics_data ) ) :
 		?>
 		<div class="awsm-jobs-overview-chart-wrapper">

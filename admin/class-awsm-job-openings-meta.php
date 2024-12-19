@@ -20,6 +20,9 @@ class AWSM_Job_Openings_Meta {
 			}
 		}
 		add_action( 'awsm_job_applicant_profile_details_resume_preview', array( $this, 'docs_viewer_handle' ) );
+		add_filter( 'post_row_actions', array( $this, 'awsm_job_application_row_actions_label' ), 10, 2 );
+		add_filter( 'wp_untrash_post_status', array( $this, 'awsm_job_application_restore_post_to_previous_status' ), 10, 3 );
+
 	}
 
 	public static function init() {
@@ -52,7 +55,7 @@ class AWSM_Job_Openings_Meta {
 				$attachment_post = get_post( $awsm_attachment_id );
 				if ( $attachment_post && $attachment_post->post_type === 'attachment' ) {
 					add_meta_box( 'awsm-job-resume-preview', esc_html__( 'Resume Preview', 'wp-job-openings' ), array( $this, 'awsm_job_application_attachment_preview' ), 'awsm_job_application', 'normal', 'high' );
-				}	
+				}
 			}
 		}
 
@@ -308,5 +311,26 @@ class AWSM_Job_Openings_Meta {
 			</div>
 		<?php
 	}
+	public function awsm_job_application_row_actions_label( $actions, $post ) {
+		if ( $post->post_type === 'awsm_job_application' ) {
+			if ( isset( $actions['edit'] ) ) {
+				$actions['edit'] = str_replace( __( 'Edit' ), __( 'View' ), $actions['edit'] );
+			}
+		}
+		return $actions;
+	}
 
+	public function awsm_job_application_restore_post_to_previous_status( $new_status, $post_id, $previous_status ) {
+		$post = get_post( $post_id );
+
+		if ( $post && $post->post_type === 'awsm_job_application' ) {
+			if ( ! empty( $previous_status ) && $previous_status !== 'trash' ) {
+				return $previous_status;
+			}
+
+			return 'publish';
+		}
+
+		return $new_status;
+	}
 }

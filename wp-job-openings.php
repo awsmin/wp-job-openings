@@ -780,11 +780,15 @@ class AWSM_Job_Openings {
 		unset( $jobs_count['auto-draft'], $applications_count['auto-draft'] );
 		$total_jobs         = array_sum( $jobs_count );
 		$total_applications = array_sum( $applications_count );
+		// Exclude trashed applications to get active applications.
+		$trashed_applications = isset( $applications_count['trash'] ) ? $applications_count['trash'] : 0;
+		$active_applications  = $total_applications - $trashed_applications;
 		$data               = array(
-			'active_jobs'        => $jobs_count['publish'],
-			'total_jobs'         => $total_jobs,
-			'new_applications'   => $applications_count['publish'],
-			'total_applications' => $total_applications,
+			'active_jobs'         => $jobs_count['publish'],
+			'total_jobs'          => $total_jobs,
+			'new_applications'    => $applications_count['publish'],
+			'total_applications'  => $total_applications,
+			'active_applications' => $active_applications,
 		);
 		/**
 		 * Filters the overview data.
@@ -1561,20 +1565,20 @@ class AWSM_Job_Openings {
 
 	public static function awsm_job_query_args( $filters = array(), $shortcode_atts = array(), $is_term_or_slug = array() ) {
 		$args = array();
-	
+
 		if ( is_tax() ) {
-			$q_obj    = get_queried_object();
-			$taxonomy = $q_obj->taxonomy;
-			$term_id  = $q_obj->term_id;
-			$filters  = array( $taxonomy => $term_id );
+			$q_obj                        = get_queried_object();
+			$taxonomy                     = $q_obj->taxonomy;
+			$term_id                      = $q_obj->term_id;
+			$filters                      = array( $taxonomy => $term_id );
 			$is_term_or_slug[ $taxonomy ] = 'term_id';
 		}
-	
+
 		if ( ! empty( $filters ) ) {
 			foreach ( $filters as $taxonomy => $value ) {
 				if ( ! empty( $value ) ) {
-					$field_type = isset( $is_term_or_slug[ $taxonomy ] ) ? $is_term_or_slug[ $taxonomy ] : 'term_id';
-					$spec       = array(
+					$field_type          = isset( $is_term_or_slug[ $taxonomy ] ) ? $is_term_or_slug[ $taxonomy ] : 'term_id';
+					$spec                = array(
 						'taxonomy' => $taxonomy,
 						'field'    => $field_type,
 						'terms'    => (array) $value,
@@ -1583,13 +1587,13 @@ class AWSM_Job_Openings {
 				}
 			}
 		}
-	
+
 		$list_per_page          = self::get_listings_per_page( $shortcode_atts );
 		$hide_expired_jobs      = get_option( 'awsm_jobs_expired_jobs_listings' );
 		$args['post_type']      = 'awsm_job_openings';
 		$args['posts_per_page'] = $list_per_page;
 		$args['post_status']    = ( $hide_expired_jobs === 'expired' ) ? array( 'publish' ) : array( 'publish', 'expired' );
-	
+
 		return apply_filters( 'awsm_job_query_args', $args, $filters, $shortcode_atts );
 	}
 

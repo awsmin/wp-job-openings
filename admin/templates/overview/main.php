@@ -4,12 +4,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$user_obj           = wp_get_current_user();
-$overview_data      = AWSM_Job_Openings::get_overview_data();
-$active_jobs        = intval( $overview_data['active_jobs'] );
-$new_applications   = intval( $overview_data['new_applications'] );
-$total_applications = intval( $overview_data['total_applications'] );
-
+$user_obj                  = wp_get_current_user();
+$overview_data             = AWSM_Job_Openings::get_overview_data();
+$active_jobs               = intval( $overview_data['active_jobs'] );
+$new_applications          = intval( $overview_data['new_applications'] );
+$total_applications        = intval( $overview_data['total_applications'] );
+$total_active_applications = intval( $overview_data['active_applications'] );
 // Enable meta-box support.
 do_action( 'add_meta_boxes_' . AWSM_Job_Openings_Overview::$screen_id, null );
 
@@ -26,6 +26,7 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 		set_transient( '_awsm_add_ons_data', $response_body, DAY_IN_SECONDS );
 	}
 }
+$applications_count = AWSM_Job_Openings_Core::get_unviewed_applications_count();
 ?>
 <div class="wrap">
 <h1></h1>
@@ -45,9 +46,9 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 							if ( $active_jobs === 0 ) {
 									esc_html_e( "Welcome to WP Job Openings! Let's get started?", 'wp-job-openings' );
 							} else {
-								if ( current_user_can( 'edit_others_applications' ) && $new_applications > 0 ) {
+								if ( current_user_can( 'edit_others_applications' ) && $applications_count > 0 ) {
 									/* translators: %s: New applications count */
-									printf( esc_html__( 'You have %s new applications to review', 'wp-job-openings' ), esc_html( $new_applications ) );
+									printf( esc_html__( 'You have %s new applications to review', 'wp-job-openings' ), esc_html( $applications_count ) );
 								}
 							}
 							?>
@@ -73,12 +74,12 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 							<li>
 								<img src="<?php echo esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/icon-2.svg' ); ?>" align="Icon">
 								<?php esc_html_e( 'New Applications', 'wp-job-openings' ); ?>
-								<span><?php echo esc_html( $new_applications ); ?></span>
+								<span><?php echo esc_html( $applications_count ); ?></span>
 							</li>
 							<li>
 								<img src="<?php echo esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/icon-3.svg' ); ?>" align="Icon">
 								<?php esc_html_e( 'Total Applications', 'wp-job-openings' ); ?>
-								<span><?php echo esc_html( $total_applications ); ?></span>
+								<span><?php echo esc_html( $total_active_applications  ); ?></span>
 							</li>
 							<?php endif; ?>
 						</ul>
@@ -164,7 +165,7 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 							'link_text' => __( 'Get Support', 'wp-job-openings' ),
 						),
 					);
-					
+
 
 					/**
 						* Filters the overview get started widget links.
