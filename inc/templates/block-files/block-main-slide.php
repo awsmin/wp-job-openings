@@ -46,7 +46,7 @@ while ( $query->have_posts() ) {
 					awsm_jobs_block_featured_image( true, $featured_image, '', $attributes );
 				?>
 
-				<div class="awsm-b-stack-left-col">
+				<div class="awsm-b-stack-left-col-in">
 					<h2 class="awsm-b-job-post-title">
 						<?php
 							$job_title = ( $view === 'grid' ) ? esc_html( $job_details['title'] ) : sprintf( '<a href="%2$s">%1$s</a>', esc_html( $job_details['title'] ), esc_url( $job_details['permalink'] ) );
