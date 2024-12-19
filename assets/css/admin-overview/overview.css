@@ -346,7 +346,7 @@
 }
 .awsm-jobs-overview-empty-wrapper {
 	position: relative;
-	min-height: 200px;
+	min-height: 256px;
 	background: #fff;
 	border-radius: 10px;
 	overflow: hidden;
