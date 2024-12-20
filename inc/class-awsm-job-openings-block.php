@@ -730,7 +730,7 @@ class AWSM_Job_Openings_Block {
 											esc_attr($term->term_id),
 											$checkbox_svg_icon,
 											sprintf('<span class="awsm-filter-item-count">%s</span>', 10),
-											esc_attr( $term->name ),
+											sprintf('<span class="awsm-filter-check-label">%s</span>', esc_attr( $term->name )),
 											esc_attr( $spec['specKey'])
 										);
 									}
