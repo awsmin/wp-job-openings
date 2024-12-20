@@ -730,6 +730,13 @@ ul.awsm-error-message li {
 .awsm-jobs-alerts-trigger-btn span{
 	display: none;
 }
+.awsm-filter-check-label{
+	display: block;
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: calc(100% - 30px);
+}
 @media (min-width: 768.1px) {
 	.awsm-job-2-col{
 		display: flex;
@@ -754,6 +761,7 @@ ul.awsm-error-message li {
 	.awsm-job-2-col .awsm-jobs-alerts-popup-trigger-btn{
 		padding-left: 0;
 		padding-right: 0;
+		width: 100%;
 	}
 	.awsm-job-2-col .awsm-b-filter-wrap.awsm-full-width-search-filter-wrap.awsm-jobs-alerts-on .awsm-b-filter-items, 
 	.awsm-job-2-col .awsm-b-filter-wrap.awsm-no-search-filter-wrap.awsm-jobs-alerts-on .awsm-b-filter-items{
