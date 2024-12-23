@@ -30,11 +30,12 @@ if( $attributes['placement'] == 'top' ){ ?>
 		do_action( 'awsm_block_filter_form', $attributes );
 		do_action( 'awsm_block_form_outside', $attributes );
 	?>
-
-	<div <?php awsm_block_jobs_view_class( '', $attributes ); ?><?php awsm_block_jobs_data_attrs( array(), $attributes ); ?>>
-		<?php
-			include get_awsm_jobs_template_path( 'block-main', 'block-files' );
-		?>
+    <div class="awsm-b-job-listings"<?php awsm_block_jobs_data_attrs( array(), $attributes ); ?>>
+		<div <?php awsm_block_jobs_view_class( '', $attributes ); ?>>
+			<?php
+				include get_awsm_jobs_template_path( 'block-main', 'block-files' );
+			?>
+		</div>
 	</div>
 </div>
 <?php 
@@ -59,7 +60,6 @@ if( $attributes['placement'] == 'top' ){ ?>
 		?>
 	</div>
 
-	<!-- <div <?php //awsm_block_jobs_view_class( '', $attributes ); ?><?php //awsm_block_jobs_data_attrs( array(), $attributes ); ?>> -->
     <div class="awsm-b-job-listings">
 		<div class="awsm-job-sort-wrap">
 			<div class="awsm-job-results">

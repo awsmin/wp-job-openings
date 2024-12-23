@@ -377,7 +377,7 @@ class AWSM_Job_Openings_Block {
 		return $query_args;
 	}
 
-	public function awsm_block_posts_filters() {
+	public function awsm_block_posts_filters() { 
         // phpcs:disable WordPress.Security.NonceVerification.Missing
 		$filters = $filters_list = $attributes = array(); // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
 
@@ -729,7 +729,7 @@ class AWSM_Job_Openings_Block {
 											</div>',
 											esc_attr($term->term_id),
 											$checkbox_svg_icon,
-											sprintf('<span class="awsm-filter-item-count">%s</span>', 10),
+											'',
 											sprintf('<span class="awsm-filter-check-label">%s</span>', esc_attr( $term->name )),
 											esc_attr( $spec['specKey'])
 										);

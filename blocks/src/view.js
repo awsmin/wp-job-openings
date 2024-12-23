@@ -3,6 +3,7 @@
 jQuery(function($) { 
 	var rootWrapperSelector = '.awsm-b-job-wrap';
 	var wrapperSelector = '.awsm-b-job-listings'; 
+	var sectionSelector = '.awsm-b-row';
 
 	/* ========== Job Search and Filtering ========== */
 
@@ -260,24 +261,25 @@ jQuery(function($) {
 	/* ========== Job Listings Load More ========== */
 	$(wrapperSelector).on('click', '.awsm-b-jobs-pagination .awsm-b-load-more-btn, .awsm-b-jobs-pagination a.page-numbers', function(e) {
 		e.preventDefault(); 
-		var $triggerElem = $(this);
+		var $triggerElem = $(this);  
 		var isDefaultPagination = $triggerElem.hasClass('awsm-b-load-more-btn');
 		var paged = 1;
-		var wpData = [];
+		var wpData = []; 
 		var $mainContainer = $triggerElem.parents(rootWrapperSelector);
 		var $listingsContainer = $mainContainer.find(wrapperSelector);
+		
 		var $paginationWrapper = $triggerElem.parents('.awsm-b-jobs-pagination');
-		var listings = $listingsContainer.data('listings');
+		var listings = $listingsContainer.data('listings'); 
 		var specs = $listingsContainer.data('specs');
 		var lang = $listingsContainer.data('lang');
 		var searchQuery = $listingsContainer.data('search');
 
 		/* added for block */
-		var layout = $listingsContainer.data('awsm-layout');
+		var layout = $listingsContainer.data('awsm-layout'); 
 		var hide_expired_jobs = $listingsContainer.data('awsm-hide-expired-jobs');
 		var other_options = $listingsContainer.data('awsm-other-options');
 		/* end */
-
+		
 		if (isDefaultPagination) {
 			$triggerElem.prop('disabled', true);
 			paged = $triggerElem.data('page');
