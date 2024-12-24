@@ -38,6 +38,7 @@ jQuery(function ($) {
   }
   function awsmJobFilters($rootWrapper) {
     var $wrapper = $rootWrapper.find(wrapperSelector);
+    var $rowWrapper = $wrapper.find(sectionSelector);
     var $filterForm = $rootWrapper.find(filterSelector + ' form');
     var formData = $filterForm.serializeArray();
     var listings = $wrapper.data('listings');
@@ -100,7 +101,7 @@ jQuery(function ($) {
         data: formData,
         type: $filterForm.attr('method')
       }).done(function (data) {
-        $wrapper.html(data);
+        $rowWrapper.html(data);
         var $searchControl = $rootWrapper.find('.awsm-b-job-search');
         if ($searchControl.length > 0) {
           if ($searchControl.val().length > 0) {
@@ -251,6 +252,7 @@ jQuery(function ($) {
     var wpData = [];
     var $mainContainer = $triggerElem.parents(rootWrapperSelector);
     var $listingsContainer = $mainContainer.find(wrapperSelector);
+    var $listingsrowContainer = $listingsContainer.find(sectionSelector);
     var $paginationWrapper = $triggerElem.parents('.awsm-b-jobs-pagination');
     var listings = $listingsContainer.data('listings');
     var specs = $listingsContainer.data('specs');
@@ -259,6 +261,7 @@ jQuery(function ($) {
 
     /* added for block */
     var layout = $listingsContainer.data('awsm-layout');
+    console.log($listingsContainer);
     var hide_expired_jobs = $listingsContainer.data('awsm-hide-expired-jobs');
     var other_options = $listingsContainer.data('awsm-other-options');
     /* end */
@@ -386,7 +389,7 @@ jQuery(function ($) {
         var effectDuration = $paginationWrapper.data('effectDuration');
         $paginationWrapper.remove();
         if (isDefaultPagination) {
-          $listingsContainer.append(data);
+          $listingsrowContainer.append(data);
         } else {
           $listingsContainer.html(data);
           $listingsContainer.removeClass('awsm-b-jobs-loading');

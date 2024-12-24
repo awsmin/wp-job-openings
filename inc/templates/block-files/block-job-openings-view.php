@@ -60,7 +60,7 @@ if( $attributes['placement'] == 'top' ){ ?>
 		?>
 	</div>
 
-    <div class="awsm-b-job-listings">
+    <div class="awsm-b-job-listings"<?php awsm_block_jobs_data_attrs( array(), $attributes ); ?>>
 		<div class="awsm-job-sort-wrap">
 			<div class="awsm-job-results">
 				Showing 1 – 10 of 16 results
@@ -74,7 +74,7 @@ if( $attributes['placement'] == 'top' ){ ?>
 				</select>
 			</div>
 		</div>
-		<div <?php awsm_block_jobs_view_class( '', $attributes ); ?><?php awsm_block_jobs_data_attrs( array(), $attributes ); ?>>
+		<div <?php awsm_block_jobs_view_class( '', $attributes ); ?>>
 			<?php
 				include get_awsm_jobs_template_path( 'block-main-slide', 'block-files' );
 			?>
