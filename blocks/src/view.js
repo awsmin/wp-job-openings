@@ -207,20 +207,21 @@ jQuery(function($) {
 		}
 	};
 
-	if ($('.awsm-job-no-more-jobs-get').length > 0) {
+	if ($('.awsm-b-job-no-more-jobs-get').length > 0) {
 		$('.awsm-b-job-listings').hide();
-		$('.awsm-job-no-more-jobs-get').slice(1).hide();
+		$('.awsm-b-job-no-more-jobs-get').slice(1).hide();
 	}
 
 	$(filterSelector + ' .awsm-b-filter-option').on('change', function(e) { 
 		e.preventDefault();
+		$('.awsm-b-job-listings').show();
 		var $elem = $(this);
 		var $selected = $elem.find('option:selected');
 		var $rootWrapper = $elem.parents(rootWrapperSelector);
 		var currentSpec = $elem.parents('.awsm-b-filter-item').data('filter');
 		var slug = $selected.data('slug');
 		if ($('.awsm-b-job-listings').length > 0) {
-			$rootWrapper.find('.awsm-job-no-more-jobs-get').hide();
+			$rootWrapper.find('.awsm-b-job-no-more-jobs-get').hide();
 		}
 		slug = typeof slug !== 'undefined' ? slug : '';
 		setPaginationBase($rootWrapper, currentSpec, slug);
