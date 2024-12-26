@@ -31,9 +31,62 @@ if ( ! function_exists( 'awsm_block_job_filters_explode' ) ) {
 	}
 }
 
+if ( ! function_exists( 'get_block_filtered_job_terms' ) ) {
+	function get_block_filtered_job_terms( $attributes ) {
+		$filter_suffix  = '_spec';
+		$filters        = explode(',', $attributes["filter_options"]);
+		$filtered_terms = array();
+
+		error_log( json_encode( 'enters get_block_filtered_job_terms', JSON_PRETTY_PRINT ) );
+
+		if ( ! empty( $filters ) ) {
+			foreach ( $filters as $filter ) {
+				$current_filter_key = str_replace( '-', '__', $filter ) . $filter_suffix;
+
+				if ( isset( $_GET[ $current_filter_key ] ) ) {
+					$term_slug = sanitize_title( $_GET[ $current_filter_key ] );
+					$term      = get_term_by( 'slug', $term_slug, $filter );
+
+					if ( $term && ! is_wp_error( $term ) ) {
+						$filtered_terms[ $filter ] = $term;
+					} else {
+						$filtered_terms[ $filter ] = null;
+					}
+				}
+			}
+		}
+
+		return $filtered_terms;
+	}
+}
+
 if ( ! function_exists( 'awsm_block_jobs_query' ) ) {
 	function awsm_block_jobs_query( $attributes = array() ) {
-		$args  = AWSM_Job_Openings_Block::awsm_block_job_query_args( array(), $attributes );
+		$query_args      = array();
+		$is_term_or_slug = array();
+		$filter_suffix   = '_spec';
+
+		
+		$filter_options_array = explode(',', $attributes["filter_options"]);
+		
+		if ( ! empty( $filter_options_array ) ) {
+			foreach ( $filter_options_array as $filter ) {
+				$current_filter_key = str_replace( '-', '__', $filter ) . $filter_suffix;
+				if ( isset( $_GET[ $current_filter_key ] ) ) {
+					$term_slug = sanitize_title( $_GET[ $current_filter_key ] );
+					$term      = get_term_by( 'slug', $term_slug, $filter );
+					if ( $term && ! is_wp_error( $term ) ) {
+						$query_args[ $filter ]      = $term->term_id;
+						$is_term_or_slug[ $filter ] = 'term_id';
+					} else {
+						$query_args[ $filter ]      = $term_slug;
+						$is_term_or_slug[ $filter ] = 'slug';
+					}
+				}
+			}
+		}
+
+		$args  = AWSM_Job_Openings_Block::awsm_block_job_query_args( $query_args, $attributes, $is_term_or_slug = array() );
 		$query = new WP_Query( $args );
 		return $query;
 	}
