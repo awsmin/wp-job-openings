@@ -50,7 +50,6 @@ else :
 	}
 
 	if ( ! empty( $job_spec ) ) {
-		print_r('sefdsd');
 		?>
 			<div class="awsm-b-job-wrap<?php awsm_jobs_wrapper_class(); ?>">
 				<?php
@@ -60,7 +59,7 @@ else :
 				<?php
 				get_block_filtered_job_terms( $attributes);
 				$no_jobs_content = sprintf(
-					'<div class="awsm-jobs-pagination awsm-load-more-main awsm-no-more-jobs-container awsm-job-no-more-jobs-get"><p>%s</p></div>',
+					'<div class="awsm-jobs-pagination awsm-load-more-main awsm-no-more-jobs-container awsm-b-job-no-more-jobs-get"><p>%s</p></div>',
 					esc_html__( 'Sorry! No jobs to show.', 'wp-job-openings' )
 				);
 				echo $no_jobs_content;
