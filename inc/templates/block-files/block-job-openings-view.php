@@ -50,7 +50,6 @@ else :
 	}
 
 	if ( ! empty( $job_spec ) ) {
-		print_r('sefdsd');
 		?>
 			<div class="awsm-b-job-wrap<?php awsm_jobs_wrapper_class(); ?>">
 				<?php
