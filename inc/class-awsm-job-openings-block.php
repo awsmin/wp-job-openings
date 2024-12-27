@@ -514,6 +514,14 @@ class AWSM_Job_Openings_Block {
 			$args['post_status'] = array( 'publish', 'expired' );
 		}
 
+		if ( isset( $attributes['orderBy'] ) && $attributes['orderBy'] === 'new_to_old' ) {
+			$args['orderby'] = 'date';
+			$args['order']   = 'DESC';
+		}else{
+			$args['orderby'] = 'date';
+			$args['order']   = 'ASC';
+		}
+
 		// phpcs:ignore WordPress.Security.NonceVerification.Missing
 		if ( ! AWSM_Job_Openings::is_default_pagination( $attributes ) && ! isset( $_POST['awsm_pagination_base'] ) ) {
 			// Handle classic pagination on page load.

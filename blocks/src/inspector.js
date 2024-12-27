@@ -251,8 +251,8 @@ const WidgetInspectorControls = (props) => {
 					label={__("Order By", "wp-job-openings")}
 					value={orderBy}
 					options={[
-					{ label: __("Newest to oldest", "wp-job-openings"), value: "new" },
-					{ label: __("Oldest to newest", "wp-job-openings"), value: "old" },
+					{ label: __("Newest to oldest", "wp-job-openings"), value: "new_to_old" },
+					{ label: __("Oldest to newest", "wp-job-openings"), value: "old_to_new" },
 					]}
 					onChange={(orderBy) => setAttributes({ orderBy })}
 				/>
