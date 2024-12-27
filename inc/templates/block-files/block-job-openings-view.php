@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $attributes = isset( $block_atts_set ) ? $block_atts_set : array();
-$query      = awsm_block_jobs_query( $attributes );  
+$query      = awsm_block_jobs_query( $attributes ); 
 
 if ( $query->have_posts() ) : ?>
 <?php 

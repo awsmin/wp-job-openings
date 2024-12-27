@@ -410,7 +410,7 @@ jQuery(function($) {
 				if (isDefaultPagination) {
 					$listingsrowContainer.append(data);
 				} else {
-					$listingsContainer.html(data);
+					$listingsrowContainer.html(data);
 					$listingsContainer.removeClass('awsm-b-jobs-loading');
 					if (typeof effectDuration !== 'undefined') {
 						effectDuration = isNaN(effectDuration) ? effectDuration : Number(effectDuration);
