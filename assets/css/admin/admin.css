@@ -2192,6 +2192,10 @@ textarea.awsm-form-control {
     cursor: progress; /* Show progress cursor */
     pointer-events: none; /* Disable button interaction */
 }
+.awsm-application-actions  .awsm-applicant-details-list li{
+	padding: 0;
+	border: none !important;
+}
 @media (min-width:701px) {
 	.awsm-job-setup {
 		position: absolute;

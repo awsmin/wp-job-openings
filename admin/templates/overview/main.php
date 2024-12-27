@@ -95,31 +95,38 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 						<h2><?php esc_html_e( 'Application by Status', 'wp-job-openings' ); ?></h2>
 					</div><!-- .awsm-jobs-overview-col-head -->
 					<div class="awsm-jobs-overview-col-content">
-						<?php
-						if ( ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) {
-							// Translators: %1$s is the opening <a> tag for the PRO Plan link, %2$s is the closing </a> tag.
-							$pro_link = sprintf( esc_html__( 'This feature requires %1$sPRO Plan%2$s to work', 'wp-job-openings' ), '<a href="https://awsm.in/get/wpjo-pro/">', '</a>' );
-							// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-							printf( '<div class="awsm-jobs-overview-widget-wrapper"><div class="awsm-jobs-pro-feature"><img src="%2$s"><p>%1$s</p></div></div>', $pro_link, esc_url( 'https://i.ibb.co/vXyz24d/Screenshot-2024-03-05-at-12-41-12-PM.png' ) );
+					<?php
+					if ( ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) {
+						// Translators: %1$s is the opening <a> tag for the PRO Plan link, %2$s is the closing </a> tag.
+						$pro_link = sprintf( esc_html__( 'This feature requires %1$sPRO Plan%2$s to work', 'wp-job-openings' ), '<a href="https://awsm.in/get/wpjo-pro/">', '</a>' );
+						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						printf( '<div class="awsm-jobs-overview-widget-wrapper"><div class="awsm-jobs-pro-feature"><img src="%2$s"><p>%1$s</p></div></div>', $pro_link, esc_url( 'https://i.ibb.co/vXyz24d/Screenshot-2024-03-05-at-12-41-12-PM.png' ) );
+					} else {
+						// Ensure the AWSM_Job_Openings_Pro_Overview class is initialized
+						$overview_instance = AWSM_Job_Openings_Pro_Overview::init();
+
+						// Set the unique ID for which you want the template path
+						$unique_id = 'awsm-jobs-overview-applications-by-status';
+						
+						// Create a template args array to pass variables to the template
+						$template_args = array(
+							'widget_id' => $unique_id // Pass the unique_id as widget_id
+						);
+
+						// Get the template path
+						$template_path = $overview_instance->pro_widget_template_path( '', $unique_id );
+
+						// Include the template file if it exists
+						if ( file_exists( $template_path ) ) {
+							// Extract template args to make them available as variables in the template
+							extract( $template_args );
+							include $template_path;
 						} else {
-							// Ensure the AWSM_Job_Openings_Pro_Overview class is initialized
-							$overview_instance = AWSM_Job_Openings_Pro_Overview::init();
-
-							// Set the unique ID for which you want the template path
-							$unique_id = 'awsm-jobs-overview-applications-by-status';
-
-							// Get the template path
-							$template_path = $overview_instance->pro_widget_template_path( '', $unique_id );
-
-							// Include the template file if it exists
-							if ( file_exists( $template_path ) ) {
-								include $template_path;
-							} else {
-								echo '<p>' . esc_html__( 'Template not found.', 'wp-job-openings' ) . '</p>';
-							}
+							echo '<p>' . esc_html__( 'Template not found.', 'wp-job-openings' ) . '</p>';
 						}
-						?>
-					</div><!-- .awsm-jobs-overview-col-content -->
+					}
+					?>
+				</div><!-- .awsm-jobs-overview-col-content -->
 				</div><!-- .awsm-jobs-overview-chart -->
 			</div><!-- .awsm-jobs-overview-col -->
 			<div class="awsm-jobs-overview-col" id="awsm-jobs-overview-applications-analytics">
