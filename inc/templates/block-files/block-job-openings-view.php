@@ -8,8 +8,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$attributes = isset( $block_atts_set ) ? $block_atts_set : array();
-$query      = awsm_block_jobs_query( $attributes ); 
+$attributes  				  = isset( $block_atts_set ) ? $block_atts_set : array();
+$query       				  = awsm_block_jobs_query( $attributes );  
+$attributes['listings_total'] = $query->found_posts; 
 
 if ( $query->have_posts() ) : ?>
 <?php 
@@ -62,15 +63,16 @@ if( $attributes['placement'] == 'top' ){ ?>
 
     <div class="awsm-b-job-listings"<?php awsm_block_jobs_data_attrs( array(), $attributes ); ?>>
 		<div class="awsm-job-sort-wrap">
-			<div class="awsm-job-results">
-				Showing 1 – 10 of 16 results
+			<div class="awsm-job-results" id="awsm-job-count">
+				
 			</div>
 			<div class="awsm-job-sort">
 				<label>Sort by</label>
 				<select>
+					<option>Relevance</option>
+					<option>New to Old</option>
+					<option>Old to New</option>
 					<option>Random</option>
-					<option>Date up</option>
-					<option>Date down</option>
 				</select>
 			</div>
 		</div>
