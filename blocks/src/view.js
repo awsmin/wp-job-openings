@@ -95,7 +95,7 @@ jQuery(function($) {
 		}
 		/* end */
 
-		var listingsData = getListingsData($wrapper);
+		var listingsData = getListingsData($wrapper); 
 		if (listingsData.length > 0) {
 			formData = formData.concat(listingsData);
 		}
@@ -116,7 +116,7 @@ jQuery(function($) {
 				},
 				data: formData,
 				type: $filterForm.attr('method')
-			}).done(function(data) {
+			}).done(function(data) { 
 				$rowWrapper.html(data);
 				var $searchControl = $rootWrapper.find('.awsm-b-job-search');
 				if ($searchControl.length > 0) {
@@ -252,7 +252,6 @@ jQuery(function($) {
 			updateQuery(currentSpec, slug, $paginationBase.val());
 		}
 		awsmJobFilters($rootWrapper);
-		
 	});
 
 	$(filterSelector + ' .awsm-b-job-search-btn').on('click', function() {
