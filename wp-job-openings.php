@@ -781,10 +781,10 @@ class AWSM_Job_Openings {
 		$total_jobs         = array_sum( $jobs_count );
 		$total_applications = array_sum( $applications_count );
 		// Exclude trashed applications to get active applications.
-		$trashed_applications = isset( $applications_count['trash'] ) ? $applications_count['trash'] : 0;
-		$active_applications  = $total_applications - $trashed_applications;
+		$trashed_applications   = isset( $applications_count['trash'] ) ? $applications_count['trash'] : 0;
+		$active_applications    = $total_applications - $trashed_applications;
 		$new_applications_count = AWSM_Job_Openings_Core::get_unviewed_applications_count();
-		$data               = array(
+		$data                   = array(
 			'active_jobs'         => $jobs_count['publish'],
 			'total_jobs'          => $total_jobs,
 			'new_applications'    => $applications_count['publish'],
@@ -1147,7 +1147,7 @@ class AWSM_Job_Openings {
 			array(
 				'screen_id'      => AWSM_Job_Openings_Overview::$screen_id,
 				'analytics_data' => AWSM_Job_Openings_Overview::get_applications_analytics_data(),
-				'default_option' => get_option('awsm_jobs_analytics_data', 'year'),
+				'default_option' => get_option( 'awsm_jobs_analytics_data', 'year' ),
 				'i18n'           => array(
 					'chart_label' => esc_html__( 'Applications', 'wp-job-openings' ),
 				),

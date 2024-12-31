@@ -62,7 +62,7 @@ else :
 		foreach ( $_GET as $key => $value ) {
 			if ( substr( $key, -strlen( $filter_suffix ) ) === $filter_suffix ) {
 				$job_spec[ $key ] = sanitize_text_field( $value );
-			}
+			} // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 	}
 
@@ -79,7 +79,7 @@ else :
 					'<div class="awsm-jobs-pagination awsm-load-more-main awsm-no-more-jobs-container awsm-job-no-more-jobs-get"><p>%s</p></div>',
 					esc_html__( 'Sorry! No jobs to show.', 'wp-job-openings' )
 				);
-				echo $no_jobs_content;
+				echo $no_jobs_content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				?>
 				<div <?php awsm_jobs_view_class( '', $shortcode_atts ); ?><?php awsm_jobs_data_attrs( array(), $shortcode_atts ); ?>>
 					<?php include get_awsm_jobs_template_path( 'main', 'job-openings' ); ?>

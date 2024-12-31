@@ -57,12 +57,12 @@ else :
 					do_action( 'awsm_block_form_outside', $attributes );
 				?>
 				<?php
-				get_block_filtered_job_terms( $attributes);
+				get_block_filtered_job_terms( $attributes );
 				$no_jobs_content = sprintf(
 					'<div class="awsm-jobs-pagination awsm-load-more-main awsm-no-more-jobs-container awsm-b-job-no-more-jobs-get"><p>%s</p></div>',
 					esc_html__( 'Sorry! No jobs to show.', 'wp-job-openings' )
 				);
-				echo $no_jobs_content;
+				echo $no_jobs_content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				?>
 				<div <?php awsm_block_jobs_view_class( '', $attributes ); ?><?php awsm_block_jobs_data_attrs( array(), $attributes ); ?>>
 					<?php

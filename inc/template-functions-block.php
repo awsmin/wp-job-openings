@@ -34,7 +34,7 @@ if ( ! function_exists( 'awsm_block_job_filters_explode' ) ) {
 if ( ! function_exists( 'get_block_filtered_job_terms' ) ) {
 	function get_block_filtered_job_terms( $attributes ) {
 		$filter_suffix  = '_spec';
-		$filters        = explode(',', $attributes["filter_options"]);
+		$filters        = explode( ',', $attributes['filter_options'] );
 		$filtered_terms = array();
 
 		error_log( json_encode( 'enters get_block_filtered_job_terms', JSON_PRETTY_PRINT ) );
@@ -66,9 +66,8 @@ if ( ! function_exists( 'awsm_block_jobs_query' ) ) {
 		$is_term_or_slug = array();
 		$filter_suffix   = '_spec';
 
-		
-		$filter_options_array = explode(',', $attributes["filter_options"]);
-		
+		$filter_options_array = explode( ',', $attributes['filter_options'] );
+
 		if ( ! empty( $filter_options_array ) ) {
 			foreach ( $filter_options_array as $filter ) {
 				$current_filter_key = str_replace( '-', '__', $filter ) . $filter_suffix;

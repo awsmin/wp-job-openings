@@ -10,7 +10,7 @@ $active_jobs               = intval( $overview_data['active_jobs'] );
 $new_applications          = intval( $overview_data['new_applications'] );
 $total_applications        = intval( $overview_data['total_applications'] );
 $total_active_applications = intval( $overview_data['active_applications'] );
-$applications_count = intval( $overview_data['unread_applications'] );
+$applications_count        = intval( $overview_data['unread_applications'] );
 // Enable meta-box support.
 do_action( 'add_meta_boxes_' . AWSM_Job_Openings_Overview::$screen_id, null );
 
@@ -80,7 +80,7 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 							<li>
 								<img src="<?php echo esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/icon-3.svg' ); ?>" align="Icon">
 								<?php esc_html_e( 'Total Applications', 'wp-job-openings' ); ?>
-								<span><?php echo esc_html( $total_active_applications  ); ?></span>
+								<span><?php echo esc_html( $total_active_applications ); ?></span>
 							</li>
 							<?php endif; ?>
 						</ul>
@@ -107,10 +107,10 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 
 						// Set the unique ID for which you want the template path
 						$unique_id = 'awsm-jobs-overview-applications-by-status';
-						
+
 						// Create a template args array to pass variables to the template
 						$template_args = array(
-							'widget_id' => $unique_id // Pass the unique_id as widget_id
+							'widget_id' => $unique_id, // Pass the unique_id as widget_id
 						);
 
 						// Get the template path
@@ -118,8 +118,10 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 
 						// Include the template file if it exists
 						if ( file_exists( $template_path ) ) {
-							// Extract template args to make them available as variables in the template
-							extract( $template_args );
+
+							foreach ( $template_args as $key => $value ) {
+								${$key} = $value;
+							}
 							include $template_path;
 						} else {
 							echo '<p>' . esc_html__( 'Template not found.', 'wp-job-openings' ) . '</p>';
@@ -258,9 +260,11 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 					</div><!-- .awsm-jobs-overview-col-head -->
 					
 					<?php
-					if ( ! empty( $jobs ) ) : ?>
+					if ( ! empty( $jobs ) ) :
+						?>
 					<div class="awsm-jobs-overview-col-content">
-						<?php foreach ( $jobs as $job ) :
+						<?php
+						foreach ( $jobs as $job ) :
 							$jobmeta     = get_post_meta( $job->ID );
 							$expiry_date = isset( $jobmeta['awsm_job_expiry'][0] ) ? $jobmeta['awsm_job_expiry'][0] : null;
 
@@ -270,7 +274,7 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 								$published_date = get_the_date( 'F j, Y', $job->ID );
 								?>
 									<a href="<?php echo esc_url( get_edit_post_link( $job->ID ) ); ?>" class="awsm-jobs-overview-list-item">
-										<span class="count"><?php echo esc_html( $job->applications_count );  ?></span>
+										<span class="count"><?php echo esc_html( $job->applications_count ); ?></span>
 										<p>
 											<strong>
 										<?php
@@ -289,9 +293,11 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 									</a>
 									<?php
 								endif;
-							endforeach; ?>
+							endforeach;
+						?>
 							</div>
-						<?php else :
+						<?php
+						else :
 							?>
 							<div class="awsm-jobs-overview-empty-wrapper">
 								<p><img src="<?php echo esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/icon-1.svg' ); ?>" align="Icon">

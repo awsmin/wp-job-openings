@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div class="awsm-jobs-overview-col-content">
 <div class="<?php echo esc_attr( "awsm-jobs-overview-widget-wrapper awsm-jobs-overview-{$widget_id}-widget-wrapper" ); ?>">
 	<?php
-	
+
 
 		$analytics_data = AWSM_Job_Openings_Overview::get_applications_analytics_data();
 

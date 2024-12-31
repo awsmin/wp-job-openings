@@ -451,13 +451,12 @@ class AWSM_Job_Openings_Block {
 	public static function awsm_block_job_query_args( $filters = array(), $attributes = array(), $is_term_or_slug = array() ) {
 		$args = array();
 		if ( is_tax() ) {
-			$q_obj    = get_queried_object();
-			$taxonomy = $q_obj->taxonomy;
-			$term_id  = $q_obj->term_id;
-			$filters  = array( $taxonomy => $term_id );
+			$q_obj                        = get_queried_object();
+			$taxonomy                     = $q_obj->taxonomy;
+			$term_id                      = $q_obj->term_id;
+			$filters                      = array( $taxonomy => $term_id );
 			$is_term_or_slug[ $taxonomy ] = 'term_id';
 		}
-
 
 		if ( ! empty( $filters ) ) {
 			foreach ( $filters as $taxonomy => $value ) {
