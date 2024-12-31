@@ -146,6 +146,37 @@ class AWSM_Job_Openings {
 		flush_rewrite_rules();
 	}
 
+	public function pro_version_admin_notice() {
+		?>
+		<div class="notice notice-error">
+			<p>
+				<?php
+				echo esc_html__( 'The Pro version of the plugin is outdated. Please update it to version 4.0 or higher to work with the Free version.', 'awsm-job-openings' );
+				?>
+			</p>
+		</div>
+		<?php
+	}
+
+	public function check_pro_version_for_free_plugin() {
+		if ( defined( 'AWSM_JOBS_PRO_PLUGIN_BASENAME' ) ) {
+			if ( is_plugin_active( AWSM_JOBS_PRO_PLUGIN_BASENAME ) ) {
+				$pro_plugin_path = WP_PLUGIN_DIR . '/' . AWSM_JOBS_PRO_PLUGIN_BASENAME;
+				if ( file_exists( $pro_plugin_path ) ) {
+					$plugin_data = get_plugin_data( $pro_plugin_path );
+					$pro_version = $plugin_data['Version'];
+
+					$required_pro_version = '4.0';
+
+					if ( version_compare( $pro_version, $required_pro_version, '<' ) ) {
+						add_action( 'admin_notices', array( $this, 'pro_version_admin_notice' ) );
+						deactivate_plugins( AWSM_JOBS_PRO_PLUGIN_BASENAME );
+					}
+				}
+			}
+		}
+	}
+
 	public static function log( $data, $prefix = '' ) {
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG && defined( 'AWSM_JOBS_DEBUG' ) && AWSM_JOBS_DEBUG ) {
 			if ( is_string( $data ) ) {
@@ -237,6 +268,7 @@ class AWSM_Job_Openings {
 			// Add custom status to status dropdown under post submit meta box (existing and new) for job openings.
 			add_action( 'admin_footer-post.php', array( $this, 'job_submit_meta_box_custom_status' ) );
 			add_action( 'admin_footer-post-new.php', array( $this, 'job_submit_meta_box_custom_status' ) );
+			add_action( 'admin_init', array( $this, 'check_pro_version_for_free_plugin' ) );
 		}
 	}
 
