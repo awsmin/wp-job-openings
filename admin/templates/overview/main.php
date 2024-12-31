@@ -10,7 +10,7 @@ $active_jobs               = intval( $overview_data['active_jobs'] );
 $new_applications          = intval( $overview_data['new_applications'] );
 $total_applications        = intval( $overview_data['total_applications'] );
 $total_active_applications = intval( $overview_data['active_applications'] );
-$applications_count = intval( $overview_data['unread_applications'] );
+$applications_count        = intval( $overview_data['unread_applications'] );
 // Enable meta-box support.
 do_action( 'add_meta_boxes_' . AWSM_Job_Openings_Overview::$screen_id, null );
 
@@ -80,7 +80,7 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 							<li>
 								<img src="<?php echo esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/icon-3.svg' ); ?>" align="Icon">
 								<?php esc_html_e( 'Total Applications', 'wp-job-openings' ); ?>
-								<span><?php echo esc_html( $total_active_applications  ); ?></span>
+								<span><?php echo esc_html( $total_active_applications ); ?></span>
 							</li>
 							<?php endif; ?>
 						</ul>
@@ -95,31 +95,40 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 						<h2><?php esc_html_e( 'Application by Status', 'wp-job-openings' ); ?></h2>
 					</div><!-- .awsm-jobs-overview-col-head -->
 					<div class="awsm-jobs-overview-col-content">
-						<?php
-						if ( ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) {
-							// Translators: %1$s is the opening <a> tag for the PRO Plan link, %2$s is the closing </a> tag.
-							$pro_link = sprintf( esc_html__( 'This feature requires %1$sPRO Plan%2$s to work', 'wp-job-openings' ), '<a href="https://awsm.in/get/wpjo-pro/">', '</a>' );
-							// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-							printf( '<div class="awsm-jobs-overview-widget-wrapper"><div class="awsm-jobs-pro-feature"><img src="%2$s"><p>%1$s</p></div></div>', $pro_link, esc_url( 'https://i.ibb.co/vXyz24d/Screenshot-2024-03-05-at-12-41-12-PM.png' ) );
-						} else {
-							// Ensure the AWSM_Job_Openings_Pro_Overview class is initialized
-							$overview_instance = AWSM_Job_Openings_Pro_Overview::init();
+					<?php
+					if ( ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) {
+						// Translators: %1$s is the opening <a> tag for the PRO Plan link, %2$s is the closing </a> tag.
+						$pro_link = sprintf( esc_html__( 'This feature requires %1$sPRO Plan%2$s to work', 'wp-job-openings' ), '<a href="https://awsm.in/get/wpjo-pro/">', '</a>' );
+						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						printf( '<div class="awsm-jobs-overview-widget-wrapper"><div class="awsm-jobs-pro-feature"><img src="%2$s"><p>%1$s</p></div></div>', $pro_link, esc_url( 'https://i.ibb.co/vXyz24d/Screenshot-2024-03-05-at-12-41-12-PM.png' ) );
+					} else {
+						// Ensure the AWSM_Job_Openings_Pro_Overview class is initialized
+						$overview_instance = AWSM_Job_Openings_Pro_Overview::init();
 
-							// Set the unique ID for which you want the template path
-							$unique_id = 'awsm-jobs-overview-applications-by-status';
+						// Set the unique ID for which you want the template path
+						$unique_id = 'awsm-jobs-overview-applications-by-status';
 
-							// Get the template path
-							$template_path = $overview_instance->pro_widget_template_path( '', $unique_id );
+						// Create a template args array to pass variables to the template
+						$template_args = array(
+							'widget_id' => $unique_id, // Pass the unique_id as widget_id
+						);
 
-							// Include the template file if it exists
-							if ( file_exists( $template_path ) ) {
-								include $template_path;
-							} else {
-								echo '<p>' . esc_html__( 'Template not found.', 'wp-job-openings' ) . '</p>';
+						// Get the template path
+						$template_path = $overview_instance->pro_widget_template_path( '', $unique_id );
+
+						// Include the template file if it exists
+						if ( file_exists( $template_path ) ) {
+
+							foreach ( $template_args as $key => $value ) {
+								${$key} = $value;
 							}
+							include $template_path;
+						} else {
+							echo '<p>' . esc_html__( 'Template not found.', 'wp-job-openings' ) . '</p>';
 						}
-						?>
-					</div><!-- .awsm-jobs-overview-col-content -->
+					}
+					?>
+				</div><!-- .awsm-jobs-overview-col-content -->
 				</div><!-- .awsm-jobs-overview-chart -->
 			</div><!-- .awsm-jobs-overview-col -->
 			<div class="awsm-jobs-overview-col" id="awsm-jobs-overview-applications-analytics">
@@ -251,9 +260,11 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 					</div><!-- .awsm-jobs-overview-col-head -->
 					
 					<?php
-					if ( ! empty( $jobs ) ) : ?>
+					if ( ! empty( $jobs ) ) :
+						?>
 					<div class="awsm-jobs-overview-col-content">
-						<?php foreach ( $jobs as $job ) :
+						<?php
+						foreach ( $jobs as $job ) :
 							$jobmeta     = get_post_meta( $job->ID );
 							$expiry_date = isset( $jobmeta['awsm_job_expiry'][0] ) ? $jobmeta['awsm_job_expiry'][0] : null;
 
@@ -263,7 +274,7 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 								$published_date = get_the_date( 'F j, Y', $job->ID );
 								?>
 									<a href="<?php echo esc_url( get_edit_post_link( $job->ID ) ); ?>" class="awsm-jobs-overview-list-item">
-										<span class="count"><?php echo esc_html( $job->applications_count );  ?></span>
+										<span class="count"><?php echo esc_html( $job->applications_count ); ?></span>
 										<p>
 											<strong>
 										<?php
@@ -282,9 +293,11 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 									</a>
 									<?php
 								endif;
-							endforeach; ?>
+							endforeach;
+						?>
 							</div>
-						<?php else :
+						<?php
+						else :
 							?>
 							<div class="awsm-jobs-overview-empty-wrapper">
 								<p><img src="<?php echo esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/icon-1.svg' ); ?>" align="Icon">
