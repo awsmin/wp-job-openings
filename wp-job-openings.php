@@ -170,7 +170,6 @@ class AWSM_Job_Openings {
 
 					if ( version_compare( $pro_version, $required_pro_version, '<' ) ) {
 						add_action( 'admin_notices', array( $this, 'pro_version_admin_notice' ) );
-						deactivate_plugins( AWSM_JOBS_PRO_PLUGIN_BASENAME );
 					}
 				}
 			}
