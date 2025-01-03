@@ -14,7 +14,6 @@ class AWSM_Job_Openings_Block {
 		add_action( 'wp_ajax_nopriv_block_jobfilter', array( $this, 'awsm_block_posts_filters' ) );
 		add_action( 'wp_ajax_block_loadmore', array( $this, 'awsm_block_posts_filters' ) );
 		add_action( 'wp_ajax_nopriv_block_loadmore', array( $this, 'awsm_block_posts_filters' ) );
-
 		add_action( 'awsm_block_filter_form_slide', array( $this, 'display_block_filter_form_slide' ) );
 	}
 
@@ -422,6 +421,10 @@ class AWSM_Job_Openings_Block {
 			$attributes['pagination'] = 'modern';
 		}
 
+		if ( isset( $_POST['sort'] ) ){
+			$attributes['sort'] = $_POST['sort'];
+		}
+
 		$attributes = apply_filters( 'awsm_jobs_block_post_filters', $attributes, $_POST );
 
 		$args = self::awsm_block_job_query_args( $filters, $attributes, $filters_list);
@@ -462,14 +465,18 @@ class AWSM_Job_Openings_Block {
 		// phpcs:enable
 	}
 
+	public function awsm_block_sort_filters() { 
+		print_r($_POST);
+	}
+
 	public static function awsm_block_job_query_args( $filters = array(), $attributes = array() , $filters_list = array() ) {
-		$args = array();
+		$args = array(); 
 		if ( is_tax() ) {
 			$q_obj    = get_queried_object();
 			$taxonomy = $q_obj->taxonomy;
 			$term_id  = $q_obj->term_id;
 			$filters  = array( $taxonomy => $term_id );
-		}
+		} 
 
 		if ( ! empty( $filters ) ) {
 			foreach ( $filters as $taxonomy => $term_id ) {
@@ -514,12 +521,43 @@ class AWSM_Job_Openings_Block {
 			$args['post_status'] = array( 'publish', 'expired' );
 		}
 
-		if ( isset( $attributes['orderBy'] ) && $attributes['orderBy'] === 'new_to_old' ) {
+		/* if ( isset( $attributes['orderBy'] ) && $attributes['orderBy'] === 'new_to_old' ) {
 			$args['orderby'] = 'date';
 			$args['order']   = 'DESC';
 		}else{
 			$args['orderby'] = 'date';
 			$args['order']   = 'ASC';
+		} */
+
+		if ( isset( $attributes['sort'] ) ) {
+			$sort = sanitize_text_field( $attributes['sort'] ); 
+			switch ( $sort ) {
+				case 'new_to_old':
+					$args['orderby'] = 'date';
+					$args['order'] = 'DESC'; // New to old
+					break;
+	
+				case 'old_to_new':
+					$args['orderby'] = 'date';
+					$args['order'] = 'ASC'; // Old to new
+					break;
+	
+				case 'random':
+					$args['orderby'] = 'rand'; // Random
+					break;
+	
+				case 'relevance':
+					// You can add logic to order by relevance here (e.g., custom meta, custom sorting criteria)
+					$args['orderby'] = 'relevance'; 
+					$args['order'] = 'DESC';
+					break;
+	
+				default:
+					// Default to 'new to old'
+					$args['orderby'] = 'date';
+					$args['order'] = 'DESC';
+					break;
+			}
 		}
 
 		// phpcs:ignore WordPress.Security.NonceVerification.Missing
@@ -556,6 +594,10 @@ class AWSM_Job_Openings_Block {
 
 		if ( isset( $_GET['jq'] ) ) {
 			$attrs['search'] = $_GET['jq'];
+		}
+
+		if ( isset( $_GET['sort'] ) ) {
+			$attrs['awsm-sort'] = $_GET['sort'];
 		}
 
 		if ( is_tax() ) {
@@ -646,11 +688,13 @@ class AWSM_Job_Openings_Block {
 
 	/** slider placement sidebar  */
 	public function display_block_filter_form_slide( $block_atts ) {
-		$uid = isset( $block_atts['uid'] ) ? '-' . $block_atts['uid'] : '';
-		$enable_search = isset( $block_atts['search'] ) ? $block_atts['search'] : '';
+		$uid 				= isset( $block_atts['uid'] ) ? '-' . $block_atts['uid'] : '';
+		$enable_search  	= isset( $block_atts['search'] ) ? $block_atts['search'] : '';
 		$placeholder_search = isset( $block_atts['search_placeholder'] ) ? $block_atts['search_placeholder'] : '';
-		$filter_options = isset( $block_atts['filter_options'] ) ? $block_atts['filter_options'] : '';
-		$default_text = 'search';
+		$filter_options 	= isset( $block_atts['filter_options'] ) ? $block_atts['filter_options'] : '';
+		$default_text 		= 'search'; 
+
+		$hidden_fields_content = '<input type="hidden" name="action" value="block_jobfilter">';
 	
 		// Check if search is enabled
 		if ( $enable_search === 'enable' ) {
@@ -766,7 +810,7 @@ class AWSM_Job_Openings_Block {
 					}
 				}
 			}
-			$hidden_fields_content = '<input type="hidden" name="action" value="block_jobfilter">';
+			
 			// Combine search and filter content into the form
 			$filter_content = sprintf(
 				'<form action="%2$s/wp-admin/admin-ajax.php" method="POST">%1$s</form>',

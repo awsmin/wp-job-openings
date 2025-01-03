@@ -43,10 +43,12 @@ jQuery(function($) {
 	function awsmJobFilters($rootWrapper) { 
 		var $wrapper = $rootWrapper.find(wrapperSelector);
 		var $rowWrapper = $wrapper.find(sectionSelector);
-		var $filterForm = $rootWrapper.find(filterSelector + ' form');
-		var formData = $filterForm.serializeArray();
+		var $filterForm = $rootWrapper.find(filterSelector + ' form'); 
+		var formData = $filterForm.serializeArray(); 
 		var listings = $wrapper.data('listings');
-		var specs = $wrapper.data('specs');
+		var specs = $wrapper.data('specs'); 
+
+		var sortFilter = $rootWrapper.find('.awsm-job-sort-filter').val(); 
 		
 		/* added for block */
 		var layout 				= $wrapper.data('awsm-layout');
@@ -54,10 +56,17 @@ jQuery(function($) {
 		var other_options 		= $wrapper.data('awsm-other-options'); 
 		var listings_total 		= $wrapper.data('awsm-listings-total'); 
 		/* end */
+
+		formData.push({
+			name: 'sort',
+			value: sortFilter
+		});
+
 		formData.push({
 			name: 'listings_per_page',
 			value: listings
 		});
+		
 		if (typeof specs !== 'undefined') {
 			formData.push({
 				name: 'shortcode_specs',
@@ -93,6 +102,7 @@ jQuery(function($) {
 				value: listings_total
 			});
 		}
+
 		/* end */
 
 		var listingsData = getListingsData($wrapper); 
@@ -101,8 +111,8 @@ jQuery(function($) {
 		}
 
 		// Trigger custom event to provide formData
-		$(document).trigger('awsmJobBlockFiltersFormData', [$wrapper,formData]);
-
+		$(document).trigger('awsmJobBlockFiltersFormData', [$wrapper,formData]); 
+		
 		if (triggerFilter) {
 
 			// stop the duplicate requests.
@@ -168,8 +178,8 @@ jQuery(function($) {
 
 	if ($(rootWrapperSelector).length > 0) { 
 		$(rootWrapperSelector).each(function() {
-			var $currentWrapper = $(this);
-			var $filterForm = $currentWrapper.find(filterSelector + ' form');
+			var $currentWrapper = $(this); 
+			var $filterForm = $currentWrapper.find(filterSelector + ' form'); 
 			if (awsmJobsPublic.is_search.length > 0 || filterCheck($filterForm)) { 
 				triggerFilter = true;  
 				awsmJobFilters($currentWrapper);
@@ -236,7 +246,6 @@ jQuery(function($) {
 		var $elem = $(this);
 		var $rootWrapper = $elem.parents(rootWrapperSelector);
 		var currentSpec = $elem.parents('.awsm-b-filter-item').data('filter');
-		var slug = 'verkoop';
 
 		$('.awsm-filter-checkbox:checked').each(function() {
             var taxonomy = $(this).data('taxonomy');
@@ -249,10 +258,25 @@ jQuery(function($) {
 
 		if (awsmJobsPublic.deep_linking.spec) {
 			var $paginationBase = $rootWrapper.find('input[name="awsm_pagination_base"]');
-			updateQuery(currentSpec, slug, $paginationBase.val());
+			updateQuery('checkbox', 'test', $paginationBase.val());
 		}
 		awsmJobFilters($rootWrapper);
 	});
+
+	$(wrapperSelector + ' .awsm-job-sort-filter').on('change', function(e) { 
+	//$('.awsm-job-sort-filter').on('change', function() {
+		var $elem = $(this);
+		var $rootWrapper = $elem.parents(rootWrapperSelector);
+		var sortValue = $rootWrapper.find('select.awsm-job-sort-filter').val(); 
+
+		setPaginationBase($rootWrapper, 'sort', sortValue);
+		if (awsmJobsPublic.deep_linking.search) {
+			var $paginationBase = $rootWrapper.find('input[name="awsm_pagination_base"]');
+			updateQuery('sort', sortValue, $paginationBase.val());
+		} 
+		awsmJobFilters($rootWrapper);
+	});
+
 
 	$(filterSelector + ' .awsm-b-job-search-btn').on('click', function() {
 		searchJobs($(this));
@@ -270,7 +294,7 @@ jQuery(function($) {
 			searchJobs($(this));
 		}
 	});
-
+	
 	/* ========== Job Listings Load More ========== */
 	$(wrapperSelector).on('click', '.awsm-b-jobs-pagination .awsm-b-load-more-btn, .awsm-b-jobs-pagination a.page-numbers', function(e) {
 		e.preventDefault(); 

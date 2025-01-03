@@ -48,6 +48,7 @@ jQuery(function ($) {
     var formData = $filterForm.serializeArray();
     var listings = $wrapper.data('listings');
     var specs = $wrapper.data('specs');
+    var sortFilter = $rootWrapper.find('.awsm-job-sort-filter').val();
 
     /* added for block */
     var layout = $wrapper.data('awsm-layout');
@@ -55,6 +56,11 @@ jQuery(function ($) {
     var other_options = $wrapper.data('awsm-other-options');
     var listings_total = $wrapper.data('awsm-listings-total');
     /* end */
+
+    formData.push({
+      name: 'sort',
+      value: sortFilter
+    });
     formData.push({
       name: 'listings_per_page',
       value: listings
@@ -91,6 +97,7 @@ jQuery(function ($) {
         value: listings_total
       });
     }
+
     /* end */
 
     var listingsData = getListingsData($wrapper);
@@ -225,7 +232,6 @@ jQuery(function ($) {
     var $elem = $(this);
     var $rootWrapper = $elem.parents(rootWrapperSelector);
     var currentSpec = $elem.parents('.awsm-b-filter-item').data('filter');
-    var slug = 'verkoop';
     $('.awsm-filter-checkbox:checked').each(function () {
       var taxonomy = $(this).data('taxonomy');
       var termId = $(this).data('term-id');
@@ -236,7 +242,19 @@ jQuery(function ($) {
     });
     if (awsmJobsPublic.deep_linking.spec) {
       var $paginationBase = $rootWrapper.find('input[name="awsm_pagination_base"]');
-      updateQuery(currentSpec, slug, $paginationBase.val());
+      updateQuery('checkbox', 'test', $paginationBase.val());
+    }
+    awsmJobFilters($rootWrapper);
+  });
+  $(wrapperSelector + ' .awsm-job-sort-filter').on('change', function (e) {
+    //$('.awsm-job-sort-filter').on('change', function() {
+    var $elem = $(this);
+    var $rootWrapper = $elem.parents(rootWrapperSelector);
+    var sortValue = $rootWrapper.find('select.awsm-job-sort-filter').val();
+    setPaginationBase($rootWrapper, 'sort', sortValue);
+    if (awsmJobsPublic.deep_linking.search) {
+      var $paginationBase = $rootWrapper.find('input[name="awsm_pagination_base"]');
+      updateQuery('sort', sortValue, $paginationBase.val());
     }
     awsmJobFilters($rootWrapper);
   });
