@@ -151,7 +151,7 @@ class AWSM_Job_Openings {
 		<div class="notice notice-error">
 			<p>
 				<?php
-				echo esc_html__( 'The Pro version of the plugin is outdated. Please update it to version 4.0 or higher to work with the Free version.', 'awsm-job-openings' );
+				echo esc_html__( 'The Pro version of the plugin is outdated. Please update it to version 4.0 or higher to work with the Free version.', 'wp-job-openings' );
 				?>
 			</p>
 		</div>

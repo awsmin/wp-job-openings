@@ -17,6 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<?php
 
 
+
 		$analytics_data = AWSM_Job_Openings_Overview::get_applications_analytics_data();
 
 	if ( ! empty( $analytics_data ) ) :

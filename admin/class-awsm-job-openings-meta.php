@@ -314,7 +314,7 @@ class AWSM_Job_Openings_Meta {
 	public function awsm_job_application_row_actions_label( $actions, $post ) {
 		if ( $post->post_type === 'awsm_job_application' ) {
 			if ( isset( $actions['edit'] ) ) {
-				$actions['edit'] = str_replace( __( 'Edit' ), __( 'View' ), $actions['edit'] );
+				$actions['edit'] = str_replace( __( 'Edit', 'wp-job-openings' ), __( 'View', 'wp-job-openings' ), $actions['edit'] );
 			}
 		}
 		return $actions;
