@@ -63,7 +63,8 @@ if( $attributes['placement'] == 'top' ){ ?>
 
     <div class="awsm-b-job-listings"<?php awsm_block_jobs_data_attrs( array(), $attributes ); ?>>
 		<div class="awsm-job-sort-wrap">
-			<div class="awsm-job-results" id="awsm-job-count"></div>
+			<div class="awsm-job-results" id="awsm-job-count"></div> 
+
 			<form action="<?php echo esc_url( site_url() ) ?>/wp-admin/admin-ajax.php" method="POST">
 			<div class="awsm-job-sort">
 				<label>Sort by</label>
