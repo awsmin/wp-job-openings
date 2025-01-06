@@ -265,10 +265,11 @@ class AWSM_Job_Openings_Overview {
 
 	public static function get_applications_analytics_data( $date_query = array(), $key_format = 'n', $label_format = 'M' ) {
 		$analytics_data = array();
+		error_log( 'User can edit applications: ' . ( current_user_can( 'edit_applications' ) ? 'yes' : 'no' ) );
 		if ( ! current_user_can( 'edit_applications' ) ) {
 			return $analytics_data;
 		}
-		$analytics_option = get_option( 'awsm_jobs_analytics_data' );
+
 		if ( empty( $date_query ) ) {
 			$date_query = array(
 				array(
@@ -300,5 +301,6 @@ class AWSM_Job_Openings_Overview {
 		}
 		return $analytics_data;
 	}
+
 
 }

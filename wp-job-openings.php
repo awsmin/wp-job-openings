@@ -151,7 +151,11 @@ class AWSM_Job_Openings {
 		<div class="notice notice-error">
 			<p>
 				<?php
-				echo esc_html__( 'The Pro version of the plugin is outdated. Please update it to version 4.0 or higher to work with the Free version.', 'awsm-job-openings' );
+					$req_plugin = sprintf( '<strong>%s</strong>', esc_html__( 'WP Job Openings', 'wp-job-openings' ) );
+					$plugin     = sprintf( '<strong>%s</strong>', esc_html__( 'Pro Pack', 'wp-job-openings' ) );
+
+					/* translators: %1$s: main plugin, %2$s: current plugin, %3$s: minimum required version of the main plugin, %4$s: plugin update link */
+					printf( esc_html__( 'Update required: The %2$s of the plugin must be updated to version 4.0 or higher to function with the Free version of %1$s.', 'wp-job-openings' ), $req_plugin, $plugin ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				?>
 			</p>
 		</div>
