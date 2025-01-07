@@ -15,6 +15,17 @@ jQuery(function ($) {
   var filterSelector = '.awsm-b-filter-wrap';
   var currentUrl = window.location.protocol + '//' + window.location.host + window.location.pathname;
   var triggerFilter = true;
+
+  // Initially showing results count //
+  var $rootWrapper = $(wrapperSelector); // Your root wrapper
+  var currentPage = 1; // Initial page (usually 1 on first load)
+  var displayedResults = $rootWrapper.find('.awsm-b-job-item').length; // Count the number of items displayed initially
+  var totalResults = $rootWrapper.data('awsm-listings-total'); // Get total results from data attribute
+
+  // Call updateResultsCount to display initial results count
+  updateResultsCount($rootWrapper, currentPage, displayedResults, totalResults);
+  // End //
+
   function getListingsData($wrapper) {
     var data = [];
     var parsedListingsAttrs = ['listings', 'specs', 'search', 'lang', 'taxonomy', 'termId'];
