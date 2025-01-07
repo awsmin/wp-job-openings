@@ -31,13 +31,13 @@ do_action( 'awsm_resume_preview_mb_init', $post->ID );
 					</iframe>
 				<?php else : ?>
 					<div class="awsm-preview-unsupported">
-						<h2><strong><?php esc_html_e( 'This file type cannot be previewed. Please download the file to view it.', 'docs-viewer-add-on-for-wp-job-openings' ); ?></strong></h2>
+						<h2><strong><?php esc_html_e( 'This file type cannot be previewed. Please download the file to view it.', 'wp-job-openings' ); ?></strong></h2>
 					</div>
 				<?php endif; ?>
 			</div>
 		<?php else : ?>
 			<div class="awsm-resume-none">
-				<h2><strong><?php esc_html_e( 'No resume to preview. File not found!', 'docs-viewer-add-on-for-wp-job-openings' ); ?></strong></h2>
+				<h2><strong><?php esc_html_e( 'No resume to preview. File not found!', 'wp-job-openings' ); ?></strong></h2>
 			</div>
 			<?php
 		endif;
