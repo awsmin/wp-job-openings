@@ -139,7 +139,7 @@ class AWSM_Job_Openings_Overview {
 		/* translators: %1$s: opening anchor tag, %2$s: closing anchor tag */
 		$pro_link = sprintf( esc_html__( 'This feature requires %1$sPRO Plan%2$s to work', 'wp-job-openings' ), '<a href="https://awsm.in/get/wpjo-pro/">', '</a>' );
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		printf( '<div class="awsm-jobs-overview-widget-wrapper"><div class="awsm-jobs-pro-feature"><img src="%2$s"><p>%1$s</p></div></div>', $pro_link, esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/hiresuit-applications-by-status-chart.png' ) );
+		printf( '<div class="awsm-jobs-overview-widget-wrapper"><div class="awsm-jobs-pro-feature"><img src="%2$s"><p>%1$s</p></div></div>', $pro_link, esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/applications-by-status-chart.png' ) );
 	}
 
 	public function open_positions_widget() {
