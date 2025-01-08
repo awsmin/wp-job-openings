@@ -16,7 +16,7 @@
 /**
  * WP Job Openings Plugin
  *
- * Super simple Job Listing plugin to manage Job Openings and Applicants on your WordPress.
+ * Super simple Job Listing plugin to manage Job Openings and Applicants on your WordPress site.
  *
  * @package wp-job-openings
  */
