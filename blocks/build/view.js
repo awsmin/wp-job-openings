@@ -114,10 +114,8 @@ jQuery(function ($) {
 
     // Define currentPage or get it from a data attribute (or from a clicked pagination button)
     var currentPage = $wrapper.data('current-page') || 1; // Default to page 1 if not defined
-    console.log('aaa');
     // Ensure the totalResults and displayedResults are valid before showing the count
     if (listings_total && listings) {
-      console.log('bbb');
       // Display initial results count on page load (after DOM is ready)
       setTimeout(function () {
         updateResultsCount($wrapper, currentPage);
@@ -495,13 +493,9 @@ jQuery(function ($) {
             }, effectDuration);
           }
         }
-
-        // After loading more data, update the result count
-        var currentPage = 1; // Current page from the pagination link or load more button
-        var displayedResults = $listingsrowContainer.find('.awsm-b-job-item').length; // Count the number of jobs displayed
-        var totalResults = $listingsContainer.data('awsm-listings-total'); // Get the total results from data
-
-        // Call updateResultsCount to update the result message
+        var currentPage = 1;
+        var displayedResults = $listingsrowContainer.find('.awsm-b-job-item').length;
+        var totalResults = $listingsContainer.data('awsm-listings-total');
         updateResultsCount($listingsContainer, currentPage, displayedResults, totalResults);
       } else {
         $triggerElem.remove();

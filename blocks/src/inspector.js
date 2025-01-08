@@ -141,7 +141,7 @@ const WidgetInspectorControls = (props) => {
 							__next40pxDefaultSize
 						>
 							<ToggleGroupControlOption value="top" label="Top" />
-							<ToggleGroupControlOption value="slide" label="Slide" />
+							<ToggleGroupControlOption value="slide" label="Side" />
 						</ToggleGroupControl>
 		
 						<TextControl
@@ -169,7 +169,6 @@ const WidgetInspectorControls = (props) => {
 								/>
 			
 								{filterOption && (
-								<div style={{ marginTop: "10px" }}>
 									<ToggleGroupControl
 									value={filterOption.value || "dropdown"}
 									onChange={(newValue) => updateFilterValue(newValue, spec.key)}
@@ -186,7 +185,6 @@ const WidgetInspectorControls = (props) => {
 										value="checkbox"
 									/>
 									</ToggleGroupControl>
-								</div>
 								)}
 							</div>
 							);

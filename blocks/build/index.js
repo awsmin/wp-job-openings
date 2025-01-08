@@ -442,7 +442,7 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
     label: "Top"
   }), (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_9__.__experimentalToggleGroupControlOption, {
     value: "slide",
-    label: "Slide"
+    label: "Side"
   })), (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_9__.TextControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__.__)("Search Placeholder", "wp-job-openings"),
     value: search_placeholder,
@@ -464,11 +464,7 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
       onChange: function onChange(toggleValue) {
         return specifications_handler(toggleValue, spec.key);
       }
-    }), filterOption && (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)("div", {
-      style: {
-        marginTop: "10px"
-      }
-    }, (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_9__.__experimentalToggleGroupControl, {
+    }), filterOption && (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_9__.__experimentalToggleGroupControl, {
       value: filterOption.value || "dropdown",
       onChange: function onChange(newValue) {
         return updateFilterValue(newValue, spec.key);
@@ -482,7 +478,7 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
     }), (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_9__.__experimentalToggleGroupControlOption, {
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__.__)("Checkbox", "wp-job-openings"),
       value: "checkbox"
-    }))));
+    })));
   }))), (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_9__.PanelBody, {
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__.__)("Job Listing", "wp-job-openings")
   }, (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_9__.__experimentalToggleGroupControl, {
