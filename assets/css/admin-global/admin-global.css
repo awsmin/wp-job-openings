@@ -97,3 +97,9 @@
 	box-shadow: none;
 	outline: none;
 }
+.striped > tbody tr.awsm-new-job{
+	background-color: #fff5d8;
+}
+.post-type-awsm_job_application .striped > tbody tr:not(:last-child) > *{
+	border-bottom: 1px solid #e7e4df;
+}
