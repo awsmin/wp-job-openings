@@ -338,11 +338,12 @@ class AWSM_Job_Openings_Meta {
 	public function disable_drag_metabox() {
 		$screen = get_current_screen();
 		if ( $screen && $screen->post_type === 'awsm_job_application' ) {
-			wp_add_inline_style( 'wp-admin', '
-            #awsm-job-resume-preview {
+			wp_add_inline_style(
+				'wp-admin',
+				'#awsm-job-resume-preview {
                 pointer-events: none;
-            }
-        ' );
+            }'
+			);
 		}
 	}	
 	public function awsm_add_unread_application_class($classes, $class, $post_id) {
