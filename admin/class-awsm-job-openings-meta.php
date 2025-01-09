@@ -350,9 +350,14 @@ class AWSM_Job_Openings_Meta {
 
 	public function awsm_add_unread_application_class( $classes, $class, $post_id ) {
 		if ( get_post_type( $post_id ) === 'awsm_job_application' ) {
-			$is_viewed = get_post_meta( $post_id, 'awsm_application_viewed', true ) === '1';
-			if ( ! $is_viewed ) {
-				$classes[] = 'awsm-new-job';
+			$post_status = get_post_status( $post_id );
+
+			if ( $post_status === 'publish' ) {
+				$is_viewed = get_post_meta( $post_id, 'awsm_application_viewed', true ) === '1';
+
+				if ( ! $is_viewed ) {
+					$classes[] = 'awsm-new-job';
+				}
 			}
 		}
 
