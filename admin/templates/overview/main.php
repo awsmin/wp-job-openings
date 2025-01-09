@@ -345,16 +345,17 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 										<div class="awsm-wpjo-addon-item-head">
 											<div>
 												<h3><?php echo esc_html( $add_on['name'] ); ?></h3>
-												<p><?php echo esc_html__( 'Price starting from', 'wp-job-openings' ); ?> 
-													<strong>
-														<?php
-														$price_label = $add_on_type === 'free' || empty( $add_on['pricing']['price'] )
-															? __( 'Free', 'wp-job-openings' )
-															: $add_on['pricing']['price'];
-														echo esc_html( $price_label );
-														?>
-													</strong>
-												</p>
+												
+												<?php if ( $add_on_type === 'free' || empty( $add_on['pricing']['price'] ) ) : ?>
+													<p><strong><?php echo esc_html__( 'Free', 'wp-job-openings' ); ?></strong></p>
+												<?php else : ?>
+													<p>
+														<?php echo esc_html__( 'Price starting from', 'wp-job-openings' ); ?> 
+														<strong>
+															<?php echo esc_html( $add_on['pricing']['price'] ); ?>
+														</strong>
+													</p>
+												<?php endif; ?>
 											</div>
 											<?php
 											if ( current_user_can( 'install_plugins' ) ) {
