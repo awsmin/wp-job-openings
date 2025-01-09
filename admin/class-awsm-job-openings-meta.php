@@ -22,7 +22,8 @@ class AWSM_Job_Openings_Meta {
 		add_action( 'awsm_job_applicant_profile_details_resume_preview', array( $this, 'docs_viewer_handle' ) );
 		add_filter( 'post_row_actions', array( $this, 'awsm_job_application_row_actions_label' ), 10, 2 );
 		add_filter( 'wp_untrash_post_status', array( $this, 'awsm_job_application_restore_post_to_previous_status' ), 10, 3 );
-		add_action( 'admin_enqueue_scripts', array( $this, 'disable_drag_metabox' ) );		add_filter( 'post_class', array( $this, 'awsm_add_unread_application_class'), 10, 3);
+		add_action( 'admin_enqueue_scripts', array( $this, 'disable_drag_metabox' ) );
+		add_filter( 'post_class', array( $this, 'awsm_add_unread_application_class' ), 10, 3 );
 
 	}
 
@@ -345,18 +346,16 @@ class AWSM_Job_Openings_Meta {
             }'
 			);
 		}
-	}	
-	public function awsm_add_unread_application_class($classes, $class, $post_id) {
-		// Check if it's the correct post type
-		if (get_post_type($post_id) === 'awsm_job_application') {
-			// Check the application viewed status using your existing meta key
-			$is_viewed = get_post_meta($post_id, 'awsm_application_viewed', true) === '1';
-			
-			if (!$is_viewed) {
+	}
+
+	public function awsm_add_unread_application_class( $classes, $class, $post_id ) {
+		if ( get_post_type( $post_id ) === 'awsm_job_application' ) {
+			$is_viewed = get_post_meta( $post_id, 'awsm_application_viewed', true ) === '1';
+			if ( ! $is_viewed ) {
 				$classes[] = 'awsm-new-job';
 			}
 		}
-		
+
 		return $classes;
 	}
 }
