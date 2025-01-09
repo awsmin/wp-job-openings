@@ -353,6 +353,11 @@ jQuery(function($) {
 				customClass: {
 					prefix: 'awsm-selectric',
 					camelCase: false
+				},
+				multiple: {
+					separator: '... ',      // Items separator updated.
+					keepMenuOpen: true,     // Keep the menu open after selection.
+					maxLabelEntries: 1      // Limit the number of selected items to 1.
 				}
 			});
 		}

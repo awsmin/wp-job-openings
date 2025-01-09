@@ -91,7 +91,7 @@ class AWSM_Job_Openings_Block {
 		return sprintf( '%s', $view_class );
 	}
 
-	public function display_block_filter_form( $block_atts ) {
+	public function display_block_filter_form( $block_atts ) { 
 		$search_content        = '';
 		$specs_filter_content  = '';
 		$custom_action_content = '';
@@ -232,7 +232,16 @@ class AWSM_Job_Openings_Block {
 							$filter_class_admin_select_control = ' awsm-job-select-control';
 						}
 
-						$dropdown_content = sprintf( '<div class="awsm-b-filter-item" data-filter="%2$s"><label for="awsm-%1$s-filter-option%5$s" class="awsm-b-sr-only">%3$s</label><select name="awsm_job_spec[%1$s]" class="awsm-b-filter-option awsm-b-spec-multiple awsm-%1$s-filter-option ' . $filter_class_admin_select_control . '" id="awsm-%1$s-filter-option%5$s" aria-label="%3$s" multiple><option value="">%3$s</option>%4$s</select></div>', esc_attr( $taxonomy ), esc_attr( $filter_key . '_spec' ), esc_html( $filter_label ), $options_content, esc_attr( $uid ) );
+						//$block_atts['filter_options']
+						$spec_multiple_class = $multiple_for_spec = '';
+						foreach( $block_atts['filter_options'] as $check_multiple ){ 
+							if( $taxonomy == $check_multiple['specKey'] && $check_multiple['value'] == 'checkbox' ){
+								$spec_multiple_class = 'awsm-b-spec-multiple';
+								$multiple_for_spec = 'multiple';
+							}
+						}
+
+						$dropdown_content = sprintf( '<div class="awsm-b-filter-item" data-filter="%2$s"><label for="awsm-%1$s-filter-option%5$s" class="awsm-b-sr-only">%3$s</label><select name="awsm_job_spec[%1$s]" class="awsm-b-filter-option '.$spec_multiple_class.' awsm-%1$s-filter-option ' . $filter_class_admin_select_control . '" id="awsm-%1$s-filter-option%5$s" aria-label="%3$s" '.$multiple_for_spec.'><option value="">%3$s</option>%4$s</select></div>', esc_attr( $taxonomy ), esc_attr( $filter_key . '_spec' ), esc_html( $filter_label ), $options_content, esc_attr( $uid ) );
 						/**
 						 * Filter the job filter dropdown content.
 						 *
