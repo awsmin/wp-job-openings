@@ -106,6 +106,7 @@ class AWSM_Job_Openings {
 		add_shortcode( 'awsmjobs', array( $this, 'awsm_jobs_shortcode' ) );
 		add_action( 'transition_post_status', array( $this, 'expiry_notification_handler' ), 10, 3 );
 		add_filter( 'display_post_states', array( $this, 'display_job_post_states' ), 10, 2 );
+		
 	}
 
 	public static function init() {
@@ -2106,6 +2107,8 @@ class AWSM_Job_Openings {
 		}
 		return $post_states;
 	}
+
+	
 }
 
 $awsm_job_openings = AWSM_Job_Openings::init();
