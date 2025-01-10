@@ -84,9 +84,9 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 				<?php endif; ?>
 				<?php
 				/**
-				 * Fires after applicant details list.
+				 * Fires after displaying the applicant details list in the right column.
 				 *
-				 * @since 1.6.0
+				 * @since 4.0.0
 				 */
 				do_action( 'awsm_jobs_applicant_mb_details_list_right_column', $post->ID ); ?>
 			</div><!-- .awsm-application-head-actions -->
