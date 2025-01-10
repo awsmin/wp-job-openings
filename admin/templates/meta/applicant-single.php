@@ -82,11 +82,25 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 					</a>
 					</div>
 				<?php endif; ?>
-				<?php do_action( 'after_awsm_job_applicant_mb_details_list', $post->ID ); ?>
+				<?php
+				/**
+				 * Fires after displaying the applicant details list in the right column.
+				 *
+				 * @since 4.0.0
+				 */
+				do_action( 'awsm_jobs_applicant_mb_details_list_right_column', $post->ID ); ?>
 			</div><!-- .awsm-application-head-actions -->
 		</div><!-- .awsm-application-head -->
 		<div class="application-main-cnt">
-			<?php do_action( 'awsm_job_application_edit' ); ?>
+			<?php 
+				/**
+				 * Fires during the job application edit screen.
+				 *
+				 *
+				 * @since 4.0.0
+				 */
+				do_action( 'awsm_job_application_edit' );
+			?>
 			<?php if ( ! isset( $_GET['application'] ) || $_GET['application'] !== 'edit' ) : ?>
 				<div class="application-main-cnt-tab-sec">
 					<!-- Tabs Navigation -->
@@ -120,6 +134,11 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 						<!-- Profile Tab -->
 						<div id="awsm-applicant-profile" class="application-main-tab-item awsm-applicant-profile active">
 							<?php
+							/**
+							 * Fires before applicant details list.
+							 *
+							 * @since 1.6.0
+							 */
 							do_action( 'before_awsm_job_applicant_mb_details_list', $post->ID );
 							?>
 							<ul class="awsm-applicant-details-list">
@@ -158,6 +177,14 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 									</li>
 								<?php endif; ?>
 							</ul>
+							<?php
+							/**
+							 * Fires after applicant details list.
+							 *
+							 * @since 1.6.0
+							 */
+							do_action( 'after_awsm_job_applicant_mb_details_list', $post->ID ); 
+							?>
 						</div>
 						<!-- Additional Tabs -->
 						<?php foreach ( $applicant_tab_contents as $applicant_tab_key => $applicant_tab ) : ?>

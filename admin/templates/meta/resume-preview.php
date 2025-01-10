@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Initialize applicant resume preview meta box.
  *
- * @since 3.5.0
+ * @since 4.0.0
  */
 do_action( 'awsm_resume_preview_mb_init', $post->ID );
 ?>
