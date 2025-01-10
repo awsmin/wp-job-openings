@@ -92,7 +92,15 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 			</div><!-- .awsm-application-head-actions -->
 		</div><!-- .awsm-application-head -->
 		<div class="application-main-cnt">
-			<?php do_action( 'awsm_job_application_edit' ); ?>
+			<?php 
+				/**
+				 * Fires during the job application edit screen.
+				 *
+				 *
+				 * @since 4.0.0
+				 */
+				do_action( 'awsm_job_application_edit' );
+			?>
 			<?php if ( ! isset( $_GET['application'] ) || $_GET['application'] !== 'edit' ) : ?>
 				<div class="application-main-cnt-tab-sec">
 					<!-- Tabs Navigation -->
