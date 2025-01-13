@@ -609,9 +609,6 @@ a.awsm-text-red:hover {
 	margin-left: auto !important;
 }
 
-.awsm-job-next-application-btn {
-}
-
 .awsm-job-status-btn-wrapper a.btn-disabled {
 	opacity: 0.2;
 	pointer-events: none;
@@ -1506,74 +1503,6 @@ a.awsm-plugin-item p {
 	position: relative;
 }
 
-/* .awsm-application-action-btn {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	background: none;
-	border: 1px solid #666;
-	border-radius: 4px;
-	cursor: pointer;
-	padding: 6px;
-} */
-
-/* .awsm-application-action-btn:hover,
-.awsm-application-action:hover .awsm-application-action-btn {
-	background: #6CFAE4;
-	border-color: #6CFAE4;
-}
-
-.awsm-application-action-btn:active {
-	border-color: #EAECF0;
-} */
-
-/* .awsm-application-action:hover .awsm-application-action-list {
-	opacity: 1;
-	visibility: visible;
-}
-
-.awsm-application-action-list {
-	position: absolute;
-	right: 0;
-	top: calc(100% + 4px);
-	width: 124px;
-	background: #fff;
-	border: 1px solid #EAECF0;
-	border-radius: 4px;
-	box-shadow: 1px 1px 10px -4px rgba(0, 0, 0, 0.25);
-	opacity: 0;
-	visibility: hidden;
-	transition: all 0.4s ease;
-	padding: 5px;
-} */
-
-/* .awsm-application-action-list button {
-	border: none;
-	border: none;
-	background: 0 0;
-	width: 100%;
-	text-align: left;
-	cursor: pointer;
-}
-
-.awsm-application-action-list a,
-.awsm-application-action-list button {
-	display: block;
-	padding: 8px 12px;
-	font-weight: 600;
-	font-size: 13px;
-	color: #424242;
-	text-decoration: none;
-	border-radius: 4px;
-}
-
-.awsm-application-action-list a:hover,
-.awsm-application-action-list a:focus,
-.awsm-application-action-list button:hover,
-.awsm-application-action-list button:focus {
-	background-color: #6CFAE4;
-} */
-
 .awsm-applicant-info h3 {
 	font-size: 16px;
 	font-weight: 600;
@@ -2040,75 +1969,9 @@ textarea.awsm-form-control {
 	display: block;
 }
 
-.awsm-application-email-item {
-	border-radius: 10px;
-	border: 1px solid #EAECF0;
-	background: #FCFDFF;
-	margin-bottom: 12px;
-	padding: 20px;
-	font-size: 13px;
-	color: #666;
-	line-height: 1.333;
-	letter-spacing: -0.06px;
-}
-
-.awsm-application-email-item h3 {
-	font-size: 13px;
-	color: #161616;
-	line-height: 1.333;
-	letter-spacing: -0.06px;
-	margin: 0 0 4px;
-}
-
-.awsm-application-email-item p {
-	margin: 0 0 12px;
-}
-.awsm-application-email-item h3{
-	margin-bottom: 14px;
-}
-
-.awsm-application-email-item p:last-child {
-	margin-bottom: 0;
-}
-
 .awsm-application-email,
 .awsm-application-notes {
 	padding-top: 10px;
-}
-
-.awsm-application-add-note {
-	margin-bottom: 20px;
-}
-
-.awsm-application-note-item {
-	margin-bottom: 12px;
-	border-radius: 6px;
-	border: 1px solid #ccc;
-	padding: 16px 50px 16px 16px;
-	position: relative;
-}
-
-.awsm-application-note-item .awsm-dropdown {
-	position: absolute;
-	right: 13px;
-	top: 18px;
-}
-
-.awsm-application-note-item p:not(:last-child) {
-	color: #161616;
-	font-weight: 400;
-	margin: 0 0 12px;
-	linline-height: 16px;
-}
-
-.awsm-application-note-item p:not(.awsm-jobs-note-content) {
-	margin: 0;
-	display: flex;
-	font-weight: 400;
-	justify-content: space-between;
-	gap: 10px;
-	color: #666;
-	linline-height: 16px;
 }
 
 .application-main-tab a:focus,
@@ -2119,21 +1982,7 @@ textarea.awsm-form-control {
 .application-main-tab li {
 	margin-bottom: 0;
 }
-/*-----Application edit error-----*/
-.application_edit_wrapper .error-message{
-	color: #b32d2e;
-    font-weight: 400;
-    line-height: 3;
-}
-.awsm-dzfile-hide{
-	display: none;
-}
-.awsm-dzfile-show{
-	display: block;
-}
-.awsm-application-edit-file-group-listing .awsm-form-drag-and-drop-file-control{
-	min-height: auto;
-}
+
 @media (min-width:991px) {
 	.awsm-application-email-left {
 		width: 157px;
@@ -2149,20 +1998,7 @@ textarea.awsm-form-control {
 
 }
 
-/*----- Resume preview styles  -------
-
-.awsm-application-resume-viewer{
-	position: relative;
-	padding-top: 120%;
-}
-.awsm-application-resume-viewer iframe{
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	left: 0;
-	top: 0;
-}
-*/
+/*----- Resume preview styles  -------*/
 .awsm-preview-document {
     position: relative;
     display: inline-block;
@@ -2383,4 +2219,3 @@ textarea.awsm-form-control {
   	line-height: 1;
   	align-items: center;
 }
-
