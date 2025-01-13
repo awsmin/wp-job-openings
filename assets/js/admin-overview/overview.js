@@ -44,7 +44,9 @@ jQuery(document).ready(function($) {
 
 	// Applications analytics chart
 	var ctx = $('#awsm-jobs-overview-applications-analytics-chart');
-	 ctx[0].height = 250;
+	 if (ctx.length > 0) {
+        ctx[0].height = 250;
+    } 
 	var data = {
 		labels: awsmJobsAdminOverview.analytics_data.labels,
 		datasets: [ {
