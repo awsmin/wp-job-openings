@@ -12,6 +12,11 @@ $attributes  				  = isset( $block_atts_set ) ? $block_atts_set : array();
 $query       				  = awsm_block_jobs_query( $attributes ); 
 $attributes['listings_total'] = $query->found_posts; 
 
+$placement_sidebar_class = '';
+if( isset( $attributes['search'] ) && $attributes['search'] == 'enable' ){
+	$placement_sidebar_class = 'awsm-job-2-col';
+}
+
 if ( $query->have_posts() ) : ?>
 <?php 
 if( $attributes['placement'] == 'top' ){ ?>
@@ -42,7 +47,7 @@ if( $attributes['placement'] == 'top' ){ ?>
 <?php 
 	}else{ 
 ?>
-<div class="awsm-b-job-wrap<?php awsm_jobs_wrapper_class(); ?> awsm-job-form-plugin-style awsm-job-2-col">
+<div class="awsm-b-job-wrap<?php awsm_jobs_wrapper_class(); ?> awsm-job-form-plugin-style <?php echo $placement_sidebar_class ?>">
 	<div class="awsm-b-filter-wrap awsm-jobs-alerts-on">
 		<!-- left side bar  -->
 		<?php
