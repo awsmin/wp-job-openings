@@ -1873,7 +1873,17 @@ textarea.awsm-form-control {
 	justify-content: space-between;
 	align-items: center;
 	gap: 10px;
-	flex-wrap: wrap;
+}
+.awsm-applicant-resume > span{
+	display: flex;
+  	flex-wrap: wrap;
+}
+.awsm-applicant-resume > span span:first-child{
+	display: -webkit-box;   
+	-webkit-line-clamp: 1;   
+	-webkit-box-orient: vertical;       
+	overflow: hidden;
+	max-width: 70%;
 }
 
 .hs-reume-info {
