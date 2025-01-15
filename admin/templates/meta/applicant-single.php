@@ -88,11 +88,12 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 				 *
 				 * @since 4.0.0
 				 */
-				do_action( 'awsm_jobs_applicant_mb_details_list_right_column', $post->ID ); ?>
+				do_action( 'awsm_jobs_applicant_mb_details_list_right_column', $post->ID );
+				?>
 			</div><!-- .awsm-application-head-actions -->
 		</div><!-- .awsm-application-head -->
 		<div class="application-main-cnt">
-			<?php 
+			<?php
 				/**
 				 * Fires during the job application edit screen.
 				 *
@@ -154,14 +155,14 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 										<div class="awsm-applicant-resume">
 											<span >
 												
-													<strong>
+													
 														<?php
 														echo ! empty( $full_file_name )
 															? esc_html( $full_file_name )
 															: esc_html__( 'Resume.pdf', 'wp-job-openings' );
 														?>
-													</strong>
-													<?php echo esc_html( $file_size_display ); ?>
+													
+													(<?php echo esc_html( $file_size_display ); ?>)
 												
 											</span>
 											<div class="awsm-applicant-resume-cta">
@@ -183,7 +184,7 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 							 *
 							 * @since 1.6.0
 							 */
-							do_action( 'after_awsm_job_applicant_mb_details_list', $post->ID ); 
+							do_action( 'after_awsm_job_applicant_mb_details_list', $post->ID );
 							?>
 						</div>
 						<!-- Additional Tabs -->
