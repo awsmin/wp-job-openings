@@ -143,7 +143,7 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 							?>
 							<ul class="awsm-applicant-details-list">
 								<?php
-								echo wp_kses_post( $applicant_details['list'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+								echo $applicant_details['list']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 								if ( ! empty( $resume_details ) ) :
 									$file_size_display = isset( $resume_details['file_size']['display'] ) ? $resume_details['file_size']['display'] : '';
 									?>
