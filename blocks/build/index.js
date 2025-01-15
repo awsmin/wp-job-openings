@@ -469,9 +469,7 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
       onChange: function onChange(newValue) {
         return updateFilterValue(newValue, spec.key);
       },
-      isBlock: true,
-      __nextHasNoMarginBottom: true,
-      __next40pxDefaultSize: true
+      isBlock: true
     }, (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_9__.__experimentalToggleGroupControlOption, {
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__.__)("Dropdown", "wp-job-openings"),
       value: "dropdown"

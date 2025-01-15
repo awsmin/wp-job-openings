@@ -263,16 +263,16 @@ jQuery(function($) {
 		var $elem = $(this);
 		var $selected = $elem.find('option:selected');
 		var $rootWrapper = $elem.parents(rootWrapperSelector);
-		var currentSpec = $elem.parents('.awsm-b-filter-item').data('filter');
+		var currentSpec = $elem.parents('.awsm-b-filter-item').data('filter'); 
 		var slug = $selected.data('slug');
 		slug = typeof slug !== 'undefined' ? slug : '';
-		setPaginationBase($rootWrapper, currentSpec, slug);
+		setPaginationBase($rootWrapper, currentSpec, slug); 
 		if (awsmJobsPublic.deep_linking.spec) {
 			var $paginationBase = $rootWrapper.find('input[name="awsm_pagination_base"]');
 			updateQuery(currentSpec, slug, $paginationBase.val());
 		}
 		awsmJobFilters($rootWrapper);
-	});
+	}); 
 
 	$(filterSelector + ' .awsm-filter-checkbox').on('change', function(e) { 
 		var selectedFilters = {};

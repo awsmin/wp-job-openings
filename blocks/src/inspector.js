@@ -173,8 +173,6 @@ const WidgetInspectorControls = (props) => {
 									value={filterOption.value || "dropdown"}
 									onChange={(newValue) => updateFilterValue(newValue, spec.key)}
 									isBlock
-									__nextHasNoMarginBottom
-									__next40pxDefaultSize
 									>
 									<ToggleGroupControlOption
 										label={__("Dropdown", "wp-job-openings")}

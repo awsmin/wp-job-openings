@@ -241,7 +241,7 @@ class AWSM_Job_Openings_Block {
 							}
 						}
 
-						$dropdown_content = sprintf( '<div class="awsm-b-filter-item" data-filter="%2$s"><label for="awsm-%1$s-filter-option%5$s" class="awsm-b-sr-only">%3$s</label><select name="awsm_job_spec[%1$s]" class="awsm-b-filter-option '.$spec_multiple_class.' awsm-%1$s-filter-option ' . $filter_class_admin_select_control . '" id="awsm-%1$s-filter-option%5$s" aria-label="%3$s" '.$multiple_for_spec.'><option value="">%3$s</option>%4$s</select></div>', esc_attr( $taxonomy ), esc_attr( $filter_key . '_spec' ), esc_html( $filter_label ), $options_content, esc_attr( $uid ) );
+						$dropdown_content = sprintf( '<div class="awsm-b-filter-item" data-filter="%2$s"><label for="awsm-%1$s-filter-option%5$s" class="awsm-b-sr-only">%3$s</label><select name="awsm_job_spec[%1$s][]" class="awsm-b-filter-option '.$spec_multiple_class.' awsm-%1$s-filter-option ' . $filter_class_admin_select_control . '" id="awsm-%1$s-filter-option%5$s" aria-label="%3$s" '.$multiple_for_spec.'><option value="">%3$s</option>%4$s</select></div>', esc_attr( $taxonomy ), esc_attr( $filter_key . '_spec' ), esc_html( $filter_label ), $options_content, esc_attr( $uid ) );
 						/**
 						 * Filter the job filter dropdown content.
 						 *
@@ -391,17 +391,23 @@ class AWSM_Job_Openings_Block {
 
 		$filter_action = isset( $_POST['action'] ) ? $_POST['action'] : ''; 
 
-		if ( ! empty( $_POST['awsm_job_spec'] ) ) {
+		/* if ( ! empty( $_POST['awsm_job_spec'] ) ) {
 			$job_specs = $_POST['awsm_job_spec'];
-			foreach ( $job_specs as $taxonomy => $term_id ) {
+			foreach ( $job_specs as $taxonomy => $term_id ) { 
 				$taxonomy             = sanitize_text_field( $taxonomy );
-				$filters[ $taxonomy ] = intval( $term_id );
-			}
+				$filters[ $taxonomy ] = intval($term_id);
+			} 
+		} */
+
+		if ( ! empty( $_POST['awsm_job_spec'] ) ) {
+			$filters_list = $_POST['awsm_job_spec'];
 		}
 
 		if ( ! empty( $_POST['awsm_job_spec_list'] ) ) {
 			$filters_list = $_POST['awsm_job_spec_list'];
 		}
+
+	
 
 		if ( ! empty( $_POST['awsm-layout'] ) ) {
 			$attributes['layout'] = sanitize_text_field( $_POST['awsm-layout'] );
@@ -449,7 +455,7 @@ class AWSM_Job_Openings_Block {
 				$args['paged'] = absint( $_POST['paged'] ) + 1;
 			}
 		}
-
+		
 		$query = new WP_Query( $args );
 
 		if ( $query->have_posts() ) {
@@ -504,15 +510,23 @@ class AWSM_Job_Openings_Block {
 			$filters_list = $attributes['selectedTerms'];
 		}
 
-		if ( ! empty( $filters_list ) ) {
+		if ( ! empty( $filters_list ) ) { 	
 			foreach ( $filters_list as $taxonomy => $term_ids ) {
 				if ( ! empty( $term_ids ) && is_array( $term_ids ) ) {
-					$args['tax_query'][] = array(
-						'taxonomy' => $taxonomy,      
-						'field'    => 'term_id',      
-						'terms'    => $term_ids,      
-						'operator' => 'IN',           
-					);
+					$term_ids = array_filter( $term_ids, function( $term_id ) {
+						return ! empty( $term_id ); 
+					});
+					
+					$term_ids = array_values( $term_ids );
+		
+					if ( ! empty( $term_ids ) ) {
+						$args['tax_query'][] = array(
+							'taxonomy' => $taxonomy,
+							'field'    => 'term_id',
+							'terms'    => $term_ids,
+							'operator' => 'IN',
+						);
+					}
 				}
 			}
 		}
