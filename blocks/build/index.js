@@ -464,18 +464,30 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
       onChange: function onChange(toggleValue) {
         return specifications_handler(toggleValue, spec.key);
       }
-    }), filterOption && (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_9__.__experimentalToggleGroupControl, {
-      value: filterOption.value || "dropdown",
-      onChange: function onChange(newValue) {
-        return updateFilterValue(newValue, spec.key);
+    }), filterOption && (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_9__.Button, {
+      variant: "secondary",
+      style: {
+        backgroundColor: filterOption.value === "dropdown" ? 'black' : 'initial',
+        color: filterOption.value === "dropdown" ? 'white' : 'black',
+        marginRight: '10px' // Optional: add spacing between buttons
       },
-      isBlock: true
-    }, (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_9__.__experimentalToggleGroupControlOption, {
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__.__)("Dropdown", "wp-job-openings"),
-      value: "dropdown"
-    }), (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_9__.__experimentalToggleGroupControlOption, {
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__.__)("Checkbox", "wp-job-openings"),
-      value: "checkbox"
+      size: "default",
+      __next40pxDefaultSize: true,
+      onClick: function onClick() {
+        return updateFilterValue("dropdown", spec.key);
+      },
+      text: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__.__)("Dropdown", "wp-job-openings")
+    }), (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_9__.Button, {
+      variant: "secondary",
+      style: {
+        backgroundColor: filterOption.value === "checkbox" ? 'black' : 'initial',
+        color: filterOption.value === "checkbox" ? 'white' : 'black'
+      },
+      __next40pxDefaultSize: true,
+      onClick: function onClick() {
+        return updateFilterValue("checkbox", spec.key);
+      },
+      text: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__.__)("Checkbox", "wp-job-openings")
     })));
   }))), (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_9__.PanelBody, {
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__.__)("Job Listing", "wp-job-openings")

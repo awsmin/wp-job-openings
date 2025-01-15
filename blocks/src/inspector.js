@@ -155,38 +155,55 @@ const WidgetInspectorControls = (props) => {
 		
 						<h2>{__("Available Filters", "wp-job-openings")}</h2>
 						{specifications.map((spec) => {
-							const filterOption = filter_options.find(
+						const filterOption = filter_options.find(
 							(option) => option.specKey === spec.key
-							);
-							return (
+						);
+						return (
 							<div key={spec.key}>
-								<ToggleControl
+							<ToggleControl
 								label={spec.label}
 								checked={filterOption !== undefined}
 								onChange={(toggleValue) =>
-									specifications_handler(toggleValue, spec.key)
+								specifications_handler(toggleValue, spec.key)
 								}
-								/>
-			
-								{filterOption && (
-									<ToggleGroupControl
-									value={filterOption.value || "dropdown"}
-									onChange={(newValue) => updateFilterValue(newValue, spec.key)}
-									isBlock
-									>
-									<ToggleGroupControlOption
-										label={__("Dropdown", "wp-job-openings")}
-										value="dropdown"
-									/>
-									<ToggleGroupControlOption
-										label={__("Checkbox", "wp-job-openings")}
-										value="checkbox"
-									/>
-									</ToggleGroupControl>
-								)}
+							/>
+
+							{filterOption && (
+								<div>
+								{/* Dropdown Button */}
+								<Button
+									variant="secondary"
+									style={{
+									backgroundColor: filterOption.value === "dropdown" ? 'black' : 'initial',
+									color: filterOption.value === "dropdown" ? 'white' : 'black',
+									marginRight: '10px', // Optional: add spacing between buttons
+									}}
+									size="default"
+									__next40pxDefaultSize
+									onClick={() => updateFilterValue("dropdown", spec.key)}
+									text ={__("Dropdown", "wp-job-openings")}
+								>
+								</Button>
+
+								{/* Checkbox Button */}
+								<Button
+									variant="secondary"
+									style={{
+									backgroundColor: filterOption.value === "checkbox" ? 'black' : 'initial',
+									color: filterOption.value === "checkbox" ? 'white' : 'black',
+									}}
+									
+									__next40pxDefaultSize
+									onClick={() => updateFilterValue("checkbox", spec.key)}
+									text ={__("Checkbox", "wp-job-openings")}
+								>
+								</Button>
+								</div>
+							)}
 							</div>
-							);
+						);
 						})}
+
 					</>
 				)}
 			</PanelBody>
