@@ -948,3 +948,7 @@ ul.awsm-error-message li {
       -ms-flex-wrap: wrap;
           flex-wrap: wrap;
 }
+
+.filters-button {
+  margin-bottom: 16px;
+}

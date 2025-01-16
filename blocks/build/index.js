@@ -464,7 +464,9 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
       onChange: function onChange(toggleValue) {
         return specifications_handler(toggleValue, spec.key);
       }
-    }), filterOption && (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_9__.Button, {
+    }), filterOption && (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)("div", {
+      class: "filters-button"
+    }, (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_9__.Button, {
       variant: "secondary",
       style: {
         backgroundColor: filterOption.value === "dropdown" ? 'black' : 'initial',

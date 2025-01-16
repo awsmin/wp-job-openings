@@ -949,4 +949,8 @@ ul.awsm-error-message li {
           flex-wrap: wrap;
 }
 
+.filters-button {
+  margin-bottom: 16px;
+}
+
 /*# sourceMappingURL=index.css.map*/

@@ -9,6 +9,7 @@ import {
 	SelectControl,
 	TabPanel,
 	Button,
+	Truncate,
 	FormTokenField,
 	RangeControl,
 	__experimentalToggleGroupControl as ToggleGroupControl,
@@ -169,9 +170,10 @@ const WidgetInspectorControls = (props) => {
 							/>
 
 							{filterOption && (
-								<div>
+								<div class="filters-button">
+
 								{/* Dropdown Button */}
-								<Button
+							    <Button
 									variant="secondary"
 									style={{
 									backgroundColor: filterOption.value === "dropdown" ? 'black' : 'initial',
