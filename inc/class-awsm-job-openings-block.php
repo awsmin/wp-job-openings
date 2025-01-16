@@ -406,9 +406,7 @@ class AWSM_Job_Openings_Block {
 		if ( ! empty( $_POST['awsm_job_spec_list'] ) ) {
 			$filters_list = $_POST['awsm_job_spec_list'];
 		}
-
 	
-
 		if ( ! empty( $_POST['awsm-layout'] ) ) {
 			$attributes['layout'] = sanitize_text_field( $_POST['awsm-layout'] );
 		}
@@ -493,7 +491,7 @@ class AWSM_Job_Openings_Block {
 			$filters  = array( $taxonomy => $term_id );
 		} 
 
-		if ( ! empty( $filters ) ) {
+		/* if ( ! empty( $filters ) ) {
 			foreach ( $filters as $taxonomy => $term_id ) {
 				if ( ! empty( $term_id ) ) {
 					$spec                = array(
@@ -504,20 +502,17 @@ class AWSM_Job_Openings_Block {
 					$args['tax_query'][] = $spec;
 				}
 			}
-		}
+		} */
 
 		if ( isset( $attributes['selectedTerms'] ) && !empty( $attributes['selectedTerms'] )  ) {
 			$filters_list = $attributes['selectedTerms'];
 		}
 
-		if ( ! empty( $filters_list ) ) { 	
+		if ( ! empty( $filters_list ) ) {
 			foreach ( $filters_list as $taxonomy => $term_ids ) {
-				if ( ! empty( $term_ids ) && is_array( $term_ids ) ) {
-					$term_ids = array_filter( $term_ids, function( $term_id ) {
-						return ! empty( $term_id ); 
-					});
-					
-					$term_ids = array_values( $term_ids );
+				if ( is_array( $term_ids ) && ! empty( $term_ids ) ) {
+					// Remove empty term IDs and re-index the array
+					$term_ids = array_values( array_filter( $term_ids ) );
 		
 					if ( ! empty( $term_ids ) ) {
 						$args['tax_query'][] = array(
@@ -527,10 +522,17 @@ class AWSM_Job_Openings_Block {
 							'operator' => 'IN',
 						);
 					}
+				} elseif ( ! empty( $term_ids ) ) {
+					// Handle case where $term_ids is a single non-empty value
+					$args['tax_query'][] = array(
+						'taxonomy' => $taxonomy,
+						'field'    => 'term_id',
+						'terms'    => $term_ids,
+					);
 				}
 			}
 		}
-
+		
 		$list_per_page          = AWSM_Job_Openings::get_listings_per_page( $attributes );
 		$args['post_type']      = 'awsm_job_openings';
 		$args['posts_per_page'] = $list_per_page;
