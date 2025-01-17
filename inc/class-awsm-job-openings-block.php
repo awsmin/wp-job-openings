@@ -125,7 +125,7 @@ class AWSM_Job_Openings_Block {
 			 */
 			$placeholder_text = apply_filters( 'awsm_jobs_block_search_field_placeholder', $placeholder_search ? $placeholder_search : $default_text );
 
-			$search_icon = '<span class="awsm-b-job-search-btn awsm-b-job-search-icon-wrapper"><i class="awsm-b-job-icon-search"></i></span><span class="awsm-b-job-search-close-btn awsm-b-job-search-icon-wrapper awsm-job-hide"><i class="awsm-job-icon-close-circle"></i></span>';
+			$search_icon = '<span class="awsm-b-job-search-btn awsm-b-job-search-icon-wrapper"><i class="awsm-job-icon-search awsm-b-job-icon-search"></i></span><span class="awsm-b-job-search-close-btn awsm-b-job-search-icon-wrapper awsm-job-hide"><i class="awsm-job-icon-close-circle"></i></span>';
 
 			$search_content = sprintf( '<div class="awsm-b-filter-item-search"><div class="awsm-b-filter-item-search-in"><label for="awsm-jq%4$s" class="awsm-b-sr-only">%1$s</label><input type="text" id="awsm-jq%4$s" name="jq" value="%2$s" placeholder="%1$s" class="awsm-b-job-search awsm-b-job-form-control">%3$s</div></div>', esc_attr( $placeholder_text ), esc_attr( $search_query ), $search_icon, esc_attr( $uid ) );
 

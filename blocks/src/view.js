@@ -128,13 +128,14 @@ jQuery(function($) {
 				// Calculate the "Showing X - Y of Z" result text
 				updateResultsCount($wrapper, currentPage, displayedResults, totalResults);
 	
-				var $searchControl = $rootWrapper.find('.awsm-b-job-search');
+				var $searchControl = $rootWrapper.find('.awsm-b-job-search'); 
 				if ($searchControl.length > 0) {
 					if ($searchControl.val().length > 0) {
-						$rootWrapper.find('.awsm-b-job-search-btn').addClass('awsm-b-job-hide');
-						$rootWrapper.find('.awsm-b-job-search-close-btn').removeClass('awsm-b-job-hide');
+						$rootWrapper.find('.awsm-b-job-search-btn').addClass('awsm-job-hide');
+						$rootWrapper.find('.awsm-b-job-search-close-btn').removeClass('awsm-job-hide');
 					} else {
-						$rootWrapper.find('.awsm-b-job-search-btn').removeClass('awsm-b-job-hide');
+						$rootWrapper.find('.awsm-b-job-search-btn').removeClass('awsm-job-hide');
+						$rootWrapper.find('.awsm-b-job-search-close-btn').addClass('awsm-job-hide');
 					}
 				}
 				$(document).trigger('awsmjobs_filtered_listings', [ $rootWrapper, data ]);
@@ -199,7 +200,7 @@ jQuery(function($) {
 		var searchQuery = $rootWrapper.find('.awsm-b-job-search').val();
 		$rootWrapper.find(wrapperSelector).data('search', searchQuery);
 		if (searchQuery.length === 0) {
-			$rootWrapper.find('.awsm-b-job-search-icon-wrapper').addClass('awsm-b-job-hide');
+			//$rootWrapper.find('.awsm-b-job-search-icon-wrapper').addClass('awsm-b-job-hide');
 		}
 		setPaginationBase($rootWrapper, 'jq', searchQuery);
 		if (awsmJobsPublic.deep_linking.search) {
