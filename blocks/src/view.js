@@ -292,7 +292,7 @@ jQuery(function($) {
 
 		if (awsmJobsPublic.deep_linking.spec) {
 			var $paginationBase = $rootWrapper.find('input[name="awsm_pagination_base"]');
-			updateQuery('checkbox', 'test', $paginationBase.val());
+			//updateQuery('checkbox', 'test', $paginationBase.val());
 		}
 		awsmJobFilters($rootWrapper);
 	});
