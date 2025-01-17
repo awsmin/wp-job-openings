@@ -391,16 +391,20 @@ class AWSM_Job_Openings_Block {
 
 		$filter_action = isset( $_POST['action'] ) ? $_POST['action'] : ''; 
 
-		/* if ( ! empty( $_POST['awsm_job_spec'] ) ) {
-			$job_specs = $_POST['awsm_job_spec'];
-			foreach ( $job_specs as $taxonomy => $term_id ) { 
-				$taxonomy             = sanitize_text_field( $taxonomy );
-				$filters[ $taxonomy ] = intval($term_id);
-			} 
-		} */
-
 		if ( ! empty( $_POST['awsm_job_spec'] ) ) {
-			$filters_list = $_POST['awsm_job_spec'];
+			$job_specs = $_POST['awsm_job_spec']; 
+		
+			foreach ( $job_specs as $taxonomy => $term_id ) { 
+				$taxonomy = sanitize_text_field( $taxonomy );
+		
+				if ( is_array( $term_id ) ) { 
+					foreach ( $term_id as $term ) {
+						$filters_list[ $taxonomy ][] = intval( $term );
+					}
+				} else {
+					$filters[ $taxonomy ] = intval( $term_id );
+				}
+			}
 		}
 
 		if ( ! empty( $_POST['awsm_job_spec_list'] ) ) {
@@ -491,7 +495,7 @@ class AWSM_Job_Openings_Block {
 			$filters  = array( $taxonomy => $term_id );
 		} 
 
-		/* if ( ! empty( $filters ) ) {
+		if ( ! empty( $filters ) ) {
 			foreach ( $filters as $taxonomy => $term_id ) {
 				if ( ! empty( $term_id ) ) {
 					$spec                = array(
@@ -502,7 +506,7 @@ class AWSM_Job_Openings_Block {
 					$args['tax_query'][] = $spec;
 				}
 			}
-		} */
+		}
 
 		if ( isset( $attributes['selectedTerms'] ) && !empty( $attributes['selectedTerms'] )  ) {
 			$filters_list = $attributes['selectedTerms'];
@@ -522,13 +526,6 @@ class AWSM_Job_Openings_Block {
 							'operator' => 'IN',
 						);
 					}
-				} elseif ( ! empty( $term_ids ) ) {
-					// Handle case where $term_ids is a single non-empty value
-					$args['tax_query'][] = array(
-						'taxonomy' => $taxonomy,
-						'field'    => 'term_id',
-						'terms'    => $term_ids,
-					);
 				}
 			}
 		}
