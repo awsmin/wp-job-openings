@@ -893,7 +893,7 @@ class AWSM_Job_Openings {
 	}
 
 	public function awsm_job_month_dropdown( $months, $post_type ) {
-		if ( $post_type === 'awsm_job_openings' || $post_type === 'awsm_job_application' ) {
+		if ( $post_type === 'awsm_job_openings' ) {
 			$months = array();
 		}
 		return $months;
