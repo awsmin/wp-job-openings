@@ -389,7 +389,7 @@ class AWSM_Job_Openings_Block {
         // phpcs:disable WordPress.Security.NonceVerification.Missing
 		$filters = $filters_list = $attributes = array(); // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
 
-		$filter_action = isset( $_POST['action'] ) ? $_POST['action'] : ''; 
+		$filter_action = isset( $_POST['action'] ) ? $_POST['action'] : ''; echo '<pre>';print_r($_POST);
 
 		if ( ! empty( $_POST['awsm_job_spec'] ) ) {
 			$job_specs = $_POST['awsm_job_spec']; 
@@ -601,7 +601,7 @@ class AWSM_Job_Openings_Block {
 		return apply_filters( 'awsm_job_block_query_args', $args, $filters, $attributes );
 	}
 
-	public static function get_block_job_listing_data_attrs( $block_atts = array() ) {
+	public static function get_block_job_listing_data_attrs( $block_atts = array() ) { 
 		$attrs                           = array();
 		$attrs['listings']               = AWSM_Job_Openings::get_listings_per_page( $block_atts );
 		$attrs['awsm-layout']            = isset( $block_atts['layout'] ) ? $block_atts['layout'] : '';
@@ -612,14 +612,23 @@ class AWSM_Job_Openings_Block {
 		$current_lang = AWSM_Job_Openings::get_current_language();
 		if ( ! empty( $current_lang ) ) {
 			$attrs['lang'] = $current_lang;
-		}
+		} 
 
 		if ( isset( $_GET['jq'] ) ) {
-			$attrs['search'] = $_GET['jq'];
+			$attrs['search'] = $_GET['jq']; 
 		}
 
 		if ( isset( $_GET['sort'] ) ) {
 			$attrs['awsm-sort'] = $_GET['sort'];
+		}
+
+		if ( isset( $_GET['awsm_job_spec'] ) ) {   
+			$encodedSpec = $_GET['awsm_job_spec']; 
+			// Decode the URL-encoded string
+			$decodedSpec = urldecode($encodedSpec);
+
+			//$spec_json 				= $_GET['awsm_job_spec'];echo $spec_json;
+			$attrs['awsm-job-spec'] = $decodedSpec;
 		}
 
 		if ( is_tax() ) {
