@@ -408,7 +408,7 @@ class AWSM_Job_Openings_Block {
 		}
 		
 		if ( isset( $_POST['awsm_job_specs_list'] ) ) { 
-			$filters_list = $_POST['awsm_job_specs_list'];
+			$filters_list = $_POST['awsm_job_specs_list']; 
 
 			if (is_string($filters_list)) {  
 				$job_specs_filters = stripslashes($filters_list); 
@@ -416,7 +416,7 @@ class AWSM_Job_Openings_Block {
 				$filters_list =$decode_job_specs_filters;
 			}
 		}
-	
+		
 		if ( ! empty( $_POST['awsm-layout'] ) ) {
 			$attributes['layout'] = sanitize_text_field( $_POST['awsm-layout'] );
 		}
@@ -810,7 +810,7 @@ class AWSM_Job_Openings_Block {
 										$filter_list_items .= sprintf(
 											'<div class="awsm-filter-list-item">
 												<label>
-													<input type="checkbox" name="awsm_job_spec_list[%5$s][]" class="awsm-filter-checkbox" value="%1$s" data-taxonomy="%5$s" data-term-id="%1$s">
+													<input type="checkbox" name="awsm_job_specs_list[%5$s][]" class="awsm-filter-checkbox" value="%1$s" data-taxonomy="%5$s" data-term-id="%1$s">
 													<div>
 														<span class="awsm-filter-checkbox-item">%2$s</span>
 														%4$s %3$s
