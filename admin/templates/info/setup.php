@@ -61,19 +61,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<div class="awsm-job-setup-form-foot">
 							<div class="awsm-job-setup-form-foot-top">
 								<a href="#" class="awsm-job-setup-button awsm-job-setup-button-next active"><?php esc_html_e( 'Next', 'wp-job-openings' ); ?></a>
-								<button class="awsm-job-setup-button" id="awsm-jobs-setup-btn"><?php esc_html_e( 'Get Started', 'wp-job-openings' ); ?></button>
+								<input type="hidden" name="action" value="awsm_jobs_setup" />
+								<?php wp_nonce_field( 'awsm-jobs-setup', 'awsm_job_nonce' ); ?>
+								<!-- <button class="awsm-job-setup-button" id="awsm-jobs-setup-btn"><?php esc_html_e( 'Get Started', 'wp-job-openings' ); ?></button> -->
+								<input type="submit" class="awsm-job-setup-button" id="awsm-jobs-setup-btn" value="<?php esc_html_e( 'Get Started', 'wp-job-openings' ); ?>" />
 							</div><!-- .awsm-job-setup-form-foot-top -->
 							<div class="awsm-job-setup-form-foot-bottom">
 								<a href="#" class="awsm-job-setup-back"><?php esc_html_e( '← Back', 'wp-job-openings' ); ?></a>
 							</div><!-- .awsm-job-setup-form-foot-bottom -->
 						</div><!-- .awsm-job-setup-form-foot -->
-						<input type="hidden" name="action" value="awsm_jobs_setup" />
-						<?php wp_nonce_field( 'awsm-jobs-setup', 'awsm_job_nonce' ); ?>
 					</form>
 				</div><!-- .awsm-job-setup-form-in -->
 			</div><!-- .awsm-job-setup-form -->
 			<div class="awsm-job-setup-foot">
-				<a href="#"><?php esc_html_e('Skip to dashboard', 'wp-job-openings');?></a>
+				<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_openings&page=awsm-jobs-overview' ) ); ?>"><?php esc_html_e( 'Skip to dashboard', 'wp-job-openings' ); ?></a>
 			</div>
 		</div><!-- .awsm-job-setup-in -->
 	</div><!-- .awsm-job-setup -->
