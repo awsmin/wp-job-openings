@@ -293,7 +293,7 @@ jQuery(function($) {
 		if (awsmJobsPublic.deep_linking.spec) {
 			var $paginationBase = $rootWrapper.find('input[name="awsm_pagination_base"]');
 			const jsonDataSpec = encodeURIComponent(JSON.stringify(selectedFilters)); 
-			updateQuery('awsm_job_spec', jsonDataSpec, $paginationBase.val());
+			updateQuery('awsm_job_specs_list', jsonDataSpec, $paginationBase.val());
 		}
 		awsmJobFilters($rootWrapper);
 	});
@@ -352,7 +352,6 @@ jQuery(function($) {
 		var layout = $listingsContainer.data('awsm-layout');  
 		var hide_expired_jobs = $listingsContainer.data('awsm-hide-expired-jobs');
 		var other_options = $listingsContainer.data('awsm-other-options');
-		var specs_filters = $listingsContainer.data('awsm-job-spec');
 		/* end */
 		
 		if (isDefaultPagination) {
@@ -370,6 +369,24 @@ jQuery(function($) {
 		if (filterCheck($filterForm)) {
 			var $filterOption = $filterForm.find('.awsm-b-filter-option');
 			wpData = $filterOption.serializeArray();
+		}
+
+		/* Decode and pass awsm_job_spec from URL */
+		var currentURL = window.location.href; // Get current URL
+		var urlParams = new URLSearchParams(currentURL.split('?')[1]);
+		var awsmJobSpec = urlParams.get('awsm_job_specs_list');
+		if (awsmJobSpec) {
+			try {
+				// Decode the awsm_job_spec parameter
+				var decodedSpecs = decodeURIComponent(awsmJobSpec);
+				var stringifySPecs = JSON.parse(JSON.stringify(decodedSpecs)); 
+				wpData.push({
+					name: 'awsm_job_specs_list',
+					value: stringifySPecs
+				});
+			} catch (error) {
+				console.error("Error decoding awsm_job_spec:", error);
+			}
 		}
 	
 		if (! isDefaultPagination) {
@@ -465,13 +482,6 @@ jQuery(function($) {
 			});
 		}
 
-		if (typeof layout !== 'undefined') {
-			wpData.push({
-				name: 'awsm-specs',
-				value: specs_filters
-			});
-		}
-	
 		$(document).trigger('awsmjobs_block_load_more', [ $listingsContainer, wpData ]);
 		var listingsData = getListingsData($listingsContainer);
 		if (listingsData.length > 0) {

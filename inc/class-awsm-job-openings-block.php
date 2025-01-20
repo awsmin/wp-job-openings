@@ -389,7 +389,7 @@ class AWSM_Job_Openings_Block {
         // phpcs:disable WordPress.Security.NonceVerification.Missing
 		$filters = $filters_list = $attributes = array(); // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
 
-		$filter_action = isset( $_POST['action'] ) ? $_POST['action'] : ''; echo '<pre>';print_r($_POST);
+		$filter_action = isset( $_POST['action'] ) ? $_POST['action'] : ''; 
 
 		if ( ! empty( $_POST['awsm_job_spec'] ) ) {
 			$job_specs = $_POST['awsm_job_spec']; 
@@ -406,9 +406,15 @@ class AWSM_Job_Openings_Block {
 				}
 			}
 		}
+		
+		if ( isset( $_POST['awsm_job_specs_list'] ) ) { 
+			$filters_list = $_POST['awsm_job_specs_list'];
 
-		if ( ! empty( $_POST['awsm_job_spec_list'] ) ) {
-			$filters_list = $_POST['awsm_job_spec_list'];
+			if (is_string($filters_list)) {  
+				$job_specs_filters = stripslashes($filters_list); 
+				$decode_job_specs_filters = json_decode($job_specs_filters, true);
+				$filters_list =$decode_job_specs_filters;
+			}
 		}
 	
 		if ( ! empty( $_POST['awsm-layout'] ) ) {
