@@ -415,7 +415,6 @@ jQuery(function($) {
 				});
 			}
 		}
-console.log(wpData);
 		/* Decode and pass awsm_job_spec from URL */
 		/* var currentURL = window.location.href; // Get current URL
 		var urlParams = new URLSearchParams(currentURL.split('?')[1]);
