@@ -410,11 +410,11 @@ class AWSM_Job_Openings_Block {
 		if ( isset( $_POST['awsm_job_specs_list'] ) ) { 
 			$filters_list = $_POST['awsm_job_specs_list']; 
 
-			if (is_string($filters_list)) {  
+			/* if (is_string($filters_list)) {  
 				$job_specs_filters = stripslashes($filters_list); 
 				$decode_job_specs_filters = json_decode($job_specs_filters, true);
 				$filters_list =$decode_job_specs_filters;
-			}
+			} */
 		}
 		
 		if ( ! empty( $_POST['awsm-layout'] ) ) {
@@ -518,7 +518,7 @@ class AWSM_Job_Openings_Block {
 			$filters_list = $attributes['selectedTerms'];
 		}
 
-		if ( ! empty( $filters_list ) ) {
+		if ( ! empty( $filters_list ) ) { 
 			foreach ( $filters_list as $taxonomy => $term_ids ) {
 				if ( is_array( $term_ids ) && ! empty( $term_ids ) ) {
 					// Remove empty term IDs and re-index the array
@@ -530,11 +530,11 @@ class AWSM_Job_Openings_Block {
 							'field'    => 'term_id',
 							'terms'    => $term_ids,
 							'operator' => 'IN',
-						);
+						); 
 					}
 				}
 			}
-		}
+		} 
 		
 		$list_per_page          = AWSM_Job_Openings::get_listings_per_page( $attributes );
 		$args['post_type']      = 'awsm_job_openings';

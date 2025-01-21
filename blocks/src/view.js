@@ -387,35 +387,35 @@ jQuery(function($) {
 		// filters
 		var $filterForm = $mainContainer.find(filterSelector + ' form');
 		if (filterCheck($filterForm)) { 
-			var $filterOption = $filterForm.find('.awsm-b-filter-option');
+			var $filterOption = $filterForm.find('.awsm-b-filter-option'); 
 			wpData = $filterOption.serializeArray(); 
-
-			var specsList = {};
-			$filterForm.find('.awsm-filter-checkbox:checked').each(function () {
-				var $checkbox = $(this);
-				var taxonomy = $checkbox.data('taxonomy'); // Get taxonomy from data attribute
-				var termId = $checkbox.data('term-id'); // Get term ID from data attribute
-		
-				if (taxonomy && termId) {
-					if (!specsList[taxonomy]) {
-						specsList[taxonomy] = []; // Initialize array for this taxonomy
-					}
-					specsList[taxonomy].push(termId); // Add term ID to the array
-				}
-			});
-
-			for (var taxonomy in specsList) {
-				if (specsList.hasOwnProperty(taxonomy)) {
-					specsList[taxonomy].forEach(function (termId) {
-						wpData.push({
-							name: `awsm_job_specs_list[${taxonomy}][]`, // Add taxonomy as part of the key
-							value: termId
-						});
-					});
-				}
-			}
 		}
 
+		var specsList = {}; 
+		$filterForm.find('.awsm-filter-checkbox:checked').each(function () { 
+			var $checkbox = $(this);
+			var taxonomy = $checkbox.data('taxonomy'); // Get taxonomy from data attribute
+			var termId = $checkbox.data('term-id'); // Get term ID from data attribute
+	
+			if (taxonomy && termId) {
+				if (!specsList[taxonomy]) {
+					specsList[taxonomy] = []; // Initialize array for this taxonomy
+				}
+				specsList[taxonomy].push(termId); // Add term ID to the array
+			}
+		});
+
+		for (var taxonomy in specsList) {
+			if (specsList.hasOwnProperty(taxonomy)) {
+				specsList[taxonomy].forEach(function (termId) {
+					wpData.push({
+						name: `awsm_job_specs_list[${taxonomy}][]`, // Add taxonomy as part of the key
+						value: termId
+					});
+				});
+			}
+		}
+console.log(wpData);
 		/* Decode and pass awsm_job_spec from URL */
 		/* var currentURL = window.location.href; // Get current URL
 		var urlParams = new URLSearchParams(currentURL.split('?')[1]);
