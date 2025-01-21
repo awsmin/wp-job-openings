@@ -808,7 +808,7 @@ class AWSM_Job_Openings_Block {
 
 									foreach ( $terms as $term ) { 
 										$filter_list_items .= sprintf(
-											'<div class="awsm-filter-list-item">
+											'<div class="awsm-filter-list-item" data-filter="%6$s">
 												<label>
 													<input type="checkbox" name="awsm_job_specs_list[%5$s][]" class="awsm-filter-checkbox" value="%1$s" data-taxonomy="%5$s" data-term-id="%1$s">
 													<div>
@@ -821,7 +821,8 @@ class AWSM_Job_Openings_Block {
 											$checkbox_svg_icon,
 											'',
 											sprintf('<span class="awsm-filter-check-label">%s</span>', esc_attr( $term->name )),
-											esc_attr( $spec['specKey'])
+											esc_attr( $spec['specKey']),
+											esc_attr( $filter_key . '_spec' )
 										);
 									}
 									
