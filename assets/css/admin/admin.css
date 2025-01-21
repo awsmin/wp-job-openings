@@ -807,6 +807,10 @@ a.awsm-text-red:hover {
 	transform:  translateY(100px);
 	transition: all 0.3s ease;
 }
+.awsm-job-setup-head h1 a{
+	outline: none;
+	box-shadow: none;
+}
 
 .awsm-job-setup-head h1 img {
 	max-width: 100%;
