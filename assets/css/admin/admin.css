@@ -1052,6 +1052,9 @@ a.awsm-text-red:hover {
 	opacity: 1;
 	transform: none;
 }
+.awsm-job-setup-button-next.disabled{
+	pointer-events: none;
+}
 
 /*-----*/
 .awsm-job-specifications-section label {

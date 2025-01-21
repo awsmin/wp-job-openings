@@ -574,6 +574,10 @@ jQuery(document).ready(function($) {
 	    }
 	    awsm_next_prev($ai,$ni,$i);
 	    $('.awsm-job-setup-form-main-in').css('transform', 'translateY(-'+ $i * 33.3333+'%)');
+	    $(this).addClass('disabled');
+	    setTimeout(function () {
+             $('.awsm-job-setup-button-next').removeClass('disabled');
+        }, 500);
 	});
 	$(document).on('click', '.awsm-job-setup-back',  function(e){
 		e.preventDefault();
