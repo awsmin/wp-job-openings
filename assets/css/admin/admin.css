@@ -841,6 +841,23 @@ a.awsm-text-red:hover {
 	transform:  translateY(100px);
 	transition: all 0.3s ease 0.4s;
 	margin-bottom: 30px;
+	position: relative;
+}
+.awsm-job-setup-form::before,
+.awsm-job-setup-form::after{
+	content: "";
+	width: 100%;
+	background: #fff;
+	position: absolute;
+	left: 0;
+}
+.awsm-job-setup-form::before{
+	top: 0;
+	height: 106px;
+}
+.awsm-job-setup-form::after{
+	bottom: 0;
+	height: 125px;
 }
 .awsm-job-setup-foot{
 	opacity: 0;
@@ -1003,6 +1020,7 @@ a.awsm-text-red:hover {
 	text-align: center;
 	background: #fff;
 	position: relative;
+	z-index: 2;
 }
 
 .awsm-job-setup-form-foot-top {
