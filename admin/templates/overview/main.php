@@ -369,10 +369,14 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 														'url'  => $add_on['url'],
 													);
 													$awsm_info      = new AWSM_Job_Openings_Info();
-													echo $awsm_info->get_add_on_btn_content( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-														$add_on['wp_plugin'], // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-														$add_on_details // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+													echo wp_kses_post(
+														$awsm_info->get_add_on_btn_content(
+															$add_on['wp_plugin'],
+															$add_on_details
+														)
 													);
+
+
 												} else {
 													printf(
 														'<p>%s</p>',
@@ -381,7 +385,7 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 												}
 											}
 											?>
-																					</div><!-- .awsm-wpjo-addon-item-head -->
+											</div><!-- .awsm-wpjo-addon-item-head -->
 										<p><?php echo wp_kses( $add_on['content'], $allowed_html ); ?></p>
 									</div><!-- .awsm-wpjo-addon-item -->
 									<?php
