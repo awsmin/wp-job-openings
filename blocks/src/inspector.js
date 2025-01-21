@@ -30,6 +30,8 @@ const WidgetInspectorControls = (props) => {
 		jobsPerPage,
 		layout,
 		selectedTerms,
+		sort,
+		item_count
 	  },
 	  setAttributes,
 	} = props;
@@ -211,6 +213,53 @@ const WidgetInspectorControls = (props) => {
 			</PanelBody>
   
 			{/* Job Listing Settings */}
+			<PanelBody title={__("Layout Settings", "wp-job-openings")}>
+				<ToggleGroupControl
+					label="Layout"
+					value={layout}
+					onChange={(layout) => setAttributes({ layout })}
+					isBlock
+					__nextHasNoMarginBottom
+					__next40pxDefaultSize
+				>
+					<ToggleGroupControlOption value="list" label="List" />
+					<ToggleGroupControlOption value="grid" label="Grid" />
+					<ToggleGroupControlOption value="stack" label="Stack" />
+				</ToggleGroupControl>
+
+				<ToggleControl
+					label={__("Enable Sort Option", "wp-job-openings")}
+					checked={sort}
+					onChange={(sort) => setAttributes({ sort })}
+				/>
+
+				<ToggleControl
+					label={__("Enable Item Count", "wp-job-openings")}
+					checked={item_count}
+					onChange={(item_count) => setAttributes({ item_count })}
+				/>
+
+				<RangeControl
+					label={__("Jobs Per Page", "my-text-domain")}
+					onChange={(sliderValue) => setAttributes({ jobsPerPage: sliderValue })}
+					value={jobsPerPage}
+					min={1}
+					max={10}
+					step={1}
+					withInputField={true}
+				/>
+
+				<SelectControl
+					label={__("Pagination", "wp-job-openings")}
+					value={pagination}
+					options={[
+					{ label: __("Classic", "wp-job-openings"), value: "classic" },
+					{ label: __("Modern", "wp-job-openings"), value: "modern" },
+					]}
+					onChange={(pagination) => setAttributes({ pagination })}
+				/>
+			</PanelBody>
+
 			<PanelBody title={__("Job Listing", "wp-job-openings")}>
 				<ToggleGroupControl
 					label="List Type"
@@ -224,19 +273,6 @@ const WidgetInspectorControls = (props) => {
 					<ToggleGroupControlOption value="filtered" label="Filtered List" />
 				</ToggleGroupControl>
 				<p> Display all jobs or filtered by job specifications </p>
-	
-				<ToggleGroupControl
-					label="Layout"
-					value={layout}
-					onChange={(layout) => setAttributes({ layout })}
-					isBlock
-					__nextHasNoMarginBottom
-					__next40pxDefaultSize
-				>
-					<ToggleGroupControlOption value="list" label="List" />
-					<ToggleGroupControlOption value="grid" label="Grid" />
-					<ToggleGroupControlOption value="stack" label="Stack" />
-				</ToggleGroupControl>
 	
 				<h2>{__("Available Filters", "wp-job-openings")}</h2>
 				{specifications.map((spec) => (
@@ -276,26 +312,6 @@ const WidgetInspectorControls = (props) => {
 					label={__("Hide Expired Jobs", "wp-job-openings")}
 					checked={hide_expired_jobs}
 					onChange={(hide_expired_jobs) => setAttributes({ hide_expired_jobs })}
-				/>
-	
-				<RangeControl
-					label={__("Jobs Per Page", "my-text-domain")}
-					onChange={(sliderValue) => setAttributes({ jobsPerPage: sliderValue })}
-					value={jobsPerPage}
-					min={1}
-					max={10}
-					step={1}
-					withInputField={true}
-				/>
-	
-				<SelectControl
-					label={__("Pagination", "wp-job-openings")}
-					value={pagination}
-					options={[
-					{ label: __("Classic", "wp-job-openings"), value: "classic" },
-					{ label: __("Modern", "wp-job-openings"), value: "modern" },
-					]}
-					onChange={(pagination) => setAttributes({ pagination })}
 				/>
 			</PanelBody>
 	  </InspectorControls>

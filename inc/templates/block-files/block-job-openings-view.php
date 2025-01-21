@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$attributes  				  = isset( $block_atts_set ) ? $block_atts_set : array();
+$attributes  				  = isset( $block_atts_set ) ? $block_atts_set : array(); 
 $query       				  = awsm_block_jobs_query( $attributes ); 
 $attributes['listings_total'] = $query->found_posts; 
 
@@ -68,19 +68,22 @@ if( $attributes['placement'] == 'top' ){ ?>
 
     <div class="awsm-b-job-listings"<?php awsm_block_jobs_data_attrs( array(), $attributes ); ?>>
 		<div class="awsm-job-sort-wrap">
+			<?php if( $attributes['item_count'] == 'enable' ){  ?>
 			<div class="awsm-job-results" id="awsm-job-count"></div> 
-
+			<?php } ?>
+			<?php if( $attributes['sort'] == 'enable' ){  ?>
 			<form action="<?php echo esc_url( site_url() ) ?>/wp-admin/admin-ajax.php" method="POST">
-			<div class="awsm-job-sort">
-				<label>Sort by</label>
-				<select class="awsm-job-sort-filter" name="sort">
-					<option value="relevance">Relevance</option>
-					<option value="new_to_old">New to Old</option>
-					<option value="old_to_new">Old to New</option>
-					<option value="random">Random</option>
-				</select>
-			</div>
+				<div class="awsm-job-sort">
+					<label>Sort by</label>
+					<select class="awsm-job-sort-filter" name="sort">
+						<option value="relevance">Relevance</option>
+						<option value="new_to_old">New to Old</option>
+						<option value="old_to_new">Old to New</option>
+						<option value="random">Random</option>
+					</select>
+				</div>
 			</form>
+			<?php } ?>
 		</div>
 		<div <?php awsm_block_jobs_view_class( '', $attributes ); ?>>
 			<?php

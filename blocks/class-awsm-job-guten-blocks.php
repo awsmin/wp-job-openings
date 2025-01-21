@@ -34,44 +34,7 @@ class Awsm_Job_Guten_Blocks {
 	}
 
 	public function block_render_callback( $atts, $content ) { 
-		/* if ( isset( $atts['filter_options'] ) && is_array( $atts['filter_options'] ) ) {
-			$atts['filter_options'] = implode( ',', $atts['filter_options'] );
-		}
-
-		if ( isset( $atts['other_options'] ) && is_array( $atts['other_options'] ) ) {
-			$atts['other_options'] = implode( ',', $atts['other_options'] );
-		}
-
-		if ( isset( $atts['search'] ) && $atts['search'] === true ) {
-			$atts['search'] = 'enable';
-		}
-
-		if ( isset( $atts['enable_job_filter'] ) && $atts['enable_job_filter'] === true ) {
-			$atts['enable_job_filter'] = 'enable';
-		}
-
-		if ( isset( $atts['listing_per_page'] ) ) {
-			$atts['listing_per_page'] = $atts['listing_per_page'];
-		}
-
-		if ( isset( $atts['hide_expired_jobs'] ) && $atts['hide_expired_jobs'] === true ) {
-			$atts['hide_expired_jobs'] = 'expired';
-		}
-
-		if ( isset( $atts['layout'] ) && is_array( $atts['layout'] ) ) {
-			$atts['layout'] = $atts['layout'];
-		}
-
-		if ( isset( $atts['number_of_columns'] ) && is_array( $atts['number_of_columns'] ) ) {
-			$atts['number_of_columns'] = $atts['number_of_columns'];
-		}
-
-		if ( isset( $atts['select_filter_full'] ) && is_array( $atts['select_filter_full'] ) ) {
-			$atts['select_filter_full'] = $atts['select_filter_full'];
-		}  */
-
-		/* new attributes */
-
+	
 		if ( isset( $atts['search'] ) && $atts['search'] === true ) {
 			$atts['search'] = 'enable';
 		}
@@ -118,6 +81,14 @@ class Awsm_Job_Guten_Blocks {
 
 		if ( isset( $atts['pagination'] ) && $atts['pagination'] === true ) {
 			$atts['pagination'] = $atts['pagination'];
+		}
+
+		if ( isset( $atts['sort'] ) && $atts['sort'] === true ) {
+			$atts['sort'] = 'enable';
+		}
+
+		if ( isset( $atts['item_count'] ) && $atts['item_count'] === true ) {
+			$atts['item_count'] = 'enable';
 		}
 		
 		/** end */

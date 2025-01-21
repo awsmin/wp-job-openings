@@ -42,6 +42,8 @@ class AWSM_Job_Openings_Block {
 			'orderBy'             => isset( $blockatts['orderBy'] ) ? $blockatts['orderBy'] : '',
 			'listings'    		  => isset( $blockatts['listing_per_page'] ) ? $blockatts['listing_per_page'] : '',
 			'pagination'          => isset( $blockatts['pagination'] ) ? $blockatts['pagination'] : '',
+			'sort'          	  => isset( $blockatts['sort'] ) ? $blockatts['sort'] : '',
+			'item_count'          => isset( $blockatts['item_count'] ) ? $blockatts['item_count'] : '',
 		);
 
 		 /**
