@@ -8,12 +8,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$attributes    = isset( $attributes ) ? $attributes : array();
-$view          = isset( $attributes['layout'] ) ? $attributes['layout'] : get_option( 'awsm_jobs_listing_view' );
-$awsm_filters  = get_option( 'awsm_jobs_filter' ); 
+$attributes   = isset( $attributes ) ? $attributes : array();
+$view         = isset( $attributes['layout'] ) ? $attributes['layout'] : get_option( 'awsm_jobs_listing_view' );
+$awsm_filters = get_option( 'awsm_jobs_filter' );
 //$listing_specs = isset( $attributes['other_options'] ) ? $attributes['other_options'] : '';
 //$listing_specs = awsm_block_job_filters_explode( $listing_specs );
-$listing_specs = array('job-category','job-location');
+$listing_specs = array( 'job-category', 'job-location' );
 /**
  * Fires before The Loop to query for jobs.
  *
@@ -46,7 +46,7 @@ while ( $query->have_posts() ) {
 					awsm_jobs_block_featured_image( true, $featured_image, '', $attributes );
 				?>
 
-				<div  class="<?php echo sprintf('awsm-b-%s-left-col-in', $view); ?>">
+				<div  class="<?php echo sprintf( 'awsm-b-%s-left-col-in', $view ); ?>">
 					<h2 class="awsm-b-job-post-title">
 						<?php
 							$job_title = ( $view === 'grid' ) ? esc_html( $job_details['title'] ) : sprintf( '<a href="%2$s">%1$s</a>', esc_html( $job_details['title'] ), esc_url( $job_details['permalink'] ) );

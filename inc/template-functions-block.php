@@ -68,10 +68,10 @@ if ( ! function_exists( 'awsm_block_jobs_query' ) ) {
 
 		//$filter_options_array = explode( ',', $attributes['filter_options'] );
 
-		if (is_string($attributes['filter_options'])) {
-			$filter_options_array = explode(',', $attributes['filter_options']);
+		if ( is_string( $attributes['filter_options'] ) ) {
+			$filter_options_array = explode( ',', $attributes['filter_options'] );
 		} else {
-			$filter_options_array = []; // Or handle the case as per your requirement
+			$filter_options_array = array(); // Or handle the case as per your requirement
 		}
 
 		if ( ! empty( $filter_options_array ) ) {

@@ -17,9 +17,11 @@ if( isset( $attributes['search'] ) && $attributes['search'] == 'enable' ){
 	$placement_sidebar_class = 'awsm-job-2-col';
 }
 
-if ( $query->have_posts() ) : ?>
-<?php 
-if( $attributes['placement'] == 'top' ){ ?>
+if ( $query->have_posts() ) : 
+if( $attributes['placement'] == 'top' ){
+?>
+
+<!-- Filters in the top side  -->
 <div class="awsm-b-job-wrap<?php awsm_jobs_wrapper_class(); ?>">
 	<?php
 		/**
@@ -44,9 +46,13 @@ if( $attributes['placement'] == 'top' ){ ?>
 		</div>
 	</div>
 </div>
+<!-- End  -->
+
 <?php 
 	}else{ 
 ?>
+
+<!-- Filters in the left side  -->
 <div class="awsm-b-job-wrap<?php awsm_jobs_wrapper_class(); ?> awsm-job-form-plugin-style <?php echo $placement_sidebar_class ?>">
 	<div class="awsm-b-filter-wrap awsm-jobs-alerts-on">
 		<!-- left side bar  -->
@@ -71,19 +77,22 @@ if( $attributes['placement'] == 'top' ){ ?>
 			<?php if( $attributes['item_count'] == 'enable' ){  ?>
 			<div class="awsm-job-results" id="awsm-job-count"></div> 
 			<?php } ?>
-			<?php if( $attributes['sort'] == 'enable' ){  ?>
-			<form action="<?php echo esc_url( site_url() ) ?>/wp-admin/admin-ajax.php" method="POST">
-				<div class="awsm-job-sort">
-					<label>Sort by</label>
-					<select class="awsm-job-sort-filter" name="sort">
-						<option value="relevance">Relevance</option>
-						<option value="new_to_old">New to Old</option>
-						<option value="old_to_new">Old to New</option>
-						<option value="random">Random</option>
-					</select>
-				</div>
-			</form>
-			<?php } ?>
+
+			<?php
+				/**
+				 * awsm_block_jobs_sort hook
+				 *
+				 * Display sort filter for job listings
+				 *
+				 * @hooked AWSM_Job_Openings_Block::display_block_job_sort()
+				 *
+				 * @since 3.5.0
+				 *
+				 * @param array $attributes Attributes array from block.
+				 */
+				do_action( 'awsm_block_jobs_sort', $attributes );
+			?>
+
 		</div>
 		<div <?php awsm_block_jobs_view_class( '', $attributes ); ?>>
 			<?php
@@ -93,8 +102,9 @@ if( $attributes['placement'] == 'top' ){ ?>
 	</div>
 </div>
 <?php } ?>
+<!-- End  -->
 	
-	<?php
+<?php
 else :
 	$filter_suffix = '_spec';
 	$job_spec      = array();
