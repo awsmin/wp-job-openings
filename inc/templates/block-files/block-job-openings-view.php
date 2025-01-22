@@ -96,7 +96,7 @@ if( $attributes['placement'] == 'top' ){
 		</div>
 		<div <?php awsm_block_jobs_view_class( '', $attributes ); ?>>
 			<?php
-				include get_awsm_jobs_template_path( 'block-main-slide', 'block-files' );
+				include get_awsm_jobs_template_path( 'block-main', 'block-files' );
 			?>
 		</div>
 	</div>
