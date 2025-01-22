@@ -452,7 +452,7 @@ class AWSM_Job_Openings_Block {
 
 		$attributes = apply_filters( 'awsm_jobs_block_post_filters', $attributes, $_POST );
 
-		$args = self::awsm_block_job_query_args( $filters, $attributes, $filters_list);
+		$args = self::awsm_block_job_query_args( $filters, $attributes, array(), $filters_list);
 
 		if ( isset( $_POST['jq'] ) && ! empty( $_POST['jq'] ) ) {
 			$args['s'] = sanitize_text_field( $_POST['jq'] );
@@ -490,7 +490,7 @@ class AWSM_Job_Openings_Block {
 		// phpcs:enable
 	}
 
-	public static function awsm_block_job_query_args( $filters = array(), $attributes = array(), $is_term_or_slug = array() ) {
+	public static function awsm_block_job_query_args( $filters = array(), $attributes = array(), $is_term_or_slug = array(), $filters_list = array() ) {
 		$args = array();
 		if ( is_tax() ) {
 			$q_obj                        = get_queried_object();
@@ -810,7 +810,7 @@ class AWSM_Job_Openings_Block {
 										$filter_list_items .= sprintf(
 											'<div class="awsm-filter-list-item" data-filter="%6$s">
 												<label>
-													<input type="checkbox" name="awsm_job_specs_list[%5$s][]" class="awsm-filter-checkbox" value="%1$s" data-taxonomy="%5$s" data-term-id="%1$s">
+													<input type="checkbox" name="awsm_job_specs_list[%5$s][]" class="awsm-filter-checkbox" value="%1$s" data-taxonomy="%5$s" data-term-id="%1$s" data-slug="%7$s">
 													<div>
 														<span class="awsm-filter-checkbox-item">%2$s</span>
 														%4$s %3$s
@@ -822,7 +822,8 @@ class AWSM_Job_Openings_Block {
 											'',
 											sprintf('<span class="awsm-filter-check-label">%s</span>', esc_attr( $term->name )),
 											esc_attr( $spec['specKey']),
-											esc_attr( $filter_key . '_spec' )
+											esc_attr( $filter_key . '_spec' ),
+											esc_attr( $term->slug )
 										);
 									}
 									
