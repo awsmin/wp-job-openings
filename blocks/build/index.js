@@ -577,7 +577,7 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
   }), (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_9__.__experimentalToggleGroupControlOption, {
     value: "filtered",
     label: "Filtered List"
-  })), (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)("p", null, " Display all jobs or filtered by job specifications "), (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)("h2", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__.__)("Available Filters", "wp-job-openings")), specifications.map(function (spec) {
+  })), (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__.__)(" Display all jobs or filtered by job specifications", "wp-job-openings")), listType === "filtered" && (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)("h2", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__.__)("Available Filters", "wp-job-openings")), specifications.map(function (spec) {
     return (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)("div", {
       key: spec.key,
       className: "filter-item"
@@ -604,7 +604,7 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
       ,
       label: ""
     }));
-  }), (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_9__.SelectControl, {
+  })), (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_9__.SelectControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__.__)("Order By", "wp-job-openings"),
     value: orderBy,
     options: [{

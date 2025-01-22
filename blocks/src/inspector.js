@@ -272,31 +272,36 @@ const WidgetInspectorControls = (props) => {
 					<ToggleGroupControlOption value="all" label="All Jobs" />
 					<ToggleGroupControlOption value="filtered" label="Filtered List" />
 				</ToggleGroupControl>
-				<p> Display all jobs or filtered by job specifications </p>
+				<p>{__(" Display all jobs or filtered by job specifications", "wp-job-openings")}</p>
 	
-				<h2>{__("Available Filters", "wp-job-openings")}</h2>
-				{specifications.map((spec) => (
+				{listType === "filtered" && (
+				<>
+					<h2>{__("Available Filters", "wp-job-openings")}</h2>
+					{specifications.map((spec) => (
 					<div key={spec.key} className="filter-item">
 						<ToggleControl
-							label={spec.label}
-							checked={toggleState[spec.key] || false} // Check the toggle state for the spec
-							onChange={(isChecked) => handleToggleChange(spec.key, isChecked)} // Update the toggle state on change
+						label={spec.label}
+						checked={toggleState[spec.key] || false} // Check the toggle state for the spec
+						onChange={(isChecked) => handleToggleChange(spec.key, isChecked)} // Update the toggle state on change
 						/>
 
 						{/* Show FormTokenField only when toggle is on */}
 						{toggleState[spec.key] && (
-							<FormTokenField
+						<FormTokenField
 							value={(selectedTermsState[spec.key] || []).map((id) => {
-								const term = spec.terms.find((t) => t.term_id === id);
-								return term ? term.name : "";
+							const term = spec.terms.find((t) => t.term_id === id);
+							return term ? term.name : "";
 							})}
 							onChange={(newTokens) => handleTermChange(newTokens, spec.key, spec)}
 							suggestions={spec.terms.map((term) => term.name)} // Suggestions are term names
 							label=""
-							/>
+						/>
 						)}
 					</div>
-				))}
+					))}
+				</>
+				)}
+
 
 				<SelectControl
 					label={__("Order By", "wp-job-openings")}
