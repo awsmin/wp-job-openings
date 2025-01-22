@@ -880,7 +880,7 @@ class AWSM_Job_Openings_Block {
 
 			$sort_dropdown = sprintf(
 				'<form action="%s" method="POST">
-					<div class="awsm-job-sort">
+					<div class="awsm-job-sort awsm-filter-item">
 						<label>%s</label>
 						<select class="awsm-job-sort-filter" name="sort">
 							<option value="relevance">%s</option>
