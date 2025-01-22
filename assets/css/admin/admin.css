@@ -777,6 +777,9 @@ a.awsm-text-red:hover {
 	padding-left: 0;
 	margin-bottom: 0;
 }
+.awsm_job_openings_page_awsm-jobs-setup #wpbody{
+	background-color: #6BFAE7;
+}
 
 .awsm_job_openings_page_awsm-jobs-setup #wpfooter {
 	display: none;
