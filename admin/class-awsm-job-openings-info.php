@@ -245,7 +245,13 @@ class AWSM_Job_Openings_Info {
 	}
 
 	public function nav_header() {
-		$nav_page = self::get_admin_nav_page();
+		$nav_page           = self::get_admin_nav_page();
+		$applications_count = AWSM_Job_Openings_Core::get_unviewed_applications_count();
+		$label              = __( 'Applications', 'wp-job-openings' );
+		if ( $applications_count > 0 ) {
+			$label .= sprintf( ' <span class="awsm-application-unviewed-count">%d</span>', $applications_count );
+		}
+
 		if ( ! empty( $nav_page ) ) :
 			$nav_items = array(
 				array(
@@ -257,7 +263,7 @@ class AWSM_Job_Openings_Info {
 				array(
 					'visible' => current_user_can( 'edit_applications' ),
 					'id'      => 'edit-awsm_job_application',
-					'label'   => __( 'Applications', 'wp-job-openings' ),
+					'label'   => $label,
 					'url'     => admin_url( 'edit.php?post_type=awsm_job_application' ),
 				),
 				array(
@@ -313,7 +319,7 @@ class AWSM_Job_Openings_Info {
 									$extra_atts .= ' target="' . esc_attr( $nav_item['target'] ) . '"';
 								}
 								// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-								printf( '<li><a href="%2$s"%3$s>%1$s</a></li>', esc_html( $nav_item['label'] ), esc_url( $nav_item['url'] ), $extra_atts );
+								printf( '<li><a href="%2$s"%3$s>%1$s</a></li>', wp_kses_post( $nav_item['label'] ), esc_url( $nav_item['url'] ), $extra_atts );
 							}
 						}
 						?>

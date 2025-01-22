@@ -57,6 +57,7 @@ class AWSM_Job_Openings_Overview {
 	}
 
 	public function overview_page() {
+		$jobs = self::get_jobs_by_author();
 		include_once $this->cpath . '/templates/overview/main.php';
 	}
 
@@ -67,6 +68,7 @@ class AWSM_Job_Openings_Overview {
 			exit;
 		}
 	}
+
 
 	public function register_overview_widgets() {
 		$widgets = array(
@@ -176,8 +178,9 @@ class AWSM_Job_Openings_Overview {
 		$parsed_args = apply_filters( 'awsm_overview_jobs_args', $parsed_args, $defaults );
 
 		$values = array();
-		$join   = "LEFT JOIN {$wpdb->posts} AS applications ON {$wpdb->posts}.ID = applications.post_parent AND applications.post_type = 'awsm_job_application'";
-		$where  = 'WHERE 1=1';
+		//$join   = "LEFT JOIN {$wpdb->posts} AS applications ON {$wpdb->posts}.ID = applications.post_parent AND applications.post_type = 'awsm_job_application'";
+		$join  = "LEFT JOIN {$wpdb->posts} AS applications ON {$wpdb->posts}.ID = applications.post_parent AND applications.post_type = 'awsm_job_application' AND applications.post_status != 'trash'";
+		$where = 'WHERE 1=1';
 		if ( isset( $parsed_args['tax_query'] ) && is_array( $parsed_args['tax_query'] ) ) {
 			$in       = array();
 			$term_ids = array();
@@ -251,10 +254,11 @@ class AWSM_Job_Openings_Overview {
 		return apply_filters( 'awsm_overview_jobs', $results, $parsed_args );
 	}
 
-	public static function get_jobs_by_author( $numberjobs = 10 ) {
+	public static function get_jobs_by_author( $numberjobs = 7 ) {
 		$args = array(
 			'numberjobs' => $numberjobs,
 			'author_id'  => get_current_user_id(),
+			'job_status' => 'publish',
 		);
 		return self::get_jobs( $args );
 	}
@@ -296,4 +300,6 @@ class AWSM_Job_Openings_Overview {
 		}
 		return $analytics_data;
 	}
+
+
 }

@@ -35,11 +35,11 @@ class AWSM_Job_Openings_Dashboard_Widget {
 				</div>
 				<?php if ( current_user_can( 'edit_applications' ) ) : ?>
 						<div class="awsm-jobs-statistic">
-							<span><?php echo esc_html( $overview_data['new_applications'] ); ?></span>
+							<span><?php echo esc_html( $overview_data['unread_applications'] ); ?></span>
 							<?php esc_html_e( 'New Applications', 'wp-job-openings' ); ?>
 						</div>
 						<div class="awsm-jobs-statistic">
-							<span><?php echo esc_html( $overview_data['total_applications'] ); ?></span>
+							<span><?php echo esc_html( $overview_data['active_applications'] ); ?></span>
 							<?php esc_html_e( 'Total Applications', 'wp-job-openings' ); ?>
 						</div>
 				<?php endif; ?>
@@ -132,7 +132,6 @@ class AWSM_Job_Openings_Dashboard_Widget {
 				$expiry         = '';
 				$expiry_on_list = get_post_meta( $job->ID, 'awsm_set_exp_list', true );
 				$job_expiry     = get_post_meta( $job->ID, 'awsm_job_expiry', true );
-
 				if ( $expiry_on_list === 'set_listing' && ! empty( $job_expiry ) ) {
 					$expiry = date_i18n( get_awsm_jobs_date_format( 'dashboard-widget' ), strtotime( $job_expiry ) );
 				}

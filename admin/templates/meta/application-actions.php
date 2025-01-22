@@ -28,7 +28,13 @@ $application_id = $post->ID;
 				</span>
 			</div>
 			<div class="misc-pub-section">
-				<div class="awsm-application-post-status-disabled">
+				<div class="awsm-application-post-status 
+				<?php
+				if ( ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) {
+					echo 'pro-feature'; }
+				?>
+				"">
+					<span class="pro-ft"><?php esc_html_e( 'Pro Feature', 'wp-job-openings' ); ?></span>
 					<p><label for="post_status"><?php esc_html_e( 'Status:', 'wp-job-openings' ); ?></label></p>
 					<p>
 						<select style="width:100%;" disabled>
@@ -37,23 +43,17 @@ $application_id = $post->ID;
 					</p>
 				</div>
 			</div>
-			<!-- Rating -->
-			<div class="misc-pub-section awsm-application-rating-pub-section-disabled">
-				<div class="awsm-application-rating-disabled">
-					<?php
-						wp_star_rating(
-							array(
-								'rating' => 3,
-								'type'   => 'rating',
-							)
-						);
-						?>
+			<!-- <div class="misc-pub-section">
+				<div class="awsm-application-post-status-disabled">
+					<span class="pro-ft"><?php esc_html_e( 'Pro Feature', 'wp-job-openings' ); ?></span>
+					<p><label for="post_status"><?php esc_html_e( 'Status:', 'wp-job-openings' ); ?></label></p>
+					<p>
+						<select style="width:100%;" disabled>
+							<option selected><?php echo esc_html_x( 'New', 'post status', 'wp-job-openings' ); ?></option>
+						</select>
+					</p>
 				</div>
-				<div class="awsm-application-pro-features-btn-wrapper">
-					<span class="awsm-jobs-get-pro-btn"><?php esc_html_e( 'Pro Features', 'wp-job-openings' ); ?></span>
-				</div>
-			</div>
-			<!-- End of Rating -->
+			</div> -->
 		</div>
 		<div class="clear"></div>
 	</div><!-- #minor-publishing -->

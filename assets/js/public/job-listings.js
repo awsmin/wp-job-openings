@@ -33,7 +33,22 @@ jQuery(function($) {
 		var formData = $filterForm.serializeArray();
 		var listings = $wrapper.data('listings');
 		var specs = $wrapper.data('specs');
-		
+
+		$rootWrapper.find('.awsm-filter-item').each(function() {
+			var currentLoopSpec = $(this).data('filter');
+			var searchParams = new URLSearchParams(document.location.search);
+			var currentSpecQueryVal = searchParams.get(currentLoopSpec); 
+			var $currentOption = $(this).find('.awsm-filter-option');
+			
+			if ($currentOption.val().length === 0 && currentSpecQueryVal && currentSpecQueryVal.length > 0) {
+				formData.forEach(function(item) {
+					if (item.name === $currentOption.attr('name')) {
+						item.value = '-1';
+					}
+				});
+			}
+		});
+
 		formData.push({
 			name: 'listings_per_page',
 			value: listings
@@ -112,16 +127,16 @@ jQuery(function($) {
 		awsmJobFilters($rootWrapper);
 	}
 
-	if ($(rootWrapperSelector).length > 0) {
-		$(rootWrapperSelector).each(function() {
-			var $currentWrapper = $(this);
-			var $filterForm = $currentWrapper.find(filterSelector + ' form');
-			if (awsmJobsPublic.is_search.length > 0 || filterCheck($filterForm)) {
-				triggerFilter = true;
-				awsmJobFilters($currentWrapper);
-			}
-		});
-	}
+	// if ($(rootWrapperSelector).length > 0) {
+	// 	$(rootWrapperSelector).each(function() {
+	// 		var $currentWrapper = $(this);
+	// 		var $filterForm = $currentWrapper.find(filterSelector + ' form');
+	// 		if (awsmJobsPublic.is_search.length > 0 || filterCheck($filterForm)) {
+				// triggerFilter = true;
+				// awsmJobFilters($currentWrapper);
+	// 		}
+	// 	});
+	// }
 
 	var updateQuery = function(key, value, url) {
 		url = typeof url !== 'undefined' ? url : currentUrl;
@@ -161,13 +176,22 @@ jQuery(function($) {
 		}
 	};
 
+	if ($('.awsm-job-no-more-jobs-get').length > 0) {
+		$('.awsm-job-listings').hide();
+		$('.awsm-job-no-more-jobs-get').slice(1).hide();
+	}
+
 	$(filterSelector + ' .awsm-filter-option').on('change', function(e) { 
 		e.preventDefault();
+		$('.awsm-job-listings').show();
 		var $elem = $(this);
 		var $selected = $elem.find('option:selected');
 		var $rootWrapper = $elem.parents(rootWrapperSelector);
 		var currentSpec = $elem.parents('.awsm-filter-item').data('filter');
 		var slug = $selected.data('slug');
+		if ($('.awsm-job-listings').length > 0) {
+			$rootWrapper.find('.awsm-job-no-more-jobs-get').hide();
+		}
 		slug = typeof slug !== 'undefined' ? slug : '';
 		setPaginationBase($rootWrapper, currentSpec, slug);
 		if (awsmJobsPublic.deep_linking.spec) {

@@ -5,7 +5,7 @@
  * Description: Super simple Job Listing plugin to manage Job Openings and Applicants on your WordPress site.
  * Author: AWSM Innovations
  * Author URI: https://awsm.in/
- * Version: 3.5.0
+ * Version: 4.0.0
  * Requires at least: 4.8
  * Requires PHP: 5.6
  * License: GPLv2
@@ -37,7 +37,7 @@ if ( ! defined( 'AWSM_JOBS_PLUGIN_URL' ) ) {
 	define( 'AWSM_JOBS_PLUGIN_URL', untrailingslashit( plugin_dir_url( __FILE__ ) ) );
 }
 if ( ! defined( 'AWSM_JOBS_PLUGIN_VERSION' ) ) {
-	define( 'AWSM_JOBS_PLUGIN_VERSION', '3.5.0' );
+	define( 'AWSM_JOBS_PLUGIN_VERSION', '4.0.0' );
 }
 if ( ! defined( 'AWSM_JOBS_UPLOAD_DIR_NAME' ) ) {
 	define( 'AWSM_JOBS_UPLOAD_DIR_NAME', 'awsm-job-openings' );
@@ -146,6 +146,40 @@ class AWSM_Job_Openings {
 		flush_rewrite_rules();
 	}
 
+	public function pro_version_admin_notice() {
+		?>
+		<div class="notice notice-error">
+			<p>
+				<?php
+					$req_plugin = sprintf( '<strong>%s</strong>', esc_html__( 'WP Job Openings', 'wp-job-openings' ) );
+					$plugin     = sprintf( '<strong>%s</strong>', esc_html__( 'Pro Pack', 'wp-job-openings' ) );
+
+					/* translators: %1$s: main plugin, %2$s: current plugin, %3$s: minimum required version of the main plugin, %4$s: plugin update link */
+					printf( esc_html__( 'Update required: The %2$s of the plugin must be updated to version 4.0 or higher to function with the Free version of %1$s.', 'wp-job-openings' ), $req_plugin, $plugin ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				?>
+			</p>
+		</div>
+		<?php
+	}
+
+	public function check_pro_version_for_free_plugin() {
+		if ( defined( 'AWSM_JOBS_PRO_PLUGIN_BASENAME' ) ) {
+			if ( is_plugin_active( AWSM_JOBS_PRO_PLUGIN_BASENAME ) ) {
+				$pro_plugin_path = WP_PLUGIN_DIR . '/' . AWSM_JOBS_PRO_PLUGIN_BASENAME;
+				if ( file_exists( $pro_plugin_path ) ) {
+					$plugin_data = get_plugin_data( $pro_plugin_path );
+					$pro_version = $plugin_data['Version'];
+
+					$required_pro_version = '4.0';
+
+					if ( version_compare( $pro_version, $required_pro_version, '<' ) ) {
+						add_action( 'admin_notices', array( $this, 'pro_version_admin_notice' ) );
+					}
+				}
+			}
+		}
+	}
+
 	public static function log( $data, $prefix = '' ) {
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG && defined( 'AWSM_JOBS_DEBUG' ) && AWSM_JOBS_DEBUG ) {
 			if ( is_string( $data ) ) {
@@ -237,6 +271,7 @@ class AWSM_Job_Openings {
 			// Add custom status to status dropdown under post submit meta box (existing and new) for job openings.
 			add_action( 'admin_footer-post.php', array( $this, 'job_submit_meta_box_custom_status' ) );
 			add_action( 'admin_footer-post-new.php', array( $this, 'job_submit_meta_box_custom_status' ) );
+			add_action( 'admin_init', array( $this, 'check_pro_version_for_free_plugin' ) );
 		}
 	}
 
@@ -485,7 +520,7 @@ class AWSM_Job_Openings {
 		switch ( $columns ) {
 			case 'awsm-photo':
 				$applicant_email = esc_attr( get_post_meta( $post_id, 'awsm_applicant_email', true ) );
-				$avatar          = apply_filters( 'awsm_applicant_photo', get_avatar( $applicant_email, 32 ) );
+				$avatar          = apply_filters( 'awsm_applicant_photo', get_avatar( $applicant_email, 36 ) );
 				echo $avatar; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				break;
 			case 'application_id':
@@ -780,11 +815,17 @@ class AWSM_Job_Openings {
 		unset( $jobs_count['auto-draft'], $applications_count['auto-draft'] );
 		$total_jobs         = array_sum( $jobs_count );
 		$total_applications = array_sum( $applications_count );
-		$data               = array(
-			'active_jobs'        => $jobs_count['publish'],
-			'total_jobs'         => $total_jobs,
-			'new_applications'   => $applications_count['publish'],
-			'total_applications' => $total_applications,
+		// Exclude trashed applications to get active applications.
+		$trashed_applications   = isset( $applications_count['trash'] ) ? $applications_count['trash'] : 0;
+		$active_applications    = $total_applications - $trashed_applications;
+		$new_applications_count = AWSM_Job_Openings_Core::get_unviewed_applications_count();
+		$data                   = array(
+			'active_jobs'         => $jobs_count['publish'],
+			'total_jobs'          => $total_jobs,
+			'new_applications'    => $applications_count['publish'],
+			'total_applications'  => $total_applications,
+			'active_applications' => $active_applications,
+			'unread_applications' => $new_applications_count,
 		);
 		/**
 		 * Filters the overview data.
@@ -852,7 +893,7 @@ class AWSM_Job_Openings {
 	}
 
 	public function awsm_job_month_dropdown( $months, $post_type ) {
-		if ( $post_type === 'awsm_job_openings' || $post_type === 'awsm_job_application' ) {
+		if ( $post_type === 'awsm_job_openings' ) {
 			$months = array();
 		}
 		return $months;
@@ -1141,6 +1182,7 @@ class AWSM_Job_Openings {
 			array(
 				'screen_id'      => AWSM_Job_Openings_Overview::$screen_id,
 				'analytics_data' => AWSM_Job_Openings_Overview::get_applications_analytics_data(),
+				'default_option' => get_option( 'awsm_jobs_analytics_data', 'year' ),
 				'i18n'           => array(
 					'chart_label' => esc_html__( 'Applications', 'wp-job-openings' ),
 				),
@@ -1559,22 +1601,25 @@ class AWSM_Job_Openings {
 		return ( isset( $shortcode_atts['listings'] ) && is_numeric( $shortcode_atts['listings'] ) && $shortcode_atts['listings'] > 0 ) ? intval( $shortcode_atts['listings'] ) : get_option( 'awsm_jobs_list_per_page' );
 	}
 
-	public static function awsm_job_query_args( $filters = array(), $shortcode_atts = array() ) {
+	public static function awsm_job_query_args( $filters = array(), $shortcode_atts = array(), $is_term_or_slug = array() ) {
 		$args = array();
+
 		if ( is_tax() ) {
-			$q_obj    = get_queried_object();
-			$taxonomy = $q_obj->taxonomy;
-			$term_id  = $q_obj->term_id;
-			$filters  = array( $taxonomy => $term_id );
+			$q_obj                        = get_queried_object();
+			$taxonomy                     = $q_obj->taxonomy;
+			$term_id                      = $q_obj->term_id;
+			$filters                      = array( $taxonomy => $term_id );
+			$is_term_or_slug[ $taxonomy ] = 'term_id';
 		}
 
 		if ( ! empty( $filters ) ) {
-			foreach ( $filters as $taxonomy => $term_id ) {
-				if ( ! empty( $term_id ) ) {
+			foreach ( $filters as $taxonomy => $value ) {
+				if ( ! empty( $value ) ) {
+					$field_type          = isset( $is_term_or_slug[ $taxonomy ] ) ? $is_term_or_slug[ $taxonomy ] : 'term_id';
 					$spec                = array(
 						'taxonomy' => $taxonomy,
-						'field'    => 'term_id',
-						'terms'    => $term_id,
+						'field'    => $field_type,
+						'terms'    => (array) $value,
 					);
 					$args['tax_query'][] = $spec;
 				}
@@ -1585,32 +1630,8 @@ class AWSM_Job_Openings {
 		$hide_expired_jobs      = get_option( 'awsm_jobs_expired_jobs_listings' );
 		$args['post_type']      = 'awsm_job_openings';
 		$args['posts_per_page'] = $list_per_page;
-		if ( $hide_expired_jobs === 'expired' ) {
-			if ( $list_per_page > 0 ) {
-				$args['post_status'] = array( 'publish' );
-			} else {
-				$args['numberposts'] = -1;
-			}
-		} else {
-			$args['post_status'] = array( 'publish', 'expired' );
-		}
+		$args['post_status']    = ( $hide_expired_jobs === 'expired' ) ? array( 'publish' ) : array( 'publish', 'expired' );
 
-		// phpcs:ignore WordPress.Security.NonceVerification.Missing
-		if ( ! self::is_default_pagination( $shortcode_atts ) && ! isset( $_POST['awsm_pagination_base'] ) ) {
-			// Handle classic pagination on page load.
-			$paged         = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ) : 1;
-			$args['paged'] = $paged;
-		}
-
-		/**
-		 * Filters the arguments for the jobs query.
-		 *
-		 * @since 1.4
-		 *
-		 * @param array $args arguments.
-		 * @param array $filters Applicable filters.
-		 * @param array $shortcode_atts Shortcode attributes.
-		 */
 		return apply_filters( 'awsm_job_query_args', $args, $filters, $shortcode_atts );
 	}
 

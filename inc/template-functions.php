@@ -38,9 +38,60 @@ if ( ! function_exists( 'awsm_jobs_get_footer' ) ) {
 
 if ( ! function_exists( 'awsm_jobs_query' ) ) {
 	function awsm_jobs_query( $shortcode_atts = array() ) {
-		$args  = AWSM_Job_Openings::awsm_job_query_args( array(), $shortcode_atts );
+		$query_args      = array();
+		$is_term_or_slug = array();
+		$filter_suffix   = '_spec';
+
+		$filters = get_option( 'awsm_jobs_listing_available_filters' );
+
+		if ( ! empty( $filters ) ) {
+			foreach ( $filters as $filter ) {
+				$current_filter_key = str_replace( '-', '__', $filter ) . $filter_suffix;
+				if ( isset( $_GET[ $current_filter_key ] ) ) {
+					$term_slug = sanitize_title( $_GET[ $current_filter_key ] );
+					$term      = get_term_by( 'slug', $term_slug, $filter );
+					if ( $term && ! is_wp_error( $term ) ) {
+						$query_args[ $filter ]      = $term->term_id;
+						$is_term_or_slug[ $filter ] = 'term_id';
+					} else {
+						$query_args[ $filter ]      = $term_slug;
+						$is_term_or_slug[ $filter ] = 'slug';
+					}
+				}
+			}
+		}
+
+		$args  = AWSM_Job_Openings::awsm_job_query_args( $query_args, $shortcode_atts, $is_term_or_slug );
 		$query = new WP_Query( $args );
+
 		return $query;
+	}
+}
+
+if ( ! function_exists( 'get_filtered_job_terms' ) ) {
+	function get_filtered_job_terms() {
+		$filter_suffix  = '_spec';
+		$filters        = get_option( 'awsm_jobs_listing_available_filters' );
+		$filtered_terms = array();
+
+		if ( ! empty( $filters ) ) {
+			foreach ( $filters as $filter ) {
+				$current_filter_key = str_replace( '-', '__', $filter ) . $filter_suffix;
+
+				if ( isset( $_GET[ $current_filter_key ] ) ) {
+					$term_slug = sanitize_title( $_GET[ $current_filter_key ] );
+					$term      = get_term_by( 'slug', $term_slug, $filter );
+
+					if ( $term && ! is_wp_error( $term ) ) {
+						$filtered_terms[ $filter ] = $term;
+					} else {
+						$filtered_terms[ $filter ] = null;
+					}
+				}
+			}
+		}
+
+		return $filtered_terms;
 	}
 }
 
@@ -221,7 +272,7 @@ if ( ! function_exists( 'awsm_jobs_load_more' ) ) {
 			if ( AWSM_Job_Openings::is_default_pagination( $shortcode_atts ) ) {
 				$paged = ( $query->query_vars['paged'] ) ? $query->query_vars['paged'] : 1;
 				if ( $paged < $max_num_pages ) {
-					$load_more_content = sprintf( '<div class="awsm-jobs-pagination awsm-load-more-main"><a href="#" class="awsm-load-more awsm-load-more-btn" data-page="%2$s">%1$s</a></div>', esc_html__( 'Load more...', 'wp-job-openings' ), esc_attr( $paged ) );
+					$load_more_content = sprintf( '<div class="awsm-jobs-pagination awsm-load-more-main"><a href="#" class="awsm-load-more awsm-load-more-btn" data-page="%2$s">%1$s</a></div>', esc_html__( 'Load more', 'wp-job-openings' ), esc_attr( $paged ) );
 					/**
 					 * Filters the load more content.
 					 *
@@ -234,7 +285,7 @@ if ( ! function_exists( 'awsm_jobs_load_more' ) ) {
 					echo apply_filters( 'awsm_jobs_load_more_content', $load_more_content, $query, $shortcode_atts ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				}
 			} else {
-				echo awsm_jobs_paginate_links( $query );
+				echo awsm_jobs_paginate_links( $query ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			}
 		}
 	}
@@ -346,3 +397,5 @@ if ( ! function_exists( 'awsm_jobs_single_featured_image' ) ) {
 	}
 }
 add_action( 'before_awsm_jobs_single_content', 'awsm_jobs_single_featured_image' );
+
+

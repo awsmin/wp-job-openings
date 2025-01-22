@@ -64,7 +64,7 @@ a.awsm-job-item {
 	margin-bottom: 30px;
 	box-shadow: 0 1px 4px 0 rgb(0 0 0 / 5%);
 	border: 1px solid #dddfe3;
-	border-radius: 2px;
+	border-radius: 5px;
 	display: -webkit-box;
 	display: -moz-box;
 	display: -ms-flexbox;
@@ -287,7 +287,7 @@ a.awsm-job-item {
 /*---- List ----*/
 
 .awsm-lists {
-	border: 1px solid #ededed;
+	border: 1px solid #d5d5d5;
 }
 
 .awsm-list-item {
@@ -309,7 +309,7 @@ a.awsm-job-item {
 }
 
 .awsm-list-item .awsm-job-item {
-	border-bottom: 1px solid rgba(0, 0, 0, 0.13);
+	border-bottom: 1px solid #d5d5d5;
 }
 
 .awsm-list-item .awsm-job-item::after {
@@ -454,6 +454,11 @@ a.awsm-job-item .awsm-job-specification-item {
 .awsm-job-form-control {
 	display: block;
 	width: 100%;
+	padding: 5px 10px;
+	border: 1px solid #d5d5d5;
+	border-radius: 5px;
+	color: #444;
+	font: inherit;
 }
 
 .awsm-job-form-options-container span {
@@ -529,7 +534,7 @@ ul.awsm-error-message li {
 	padding: 50px 0;
 }
 
-.awsm-jobs-loading {
+.awsm-job-listings {
 	position: relative;
 }
 
@@ -677,7 +682,7 @@ ul.awsm-error-message li {
 .awsm-job-form-plugin-style .awsm-selectric{
 	border-color: #ccc;
 	box-shadow: none;
-	border-radius: 4px;
+	border-radius: 5px;
 }
 .awsm-job-form-plugin-style .awsm-selectric-open .awsm-selectric{
 	border-color: #060606;
@@ -699,8 +704,13 @@ ul.awsm-error-message li {
 .awsm-jobs-is-block-theme .site-title {
 	margin-bottom: 0;
 }
-
-.awsm-job-featured-image img {
-    max-width: 100%;
-    height: auto;
+.awsm-selectric{
+	border-radius: 5px;
+}
+.awsm-screen-reader-text{
+	position: absolute !important;
+    height: 1px; width: 1px;
+    overflow: hidden;
+    clip: rect(1px 1px 1px 1px); 
+    clip: rect(1px, 1px, 1px, 1px);
 }
