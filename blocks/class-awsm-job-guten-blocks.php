@@ -108,10 +108,10 @@ class Awsm_Job_Guten_Blocks {
 		$block_content    = $class_block_init->awsm_jobs_block_attributes( $atts );
 		return $block_content;
 	}
-
-	public function block_assets() {
+ 
+	public function block_assets() { 
 		wp_enqueue_script( 'awsm-job-admin' );
-		if ( ! wp_style_is( 'awsm-jobs-style' ) || ! wp_script_is( 'awsm-job-scripts' ) ) {
+		if ( ! wp_style_is( 'awsm-jobs-style' ) || ! wp_script_is( 'awsm-job-scripts' ) ) { 
 			$awsm_job_openings = AWSM_Job_Openings::init();
 			$awsm_job_openings->awsm_enqueue_scripts();
 		}

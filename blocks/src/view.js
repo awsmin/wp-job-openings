@@ -11,16 +11,6 @@ jQuery(function($) {
 	var currentUrl = window.location.protocol + '//' + window.location.host + window.location.pathname;
 	var triggerFilter = true;
 
-    // Initially showing results count //
-	var $rootWrapper = $(wrapperSelector);  // Your root wrapper
-    var currentPage = 1; // Initial page (usually 1 on first load)
-    var displayedResults = $rootWrapper.find('.awsm-b-job-item').length; // Count the number of items displayed initially
-    var totalResults = $rootWrapper.data('awsm-listings-total'); // Get total results from data attribute
-
-    // Call updateResultsCount to display initial results count
-    updateResultsCount($rootWrapper, currentPage, displayedResults, totalResults);
-	// End //
-
 	function getListingsData($wrapper) { 
 		var data = [];
 		var parsedListingsAttrs = [ 'listings', 'specs', 'search', 'lang', 'taxonomy', 'termId' ];
@@ -116,16 +106,6 @@ jQuery(function($) {
 		// Trigger custom event to provide formData
 		$(document).trigger('awsmJobBlockFiltersFormData', [$wrapper, formData]);
 	
-		// Define currentPage or get it from a data attribute (or from a clicked pagination button)
-		var currentPage = $wrapper.data('current-page') || 1; // Default to page 1 if not defined
-		// Ensure the totalResults and displayedResults are valid before showing the count
-		if (listings_total && listings) {
-			// Display initial results count on page load (after DOM is ready)
-			setTimeout(function() {
-				updateResultsCount($wrapper, currentPage);
-			}, 0);  // Set to 0 to ensure it's called after the page is ready
-		}
-	
 		if (triggerFilter) {
 			// stop the duplicate requests
 			triggerFilter = false;
@@ -140,15 +120,6 @@ jQuery(function($) {
 				type: $filterForm.attr('method')
 			}).done(function(data) { 
 				$rowWrapper.html(data);
-	
-				// Get the total results from the wrapper
-				var totalResults = $wrapper.data('awsm-listings-total'); 
-	
-				// Get the number of displayed results
-				var displayedResults = $rowWrapper.find('.awsm-b-job-item').length; 
-	
-				// Calculate the "Showing X - Y of Z" result text
-				updateResultsCount($wrapper, currentPage, displayedResults, totalResults);
 	
 				var $searchControl = $rootWrapper.find('.awsm-b-job-search'); 
 				if ($searchControl.length > 0) {
@@ -169,39 +140,6 @@ jQuery(function($) {
 				triggerFilter = true;
 			});
 		}
-	}
-	
-	// Function to update the "Showing X - Y of Z results" count
-	function updateResultsCount($rootWrapper, currentPage, displayedResults = 0, totalResults = 0) { 
-		// Ensure totalResults and displayedResults are valid numbers before continuing
-		if (!totalResults) {
-			totalResults = $rootWrapper.data('awsm-listings-total');
-		}
-		
-		if (!displayedResults) {
-			displayedResults = $rootWrapper.find('.awsm-b-job-item').length;
-		}
-	
-		// Ensure that start and end are valid numbers
-		if (isNaN(totalResults) || isNaN(displayedResults)) {
-			return; // Skip updating if values are not valid
-		}
-	
-		// Calculate the start value based on the current page and listings per page
-		var listingsPerPage = $rootWrapper.data('listings') || 10;  // Default to 10 listings per page if not set
-		var start = (currentPage - 1) * listingsPerPage + 1;
-	
-		// Calculate the end value based on the displayed results (this may be less than listings per page on the last page)
-		var end = start + displayedResults - 1; 
-	
-		// Prevent the end value from exceeding the total results
-		if (end > totalResults) end = totalResults;
-		
-		// Ensure that start doesn't go below 1
-		if (start < 1) start = 1;
-	
-		// Update the job result count text
-		$('#awsm-job-count').text('Showing ' + start + ' – ' + end + ' of ' + totalResults + ' results');
 	}
 	
 	function filterCheck($filterForm) {
@@ -591,12 +529,6 @@ jQuery(function($) {
 						}, effectDuration);
 					}
 				}
-
-				var currentPage = 1;  
-				var displayedResults = $listingsrowContainer.find('.awsm-b-job-item').length;  
-				var totalResults = $listingsContainer.data('awsm-listings-total'); 
-		
-				updateResultsCount($listingsContainer, currentPage, displayedResults, totalResults);
 
 			} else {
 				$triggerElem.remove();

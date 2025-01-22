@@ -66,7 +66,13 @@ if ( ! function_exists( 'awsm_block_jobs_query' ) ) {
 		$is_term_or_slug = array();
 		$filter_suffix   = '_spec';
 
-		$filter_options_array = explode( ',', $attributes['filter_options'] );
+		//$filter_options_array = explode( ',', $attributes['filter_options'] );
+
+		if (is_string($attributes['filter_options'])) {
+			$filter_options_array = explode(',', $attributes['filter_options']);
+		} else {
+			$filter_options_array = []; // Or handle the case as per your requirement
+		}
 
 		if ( ! empty( $filter_options_array ) ) {
 			foreach ( $filter_options_array as $filter ) {

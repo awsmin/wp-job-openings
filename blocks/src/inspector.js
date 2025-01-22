@@ -155,57 +155,77 @@ const WidgetInspectorControls = (props) => {
 							}
 							placeholder={__("Search Jobs", "wp-job-openings")}
 						/>
-		
-						<h2>{__("Available Filters", "wp-job-openings")}</h2>
+		             
+					 	<h2>{__("Available Filters", "wp-job-openings")}</h2>
 						{specifications.map((spec) => {
-						const filterOption = filter_options.find(
-							(option) => option.specKey === spec.key
-						);
-						return (
-							<div key={spec.key}>
-							<ToggleControl
-								label={spec.label}
-								checked={filterOption !== undefined}
-								onChange={(toggleValue) =>
-								specifications_handler(toggleValue, spec.key)
-								}
-							/>
+							const filterOption = filter_options.find(
+								(option) => option.specKey === spec.key
+							);
 
-							{filterOption && (
-								<div class="filters-button">
+							return (
+								<div key={spec.key}>
+									{/* Toggle Control */}
+									<ToggleControl
+										label={spec.label}
+										checked={filterOption !== undefined}
+										onChange={(toggleValue) => {
+											const updatedFilters = toggleValue
+												? [...filter_options, { specKey: spec.key, value: "dropdown" }] // Default to dropdown
+												: filter_options.filter((option) => option.specKey !== spec.key); // Remove the filter
 
-								{/* Dropdown Button */}
-							    <Button
-									variant="secondary"
-									style={{
-									backgroundColor: filterOption.value === "dropdown" ? 'black' : 'initial',
-									color: filterOption.value === "dropdown" ? 'white' : 'black',
-									marginRight: '10px', // Optional: add spacing between buttons
-									}}
-									size="default"
-									__next40pxDefaultSize
-									onClick={() => updateFilterValue("dropdown", spec.key)}
-									text ={__("Dropdown", "wp-job-openings")}
-								>
-								</Button>
+											// Update attributes to trigger re-render
+											setAttributes({ filter_options: updatedFilters });
+										}}
+									/>
 
-								{/* Checkbox Button */}
-								<Button
-									variant="secondary"
-									style={{
-									backgroundColor: filterOption.value === "checkbox" ? 'black' : 'initial',
-									color: filterOption.value === "checkbox" ? 'white' : 'black',
-									}}
-									
-									__next40pxDefaultSize
-									onClick={() => updateFilterValue("checkbox", spec.key)}
-									text ={__("Checkbox", "wp-job-openings")}
-								>
-								</Button>
+									{/* If a filter option exists, show buttons */}
+									{filterOption && (
+										<div className="filters-button">
+											{/* Dropdown Button */}
+											<Button
+												variant="secondary"
+												style={{
+													backgroundColor: filterOption.value === "dropdown" ? "black" : "initial",
+													color: filterOption.value === "dropdown" ? "white" : "black",
+													marginRight: "10px",
+												}}
+												size="default"
+												__next40pxDefaultSize
+												onClick={() => {
+													const updatedFilters = filter_options.map((option) =>
+														option.specKey === spec.key
+															? { ...option, value: "dropdown" }
+															: option
+													);
+													setAttributes({ filter_options: updatedFilters }); // Update attributes
+												}}
+											>
+												{__("Dropdown", "wp-job-openings")}
+											</Button>
+
+											{/* Checkbox Button */}
+											<Button
+												variant="secondary"
+												style={{
+													backgroundColor: filterOption.value === "checkbox" ? "black" : "initial",
+													color: filterOption.value === "checkbox" ? "white" : "black",
+												}}
+												__next40pxDefaultSize
+												onClick={() => {
+													const updatedFilters = filter_options.map((option) =>
+														option.specKey === spec.key
+															? { ...option, value: "checkbox" }
+															: option
+													);
+													setAttributes({ filter_options: updatedFilters }); // Update attributes
+												}}
+											>
+												{__("Checkbox", "wp-job-openings")}
+											</Button>
+										</div>
+									)}
 								</div>
-							)}
-							</div>
-						);
+							);
 						})}
 
 					</>
@@ -273,35 +293,34 @@ const WidgetInspectorControls = (props) => {
 					<ToggleGroupControlOption value="filtered" label="Filtered List" />
 				</ToggleGroupControl>
 				<p>{__(" Display all jobs or filtered by job specifications", "wp-job-openings")}</p>
-	
+				
 				{listType === "filtered" && (
 				<>
 					<h2>{__("Available Filters", "wp-job-openings")}</h2>
 					{specifications.map((spec) => (
-					<div key={spec.key} className="filter-item">
-						<ToggleControl
-						label={spec.label}
-						checked={toggleState[spec.key] || false} // Check the toggle state for the spec
-						onChange={(isChecked) => handleToggleChange(spec.key, isChecked)} // Update the toggle state on change
-						/>
+						<div key={spec.key} className="filter-item">
+							<ToggleControl
+								label={spec.label}
+								checked={toggleState[spec.key] || false} // Check the toggle state for the spec
+								onChange={(isChecked) => handleToggleChange(spec.key, isChecked)} // Update the toggle state on change
+							/>
 
-						{/* Show FormTokenField only when toggle is on */}
-						{toggleState[spec.key] && (
-						<FormTokenField
-							value={(selectedTermsState[spec.key] || []).map((id) => {
-							const term = spec.terms.find((t) => t.term_id === id);
-							return term ? term.name : "";
-							})}
-							onChange={(newTokens) => handleTermChange(newTokens, spec.key, spec)}
-							suggestions={spec.terms.map((term) => term.name)} // Suggestions are term names
-							label=""
-						/>
-						)}
-					</div>
+							{/* Show FormTokenField only when toggle is on */}
+							{toggleState[spec.key] && (
+								<FormTokenField
+									value={(selectedTermsState[spec.key] || []).map((id) => {
+										const term = spec.terms.find((t) => t.term_id === id);
+										return term ? term.name : "";
+									})}
+									onChange={(newTokens) => handleTermChange(newTokens, spec.key, spec)}
+									suggestions={spec.terms.map((term) => term.name)} // Suggestions are term names
+									label=""
+								/>
+							)}
+						</div>
 					))}
 				</>
 				)}
-
 
 				<SelectControl
 					label={__("Order By", "wp-job-openings")}
