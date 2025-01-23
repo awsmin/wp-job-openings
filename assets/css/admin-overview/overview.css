@@ -452,7 +452,7 @@
 	margin: 0;
 	font-weight: 500;
 }
-.awsm-wpjo-addon-item-head a,
+.awsm-wpjo-addon-item-head > a,
 .awsm-wpjo-addon-item-head a.button-large{
 	border-radius: 4px;
 	border: 1px solid #D1D1D1;
@@ -465,10 +465,17 @@
 	text-decoration: none;
 	box-shadow: none;
 }
-.awsm-wpjo-addon-item-head a:hover,
+.awsm-wpjo-addon-item-head > a:hover,
 .awsm-wpjo-addon-item-head a.button-large:hover{
 	background: #6CFAE4;
 	color: #161616;
+}
+.awsm-wpjo-addon-item-head h3 a{
+	color: #161616;
+	text-decoration: none;
+}
+.awsm-wpjo-addon-item-head h3 a:hover{
+	color: #6CFAE4;
 }
 .awsm-wpjo-addon-item > p{
 	margin: 0;
