@@ -78,17 +78,17 @@ class AWSM_Job_Openings_Block {
 
 	public static function get_job_listing_view_class_block( $attributes = array() ) {
 		$view       = $attributes['layout'];
-		$view_class = 'awsm-b-lists';
+		$view_class = 'awsm-b-lists awsm-b-job-listing-items';
 		if ( $view === 'grid' ) {
 			$number_columns = isset( $attributes['number_of_columns'] ) && ! empty( $attributes['number_of_columns'] ) ? $attributes['number_of_columns'] : 3;
-			$view_class     = 'awsm-b-row';
+			$view_class     = 'awsm-b-row awsm-b-job-listing-items';
 			$column_class   = 'awsm-b-grid-col-' . $number_columns;
 			if ( $number_columns == 1 ) {
 				$column_class = 'awsm-b-grid-col';
 			}
 			$view_class .= ' ' . $column_class;
 		} elseif ( $view === 'stack' ) {
-			$view_class = 'awsm-b-row awsm-list-stacked';
+			$view_class = 'awsm-b-row awsm-b-job-listing-items awsm-list-stacked';
 		}
 		return sprintf( '%s', $view_class );
 	}
@@ -599,7 +599,7 @@ class AWSM_Job_Openings_Block {
 		return apply_filters( 'awsm_job_block_query_args', $args, $filters, $attributes );
 	}	
 
-	public static function get_block_job_listing_data_attrs( $block_atts = array() ) {
+	public static function get_block_job_listing_data_attrs( $block_atts = array() ) { 
 		$attrs                           = array();
 		$attrs['listings']               = AWSM_Job_Openings::get_listings_per_page( $block_atts );
 		$attrs['awsm-layout']            = isset( $block_atts['layout'] ) ? $block_atts['layout'] : '';
@@ -872,20 +872,20 @@ class AWSM_Job_Openings_Block {
 						<div class="'.$filter_class_admin.'">
 							<label class="awsm-b-sr-only">Relevance</label>
 							<select class="awsm-b-filter-option awsm-job-sort-filter" name="sort">
-								<option value="relevance">%s</option>
 								<option value="new_to_old">%s</option>
 								<option value="old_to_new">%s</option>
 								<option value="random">%s</option>
+								<option value="relevance">%s</option>
 							</select>
 						</div>
 					</div>
 				</form>',
 				$action_url,                                
 				esc_html__('Sort by', 'wp-job-openings'),  
-				esc_html__('Relevance', 'wp-job-openings'), 
 				esc_html__('New to Old', 'wp-job-openings'), 
 				esc_html__('Old to New', 'wp-job-openings'),
-				esc_html__('Random', 'wp-job-openings')     
+				esc_html__('Random', 'wp-job-openings'),
+				esc_html__('Relevance', 'wp-job-openings'), 
 			);
 		}
 		echo $sort_dropdown;
