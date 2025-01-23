@@ -39,7 +39,7 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 						<h3>
 							<?php
 							/* translators: %s: Current user name */
-							printf( esc_html__( 'Hello %s,', 'wp-job-openings' ) . '<br>', esc_html( $user_obj->display_name ) );
+							printf( esc_html__( 'Hi %s,', 'wp-job-openings' ) . '<br>', esc_html( $user_obj->display_name ) );
 							?>
 						</h3>
 
