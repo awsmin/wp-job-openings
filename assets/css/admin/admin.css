@@ -584,7 +584,7 @@ a.awsm-text-red:hover {
 
 .awsm-job-status-btn-wrapper a.button {
 	background: #fff;
-	border: 1px solid #D0D5DD;
+	border: 1px solid #d1d1d1;
 	padding: 7px 18px;
 	color: #161616;
 	min-height: 32px;
@@ -594,15 +594,15 @@ a.awsm-text-red:hover {
 }
 
 .awsm-job-status-btn-wrapper a.button:hover {
-	border-color: #6CFAE4;
-	background-color: #6CFAE4;
-	color: #161616;
+	border-color: #2271b1;
+	background-color: #ffffff;
+	color: #2271b1;
 }
 
 .awsm-job-status-btn-wrapper a.button:focus {
-	border-color: #fff;
-	background-color: #6CFAE4;
-	color: #161616;
+	border-color: #2271b1;
+	background-color: #ffffff;
+	color: #2271b1;
 }
 
 .awsm-job-prev-application-btn {
@@ -1902,9 +1902,9 @@ textarea.awsm-form-control {
 	display: inline-block;
 	padding: 7px 18px;
 	border-radius: 4px;
-	background: #6CFAE4;
-	border: 1px solid #6CFAE4;
-	color: #161616;
+	background: #000;
+	border: 1px solid #000;
+	color: #fff;
 	font-size: 14px;
 	font-weight: 600;
 	letter-spacing: -0.24px;
@@ -1915,8 +1915,21 @@ textarea.awsm-form-control {
 
 .awsm-button:hover,
 .awsm-button:focus {
-	background: #0bcfb1;
-	border-color: #0bcfb1;
+	background: #6bfae4;
+	border-color: #6bfae4;
+	color: #000;
+}
+.awsm-button.awsm-button-alt{
+	border-color: #d1d1d1;
+	background: #fff;
+	color: #161616;
+	transition: all 0.3s ease;
+}
+.awsm-button.awsm-button-alt:hover,
+.awsm-button.awsm-button-alt:hover:focus{
+	border-color: #2271b1;
+	background-color: #ffffff;
+	color: #2271b1;
 }
 
 .align-right .awsm-button {
@@ -2042,11 +2055,15 @@ textarea.awsm-form-control {
 	gap: 6px;
 	padding: 7px 18px;
 	border-radius: 4px;
-	border: 1px solid #D0D5DD;
+	border: 1px solid #d1d1d1;
 	background: #FFF;
 	color: #161616;
 	text-decoration: none;
 	line-height: normal;
+}
+.awsm-applicant-resume-cta a svg,
+.awsm-applicant-resume-cta #awsm-print-apps svg{
+	fill: #161616;
 }
 
 .awsm-applicant-resume-cta a:hover,
@@ -2054,8 +2071,13 @@ textarea.awsm-form-control {
 .awsm-applicant-resume-cta #awsm-print-apps:hover,
 .awsm-applicant-resume-cta #awsm-print-apps:focus {
 	text-decoration: none;
-	border-color: #6CFAE4;
-	background: #6CFAE4;
+	border-color: #2271b1;
+	background-color: #ffffff;
+	color: #2271b1;
+}
+.awsm-applicant-resume-cta a:hover svg,
+.awsm-applicant-resume-cta #awsm-print-apps:hover svg{
+	fill: #2271b1;
 }
 
 .awsm-application-email-main {
