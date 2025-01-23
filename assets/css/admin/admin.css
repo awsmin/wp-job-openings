@@ -2344,3 +2344,11 @@ textarea.awsm-form-control {
 	line-height: 1;
 	align-items: center;
 }
+
+.awsm-application-date-filter {
+	line-height: 28px;
+	height: 28px;
+	margin: 0;
+	width:125px;
+	margin-right: 6px;
+}

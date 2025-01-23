@@ -618,6 +618,15 @@ jQuery(document).ready(function($) {
         $(target).addClass('active');
     });
 	
-	
+	var rangeFrom = $('#awsm_application_date_filter_from'),
+	rangeTo = $('#awsm_application_date_filter_to');
+	$('#awsm_application_date_filter_from, #awsm_application_date_filter_to').datepicker({ dateFormat: "yy-mm-dd" });
+		rangeFrom.on('change', function() {
+			rangeTo.datepicker('option', 'minDate', rangeFrom.val());
+		});
+
+		rangeTo.on('change', function() {
+		rangeFrom.datepicker('option', 'maxDate', rangeTo.val());
+	});
 
 });
