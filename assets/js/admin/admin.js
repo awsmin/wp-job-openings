@@ -502,6 +502,7 @@ jQuery(document).ready(function($) {
 		});
 	});
 
+	/*================ Setup page ================*/
 	$('#awsm-job-setup-form').on('submit', function(e) {
 		e.preventDefault();
 		$('#awsm-jobs-setup-btn').prop('disabled', true);
@@ -528,6 +529,83 @@ jQuery(document).ready(function($) {
 			$('#awsm-jobs-setup-btn').prop('disabled', false);
 		});
 	});
+	
+
+	function awsm_next_prev(ai, ni, i) {
+	    if (ni.length === 0) {
+	        return;
+	    }else{
+	        ai.removeClass('active');
+	        ni.addClass('active');
+	    }
+	   if(i > 0){
+	        $('.awsm-job-setup-back').addClass('active');
+	    }else{
+	        $('.awsm-job-setup-back').removeClass('active');
+	    }
+	    $('.awsm-job-setup-form-head ul li').removeClass('active');
+	    $('.awsm-job-setup-form-head ul li').eq(i).addClass('active');
+	}
+
+	$(document).on('click', '.awsm-job-setup-button-next', function(e){
+	    e.preventDefault();
+	    var $ai = $('.awsm-job-setup-form-item.active');
+	    var $ni = $ai.next();
+	    var $i = $('.awsm-job-setup-form-item').index($ni);
+
+	    $ni.find('.awsm-job-form-control').focus();
+
+	    if($i == 1){
+	            var name = $('#awsm_job_company_name').val();
+	            if(name === ''){
+	                $('#awsm-jobs-setup-btn').eq(0).click();
+	                return false;
+	            }
+	        }
+	    if($i == 2){
+	        var email = $('#awsm_hr_email_address').val();
+	            if(email === '' || AwsmIsEmail(email) === false){
+	                $('#awsm-jobs-setup-btn').eq(0).click();
+	                return false;
+	            }else{
+	                $('.awsm-job-setup-button-next').removeClass('active');
+	                $('#awsm-jobs-setup-btn').addClass('active');
+	            }
+	    }
+	    awsm_next_prev($ai,$ni,$i);
+	    $('.awsm-job-setup-form-main-in').css('transform', 'translateY(-'+ $i * 33.3333+'%)');
+	    $(this).addClass('disabled');
+	    setTimeout(function () {
+             $('.awsm-job-setup-button-next').removeClass('disabled');
+        }, 500);
+	});
+	$(document).on('click', '.awsm-job-setup-back',  function(e){
+		e.preventDefault();
+	    var $ai = $('.awsm-job-setup-form-item.active');
+	    var $ni = $ai.prev();
+	    var $i = $('.awsm-job-setup-form-item').index($ni);
+	    $ni.find('.awsm-job-form-control').focus();
+	    if($i == 1){
+	        $('.awsm-job-setup-button-next').addClass('active');
+	        $('#awsm-jobs-setup-btn').removeClass('active');
+	    }
+	    awsm_next_prev($ai,$ni,$i);
+	    $('.awsm-job-setup-form-main-in').css('transform', 'translateY(-'+ $i * 33.3333+'%)');
+	});
+	$(document).on('keypress', '#awsm_job_company_name, #awsm_hr_email_address', function(event){
+	   if(event.keyCode === 13) {
+	          $('.awsm-job-setup-button-next').eq(0).click();
+	        return false;
+	  }
+	});
+
+    function AwsmIsEmail(email) {
+    	//const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+	    const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]/;
+	    if (!regex.test(email)) {
+	        return false;
+	    }
+	}
 
 	/*================ Application detail view tab ================*/
 	
@@ -540,6 +618,15 @@ jQuery(document).ready(function($) {
         $(target).addClass('active');
     });
 	
-	
+	var rangeFrom = $('#awsm_application_date_filter_from'),
+	rangeTo = $('#awsm_application_date_filter_to');
+	$('#awsm_application_date_filter_from, #awsm_application_date_filter_to').datepicker({ dateFormat: "yy-mm-dd" });
+		rangeFrom.on('change', function() {
+			rangeTo.datepicker('option', 'minDate', rangeFrom.val());
+		});
+
+		rangeTo.on('change', function() {
+		rangeFrom.datepicker('option', 'maxDate', rangeTo.val());
+	});
 
 });

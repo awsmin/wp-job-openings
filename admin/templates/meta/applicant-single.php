@@ -10,6 +10,8 @@ $tab_applicant_single_view = AWSM_Job_Openings_Meta::set_applicant_single_view_t
 $applicant_tab_contents    = AWSM_Job_Openings_Meta::get_applicant_single_view_content( $post->ID, $attachment_id );
 $resume_details            = $this->get_attached_file_details( $attachment_id );
 $full_file_name            = get_post_meta( $attachment_id, 'awsm_actual_file_name', true );
+$actual_file_name          = pathinfo( $full_file_name, PATHINFO_FILENAME );
+$file_extension            = pathinfo( $full_file_name, PATHINFO_EXTENSION );
 $applicant_job_id          = get_post_meta( $post->ID, 'awsm_job_id', true );
 $resume_field_label        = ( new AWSM_Job_Openings_Form() )->get_attachment_label( $applicant_job_id );
 $this->is_main_applicant_viewed( $post->ID );
@@ -154,22 +156,22 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 										</label>
 										<div class="awsm-applicant-resume">
 											<span >
-												
-													
-														<?php
-														echo ! empty( $full_file_name )
-															? esc_html( $full_file_name )
-															: esc_html__( 'Resume.pdf', 'wp-job-openings' );
-														?>
-													
-													(<?php echo esc_html( $file_size_display ); ?>)
+												<span>
+												<?php
+													echo ! empty( $actual_file_name )
+													? esc_html( $actual_file_name )
+													: esc_html__( 'Resume', 'wp-job-openings' );
+												?>
+												</span>
+												<?php echo ! empty( $file_extension ) ? '.' . esc_html( $file_extension ) : ''; ?>
+												<span>(<?php echo esc_html( $file_size_display ); ?>)</span>
 												
 											</span>
 											<div class="awsm-applicant-resume-cta">
 												<?php do_action( 'after_awsm_job_applicant_details_list_preview_resume', $post->ID ); ?>
 												<a href="<?php echo esc_url( $this->get_attached_file_download_url( $attachment_id ) ); ?>" rel="nofollow" aria-label="<?php esc_attr_e( 'Download Resume', 'wp-job-openings' ); ?>">
 													<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" version="1.1" preserveAspectRatio="xMinYMin">
-														<path xmlns="http://www.w3.org/2000/svg" fill="black" d="M8.66667 7.99998H10.6667L8 10.6666L5.33333 7.99998H7.33333V5.33331H8.66667V7.99998ZM10 2.66665H3.33333V13.3333H12.6667V5.33331H10V2.66665ZM2 1.99451C2 1.62935 2.29833 1.33331 2.66567 1.33331H10.6667L13.9998 4.66665L14 13.995C14 14.3659 13.7034 14.6666 13.3377 14.6666H2.66227C2.29651 14.6666 2 14.3631 2 14.0054V1.99451Z"/>
+														<path xmlns="http://www.w3.org/2000/svg" d="M8.66667 7.99998H10.6667L8 10.6666L5.33333 7.99998H7.33333V5.33331H8.66667V7.99998ZM10 2.66665H3.33333V13.3333H12.6667V5.33331H10V2.66665ZM2 1.99451C2 1.62935 2.29833 1.33331 2.66567 1.33331H10.6667L13.9998 4.66665L14 13.995C14 14.3659 13.7034 14.6666 13.3377 14.6666H2.66227C2.29651 14.6666 2 14.3631 2 14.0054V1.99451Z"/>
 													</svg>
 													<?php esc_html_e( 'Download', 'wp-job-openings' ); ?>
 												</a>

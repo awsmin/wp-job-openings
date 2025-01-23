@@ -3,9 +3,9 @@
 
 .awsm-jobs-button{
 	border-radius: 4px;
-	background: #6CFAE4;
+	background: #000;
 	padding: 12px 18px;
-	color: #161616;
+	color: #fff;
 	font-size: 14px;
 	font-weight: 600;
 	line-height: 1.333;
@@ -14,8 +14,8 @@
 	transition: all 0.3s ease;
 }
 .awsm-jobs-button:hover{
-	background: #0bcfb1;
-	color: #161616;
+	background: #6bfae4;
+	color: #000;
 }
 .awsm-jobs-pro-feature {
 	position: relative;
@@ -452,7 +452,7 @@
 	margin: 0;
 	font-weight: 500;
 }
-.awsm-wpjo-addon-item-head a,
+.awsm-wpjo-addon-item-head > a,
 .awsm-wpjo-addon-item-head a.button-large{
 	border-radius: 4px;
 	border: 1px solid #D1D1D1;
@@ -464,11 +464,21 @@
 	color: #161616;
 	text-decoration: none;
 	box-shadow: none;
+	transition: all 0.3s ease;
 }
-.awsm-wpjo-addon-item-head a:hover,
+.awsm-wpjo-addon-item-head > a:hover,
 .awsm-wpjo-addon-item-head a.button-large:hover{
-	background: #6CFAE4;
+	border-color: #0bcfb1;
+	background-color: #ffffff;
+	color: #0bcfb1;
+}
+.awsm-wpjo-addon-item-head h3 a{
 	color: #161616;
+	text-decoration: none;
+	transition: all 0.3s ease;
+}
+.awsm-wpjo-addon-item-head h3 a:hover{
+	color: #0bcfb1;
 }
 .awsm-wpjo-addon-item > p{
 	margin: 0;

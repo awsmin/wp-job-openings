@@ -38,32 +38,66 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 					<div class="awsm-jobs-overview-welcome-left">
 						<h3>
 							<?php
-								/* translators: %s: Current user name */
-								printf( esc_html__( 'Hello %s!', 'wp-job-openings' ) . '<br>', esc_html( $user_obj->display_name ) );
+							/* translators: %s: Current user name */
+							printf( esc_html__( 'Hi %s,', 'wp-job-openings' ) . '<br>', esc_html( $user_obj->display_name ) );
 							?>
 						</h3>
+
 						<p>
 							<?php
+							// Ensure variables are defined to prevent warnings
+							$total_active_applications = isset( $total_active_applications ) ? $total_active_applications : 0;
+							$active_jobs               = isset( $active_jobs ) ? $active_jobs : 0;
+							$applications_count        = isset( $applications_count ) ? $applications_count : 0;
+
 							if ( $active_jobs === 0 ) {
-									esc_html_e( "Welcome to WP Job Openings! Let's get started?", 'wp-job-openings' );
+								esc_html_e( 'your job listing looks empty.', 'wp-job-openings' );
 							} else {
-								if ( current_user_can( 'edit_others_applications' ) && $applications_count > 0 ) {
-									/* translators: %s: New applications count */
-									printf( esc_html__( 'You have %s new applications to review', 'wp-job-openings' ), esc_html( $applications_count ) );
+								if ( current_user_can( 'edit_others_applications' ) ) {
+									if ( $applications_count > 0 ) {
+										printf(
+											esc_html__( 'you have %s new applications waiting for review.', 'wp-job-openings' ), // phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment
+											esc_html( $applications_count )
+										);
+									} elseif ( $active_jobs > 0 && $total_active_applications > 0 ) {
+										printf(
+											esc_html__( 'you have received %1$s applications for the %2$s open positions.', 'wp-job-openings' ), // phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment
+											esc_html( $total_active_applications ),
+											esc_html( $active_jobs )
+										);
+									} elseif ( $active_jobs > 0 && $total_active_applications === 0 ) {
+										printf(
+											esc_html__( 'you have %s open positions.', 'wp-job-openings' ), // phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment
+											esc_html( $active_jobs )
+										);
+									}
 								}
 							}
 							?>
 						</p>
+
 						<?php if ( $active_jobs === 0 ) : ?>
-							<a href="<?php echo esc_url( admin_url( 'post-new.php?post_type=awsm_job_openings' ) ); ?>" class="awsm-jobs-button"><?php esc_html_e( 'Add A New Opening', 'wp-job-openings' ); ?></a>
-						<?php else : ?>
-							<?php if ( current_user_can( 'edit_others_applications' ) && $total_applications > 0 ) : ?>
-							<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_application' ) ); ?>" class="awsm-jobs-button"><?php esc_html_e( 'View All Applications', 'wp-job-openings' ); ?></a>
-						<?php else : ?>
-							<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_openings' ) ); ?>" class="awsm-jobs-button"><?php esc_html_e( 'View All Jobs', 'wp-job-openings' ); ?></a>
-						<?php endif; ?>
+							<a href="<?php echo esc_url( admin_url( 'post-new.php?post_type=awsm_job_openings' ) ); ?>" class="awsm-jobs-button">
+								<?php esc_html_e( 'Add A New Job Opening', 'wp-job-openings' ); ?>
+							</a>
+						<?php elseif ( current_user_can( 'edit_others_applications' ) ) : ?>
+							<?php if ( $applications_count > 0 ) : ?>
+								<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_application' ) ); ?>" class="awsm-jobs-button">
+									<?php esc_html_e( 'Review Applications', 'wp-job-openings' ); ?>
+								</a>
+							<?php elseif ( $active_jobs > 0 && $total_active_applications > 0 ) : ?>
+								<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_application' ) ); ?>" class="awsm-jobs-button">
+									<?php esc_html_e( 'View All Applications', 'wp-job-openings' ); ?>
+								</a>
+							<?php elseif ( $active_jobs > 0 && $total_active_applications === 0 ) : ?>
+								<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_openings' ) ); ?>" class="awsm-jobs-button">
+									<?php esc_html_e( 'View All Job Listings', 'wp-job-openings' ); ?>
+								</a>
+							<?php endif; ?>
 						<?php endif; ?>
 					</div><!-- .awsm-jobs-overview-welcome-left -->
+
+
 					<div class="awsm-jobs-overview-welcome-right">
 						<ul>
 							<li>
@@ -344,8 +378,9 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 									<div class="awsm-wpjo-addon-item">
 										<div class="awsm-wpjo-addon-item-head">
 											<div>
-												<h3><?php echo esc_html( $add_on['name'] ); ?></h3>
-												
+											<h3><a href="<?php echo esc_url( $add_on['url'] ); ?>" target="_blank"><?php echo esc_html( $add_on['name'] ); ?></a></h3>
+
+
 												<?php if ( $add_on_type === 'free' || empty( $add_on['pricing']['price'] ) ) : ?>
 													<p><strong><?php echo esc_html__( 'Free', 'wp-job-openings' ); ?></strong></p>
 												<?php else : ?>
@@ -369,10 +404,14 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 														'url'  => $add_on['url'],
 													);
 													$awsm_info      = new AWSM_Job_Openings_Info();
-													echo $awsm_info->get_add_on_btn_content( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-														$add_on['wp_plugin'], // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-														$add_on_details // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+													echo wp_kses_post(
+														$awsm_info->get_add_on_btn_content(
+															$add_on['wp_plugin'],
+															$add_on_details
+														)
 													);
+
+
 												} else {
 													printf(
 														'<p>%s</p>',
@@ -381,7 +420,7 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 												}
 											}
 											?>
-																					</div><!-- .awsm-wpjo-addon-item-head -->
+											</div><!-- .awsm-wpjo-addon-item-head -->
 										<p><?php echo wp_kses( $add_on['content'], $allowed_html ); ?></p>
 									</div><!-- .awsm-wpjo-addon-item -->
 									<?php
