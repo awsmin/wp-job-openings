@@ -107,12 +107,12 @@ jQuery(function ($) {
     if (triggerFilter) {
       // stop the duplicate requests
       triggerFilter = false;
-
+      console.log($wrapper.addClass('awsm-jobs-loading'));
       // now, make the request
       $.ajax({
         url: $filterForm.attr('action'),
         beforeSend: function beforeSend() {
-          $wrapper.addClass('awsm-b-jobs-loading');
+          $wrapper.addClass('awsm-jobs-loading');
         },
         data: formData,
         type: $filterForm.attr('method')
@@ -133,7 +133,7 @@ jQuery(function ($) {
         // eslint-disable-next-line no-console
         console.log(xhr);
       }).always(function () {
-        $wrapper.removeClass('awsm-b-jobs-loading');
+        $wrapper.removeClass('awsm-jobs-loading');
         triggerFilter = true;
       });
     }
@@ -489,7 +489,7 @@ jQuery(function ($) {
           $listingsrowContainer.append(data);
         } else {
           $listingsrowContainer.html(data);
-          $listingsContainer.removeClass('awsm-b-jobs-loading');
+          $listingsContainer.removeClass('awsm-jobs-loading');
           if (typeof effectDuration !== 'undefined') {
             effectDuration = isNaN(effectDuration) ? effectDuration : Number(effectDuration);
             $('html, body').animate({

@@ -77,21 +77,29 @@ class AWSM_Job_Openings_Block {
 	}
 
 	public static function get_job_listing_view_class_block( $attributes = array() ) {
-		$view       = $attributes['layout'];
-		$view_class = 'awsm-b-lists awsm-b-job-listing-items';
-		if ( $view === 'grid' ) {
-			$number_columns = isset( $attributes['number_of_columns'] ) && ! empty( $attributes['number_of_columns'] ) ? $attributes['number_of_columns'] : 3;
-			$view_class     = 'awsm-b-row awsm-b-job-listing-items';
-			$column_class   = 'awsm-b-grid-col-' . $number_columns;
-			if ( $number_columns == 1 ) {
-				$column_class = 'awsm-b-grid-col';
-			}
-			$view_class .= ' ' . $column_class;
-		} elseif ( $view === 'stack' ) {
-			$view_class = 'awsm-b-row awsm-b-job-listing-items awsm-list-stacked';
-		}
-		return sprintf( '%s', $view_class );
-	}
+    $view       = isset( $attributes['layout'] ) ? sanitize_text_field( $attributes['layout'] ) : 'list';
+    $view_class = 'awsm-b-job-listing-items';
+
+    switch ( $view ) {
+        case 'grid':
+            $number_columns = isset( $attributes['number_of_columns'] ) && intval( $attributes['number_of_columns'] ) > 0 ? intval( $attributes['number_of_columns'] ) : 3;
+            $view_class = 'awsm-b-row awsm-b-job-listing-items';
+            $column_class = $number_columns === 1 ? 'awsm-b-grid-col' : 'awsm-b-grid-col-' . $number_columns;
+
+            $view_class .= ' ' . $column_class;
+            break;
+
+        case 'stack':
+            $view_class .= ' awsm-b-row awsm-list-stacked';
+            break;
+
+        default:
+            $view_class .= ' awsm-b-lists';
+            break;
+    }
+
+    return esc_attr( $view_class );
+}
 
 	public function display_block_filter_form( $block_atts ) {
 		$search_content        = '';
