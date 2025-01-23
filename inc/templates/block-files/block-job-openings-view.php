@@ -8,22 +8,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$attributes  				  = isset( $block_atts_set ) ? $block_atts_set : array(); 
-$query       				  = awsm_block_jobs_query( $attributes ); 
-$attributes['listings_total'] = $query->found_posts; 
+$attributes                   = isset( $block_atts_set ) ? $block_atts_set : array();
+$query                        = awsm_block_jobs_query( $attributes );
+$attributes['listings_total'] = $query->found_posts;
 
 $placement_sidebar_class = '';
-if( isset( $attributes['search'] ) && $attributes['search'] == 'enable' ){
+if ( isset( $attributes['search'] ) && $attributes['search'] == 'enable' ) {
 	$placement_sidebar_class = 'awsm-job-2-col';
 }
 
-if ( $query->have_posts() ) : 
-if( $attributes['placement'] == 'top' ){
-?>
+if ( $query->have_posts() ) :
+	if ( $attributes['placement'] == 'top' ) {
+		?>
 
 <!-- Filters in the top side  -->
 <div class="awsm-b-job-wrap<?php awsm_jobs_wrapper_class(); ?>">
-	<?php
+		<?php
 		/**
 		 * awsm_block_filter_form hook
 		 *
@@ -37,8 +37,8 @@ if( $attributes['placement'] == 'top' ){
 		 */
 		do_action( 'awsm_block_filter_form', $attributes );
 		do_action( 'awsm_block_form_outside', $attributes );
-	?>
-    <div class="awsm-b-job-listings"<?php awsm_block_jobs_data_attrs( array(), $attributes ); ?>>
+		?>
+	<div class="awsm-b-job-listings"<?php awsm_block_jobs_data_attrs( array(), $attributes ); ?>>
 		<div <?php awsm_block_jobs_view_class( '', $attributes ); ?>>
 			<?php
 				include get_awsm_jobs_template_path( 'block-main', 'block-files' );
@@ -48,12 +48,12 @@ if( $attributes['placement'] == 'top' ){
 </div>
 <!-- End  -->
 
-<?php 
-	}else{ 
-?>
+		<?php
+	} else {
+		?>
 
 <!-- Filters in the left side  -->
-<div class="awsm-b-job-wrap<?php awsm_jobs_wrapper_class(); ?> awsm-job-form-plugin-style <?php echo $placement_sidebar_class ?>">
+<div class="awsm-b-job-wrap<?php awsm_jobs_wrapper_class(); ?> awsm-job-form-plugin-style <?php echo $placement_sidebar_class; ?>">
 	<div class="awsm-b-filter-wrap awsm-jobs-alerts-on">
 		<!-- left side bar  -->
 		<?php
@@ -72,7 +72,7 @@ if( $attributes['placement'] == 'top' ){
 		?>
 	</div>
 
-    <div class="awsm-b-job-listings"<?php awsm_block_jobs_data_attrs( array(), $attributes ); ?>>
+	<div class="awsm-b-job-listings"<?php awsm_block_jobs_data_attrs( array(), $attributes ); ?>>
 		<div class="awsm-job-sort-wrap">
 			
 			<div class="awsm-job-results" id="awsm-job-count"></div> 
@@ -103,7 +103,7 @@ if( $attributes['placement'] == 'top' ){
 <?php } ?>
 <!-- End  -->
 	
-<?php
+	<?php
 else :
 	$filter_suffix = '_spec';
 	$job_spec      = array();

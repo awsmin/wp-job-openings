@@ -50,6 +50,30 @@ jQuery(function($) {
 		var hide_expired_jobs = $wrapper.data('awsm-hide-expired-jobs'); 
 		var other_options = $wrapper.data('awsm-other-options'); 
 		var listings_total = $wrapper.data('awsm-listings-total'); 
+
+		var awsm_job_specs_list = []; // Initialize array for multiple values
+		var awsm_job_spec = ''; // Initialize for single value
+
+		$wrapper.each(function() { 
+			$.each(this.dataset, function(key, value) {
+				if (key.startsWith('job__')) {
+					if (value.includes(',')) {
+						awsm_job_specs_list.push(value.split(','));
+					} else {
+						awsm_job_spec = value;
+					}
+				}
+			});
+		});
+
+		if (awsm_job_specs_list.length > 0) {
+			formData.push({ name: 'awsm_job_specs_list', value: awsm_job_specs_list.join(',') });
+		}
+	
+		if (awsm_job_spec) {
+			formData.push({ name: 'awsm_job_spec', value: awsm_job_spec });
+		}
+	
 		/* end */
 		
 		formData.push({
@@ -92,7 +116,7 @@ jQuery(function($) {
 		if (triggerFilter) {
 			// stop the duplicate requests
 			triggerFilter = false;
-	console.log( $wrapper.addClass('awsm-jobs-loading') );
+	
 			// now, make the request
 			$.ajax({
 				url: $filterForm.attr('action'),
@@ -402,7 +426,7 @@ jQuery(function($) {
 		
 		// taxonomy archives
 		if (awsmJobsPublic.is_tax_archive) {
-			var taxonomy = $listingsContainer.data('taxonomy'); console.log('test1');
+			var taxonomy = $listingsContainer.data('taxonomy'); 
 			var termId = $listingsContainer.data('termId');
 			if (typeof taxonomy !== 'undefined' && typeof termId !== 'undefined') {
 				wpData.push({
