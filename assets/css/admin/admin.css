@@ -594,15 +594,15 @@ a.awsm-text-red:hover {
 }
 
 .awsm-job-status-btn-wrapper a.button:hover {
-	border-color: #2271b1;
+	border-color: #0bcfb1;
 	background-color: #ffffff;
-	color: #2271b1;
+	color: #0bcfb1;
 }
 
 .awsm-job-status-btn-wrapper a.button:focus {
-	border-color: #2271b1;
+	border-color: #0bcfb1;
 	background-color: #ffffff;
-	color: #2271b1;
+	color: #0bcfb1;
 }
 
 .awsm-job-prev-application-btn {
@@ -1927,9 +1927,9 @@ textarea.awsm-form-control {
 }
 .awsm-button.awsm-button-alt:hover,
 .awsm-button.awsm-button-alt:hover:focus{
-	border-color: #2271b1;
+	border-color: #0bcfb1;
 	background-color: #ffffff;
-	color: #2271b1;
+	color: #0bcfb1;
 }
 
 .align-right .awsm-button {
@@ -2071,13 +2071,13 @@ textarea.awsm-form-control {
 .awsm-applicant-resume-cta #awsm-print-apps:hover,
 .awsm-applicant-resume-cta #awsm-print-apps:focus {
 	text-decoration: none;
-	border-color: #2271b1;
+	border-color: #0bcfb1;
 	background-color: #ffffff;
-	color: #2271b1;
+	color: #0bcfb1;
 }
 .awsm-applicant-resume-cta a:hover svg,
 .awsm-applicant-resume-cta #awsm-print-apps:hover svg{
-	fill: #2271b1;
+	fill: #0bcfb1;
 }
 
 .awsm-application-email-main {

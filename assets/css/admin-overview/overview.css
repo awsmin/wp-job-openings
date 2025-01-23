@@ -464,19 +464,21 @@
 	color: #161616;
 	text-decoration: none;
 	box-shadow: none;
+	transition: all 0.3s ease;
 }
 .awsm-wpjo-addon-item-head > a:hover,
 .awsm-wpjo-addon-item-head a.button-large:hover{
-	border-color: #2271b1;
+	border-color: #0bcfb1;
 	background-color: #ffffff;
-	color: #2271b1;
+	color: #0bcfb1;
 }
 .awsm-wpjo-addon-item-head h3 a{
 	color: #161616;
 	text-decoration: none;
+	transition: all 0.3s ease;
 }
 .awsm-wpjo-addon-item-head h3 a:hover{
-	color: #6CFAE4;
+	color: #0bcfb1;
 }
 .awsm-wpjo-addon-item > p{
 	margin: 0;
