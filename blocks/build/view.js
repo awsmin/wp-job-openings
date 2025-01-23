@@ -75,7 +75,7 @@ jQuery(function ($) {
       value: listings
     });
     formData.push({
-      name: 'sort',
+      name: 'filter_sort',
       value: sortFilter
     });
     formData.push({

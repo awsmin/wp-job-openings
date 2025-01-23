@@ -30,8 +30,7 @@ const WidgetInspectorControls = (props) => {
 		jobsPerPage,
 		layout,
 		selectedTerms,
-		sort,
-		item_count
+		sort
 	  },
 	  setAttributes,
 	} = props;
@@ -253,14 +252,8 @@ const WidgetInspectorControls = (props) => {
 					onChange={(sort) => setAttributes({ sort })}
 				/>
 
-				<ToggleControl
-					label={__("Enable Item Count", "wp-job-openings")}
-					checked={item_count}
-					onChange={(item_count) => setAttributes({ item_count })}
-				/>
-
 				<RangeControl
-					label={__("Jobs Per Page", "my-text-domain")}
+					label={__("Jobs Per Page", "wp-job-openings")}
 					onChange={(sliderValue) => setAttributes({ jobsPerPage: sliderValue })}
 					value={jobsPerPage}
 					min={1}

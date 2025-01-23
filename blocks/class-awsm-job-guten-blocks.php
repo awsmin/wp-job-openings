@@ -87,10 +87,6 @@ class Awsm_Job_Guten_Blocks {
 			$atts['sort'] = 'enable';
 		}
 
-		if ( isset( $atts['item_count'] ) && $atts['item_count'] === true ) {
-			$atts['item_count'] = 'enable';
-		}
-
 		/** end */
 
 		 /**

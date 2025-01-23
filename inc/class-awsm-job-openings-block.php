@@ -44,7 +44,6 @@ class AWSM_Job_Openings_Block {
 			'listings'           => isset( $blockatts['listing_per_page'] ) ? $blockatts['listing_per_page'] : '',
 			'pagination'         => isset( $blockatts['pagination'] ) ? $blockatts['pagination'] : '',
 			'sort'               => isset( $blockatts['sort'] ) ? $blockatts['sort'] : '',
-			'item_count'         => isset( $blockatts['item_count'] ) ? $blockatts['item_count'] : '',
 		);
 
 		 /**
@@ -392,7 +391,7 @@ class AWSM_Job_Openings_Block {
         // phpcs:disable WordPress.Security.NonceVerification.Missing
 		$filters = $filters_list = $attributes = array(); // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
 
-		$filter_action = isset( $_POST['action'] ) ? $_POST['action'] : '';
+		$filter_action = isset( $_POST['action'] ) ? $_POST['action'] : ''; 
 
 		if ( ! empty( $_POST['awsm_job_spec'] ) ) {
 			$job_specs = $_POST['awsm_job_spec'];
@@ -447,8 +446,8 @@ class AWSM_Job_Openings_Block {
 			$attributes['pagination'] = 'modern';
 		}
 
-		if ( isset( $_POST['sort'] ) ) {
-			$attributes['sort'] = $_POST['sort'];
+		if ( isset( $_POST['filter_sort'] ) ) {
+			$attributes['filter_sort'] = $_POST['filter_sort'];
 		}
 
 		$attributes = apply_filters( 'awsm_jobs_block_post_filters', $attributes, $_POST );
@@ -493,6 +492,8 @@ class AWSM_Job_Openings_Block {
 
 	public static function awsm_block_job_query_args( $filters = array(), $attributes = array(), $is_term_or_slug = array(), $filters_list = array() ) {
 		$args = array();
+	
+		// Handle taxonomy filters for term archives.
 		if ( is_tax() ) {
 			$q_obj                        = get_queried_object();
 			$taxonomy                     = $q_obj->taxonomy;
@@ -500,31 +501,31 @@ class AWSM_Job_Openings_Block {
 			$filters                      = array( $taxonomy => $term_id );
 			$is_term_or_slug[ $taxonomy ] = 'term_id';
 		}
-
+	
+		// Taxonomy filters.
 		if ( ! empty( $filters ) ) {
 			foreach ( $filters as $taxonomy => $value ) {
 				if ( ! empty( $value ) ) {
 					$field_type          = isset( $is_term_or_slug[ $taxonomy ] ) ? $is_term_or_slug[ $taxonomy ] : 'term_id';
-					$spec                = array(
+					$args['tax_query'][] = array(
 						'taxonomy' => $taxonomy,
 						'field'    => $field_type,
 						'terms'    => (array) $value,
 					);
-					$args['tax_query'][] = $spec;
 				}
 			}
 		}
-
+	
+		// Selected terms from attributes.
 		if ( isset( $attributes['selectedTerms'] ) && ! empty( $attributes['selectedTerms'] ) ) {
 			$filters_list = $attributes['selectedTerms'];
 		}
-
+	
 		if ( ! empty( $filters_list ) ) {
 			foreach ( $filters_list as $taxonomy => $term_ids ) {
 				if ( is_array( $term_ids ) && ! empty( $term_ids ) ) {
-					// Remove empty term IDs and re-index the array
-					$term_ids = array_values( array_filter( $term_ids ) );
-
+					$term_ids = array_values( array_filter( $term_ids ) ); // Remove empty term IDs.
+	
 					if ( ! empty( $term_ids ) ) {
 						$args['tax_query'][] = array(
 							'taxonomy' => $taxonomy,
@@ -536,66 +537,56 @@ class AWSM_Job_Openings_Block {
 				}
 			}
 		}
-
+	
+		// General query setup.
 		$list_per_page          = AWSM_Job_Openings::get_listings_per_page( $attributes );
 		$args['post_type']      = 'awsm_job_openings';
 		$args['posts_per_page'] = $list_per_page;
+	
 		if ( isset( $attributes['hide_expired_jobs'] ) && $attributes['hide_expired_jobs'] === 'expired' ) {
-			if ( $list_per_page > 0 ) {
-				$args['post_status'] = array( 'publish' );
-			} else {
-				$args['numberposts'] = -1;
-			}
+			$args['post_status'] = $list_per_page > 0 ? array( 'publish' ) : array();
 		} else {
 			$args['post_status'] = array( 'publish', 'expired' );
 		}
-
-		/* if ( isset( $attributes['orderBy'] ) && $attributes['orderBy'] === 'new_to_old' ) {
-			$args['orderby'] = 'date';
-			$args['order']   = 'DESC';
-		}else{
-			$args['orderby'] = 'date';
-			$args['order']   = 'ASC';
-		} */
-
-		if ( isset( $attributes['sort'] ) ) {
-			$sort = sanitize_text_field( $attributes['sort'] );
-			switch ( $sort ) {
-				case 'new_to_old':
-					$args['orderby'] = 'date';
-					$args['order']   = 'DESC'; // New to old
-					break;
-
-				case 'old_to_new':
-					$args['orderby'] = 'date';
-					$args['order']   = 'ASC'; // Old to new
-					break;
-
-				case 'random':
-					$args['orderby'] = 'rand'; // Random
-					break;
-
-				case 'relevance':
-					// You can add logic to order by relevance here (e.g., custom meta, custom sorting criteria)
-					$args['orderby'] = 'relevance';
-					$args['order']   = 'DESC';
-					break;
-
-				default:
-					// Default to 'new to old'
-					$args['orderby'] = 'date';
-					$args['order']   = 'DESC';
-					break;
-			}
+	
+		// Sorting setup.
+		$sort = isset( $attributes['filter_sort'] ) ? sanitize_text_field( $attributes['filter_sort'] ) : ( isset( $attributes['orderBy'] ) ? sanitize_text_field( $attributes['orderBy'] ) : 'new_to_old' );
+	
+		switch ( $sort ) {
+			case 'new_to_old':
+				$args['orderby'] = 'date';
+				$args['order']   = 'DESC';
+				break;
+	
+			case 'old_to_new':
+				$args['orderby'] = 'date';
+				$args['order']   = 'ASC';
+				break;
+	
+			case 'random':
+				$args['orderby'] = 'rand';
+				break;
+	
+			case 'relevance':
+				$args['orderby']  = array(
+					'meta_value_num' => 'DESC',
+					'date'           => 'DESC',
+				);
+				$args['meta_key'] = '_relevance_score'; // Replace with actual meta key for relevance.
+				break;
+	
+			default:
+				$args['orderby'] = 'date';
+				$args['order']   = 'DESC';
+				break;
 		}
-
-		// phpcs:ignore WordPress.Security.NonceVerification.Missing
+	
+		// Pagination.
 		if ( ! AWSM_Job_Openings::is_default_pagination( $attributes ) && ! isset( $_POST['awsm_pagination_base'] ) ) {
-			// Handle classic pagination on page load.
 			$paged         = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ) : 1;
 			$args['paged'] = $paged;
 		}
-
+	
 		/**
 		 * Filters the arguments for the jobs query.
 		 *
@@ -606,7 +597,7 @@ class AWSM_Job_Openings_Block {
 		 * @param array $attributes Block attributes.
 		 */
 		return apply_filters( 'awsm_job_block_query_args', $args, $filters, $attributes );
-	}
+	}	
 
 	public static function get_block_job_listing_data_attrs( $block_atts = array() ) {
 		$attrs                           = array();
@@ -626,17 +617,8 @@ class AWSM_Job_Openings_Block {
 		}
 
 		if ( isset( $_GET['sort'] ) ) {
-			$attrs['awsm-sort'] = $_GET['sort'];
+			$attrs['filter_sort'] = $_GET['sort'];
 		}
-
-		/*  if ( isset( $_GET['awsm_job_spec'] ) ) {
-			$encodedSpec = $_GET['awsm_job_spec'];
-			// Decode the URL-encoded string
-			$decodedSpec = urldecode($encodedSpec);
-
-			//$spec_json 				= $_GET['awsm_job_spec'];echo $spec_json;
-			$attrs['awsm-job-spec'] = $decodedSpec;
-		} */
 
 		if ( is_tax() ) {
 			$q_obj             = get_queried_object();

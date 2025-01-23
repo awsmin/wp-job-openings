@@ -74,9 +74,8 @@ if( $attributes['placement'] == 'top' ){
 
     <div class="awsm-b-job-listings"<?php awsm_block_jobs_data_attrs( array(), $attributes ); ?>>
 		<div class="awsm-job-sort-wrap">
-			<?php if( $attributes['item_count'] == 'enable' ){  ?>
+			
 			<div class="awsm-job-results" id="awsm-job-count"></div> 
-			<?php } ?>
 
 			<?php
 				/**

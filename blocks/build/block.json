@@ -55,10 +55,6 @@
     "sort": {
       "type": "boolean",
       "default": false
-    },
-    "item_count": {
-      "type": "boolean",
-      "default": false
     }
   },
   "example": {},

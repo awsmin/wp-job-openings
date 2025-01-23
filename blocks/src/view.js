@@ -74,7 +74,7 @@ jQuery(function($) {
 			value: listings
 		});
 	
-		formData.push({ name: 'sort', value: sortFilter });
+		formData.push({ name: 'filter_sort', value: sortFilter });
 		formData.push({ name: 'listings_per_page', value: listings });
 	
 		if (typeof specs !== 'undefined') {

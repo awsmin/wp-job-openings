@@ -313,7 +313,6 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
     layout = _props$attributes.layout,
     selectedTerms = _props$attributes.selectedTerms,
     sort = _props$attributes.sort,
-    item_count = _props$attributes.item_count,
     setAttributes = props.setAttributes;
 
   // Local state for block settings
@@ -546,16 +545,8 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
         sort: sort
       });
     }
-  }), (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_9__.ToggleControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__.__)("Enable Item Count", "wp-job-openings"),
-    checked: item_count,
-    onChange: function onChange(item_count) {
-      return setAttributes({
-        item_count: item_count
-      });
-    }
   }), (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_9__.RangeControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__.__)("Jobs Per Page", "my-text-domain"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__.__)("Jobs Per Page", "wp-job-openings"),
     onChange: function onChange(sliderValue) {
       return setAttributes({
         jobsPerPage: sliderValue
@@ -1136,7 +1127,7 @@ function _unsupportedIterableToArray(r, a) {
   \************************/
 /***/ (function(module) {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"wp-job-openings/blocks","version":"1.0.0","title":"","category":"","icon":"","description":"","attributes":{"search":{"type":"boolean","default":false},"placement":{"type":"string","default":"top"},"search_placeholder":{"type":"string","default":""},"filter_options":{"type":"array","default":[]},"listType":{"type":"string","default":"all"},"layout":{"type":"string","default":"list"},"selectedTerms":{"type":"object","default":{}},"orderBy":{"type":"string","default":"new"},"hide_expired_jobs":{"type":"boolean","default":false},"jobsPerPage":{"type":"number","default":5},"pagination":{"type":"string","default":"modern"},"sort":{"type":"boolean","default":false},"item_count":{"type":"boolean","default":false}},"example":{},"supports":{"html":false},"textdomain":"wp-job-openings","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"wp-job-openings/blocks","version":"1.0.0","title":"","category":"","icon":"","description":"","attributes":{"search":{"type":"boolean","default":false},"placement":{"type":"string","default":"top"},"search_placeholder":{"type":"string","default":""},"filter_options":{"type":"array","default":[]},"listType":{"type":"string","default":"all"},"layout":{"type":"string","default":"list"},"selectedTerms":{"type":"object","default":{}},"orderBy":{"type":"string","default":"new"},"hide_expired_jobs":{"type":"boolean","default":false},"jobsPerPage":{"type":"number","default":5},"pagination":{"type":"string","default":"modern"},"sort":{"type":"boolean","default":false}},"example":{},"supports":{"html":false},"textdomain":"wp-job-openings","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ })
 
