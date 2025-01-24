@@ -1898,7 +1898,8 @@ textarea.awsm-form-control {
 	color: #161616;
 }
 
-.awsm-button {
+.awsm-button,
+input.awsm-button {
 	display: inline-block;
 	padding: 7px 18px;
 	border-radius: 4px;
@@ -1914,10 +1915,17 @@ textarea.awsm-form-control {
 }
 
 .awsm-button:hover,
-.awsm-button:focus {
+.awsm-button:focus,
+input.awsm-button:hover,
+input.awsm-button:focus{
 	background: #6bfae4;
 	border-color: #6bfae4;
 	color: #000;
+}
+.awsm-button:disabled,
+input.awsm-button:disabled{
+	opacity: 0.6;
+	pointer-events: none;
 }
 .awsm-button.awsm-button-alt{
 	border-color: #d1d1d1;
