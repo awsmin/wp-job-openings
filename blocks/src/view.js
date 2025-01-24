@@ -20,6 +20,7 @@ jQuery(function($) {
 		parsedListingsAttrs.push('awsm-hide-expired-jobs');
 		parsedListingsAttrs.push('awsm-other-options');
 		parsedListingsAttrs.push('awsm-listings-total');
+		parsedListingsAttrs.push('sort');
 		/* end */
 		$(document).trigger('awsmJobBlockListingsData', [ parsedListingsAttrs ]);
 
@@ -43,46 +44,27 @@ jQuery(function($) {
 		var listings = $wrapper.data('listings');
 		var specs = $wrapper.data('specs'); 
 	
-		var sortFilter = $rootWrapper.find('.awsm-job-sort-filter').val(); 
+		var sortFilter = $rootWrapper.find('.awsm-job-sort-filter').val();  
 	
 		/* added for block */
-		var layout = $wrapper.data('awsm-layout');
-		var hide_expired_jobs = $wrapper.data('awsm-hide-expired-jobs'); 
-		var other_options = $wrapper.data('awsm-other-options'); 
-		var listings_total = $wrapper.data('awsm-listings-total'); 
-
-		/* var awsm_job_specs_list = []; // Initialize array for multiple values
-		var awsm_job_spec = ''; // Initialize for single value
-
-		$wrapper.each(function() { 
-			$.each(this.dataset, function(key, value) {
-				if (key.startsWith('job__')) {
-					if (value.includes(',')) {
-						awsm_job_specs_list.push(value.split(','));
-					} else {
-						awsm_job_spec = value;
-					}
-				}
-			});
-		});
-
-		if (awsm_job_specs_list.length > 0) {
-			formData.push({ name: 'awsm_job_specs_list', value: awsm_job_specs_list.join(',') });
-		}
-	
-		if (awsm_job_spec) {
-			formData.push({ name: 'awsm_job_spec', value: awsm_job_spec });
-		}
-	 */
-		/* end */
+		var layout 				= $wrapper.data('awsm-layout');
+		var hide_expired_jobs   = $wrapper.data('awsm-hide-expired-jobs'); 
+		var other_options 		= $wrapper.data('awsm-other-options'); 
+		var listings_total 		= $wrapper.data('awsm-listings-total');
+		var sort 				= $wrapper.data('sort'); 
 		
 		formData.push({
 			name: 'listings_per_page',
 			value: listings
 		});
 	
-		formData.push({ name: 'filter_sort', value: sortFilter });
 		formData.push({ name: 'listings_per_page', value: listings });
+
+		if (typeof sortFilter !== 'undefined' && sortFilter !== '') {
+			formData.push({ name: 'filter_sort', value: sortFilter });
+		} else if (typeof sort !== 'undefined') {
+			formData.push({ name: 'filter_sort', value: sort });
+		}
 	
 		if (typeof specs !== 'undefined') {
 			formData.push({ name: 'shortcode_specs', value: specs });
@@ -186,8 +168,28 @@ jQuery(function($) {
 				awsmJobFilters($currentWrapper);
 			}
 		});
-	}
+	} 
 
+	if ($(rootWrapperSelector).length > 0) { 
+		$(rootWrapperSelector).each(function() { 
+			var $currentWrapper = $(this); 
+			var $filterForm = $currentWrapper.find(filterSelector + ' form'); 
+		
+			var searchParams = new URLSearchParams(window.location.search);
+			var hasFiltersInURL = false;
+	
+			if (searchParams.toString().length > 0) {
+				hasFiltersInURL = true;
+			}
+	
+			if (hasFiltersInURL || filterCheck($filterForm)) {
+				triggerFilter = true;
+				awsmJobFilters($currentWrapper);
+			}
+		});
+	}
+	
+		
 	var updateQuery = function(key, value, url) {
 		url = typeof url !== 'undefined' ? url : currentUrl;
 		url = url.split('?')[0];
@@ -302,7 +304,6 @@ jQuery(function($) {
 		// Apply the job filters
 		awsmJobFilters($rootWrapper);
 	});
-	
 
 	$(wrapperSelector + ' .awsm-job-sort-filter').on('change', function(e) { 
 	//$('.awsm-job-sort-filter').on('change', function() {
@@ -575,6 +576,7 @@ jQuery(function($) {
 			}
 		});
 	}
+
 	if ($('.awsm-b-filter-wrap').not('.awsm-b-no-search-filter-wrap').length > 0) {
 		filtersResponsiveStylesHandler();
 		$(window).on('resize', filtersResponsiveStylesHandler);

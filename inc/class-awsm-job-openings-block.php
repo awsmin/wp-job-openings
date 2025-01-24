@@ -142,7 +142,7 @@ class AWSM_Job_Openings_Block {
         // phpcs:disable WordPress.Security.NonceVerification.Missing
 		$filters = $filters_list = $attributes = array(); // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
 
-		$filter_action = isset( $_POST['action'] ) ? $_POST['action'] : '';
+		$filter_action = isset( $_POST['action'] ) ? $_POST['action'] : ''; 
 
 		if ( ! empty( $_POST['awsm_job_spec'] ) ) {
 			$job_specs = $_POST['awsm_job_spec'];
@@ -162,12 +162,6 @@ class AWSM_Job_Openings_Block {
 
 		if ( isset( $_POST['awsm_job_specs_list'] ) ) {
 			$filters_list = $_POST['awsm_job_specs_list'];
-
-			/* if (is_string($filters_list)) {
-				$job_specs_filters = stripslashes($filters_list);
-				$decode_job_specs_filters = json_decode($job_specs_filters, true);
-				$filters_list =$decode_job_specs_filters;
-			} */
 		}
 
 		if ( ! empty( $_POST['awsm-layout'] ) ) {
@@ -196,12 +190,12 @@ class AWSM_Job_Openings_Block {
 		} else {
 			$attributes['pagination'] = 'modern';
 		}
-
-		if ( isset( $_POST['filter_sort'] ) ) {
+		
+		if ( isset( $_POST['filter_sort'] ) ) { 
 			$attributes['filter_sort'] = $_POST['filter_sort'];
 		}
 
-		$attributes = apply_filters( 'awsm_jobs_block_post_filters', $attributes, $_POST );
+		$attributes = apply_filters( 'awsm_jobs_block_post_filters', $attributes, $_POST );  
 
 		$args = self::awsm_block_job_query_args( $filters, $attributes, array(), $filters_list );
 
@@ -300,7 +294,7 @@ class AWSM_Job_Openings_Block {
 		}
 
 		// Sorting setup.
-		$sort = isset( $attributes['filter_sort'] ) ? sanitize_text_field( $attributes['filter_sort'] ) : ( isset( $attributes['orderBy'] ) ? sanitize_text_field( $attributes['orderBy'] ) : 'new_to_old' );
+		$sort = isset( $attributes['filter_sort'] ) ? sanitize_text_field( $attributes['filter_sort'] ) : ( isset( $attributes['orderBy'] ) ? sanitize_text_field( $attributes['orderBy'] ) : 'new_to_old' ); 
 
 		switch ( $sort ) {
 			case 'new_to_old':
@@ -366,8 +360,8 @@ class AWSM_Job_Openings_Block {
 			$attrs['search'] = $_GET['jq'];
 		}
 
-		if ( isset( $_GET['sort'] ) ) {
-			$attrs['filter_sort'] = $_GET['sort'];
+		if ( isset( $_GET['sort'] ) ) { 
+			$attrs['sort'] = $_GET['sort'];
 		}
 
 		foreach ( $_GET as $key => $value ) {
@@ -737,7 +731,6 @@ class AWSM_Job_Openings_Block {
 		echo apply_filters( 'awsm_filter_block_content', $filter_content, $available_filters_arr ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
-	/** slider placement sidebar  */
 	public function display_block_filter_form_slide( $block_atts ) {
 		$uid                = isset( $block_atts['uid'] ) ? '-' . $block_atts['uid'] : '';
 		$enable_search      = isset( $block_atts['search'] ) ? $block_atts['search'] : '';
@@ -902,39 +895,45 @@ class AWSM_Job_Openings_Block {
 		}
 
 	}
-	/** end */
 
 	public function display_block_job_sort( $attributes ) {
 		$sort_dropdown = '';
 		if ( $attributes['sort'] == 'enable' ) {
 			$action_url = esc_url( site_url( '/wp-admin/admin-ajax.php' ) );
-
+	
 			$filter_class_admin = '';
 			if ( self::is_edit_or_add_page() ) {
 				$filter_class_admin = 'awsm-b-filter-admin';
 			}
-
+	
+			// Get the current sort value from the URL
+			$current_sort = isset( $_GET['sort'] ) ? sanitize_text_field( $_GET['sort'] ) : '';
+	
 			$sort_dropdown = sprintf(
-				'<form action="%s" method="POST">
+				'<form action="%s" method="GET">
 					<div class="awsm-job-sort awsm-filter-item">
 						<label>%s</label>
 						<div class="' . $filter_class_admin . '">
 							<label class="awsm-b-sr-only">Relevance</label>
 							<select class="awsm-b-filter-option awsm-job-sort-filter" name="sort">
-								<option value="new_to_old">%s</option>
-								<option value="old_to_new">%s</option>
-								<option value="random">%s</option>
-								<option value="relevance">%s</option>
+								<option value="new_to_old" %s>%s</option>
+								<option value="old_to_new" %s>%s</option>
+								<option value="random" %s>%s</option>
+								<option value="relevance" %s>%s</option>
 							</select>
 						</div>
 					</div>
 				</form>',
 				$action_url,
 				esc_html__( 'Sort by', 'wp-job-openings' ),
+				selected( $current_sort, 'new_to_old', false ),
 				esc_html__( 'New to Old', 'wp-job-openings' ),
+				selected( $current_sort, 'old_to_new', false ),
 				esc_html__( 'Old to New', 'wp-job-openings' ),
+				selected( $current_sort, 'random', false ),
 				esc_html__( 'Random', 'wp-job-openings' ),
-				esc_html__( 'Relevance', 'wp-job-openings' ),
+				selected( $current_sort, 'relevance', false ),
+				esc_html__( 'Relevance', 'wp-job-openings' )
 			);
 		}
 		echo $sort_dropdown;
