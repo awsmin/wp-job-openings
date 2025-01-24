@@ -24,6 +24,7 @@ jQuery(function ($) {
     parsedListingsAttrs.push('awsm-hide-expired-jobs');
     parsedListingsAttrs.push('awsm-other-options');
     parsedListingsAttrs.push('awsm-listings-total');
+    parsedListingsAttrs.push('awsm-selected-terms');
     parsedListingsAttrs.push('sort');
     /* end */
     $(document).trigger('awsmJobBlockListingsData', [parsedListingsAttrs]);
@@ -50,6 +51,7 @@ jQuery(function ($) {
     /* added for block */
     var layout = $wrapper.data('awsm-layout');
     var hide_expired_jobs = $wrapper.data('awsm-hide-expired-jobs');
+    var selected_terms = $wrapper.data('awsm-selected-terms');
     var other_options = $wrapper.data('awsm-other-options');
     var listings_total = $wrapper.data('awsm-listings-total');
     var sort = $wrapper.data('sort');
@@ -84,6 +86,12 @@ jQuery(function ($) {
       formData.push({
         name: 'awsm-layout',
         value: layout
+      });
+    }
+    if (typeof selected_terms !== 'undefined') {
+      formData.push({
+        name: 'awsm-selected-terms',
+        value: selected_terms
       });
     }
     if (typeof hide_expired_jobs !== 'undefined') {
@@ -351,6 +359,7 @@ jQuery(function ($) {
     /* added for block */
     var layout = $listingsContainer.data('awsm-layout');
     var hide_expired_jobs = $listingsContainer.data('awsm-hide-expired-jobs');
+    var selected_terms = $listingsContainer.data('awsm-selected-terms');
     var other_options = $listingsContainer.data('awsm-other-options');
     /* end */
 
@@ -460,6 +469,23 @@ jQuery(function ($) {
         value: hide_expired_jobs
       });
     }
+    if (selected_terms) {
+      if (typeof selected_terms === 'string') {
+        try {
+          // Parse the JSON string into an object
+          selected_terms = JSON.parse(selected_terms);
+        } catch (error) {
+          console.error("Failed to parse selected_terms JSON:", error);
+          selected_terms = {}; // Fallback to an empty object
+        }
+      }
+
+      // Push to wpData
+      wpData.push({
+        name: 'awsm-selected-terms',
+        value: JSON.stringify(selected_terms) // Send as JSON string
+      });
+    }
     if (typeof other_options !== 'undefined') {
       wpData.push({
         name: 'awsm-other-options',
@@ -513,7 +539,6 @@ jQuery(function ($) {
         var effectDuration = $paginationWrapper.data('effectDuration');
         $paginationWrapper.remove();
         if (isDefaultPagination) {
-          console.log($listingsrowContainer);
           $listingsrowContainer.append(data);
         } else {
           $listingsrowContainer.html(data);

@@ -61,7 +61,7 @@ if ( ! function_exists( 'get_block_filtered_job_terms' ) ) {
 }
 
 if ( ! function_exists( 'awsm_block_jobs_query' ) ) {
-	function awsm_block_jobs_query( $attributes = array() ) {
+	function awsm_block_jobs_query( $attributes = array() ) { 
 		$query_args      = array();
 		$is_term_or_slug = array();
 		$filter_suffix   = '_spec';

@@ -8,9 +8,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$attributes                   = isset( $block_atts_set ) ? $block_atts_set : array();
-$query                        = awsm_block_jobs_query( $attributes );
-$attributes['listings_total'] = $query->found_posts;
+$attributes   = isset( $block_atts_set ) ? $block_atts_set : array();
+$query        = awsm_block_jobs_query( $attributes );
 
 $placement_sidebar_class = '';
 if ( isset( $attributes['search'] ) && $attributes['search'] == 'enable' ) {

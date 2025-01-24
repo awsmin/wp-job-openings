@@ -176,6 +176,14 @@ class AWSM_Job_Openings_Block {
 			$attributes['hide_expired_jobs'] = $_POST['awsm-hide-expired-jobs'];
 		}
 
+		if ( isset( $_POST['awsm-selected-terms'] ) ) {
+			$selectedTerms = json_decode( stripslashes( $_POST['awsm-selected-terms'] ), true );
+		
+			if (json_last_error() === JSON_ERROR_NONE) {
+				$filters_list = $selectedTerms; 
+			} 
+		}
+
 		if ( isset( $_POST['awsm-other-options'] ) ) {
 			$attributes['other_options'] = $_POST['awsm-other-options'];
 		}
@@ -263,7 +271,7 @@ class AWSM_Job_Openings_Block {
 		// Selected terms from attributes.
 		if ( isset( $attributes['selectedTerms'] ) && ! empty( $attributes['selectedTerms'] ) ) {
 			$filters_list = $attributes['selectedTerms'];
-		}
+		} 
 
 		if ( ! empty( $filters_list ) ) {
 			foreach ( $filters_list as $taxonomy => $term_ids ) {
@@ -280,7 +288,7 @@ class AWSM_Job_Openings_Block {
 					}
 				}
 			}
-		}
+		} 
 
 		// General query setup.
 		$list_per_page          = AWSM_Job_Openings::get_listings_per_page( $attributes );
@@ -343,13 +351,16 @@ class AWSM_Job_Openings_Block {
 		return apply_filters( 'awsm_job_block_query_args', $args, $filters, $attributes );
 	}
 
-	public static function get_block_job_listing_data_attrs( $block_atts = array() ) {
+	public static function get_block_job_listing_data_attrs( $block_atts = array() ) { 
 		$attrs                           = array();
 		$attrs['listings']               = AWSM_Job_Openings::get_listings_per_page( $block_atts );
 		$attrs['awsm-layout']            = isset( $block_atts['layout'] ) ? $block_atts['layout'] : '';
 		$attrs['awsm-hide-expired-jobs'] = isset( $block_atts['hide_expired_jobs'] ) ? $block_atts['hide_expired_jobs'] : '';
 		$attrs['awsm-other-options']     = isset( $block_atts['other_options'] ) ? $block_atts['other_options'] : '';
 		$attrs['awsm-listings-total']    = isset( $block_atts['listings_total'] ) ? $block_atts['listings_total'] : '';
+		$attrs['awsm-selected-terms']    = isset( $block_atts['selectedTerms'] ) 
+        ? htmlspecialchars(json_encode($block_atts['selectedTerms'], JSON_UNESCAPED_SLASHES)) 
+        : '{}';
 
 		$current_lang = AWSM_Job_Openings::get_current_language();
 		if ( ! empty( $current_lang ) ) {
