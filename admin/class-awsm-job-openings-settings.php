@@ -428,8 +428,8 @@ class AWSM_Job_Openings_Settings {
 		$options            = array(
 			'awsm_permalink_slug'                   => 'jobs',
 			'awsm_default_msg'                      => esc_html__( 'We currently have no job openings', 'wp-job-openings' ),
-			'awsm_jobs_listing_view'                => 'list-view',
-			'awsm_jobs_list_per_page'               => 10,
+			'awsm_jobs_listing_view'                => 'grid-view',
+			'awsm_jobs_list_per_page'               => 9,
 			'awsm_jobs_number_of_columns'           => 3,
 			'awsm_current_appearance_subtab'        => 'awsm-job-listing-nav-subtab',
 			'awsm_jobs_details_page_layout'         => 'single',
@@ -449,6 +449,7 @@ class AWSM_Job_Openings_Settings {
 				),
 			),
 			'awsm_enable_job_filter_listing'        => 'enabled',
+			'awsm_enable_job_search'               => 'enabled',
 			'awsm_jobs_listing_available_filters'   => array( 'job-category', 'job-type', 'job-location' ),
 			'awsm_jobs_listing_specs'               => array( 'job-category', 'job-location' ),
 			'awsm_jobs_admin_upload_file_ext'       => array( 'pdf', 'doc', 'docx' ),

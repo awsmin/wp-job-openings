@@ -106,6 +106,7 @@ class AWSM_Job_Openings {
 		add_shortcode( 'awsmjobs', array( $this, 'awsm_jobs_shortcode' ) );
 		add_action( 'transition_post_status', array( $this, 'expiry_notification_handler' ), 10, 3 );
 		add_filter( 'display_post_states', array( $this, 'display_job_post_states' ), 10, 2 );
+
 	}
 
 	public static function init() {
@@ -854,6 +855,9 @@ class AWSM_Job_Openings {
 			if ( isset( $_GET['awsm_filter_posts'] ) ) {
 				$jobs_post_filter = intval( $_GET['awsm_filter_posts'] );
 			}
+			$date_range_from = ( isset( $_GET['awsm_filter_by_date_from'] ) && $_GET['awsm_filter_by_date_from'] ) ? $_GET['awsm_filter_by_date_from'] : '';
+			$date_range_to = ( isset( $_GET['awsm_filter_by_date_to'] ) && $_GET['awsm_filter_by_date_to'] ) ? $_GET['awsm_filter_by_date_to'] : '';
+
 			$custom_posts = array(
 				'posts_per_page'   => -1,
 				'post_type'        => 'awsm_job_openings',
@@ -874,6 +878,10 @@ class AWSM_Job_Openings {
 				printf( '<option value="%1$d"%3$s>%2$s</option>', intval( $post_id ), esc_html( $post_title ), esc_attr( $selected ) );
 			}
 			echo '</select>';
+
+			echo '<input type="text" class="awsm-application-date-filter" id="awsm_application_date_filter_from" name="awsm_filter_by_date_from" placeholder="' . esc_attr__( 'Date From', 'wp-job-openings' ) . '" value="' . esc_attr( $date_range_from ) . '" />';
+			echo '<input type="text" class="awsm-application-date-filter" id="awsm_application_date_filter_to" name="awsm_filter_by_date_to" placeholder="' . esc_attr__( 'Date To', 'wp-job-openings' ) . '" value="' . esc_attr( $date_range_to ) . '" />';
+	
 		}
 	}
 
@@ -890,10 +898,23 @@ class AWSM_Job_Openings {
 				$query->query_vars['meta_value'] = $meta_value;
 			}
 		}
+
+		   if ( isset( $_GET['awsm_filter_by_date_from'] ) && !empty( $_GET['awsm_filter_by_date_from'] ) && isset( $_GET['awsm_filter_by_date_to'] ) && !empty( $_GET['awsm_filter_by_date_to'] ) ) {
+            $date_from = sanitize_text_field( $_GET['awsm_filter_by_date_from'] );
+            $date_to = sanitize_text_field( $_GET['awsm_filter_by_date_to'] );
+
+            $query->query_vars['date_query'] = array(
+                array(
+                    'after'     => $date_from,
+                    'before'    => $date_to,
+                    'inclusive' => true,
+                ),
+            );
+        }
 	}
 
 	public function awsm_job_month_dropdown( $months, $post_type ) {
-		if ( $post_type === 'awsm_job_openings' ) {
+		if ( $post_type === 'awsm_job_openings' || $post_type === 'awsm_job_application' ) {
 			$months = array();
 		}
 		return $months;
@@ -2106,6 +2127,8 @@ class AWSM_Job_Openings {
 		}
 		return $post_states;
 	}
+
+
 }
 
 $awsm_job_openings = AWSM_Job_Openings::init();
