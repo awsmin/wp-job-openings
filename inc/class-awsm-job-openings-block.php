@@ -575,14 +575,14 @@ class AWSM_Job_Openings_Block {
 						foreach ( $terms as $term ) {
 							/* $selected = '';
 							if ( in_array( $taxonomy, array_keys( $selected_filters ) ) && $selected_filters[ $taxonomy ] === $term->slug ) {
-								$selected = ' selected'; 
+								$selected = ' selected';
 							} */
 
 							$selected = '';
-							foreach ($_GET as $key => $value) {
-								if (strpos($key, 'job__') !== false) {
-									$selected_specs = explode(',', $value);
-									if (in_array(esc_attr($term->slug), $selected_specs)) {
+							foreach ( $_GET as $key => $value ) {
+								if ( strpos( $key, 'job__' ) !== false ) {
+									$selected_specs = explode( ',', $value );
+									if ( in_array( esc_attr( $term->slug ), $selected_specs ) ) {
 										$selected = ' selected';
 										break;
 									}
@@ -739,11 +739,11 @@ class AWSM_Job_Openings_Block {
 
 	/** slider placement sidebar  */
 	public function display_block_filter_form_slide( $block_atts ) {
-		$uid                	= isset( $block_atts['uid'] ) ? '-' . $block_atts['uid'] : '';
-		$enable_search      	= isset( $block_atts['search'] ) ? $block_atts['search'] : '';
-		$placeholder_search 	= isset( $block_atts['search_placeholder'] ) ? $block_atts['search_placeholder'] : '';
-		$filter_options     	= isset( $block_atts['filter_options'] ) ? $block_atts['filter_options'] : ''; 
-		$default_text      	 	= 'search';
+		$uid                = isset( $block_atts['uid'] ) ? '-' . $block_atts['uid'] : '';
+		$enable_search      = isset( $block_atts['search'] ) ? $block_atts['search'] : '';
+		$placeholder_search = isset( $block_atts['search_placeholder'] ) ? $block_atts['search_placeholder'] : '';
+		$filter_options     = isset( $block_atts['filter_options'] ) ? $block_atts['filter_options'] : '';
+		$default_text       = 'search';
 
 		$hidden_fields_content = '<input type="hidden" name="action" value="block_jobfilter">';
 
@@ -762,7 +762,7 @@ class AWSM_Job_Openings_Block {
 			$available_filters_arr = array();
 			$specs_filter_content  = '';
 
-			$selected_filters = self::get_block_filters_query_args( $available_filters ); 
+			$selected_filters = self::get_block_filters_query_args( $available_filters );
 
 			if ( ! empty( $taxonomies ) && ! empty( $filter_options ) ) {
 				foreach ( $taxonomies as $taxonomy => $tax_details ) {
@@ -837,7 +837,7 @@ class AWSM_Job_Openings_Block {
 
 												if ( in_array( esc_attr( $term->slug ), $selected_specs ) ) {
 													$is_checked = true;
-													break; 
+													break;
 												}
 											}
 										}

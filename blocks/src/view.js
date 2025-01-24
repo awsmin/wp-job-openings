@@ -51,7 +51,7 @@ jQuery(function($) {
 		var other_options = $wrapper.data('awsm-other-options'); 
 		var listings_total = $wrapper.data('awsm-listings-total'); 
 
-		var awsm_job_specs_list = []; // Initialize array for multiple values
+		/* var awsm_job_specs_list = []; // Initialize array for multiple values
 		var awsm_job_spec = ''; // Initialize for single value
 
 		$wrapper.each(function() { 
@@ -73,7 +73,7 @@ jQuery(function($) {
 		if (awsm_job_spec) {
 			formData.push({ name: 'awsm_job_spec', value: awsm_job_spec });
 		}
-	
+	 */
 		/* end */
 		
 		formData.push({
