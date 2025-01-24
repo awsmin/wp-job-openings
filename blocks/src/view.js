@@ -354,6 +354,7 @@ jQuery(function($) {
 		var specs = $listingsContainer.data('specs');
 		var lang = $listingsContainer.data('lang');
 		var searchQuery = $listingsContainer.data('search');
+		var sort 		= $listingsContainer.data('sort'); 
 	
 		/* added for block */
 		var layout = $listingsContainer.data('awsm-layout');  
@@ -489,10 +490,18 @@ jQuery(function($) {
 				value: lang
 			});
 		}
+
 		if (typeof searchQuery !== 'undefined') {
 			wpData.push({
 				name: 'jq',
 				value: searchQuery
+			});
+		}
+
+		if (typeof sort !== 'undefined') {
+			wpData.push({
+				name: 'filter_sort',
+				value: sort
 			});
 		}
 
