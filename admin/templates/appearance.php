@@ -123,6 +123,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							),
 						),
 					),
+					'default_value' => 'grid-view',
 					'value'   => $listing_view,
 				),
 				array(
@@ -170,7 +171,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'type'        => 'checkbox',
 					'choices'     => array(
 						array(
-							'value' => 'enable',
+							'value' => 'enabled',
 							'text'  => __( 'Enable job search field in job listing', 'wp-job-openings' ),
 						),
 					),
