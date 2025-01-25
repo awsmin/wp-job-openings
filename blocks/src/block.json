@@ -32,6 +32,10 @@
 			"type": "string",
 			"default" : "list"
 		},
+		"selected_terms_main": {
+			"type": "array",
+			"default": []
+		},
 		"selectedTerms": {
 			"type": "object",
 			"default": {}

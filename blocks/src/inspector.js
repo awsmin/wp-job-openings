@@ -30,7 +30,8 @@ const WidgetInspectorControls = (props) => {
 		jobsPerPage,
 		layout,
 		selectedTerms,
-		sort
+		sort,
+		selected_terms_main
 	  },
 	  setAttributes,
 	} = props;
@@ -38,11 +39,11 @@ const WidgetInspectorControls = (props) => {
 	// Local state for block settings
 	const specifications 								= awsmJobsAdmin.awsm_filters_block;
 	const [isProEnabled, setIsProEnabled] 				= useState(false);
-	const [toggleState, setToggleState] 				= useState({}); 
+	const [toggleState, setToggleState] 				= useState(selected_terms_main || {});
 	const [selectedTermsState, setSelectedTermsState] 	= useState(selectedTerms || {});
   
 	// Sync selected terms with props on mount or when selectedTerm changes
-	useEffect(() => { console.log(placement);
+	useEffect(() => { 
 		if (typeof awsmJobsAdmin !== "undefined" && awsmJobsAdmin.isProEnabled) {
 			setIsProEnabled(true);
 		}
@@ -54,7 +55,18 @@ const WidgetInspectorControls = (props) => {
 		}, {});
 	
 		setSelectedTermsState(initialSelectedTerms);
-	}, [specifications, selectedTerms]);
+		
+		setToggleState((prevState) => {
+			const initialState = Array.isArray(selected_terms_main)
+			  ? selected_terms_main.reduce((acc, key) => {
+				  acc[key] = true;
+				  return acc;
+				}, {})
+			  : {};
+			return initialState;
+		});
+
+	}, [specifications, selectedTerms, selected_terms_main]);
   
 	const specifications_handler = (toggleValue, specKey) => {
 		let modfilteroptions = [...filter_options];
@@ -114,14 +126,29 @@ const WidgetInspectorControls = (props) => {
 		});
 	};	
 
-	const handleToggleChange = (specKey, isChecked) => { 
-		// Update the toggle state when the ToggleControl is toggled
+	const handleToggleChange = (specKey, isChecked) => {
+		let updatedTermsMain = [...(selected_terms_main || [])];
+	  
+		if (isChecked) {
+		  // Add the specKey if it's not already in the array
+		  if (!updatedTermsMain.includes(specKey)) {
+			updatedTermsMain.push(specKey);
+		  }
+		} else {
+		  // Remove the specKey if it exists
+		  updatedTermsMain = updatedTermsMain.filter((key) => key !== specKey);
+		}
+	  
 		setToggleState((prevState) => ({
 		  ...prevState,
 		  [specKey]: isChecked,
 		}));
+	  
+		setAttributes({
+		  selected_terms_main: updatedTermsMain,
+		});
 	};
-  
+	  
 	return (
 	    <InspectorControls>
 			{/* Search and Filters */}
