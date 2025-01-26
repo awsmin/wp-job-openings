@@ -130,22 +130,38 @@ const WidgetInspectorControls = (props) => {
 		let updatedTermsMain = [...(selected_terms_main || [])];
 	  
 		if (isChecked) {
-		  // Add the specKey if it's not already in the array
-		  if (!updatedTermsMain.includes(specKey)) {
-			updatedTermsMain.push(specKey);
-		  }
+			// Add the specKey if it's not already in the array
+			if (!updatedTermsMain.includes(specKey)) {
+				updatedTermsMain.push(specKey);
+			}
 		} else {
-		  // Remove the specKey if it exists
-		  updatedTermsMain = updatedTermsMain.filter((key) => key !== specKey);
+			// Remove the specKey if it exists
+			updatedTermsMain = updatedTermsMain.filter((key) => key !== specKey);
+		  
+			// Clear the selectedTerms for the specKey when toggled off
+			setSelectedTermsState((prevSelectedTerms) => {
+				const updatedSelectedTerms = { ...prevSelectedTerms };
+				delete updatedSelectedTerms[specKey];
+	
+				// Ensure attributes are updated and re-rendered
+				setAttributes({ 
+					selectedTerms: updatedSelectedTerms,
+					selected_terms_main: updatedTermsMain, // Keep this consistent
+				});
+				
+				return updatedSelectedTerms;
+			});
 		}
-	  
+	
+		// Update the toggle state for the editor reactivity
 		setToggleState((prevState) => ({
-		  ...prevState,
-		  [specKey]: isChecked,
+			...prevState,
+			[specKey]: isChecked,
 		}));
 	  
+		// Sync the selected_terms_main attribute with the editor
 		setAttributes({
-		  selected_terms_main: updatedTermsMain,
+			selected_terms_main: updatedTermsMain,
 		});
 	};
 	  
@@ -313,45 +329,50 @@ const WidgetInspectorControls = (props) => {
 					<ToggleGroupControlOption value="filtered" label="Filtered List" />
 				</ToggleGroupControl>
 				<p>{__(" Display all jobs or filtered by job specifications", "wp-job-openings")}</p>
-				
-				{listType === "filtered" && (
-				<>
-					<h2>{__("Available Filters", "wp-job-openings")}</h2>
-					{specifications.map((spec) => (
-						<div key={spec.key} className="filter-item">
-							<ToggleControl
-								label={spec.label}
-								checked={toggleState[spec.key] || false} // Check the toggle state for the spec
-								onChange={(isChecked) => handleToggleChange(spec.key, isChecked)} // Update the toggle state on change
-							/>
 
-							{/* Show FormTokenField only when toggle is on */}
-							{toggleState[spec.key] && (
-								<FormTokenField
-									value={(selectedTermsState[spec.key] || []).map((id) => {
-										const term = spec.terms.find((t) => t.term_id === id);
-										return term ? term.name : "";
-									})}
-									onChange={(newTokens) => handleTermChange(newTokens, spec.key, spec)}
-									suggestions={spec.terms.map((term) => term.name)} // Suggestions are term names
-									label=""
+				{listType === "filtered" && (
+					<>
+						<h2>{__("Available Filters", "wp-job-openings")}</h2>
+						{specifications.map((spec) => (
+							<div key={spec.key} className="filter-item">
+								<ToggleControl
+									label={spec.label}
+									checked={toggleState[spec.key] || false} // Check the toggle state for the spec
+									onChange={(isChecked) => {
+										// Handle toggle change and update attributes
+										handleToggleChange(spec.key, isChecked);
+									}}
 								/>
-							)}
-						</div>
-					))}
-				</>
+
+								{/* Show FormTokenField only when toggle is on */}
+								{toggleState[spec.key] && (
+									<FormTokenField
+										value={(selectedTermsState[spec.key] || []).map((id) => {
+											const term = spec.terms.find((t) => t.term_id === id);
+											return term ? term.name : "";
+										})}
+										onChange={(newTokens) =>
+											handleTermChange(newTokens, spec.key, spec)
+										}
+										suggestions={spec.terms.map((term) => term.name)} // Suggestions are term names
+										label=""
+									/>
+								)}
+							</div>
+						))}
+					</>
 				)}
 
 				<SelectControl
 					label={__("Order By", "wp-job-openings")}
 					value={orderBy}
 					options={[
-					{ label: __("Newest to oldest", "wp-job-openings"), value: "new_to_old" },
-					{ label: __("Oldest to newest", "wp-job-openings"), value: "old_to_new" },
+						{ label: __("Newest to oldest", "wp-job-openings"), value: "new_to_old" },
+						{ label: __("Oldest to newest", "wp-job-openings"), value: "old_to_new" },
 					]}
 					onChange={(orderBy) => setAttributes({ orderBy })}
 				/>
-	
+
 				<ToggleControl
 					label={__("Hide Expired Jobs", "wp-job-openings")}
 					checked={hide_expired_jobs}

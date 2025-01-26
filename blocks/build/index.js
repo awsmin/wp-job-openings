@@ -430,10 +430,27 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
       updatedTermsMain = updatedTermsMain.filter(function (key) {
         return key !== specKey;
       });
+
+      // Clear the selectedTerms for the specKey when toggled off
+      setSelectedTermsState(function (prevSelectedTerms) {
+        var updatedSelectedTerms = _objectSpread({}, prevSelectedTerms);
+        delete updatedSelectedTerms[specKey];
+
+        // Ensure attributes are updated and re-rendered
+        setAttributes({
+          selectedTerms: updatedSelectedTerms,
+          selected_terms_main: updatedTermsMain // Keep this consistent
+        });
+        return updatedSelectedTerms;
+      });
     }
+
+    // Update the toggle state for the editor reactivity
     setToggleState(function (prevState) {
       return _objectSpread(_objectSpread({}, prevState), {}, (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])({}, specKey, isChecked));
     });
+
+    // Sync the selected_terms_main attribute with the editor
     setAttributes({
       selected_terms_main: updatedTermsMain
     });
@@ -621,8 +638,9 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
       checked: toggleState[spec.key] || false // Check the toggle state for the spec
       ,
       onChange: function onChange(isChecked) {
-        return handleToggleChange(spec.key, isChecked);
-      } // Update the toggle state on change
+        // Handle toggle change and update attributes
+        handleToggleChange(spec.key, isChecked);
+      }
     }), toggleState[spec.key] && (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_9__.FormTokenField, {
       value: (selectedTermsState[spec.key] || []).map(function (id) {
         var term = spec.terms.find(function (t) {

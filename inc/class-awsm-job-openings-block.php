@@ -245,6 +245,8 @@ class AWSM_Job_Openings_Block {
 
 	public static function awsm_block_job_query_args( $filters = array(), $attributes = array(), $is_term_or_slug = array(), $filters_list = array() ) {
 		$args = array();
+		$tax_query = array(); // Initialize a single tax_query array.
+	
 		// Handle taxonomy filters for term archives.
 		if ( is_tax() ) {
 			$q_obj                        = get_queried_object();
@@ -253,72 +255,67 @@ class AWSM_Job_Openings_Block {
 			$filters                      = array( $taxonomy => $term_id );
 			$is_term_or_slug[ $taxonomy ] = 'term_id';
 		}
-
-		// Taxonomy filters.
-		if ( ! empty( $filters ) ) {
-			foreach ( $filters as $taxonomy => $value ) {
-				if ( ! empty( $value ) ) {
-					$field_type          = isset( $is_term_or_slug[ $taxonomy ] ) ? $is_term_or_slug[ $taxonomy ] : 'term_id';
-					$args['tax_query'][] = array(
-						'taxonomy' => $taxonomy,
-						'field'    => $field_type,
-						'terms'    => (array) $value,
-					);
-				}
-			}
-		}
-
-		// Selected terms from attributes.
+	
+		// Combine taxonomy filters (filters + selectedTerms).
 		if ( isset( $attributes['selectedTerms'] ) && ! empty( $attributes['selectedTerms'] ) ) {
 			$filters_list = $attributes['selectedTerms'];
-		} 
-
-		if ( ! empty( $filters_list ) ) {
-			foreach ( $filters_list as $taxonomy => $term_ids ) {
-				if ( is_array( $term_ids ) && ! empty( $term_ids ) ) {
-					$term_ids = array_values( array_filter( $term_ids ) ); // Remove empty term IDs.
-
-					if ( ! empty( $term_ids ) ) {
-						$args['tax_query'][] = array(
+		}
+	
+		// Process taxonomy filters.
+		if ( ! empty( $filters ) || ! empty( $filters_list ) ) {
+			$all_filters = array_merge_recursive( $filters, $filters_list );
+	
+			foreach ( $all_filters as $taxonomy => $terms ) {
+				if ( ! empty( $terms ) ) {
+					// Ensure terms are always an array and cleaned.
+					$terms = is_array( $terms ) ? array_values( array_filter( $terms ) ) : array( $terms );
+	
+					if ( ! empty( $terms ) ) {
+						$field_type = isset( $is_term_or_slug[ $taxonomy ] ) ? $is_term_or_slug[ $taxonomy ] : 'term_id';
+						$tax_query[] = array(
 							'taxonomy' => $taxonomy,
-							'field'    => 'term_id',
-							'terms'    => $term_ids,
+							'field'    => $field_type,
+							'terms'    => $terms,
 							'operator' => 'IN',
 						);
 					}
 				}
 			}
-		} 
-
+		}
+	
+		if ( ! empty( $tax_query ) ) {
+			$args['tax_query'] = $tax_query;
+		}
+	
 		// General query setup.
 		$list_per_page          = AWSM_Job_Openings::get_listings_per_page( $attributes );
 		$args['post_type']      = 'awsm_job_openings';
 		$args['posts_per_page'] = $list_per_page;
-
+	
 		if ( isset( $attributes['hide_expired_jobs'] ) && $attributes['hide_expired_jobs'] === 'expired' ) {
 			$args['post_status'] = $list_per_page > 0 ? array( 'publish' ) : array();
 		} else {
 			$args['post_status'] = array( 'publish', 'expired' );
 		}
-
+	
 		// Sorting setup.
-		$sort = isset( $attributes['filter_sort'] ) ? sanitize_text_field( $attributes['filter_sort'] ) : ( isset( $attributes['orderBy'] ) ? sanitize_text_field( $attributes['orderBy'] ) : 'new_to_old' ); 
-
+		$sort = isset( $attributes['filter_sort'] ) ? sanitize_text_field( $attributes['filter_sort'] ) : ( isset( $attributes['orderBy'] ) ? sanitize_text_field( $attributes['orderBy'] ) : 'new_to_old' );
+	
 		switch ( $sort ) {
 			case 'new_to_old':
 				$args['orderby'] = 'date';
 				$args['order']   = 'DESC';
 				break;
-
+	
 			case 'old_to_new':
 				$args['orderby'] = 'date';
 				$args['order']   = 'ASC';
 				break;
-
+	
 			case 'random':
 				$args['orderby'] = 'rand';
 				break;
-
+	
 			case 'relevance':
 				$args['orderby']  = array(
 					'meta_value_num' => 'DESC',
@@ -326,19 +323,19 @@ class AWSM_Job_Openings_Block {
 				);
 				$args['meta_key'] = '_relevance_score'; // Replace with actual meta key for relevance.
 				break;
-
+	
 			default:
 				$args['orderby'] = 'date';
 				$args['order']   = 'DESC';
 				break;
 		}
-
+	
 		// Pagination.
 		if ( ! AWSM_Job_Openings::is_default_pagination( $attributes ) && ! isset( $_POST['awsm_pagination_base'] ) ) {
 			$paged         = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ) : 1;
 			$args['paged'] = $paged;
 		}
-
+	
 		/**
 		 * Filters the arguments for the jobs query.
 		 *
