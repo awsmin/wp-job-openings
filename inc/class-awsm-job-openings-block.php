@@ -476,7 +476,7 @@ class AWSM_Job_Openings_Block {
 		return $terms;
 	}
 
-	public function display_block_filter_form( $block_atts ) {
+	public function display_block_filter_form( $block_atts ) { 
 		$search_content        = '';
 		$specs_filter_content  = '';
 		$custom_action_content = '';
@@ -798,12 +798,18 @@ class AWSM_Job_Openings_Block {
 								if ( $spec['value'] == 'dropdown' ) {
 									foreach ( $terms as $term ) {
 										$selected = '';
-										foreach ( $_GET as $key => $value ) {
-											if ( strpos( $key, 'job__' ) !== false ) {
-												$selected_specs = explode( ',', $value );
 
-												if ( in_array( esc_attr( $term->slug ), $selected_specs ) ) {
-													$selected = ' selected';
+										if ( isset( $block_atts['selectedTerms'][ $taxonomy ] ) && in_array( $term->term_id, $block_atts['selectedTerms'][ $taxonomy ] ) ) {
+											$selected = ' selected';
+										} else {
+											foreach ( $_GET as $key => $value ) {
+												if ( strpos( $key, 'job__' ) !== false ) {
+													$selected_specs = explode( ',', $value );
+									
+													if ( in_array( esc_attr( $term->slug ), $selected_specs ) ) {
+														$selected = ' selected';
+														break;
+													}
 												}
 											}
 										}
@@ -837,6 +843,7 @@ class AWSM_Job_Openings_Block {
 									foreach ( $terms as $term ) {
 										// Loop through the dynamic URL parameters
 										$is_checked = false;
+										$checked = '';
 
 										foreach ( $_GET as $key => $value ) {
 											if ( strpos( $key, 'job__' ) !== false ) {
@@ -847,6 +854,11 @@ class AWSM_Job_Openings_Block {
 													break;
 												}
 											}
+										}
+
+										if ( isset( $block_atts['selectedTerms'][ $taxonomy ] ) && in_array( $term->term_id, $block_atts['selectedTerms'][ $taxonomy ] ) ) {
+											$checked = ' checked';
+											$is_checked = true; // Ensure consistency between both conditions
 										}
 
 										$filter_list_items .= sprintf(
@@ -866,7 +878,7 @@ class AWSM_Job_Openings_Block {
 											esc_attr( $spec['specKey'] ),
 											esc_attr( $filter_key . '_spec' ),
 											esc_attr( $term->slug ),
-											$is_checked ? 'checked' : ''
+											$is_checked ? 'checked' : $checked
 										);
 									}
 
