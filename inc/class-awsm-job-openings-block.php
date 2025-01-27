@@ -587,12 +587,17 @@ class AWSM_Job_Openings_Block {
 							} */
 
 							$selected = '';
-							foreach ( $_GET as $key => $value ) {
-								if ( strpos( $key, 'job__' ) !== false ) {
-									$selected_specs = explode( ',', $value );
-									if ( in_array( esc_attr( $term->slug ), $selected_specs ) ) {
-										$selected = ' selected';
-										break;
+							if ( isset( $block_atts['selectedTerms'][ $taxonomy ] ) && in_array( $term->term_id, $block_atts['selectedTerms'][ $taxonomy ] ) ) {
+								$selected = ' selected';
+							}else {
+								foreach ( $_GET as $key => $value ) {
+									if ( strpos( $key, 'job__' ) !== false ) {
+										$selected_specs = explode( ',', $value );
+						
+										if ( in_array( esc_attr( $term->slug ), $selected_specs ) ) {
+											$selected = ' selected';
+											break;
+										}
 									}
 								}
 							}
