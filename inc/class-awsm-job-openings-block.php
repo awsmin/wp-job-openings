@@ -162,7 +162,7 @@ class AWSM_Job_Openings_Block {
 
 		if ( isset( $_POST['awsm_job_specs_list'] ) ) {
 			$filters_list = $_POST['awsm_job_specs_list'];
-		}
+		} 
 
 		if ( ! empty( $_POST['awsm-layout'] ) ) {
 			$attributes['layout'] = sanitize_text_field( $_POST['awsm-layout'] );
@@ -178,11 +178,17 @@ class AWSM_Job_Openings_Block {
 
 		if ( isset( $_POST['awsm-selected-terms'] ) ) {
 			$selectedTerms = json_decode( stripslashes( $_POST['awsm-selected-terms'] ), true );
-		
+			
 			if (json_last_error() === JSON_ERROR_NONE) {
-				$filters_list = $selectedTerms; 
+				foreach ( $selectedTerms as $key => $value ) {
+					if ( isset( $filters_list[ $key ] ) ) {
+						$filters_list[ $key ] = array_values( array_unique( array_merge( (array) $filters_list[ $key ], (array) $value ) ) );
+					} else {
+						$filters_list[ $key ] = $value;
+					}
+				}
 			} 
-		}
+		} 
 
 		if ( isset( $_POST['awsm-other-options'] ) ) {
 			$attributes['other_options'] = $_POST['awsm-other-options'];
@@ -255,7 +261,7 @@ class AWSM_Job_Openings_Block {
 			$filters                      = array( $taxonomy => $term_id );
 			$is_term_or_slug[ $taxonomy ] = 'term_id';
 		}
-	
+		
 		// Combine taxonomy filters (filters + selectedTerms).
 		if ( isset( $attributes['selectedTerms'] ) && ! empty( $attributes['selectedTerms'] ) ) {
 			$filters_list = $attributes['selectedTerms'];

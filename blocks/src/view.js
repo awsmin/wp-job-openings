@@ -77,8 +77,22 @@ jQuery(function($) {
 			formData.push({ name: 'awsm-layout', value: layout });
 		}
 	
-		if (typeof selected_terms !== 'undefined') {
-			formData.push({ name: 'awsm-selected-terms', value: selected_terms });
+		if (selected_terms) {
+			if (typeof selected_terms === 'string') {
+				try {
+					// Parse the JSON string into an object
+					selected_terms = JSON.parse(selected_terms);
+				} catch (error) {
+					console.error("Failed to parse selected_terms JSON:", error);
+					selected_terms = {}; // Fallback to an empty object
+				}
+			}
+		
+			// Push to wpData
+			formData.push({
+				name: 'awsm-selected-terms',
+				value: JSON.stringify(selected_terms) // Send as JSON string
+			});
 		}
 
 		if (typeof hide_expired_jobs !== 'undefined') {
