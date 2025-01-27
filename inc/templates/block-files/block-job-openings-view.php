@@ -100,7 +100,7 @@ if ( $query->have_posts() ) :
 	</div>
 <?php } ?>
 	<?php
-else :
+/* else :
 		$filter_suffix = '_spec';
 		$job_spec      = array();
 
@@ -140,5 +140,5 @@ else :
 				<p><?php awsm_no_jobs_msg(); ?></p>
 			</div>
 			<?php
-		}
+		} */
 	endif;
