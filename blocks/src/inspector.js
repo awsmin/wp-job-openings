@@ -68,46 +68,6 @@ const WidgetInspectorControls = (props) => {
 
 	}, [specifications, selectedTerms, selected_terms_main]);
   
-	const specifications_handler = (toggleValue, specKey) => {
-		let modfilteroptions = [...filter_options];
-	
-		const existingOptionIndex = modfilteroptions.findIndex(
-			(option) => option.specKey === specKey
-		);
-	
-		if (!toggleValue) {
-			if (existingOptionIndex !== -1) {
-				modfilteroptions.splice(existingOptionIndex, 1); // Remove filter if toggle is off
-			}
-		} else {
-			if (existingOptionIndex === -1) {
-				modfilteroptions.push({ specKey: specKey, value: "dropdown", toggle: true });
-			} else {
-				modfilteroptions[existingOptionIndex].toggle = true;
-			}
-		}
-	
-		modfilteroptions = modfilteroptions.filter(option => typeof option === 'object' && option.specKey);
-		setAttributes({ filter_options: modfilteroptions });
-	};
-  
-	const updateFilterValue = (newValue, specKey) => {
-		let modfilteroptions = [...filter_options];
-	
-		const existingOptionIndex = modfilteroptions.findIndex(
-		(option) => option.specKey === specKey
-		);
-
-		if (existingOptionIndex !== -1) {
-			modfilteroptions[existingOptionIndex].value = newValue;
-		} else {
-			modfilteroptions.push({ specKey: specKey, value: newValue, toggle: true });
-		}
-	
-		modfilteroptions = modfilteroptions.filter(option => typeof option === 'object' && option.specKey);
-		setAttributes({ filter_options: modfilteroptions });
-	};
-  
 	const handleTermChange = (newTokens, specKey, spec) => {
 		setSelectedTermsState((prevSelectedTerms) => {
 			const updatedSelectedTerms = { ...prevSelectedTerms };
@@ -204,6 +164,19 @@ const WidgetInspectorControls = (props) => {
 								(option) => option.specKey === spec.key
 							);
 
+							// Check if there are multiple selected terms for the specKey
+							const hasMultipleSelectedTerms = (selectedTermsState[spec.key] || []).length > 1;
+
+							// If multiple terms are selected for this specKey, update the filter option to "checkbox"
+							if (hasMultipleSelectedTerms && filterOption?.value !== "checkbox") {
+								const updatedFilters = filter_options.map((option) =>
+									option.specKey === spec.key
+										? { ...option, value: "checkbox" }
+										: option
+								);
+								setAttributes({ filter_options: updatedFilters });
+							}
+
 							return (
 								<div key={spec.key}>
 									{/* Toggle Control */}
@@ -212,7 +185,7 @@ const WidgetInspectorControls = (props) => {
 										checked={filterOption !== undefined}
 										onChange={(toggleValue) => {
 											const updatedFilters = toggleValue
-												? [...filter_options, { specKey: spec.key, value: "dropdown" }] // Default to dropdown
+												? [...filter_options, { specKey: spec.key, value: hasMultipleSelectedTerms ? "checkbox" : "dropdown" }] // Choose checkbox if multiple terms are selected
 												: filter_options.filter((option) => option.specKey !== spec.key); // Remove the filter
 
 											// Update attributes to trigger re-render
@@ -269,7 +242,6 @@ const WidgetInspectorControls = (props) => {
 								</div>
 							);
 						})}
-
 					</>
 				)}
 			</PanelBody>
