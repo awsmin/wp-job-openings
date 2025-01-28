@@ -83,11 +83,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'choices'       => array(
 						array(
 							'value' => 'theme',
-							'text'  => __( 'Theme Template', 'wp-job-openings' ),
+							'text'  => __( 'Theme Based', 'wp-job-openings' ),
 						),
 						array(
 							'value' => 'plugin',
-							'text'  => __( 'Plugin Template', 'wp-job-openings' ),
+							'text'  => __( 'Plugin Based', 'wp-job-openings' ),
 						),
 					),
 					'default_value' => 'plugin',
@@ -123,7 +123,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							),
 						),
 					),
-					'default_value' => 'grid-view',
+					
 					'value'   => $listing_view,
 				),
 				array(
