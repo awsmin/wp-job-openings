@@ -106,6 +106,7 @@ class AWSM_Job_Openings {
 		add_shortcode( 'awsmjobs', array( $this, 'awsm_jobs_shortcode' ) );
 		add_action( 'transition_post_status', array( $this, 'expiry_notification_handler' ), 10, 3 );
 		add_filter( 'display_post_states', array( $this, 'display_job_post_states' ), 10, 2 );
+
 	}
 
 	public static function init() {
@@ -148,14 +149,14 @@ class AWSM_Job_Openings {
 
 	public function pro_version_admin_notice() {
 		?>
-		<div class="notice notice-error">
+		<div class="notice notice-warning is-dismissible">
 			<p>
 				<?php
 					$req_plugin = sprintf( '<strong>%s</strong>', esc_html__( 'WP Job Openings', 'wp-job-openings' ) );
 					$plugin     = sprintf( '<strong>%s</strong>', esc_html__( 'Pro Pack', 'wp-job-openings' ) );
 
 					/* translators: %1$s: main plugin, %2$s: current plugin, %3$s: minimum required version of the main plugin, %4$s: plugin update link */
-					printf( esc_html__( 'Update required: The %2$s of the plugin must be updated to version 4.0 or higher to function with the Free version of %1$s.', 'wp-job-openings' ), $req_plugin, $plugin ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					printf( esc_html__( 'Update recommended: The %2$s Addon is recommended to be updated to version 4.0 or higher to function seamlessly with the newer version of %1$s.', 'wp-job-openings' ), $req_plugin, $plugin ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				?>
 			</p>
 		</div>
@@ -2126,6 +2127,8 @@ class AWSM_Job_Openings {
 		}
 		return $post_states;
 	}
+
+
 }
 
 $awsm_job_openings = AWSM_Job_Openings::init();
