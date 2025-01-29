@@ -83,14 +83,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'choices'       => array(
 						array(
 							'value' => 'theme',
-							'text'  => __( 'Theme Based', 'wp-job-openings' ),
+							'text'  => __( 'Theme Template', 'wp-job-openings' ),
 						),
 						array(
 							'value' => 'plugin',
-							'text'  => __( 'Plugin Based', 'wp-job-openings' ),
+							'text'  => __( 'Plugin Template', 'wp-job-openings' ),
 						),
 					),
-					'default_value' => 'plugin',
+					'default_value' => 'theme',
 				),
 				array(
 					'name'    => 'awsm_jobs_listing_view',
