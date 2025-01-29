@@ -37,6 +37,7 @@ if ( $query->have_posts() ) :
 			 * @param array $attributes Attributes array from block.
 			 */
 			do_action( 'awsm_block_filter_form', $attributes );
+			do_action( 'awsm_block_form_outside' , $attributes);
 			?>
 			<?php } ?>
 			<div class="awsm-b-job-listings"<?php awsm_block_jobs_data_attrs( array(), $attributes ); ?>>
@@ -66,6 +67,7 @@ if ( $query->have_posts() ) :
 				 * @param array $attributes Attributes array from block.
 				 */
 				do_action( 'awsm_block_filter_form_slide', $attributes );
+				do_action( 'awsm_block_form_outside', $attributes );
 			?>
 		</div>
 		<?php } ?>

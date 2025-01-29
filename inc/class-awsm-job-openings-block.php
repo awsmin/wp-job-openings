@@ -914,10 +914,21 @@ class AWSM_Job_Openings_Block {
 				$filter_class_admin = ' awsm-b-filter-admin';
 			}
 
+			/* Action for custom content for job listing */
+			ob_start();
+			do_action( 'awsm_block_form_inside', $block_atts );
+			$custom_action_content = ob_get_clean();
+			/* end */
+
+			$custom_action_content_filter = '';
+			if ( ! empty( $custom_action_content ) ) {
+				$custom_action_content_filter = $custom_action_content;
+			}
+
 			// Combine search and filter content into the form
 			$filter_content = sprintf(
 				'<form action="%2$s/wp-admin/admin-ajax.php" method="POST">%1$s</form>',
-				$search_content . '<div class="awsm-b-filter-items ' . $filter_class_admin . '">' . $specs_filter_content . $hidden_fields_content . '</div>',
+				$search_content . $custom_action_content_filter.'<div class="awsm-b-filter-items ' . $filter_class_admin . '">' . $specs_filter_content . $hidden_fields_content . '</div>',
 				esc_url( site_url() )
 			);
 

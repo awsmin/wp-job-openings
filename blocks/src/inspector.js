@@ -41,6 +41,9 @@ const WidgetInspectorControls = (props) => {
 	const [isProEnabled, setIsProEnabled] 				= useState(false);
 	const [toggleState, setToggleState] 				= useState(selected_terms_main || {});
 	const [selectedTermsState, setSelectedTermsState] 	= useState(selectedTerms || {});
+
+	let block_appearance_list = [];
+	let block_job_listing = [];
   
 	// Sync selected terms with props on mount or when selectedTerm changes
 	useEffect(() => { 
@@ -267,6 +270,9 @@ const WidgetInspectorControls = (props) => {
 					onChange={(sort) => setAttributes({ sort })}
 				/>
 
+				{ wp.hooks.doAction( 'after_awsm_job_appearance',block_appearance_list,props ) }
+				{ block_appearance_list }
+
 				<RangeControl
 					label={__("Jobs Per Page", "wp-job-openings")}
 					onChange={(sliderValue) => setAttributes({ jobsPerPage: sliderValue })}
@@ -292,7 +298,21 @@ const WidgetInspectorControls = (props) => {
 				<ToggleGroupControl
 					label="List Type"
 					value={listType}
-					onChange={(listType) => setAttributes({ listType })}
+					onChange={(newListType) => {
+						setAttributes({ listType: newListType });
+						
+						// Clear all items in selectedTerms if listType is set to "all"
+						if (newListType === "all") {
+							const clearedTerms = {};
+							specifications.forEach((spec) => {
+								clearedTerms[spec.key] = [];
+							});
+							setAttributes({ 
+								selectedTerms: clearedTerms,
+								selected_terms_main: [], 
+							});
+						}
+					}}
 					isBlock
 					__nextHasNoMarginBottom
 					__next40pxDefaultSize
@@ -350,6 +370,10 @@ const WidgetInspectorControls = (props) => {
 					checked={hide_expired_jobs}
 					onChange={(hide_expired_jobs) => setAttributes({ hide_expired_jobs })}
 				/>
+
+				{ wp.hooks.doAction( 'after_awsm_block_job_listing',block_job_listing,props ) }
+				{ block_job_listing }
+
 			</PanelBody>
 	  </InspectorControls>
 	);
