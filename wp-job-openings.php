@@ -856,7 +856,7 @@ class AWSM_Job_Openings {
 				$jobs_post_filter = intval( $_GET['awsm_filter_posts'] );
 			}
 			$date_range_from = ( isset( $_GET['awsm_filter_by_date_from'] ) && $_GET['awsm_filter_by_date_from'] ) ? $_GET['awsm_filter_by_date_from'] : '';
-			$date_range_to = ( isset( $_GET['awsm_filter_by_date_to'] ) && $_GET['awsm_filter_by_date_to'] ) ? $_GET['awsm_filter_by_date_to'] : '';
+			$date_range_to   = ( isset( $_GET['awsm_filter_by_date_to'] ) && $_GET['awsm_filter_by_date_to'] ) ? $_GET['awsm_filter_by_date_to'] : '';
 
 			$custom_posts = array(
 				'posts_per_page'   => -1,
@@ -881,7 +881,7 @@ class AWSM_Job_Openings {
 
 			echo '<input type="text" class="awsm-application-date-filter" id="awsm_application_date_filter_from" name="awsm_filter_by_date_from" placeholder="' . esc_attr__( 'Date From', 'wp-job-openings' ) . '" value="' . esc_attr( $date_range_from ) . '" />';
 			echo '<input type="text" class="awsm-application-date-filter" id="awsm_application_date_filter_to" name="awsm_filter_by_date_to" placeholder="' . esc_attr__( 'Date To', 'wp-job-openings' ) . '" value="' . esc_attr( $date_range_to ) . '" />';
-	
+
 		}
 	}
 
@@ -899,18 +899,18 @@ class AWSM_Job_Openings {
 			}
 		}
 
-		   if ( isset( $_GET['awsm_filter_by_date_from'] ) && !empty( $_GET['awsm_filter_by_date_from'] ) && isset( $_GET['awsm_filter_by_date_to'] ) && !empty( $_GET['awsm_filter_by_date_to'] ) ) {
-            $date_from = sanitize_text_field( $_GET['awsm_filter_by_date_from'] );
-            $date_to = sanitize_text_field( $_GET['awsm_filter_by_date_to'] );
+		if ( isset( $_GET['awsm_filter_by_date_from'] ) && ! empty( $_GET['awsm_filter_by_date_from'] ) && isset( $_GET['awsm_filter_by_date_to'] ) && ! empty( $_GET['awsm_filter_by_date_to'] ) ) {
+			$date_from = sanitize_text_field( $_GET['awsm_filter_by_date_from'] );
+			$date_to   = sanitize_text_field( $_GET['awsm_filter_by_date_to'] );
 
-            $query->query_vars['date_query'] = array(
-                array(
-                    'after'     => $date_from,
-                    'before'    => $date_to,
-                    'inclusive' => true,
-                ),
-            );
-        }
+			$query->query_vars['date_query'] = array(
+				array(
+					'after'     => $date_from,
+					'before'    => $date_to,
+					'inclusive' => true,
+				),
+			);
+		}
 	}
 
 	public function awsm_job_month_dropdown( $months, $post_type ) {

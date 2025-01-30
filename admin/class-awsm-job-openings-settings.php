@@ -449,7 +449,7 @@ class AWSM_Job_Openings_Settings {
 				),
 			),
 			'awsm_enable_job_filter_listing'        => 'enabled',
-			'awsm_enable_job_search'               => 'enabled',
+			'awsm_enable_job_search'                => 'enabled',
 			'awsm_jobs_listing_available_filters'   => array( 'job-category', 'job-type', 'job-location' ),
 			'awsm_jobs_listing_specs'               => array( 'job-category', 'job-location' ),
 			'awsm_jobs_admin_upload_file_ext'       => array( 'pdf', 'doc', 'docx' ),
