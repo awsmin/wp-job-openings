@@ -59,10 +59,6 @@ class Awsm_Job_Guten_Blocks {
 			$atts['search_placeholder'] = $atts['search_placeholder'];
 		}
 
-		if ( isset( $atts['search_placeholder'] ) && $atts['search_placeholder'] === true ) {
-			$atts['search_placeholder'] = $atts['search_placeholder'];
-		}
-
 		if ( isset( $atts['listType'] ) && $atts['listType'] === true ) {
 			$atts['listType'] = $atts['listType'];
 		}
