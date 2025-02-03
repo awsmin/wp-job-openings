@@ -660,6 +660,8 @@ class AWSM_Job_Openings_Settings {
 
 	public function awsm_jobs_filter_handle( $filters ) {
 		$old_value = get_option( 'awsm_jobs_filter' );
+		error_log('filter: ' . print_r($filters, true));
+		error_log('old value: ' . print_r($old_value, true));
 		if ( ! empty( $filters ) ) {
 			foreach ( $filters as $index => $filter ) {
 				$spec_name = isset( $filter['filter'] ) ? sanitize_text_field( $filter['filter'] ) : '';
@@ -714,7 +716,8 @@ class AWSM_Job_Openings_Settings {
 		}
 		return $filters;
 	}
-
+	
+	
 	public function update_awsm_jobs_filter( $old_value, $new_value ) {
 		$awsm_job_openings = AWSM_Job_Openings::init();
 		$awsm_job_openings->awsm_jobs_taxonomies( $new_value );
@@ -1213,6 +1216,7 @@ class AWSM_Job_Openings_Settings {
 		if ( ! empty( $tax_details ) && ! is_numeric( $index ) ) {
 			return;
 		}
+		
 		$spec_title = $row_data = $del_btn_data = $icon_option = $tag_options = ''; // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
 
 		$spec_key_html = sprintf( '<input type="text" class="widefat awsm-jobs-spec-key" name="awsm_jobs_filter[%1$s][taxonomy]" value="" maxlength="32" placeholder="%2$s" title="%3$s" required /><input type="hidden" name="awsm_jobs_filter[%1$s][register]" value="true" />', esc_attr( $index ), esc_attr__( 'Specification key', 'wp-job-openings' ), esc_attr__( 'The job specification key should only contain alphanumeric, latin characters separated by hyphen/underscore, and cannot begin or end with a hyphen/underscore.', 'wp-job-openings' ) );
@@ -1225,24 +1229,25 @@ class AWSM_Job_Openings_Settings {
 			$spec_title    = $spec_options->label;
 			$spec_key_html = sprintf( '<input type="text" class="widefat" value="%2$s" disabled /><input type="hidden" name="awsm_jobs_filter[%1$s][taxonomy]" value="%2$s" />', esc_attr( $index ), esc_attr( $spec_key ) );
 			foreach ( $filters as $filter ) {
-				if ( $spec_key === $filter['taxonomy'] ) {
-					if ( ! empty( $filter['icon'] ) ) {
-						$icon_option = sprintf( '<option value="%1$s" selected><i class="awsm-job-icon-%1$s"></i> %1$s</option>', esc_attr( $filter['icon'] ) );
+				if ( $spec_key === $filter['taxonomy'] && ! empty( $filter['tags'] ) ) {
+					foreach ( $filter['tags'] as $tag ) {
+						$term = get_term_by( 'name', $tag, $filter['taxonomy'] ); // Get term details
+			
+						if ( $term && ! is_wp_error( $term ) ) {
+							$tag_options .= sprintf(
+								'<option value="%1$s" selected>%1$s (%2$d)</option>',
+								esc_attr( $tag ),
+								intval( $term->count ) // Get term count
+							);
+						} else {
+							// If term is not found, just display the name
+							$tag_options .= sprintf( '<option value="%1$s" selected>%1$s</option>', esc_attr( $tag ) );
+						}
 					}
 				}
 			}
-			$terms = get_terms(
-				array(
-					'taxonomy'   => $spec_key,
-					'orderby'    => 'name',
-					'hide_empty' => false,
-				)
-			);
-			if ( ! empty( $terms ) ) {
-				foreach ( $terms as $term ) {
-					$tag_options .= sprintf( '<option value="%1$s" data-termid="%2$s" selected>%1$s (%3$s)</option>', esc_attr( $term->name ), esc_attr( $term->term_id ), esc_attr( $term->count ) );
-				}
-			}
+			
+
 		}
 		?>
 			<tr class="awsm-job-specifications-settings-row"<?php echo $row_data; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>

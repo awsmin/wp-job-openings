@@ -1411,6 +1411,7 @@ class AWSM_Job_Openings {
 	}
 
 	public function insert_specs_terms( $specs ) {
+
 		if ( ! empty( $specs ) ) {
 			foreach ( $specs as $spec ) {
 				$taxonomy = $spec['taxonomy'];
@@ -1425,6 +1426,18 @@ class AWSM_Job_Openings {
 				}
 			}
 		}
+	}
+	public function get_ordered_terms( $taxonomy, $specs ) {
+		$ordered_terms = wp_list_pluck( $specs, 'taxonomy' ); // Extract order from saved filters
+		
+		$terms = get_terms( array(
+			'taxonomy'   => $taxonomy,
+			'include'    => $ordered_terms, // Ensure returned order matches saved order
+			'orderby'    => 'include',
+			'hide_empty' => false,
+		) );
+	
+		return $terms;
 	}
 
 	public function unregister_awsm_jobs_taxonomies() {
@@ -1772,93 +1785,110 @@ class AWSM_Job_Openings {
 		return apply_filters( 'awsm_job_expiry_details_content', $content );
 	}
 
-	public static function get_specifications_content( $post_id, $display_label, $filter_data = array(), $listing_specs = array(), $has_term_link = true ) {
+	public static function get_specifications_content($post_id, $display_label, $filter_data = array(), $listing_specs = array(), $has_term_link = true) {
 		$spec_content = '';
-		$filter_data  = ! empty( $filter_data ) ? $filter_data : get_option( 'awsm_jobs_filter' );
-		if ( ! empty( $filter_data ) ) {
-			$spec_keys          = wp_list_pluck( $filter_data, 'taxonomy' );
-			$taxonomies         = get_object_taxonomies( 'awsm_job_openings', 'objects' );
-			$show_icon          = get_option( 'awsm_jobs_show_specs_icon', 'show_icon' );
-			$is_specs_clickable = get_option( 'awsm_jobs_make_specs_clickable' );
-			foreach ( $taxonomies as $taxonomy => $options ) {
-				if ( ! in_array( $taxonomy, $spec_keys, true ) ) {
+		$filter_data  = !empty($filter_data) ? $filter_data : get_option('awsm_jobs_filter');
+		if (!empty($filter_data)) {
+			$spec_keys = wp_list_pluck($filter_data, 'taxonomy');
+			$taxonomies = get_object_taxonomies('awsm_job_openings', 'objects');
+			$show_icon = get_option('awsm_jobs_show_specs_icon', 'show_icon');
+			$is_specs_clickable = get_option('awsm_jobs_make_specs_clickable');
+			
+			foreach ($taxonomies as $taxonomy => $options) {
+				if (!in_array($taxonomy, $spec_keys, true)) {
 					continue;
 				}
+				
 				$display = true;
-				if ( ! empty( $listing_specs ) ) {
+				if (!empty($listing_specs)) {
 					$display = false;
-					if ( isset( $listing_specs['specs'] ) && is_array( $listing_specs['specs'] ) && in_array( $taxonomy, $listing_specs['specs'] ) ) {
+					if (isset($listing_specs['specs']) && is_array($listing_specs['specs']) && in_array($taxonomy, $listing_specs['specs'])) {
 						$display = true;
 					}
 				}
-				if ( $display ) {
-					$terms = get_the_terms( $post_id, $taxonomy );
-					/**
-					 * Filter the job specification terms.
-					 *
-					 * @since 3.3.0
-					 *
-					 * @param WP_Term[]|false|WP_Error $terms Array of WP_Term objects on success.
-					 * @param int $post_id The Post ID.
-					 * @param string $taxonomy Taxonomy name.
-					 */
-					$terms = apply_filters( 'awsm_job_spec_terms', $terms, $post_id, $taxonomy );
-
-					if ( $terms !== false && ( ! is_wp_error( $terms ) ) ) {
+				
+				if ($display) {
+					$terms = get_the_terms($post_id, $taxonomy);
+					
+					/** Filter the job specification terms. */
+					$terms = apply_filters('awsm_job_spec_terms', $terms, $post_id, $taxonomy);
+	
+					if ($terms !== false && (!is_wp_error($terms))) {
 						$spec_label = $spec_icon = $spec_terms = ''; // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
-						if ( $display_label ) {
-							$spec_name  = apply_filters( 'wpml_translate_single_string', $options->label, 'WordPress', sprintf( 'taxonomy general name: %s', $options->label ) );
+						
+						if ($display_label) {
+							$spec_name = apply_filters('wpml_translate_single_string', $options->label, 'WordPress', sprintf('taxonomy general name: %s', $options->label));
 							$spec_label = '<span class="awsm-job-specification-label"><strong>' . $spec_name . ': </strong></span>';
 						}
-						foreach ( $filter_data as $filter ) {
-							if ( $taxonomy === $filter['taxonomy'] ) {
-								if ( ! empty( $filter['icon'] ) ) {
-									if ( ! is_singular( 'awsm_job_openings' ) || $show_icon === 'show_icon' ) {
-										$spec_icon = sprintf( '<i class="awsm-job-icon-%1$s"></i>', esc_attr( $filter['icon'] ) );
+	
+						// Get icon and filter data
+						$current_filter = null;
+						foreach ($filter_data as $filter) {
+							if ($taxonomy === $filter['taxonomy']) {
+								$current_filter = $filter;
+								if (!empty($filter['icon'])) {
+									if (!is_singular('awsm_job_openings') || $show_icon === 'show_icon') {
+										$spec_icon = sprintf('<i class="awsm-job-icon-%1$s"></i>', esc_attr($filter['icon']));
 									}
 								}
+								break;
 							}
 						}
-						foreach ( $terms as $term ) {
-							$term_link = get_term_link( $term );
-							if ( ! is_singular( 'awsm_job_openings' ) || $is_specs_clickable !== 'make_clickable' || is_wp_error( $term_link ) || ! $has_term_link ) {
-								$spec_terms .= '<span class="awsm-job-specification-term">' . esc_html( $term->name ) . '</span> ';
+	
+						// Create ordered terms array based on filter tags
+						$ordered_terms = array();
+						if ($current_filter && !empty($current_filter['tags'])) {
+							// Create a map of term names to term objects
+							$term_map = array();
+							foreach ($terms as $term) {
+								$term_map[$term->name] = $term;
+							}
+							
+							// Add terms in the order specified by tags
+							foreach ($current_filter['tags'] as $tag) {
+								if (isset($term_map[$tag])) {
+									$ordered_terms[] = $term_map[$tag];
+									unset($term_map[$tag]);
+								}
+							}
+							
+							// Add any remaining terms that weren't in the filter tags
+							foreach ($term_map as $term) {
+								$ordered_terms[] = $term;
+							}
+						} else {
+							$ordered_terms = $terms;
+						}
+	
+						// Generate terms HTML
+						foreach ($ordered_terms as $term) {
+							$term_link = get_term_link($term);
+							if (!is_singular('awsm_job_openings') || $is_specs_clickable !== 'make_clickable' || is_wp_error($term_link) || !$has_term_link) {
+								$spec_terms .= '<span class="awsm-job-specification-term">' . esc_html($term->name) . '</span> ';
 							} else {
-								$spec_terms .= sprintf( '<a href="%2$s" class="awsm-job-specification-term">%1$s</a> ', esc_html( $term->name ), esc_url( $term_link ) );
+								$spec_terms .= sprintf('<a href="%2$s" class="awsm-job-specification-term">%1$s</a> ', esc_html($term->name), esc_url($term_link));
 							}
 						}
-						$spec_item_content = sprintf( '<div class="awsm-job-specification-item awsm-job-specification-%2$s">%1$s</div>', $spec_icon . $spec_label . $spec_terms, esc_attr( $taxonomy ) );
-						/**
-						 * Filters the job specification item content.
-						 *
-						 * @since 2.3.0
-						 *
-						 * @param string $spec_item_content The HTML content.
-						 * @param int $post_id The Post ID.
-						 * @param string $taxonomy Taxonomy name.
-						 */
-						$spec_item_content = apply_filters( 'awsm_job_spec_item_content', $spec_item_content, $post_id, $taxonomy );
-						$spec_content     .= $spec_item_content;
+	
+						$spec_item_content = sprintf('<div class="awsm-job-specification-item awsm-job-specification-%2$s">%1$s</div>', $spec_icon . $spec_label . $spec_terms, esc_attr($taxonomy));
+						
+						/** Filters the job specification item content. */
+						$spec_item_content = apply_filters('awsm_job_spec_item_content', $spec_item_content, $post_id, $taxonomy);
+						$spec_content .= $spec_item_content;
 					}
 				}
 			}
 		}
-		if ( ! empty( $spec_content ) ) {
-			$spec_content = sprintf( '<div class="awsm-job-specification-wrapper">%1$s</div>', $spec_content );
+		
+		if (!empty($spec_content)) {
+			$spec_content = sprintf('<div class="awsm-job-specification-wrapper">%1$s</div>', $spec_content);
 		}
-
-		$spec_content = apply_filters_deprecated( 'awsm_specification_content', array( $spec_content, $post_id ), '2.3.0', 'awsm_job_specs_content' );
-		/**
-		 * Filters the job specifications content.
-		 *
-		 * @since 2.3.0
-		 *
-		 * @param string $spec_content The HTML content.
-		 * @param int $post_id The Post ID.
-		 */
-		return apply_filters( 'awsm_job_specs_content', $spec_content, $post_id );
+	
+		$spec_content = apply_filters_deprecated('awsm_specification_content', array($spec_content, $post_id), '2.3.0', 'awsm_job_specs_content');
+		
+		/** Filters the job specifications content. */
+		return apply_filters('awsm_job_specs_content', $spec_content, $post_id);
 	}
-
 	public static function display_specifications_content( $post_id, $pos, $echo = true ) {
 		$content       = '';
 		$show_job_spec = get_option( 'awsm_jobs_specification_job_detail', 'show_in_detail' );
