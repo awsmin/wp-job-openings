@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$shortcode_atts = isset( $shortcode_atts ) ? $shortcode_atts : array();
+$shortcode_atts = isset( $shortcode_atts ) ? $shortcode_atts : array(); 
 
 /**
  * Fires before the job listing content.

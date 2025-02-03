@@ -7,7 +7,7 @@ jQuery(window).on('load', function() {
 	jQuery('.awsm-job-setup').addClass('loaded');
 });
 
-jQuery(document).ready(function($) {
+jQuery(document).ready(function($) { 
 	var jobsAdminMain = window.awsmJobsAdminMain = window.awsmJobsAdminMain || {};
 
 	/**
@@ -285,6 +285,18 @@ jQuery(document).ready(function($) {
 			}
 		}
 	});
+	
+	$('#awsm_jobs_listing_available_filters_row input[type="checkbox"]').change(function() { 
+        // Find the radio buttons (dependent field) for this checkbox
+        var dependentField = $(this).closest('.filter-option').find('.filter-type-selection');
+        
+        // If the checkbox is checked, show the radio buttons
+        if ($(this).is(':checked')) {
+            dependentField.show();
+        } else {
+            dependentField.hide();
+        }
+    });
 
 	/*================ Settings Error Handling ================*/
 

@@ -1095,6 +1095,18 @@ class AWSM_Job_Openings_Settings {
 									$choice_field         = sprintf( '<input type="%1$s" name="%2$s" id="%3$s" value="%4$s"%5$s />', esc_attr( $field_type ), esc_attr( $field_name ), esc_attr( $choice_id ), esc_attr( $choice ), $choice_attrs );
 									$choice_field_content = sprintf( '<label for="%2$s"%3$s>%1$s</label>', $choice_field . esc_html( $choice_text ), esc_attr( $choice_id ), $text_extra_attrs );
 
+									if ( isset( $choice_details['html'] ) && is_array( $choice_details['html'] ) ) {
+										foreach ( $choice_details['html'] as $html_choice ) { 
+											foreach ( $html_choice as $radio_choice ) { 
+												// Generate radio buttons for options A and B
+												$radio_attrs = isset( $radio_choice['value'] ) ? ' value="' . esc_attr( $radio_choice['value'] ) . '"' : '';
+												$radio_label = isset( $radio_choice['text'] ) ? esc_html( $radio_choice['text'] ) : '';
+												$radio_selected = isset( $radio_choice['selected'] ) && $radio_choice['selected'] == true ? 'selected': '';
+												$field_content .= sprintf( '<input type="radio" name="%s" id="%s" %s /><label for="%s">%s</label><br>', esc_attr( $radio_choice['name'] ), esc_attr( $radio_choice['id'] . '-' . $radio_choice['value'] ), $radio_attrs, esc_attr( $radio_choice['id'] . '-' . $radio_choice['value'] ), $radio_label );
+											}
+										}
+									}
+							
 									if ( $field_type === 'radio' || ( $field_type === 'checkbox' && $multiple === true ) ) {
 										$field_content .= sprintf( '<li>%s</li>', $choice_field_content );
 									} else {

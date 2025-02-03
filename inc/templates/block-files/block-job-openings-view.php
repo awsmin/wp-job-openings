@@ -101,7 +101,7 @@ if ( $query->have_posts() ) :
 		</div>
 	</div>
 <?php } ?>
-	<?php
+<?php
 /* else :
 		$filter_suffix = '_spec';
 		$job_spec      = array();

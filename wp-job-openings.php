@@ -1637,9 +1637,11 @@ class AWSM_Job_Openings {
 
 	public static function get_job_listing_view( $shortcode_atts = array() ) {
 		$view    = 'list';
-		$options = get_option( 'awsm_jobs_listing_view' );
+		$options = get_option( 'awsm_jobs_listing_view' ); 
 		if ( $options === 'grid-view' ) {
 			$view = 'grid';
+		}else if( $options === 'stack-view' ){
+			$view = 'stack';
 		}
 		/**
 		 * Filters the job listing view.
