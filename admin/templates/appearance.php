@@ -45,13 +45,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 							array(
 								'value' => 'checkbox',
 								'text'  => __( 'Checkbox', 'wp-job-openings' ),
-								'name'  => "awsm_jobs_listing_display_type-{$spec_key}",
+								'name'  => "awsm_jobs_listing_display_type[$spec_key]",
 								'id'    => "awsm_jobs_listing_display_type-{$spec_key}"
 							),
 							array(
 								'value' => 'dropdown',
 								'text'  => __( 'Dropdown', 'wp-job-openings' ),
-								'name'  => "awsm_jobs_listing_display_type-{$spec_key}",
+								'name'  => "awsm_jobs_listing_display_type[$spec_key]",
 								'id'    => "awsm_jobs_listing_display_type-{$spec_key}",
 								'selected' => true
 							),

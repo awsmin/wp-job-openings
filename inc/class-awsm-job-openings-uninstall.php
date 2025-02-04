@@ -36,6 +36,7 @@ class AWSM_Job_Openings_Uninstall {
 			'awsm_enable_job_search',
 			'awsm_enable_job_filter_listing',
 			'awsm_jobs_listing_available_filters',
+			'awsm_jobs_listing_display_type',
 			'awsm_jobs_listing_specs',
 			'awsm_jobs_details_page_template',
 			'awsm_jobs_details_page_layout',

@@ -203,6 +203,10 @@ class AWSM_Job_Openings_Settings {
 					'callback'    => array( $this, 'sanitize_array_fields' ),
 				),
 				array(
+					'option_name' => 'awsm_jobs_listing_display_type',
+					'callback'    => array( $this, 'sanitize_array_fields' ),
+				),
+				array(
 					/** @since 3.2.0 */
 					'option_name' => 'awsm_jobs_archive_page_template',
 					'callback'    => array( $this, 'jobs_archive_page_template_handler' ),
@@ -450,6 +454,7 @@ class AWSM_Job_Openings_Settings {
 			),
 			'awsm_enable_job_filter_listing'        => 'enabled',
 			'awsm_jobs_listing_available_filters'   => array( 'job-category', 'job-type', 'job-location' ),
+			'awsm_jobs_listing_display_type'        => array( 'checkbox', 'dropdown'),
 			'awsm_jobs_listing_specs'               => array( 'job-category', 'job-location' ),
 			'awsm_jobs_admin_upload_file_ext'       => array( 'pdf', 'doc', 'docx' ),
 			'awsm_enable_gdpr_cb'                   => 'true',
@@ -1094,24 +1099,44 @@ class AWSM_Job_Openings_Settings {
 									$text_extra_attrs     = ! empty( $choice_text_class ) ? sprintf( ' class="%s"', esc_attr( $choice_text_class ) ) : '';
 									$choice_field         = sprintf( '<input type="%1$s" name="%2$s" id="%3$s" value="%4$s"%5$s />', esc_attr( $field_type ), esc_attr( $field_name ), esc_attr( $choice_id ), esc_attr( $choice ), $choice_attrs );
 									$choice_field_content = sprintf( '<label for="%2$s"%3$s>%1$s</label>', $choice_field . esc_html( $choice_text ), esc_attr( $choice_id ), $text_extra_attrs );
-
-									if ( isset( $choice_details['html'] ) && is_array( $choice_details['html'] ) ) {
-										foreach ( $choice_details['html'] as $html_choice ) { 
-											foreach ( $html_choice as $radio_choice ) { 
-												// Generate radio buttons for options A and B
-												$radio_attrs = isset( $radio_choice['value'] ) ? ' value="' . esc_attr( $radio_choice['value'] ) . '"' : '';
-												$radio_label = isset( $radio_choice['text'] ) ? esc_html( $radio_choice['text'] ) : '';
-												$radio_selected = isset( $radio_choice['selected'] ) && $radio_choice['selected'] == true ? 'selected': '';
-												$field_content .= sprintf( '<input type="radio" name="%s" id="%s" %s /><label for="%s">%s</label><br>', esc_attr( $radio_choice['name'] ), esc_attr( $radio_choice['id'] . '-' . $radio_choice['value'] ), $radio_attrs, esc_attr( $radio_choice['id'] . '-' . $radio_choice['value'] ), $radio_label );
-											}
-										}
-									}
-							
+									
 									if ( $field_type === 'radio' || ( $field_type === 'checkbox' && $multiple === true ) ) {
 										$field_content .= sprintf( '<li>%s</li>', $choice_field_content );
 									} else {
 										$field_content .= $choice_field_content;
 									}
+
+									if ( isset( $choice_details['html'] ) && is_array( $choice_details['html'] ) ) {
+										foreach ( $choice_details['html'] as $html_choice ) { 
+											foreach ( $html_choice as $radio_choice ) {  
+												$radio_attrs = isset( $radio_choice['value'] ) ? ' value="' . esc_attr( $radio_choice['value'] ) . '"' : '';
+												$radio_label = isset( $radio_choice['text'] ) ? esc_html( $radio_choice['text'] ) : '';
+												$awsm_jobs_listing_display_type = get_option('awsm_jobs_listing_display_type', '');
+									
+												if ( is_string( $awsm_jobs_listing_display_type ) && !empty($awsm_jobs_listing_display_type) ) {
+													$display_type_choices = unserialize($awsm_jobs_listing_display_type);
+												} else {
+													$display_type_choices = $awsm_jobs_listing_display_type; 
+												}
+									
+												preg_match('/\[(.*?)\]/', $radio_choice['name'], $matches);
+												$spec_key = $matches[1] ?? '';
+									
+												$radio_checked = (isset($display_type_choices[$spec_key]) && $display_type_choices[$spec_key] === $radio_choice['value']) ? ' checked' : '';
+									
+												$field_content .= sprintf(
+													'<input type="radio" name="%s" id="%s" %s %s/><label for="%s">%s</label>',
+													esc_attr( $radio_choice['name'] ),
+													esc_attr( $radio_choice['id'] . '-' . $radio_choice['value'] ),
+													$radio_attrs,
+													$radio_checked,
+													esc_attr( $radio_choice['id'] . '-' . $radio_choice['value'] ),
+													$radio_label
+												);
+											}
+										}
+									}
+									
 									$choice_fields++;
 								} elseif ( $field_type === 'select' ) {
 									$choice_attrs  .= ' ' . selected( $value, $choice, false );
