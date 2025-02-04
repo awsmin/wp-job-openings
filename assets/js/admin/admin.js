@@ -629,4 +629,51 @@ jQuery(document).ready(function($) {
 		rangeFrom.datepicker('option', 'maxDate', rangeTo.val());
 	});
 
+	/*================ Job Spec Drag ================*/
+	
+	function enableSelect2Sortable(select2Container, selectElement) {
+		var $ul = select2Container.find('.select2-selection__rendered');
+	
+		$ul.sortable({
+			containment: 'parent',
+			items: '.select2-selection__choice',
+			stop: function () {
+				let sortedValues = [];
+	
+				// Get the sorted values from the UI
+				$ul.find('.select2-selection__choice').each(function () {
+					let text = $(this).attr('title').trim(); 
+	
+					let option = selectElement.find('option').filter(function () {
+						return $(this).text().trim() === text;
+					});
+	
+					if (option.length) {
+						sortedValues.push(option.val());
+					}
+				});
+	
+				// **Step 1: Update <select> selected values**
+				selectElement.val(sortedValues).trigger('change');
+	
+				// **Step 2: Reorder <option> elements in <select>**
+				sortedValues.forEach(function (val) {
+					let $option = selectElement.find('option[value="' + val + '"]');
+					selectElement.append($option); // Move option to the correct order
+				});
+	
+			}
+		});
+	}
+	
+	// Initialize Select2 and enable sorting
+	$(document).ready(function () {
+		$('.awsm_jobs_filter_tags').each(function () {
+			var $select = $(this);
+			var $container = $select.next('.select2-container');
+			enableSelect2Sortable($container, $select);
+		});
+	});
+	
+
 });

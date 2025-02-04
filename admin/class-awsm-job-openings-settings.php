@@ -449,7 +449,7 @@ class AWSM_Job_Openings_Settings {
 				),
 			),
 			'awsm_enable_job_filter_listing'        => 'enabled',
-			'awsm_enable_job_search'               => 'enabled',
+			'awsm_enable_job_search'                => 'enabled',
 			'awsm_jobs_listing_available_filters'   => array( 'job-category', 'job-type', 'job-location' ),
 			'awsm_jobs_listing_specs'               => array( 'job-category', 'job-location' ),
 			'awsm_jobs_admin_upload_file_ext'       => array( 'pdf', 'doc', 'docx' ),
@@ -660,6 +660,8 @@ class AWSM_Job_Openings_Settings {
 
 	public function awsm_jobs_filter_handle( $filters ) {
 		$old_value = get_option( 'awsm_jobs_filter' );
+		error_log('filter: ' . print_r($filters, true));
+		error_log('old value: ' . print_r($old_value, true));
 		if ( ! empty( $filters ) ) {
 			foreach ( $filters as $index => $filter ) {
 				$spec_name = isset( $filter['filter'] ) ? sanitize_text_field( $filter['filter'] ) : '';
@@ -714,7 +716,8 @@ class AWSM_Job_Openings_Settings {
 		}
 		return $filters;
 	}
-
+	
+	
 	public function update_awsm_jobs_filter( $old_value, $new_value ) {
 		$awsm_job_openings = AWSM_Job_Openings::init();
 		$awsm_job_openings->awsm_jobs_taxonomies( $new_value );
@@ -1214,9 +1217,9 @@ class AWSM_Job_Openings_Settings {
 			return;
 		}
 		$spec_title = $row_data = $del_btn_data = $icon_option = $tag_options = ''; // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
-
+	
 		$spec_key_html = sprintf( '<input type="text" class="widefat awsm-jobs-spec-key" name="awsm_jobs_filter[%1$s][taxonomy]" value="" maxlength="32" placeholder="%2$s" title="%3$s" required /><input type="hidden" name="awsm_jobs_filter[%1$s][register]" value="true" />', esc_attr( $index ), esc_attr__( 'Specification key', 'wp-job-openings' ), esc_attr__( 'The job specification key should only contain alphanumeric, latin characters separated by hyphen/underscore, and cannot begin or end with a hyphen/underscore.', 'wp-job-openings' ) );
-
+	
 		if ( ! empty( $tax_details ) && isset( $tax_details['key'] ) && isset( $tax_details['options'] ) ) {
 			$spec_key      = $tax_details['key'];
 			$spec_options  = $tax_details['options'];
@@ -1224,13 +1227,18 @@ class AWSM_Job_Openings_Settings {
 			$del_btn_data  = sprintf( ' data-taxonomy="%s"', esc_attr( $spec_key ) );
 			$spec_title    = $spec_options->label;
 			$spec_key_html = sprintf( '<input type="text" class="widefat" value="%2$s" disabled /><input type="hidden" name="awsm_jobs_filter[%1$s][taxonomy]" value="%2$s" />', esc_attr( $index ), esc_attr( $spec_key ) );
+			
+			// Get icon option if exists in filters
 			foreach ( $filters as $filter ) {
 				if ( $spec_key === $filter['taxonomy'] ) {
 					if ( ! empty( $filter['icon'] ) ) {
 						$icon_option = sprintf( '<option value="%1$s" selected><i class="awsm-job-icon-%1$s"></i> %1$s</option>', esc_attr( $filter['icon'] ) );
 					}
+					break;
 				}
 			}
+	
+			// Get all terms
 			$terms = get_terms(
 				array(
 					'taxonomy'   => $spec_key,
@@ -1238,9 +1246,41 @@ class AWSM_Job_Openings_Settings {
 					'hide_empty' => false,
 				)
 			);
+	
 			if ( ! empty( $terms ) ) {
+				// Create an associative array of terms for easy lookup
+				$terms_map = array();
 				foreach ( $terms as $term ) {
-					$tag_options .= sprintf( '<option value="%1$s" data-termid="%2$s" selected>%1$s (%3$s)</option>', esc_attr( $term->name ), esc_attr( $term->term_id ), esc_attr( $term->count ) );
+					$terms_map[$term->name] = $term;
+				}
+	
+				// First add terms that exist in filters' tags array
+				foreach ( $filters as $filter ) {
+					if ( $spec_key === $filter['taxonomy'] && isset( $filter['tags'] ) && is_array( $filter['tags'] ) ) {
+						foreach ( $filter['tags'] as $tag ) {
+							if ( isset( $terms_map[$tag] ) ) {
+								$term = $terms_map[$tag];
+								$tag_options .= sprintf(
+									'<option value="%1$s" data-termid="%2$s" selected>%1$s (%3$s)</option>',
+									esc_attr( $term->name ),
+									esc_attr( $term->term_id ),
+									esc_attr( $term->count )
+								);
+								// Remove from map to track which terms have been added
+								unset( $terms_map[$tag] );
+							}
+						}
+					}
+				}
+	
+				// Add remaining terms that weren't in the filters
+				foreach ( $terms_map as $term ) {
+					$tag_options .= sprintf(
+						'<option value="%1$s" data-termid="%2$s" selected>%1$s (%3$s)</option>',
+						esc_attr( $term->name ),
+						esc_attr( $term->term_id ),
+						esc_attr( $term->count )
+					);
 				}
 			}
 		}
@@ -1266,6 +1306,7 @@ class AWSM_Job_Openings_Settings {
 			</tr>
 		<?php
 	}
+	
 
 	public function get_template_tags() {
 		$template_tags = apply_filters(

@@ -123,7 +123,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							),
 						),
 					),
-					
+
 					'value'   => $listing_view,
 				),
 				array(
