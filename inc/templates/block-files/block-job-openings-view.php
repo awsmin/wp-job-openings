@@ -23,7 +23,6 @@ if ( $query->have_posts() ) :
 	if ( $attributes['placement'] == 'top' ) {
 		?>
 		<div class="awsm-b-job-wrap<?php awsm_jobs_wrapper_class(); ?>">
-			<?php if($show_filter){ ?>
 			<?php
 			/**
 			 * awsm_block_filter_form hook
@@ -39,7 +38,7 @@ if ( $query->have_posts() ) :
 			do_action( 'awsm_block_filter_form', $attributes );
 			do_action( 'awsm_block_form_outside' , $attributes);
 			?>
-			<?php } ?>
+			
 			<div class="awsm-b-job-listings"<?php awsm_block_jobs_data_attrs( array(), $attributes ); ?>>
 				<div <?php awsm_block_jobs_view_class( '', $attributes ); ?>>
 					<?php

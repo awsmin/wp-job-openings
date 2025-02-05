@@ -1655,7 +1655,39 @@ class AWSM_Job_Openings {
 	}
 
 	public static function get_job_listing_view_class( $shortcode_atts = array() ) {
-		$view       = self::get_job_listing_view( $shortcode_atts );
+		$view = self::get_job_listing_view( $shortcode_atts );
+		$view_class = 'awsm-job-listing-items';
+
+		switch ( $view ) {
+			case 'grid':
+				$number_columns = get_option( 'awsm_jobs_number_of_columns' );
+				$view_class = 'awsm-job-listings awsm-row awsm-job-listing-items';
+				$column_class = ( $number_columns == 1 ) ? 'awsm-grid-col' : 'awsm-grid-col-' . $number_columns;
+				$view_class .= ' ' . $column_class;
+				break;
+
+			case 'stack':
+				$view_class .= ' awsm-row awsm-list-stacked';
+				break;
+
+			default:
+				$view_class .= ' awsm-lists';
+				break;
+		}
+
+		/**
+		 * Filters the job listing view class.
+		 *
+		 * @since 1.1.0
+		 * @since 3.1.0 The `$shortcode_atts` parameter was added.
+		 *
+		 * @param string $view_class Class names.
+		 * @param array $shortcode_atts The shortcode attributes.
+		 */
+		$view_class = apply_filters( 'awsm_job_listing_view_class', $view_class, $shortcode_atts );
+
+		return esc_attr( $view_class );
+		/* $view       = self::get_job_listing_view( $shortcode_atts );
 		$view_class = 'awsm-lists';
 		if ( $view === 'grid' ) {
 			$number_columns = get_option( 'awsm_jobs_number_of_columns' );
@@ -1675,8 +1707,8 @@ class AWSM_Job_Openings {
 		 * @param string $view_class Class names.
 		 * @param array $shortcode_atts The shortcode attributes.
 		 */
-		$view_class = apply_filters( 'awsm_job_listing_view_class', $view_class, $shortcode_atts );
-		return sprintf( 'awsm-job-listings %s', $view_class );
+		/*$view_class = apply_filters( 'awsm_job_listing_view_class', $view_class, $shortcode_atts );
+		return sprintf( 'awsm-job-listings %s', $view_class ); */
 	}
 
 	public static function get_current_language() {
