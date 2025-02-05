@@ -177,7 +177,9 @@ class AWSM_Job_Openings_Block {
 						'awsm_filter_block_spec_terms_args',
 						array(
 							'taxonomy'   => $taxonomy,
-							'orderby'    => 'name',
+							'orderby' => 'meta_value_num',
+							'meta_key' => 'term_order',
+							'order' => 'ASC',
 							'hide_empty' => true,
 						)
 					);

@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	$awsm_filters           = get_option( 'awsm_jobs_filter' );
 	$taxonomy_objects       = get_object_taxonomies( 'awsm_job_openings', 'objects' );
 	// echo '<pre>';
-	// var_dump($awsm_filters );
+	// var_dump($taxonomy_objects );
 	$spec_label_placeholder = 'placeholder="' . esc_html__( 'Enter a specification', 'wp-job-openings' ) . '"';
 	$spec_tags_placeholder  = 'data-placeholder="' . esc_html__( 'Enter options', 'wp-job-openings' ) . '"';
 	$icon_placeholder       = 'data-placeholder="' . esc_html__( 'Select icon', 'wp-job-openings' ) . '"';
