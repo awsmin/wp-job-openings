@@ -5,6 +5,7 @@
 jQuery(function($) {  
 	var rootWrapperSelector = '.awsm-job-wrap';
 	var wrapperSelector = '.awsm-job-listings';
+	var sectionSelector = '.awsm-job-listing-items'; 
 
 	/* ========== Job Search and Filtering ========== */
 
@@ -29,6 +30,7 @@ jQuery(function($) {
 
 	function awsmJobFilters($rootWrapper) { 
 		var $wrapper = $rootWrapper.find(wrapperSelector);
+		var $rowWrapper = $wrapper.find(sectionSelector);
 		var $filterForm = $rootWrapper.find(filterSelector + ' form');
 		var formData = $filterForm.serializeArray();
 		var listings = $wrapper.data('listings');
@@ -78,7 +80,9 @@ jQuery(function($) {
 				data: formData,
 				type: $filterForm.attr('method')
 			}).done(function(data) {
-				$wrapper.html(data);
+				/* $wrapper.html(data); */
+				$rowWrapper.html(data);
+
 				var $searchControl = $rootWrapper.find('.awsm-job-search');
 				if ($searchControl.length > 0) {
 					if ($searchControl.val().length > 0) {
@@ -127,16 +131,16 @@ jQuery(function($) {
 		awsmJobFilters($rootWrapper);
 	}
 
-	// if ($(rootWrapperSelector).length > 0) {
-	// 	$(rootWrapperSelector).each(function() {
-	// 		var $currentWrapper = $(this);
-	// 		var $filterForm = $currentWrapper.find(filterSelector + ' form');
-	// 		if (awsmJobsPublic.is_search.length > 0 || filterCheck($filterForm)) {
-				// triggerFilter = true;
-				// awsmJobFilters($currentWrapper);
-	// 		}
-	// 	});
-	// }
+	if ($(rootWrapperSelector).length > 0) { 
+		$(rootWrapperSelector).each(function() { 
+			var $currentWrapper = $(this);
+			var $filterForm = $currentWrapper.find(filterSelector + ' form');
+			if (awsmJobsPublic.is_search.length > 0 || filterCheck($filterForm)) {
+				triggerFilter = true;
+				awsmJobFilters($currentWrapper);
+			}
+		});
+	}
 
 	var updateQuery = function(key, value, url) {
 		url = typeof url !== 'undefined' ? url : currentUrl;
@@ -216,6 +220,44 @@ jQuery(function($) {
 			e.preventDefault();
 			searchJobs($(this));
 		}
+	});
+
+	$(filterSelector + ' .awsm-filter-checkbox').on('change', function(e) { 
+		var selectedFilters = {};
+		var slugs = [];  // Initialize an array to collect slugs
+		var $elem = $(this);
+		var $rootWrapper = $elem.parents(rootWrapperSelector);
+		var currentSpec = $elem.parents('.awsm-filter-list-item').data('filter'); 
+	
+		// Loop through checked checkboxes and build selectedFilters and slugs array
+		$('.awsm-filter-checkbox:checked').each(function() {
+			var taxonomy = $(this).data('taxonomy');
+			var termId = $(this).data('term-id');
+			var slug = $(this).data('slug'); // Get the slug from the checkbox
+	
+			// Add the slug to the slugs array if it exists
+			if (slug) {
+				slugs.push(slug);
+			}
+	
+			// Populate the selectedFilters object
+			if (!selectedFilters[taxonomy]) {
+				selectedFilters[taxonomy] = [];
+			}
+			selectedFilters[taxonomy].push(termId);
+		});
+	
+		// Convert slugs array to a comma-separated string
+		var slugString = slugs.length > 0 ? slugs.join(',') : '';
+	
+		// Handle deep linking
+		if (awsmJobsPublic.deep_linking.spec) {
+			var $paginationBase = $rootWrapper.find('input[name="awsm_pagination_base"]');
+			updateQuery(currentSpec, slugString, $paginationBase.val()); // Use the comma-separated slugString
+		}
+	
+		// Apply the job filters
+		awsmJobFilters($rootWrapper);
 	});
 
 	/* ========== Job Listings Load More ========== */

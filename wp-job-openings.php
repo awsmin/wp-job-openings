@@ -348,6 +348,7 @@ class AWSM_Job_Openings {
 				'loadmore'   => 'yes',
 				'pagination' => get_option( 'awsm_jobs_pagination_type', 'modern' ),
 				'specs'      => '',
+				'placement'  => get_option( 'awsm_jobs_placement_type', 'top' ),
 			)
 		);
 		$shortcode_atts = shortcode_atts( $pairs, $atts, 'awsmjobs' );

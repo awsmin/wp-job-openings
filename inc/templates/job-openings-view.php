@@ -13,7 +13,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $shortcode_atts = isset( $shortcode_atts ) ? $shortcode_atts : array(); 
-
 /**
  * Fires before the job listing content.
  *
@@ -27,17 +26,7 @@ $shortcode_atts = isset( $shortcode_atts ) ? $shortcode_atts : array();
 do_action( 'before_awsm_jobs_listing', $shortcode_atts );
 
 $query = awsm_jobs_query( $shortcode_atts );
-
-$show_filter  			 = false;
-$placement_sidebar_class = '';
-
-$shortcode_atts['search']    = 'enable';
-$shortcode_atts['placement'] = 'top';
-
-if ( isset( $shortcode_atts['search'] ) && $shortcode_atts['search'] == 'enable' ) {
-	$show_filter = true;
-	$placement_sidebar_class = 'awsm-job-2-col';
-}
+$placement_sidebar_class = 'awsm-job-2-col';
 
 if ( $query->have_posts() ) : 
 	if ( $shortcode_atts['placement'] == 'top' ) :
@@ -63,7 +52,6 @@ if ( $query->have_posts() ) :
 		<div <?php awsm_jobs_view_class( '', $shortcode_atts ); ?><?php awsm_jobs_data_attrs( array(), $shortcode_atts ); ?>>
 			<?php include get_awsm_jobs_template_path( 'main', 'job-openings' ); ?>
 		</div>
-
 	</div>
 	<?php
 	elseif( $shortcode_atts['placement'] == 'side' ): ?>
@@ -88,9 +76,7 @@ if ( $query->have_posts() ) :
 
 		<div class="awsm-job-listings"<?php awsm_jobs_data_attrs( array(), $shortcode_atts ); ?>>
 			<div class="awsm-job-sort-wrap">
-				
 				<div class="awsm-job-results" id="awsm-job-count"></div> 
-
 				<?php
 					/**
 					 * awsm_block_jobs_sort hook
@@ -105,7 +91,6 @@ if ( $query->have_posts() ) :
 					 */
 					do_action( 'awsm_jobs_sort', $shortcode_atts );
 				?>
-
 			</div>
 			<div <?php awsm_jobs_view_class( '', $shortcode_atts ); ?>>
 				<?php include get_awsm_jobs_template_path( 'main', 'job-openings' ); ?>

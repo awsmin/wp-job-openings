@@ -180,7 +180,7 @@ jQuery(function($) {
 	}
 
 	if ($(rootWrapperSelector).length > 0) { 
-		$(rootWrapperSelector).each(function() {
+		$(rootWrapperSelector).each(function() { 
 			var $currentWrapper = $(this); 
 			var $filterForm = $currentWrapper.find(filterSelector + ' form'); 
 			if (awsmJobsPublic.is_search.length > 0 || filterCheck($filterForm)) { 
