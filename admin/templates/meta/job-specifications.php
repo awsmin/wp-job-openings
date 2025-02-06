@@ -41,9 +41,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 			$terms_args = apply_filters(
 				'awsm_jobs_spec_terms_args',
 				array(
-					'taxonomy'   => $spec,
+					'taxonomy' => $spec,
 					'orderby' => 'meta_value_num',
-					'meta_key' => 'term_order',
+					'meta_query' => array(
+						'relation' => 'OR',
+						array(
+							'key' => 'term_order',
+							'compare' => 'EXISTS'
+						),
+						array(
+							'key' => 'term_order',
+							'compare' => 'NOT EXISTS'
+						)
+					),
 					'order' => 'ASC',
 					'hide_empty' => false,
 				)
