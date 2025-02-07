@@ -90,7 +90,7 @@ a.awsm-b-job-item {
 	margin-bottom: 30px;
 	box-shadow: 0 1px 4px 0 rgb(0 0 0 / 5%);
 	border: 1px solid #dddfe3;
-	border-radius: 2px;
+	border-radius: 5px;
 	display: -webkit-box;
 	display: -moz-box;
 	display: -ms-flexbox;
@@ -656,7 +656,7 @@ ul.awsm-error-message li {
 	padding: 8px 15px;
 	min-height: 46px;
 	border: 1px solid #ccc;
-	border-radius: 4px;
+	border-radius: 5px;
 	line-height: 1;
 	color: #060606;
 	transition:  all 0.3s ease;
@@ -698,7 +698,7 @@ ul.awsm-error-message li {
 .awsm-job-form-plugin-style .awsm-selectric{
 	border-color: #ccc;
 	box-shadow: none;
-	border-radius: 4px;
+	border-radius: 5px;
 }
 .awsm-job-form-plugin-style .awsm-selectric-open .awsm-selectric{
 	border-color: #060606;
@@ -975,6 +975,9 @@ ul.awsm-error-message li {
 		}
 	}
 }
-	
+
+.awsm-selectric{
+	border-radius: 5px;
+}	
  /** end **/
  
