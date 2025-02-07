@@ -451,6 +451,9 @@ a.awsm-text-red:hover {
 .post-type-awsm_job_application #post-body-content {
 	margin-bottom: 0px;
 }
+.post-type-awsm_job_application .tablenav.top{ margin-bottom: 13px;}
+
+.post-type-awsm_job_application .tablenav.top .tablenav-pages{display: none;}
 
 .awsm-applicant-image-container {
 	float: left;
