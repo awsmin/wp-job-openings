@@ -1602,7 +1602,7 @@ class AWSM_Job_Openings {
 		return ( isset( $shortcode_atts['listings'] ) && is_numeric( $shortcode_atts['listings'] ) && $shortcode_atts['listings'] > 0 ) ? intval( $shortcode_atts['listings'] ) : get_option( 'awsm_jobs_list_per_page' );
 	}
 
-	public static function awsm_job_query_args( $filters = array(), $shortcode_atts = array(), $is_term_or_slug = array() ) {
+	public static function awsm_job_query_args( $filters = array(), $shortcode_atts = array(), $is_term_or_slug = array(), $filters_list = array() ) {
 		$args = array();
 
 		if ( is_tax() ) {
@@ -1613,7 +1613,7 @@ class AWSM_Job_Openings {
 			$is_term_or_slug[ $taxonomy ] = 'term_id';
 		}
 
-		if ( ! empty( $filters ) ) {
+		/* if ( ! empty( $filters ) ) {
 			foreach ( $filters as $taxonomy => $value ) {
 				if ( ! empty( $value ) ) {
 					$field_type          = isset( $is_term_or_slug[ $taxonomy ] ) ? $is_term_or_slug[ $taxonomy ] : 'term_id';
@@ -1625,6 +1625,31 @@ class AWSM_Job_Openings {
 					$args['tax_query'][] = $spec;
 				}
 			}
+		} */
+
+		if ( ! empty( $filters ) || ! empty( $filters_list ) ) { 
+			$all_filters = array_merge_recursive( $filters, $filters_list );
+			
+			foreach ( $all_filters as $taxonomy => $terms ) { 
+				if ( ! empty( $terms ) ) {
+					// Ensure terms are always an array and cleaned.
+					$terms = is_array( $terms ) ? array_values( array_filter( $terms ) ) : array( $terms );
+					
+					if ( ! empty( $terms ) ) { 
+						$field_type = isset( $is_term_or_slug[ $taxonomy ] ) ? $is_term_or_slug[ $taxonomy ] : 'term_id';
+						$tax_query[] = array(
+							'taxonomy' => $taxonomy,
+							'field'    => $field_type,
+							'terms'    => $terms,
+							'operator' => 'IN',
+						);
+					}
+				}
+			}
+		}
+
+		if ( ! empty( $tax_query ) ) {
+			$args['tax_query'] = $tax_query;
 		}
 
 		$list_per_page          = self::get_listings_per_page( $shortcode_atts );

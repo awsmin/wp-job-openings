@@ -521,7 +521,7 @@ class AWSM_Job_Openings_Filters {
         // phpcs:disable WordPress.Security.NonceVerification.Missing
 		$filters = $shortcode_atts = array(); // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
 
-		$filter_action = isset( $_POST['action'] ) ? $_POST['action'] : ''; echo '<pre>';print_r( $_POST['awsm_job_specs_list'] );
+		$filter_action = isset( $_POST['action'] ) ? $_POST['action'] : ''; 
 
 		if ( ! empty( $_POST['awsm_job_spec'] ) ) {
 			$job_specs = $_POST['awsm_job_spec'];
@@ -530,6 +530,10 @@ class AWSM_Job_Openings_Filters {
 				$filters[ $taxonomy ] = intval( $term_id );
 			}
 		}
+
+		if ( isset( $_POST['awsm_job_specs_list'] ) ) {
+			$filters_list = $_POST['awsm_job_specs_list'];
+		} 
 
 		if ( ! empty( $_POST['shortcode_specs'] ) ) {
 			$shortcode_atts['specs'] = sanitize_text_field( $_POST['shortcode_specs'] );
@@ -550,7 +554,7 @@ class AWSM_Job_Openings_Filters {
 			$shortcode_atts['pagination'] = 'modern';
 		}
 
-		$args = AWSM_Job_Openings::awsm_job_query_args( $filters, $shortcode_atts );
+		$args = AWSM_Job_Openings::awsm_job_query_args( $filters, $shortcode_atts, array(), $filters_list );
 
 		if ( isset( $_POST['jq'] ) && ! empty( $_POST['jq'] ) ) {
 			$args['s'] = sanitize_text_field( $_POST['jq'] );
