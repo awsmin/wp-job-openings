@@ -4,8 +4,8 @@
 
 jQuery(function($) {  
 	var rootWrapperSelector = '.awsm-job-wrap';
-	var wrapperSelector = '.awsm-job-listings';
-	var sectionSelector = '.awsm-job-listing-items'; 
+	var wrapperSelector 	= '.awsm-job-listings';
+	var sectionSelector 	= '.awsm-job-listing-items'; 
 
 	/* ========== Job Search and Filtering ========== */
 
@@ -16,6 +16,7 @@ jQuery(function($) {
 	function getListingsData($wrapper) {  
 		var data = [];
 		var parsedListingsAttrs = [ 'listings', 'specs', 'search', 'lang', 'taxonomy', 'termId' ];
+		/* parsedListingsAttrs.push('awsm-selected-terms'); */
 		var dataAttrs = $wrapper.data();
 		$.each(dataAttrs, function(dataAttr, value) { 
 			if ($.inArray(dataAttr, parsedListingsAttrs) === -1) {
@@ -29,13 +30,14 @@ jQuery(function($) {
 	}
 
 	function awsmJobFilters($rootWrapper) { 
-		var $wrapper = $rootWrapper.find(wrapperSelector);
-		var $rowWrapper = $wrapper.find(sectionSelector);
-		var $filterForm = $rootWrapper.find(filterSelector + ' form');
-		var formData = $filterForm.serializeArray();
-		var listings = $wrapper.data('listings');
-		var specs = $wrapper.data('specs');
-
+		var $wrapper 		= $rootWrapper.find(wrapperSelector);
+		var $rowWrapper 	= $wrapper.find(sectionSelector);
+		var $filterForm 	= $rootWrapper.find(filterSelector + ' form');
+		var formData 		= $filterForm.serializeArray();
+		var listings 		= $wrapper.data('listings');
+		var specs 			= $wrapper.data('specs');
+		var selected_terms  = $wrapper.data('awsm-selected-terms'); console.log( selected_terms );
+		alert('sdfsdf');
 		$rootWrapper.find('.awsm-filter-item').each(function() {
 			var currentLoopSpec = $(this).data('filter');
 			var searchParams = new URLSearchParams(document.location.search);
@@ -62,11 +64,29 @@ jQuery(function($) {
 			});
 		}
 
+		if (selected_terms) {
+			if (typeof selected_terms === 'string') {
+				try {
+					// Parse the JSON string into an object
+					selected_terms = JSON.parse(selected_terms);
+				} catch (error) {
+					console.error("Failed to parse selected_terms JSON:", error);
+					selected_terms = {}; // Fallback to an empty object
+				}
+			}
+		
+			// Push to wpData
+			formData.push({
+				name: 'awsm-selected-terms',
+				value: JSON.stringify(selected_terms) // Send as JSON string
+			});
+		}
+
 		var listingsData = getListingsData($wrapper);
 		if (listingsData.length > 0) {
 			formData = formData.concat(listingsData);
 		}
-		if (triggerFilter) {
+		if (triggerFilter) { 
 
 			// stop the duplicate requests.
 			triggerFilter = false;
@@ -201,7 +221,7 @@ jQuery(function($) {
 		if (awsmJobsPublic.deep_linking.spec) {
 			var $paginationBase = $rootWrapper.find('input[name="awsm_pagination_base"]');
 			updateQuery(currentSpec, slug, $paginationBase.val());
-		}
+		} 
 		awsmJobFilters($rootWrapper);
 	});
 
@@ -255,7 +275,7 @@ jQuery(function($) {
 			var $paginationBase = $rootWrapper.find('input[name="awsm_pagination_base"]');
 			updateQuery(currentSpec, slugString, $paginationBase.val()); // Use the comma-separated slugString
 		}
-	
+		
 		// Apply the job filters
 		awsmJobFilters($rootWrapper);
 	});

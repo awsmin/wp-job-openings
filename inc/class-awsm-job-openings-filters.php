@@ -521,7 +521,7 @@ class AWSM_Job_Openings_Filters {
         // phpcs:disable WordPress.Security.NonceVerification.Missing
 		$filters = $shortcode_atts = array(); // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
 
-		$filter_action = isset( $_POST['action'] ) ? $_POST['action'] : ''; echo '<pre>';print_r( $_POST['awsm_job_specs_list'] );
+		$filter_action = isset( $_POST['action'] ) ? $_POST['action'] : ''; 
 
 		if ( ! empty( $_POST['awsm_job_spec'] ) ) {
 			$job_specs = $_POST['awsm_job_spec'];
