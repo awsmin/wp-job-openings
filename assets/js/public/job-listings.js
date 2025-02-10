@@ -37,11 +37,7 @@ jQuery(function($) {
 		var listings 		= $wrapper.data('listings');
 		var specs 			= $wrapper.data('specs');
 		var selected_terms  = $wrapper.data('awsm-selected-terms'); console.log( selected_terms );
-<<<<<<< HEAD
 		
-=======
-		alert('sdfsdf');
->>>>>>> a223e9a33af533cb20337c5520436e49a1245a62
 		$rootWrapper.find('.awsm-filter-item').each(function() {
 			var currentLoopSpec = $(this).data('filter');
 			var searchParams = new URLSearchParams(document.location.search);
@@ -293,8 +289,11 @@ jQuery(function($) {
 		var isDefaultPagination = $triggerElem.hasClass('awsm-load-more-btn');
 		var paged = 1;
 		var wpData = [];
+
 		var $mainContainer = $triggerElem.parents(rootWrapperSelector);
 		var $listingsContainer = $mainContainer.find(wrapperSelector);
+		var $listingsrowContainer = $listingsContainer.find(sectionSelector); console.log($listingsrowContainer);
+
 		var $paginationWrapper = $triggerElem.parents('.awsm-jobs-pagination');
 		var listings = $listingsContainer.data('listings');
 		var specs = $listingsContainer.data('specs');
@@ -406,9 +405,10 @@ jQuery(function($) {
 				var effectDuration = $paginationWrapper.data('effectDuration');
 				$paginationWrapper.remove();
 				if (isDefaultPagination) {
-					$listingsContainer.append(data);
+					$listingsrowContainer.append(data);
 				} else {
-					$listingsContainer.html(data);
+					/* $listingsContainer.html(data); */
+					$listingsrowContainer.html(data);
 					$listingsContainer.removeClass('awsm-jobs-loading');
 					if (typeof effectDuration !== 'undefined') {
 						effectDuration = isNaN(effectDuration) ? effectDuration : Number(effectDuration);
