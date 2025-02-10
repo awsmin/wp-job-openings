@@ -37,7 +37,11 @@ jQuery(function($) {
 		var listings 		= $wrapper.data('listings');
 		var specs 			= $wrapper.data('specs');
 		var selected_terms  = $wrapper.data('awsm-selected-terms'); console.log( selected_terms );
+<<<<<<< HEAD
 		
+=======
+		alert('sdfsdf');
+>>>>>>> a223e9a33af533cb20337c5520436e49a1245a62
 		$rootWrapper.find('.awsm-filter-item').each(function() {
 			var currentLoopSpec = $(this).data('filter');
 			var searchParams = new URLSearchParams(document.location.search);
