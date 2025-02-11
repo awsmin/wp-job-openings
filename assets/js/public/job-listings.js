@@ -16,7 +16,9 @@ jQuery(function($) {
 	function getListingsData($wrapper) {  
 		var data = [];
 		var parsedListingsAttrs = [ 'listings', 'specs', 'search', 'lang', 'taxonomy', 'termId' ];
-		/* parsedListingsAttrs.push('awsm-selected-terms'); */
+
+		parsedListingsAttrs.push('awsm-selected-terms');
+
 		var dataAttrs = $wrapper.data();
 		$.each(dataAttrs, function(dataAttr, value) { 
 			if ($.inArray(dataAttr, parsedListingsAttrs) === -1) {
@@ -36,7 +38,7 @@ jQuery(function($) {
 		var formData 		= $filterForm.serializeArray();
 		var listings 		= $wrapper.data('listings');
 		var specs 			= $wrapper.data('specs');
-		var selected_terms  = $wrapper.data('awsm-selected-terms'); console.log( selected_terms );
+		var selected_terms  = $wrapper.data('awsm-selected-terms');
 		
 		$rootWrapper.find('.awsm-filter-item').each(function() {
 			var currentLoopSpec = $(this).data('filter');
@@ -290,15 +292,17 @@ jQuery(function($) {
 		var paged = 1;
 		var wpData = [];
 
-		var $mainContainer = $triggerElem.parents(rootWrapperSelector);
-		var $listingsContainer = $mainContainer.find(wrapperSelector);
-		var $listingsrowContainer = $listingsContainer.find(sectionSelector); console.log($listingsrowContainer);
+		var $mainContainer 		  = $triggerElem.parents(rootWrapperSelector);
+		var $listingsContainer 	  = $mainContainer.find(wrapperSelector);
+		var $listingsrowContainer = $listingsContainer.find(sectionSelector); 
 
-		var $paginationWrapper = $triggerElem.parents('.awsm-jobs-pagination');
-		var listings = $listingsContainer.data('listings');
-		var specs = $listingsContainer.data('specs');
-		var lang = $listingsContainer.data('lang');
-		var searchQuery = $listingsContainer.data('search');
+		var $paginationWrapper   = $triggerElem.parents('.awsm-jobs-pagination');
+		var listings 			 = $listingsContainer.data('listings');
+		var specs				 = $listingsContainer.data('specs');
+		var lang 				 = $listingsContainer.data('lang');
+		var searchQuery 		 = $listingsContainer.data('search');
+
+		var selected_terms 		 = $listingsContainer.data('awsm-selected-terms'); 
 
 		if (isDefaultPagination) {
 			$triggerElem.prop('disabled', true);
@@ -351,6 +355,31 @@ jQuery(function($) {
 			}
 		}
 
+		var specsList = {}; 
+		$filterForm.find('.awsm-filter-checkbox:checked').each(function () { 
+			var $checkbox = $(this);
+			var taxonomy = $checkbox.data('taxonomy'); // Get taxonomy from data attribute
+			var termId = $checkbox.data('term-id'); // Get term ID from data attribute
+	
+			if (taxonomy && termId) {
+				if (!specsList[taxonomy]) {
+					specsList[taxonomy] = []; // Initialize array for this taxonomy
+				}
+				specsList[taxonomy].push(termId); // Add term ID to the array
+			}
+		});
+
+		for (var taxonomy in specsList) {
+			if (specsList.hasOwnProperty(taxonomy)) {
+				specsList[taxonomy].forEach(function (termId) {
+					wpData.push({
+						name: `awsm_job_specs_list[${taxonomy}][]`, // Add taxonomy as part of the key
+						value: termId
+					});
+				});
+			}
+		}
+
 		wpData.push({
 			name: 'action',
 			value: 'loadmore'
@@ -383,6 +412,25 @@ jQuery(function($) {
 				value: searchQuery
 			});
 		}
+
+		if (selected_terms) {
+			if (typeof selected_terms === 'string') {
+				try {
+					// Parse the JSON string into an object
+					selected_terms = JSON.parse(selected_terms);
+				} catch (error) {
+					console.error("Failed to parse selected_terms JSON:", error);
+					selected_terms = {}; // Fallback to an empty object
+				}
+			}
+		
+			// Push to wpData
+			wpData.push({
+				name: 'awsm-selected-terms',
+				value: JSON.stringify(selected_terms) // Send as JSON string
+			});
+		}
+		
 		var listingsData = getListingsData($listingsContainer);
 		if (listingsData.length > 0) {
 			wpData = wpData.concat(listingsData);

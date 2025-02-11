@@ -98,7 +98,7 @@ if ( $query->have_posts() ) :
 		</div>
 	</div>
 	<?php endif;
-else :
+/* else :
 	$filter_suffix = '_spec';
 	$job_spec      = array();
 
@@ -136,8 +136,8 @@ else :
 			<p><?php awsm_no_jobs_msg(); ?></p>
 		</div>
 		<?php
-	}
-endif;
+	}*/
+endif; 
 
 /**
  * Fires after the job listing content.
@@ -147,4 +147,4 @@ endif;
  *
  * @param array $shortcode_atts Attributes array if shortcode is used, else an empty array.
  */
-do_action( 'after_awsm_jobs_listing', $shortcode_atts );
+//do_action( 'after_awsm_jobs_listing', $shortcode_atts );

@@ -1753,7 +1753,7 @@ class AWSM_Job_Openings {
 		}
 	}
 
-	public static function get_job_listing_data_attrs( $shortcode_atts = array() ) {
+	public static function get_job_listing_data_attrs( $shortcode_atts = array() ) { 
 		$attrs             = array();
 		$attrs['listings'] = self::get_listings_per_page( $shortcode_atts );
 		$attrs['specs']    = isset( $shortcode_atts['specs'] ) ? $shortcode_atts['specs'] : '';
