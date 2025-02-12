@@ -29,7 +29,7 @@ $query = awsm_jobs_query( $shortcode_atts );
 $placement_sidebar_class = 'awsm-job-2-col';
 
 if ( $query->have_posts() ) : 
-	if ( $shortcode_atts['placement'] == 'top' ) :
+	if ( $shortcode_atts['placement'] == 'top' ) : 
 ?>
 	<div class="awsm-job-wrap<?php awsm_jobs_wrapper_class(); ?>">
 		<?php
@@ -46,15 +46,15 @@ if ( $query->have_posts() ) :
 			 * @param array $shortcode_atts Attributes array if shortcode is used, else an empty array.
 			 */
 			do_action( 'awsm_filter_form', $shortcode_atts );
-			do_action( 'awsm_filter_after_form' );
+			do_action( 'awsm_filter_after_form' ); 
 		?>
 
 		<div <?php awsm_jobs_view_class( '', $shortcode_atts ); ?><?php awsm_jobs_data_attrs( array(), $shortcode_atts ); ?>>
 			<?php include get_awsm_jobs_template_path( 'main', 'job-openings' ); ?>
 		</div>
 	</div>
-	<?php
-	elseif( $shortcode_atts['placement'] == 'side' ): ?>
+	<?php 
+	elseif( $shortcode_atts['placement'] == 'side' ):  ?>
 		<div class="awsm-job-wrap<?php awsm_jobs_wrapper_class(); ?> awsm-job-form-plugin-style <?php echo $placement_sidebar_class; ?>">
 		<div class="awsm-filter-wrap awsm-filter-wrap awsm-jobs-alerts-on">
 			<?php

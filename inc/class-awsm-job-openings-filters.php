@@ -408,7 +408,19 @@ class AWSM_Job_Openings_Filters {
 								$selected = '';
 								if ( in_array( $taxonomy, array_keys( $selected_filters ) ) && $selected_filters[ $taxonomy ] === $term->slug ) {
 									$selected = ' selected';
+								}else {
+									foreach ( $_GET as $key => $value ) {
+										if ( strpos( $key, 'job__' ) !== false ) {
+											$selected_specs = explode( ',', $value );
+							
+											if ( in_array( esc_attr( $term->slug ), $selected_specs ) ) {
+												$selected = ' selected';
+												break;
+											}
+										}
+									}
 								}
+
 								$option_content = sprintf( '<option value="%1$s" data-slug="%3$s"%4$s>%2$s</option>', esc_attr( $term->term_id ), esc_html( $term->name ), esc_attr( $term->slug ), esc_attr( $selected ) );
 								/**
 								 * Filter the job filter dropdown option content.
@@ -442,6 +454,22 @@ class AWSM_Job_Openings_Filters {
 								
 								foreach ( $terms as $term ) {
 
+									// Loop through the dynamic URL parameters
+									$is_checked = false;
+									$checked = '';
+
+									foreach ( $_GET as $key => $value ) {
+										if ( strpos( $key, 'job__' ) !== false ) {
+											$selected_specs = explode( ',', $value );
+
+											if ( in_array( esc_attr( $term->slug ), $selected_specs ) ) {
+												$is_checked = true;
+												break;
+											}
+										}
+									}
+
+
 									$filter_list_items .= sprintf(
 										'<div class="awsm-filter-list-item" data-filter="%6$s">
 											<label>
@@ -459,7 +487,7 @@ class AWSM_Job_Openings_Filters {
 										esc_attr( $taxonomy ),
 										esc_attr( $filter_key . '_spec' ),
 										esc_attr( $term->slug ),
-										''
+										$is_checked ? 'checked' : $checked
 									);
 								}
 
