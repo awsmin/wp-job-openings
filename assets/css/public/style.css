@@ -451,8 +451,7 @@ a.awsm-job-item .awsm-job-specification-item {
 	font-weight: normal;
 }
 
-.awsm-job-form-control,
-.awsm-b-job-form-control {
+.awsm-job-form-control {
 	display: block;
 	width: 100%;
 	padding: 5px 10px;
