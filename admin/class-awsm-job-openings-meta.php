@@ -23,6 +23,7 @@ class AWSM_Job_Openings_Meta {
 		add_filter( 'post_row_actions', array( $this, 'awsm_job_application_row_actions_label' ), 10, 2 );
 		add_filter( 'wp_untrash_post_status', array( $this, 'awsm_job_application_restore_post_to_previous_status' ), 10, 3 );
 		add_filter( 'post_class', array( $this, 'awsm_add_unread_application_class' ), 10, 3 );
+		add_action( 'quick_edit_custom_box', array( $this, 'awsm_job_openings_main_quick_edit_fields'), 10, 2 );
 	}
 
 	public static function init() {
@@ -348,6 +349,39 @@ class AWSM_Job_Openings_Meta {
 		}
 
 		return $classes;
+	}
+
+	public function awsm_job_openings_main_quick_edit_fields( $column_name, $post_type ) {
+		if ( $post_type !== 'awsm_job_openings' || $column_name !== 'awsm_job_expiry' ) {
+			return;
+		}
+	
+		$awsm_job_expiry = get_post_meta( get_the_ID(), 'awsm_job_expiry', true );
+		$display_list    = get_post_meta( get_the_ID(), 'awsm_exp_list_display', true );
+		$set_expiry      = get_post_meta( get_the_ID(), 'awsm_set_exp_list', true ); // Retrieve the expiry checkbox state
+		$date_format     = get_awsm_jobs_date_format( 'expiry-admin' );
+		?>
+		<fieldset class="inline-edit-col-right">
+			<div class="inline-edit-col">
+				<label>
+					<input type="checkbox" name="awsm_set_exp_list" id="awsm-job-expiry-qedit" value="set_listing" <?php checked( $set_expiry, 'set_listing' ); ?>>
+					<?php esc_html_e( 'Set expiry for listing', 'wp-job-openings' ); ?>
+				</label>
+				
+				<div id="awsm-job-expiry-fields" style="display: none; margin-top: 10px;">
+					<label>
+						<input type="text" class="awsm-jobs-datepicker" name="awsm_job_expiry_text_field" placeholder="<?php echo esc_attr( $date_format ); ?>" value="<?php echo ( ! empty( $awsm_job_expiry ) ) ? esc_attr( date_i18n( $date_format, strtotime( $awsm_job_expiry ) ) ) : ''; ?>" />
+						<input type="hidden" id="awsm-jobs-datepicker-alt" name="awsm_job_expiry" value="<?php echo esc_attr( $awsm_job_expiry ); ?>" />
+					</label>
+					<br>
+					<label>
+						<input type="checkbox" name="awsm_exp_list_display" id="awsm-job-expiry-display" value="list_display" <?php checked( $display_list, 'list_display' ); ?>>
+						<?php esc_html_e( 'Display expiry date', 'wp-job-openings' ); ?>
+					</label>
+				</div>
+			</div>
+		</fieldset>
+		<?php
 	}
 
 }

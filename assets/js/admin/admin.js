@@ -671,4 +671,63 @@ jQuery(document).ready(function($) {
 		enableSelect2Sortable($container, $select);
 	});
 
+	function awsm_load_quick_edit_data(id) {
+    var $row = $('#post-' + id);
+    var expiry_date = $row.find('.column-awsm_job_expiry').text().trim(); // Ensure this correctly gets the date
+    var display_expiry = $row.find('.column-awsm_job_expiry').data('display') === 'yes';
+
+    if (expiry_date !== '') {
+        $('#awsm-job-expiry-qedit').prop('checked', true);
+        $('#awsm-job-expiry-fields').show();
+    } else {
+        $('#awsm-job-expiry-qedit').prop('checked', false);
+        $('#awsm-job-expiry-fields').hide();
+    }
+
+    // Set the expiry date correctly
+    var $dateField = $('#awsm-job-expiry-fields .awsm-jobs-datepicker');
+    $dateField.val(expiry_date); // Set the text field value
+
+    // Set the hidden field value
+    $('input[name="awsm_job_expiry"]').val(expiry_date);
+
+    // Check the display expiry checkbox
+    $('#awsm-job-expiry-display-qedit').prop('checked', display_expiry);
+
+    // Reinitialize Datepicker
+    setTimeout(function() {
+        $dateField.datepicker("destroy").datepicker({
+            altField: '#awsm-jobs-datepicker-alt',
+            altFormat: 'yy-mm-dd',
+            showOn: 'both',
+            buttonText: '',
+            // buttonImage: awsmJobsAdmin.plugin_url + '/assets/img/calendar-alt.svg',
+            buttonImageOnly: true,
+            changeMonth: true,
+            numberOfMonths: 1,
+            minDate: new Date()
+        });
+
+        // Properly update the Datepicker UI
+        if (expiry_date !== '') {
+            $dateField.datepicker("setDate", expiry_date);
+        }
+    }, 100);
+}
+
+// Attach the function to Quick Edit click
+$(document).on('click', '.editinline', function() {
+    var post_id = $(this).closest('tr').attr('id').replace('post-', '');
+    awsm_load_quick_edit_data(post_id);
+});
+
+
+	$(document).on('change', '#awsm-job-expiry-qedit', function() {
+		if ($(this).is(':checked')) {
+			$('#awsm-job-expiry-fields').slideDown();
+		} else {
+			$('#awsm-job-expiry-fields').slideUp();
+		}
+	});
+
 });

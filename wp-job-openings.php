@@ -1468,6 +1468,55 @@ class AWSM_Job_Openings {
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 			return;
 		}
+	
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return;
+		}
+
+		if ( $post->post_type === 'awsm_job_openings' ) {
+			if ( defined( 'DOING_AJAX' ) && DOING_AJAX && isset( $_POST['action'] ) && $_POST['action'] === 'inline-save' ) {
+				$expiry_on_list  = isset( $_POST['awsm_set_exp_list'] ) ? sanitize_text_field( $_POST['awsm_set_exp_list'] ) : '';
+				$awsm_job_expiry = isset( $_POST['awsm_job_expiry'] ) ? sanitize_text_field( $_POST['awsm_job_expiry'] ) : '';
+				$display_list    = isset( $_POST['awsm_exp_list_display'] ) ? sanitize_text_field( $_POST['awsm_exp_list_display'] ) : '';
+				$job_expiry_meta = array(
+					'awsm_set_exp_list'     => $expiry_on_list,
+					'awsm_job_expiry'       => $awsm_job_expiry,
+					'awsm_exp_list_display' => $display_list,
+				);
+				foreach ( $job_expiry_meta as $meta_key => $meta_value ) {	
+					$olddata = get_post_meta( $post_id, $meta_key, true );
+					if ( ! empty( $meta_value ) ) {
+						if ( $meta_value !== $olddata && $expiry_on_list === 'set_listing' ) {
+							update_post_meta( $post_id, $meta_key, $meta_value );
+						} elseif ( empty( $expiry_on_list ) ) {
+							delete_post_meta( $post_id, $meta_key, $meta_value );
+						}
+					} else {
+						delete_post_meta( $post_id, $meta_key, $olddata );
+					}
+				}
+
+				if ( $expiry_on_list === 'set_listing' && ! empty( $awsm_job_expiry ) ) {
+					$expiration_time = strtotime( $awsm_job_expiry );
+					if ( $expiration_time < ( time() - ( 24 * 60 * 60 ) ) && $post->post_status !== 'trash' ) {
+						$post_data                = array();
+						$post_data['ID']          = $post_id;
+						$post_data['post_status'] = 'expired';
+						// unhook this function so it doesn't loop infinitely
+						remove_action( 'save_post', array( $this, 'awsm_job_save_post' ), 100 );
+						wp_update_post( $post_data );
+						// now, re-hook this function
+						add_action( 'save_post', array( $this, 'awsm_job_save_post' ), 100, 2 );
+					}
+				} else {
+					if ( $post->post_status === 'expired' ) {
+						update_post_meta( $post_id, 'awsm_set_exp_list', 'set_listing' );
+						update_post_meta( $post_id, 'awsm_job_expiry', gmdate( 'Y-m-d' ) );
+					}
+				}
+				return;
+			}
+		}
 
 		if ( ! isset( $_POST['awsm_jobs_posts_nonce'] ) ) {
 			return;
@@ -1477,9 +1526,6 @@ class AWSM_Job_Openings {
 			return;
 		}
 
-		if ( ! current_user_can( 'edit_post', $post_id ) ) {
-			return;
-		}
 
 		if ( $post->post_type === 'awsm_job_openings' ) {
 			// handle job specifications.
