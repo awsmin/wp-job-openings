@@ -665,15 +665,10 @@ jQuery(document).ready(function($) {
 			}
 		});
 	}
-	
-	// Initialize Select2 and enable sorting
-	$(document).ready(function () {
-		$('.awsm_jobs_filter_tags').each(function () {
-			var $select = $(this);
-			var $container = $select.next('.select2-container');
-			enableSelect2Sortable($container, $select);
-		});
+	$('.awsm_jobs_filter_tags').each(function () {
+		var $select = $(this);
+		var $container = $select.next('.select2-container');
+		enableSelect2Sortable($container, $select);
 	});
-	
 
 });

@@ -31,6 +31,8 @@ class AWSM_Job_Openings_Settings {
 		add_action( 'update_option_awsm_jobs_remove_filters', array( $this, 'update_awsm_jobs_remove_filters' ), 10, 2 );
 		add_action( 'update_option_awsm_jobs_make_specs_clickable', array( $this, 'update_awsm_jobs_make_specs_clickable' ), 10, 2 );
 		add_action( 'update_option_awsm_jobs_email_digest', array( $this, 'update_awsm_jobs_email_digest' ), 10, 2 );
+		
+
 	}
 
 	public static function init( $awsm_core ) {
@@ -660,8 +662,6 @@ class AWSM_Job_Openings_Settings {
 
 	public function awsm_jobs_filter_handle( $filters ) {
 		$old_value = get_option( 'awsm_jobs_filter' );
-		error_log('filter: ' . print_r($filters, true));
-		error_log('old value: ' . print_r($old_value, true));
 		if ( ! empty( $filters ) ) {
 			foreach ( $filters as $index => $filter ) {
 				$spec_name = isset( $filter['filter'] ) ? sanitize_text_field( $filter['filter'] ) : '';
@@ -716,7 +716,6 @@ class AWSM_Job_Openings_Settings {
 		}
 		return $filters;
 	}
-	
 	
 	public function update_awsm_jobs_filter( $old_value, $new_value ) {
 		$awsm_job_openings = AWSM_Job_Openings::init();
@@ -1211,99 +1210,124 @@ class AWSM_Job_Openings_Settings {
 			return $content;
 		}
 	}
-
-	public function spec_template( $index, $tax_details = array(), $filters = array() ) {
-		if ( ! empty( $tax_details ) && ! is_numeric( $index ) ) {
+	
+	public function spec_template($index, $tax_details = array(), $filters = array()) {
+		if (!empty($tax_details) && !is_numeric($index)) {
 			return;
 		}
-		$spec_title = $row_data = $del_btn_data = $icon_option = $tag_options = ''; // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
-	
-		$spec_key_html = sprintf( '<input type="text" class="widefat awsm-jobs-spec-key" name="awsm_jobs_filter[%1$s][taxonomy]" value="" maxlength="32" placeholder="%2$s" title="%3$s" required /><input type="hidden" name="awsm_jobs_filter[%1$s][register]" value="true" />', esc_attr( $index ), esc_attr__( 'Specification key', 'wp-job-openings' ), esc_attr__( 'The job specification key should only contain alphanumeric, latin characters separated by hyphen/underscore, and cannot begin or end with a hyphen/underscore.', 'wp-job-openings' ) );
-	
-		if ( ! empty( $tax_details ) && isset( $tax_details['key'] ) && isset( $tax_details['options'] ) ) {
-			$spec_key      = $tax_details['key'];
-			$spec_options  = $tax_details['options'];
-			$row_data      = sprintf( ' data-index="%s"', esc_attr( $index ) );
-			$del_btn_data  = sprintf( ' data-taxonomy="%s"', esc_attr( $spec_key ) );
-			$spec_title    = $spec_options->label;
-			$spec_key_html = sprintf( '<input type="text" class="widefat" value="%2$s" disabled /><input type="hidden" name="awsm_jobs_filter[%1$s][taxonomy]" value="%2$s" />', esc_attr( $index ), esc_attr( $spec_key ) );
+		$spec_title = $row_data = $del_btn_data = $icon_option = $tag_options = '';
+
+		$spec_key_html = sprintf(
+			'<input type="text" class="widefat awsm-jobs-spec-key" name="awsm_jobs_filter[%1$s][taxonomy]" value="" maxlength="32" placeholder="%2$s" title="%3$s" required /><input type="hidden" name="awsm_jobs_filter[%1$s][register]" value="true" />',
+			esc_attr($index),
+			esc_attr__('Specification key', 'wp-job-openings'),
+			esc_attr__('The job specification key should only contain alphanumeric, latin characters separated by hyphen/underscore, and cannot begin or end with a hyphen/underscore.', 'wp-job-openings')
+		);
+
+		if (!empty($tax_details) && isset($tax_details['key']) && isset($tax_details['options'])) {
+			$spec_key = $tax_details['key'];
+			$spec_options = $tax_details['options'];
+			$row_data = sprintf(' data-index="%s"', esc_attr($index));
+			$del_btn_data = sprintf(' data-taxonomy="%s"', esc_attr($spec_key));
+			$spec_title = $spec_options->label;
 			
-			// Get icon option if exists in filters
-			foreach ( $filters as $filter ) {
-				if ( $spec_key === $filter['taxonomy'] ) {
-					if ( ! empty( $filter['icon'] ) ) {
-						$icon_option = sprintf( '<option value="%1$s" selected><i class="awsm-job-icon-%1$s"></i> %1$s</option>', esc_attr( $filter['icon'] ) );
+			$spec_key_html = sprintf(
+				'<input type="text" class="widefat" value="%2$s" disabled /><input type="hidden" name="awsm_jobs_filter[%1$s][taxonomy]" value="%2$s" />',
+				esc_attr($index),
+				esc_attr($spec_key)
+			);
+
+			// Handle icon options
+			foreach ($filters as $filter) {
+				if ($spec_key === $filter['taxonomy']) {
+					if (!empty($filter['icon'])) {
+						$icon_option = sprintf(
+							'<option value="%1$s" selected><i class="awsm-job-icon-%1$s"></i> %1$s</option>',
+							esc_attr($filter['icon'])
+						);
 					}
+				}
+			}
+
+			// Get current taxonomy terms
+			$terms = get_terms(array(
+				'taxonomy' => $spec_key,
+				'orderby' => 'term_order',
+				'order' => 'ASC',
+				'hide_empty' => false,
+			));
+
+			// Find matching filter and update term order if necessary
+			foreach ($filters as $filter) {
+				if ($spec_key === $filter['taxonomy'] && !empty($filter['tags'])) {
+					// Create a map of term names to term objects
+					$terms_map = array();
+					foreach ($terms as $term) {
+						$terms_map[$term->name] = $term;
+					}
+
+					// Update term orders based on filter tags order
+					$ordered_terms = [];
+					$position = 0;
+					foreach ($filter['tags'] as $tag_name) {
+						if (isset($terms_map[$tag_name])) {
+							$term_id = $terms_map[$tag_name]->term_id;
+							update_term_meta($term_id, 'term_order', $position);
+							$ordered_terms[] = $term_id;
+							$position++;
+						}
+					}
+					// Then, handle terms not in the filtered list
+					foreach ($terms as $term) {
+						if (!in_array($term->term_id, $ordered_terms)) {
+							update_term_meta($term->term_id, 'term_order', $position);
+							$position++;
+						}
+					}
+					// Get terms again with updated order
+					$terms = get_terms(array(
+						'taxonomy' => $spec_key,
+						'orderby' => 'meta_value_num',
+						'meta_key' => 'term_order',
+						'order' => 'ASC',
+						'hide_empty' => false,
+					));
 					break;
 				}
 			}
-	
-			// Get all terms
-			$terms = get_terms(
-				array(
-					'taxonomy'   => $spec_key,
-					'orderby'    => 'name',
-					'hide_empty' => false,
-				)
-			);
-	
-			if ( ! empty( $terms ) ) {
-				// Create an associative array of terms for easy lookup
-				$terms_map = array();
-				foreach ( $terms as $term ) {
-					$terms_map[$term->name] = $term;
-				}
-	
-				// First add terms that exist in filters' tags array
-				foreach ( $filters as $filter ) {
-					if ( $spec_key === $filter['taxonomy'] && isset( $filter['tags'] ) && is_array( $filter['tags'] ) ) {
-						foreach ( $filter['tags'] as $tag ) {
-							if ( isset( $terms_map[$tag] ) ) {
-								$term = $terms_map[$tag];
-								$tag_options .= sprintf(
-									'<option value="%1$s" data-termid="%2$s" selected>%1$s (%3$s)</option>',
-									esc_attr( $term->name ),
-									esc_attr( $term->term_id ),
-									esc_attr( $term->count )
-								);
-								// Remove from map to track which terms have been added
-								unset( $terms_map[$tag] );
-							}
-						}
-					}
-				}
-	
-				// Add remaining terms that weren't in the filters
-				foreach ( $terms_map as $term ) {
+
+			// Generate tag options
+			if (!empty($terms)) {
+				foreach ($terms as $term) {
 					$tag_options .= sprintf(
 						'<option value="%1$s" data-termid="%2$s" selected>%1$s (%3$s)</option>',
-						esc_attr( $term->name ),
-						esc_attr( $term->term_id ),
-						esc_attr( $term->count )
+						esc_attr($term->name),
+						esc_attr($term->term_id),
+						esc_attr($term->count)
 					);
 				}
 			}
 		}
 		?>
-			<tr class="awsm-job-specifications-settings-row"<?php echo $row_data; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
-				<td class="awsm-specs-drag-control-wrap">
-					<span class="awsm-specs-drag-control dashicons dashicons-move"></span>
-				</td>
-				<td>
-					<input type="text" class="widefat awsm-jobs-spec-title" name="awsm_jobs_filter[<?php echo esc_attr( $index ); ?>][filter]" value="<?php echo esc_attr( $spec_title ); ?>" placeholder="<?php esc_html_e( 'Enter a specification', 'wp-job-openings' ); ?>" required />
-				</td>
-				<td>
-					<?php echo $spec_key_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-				</td>
-				<td>
-					<select class="awsm-font-icon-selector awsm-icon-select-control" name="awsm_jobs_filter[<?php echo esc_attr( $index ); ?>][icon]" style="width: 100%;" data-placeholder="<?php esc_html_e( 'Select icon', 'wp-job-openings' ); ?>"><?php echo $icon_option; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></select>
-				</td>
-				<td>
-					<select class="awsm_jobs_filter_tags" name="awsm_jobs_filter[<?php echo esc_attr( $index ); ?>][tags][]" multiple="multiple" style="width: 100%;" data-placeholder="<?php esc_html_e( 'Enter options', 'wp-job-openings' ); ?>"><?php echo $tag_options; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></select>
-				</td>
-				<td><a class="button awsm-text-red awsm-filters-remove-row" href="#"<?php echo $del_btn_data; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>><?php esc_html_e( 'Delete', 'wp-job-openings' ); ?></a>
-				</td>
-			</tr>
+		<tr class="awsm-job-specifications-settings-row"<?php echo $row_data; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+			<td class="awsm-specs-drag-control-wrap">
+				<span class="awsm-specs-drag-control dashicons dashicons-move"></span>
+			</td>
+			<td>
+				<input type="text" class="widefat awsm-jobs-spec-title" name="awsm_jobs_filter[<?php echo esc_attr( $index ); ?>][filter]" value="<?php echo esc_attr( $spec_title ); ?>" placeholder="<?php esc_html_e( 'Enter a specification', 'wp-job-openings' ); ?>" required />
+			</td>
+			<td>
+				<?php echo $spec_key_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			</td>
+			<td>
+				<select class="awsm-font-icon-selector awsm-icon-select-control" name="awsm_jobs_filter[<?php echo esc_attr( $index ); ?>][icon]" style="width: 100%;" data-placeholder="<?php esc_html_e( 'Select icon', 'wp-job-openings' ); ?>"><?php echo $icon_option; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></select>
+			</td>
+			<td>
+				<select class="awsm_jobs_filter_tags" name="awsm_jobs_filter[<?php echo esc_attr( $index ); ?>][tags][]" multiple="multiple" style="width: 100%;" data-placeholder="<?php esc_html_e( 'Enter options', 'wp-job-openings' ); ?>"><?php echo $tag_options; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></select>
+			</td>
+			<td><a class="button awsm-text-red awsm-filters-remove-row" href="#"<?php echo $del_btn_data; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>><?php esc_html_e( 'Delete', 'wp-job-openings' ); ?></a>
+			</td>
+		</tr>
 		<?php
 	}
 	
@@ -1359,4 +1383,6 @@ class AWSM_Job_Openings_Settings {
 
 		return $from_email;
 	}
+	
+	
 }

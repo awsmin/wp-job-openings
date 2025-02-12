@@ -51,23 +51,23 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 							$applications_count        = isset( $applications_count ) ? $applications_count : 0;
 
 							if ( $active_jobs === 0 ) {
-								esc_html_e( 'your job listing looks empty.', 'wp-job-openings' );
+								esc_html_e( 'Your job listing looks empty.', 'wp-job-openings' );
 							} else {
 								if ( current_user_can( 'edit_others_applications' ) ) {
 									if ( $applications_count > 0 ) {
 										printf(
-											esc_html__( 'you have %s new applications waiting for review.', 'wp-job-openings' ), // phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment
+											esc_html__( 'You have %s new applications waiting for review.', 'wp-job-openings' ), // phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment
 											esc_html( $applications_count )
 										);
 									} elseif ( $active_jobs > 0 && $total_active_applications > 0 ) {
 										printf(
-											esc_html__( 'you have received %1$s applications for the %2$s open positions.', 'wp-job-openings' ), // phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment
+											esc_html__( 'You have received %1$s applications for the %2$s open positions.', 'wp-job-openings' ), // phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment
 											esc_html( $total_active_applications ),
 											esc_html( $active_jobs )
 										);
 									} elseif ( $active_jobs > 0 && $total_active_applications === 0 ) {
 										printf(
-											esc_html__( 'you have %s open positions.', 'wp-job-openings' ), // phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment
+											esc_html__( 'You have %s open positions.', 'wp-job-openings' ), // phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment
 											esc_html( $active_jobs )
 										);
 									}

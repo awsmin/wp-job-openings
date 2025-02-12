@@ -1249,10 +1249,10 @@ class AWSM_Job_Openings {
 				}
 			}
 		}
-
 		return $specs;
 	}
-
+	
+	
 	public static function get_spec_terms( $spec ) {
 		$terms_args = array(
 			'taxonomy'   => $spec,
@@ -1377,39 +1377,59 @@ class AWSM_Job_Openings {
 		}
 	}
 
-	public function awsm_jobs_taxonomies( $specs = array() ) {
-		if ( empty( $specs ) ) {
-			$specs = get_option( 'awsm_jobs_filter' );
+	public function awsm_jobs_taxonomies($specs = array()) {
+		if (empty($specs)) {
+			$specs = get_option('awsm_jobs_filter');
 		}
-		if ( ! empty( $specs ) ) {
-			foreach ( $specs as $spec ) {
-				if ( isset( $spec['taxonomy'], $spec['filter'] ) ) {
-					$taxonomy   = $spec['taxonomy'];
-					$tax_length = strlen( $taxonomy );
-					if ( ! taxonomy_exists( $taxonomy ) && ( $tax_length > 0 && $tax_length <= 32 ) ) {
+		if (!empty($specs)) {
+			foreach ($specs as $spec) {
+				if (isset($spec['taxonomy'], $spec['filter'])) {
+					$taxonomy = $spec['taxonomy'];
+					$tax_length = strlen($taxonomy);
+					
+					if (!taxonomy_exists($taxonomy) && ($tax_length > 0 && $tax_length <= 32)) {
 						$args = array(
-							'labels'       => array( 'name' => esc_html( $spec['filter'] ) ),
-							'show_ui'      => false,
+							'labels' => array('name' => esc_html($spec['filter'])),
+							'show_ui' => false,
 							'show_in_menu' => false,
-							'query_var'    => true,
-							'rewrite'      => array( 'slug' => $taxonomy ),
+							'query_var' => true,
+							'rewrite' => array('slug' => $taxonomy),
 						);
-						/**
-						 * Filters the arguments for registering the job specification or taxonomy.
-						 *
-						 * @since 2.2.0
-						 *
-						 * @param array $args arguments.
-						 * @param string $taxonomy The taxonomy key.
-						 */
-						$args = apply_filters( 'awsm_jobs_tax_args', $args, $taxonomy );
-						register_taxonomy( $taxonomy, array( 'awsm_job_openings' ), $args );
+						
+						$args = apply_filters('awsm_jobs_tax_args', $args, $taxonomy);
+						register_taxonomy($taxonomy, array('awsm_job_openings'), $args);
+					}
+					
+					// Check if tags exist and update term order
+					if (isset($spec['tags']) && !empty($spec['tags'])) {
+						$terms = get_terms(array(
+							'taxonomy' => $taxonomy,
+							'hide_empty' => false,
+						));
+						
+						if (!is_wp_error($terms) && !empty($terms)) {
+							$term_names = wp_list_pluck($terms, 'name');
+							$spec_tags = array_values($spec['tags']);
+							
+							// Check if orders don't match
+							if ($term_names !== $spec_tags) {
+								foreach ($spec['tags'] as $index => $tag_name) {
+									// Find the term by name
+									$term = get_term_by('name', $tag_name, $taxonomy);
+									
+									if ($term && !is_wp_error($term)) {
+										// Update term meta with new order
+										update_term_meta($term->term_id, 'awsm_job_tag_order', $index);
+									}
+								}
+							}
+						}
 					}
 				}
 			}
 		}
 	}
-
+	
 	public function insert_specs_terms( $specs ) {
 
 		if ( ! empty( $specs ) ) {
@@ -1427,19 +1447,7 @@ class AWSM_Job_Openings {
 			}
 		}
 	}
-	public function get_ordered_terms( $taxonomy, $specs ) {
-		$ordered_terms = wp_list_pluck( $specs, 'taxonomy' ); // Extract order from saved filters
-		
-		$terms = get_terms( array(
-			'taxonomy'   => $taxonomy,
-			'include'    => $ordered_terms, // Ensure returned order matches saved order
-			'orderby'    => 'include',
-			'hide_empty' => false,
-		) );
 	
-		return $terms;
-	}
-
 	public function unregister_awsm_jobs_taxonomies() {
 		$remove_filters = get_option( 'awsm_jobs_remove_filters' );
 		if ( ! empty( $remove_filters ) ) {
