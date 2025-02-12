@@ -121,7 +121,7 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 							<li class="pro-feature">
 							<div class="pro-ft">Pro Features</div>
 							<a href="#"><?php echo esc_html__( 'Notifications', 'wp-job-openings' ); ?><span>8</span></a>
-							<a href="#"><?php echo esc_html__( 'Remarks', 'wp-job-openings' ); ?><span>8</span></a>
+							<a href="#"><?php echo esc_html__( 'Notes', 'wp-job-openings' ); ?><span>8</span></a>
 							</li>
 						<?php endif; ?>
 					</ul>
