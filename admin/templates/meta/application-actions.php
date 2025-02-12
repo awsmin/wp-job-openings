@@ -33,8 +33,8 @@ $application_id = $post->ID;
 				if ( ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) {
 					echo 'pro-feature'; }
 				?>
-				"">
-					<span class="pro-ft"><?php esc_html_e( 'Pro Feature', 'wp-job-openings' ); ?></span>
+				">
+				<a class="pro-ft" href="https://wpjobopenings.com/pro-pack/" target="_blank"><?php esc_html_e( 'Pro Features', 'wp-job-openings' ); ?></a>
 					<p><label for="post_status"><?php esc_html_e( 'Status:', 'wp-job-openings' ); ?></label></p>
 					<p>
 						<select style="width:100%;" disabled>
@@ -43,17 +43,6 @@ $application_id = $post->ID;
 					</p>
 				</div>
 			</div>
-			<!-- <div class="misc-pub-section">
-				<div class="awsm-application-post-status-disabled">
-					<span class="pro-ft"><?php esc_html_e( 'Pro Feature', 'wp-job-openings' ); ?></span>
-					<p><label for="post_status"><?php esc_html_e( 'Status:', 'wp-job-openings' ); ?></label></p>
-					<p>
-						<select style="width:100%;" disabled>
-							<option selected><?php echo esc_html_x( 'New', 'post status', 'wp-job-openings' ); ?></option>
-						</select>
-					</p>
-				</div>
-			</div> -->
 		</div>
 		<div class="clear"></div>
 	</div><!-- #minor-publishing -->

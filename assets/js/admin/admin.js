@@ -609,9 +609,9 @@ jQuery(document).ready(function($) {
 
 	/*================ Application detail view tab ================*/
 	
-	$('.application-main-tab a').on( 'click', function(e) {
+	$('.application-main-tab .awsm-application-main-tab-item a').on( 'click', function(e) {
         e.preventDefault();
-        $('.application-main-tab a').removeClass('active');
+        $('.application-main-tab .awsm-application-main-tab-item a').removeClass('active');
         $('.application-main-tab-item').removeClass('active');
         $(this).addClass('active');
         var target = $(this).attr('href');
