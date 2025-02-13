@@ -670,56 +670,107 @@ jQuery(document).ready(function($) {
 		var $container = $select.next('.select2-container');
 		enableSelect2Sortable($container, $select);
 	});
+// 		var $row = $('#post-' + id);
+// 		var expiry_date = $row.find('.column-awsm_job_expiry').text().trim(); // Ensure this correctly gets the date
+// 		var display_expiry = $row.find('.column-awsm_job_expiry').data('display') === 'yes';
 
-	function awsm_load_quick_edit_data(id) {
-    var $row = $('#post-' + id);
-    var expiry_date = $row.find('.column-awsm_job_expiry').text().trim(); // Ensure this correctly gets the date
-    var display_expiry = $row.find('.column-awsm_job_expiry').data('display') === 'yes';
+// 		if (expiry_date !== '') {
+// 			$('#awsm-job-expiry-qedit').prop('checked', true);
+// 			$('#awsm-job-expiry-fields').show();
+// 		} else {
+// 			$('#awsm-job-expiry-qedit').prop('checked', false);
+// 			$('#awsm-job-expiry-fields').hide();
+// 		}
 
-    if (expiry_date !== '') {
-        $('#awsm-job-expiry-qedit').prop('checked', true);
-        $('#awsm-job-expiry-fields').show();
-    } else {
-        $('#awsm-job-expiry-qedit').prop('checked', false);
-        $('#awsm-job-expiry-fields').hide();
+// 		// Set the expiry date correctly
+// 		var $dateField = $('#awsm-job-expiry-fields .awsm-jobs-datepicker');
+// 		$dateField.val(expiry_date); // Set the text field value
+
+// 		// Set the hidden field value
+// 		$('input[name="awsm_job_expiry"]').val(expiry_date);
+
+// 		// Check the display expiry checkbox
+// 		$('#awsm-job-expiry-display-qedit').prop('checked', display_expiry);
+
+// 		// Reinitialize Datepicker
+// 		setTimeout(function() {
+// 			$dateField.datepicker("destroy").datepicker({
+// 				altField: '#awsm-jobs-datepicker-alt',
+// 				altFormat: 'yy-mm-dd',
+// 				showOn: 'both',
+// 				buttonText: '',
+// 				// buttonImage: awsmJobsAdmin.plugin_url + '/assets/img/calendar-alt.svg',
+// 				buttonImageOnly: true,
+// 				changeMonth: true,
+// 				numberOfMonths: 1,
+// 				minDate: new Date()
+// 			});
+
+// 			// Properly update the Datepicker UI
+// 			if (expiry_date !== '') {
+// 				$dateField.datepicker("setDate", expiry_date);
+// 			}
+// 		}, 100);
+// 	}
+
+// // Attach the function to Quick Edit click
+// $(document).on('click', '.editinline', function() {
+//     var post_id = $(this).closest('tr').attr('id').replace('post-', '');
+//     awsm_load_quick_edit_data(post_id);
+// });
+
+var $wp_inline_edit = inlineEditPost.edit;
+
+inlineEditPost.edit = function (id) {
+    $wp_inline_edit.apply(this, arguments);
+
+	
+    var post_id = 0;
+    if (typeof id == "object") {
+        post_id = parseInt(this.getId(id));
     }
 
-    // Set the expiry date correctly
-    var $dateField = $('#awsm-job-expiry-fields .awsm-jobs-datepicker');
-    $dateField.val(expiry_date); // Set the text field value
+    if (post_id > 0) {
 
-    // Set the hidden field value
-    $('input[name="awsm_job_expiry"]').val(expiry_date);
+		var $dateField = $('#awsm-job-expiry-fields .awsm-jobs-datepicker');
+		var expiryDate = $('#awsm-jobs-datepicker-alt').val();
+		$dateField.val(expiryDate); 
+		setTimeout(function() {
+			$dateField.datepicker("destroy").datepicker({
+				altField: '#awsm-jobs-datepicker-alt',
+				altFormat: 'yy-mm-dd',
+				showOn: 'both',
+				buttonText: '',
+				buttonImageOnly: true,
+				changeMonth: true,
+				numberOfMonths: 1,
+				minDate: new Date()
+			});
+		}, 100);
+		
+        var $quickEditRow = $("#edit-" + post_id);
+        var $postRow = $("#post-" + post_id);
 
-    // Check the display expiry checkbox
-    $('#awsm-job-expiry-display-qedit').prop('checked', display_expiry);
-
-    // Reinitialize Datepicker
-    setTimeout(function() {
-        $dateField.datepicker("destroy").datepicker({
-            altField: '#awsm-jobs-datepicker-alt',
-            altFormat: 'yy-mm-dd',
-            showOn: 'both',
-            buttonText: '',
-            // buttonImage: awsmJobsAdmin.plugin_url + '/assets/img/calendar-alt.svg',
-            buttonImageOnly: true,
-            changeMonth: true,
-            numberOfMonths: 1,
-            minDate: new Date()
-        });
-
-        // Properly update the Datepicker UI
-        if (expiry_date !== '') {
-            $dateField.datepicker("setDate", expiry_date);
+		var setExpiry = $("#awsm_set_exp_list_" + post_id).data("set-expiry");
+		var displayList = $("#awsm_exp_list_display_" + post_id).data("list-display");
+		
+		
+		if (setExpiry === "set_listing") {
+            $quickEditRow.find('input[name="awsm_set_exp_list"]').prop("checked", true);
+			$('#awsm-job-expiry-fields').show();
+			if(displayList === 'list_display') {
+				$quickEditRow.find('input[name="awsm_exp_list_display"]').prop("checked", true);
+			} else{
+				$quickEditRow.find('input[name="awsm_exp_list_display"]').prop("checked", false);
+			}
+		
+        } else {
+            $quickEditRow.find('input[name="awsm_set_exp_list"]').prop("checked", false);
         }
-    }, 100);
-}
 
-// Attach the function to Quick Edit click
-$(document).on('click', '.editinline', function() {
-    var post_id = $(this).closest('tr').attr('id').replace('post-', '');
-    awsm_load_quick_edit_data(post_id);
-});
+		
+	}
+};
 
 
 	$(document).on('change', '#awsm-job-expiry-qedit', function() {

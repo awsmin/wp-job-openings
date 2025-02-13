@@ -482,7 +482,13 @@ class AWSM_Job_Openings {
 			case 'awsm_job_expiry':
 					$expiry_on_list = get_post_meta( $post_id, 'awsm_set_exp_list', true );
 					$job_expiry     = get_post_meta( $post_id, 'awsm_job_expiry', true );
+					$display_list   = get_post_meta( $post_id, 'awsm_exp_list_display', true );
 					echo ( $expiry_on_list === 'set_listing' && ! empty( $job_expiry ) ) ? esc_html( date_i18n( get_awsm_jobs_date_format( 'expiry-admin' ), strtotime( $job_expiry ) ) ) : $default_display; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					$awsm_set_exp_list = get_post_meta( $post_id, 'awsm_set_exp_list', true );
+					echo '<div class="hidden" id="awsm_set_exp_list_' . esc_attr( $post_id ) . '" data-set-expiry="' . esc_attr( $awsm_set_exp_list ) . '"></div>';
+					
+					echo '<div class="hidden" id="awsm_exp_list_display_' . esc_attr( $post_id ) . '" data-list-display="' . esc_attr( $display_list ) . '"></div>';
+
 				break;
 
 			case 'awsm_job_post_views':
