@@ -414,7 +414,7 @@
 	}
 	.awsm-jobs-overview-welcome-left {
 		width: 25%;
-		padding: 0 20px 0 0;
+		padding: 0 0 0 10px;
 	}
 	.awsm-jobs-overview-welcome-right {
 		width: 75%;
