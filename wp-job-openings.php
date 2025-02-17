@@ -1687,7 +1687,7 @@ class AWSM_Job_Openings {
 		switch ( $view ) {
 			case 'grid':
 				$number_columns = get_option( 'awsm_jobs_number_of_columns' );
-				$view_class = 'awsm-job-listings awsm-row awsm-job-listing-items';
+				$view_class = 'awsm-row awsm-job-listing-items';
 				$column_class = ( $number_columns == 1 ) ? 'awsm-grid-col' : 'awsm-grid-col-' . $number_columns;
 				$view_class .= ' ' . $column_class;
 				break;
