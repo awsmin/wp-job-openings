@@ -47,6 +47,10 @@ class Awsm_Job_Guten_Blocks {
 			$atts['layout'] = $atts['layout'];
 		}
 
+		if ( isset( $atts['number_of_columns'] ) && is_array( $atts['number_of_columns'] ) ) {
+			$atts['number_of_columns'] = $atts['number_of_columns'];
+		}
+
 		if ( isset( $atts['hide_expired_jobs'] ) && $atts['hide_expired_jobs'] === true ) {
 			$atts['hide_expired_jobs'] = 'expired';
 		}

@@ -31,7 +31,8 @@ const WidgetInspectorControls = (props) => {
 		layout,
 		selectedTerms,
 		sort,
-		selected_terms_main
+		selected_terms_main,
+		number_of_columns
 	  },
 	  setAttributes,
 	} = props;
@@ -127,6 +128,12 @@ const WidgetInspectorControls = (props) => {
 			selected_terms_main: updatedTermsMain,
 		});
 	};
+
+	const onchange_number_of_columns = (value) => {
+		const columnsValue = parseInt(value, 10);		
+		setAttributes({ number_of_columns: isNaN(columnsValue) ? 0 : columnsValue });
+	};
+
 	  
 	return (
 	    <InspectorControls>
@@ -263,6 +270,20 @@ const WidgetInspectorControls = (props) => {
 					<ToggleGroupControlOption value="grid" label="Grid" />
 					<ToggleGroupControlOption value="stack" label="Stack" />
 				</ToggleGroupControl>
+
+				{typeof layout !== "undefined" && layout == "grid" && (
+					<SelectControl
+						label={__("Columns", "wp-job-openings")}
+						value={number_of_columns}
+						options={[
+							{ label: __("1 Column", "wp-job-openings"),  value: "1" },
+							{ label: __("2 Columns", "wp-job-openings"), value: "2" },
+							{ label: __("3 Columns", "wp-job-openings"), value: "3" },
+							{ label: __("4 Columns", "wp-job-openings"), value: "4" }
+						]}
+						onChange={number_of_columns => onchange_number_of_columns(number_of_columns)}
+					/>
+				)} 
 
 				<ToggleControl
 					label={__("Enable Sort Option", "wp-job-openings")}
