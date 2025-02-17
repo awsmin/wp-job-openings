@@ -1025,6 +1025,13 @@ a.awsm-text-red:hover {
 	text-decoration: none;
 	outline: none;
 }
+.awsm-job-setup-button:focus,  .awsm-job-setup-button:active{
+	background-color: #6bfae7;
+	color: #000;
+	border-color: #6bfae7;
+	text-decoration: none;
+	outline: none;
+}
 
 .awsm-job-setup-form-foot {
 	text-align: center;

@@ -17,6 +17,10 @@
 	background: #6bfae4;
 	color: #000;
 }
+.awsm-jobs-button:focus, .awsm-jobs-button:active{
+	background: #6bfae4;
+	color: #000;
+}
 .awsm-jobs-pro-feature {
 	position: relative;
 }
