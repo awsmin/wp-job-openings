@@ -819,7 +819,7 @@ a.awsm-text-red:hover {
 }
 
 .awsm-job-setup-head h1 img {
-	max-width: 100%;
+	max-width: 75%;
 	height: auto;
 }
 
@@ -881,7 +881,7 @@ a.awsm-text-red:hover {
 }
 
 .awsm-job-setup-form form {
-	max-width: 395px;
+	max-width: 400px;
 	margin: 0 auto;
 	width: 100%;
 }
@@ -956,7 +956,7 @@ a.awsm-text-red:hover {
 }
 
 .awsm-job-setup-form-item {
-	padding: 26px 0;
+	padding: 26px 2px;
 	height: 144px;
 	overflow: hidden;
 }
