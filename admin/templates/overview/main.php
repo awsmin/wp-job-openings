@@ -78,7 +78,7 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 
 						<?php if ( $active_jobs === 0 ) : ?>
 							<a href="<?php echo esc_url( admin_url( 'post-new.php?post_type=awsm_job_openings' ) ); ?>" class="awsm-jobs-button">
-								<?php esc_html_e( 'Add A New Job Opening', 'wp-job-openings' ); ?>
+								<?php esc_html_e( 'Add a New Job Opening', 'wp-job-openings' ); ?>
 							</a>
 						<?php elseif ( current_user_can( 'edit_others_applications' ) ) : ?>
 							<?php if ( $applications_count > 0 ) : ?>
