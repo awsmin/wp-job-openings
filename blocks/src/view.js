@@ -332,10 +332,10 @@ jQuery(function($) {
 		var sortValue = $rootWrapper.find('select.awsm-job-sort-filter').val(); 
 
 		setPaginationBase($rootWrapper, 'sort', sortValue);
-		if (awsmJobsPublic.deep_linking.search) {
+		//if (awsmJobsPublic.deep_linking.search) {
 			var $paginationBase = $rootWrapper.find('input[name="awsm_pagination_base"]');
 			updateQuery('sort', sortValue, $paginationBase.val());
-		} 
+		//} 
 		awsmJobFilters($rootWrapper);
 	});
 

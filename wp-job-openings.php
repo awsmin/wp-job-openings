@@ -1658,6 +1658,37 @@ class AWSM_Job_Openings {
 		$args['posts_per_page'] = $list_per_page;
 		$args['post_status']    = ( $hide_expired_jobs === 'expired' ) ? array( 'publish' ) : array( 'publish', 'expired' );
 
+		$sort = isset( $shortcode_atts['filter_sort'] ) ? sanitize_text_field( $shortcode_atts['filter_sort'] ) : ( isset( $shortcode_atts['orderBy'] ) ? sanitize_text_field( $shortcode_atts['orderBy'] ) : 'new_to_old' );
+
+		switch ( $sort ) {
+			case 'new_to_old':
+				$args['orderby'] = 'date';
+				$args['order']   = 'DESC';
+				break;
+	
+			case 'old_to_new':
+				$args['orderby'] = 'date';
+				$args['order']   = 'ASC';
+				break;
+	
+			case 'random':
+				$args['orderby'] = 'rand';
+				break;
+	
+			case 'relevance':
+				$args['orderby']  = array(
+					'meta_value_num' => 'DESC',
+					'date'           => 'DESC',
+				);
+				$args['meta_key'] = '_relevance_score'; // Replace with actual meta key for relevance.
+				break;
+	
+			default:
+				$args['orderby'] = 'date';
+				$args['order']   = 'DESC';
+				break;
+		}
+
 		return apply_filters( 'awsm_job_query_args', $args, $filters, $shortcode_atts );
 	}
 
@@ -1765,6 +1796,10 @@ class AWSM_Job_Openings {
 
 		if ( isset( $_GET['jq'] ) ) {
 			$attrs['search'] = $_GET['jq'];
+		}
+
+		if ( isset( $_GET['sort'] ) ) { 
+			$attrs['sort'] = $_GET['sort'];
 		}
 
 		if ( is_tax() ) {
