@@ -364,7 +364,7 @@ class AWSM_Job_Openings_Meta {
 		<fieldset class="inline-edit-col-right">
 			<div class="inline-edit-col">
 				<label>
-					<input type="checkbox" name="awsm_set_exp_list" id="awsm-job-expiry-qedit" value="set_listing" <?php checked( $set_expiry, 'set_listing' ); ?>>
+					<input type="checkbox" name="awsm_set_exp_list" id="awsm-job-expiry-qedit" value="set_listing">
 					<?php esc_html_e( 'Set expiry for listing', 'wp-job-openings' ); ?>
 				</label>
 				
@@ -375,7 +375,7 @@ class AWSM_Job_Openings_Meta {
 					</label>
 					<br>
 					<label>
-						<input type="checkbox" name="awsm_exp_list_display" id="awsm-job-expiry-display" value="list_display" <?php checked( $display_list, 'list_display' ); ?>>
+						<input type="checkbox" name="awsm_exp_list_display" id="awsm-job-expiry-display" value="list_display">
 						<?php esc_html_e( 'Display expiry date', 'wp-job-openings' ); ?>
 					</label>
 				</div>

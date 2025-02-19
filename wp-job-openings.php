@@ -484,11 +484,10 @@ class AWSM_Job_Openings {
 					$job_expiry     = get_post_meta( $post_id, 'awsm_job_expiry', true );
 					$display_list   = get_post_meta( $post_id, 'awsm_exp_list_display', true );
 					echo ( $expiry_on_list === 'set_listing' && ! empty( $job_expiry ) ) ? esc_html( date_i18n( get_awsm_jobs_date_format( 'expiry-admin' ), strtotime( $job_expiry ) ) ) : $default_display; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-					$awsm_set_exp_list = get_post_meta( $post_id, 'awsm_set_exp_list', true );
-					echo '<div class="hidden" id="awsm_set_exp_list_' . esc_attr( $post_id ) . '" data-set-expiry="' . esc_attr( $awsm_set_exp_list ) . '"></div>';
 					
-					echo '<div class="hidden" id="awsm_exp_list_display_' . esc_attr( $post_id ) . '" data-list-display="' . esc_attr( $display_list ) . '"></div>';
-
+					echo '<input type="hidden" id="awsm_set_exp_list_' . esc_attr( $post_id ) . '" value="' . esc_attr( $expiry_on_list ) . '" >';
+					echo '<input type="hidden" id="awsm_job_expiry_' . esc_attr( $post_id ) . '" value="' . esc_attr( ( $expiry_on_list === 'set_listing' && ! empty( $job_expiry ) ) ? date_i18n( get_awsm_jobs_date_format( 'expiry-admin' ), strtotime( $job_expiry ) ) : '' ) . '" >';
+					echo '<input type="hidden" id="awsm_exp_list_display_' . esc_attr( $post_id ) . '" value="' . esc_attr( $display_list ) . '" >';
 				break;
 
 			case 'awsm_job_post_views':
@@ -1479,50 +1478,47 @@ class AWSM_Job_Openings {
 			return;
 		}
 
-		if ( $post->post_type === 'awsm_job_openings' ) {
-			if ( defined( 'DOING_AJAX' ) && DOING_AJAX && isset( $_POST['action'] ) && $_POST['action'] === 'inline-save' ) {
-				$expiry_on_list  = isset( $_POST['awsm_set_exp_list'] ) ? sanitize_text_field( $_POST['awsm_set_exp_list'] ) : '';
-				$awsm_job_expiry = isset( $_POST['awsm_job_expiry'] ) ? sanitize_text_field( $_POST['awsm_job_expiry'] ) : '';
-				$display_list    = isset( $_POST['awsm_exp_list_display'] ) ? sanitize_text_field( $_POST['awsm_exp_list_display'] ) : '';
-				$job_expiry_meta = array(
-					'awsm_set_exp_list'     => $expiry_on_list,
-					'awsm_job_expiry'       => $awsm_job_expiry,
-					'awsm_exp_list_display' => $display_list,
-				);
-				foreach ( $job_expiry_meta as $meta_key => $meta_value ) {	
-					$olddata = get_post_meta( $post_id, $meta_key, true );
-					if ( ! empty( $meta_value ) ) {
-						if ( $meta_value !== $olddata && $expiry_on_list === 'set_listing' ) {
-							update_post_meta( $post_id, $meta_key, $meta_value );
-						} elseif ( empty( $expiry_on_list ) ) {
-							delete_post_meta( $post_id, $meta_key, $meta_value );
-						}
-					} else {
-						delete_post_meta( $post_id, $meta_key, $olddata );
-					}
-				}
 
-				if ( $expiry_on_list === 'set_listing' && ! empty( $awsm_job_expiry ) ) {
-					$expiration_time = strtotime( $awsm_job_expiry );
-					if ( $expiration_time < ( time() - ( 24 * 60 * 60 ) ) && $post->post_status !== 'trash' ) {
-						$post_data                = array();
-						$post_data['ID']          = $post_id;
-						$post_data['post_status'] = 'expired';
-						// unhook this function so it doesn't loop infinitely
-						remove_action( 'save_post', array( $this, 'awsm_job_save_post' ), 100 );
-						wp_update_post( $post_data );
-						// now, re-hook this function
-						add_action( 'save_post', array( $this, 'awsm_job_save_post' ), 100, 2 );
-					}
-				} else {
-					if ( $post->post_status === 'expired' ) {
-						update_post_meta( $post_id, 'awsm_set_exp_list', 'set_listing' );
-						update_post_meta( $post_id, 'awsm_job_expiry', gmdate( 'Y-m-d' ) );
-					}
-				}
-				return;
-			}
-		}
+    // Ensure it's an inline save action
+    if ( ! ( defined( 'DOING_AJAX' ) && DOING_AJAX ) || ! isset( $_POST['action'] ) || $_POST['action'] !== 'inline-save' ) {
+        return;
+    }
+
+    // Get posted values
+    $expiry_on_list  = isset( $_POST['awsm_set_exp_list'] ) ? 'set_listing' : ''; // Ensure unchecked checkboxes are handled
+    $awsm_job_expiry = isset( $_POST['awsm_job_expiry'] ) ? sanitize_text_field( $_POST['awsm_job_expiry'] ) : '';
+    $display_list    = isset( $_POST['awsm_exp_list_display'] ) ? 'list_display' : ''; // Same for display checkbox
+
+    // Update or delete post meta
+    update_post_meta( $post_id, 'awsm_set_exp_list', $expiry_on_list );
+    update_post_meta( $post_id, 'awsm_exp_list_display', $display_list );
+
+    if ( ! empty( $awsm_job_expiry ) ) {
+        update_post_meta( $post_id, 'awsm_job_expiry', $awsm_job_expiry );
+    } else {
+        delete_post_meta( $post_id, 'awsm_job_expiry' );
+    }
+
+    // Check if the job should be expired
+    if ( $expiry_on_list === 'set_listing' && ! empty( $awsm_job_expiry ) ) {
+        $expiration_time = strtotime( $awsm_job_expiry );
+
+        if ( $expiration_time < time() && $post->post_status !== 'trash' ) {
+            $post_data = array(
+                'ID'          => $post_id,
+                'post_status' => 'expired',
+            );
+
+            // Temporarily unhook save_post to prevent infinite loop
+            remove_action( 'save_post', array( $this, 'awsm_job_save_post' ), 100 );
+            wp_update_post( $post_data );
+            add_action( 'save_post', array( $this, 'awsm_job_save_post' ), 100, 2 );
+        }
+    } elseif ( $post->post_status === 'expired' ) {
+        // If a job is expired but no expiry date is set, restore expiry meta
+        update_post_meta( $post_id, 'awsm_set_exp_list', 'set_listing' );
+        update_post_meta( $post_id, 'awsm_job_expiry', gmdate( 'Y-m-d' ) );
+    }
 
 		if ( ! isset( $_POST['awsm_jobs_posts_nonce'] ) ) {
 			return;
