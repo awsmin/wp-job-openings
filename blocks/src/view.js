@@ -253,40 +253,59 @@ jQuery(function($) {
 		$('.awsm-b-job-no-more-jobs-get').slice(1).hide();
 	}
 
-	$(filterSelector + ' .awsm-b-filter-option').on('change', function(e) { 
+	$(filterSelector + ' .awsm-b-filter-option').on('change', function (e) {
 		e.preventDefault();
 		$('.awsm-b-job-listings').show();
-		var $elem = $(this);
-		var $selected = $elem.find('option:selected');
-		var $rootWrapper = $elem.parents(rootWrapperSelector);
-		var currentSpec = $elem.parents('.awsm-b-filter-item').data('filter');
-		/* var slug = $selected.data('slug'); */
-
-		var slugs = [];
-		$selected.each(function() {
-			var slug = $(this).data('slug');
-			if (slug) {
-				slugs.push(slug);
+	
+		var $elem = $(this); // The original <select> element
+		var $rootWrapper = $elem.closest(rootWrapperSelector);
+		var currentSpec = $elem.closest('.awsm-b-filter-item').data('filter');
+	
+		var allOptions = $elem.find('option');
+		var firstOption = allOptions.eq(0); // "All Job Location" option
+		var selectedOptions = $elem.find('option:selected');
+		var isAllSelected = firstOption.prop('selected');
+	
+		if (isAllSelected) {
+			// Select all options in the actual <select> element
+			allOptions.prop('selected', true).addClass('selected');
+		} else {
+			// Ensure the correct options are selected
+			allOptions.each(function () {
+				$(this).toggleClass('selected', $(this).prop('selected'));
+			});
+	
+			// If any option is deselected, unselect "All Job Location"
+			if (selectedOptions.length < allOptions.length - 1) {
+				firstOption.prop('selected', false).removeClass('selected');
 			}
-		});
-
+		}
+	
+		// **Refresh Selectric UI and Keep Dropdown Open**
+		$elem.selectric('refresh').selectric('open');
+	
+		// Collect slugs for filtering
+		var slugs = selectedOptions.map(function () {
+			return $(this).data('slug');
+		}).get().filter(Boolean);
+	
 		var slugString = slugs.length > 0 ? slugs.join(',') : '';
-
+	
+		// Update pagination and filters
 		if ($('.awsm-b-job-listings').length > 0) {
 			$rootWrapper.find('.awsm-b-job-no-more-jobs-get').hide();
 		}
-		/* slug = typeof slug !== 'undefined' ? slug : ''; */
-		/* setPaginationBase($rootWrapper, currentSpec, slug); */
+	
 		setPaginationBase($rootWrapper, currentSpec, slugString);
-
+	
 		if (awsmJobsPublic.deep_linking.spec) {
 			var $paginationBase = $rootWrapper.find('input[name="awsm_pagination_base"]');
-			/* updateQuery(currentSpec, slug, $paginationBase.val()); */
 			updateQuery(currentSpec, slugString, $paginationBase.val());
 		}
+	
 		awsmJobFilters($rootWrapper);
-	}); 
-
+	});
+	
 	$(filterSelector + ' .awsm-filter-checkbox').on('change', function(e) { 
 		var selectedFilters = {};
 		var slugs = [];  // Initialize an array to collect slugs

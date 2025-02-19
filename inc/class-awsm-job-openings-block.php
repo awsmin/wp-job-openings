@@ -525,7 +525,7 @@ class AWSM_Job_Openings_Block {
 			$search_content = apply_filters( 'awsm_jobs_block_search_field_content', $search_content );
 		}
 
-		$taxonomies      = get_object_taxonomies( 'awsm_job_openings', 'objects' );
+		$taxonomies      = get_object_taxonomies( 'awsm_job_openings', 'objects' ); 
 		$display_filters = true;
 		if ( $enable_job_filters !== 'enable' || $filters_attr === '' ) {
 			$display_filters = false;
@@ -576,7 +576,8 @@ class AWSM_Job_Openings_Block {
 							'hide_empty' => true,
 						)
 					);
-						$terms  = get_terms( $terms_args );
+					
+					$terms  = get_terms( $terms_args ); 
 					if ( ! empty( $terms ) ) {
 						$available_filters_arr[ $taxonomy ] = $tax_details->label;
 
@@ -616,7 +617,7 @@ class AWSM_Job_Openings_Block {
 							$option_content = apply_filters( 'awsm_job_filter_block_option_content', $option_content, $term, $taxonomy );
 
 							$options_content .= $option_content;
-						}
+						} 
 
 						$filter_key = str_replace( '-', '__', $taxonomy );
 						$spec_name  = apply_filters( 'wpml_translate_single_string', $tax_details->label, 'WordPress', sprintf( 'taxonomy general name: %s', $tax_details->label ) );
