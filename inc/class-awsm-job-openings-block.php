@@ -756,7 +756,7 @@ class AWSM_Job_Openings_Block {
 		$uid                = isset( $block_atts['uid'] ) ? '-' . $block_atts['uid'] : '';
 		$enable_search      = isset( $block_atts['search'] ) ? $block_atts['search'] : '';
 		$placeholder_search = isset( $block_atts['search_placeholder'] ) ? $block_atts['search_placeholder'] : '';
-		$filter_options     = isset( $block_atts['filter_options'] ) ? $block_atts['filter_options'] : '';
+		$filter_options     = isset( $block_atts['filter_options'] ) ? $block_atts['filter_options'] : ''; 
 		$default_text       = 'search';
 
 		$hidden_fields_content = '<input type="hidden" name="action" value="block_jobfilter">';
@@ -780,7 +780,7 @@ class AWSM_Job_Openings_Block {
 
 			if ( ! empty( $taxonomies ) && ! empty( $filter_options ) ) {
 				foreach ( $taxonomies as $taxonomy => $tax_details ) {
-					foreach ( $filter_options as $spec ) {
+					foreach ( $filter_options as $spec ) { 
 						if ( $taxonomy == $spec['specKey'] ) {
 							// Get terms for the taxonomy
 							$terms_args = apply_filters(
@@ -791,9 +791,9 @@ class AWSM_Job_Openings_Block {
 									'hide_empty' => true,
 								)
 							);
-							$terms      = get_terms( $terms_args );
+							$terms      = get_terms( $terms_args ); 
 
-							if ( ! empty( $terms ) ) {
+							if ( ! empty( $terms ) ) { 
 								$available_filters_arr[ $taxonomy ] = $tax_details->label;
 								$options_content                    = '';
 

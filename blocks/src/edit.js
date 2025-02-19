@@ -43,14 +43,14 @@ export default function Edit(props) {
     const blockProps = useBlockProps();
 
     let specifications = awsmJobsAdmin.awsm_filters_block;
-    specifications = specifications.filter(spec => {
+    specifications = specifications.filter(spec => { 
         if (
             typeof filter_options !== "undefined" &&
             filter_options.includes(spec.key)
         ) {
             return spec;
         }
-    });
+    }); 
 
     // Event handler to ignore clicks
     const handleClick = event => {

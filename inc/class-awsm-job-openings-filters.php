@@ -187,7 +187,7 @@ class AWSM_Job_Openings_Filters {
 							$filter_label = apply_filters( 'awsm_filter_label', esc_html_x( 'All', 'job filter', 'wp-job-openings' ) . ' ' . $spec_name, $taxonomy, $tax_details );
 
 							$spec_multiple_class = '';
-							$multiple_for_spec   = '';
+							$multiple_for_spec   = '';  
 
 							if (isset($display_type[$taxonomy]) && $display_type[$taxonomy] === 'checkbox') {
 								$spec_multiple_class = 'awsm-spec-multiple';
