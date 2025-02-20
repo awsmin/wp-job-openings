@@ -394,7 +394,7 @@ jQuery(function($) {
 		var specs 				= $listingsContainer.data('specs');
 		var lang 				= $listingsContainer.data('lang');
 		var searchQuery 		= $listingsContainer.data('search');
-		var sort 				= $listingsContainer.data('sort'); 
+		var orderby 			= $listingsContainer.data('orderby'); 
 	
 		/* added for block */
 		var layout 				= $listingsContainer.data('awsm-layout');  
@@ -558,10 +558,10 @@ jQuery(function($) {
 			});
 		}
 
-		if (typeof sort !== 'undefined') {
+		if (typeof orderby !== 'undefined') {
 			wpData.push({
 				name: 'filter_sort',
-				value: sort
+				value: orderby
 			});
 		}
 

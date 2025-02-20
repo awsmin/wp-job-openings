@@ -45,7 +45,7 @@ class AWSM_Job_Openings_Block {
 			'listings'           => isset( $blockatts['listing_per_page'] ) ? $blockatts['listing_per_page'] : '',
 			'pagination'         => isset( $blockatts['pagination'] ) ? $blockatts['pagination'] : '',
 			'sort'               => isset( $blockatts['sort'] ) ? $blockatts['sort'] : '',
-		);
+		); 
 
 		 /**
 		 * Filter the attribute set for the Job Listing block.
@@ -209,7 +209,7 @@ class AWSM_Job_Openings_Block {
 		if ( isset( $_POST['filter_sort'] ) ) { 
 			$attributes['filter_sort'] = $_POST['filter_sort'];
 		}
-
+		
 		$attributes = apply_filters( 'awsm_jobs_block_post_filters', $attributes, $_POST );  
 
 		$args = self::awsm_block_job_query_args( $filters, $attributes, array(), $filters_list );
@@ -365,6 +365,7 @@ class AWSM_Job_Openings_Block {
 		$attrs['awsm-selected-terms']    = isset( $block_atts['selectedTerms'] ) 
         ? htmlspecialchars(json_encode($block_atts['selectedTerms'], JSON_UNESCAPED_SLASHES)) 
         : '{}';
+		$attrs['orderby']                = isset( $block_atts['orderBy'] ) ? $block_atts['orderBy'] : '';
 
 		$current_lang = AWSM_Job_Openings::get_current_language();
 		if ( ! empty( $current_lang ) ) {
