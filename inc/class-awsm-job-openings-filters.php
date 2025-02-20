@@ -335,33 +335,10 @@ class AWSM_Job_Openings_Filters {
 		}
 
 		$taxonomies = get_object_taxonomies( 'awsm_job_openings', 'objects' );
-
-		$display_filters = true;
-		if ( $enable_job_filters !== 'enabled' || $filters_attr === 'no' ) {
-			$display_filters = false;
-		}
-		// Hide filters if specs shortcode attribute is applied.
-		if ( ! empty( $shortcode_atts['specs'] ) ) {
-			$display_filters = false;
-		}
-
-		$available_filters = get_option( 'awsm_jobs_listing_available_filters' );
-		$available_filters = is_array( $available_filters ) ? $available_filters : array();
-		if ( empty( $available_filters ) ) {
-			$display_filters = false;
-		}
-
-		/**
-		 * Modifies the visibility for the filters in the job listing.
-		 *
-		 *
-		 * @param bool $is_visible Whether the filters is visible or not.
-		 * @param array $shortcode_atts The shortcode attributes.
-		 */
-		$display_filters = apply_filters( 'awsm_is_job_filters_visible_side', $display_filters, $shortcode_atts );
+		$available_filters = get_option( 'awsm_jobs_listing_available_filters', array() );
 
 		$available_filters_arr = array();
-		if ( $display_filters && ! empty( $taxonomies ) ) {
+		if ( $enable_job_filters == 'enabled' && ! empty( $available_filters ) && ! empty( $taxonomies ) ) {
 			$selected_filters = self::get_filters_query_args( $available_filters );
 			/**
 			 * Modifies the available or active filters to be displayed in the job listing.
@@ -513,36 +490,38 @@ class AWSM_Job_Openings_Filters {
 				}
 			}
 
-			/* Action for custom content for job listing */
-			ob_start();
-			do_action( 'awsm_block_form_inside', $block_atts );
-			$custom_action_content = ob_get_clean();
-			/* end */
-
-			$alert_existing_class = '';
-			if ( class_exists( 'AWSM_Job_Openings_Alert_Main_Blocks' ) ) {
-				$alert_existing_class = ' awsm-jobs-alerts-on';
-			}
-
-			$custom_action_content_main = '';
-			if ( ! empty( $custom_action_content ) && empty( $specs_filter_content ) ) {
-				$custom_action_content_main = $custom_action_content;
-			}
-
-			$hidden_fields_content .= '<input type="hidden" name="action" value="jobfilter">';
-
-			$filter_content = sprintf(
-				'<div class="%3$s%5$s"><form action="%2$s/wp-admin/admin-ajax.php" method="POST">%1$s%4$s</form></div>',
-				$search_content . $custom_action_content_main . $specs_filter_content . $hidden_fields_content,
-				esc_url( site_url() ),
-				'',
-				'',
-				$alert_existing_class
-			);
-
-			// Output the filter form content
-			echo apply_filters( 'awsm_filter_block_content_placement_slide', $filter_content ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			
 		}
+
+		/* Action for custom content for job listing */
+		ob_start();
+		do_action( 'awsm_block_form_inside', $shortcode_atts );
+		$custom_action_content = ob_get_clean();
+		/* end */
+
+		$alert_existing_class = '';
+		if ( class_exists( 'AWSM_Job_Openings_Alert_Main_Blocks' ) ) {
+			$alert_existing_class = ' awsm-jobs-alerts-on';
+		}
+
+		$custom_action_content_main = '';
+		if ( ! empty( $custom_action_content ) && empty( $specs_filter_content ) ) {
+			$custom_action_content_main = $custom_action_content;
+		}
+
+		$hidden_fields_content .= '<input type="hidden" name="action" value="jobfilter">';
+
+		$filter_content = sprintf(
+			'<div class="%3$s%5$s"><form action="%2$s/wp-admin/admin-ajax.php" method="POST">%1$s%4$s</form></div>',
+			$search_content . $custom_action_content_main . $specs_filter_content . $hidden_fields_content,
+			esc_url( site_url() ),
+			'',
+			'',
+			$alert_existing_class
+		);
+
+		// Output the filter form content
+		echo apply_filters( 'awsm_filter_block_content_placement_slide', $filter_content ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 	}
 
