@@ -482,7 +482,12 @@ class AWSM_Job_Openings {
 			case 'awsm_job_expiry':
 					$expiry_on_list = get_post_meta( $post_id, 'awsm_set_exp_list', true );
 					$job_expiry     = get_post_meta( $post_id, 'awsm_job_expiry', true );
+					$display_list   = get_post_meta( $post_id, 'awsm_exp_list_display', true );
 					echo ( $expiry_on_list === 'set_listing' && ! empty( $job_expiry ) ) ? esc_html( date_i18n( get_awsm_jobs_date_format( 'expiry-admin' ), strtotime( $job_expiry ) ) ) : $default_display; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					
+					echo '<input type="hidden" id="awsm_set_exp_list_' . esc_attr( $post_id ) . '" value="' . esc_attr( $expiry_on_list ) . '" >';
+					echo '<input type="hidden" id="awsm_job_expiry_' . esc_attr( $post_id ) . '" value="' . esc_attr( ( $expiry_on_list === 'set_listing' && ! empty( $job_expiry ) ) ? date_i18n( get_awsm_jobs_date_format( 'expiry-admin' ), strtotime( $job_expiry ) ) : '' ) . '" >';
+					echo '<input type="hidden" id="awsm_exp_list_display_' . esc_attr( $post_id ) . '" value="' . esc_attr( $display_list ) . '" >';
 				break;
 
 			case 'awsm_job_post_views':
@@ -1468,16 +1473,56 @@ class AWSM_Job_Openings {
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 			return;
 		}
+	
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return;
+		}
+
+		if ( $post->post_type === 'awsm_job_openings' ) {
+			if ( defined( 'DOING_AJAX' ) && DOING_AJAX && isset( $_POST['action'] ) && $_POST['action'] === 'inline-save' ) {
+				// Get posted values
+				$expiry_on_list  = isset( $_POST['awsm_set_exp_list'] ) ? 'set_listing' : ''; // Ensure unchecked checkboxes are handled
+				$awsm_job_expiry = isset( $_POST['awsm_job_expiry'] ) ? sanitize_text_field( $_POST['awsm_job_expiry'] ) : '';
+				$display_list    = isset( $_POST['awsm_exp_list_display'] ) ? 'list_display' : ''; // Same for display checkbox
+
+				// Update or delete post meta
+				update_post_meta( $post_id, 'awsm_set_exp_list', $expiry_on_list );
+				update_post_meta( $post_id, 'awsm_exp_list_display', $display_list );
+
+				if ( ! empty( $awsm_job_expiry ) ) {
+					update_post_meta( $post_id, 'awsm_job_expiry', $awsm_job_expiry );
+				} else {
+					delete_post_meta( $post_id, 'awsm_job_expiry' );
+				}
+
+				// Check if the job should be expired
+				if ( $expiry_on_list === 'set_listing' && ! empty( $awsm_job_expiry ) ) {
+					$expiration_time = strtotime( $awsm_job_expiry );
+
+					if ( $expiration_time < time() && $post->post_status !== 'trash' ) {
+						$post_data = array(
+							'ID'          => $post_id,
+							'post_status' => 'expired',
+						);
+
+						// Temporarily unhook save_post to prevent infinite loop
+						remove_action( 'save_post', array( $this, 'awsm_job_save_post' ), 100 );
+						wp_update_post( $post_data );
+						add_action( 'save_post', array( $this, 'awsm_job_save_post' ), 100, 2 );
+					}
+				} elseif ( $post->post_status === 'expired' ) {
+					// If a job is expired but no expiry date is set, restore expiry meta
+					update_post_meta( $post_id, 'awsm_set_exp_list', 'set_listing' );
+					update_post_meta( $post_id, 'awsm_job_expiry', gmdate( 'Y-m-d' ) );
+				}
+			}
+		}
 
 		if ( ! isset( $_POST['awsm_jobs_posts_nonce'] ) ) {
 			return;
 		}
 
 		if ( ! wp_verify_nonce( $_POST['awsm_jobs_posts_nonce'], 'awsm_save_post_meta' ) ) {
-			return;
-		}
-
-		if ( ! current_user_can( 'edit_post', $post_id ) ) {
 			return;
 		}
 

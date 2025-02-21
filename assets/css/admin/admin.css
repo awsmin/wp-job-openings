@@ -819,7 +819,7 @@ a.awsm-text-red:hover {
 }
 
 .awsm-job-setup-head h1 img {
-	max-width: 100%;
+	max-width: 75%;
 	height: auto;
 }
 
@@ -881,7 +881,7 @@ a.awsm-text-red:hover {
 }
 
 .awsm-job-setup-form form {
-	max-width: 395px;
+	max-width: 400px;
 	margin: 0 auto;
 	width: 100%;
 }
@@ -956,7 +956,7 @@ a.awsm-text-red:hover {
 }
 
 .awsm-job-setup-form-item {
-	padding: 26px 0;
+	padding: 26px 2px;
 	height: 144px;
 	overflow: hidden;
 }
@@ -1019,6 +1019,13 @@ a.awsm-text-red:hover {
 }
 
 .awsm-job-setup-button:hover {
+	background-color: #6bfae7;
+	color: #000;
+	border-color: #6bfae7;
+	text-decoration: none;
+	outline: none;
+}
+.awsm-job-setup-button:focus,  .awsm-job-setup-button:active{
 	background-color: #6bfae7;
 	color: #000;
 	border-color: #6bfae7;
@@ -1521,6 +1528,7 @@ a.awsm-plugin-item p {
 	color: #6CFAE4;
 	line-height: 1;
 	position: absolute;
+	text-decoration: none;
 }
 
 .awsm-application-actions.pro-feature .pro-ft {
@@ -1707,17 +1715,6 @@ a.awsm-plugin-item p {
 	gap: 30px;
 }
 
-.application-main-tab .pro-feature::before {
-	content: "";
-	position: absolute;
-	left: 0;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	background: rgba(255, 255, 255, 0.6);
-	z-index: 10;
-}
-
 .application-main-tab .pro-feature .pro-ft {
 	opacity: 0;
 	visibility: hidden;
@@ -1731,18 +1728,16 @@ a.awsm-plugin-item p {
 	position: absolute;
 	right: -110px;
 	top: 18px;
+	text-decoration: none;
 }
-
+.application-main-tab .pro-feature .pro-ft::after {
+	display: none;
+}
 .application-main-tab .pro-feature:hover .pro-ft {
 	opacity: 1;
 	visibility: visible;
 }
 
-.application-main-tab .pro-feature {
-	position: relative;
-	display: flex;
-	gap: 30px;
-}
 
 .application-main-tab .pro-feature::before {
 	content: "";
@@ -1753,26 +1748,6 @@ a.awsm-plugin-item p {
 	bottom: 0;
 	background: rgba(255, 255, 255, 0.6);
 	z-index: 10;
-}
-
-.application-main-tab .pro-feature .pro-ft {
-	opacity: 0;
-	visibility: hidden;
-	transition: all 0.3s ease;
-	background: #161616;
-	padding: 4px 8px;
-	border-radius: 4px;
-	font-size: 11px;
-	color: #6CFAE4;
-	line-height: 1;
-	position: absolute;
-	right: -110px;
-	top: 18px;
-}
-
-.application-main-tab .pro-feature:hover .pro-ft {
-	opacity: 1;
-	visibility: visible;
 }
 
 .application-main-tab-items {

@@ -53,7 +53,7 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 				?>
 			</div><!-- .awsm-application-head-main -->
 			<div class="awsm-application-actions <?php echo ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ? 'pro-feature' : ''; ?>">
-				<span class="pro-ft"><?php esc_html_e( 'Pro Features', 'wp-job-openings' ); ?></span>
+				<a class="pro-ft" href="https://wpjobopenings.com/pro-pack/" target="_blank"><?php esc_html_e( 'Pro Features', 'wp-job-openings' ); ?></a>
 				<?php if ( class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) : ?>
 					<?php do_action( 'awsm_application_rating_data' ); ?>
 				<?php else : ?>
@@ -102,7 +102,7 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 					<!-- Tabs Navigation -->
 					<ul class="application-main-tab">
 						<?php foreach ( $tab_applicant_single_view as $key => $tab_data ) : ?>
-							<li>
+							<li class="awsm-application-main-tab-item">
 								<a href="#awsm-applicant-<?php echo esc_attr( $key ); ?>" class="<?php echo $key === 'profile' ? 'active' : ''; ?>">
 									<?php
 									if ( is_array( $tab_data ) && isset( $tab_data['label'] ) ) {
@@ -119,7 +119,7 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 						<?php endforeach; ?>
 						<?php if ( ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) : ?>
 							<li class="pro-feature">
-							<div class="pro-ft">Pro Features</div>
+							<a class="pro-ft" href="https://wpjobopenings.com/pro-pack/" target="_blank"><?php esc_html_e( 'Pro Features', 'wp-job-openings' ); ?></a>
 							<a href="#"><?php echo esc_html__( 'Notifications', 'wp-job-openings' ); ?><span>8</span></a>
 							<a href="#"><?php echo esc_html__( 'Notes', 'wp-job-openings' ); ?><span>8</span></a>
 							</li>
