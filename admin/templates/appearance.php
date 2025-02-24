@@ -247,7 +247,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				array(
 					'name'        => 'awsm_jobs_listing_available_filters',
 					'visible'     => ! empty( $specifications ),
-					'label'       => __( 'Available filters', 'wp-job-openings' ),
+					'label'       => __( 'Filters display type', 'wp-job-openings' ),
 					'type'        => 'checkbox',
 					'multiple'    => true,
 					'choices'     => $available_filters_choices,
