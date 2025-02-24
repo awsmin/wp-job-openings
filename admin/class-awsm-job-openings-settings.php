@@ -1110,6 +1110,7 @@ class AWSM_Job_Openings_Settings {
 									}
 
 									if ( isset( $choice_details['html'] ) && is_array( $choice_details['html'] ) ) {
+										$field_content .= '<ul class="awsm-list-inline">';
 										foreach ( $choice_details['html'] as $html_choice ) { 
 											foreach ( $html_choice as $radio_choice ) {  
 												$radio_attrs = isset( $radio_choice['value'] ) ? ' value="' . esc_attr( $radio_choice['value'] ) . '"' : '';
@@ -1127,17 +1128,20 @@ class AWSM_Job_Openings_Settings {
 									
 												$radio_checked = (isset($display_type_choices[$spec_key]) && $display_type_choices[$spec_key] === $radio_choice['value']) ? ' checked' : '';
 									
+												$field_content .= '<li>';
 												$field_content .= sprintf(
-													'<input type="radio" name="%s" id="%s" %s %s/><label for="%s">%s</label>',
+													'<label for="%s"><input type="radio" name="%s" id="%s" %s %s/>%s</label>',
+													esc_attr( $radio_choice['id'] . '-' . $radio_choice['value'] ),
 													esc_attr( $radio_choice['name'] ),
 													esc_attr( $radio_choice['id'] . '-' . $radio_choice['value'] ),
 													$radio_attrs,
 													$radio_checked,
-													esc_attr( $radio_choice['id'] . '-' . $radio_choice['value'] ),
 													$radio_label
 												);
+											$field_content .= '</li>';
 											}
 										}
+										$field_content .= '</ul>';
 									}
 									
 									$choice_fields++;
