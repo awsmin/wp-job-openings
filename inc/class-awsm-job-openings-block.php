@@ -270,6 +270,8 @@ class AWSM_Job_Openings_Block {
 	
 		// Process taxonomy filters.
 		if ( ! empty( $filters ) || ! empty( $filters_list ) ) {
+			$filters 		= is_array( $filters ) ? $filters : []; 
+			$filters_list 	= is_array( $filters_list ) ? $filters_list : []; 
 			$all_filters = array_merge_recursive( $filters, $filters_list );
 	
 			foreach ( $all_filters as $taxonomy => $terms ) {

@@ -579,7 +579,7 @@ class AWSM_Job_Openings_Filters {
 				$args['paged'] = absint( $_POST['paged'] ) + 1;
 			}
 		}
-
+		
 		$query = new WP_Query( $args );
 
 		if ( $query->have_posts() ) {

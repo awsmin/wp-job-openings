@@ -1611,7 +1611,7 @@ class AWSM_Job_Openings {
 			$term_id                      = $q_obj->term_id;
 			$filters                      = array( $taxonomy => $term_id );
 			$is_term_or_slug[ $taxonomy ] = 'term_id';
-		}
+		} 
 
 		/* if ( ! empty( $filters ) ) {
 			foreach ( $filters as $taxonomy => $value ) {
@@ -1626,10 +1626,12 @@ class AWSM_Job_Openings {
 				}
 			}
 		} */
-
+		
 		if ( ! empty( $filters ) || ! empty( $filters_list ) ) { 
-			$all_filters = array_merge_recursive( $filters, $filters_list );
-			
+			$filters 		= is_array( $filters ) ? $filters : []; 
+			$filters_list 	= is_array( $filters_list ) ? $filters_list : []; 
+			$all_filters 	= array_merge_recursive( $filters, $filters_list );
+
 			foreach ( $all_filters as $taxonomy => $terms ) { 
 				if ( ! empty( $terms ) ) {
 					// Ensure terms are always an array and cleaned.
@@ -1647,10 +1649,11 @@ class AWSM_Job_Openings {
 				}
 			}
 		}
-
+	
 		if ( ! empty( $tax_query ) ) {
 			$args['tax_query'] = $tax_query;
 		}
+		
 
 		$list_per_page          = self::get_listings_per_page( $shortcode_atts );
 		$hide_expired_jobs      = get_option( 'awsm_jobs_expired_jobs_listings' );
