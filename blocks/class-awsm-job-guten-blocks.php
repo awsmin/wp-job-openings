@@ -102,6 +102,11 @@ class Awsm_Job_Guten_Blocks {
 
 		$class_block_init = AWSM_Job_Openings_Block::init();
 		$block_content    = $class_block_init->awsm_jobs_block_attributes( $atts );
+
+		if ( empty( $block_content ) ) {
+			return '<p>No job listings found.</p>'; // Fallback content
+		}
+
 		return $block_content;
 	}
 
