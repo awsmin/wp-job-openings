@@ -48,10 +48,15 @@ if ( $query->have_posts() ) :
 			do_action( 'awsm_filter_form', $shortcode_atts );
 			do_action( 'awsm_filter_after_form' ); 
 		?>
-
-		<div <?php awsm_jobs_view_class( '', $shortcode_atts ); ?><?php awsm_jobs_data_attrs( array(), $shortcode_atts ); ?>>
-			<?php include get_awsm_jobs_template_path( 'main', 'job-openings' ); ?>
+		
+		<div class="awsm-job-listings"<?php awsm_jobs_data_attrs( array(), $shortcode_atts ); ?>>
+			<div <?php awsm_jobs_view_class( '', $shortcode_atts ); ?>>
+				<?php
+					include get_awsm_jobs_template_path( 'main', 'job-openings' );
+				?>
+			</div>
 		</div>
+
 	</div>
 	<?php 
 	elseif( $shortcode_atts['placement'] == 'side' ):  ?>

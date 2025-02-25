@@ -1730,7 +1730,7 @@ class AWSM_Job_Openings {
 			default:
 				$view_class .= ' awsm-lists';
 				break;
-		}
+		} 
 
 		/**
 		 * Filters the job listing view class.
