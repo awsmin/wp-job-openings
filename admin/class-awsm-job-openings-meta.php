@@ -23,7 +23,7 @@ class AWSM_Job_Openings_Meta {
 		add_filter( 'post_row_actions', array( $this, 'awsm_job_application_row_actions_label' ), 10, 2 );
 		add_filter( 'wp_untrash_post_status', array( $this, 'awsm_job_application_restore_post_to_previous_status' ), 10, 3 );
 		add_filter( 'post_class', array( $this, 'awsm_add_unread_application_class' ), 10, 3 );
-		add_action( 'quick_edit_custom_box', array( $this, 'awsm_job_openings_main_quick_edit_fields'), 10, 2 );
+		add_action( 'quick_edit_custom_box', array( $this, 'awsm_job_openings_main_quick_edit_fields' ), 10, 2 );
 	}
 
 	public static function init() {
@@ -355,7 +355,7 @@ class AWSM_Job_Openings_Meta {
 		if ( $post_type !== 'awsm_job_openings' || $column_name !== 'awsm_job_expiry' ) {
 			return;
 		}
-	
+
 		$awsm_job_expiry = get_post_meta( get_the_ID(), 'awsm_job_expiry', true );
 		$display_list    = get_post_meta( get_the_ID(), 'awsm_exp_list_display', true );
 		$set_expiry      = get_post_meta( get_the_ID(), 'awsm_set_exp_list', true ); // Retrieve the expiry checkbox state
