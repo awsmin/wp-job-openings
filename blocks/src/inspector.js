@@ -345,7 +345,7 @@ const WidgetInspectorControls = (props) => {
 
 				{listType === "filtered" && (
 					<>
-						<h2>{__("Available Filters", "wp-job-openings")}</h2>
+						<h2>{__("Filters", "wp-job-openings")}</h2>
 						{specifications.map((spec) => (
 							<div key={spec.key} className="filter-item">
 								<ToggleControl
