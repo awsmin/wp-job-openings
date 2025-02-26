@@ -48,7 +48,7 @@ class AWSM_Job_Openings_Filters {
 		$filters_attr          = isset( $shortcode_atts['filters'] ) ? $shortcode_atts['filters'] : '';
 		$enable_job_filters    = get_option( 'awsm_enable_job_filter_listing' );
 		$enable_search         = get_option( 'awsm_enable_job_search' );
-		$display_type          = get_option( 'awsm_jobs_listing_display_type' );
+		$display_type          = get_option( 'awsm_jobs_listing_display_type','dropdown' );
 
 		/**
 		 * Enable search in the job listing or not.
@@ -290,7 +290,7 @@ class AWSM_Job_Openings_Filters {
 		$filters_attr          = isset( $shortcode_atts['filters'] ) ? $shortcode_atts['filters'] : '';
 		$enable_job_filters    = get_option( 'awsm_enable_job_filter_listing' );
 		$enable_search         = get_option( 'awsm_enable_job_search' );
-		$display_type          = get_option( 'awsm_jobs_listing_display_type' );
+		$display_type          = get_option( 'awsm_jobs_listing_display_type','dropdown' );
 
 		/**
 		 * Enable search in the job listing or not.
@@ -381,7 +381,7 @@ class AWSM_Job_Openings_Filters {
 						 */
 						$filter_label = apply_filters( 'awsm_filter_label_side', esc_html_x( 'All', 'job filter', 'wp-job-openings' ) . ' ' . $spec_name, $taxonomy, $tax_details );
 
-						if ( $display_type[$taxonomy] == 'dropdown' ) {
+						if ( isset($display_type[$taxonomy]) && $display_type[$taxonomy] == 'dropdown' ) {
 							foreach ( $terms as $term ) { 
 								$selected = '';
 								if ( in_array( $taxonomy, array_keys( $selected_filters ) ) && $selected_filters[ $taxonomy ] === $term->slug ) {
@@ -425,7 +425,7 @@ class AWSM_Job_Openings_Filters {
 							$dropdown_content = apply_filters( 'awsm_job_filter_dropdown_content', $dropdown_content );
 
 							$specs_filter_content .= $dropdown_content;
-						}elseif ( $display_type[$taxonomy] == 'checkbox' ) {
+						}elseif ( $display_type[$taxonomy] && $display_type[$taxonomy] == 'checkbox' ) {
 							$checkbox_svg_icon = '<svg xmlns="http://www.w3.org/2000/svg" width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M8.45447 0.848088L3.99989 5.30315L1.66632 2.96958L1.52489 2.82816L1.38347 2.96958L0.676473 3.67658L0.535051 3.818L0.676473 3.95942L3.85847 7.14142L3.99989 7.28284L4.14132 7.14142L9.44482 1.83792L9.58629 1.69645L9.44477 1.55503L8.73727 0.848031L8.59584 0.706702L8.45447 0.848088Z" fill="white" stroke="white" stroke-width="0.4"></path></svg>';
 
 								$filter_list_items = '';

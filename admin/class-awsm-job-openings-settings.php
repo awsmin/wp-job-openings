@@ -457,7 +457,7 @@ class AWSM_Job_Openings_Settings {
 			),
 			'awsm_enable_job_filter_listing'        => 'enabled',
 			'awsm_jobs_listing_available_filters'   => array( 'job-category', 'job-type', 'job-location' ),
-			'awsm_jobs_listing_display_type'        => array( 'checkbox', 'dropdown'),
+			'awsm_jobs_listing_display_type'        => 'dropdown',
 			'awsm_jobs_listing_specs'               => array( 'job-category', 'job-location' ),
 			'awsm_jobs_admin_upload_file_ext'       => array( 'pdf', 'doc', 'docx' ),
 			'awsm_enable_gdpr_cb'                   => 'true',
@@ -1111,22 +1111,34 @@ class AWSM_Job_Openings_Settings {
 
 									if ( isset( $choice_details['html'] ) && is_array( $choice_details['html'] ) ) {
 										$field_content .= '<ul class="awsm-list-inline">';
+										
+										// Fetch saved display type choice
+										$awsm_jobs_listing_display_type = get_option('awsm_jobs_listing_display_type', '');
+										
+										if ( is_string( $awsm_jobs_listing_display_type ) && !empty($awsm_jobs_listing_display_type) ) {
+											$display_type_choices = unserialize($awsm_jobs_listing_display_type);
+										} else {
+											$display_type_choices = $awsm_jobs_listing_display_type; 
+										}
+									
+										// Variable to track if any selection exists
+										$has_selected = false;
+									
 										foreach ( $choice_details['html'] as $html_choice ) { 
-											foreach ( $html_choice as $radio_choice ) {  
+											foreach ( $html_choice as $index => $radio_choice ) {  
 												$radio_attrs = isset( $radio_choice['value'] ) ? ' value="' . esc_attr( $radio_choice['value'] ) . '"' : '';
 												$radio_label = isset( $radio_choice['text'] ) ? esc_html( $radio_choice['text'] ) : '';
-												$awsm_jobs_listing_display_type = get_option('awsm_jobs_listing_display_type', '');
 									
-												if ( is_string( $awsm_jobs_listing_display_type ) && !empty($awsm_jobs_listing_display_type) ) {
-													$display_type_choices = unserialize($awsm_jobs_listing_display_type);
-												} else {
-													$display_type_choices = $awsm_jobs_listing_display_type; 
-												}
-									
+												// Extract spec_key from name attribute
 												preg_match('/\[(.*?)\]/', $radio_choice['name'], $matches);
 												$spec_key = $matches[1] ?? '';
 									
+												// Determine if this radio should be checked
 												$radio_checked = (isset($display_type_choices[$spec_key]) && $display_type_choices[$spec_key] === $radio_choice['value']) ? ' checked' : '';
+									
+												if ($radio_checked) {
+													$has_selected = true; // Mark that at least one option is selected
+												}
 									
 												$field_content .= '<li>';
 												$field_content .= sprintf(
@@ -1138,10 +1150,40 @@ class AWSM_Job_Openings_Settings {
 													$radio_checked,
 													$radio_label
 												);
-											$field_content .= '</li>';
+												$field_content .= '</li>';
 											}
 										}
+									
 										$field_content .= '</ul>';
+									
+										// If no option was selected, make the first option selected by default
+										if (!$has_selected && !empty($choice_details['html'])) {
+											foreach ($choice_details['html'] as $html_choice) {
+												if (!empty($html_choice)) {
+													$first_radio = reset($html_choice); // Get the first radio button option
+													
+													if (isset($first_radio['value'], $first_radio['name'])) {
+														$default_value = $first_radio['value'];
+														$default_name = $first_radio['name'];
+									
+														// Add JavaScript to select the first option automatically
+														$field_content .= sprintf(
+															'<script>
+																document.addEventListener("DOMContentLoaded", function() {
+																	var firstOption = document.querySelector("input[name=\'%s\'][value=\'%s\']");
+																	if (firstOption) {
+																		firstOption.checked = true;
+																	}
+																});
+															</script>',
+															esc_attr($default_name),
+															esc_attr($default_value)
+														);
+													}
+													break;
+												}
+											}
+										}
 									}
 									
 									$choice_fields++;
