@@ -344,6 +344,7 @@ class AWSM_Job_Openings {
 			array(
 				'uid'        => $this->unique_listing_id,
 				'filters'    => get_option( 'awsm_enable_job_filter_listing' ) !== 'enabled' ? 'no' : 'yes',
+				'search'     => get_option( 'awsm_enable_job_search' ) !== 'enable' ? 'no' : 'yes',
 				'listings'   => get_option( 'awsm_jobs_list_per_page' ),
 				'loadmore'   => 'yes',
 				'pagination' => get_option( 'awsm_jobs_pagination_type', 'modern' ),
