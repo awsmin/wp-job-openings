@@ -39,6 +39,7 @@ class AWSM_Job_Openings_Block {
 			'placement'          => isset( $blockatts['placement'] ) ? $blockatts['placement'] : 'slide',
 			'search_placeholder' => isset( $blockatts['search_placeholder'] ) ? $blockatts['search_placeholder'] : '',
 			'number_of_columns'  => isset( $blockatts['number_of_columns'] ) ? $blockatts['number_of_columns'] : 3,
+			//'block_loadmore'     => 'no',
 			'listType'           => isset( $blockatts['listType'] ) ? $blockatts['listType'] : '',
 			'selectedTerms'      => isset( $blockatts['selectedTerms'] ) ? $blockatts['selectedTerms'] : '',
 			'orderBy'            => isset( $blockatts['orderBy'] ) ? $blockatts['orderBy'] : '',
@@ -928,6 +929,11 @@ class AWSM_Job_Openings_Block {
 			$custom_action_content_filter = '';
 			if ( ! empty( $custom_action_content ) ) {
 				$custom_action_content_filter = $custom_action_content;
+			}
+
+			if ( ! AWSM_Job_Openings::is_default_pagination( $block_atts ) ) {
+				$paged                  = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
+				$hidden_fields_content .= sprintf( '<input type="hidden" name="awsm_pagination_base" value="%1$s"><input type="hidden" name="paged" value="%2$s">', esc_url( get_pagenum_link() ), absint( $paged ) );
 			}
 
 			// Combine search and filter content into the form

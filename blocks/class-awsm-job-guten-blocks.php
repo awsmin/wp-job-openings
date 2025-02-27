@@ -79,7 +79,7 @@ class Awsm_Job_Guten_Blocks {
 			$atts['listing_per_page'] = $atts['jobsPerPage'];
 		}
 
-		if ( isset( $atts['pagination'] ) && $atts['pagination'] === true ) {
+		if ( isset( $atts['pagination'] ) ) {
 			$atts['pagination'] = $atts['pagination'];
 		}
 

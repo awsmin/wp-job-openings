@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$attributes   = isset( $block_atts_set ) ? $block_atts_set : array();
+$attributes   = isset( $block_atts_set ) ? $block_atts_set : array(); 
 $query        = awsm_block_jobs_query( $attributes );
 
 $show_filter  			 = false;
@@ -91,9 +91,9 @@ if ( $query->have_posts() ) :
 					do_action( 'awsm_block_jobs_sort', $attributes );
 				?>
 
-			</div>
+			</div> 
 			<div <?php awsm_block_jobs_view_class( '', $attributes ); ?>>
-				<?php
+				<?php 
 					include get_awsm_jobs_template_path( 'block-main', 'block-files' );
 				?>
 			</div>

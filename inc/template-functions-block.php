@@ -114,7 +114,7 @@ if ( ! function_exists( 'awsm_block_jobs_data_attrs' ) ) {
 
 if ( ! function_exists( 'awsm_block_jobs_load_more' ) ) {
 	function awsm_block_jobs_load_more( $query, $shortcode_atts = array() ) {
-		$loadmore      = isset( $shortcode_atts['block_loadmore'] ) && $shortcode_atts['block_loadmore'] === 'no' ? false : true;
+		$loadmore      = isset( $shortcode_atts['block_loadmore'] ) && $shortcode_atts['block_loadmore'] === 'no' ? false : true; 
 		$max_num_pages = $query->max_num_pages;
 		if ( $loadmore && $max_num_pages > 1 ) {
 			if ( AWSM_Job_Openings::is_default_pagination( $shortcode_atts ) ) {
