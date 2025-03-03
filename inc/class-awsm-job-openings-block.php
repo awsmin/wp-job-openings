@@ -951,9 +951,8 @@ class AWSM_Job_Openings_Block {
 
 	public function display_block_job_sort( $attributes ) {
 		$sort_dropdown = '';
+		
 		if ( $attributes['sort'] == 'enable' ) {
-			$action_url = esc_url( site_url( '/wp-admin/admin-ajax.php' ) );
-	
 			$filter_class_admin = '';
 			if ( self::is_edit_or_add_page() ) {
 				$filter_class_admin = 'awsm-b-filter-admin';
@@ -963,21 +962,18 @@ class AWSM_Job_Openings_Block {
 			$current_sort = isset( $_GET['sort'] ) ? sanitize_text_field( $_GET['sort'] ) : '';
 	
 			$sort_dropdown = sprintf(
-				'<form action="%s" method="GET">
-					<div class="awsm-job-sort awsm-filter-item">
-						<label>%s</label>
-						<div class="' . $filter_class_admin . '">
-							<label class="awsm-b-sr-only">Relevance</label>
-							<select class="awsm-b-filter-option awsm-job-sort-filter" name="sort">
-								<option value="new_to_old" %s>%s</option>
-								<option value="old_to_new" %s>%s</option>
-								<option value="random" %s>%s</option>
-								<option value="relevance" %s>%s</option>
-							</select>
-						</div>
+				'<div class="awsm-job-sort awsm-filter-item">
+					<label>%s</label>
+					<div class="' . esc_attr( $filter_class_admin ) . '">
+						<label class="awsm-b-sr-only">Relevance</label>
+						<select class="awsm-b-filter-option awsm-job-sort-filter" name="sort">
+							<option value="new_to_old" %s>%s</option>
+							<option value="old_to_new" %s>%s</option>
+							<option value="random" %s>%s</option>
+							<option value="relevance" %s>%s</option>
+						</select>
 					</div>
-				</form>',
-				$action_url,
+				</div>',
 				esc_html__( 'Sort by', 'wp-job-openings' ),
 				selected( $current_sort, 'new_to_old', false ),
 				esc_html__( 'New to Old', 'wp-job-openings' ),
@@ -989,8 +985,10 @@ class AWSM_Job_Openings_Block {
 				esc_html__( 'Relevance', 'wp-job-openings' )
 			);
 		}
+	
 		echo $sort_dropdown;
 	}
+	
 }
 
 AWSM_Job_Openings_Block::init();

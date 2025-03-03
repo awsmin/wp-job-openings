@@ -37,31 +37,34 @@ jQuery(function($) {
 		return data;
 	}
 	
-	function awsmJobFilters($rootWrapper) { 
+    function awsmJobFilters($rootWrapper) { 
 		var $wrapper = $rootWrapper.find(wrapperSelector); 
 		var $rowWrapper = $wrapper.find(sectionSelector);
 		var $filterForm = $rootWrapper.find(filterSelector + ' form'); 
-		var formData = $filterForm.serializeArray(); 
-		var listings = $wrapper.data('listings');
-		var specs = $wrapper.data('specs'); 
+		var formData = [];
 	
-		var sortFilter = $rootWrapper.find('.awsm-job-sort-filter').val();  
+		if ($filterForm.length > 0) {
+			// Form exists → Serialize form data
+			formData = $filterForm.serializeArray();
+			var formMethod = $filterForm.attr('method') ? $filterForm.attr('method').toUpperCase() : 'POST';
+		} else {
+			// Form is missing → Manually construct data
+			formData.push({ name: 'action', value: 'block_jobfilter' }); // Ensure action is included
+			var formMethod = 'POST';
+		}
 	
-		/* added for block */
-		var layout 				= $wrapper.data('awsm-layout');
-		var hide_expired_jobs   = $wrapper.data('awsm-hide-expired-jobs'); 
-		var selected_terms   	= $wrapper.data('awsm-selected-terms'); 
-		var other_options 		= $wrapper.data('awsm-other-options'); 
-		var listings_total 		= $wrapper.data('awsm-listings-total');
-		var sort 				= $wrapper.data('sort'); 
-		
-		formData.push({
-			name: 'listings_per_page',
-			value: listings
-		});
+		var listings 		  = $wrapper.data('listings');
+		var specs 			  = $wrapper.data('specs'); 
+		var sortFilter 		  = $rootWrapper.find('.awsm-job-sort-filter').val();  
+		var layout 			  = $wrapper.data('awsm-layout');
+		var hide_expired_jobs = $wrapper.data('awsm-hide-expired-jobs'); 
+		var selected_terms 	  = $wrapper.data('awsm-selected-terms'); 
+		var other_options     = $wrapper.data('awsm-other-options'); 
+		var listings_total    = $wrapper.data('awsm-listings-total');
+		var sort              = $wrapper.data('sort'); 
 	
 		formData.push({ name: 'listings_per_page', value: listings });
-
+	
 		if (typeof sortFilter !== 'undefined' && sortFilter !== '') {
 			formData.push({ name: 'filter_sort', value: sortFilter });
 		} else if (typeof sort !== 'undefined') {
@@ -72,7 +75,6 @@ jQuery(function($) {
 			formData.push({ name: 'shortcode_specs', value: specs });
 		}
 	
-		/* added for block */
 		if (typeof layout !== 'undefined') {
 			formData.push({ name: 'awsm-layout', value: layout });
 		}
@@ -80,21 +82,18 @@ jQuery(function($) {
 		if (selected_terms) {
 			if (typeof selected_terms === 'string') {
 				try {
-					// Parse the JSON string into an object
 					selected_terms = JSON.parse(selected_terms);
 				} catch (error) {
 					console.error("Failed to parse selected_terms JSON:", error);
-					selected_terms = {}; // Fallback to an empty object
+					selected_terms = {};
 				}
 			}
-		
-			// Push to wpData
 			formData.push({
 				name: 'awsm-selected-terms',
-				value: JSON.stringify(selected_terms) // Send as JSON string
+				value: JSON.stringify(selected_terms)
 			});
 		}
-
+	
 		if (typeof hide_expired_jobs !== 'undefined') {
 			formData.push({ name: 'awsm-hide-expired-jobs', value: hide_expired_jobs });
 		}
@@ -116,17 +115,18 @@ jQuery(function($) {
 		$(document).trigger('awsmJobBlockFiltersFormData', [$wrapper, formData]);
 	
 		if (triggerFilter) {
-			// stop the duplicate requests
 			triggerFilter = false;
 	
-			// now, make the request
+			// Determine action URL (fallback if form is missing)
+			var actionUrl = $filterForm.length > 0 ? $filterForm.attr('action') : awsmJobsPublic.ajaxurl;
+	
 			$.ajax({
-				url: $filterForm.attr('action'),
+				url: actionUrl,
 				beforeSend: function() {
 					$wrapper.addClass('awsm-jobs-loading');
 				},
 				data: formData,
-				type: $filterForm.attr('method')
+				type: formMethod
 			}).done(function(data) { 
 				$rowWrapper.html(data);
 	
@@ -142,7 +142,6 @@ jQuery(function($) {
 				}
 				$(document).trigger('awsmjobs_filtered_listings', [ $rootWrapper, data ]);
 			}).fail(function(xhr) {
-				// eslint-disable-next-line no-console
 				console.log(xhr);
 			}).always(function() {
 				$wrapper.removeClass('awsm-jobs-loading');
