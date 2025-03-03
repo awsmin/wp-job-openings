@@ -258,36 +258,63 @@ jQuery(function ($) {
   $(filterSelector + ' .awsm-b-filter-option').on('change', function (e) {
     e.preventDefault();
     $('.awsm-b-job-listings').show();
-    var $elem = $(this); // The original <select> element
+    var $elem = $(this);
     var $rootWrapper = $elem.closest(rootWrapperSelector);
     var currentSpec = $elem.closest('.awsm-b-filter-item').data('filter');
     var allOptions = $elem.find('option');
     var firstOption = allOptions.eq(0);
     var selectedOptions = $elem.find('option:selected');
     var isAllSelected = firstOption.prop('selected');
-    if (isAllSelected) {
-      // Select all options in the actual <select> element
-      allOptions.prop('selected', true).addClass('selected');
-    } else {
-      // Ensure the correct options are selected
-      allOptions.each(function () {
-        $(this).toggleClass('selected', $(this).prop('selected'));
-      });
+    var slugs = [];
 
-      // If any option is deselected, unselect "All Job Location"
-      if (selectedOptions.length < allOptions.length - 1) {
-        firstOption.prop('selected', false).removeClass('selected');
+    // Check if the filter is using checkboxes (by checking for input[type=checkbox] within the wrapper)
+    var isCheckboxFilter = $rootWrapper.find('input[type="checkbox"]').length > 0;
+    if (isAllSelected) {
+      if (isCheckboxFilter) {
+        // If checkboxes are used, check all of them
+        $rootWrapper.find('input[type="checkbox"]').prop('checked', true);
+
+        // Collect slugs from checked checkboxes
+        slugs = $rootWrapper.find('input[type="checkbox"]:checked').map(function () {
+          return $(this).data('slug');
+        }).get().filter(Boolean);
+      } else {
+        // If dropdown is used, select all options
+        allOptions.prop('selected', true).addClass('selected');
+
+        // Collect slugs for all options except "All"
+        slugs = allOptions.slice(1).map(function () {
+          return $(this).data('slug');
+        }).get().filter(Boolean);
+      }
+    } else {
+      if (isCheckboxFilter) {
+        // If checkboxes are used, update selection normally
+        slugs = $rootWrapper.find('input[type="checkbox"]:checked').map(function () {
+          return $(this).data('slug');
+        }).get().filter(Boolean);
+      } else {
+        // Ensure the correct options are selected
+        allOptions.each(function () {
+          $(this).toggleClass('selected', $(this).prop('selected'));
+        });
+
+        // If any option is deselected, unselect "All"
+        if (selectedOptions.length < allOptions.length - 1) {
+          firstOption.prop('selected', false).removeClass('selected');
+        }
+
+        // Collect selected values for filtering
+        slugs = selectedOptions.map(function () {
+          return $(this).data('slug');
+        }).get().filter(Boolean);
       }
     }
-
-    // **Refresh Selectric UI and Keep Dropdown Open**
-    $elem.selectric('refresh').selectric('open');
-
-    // Collect slugs for filtering
-    var slugs = selectedOptions.map(function () {
-      return $(this).data('slug');
-    }).get().filter(Boolean);
     var slugString = slugs.length > 0 ? slugs.join(',') : '';
+
+    // **Refresh Selectric UI (But DON'T keep dropdown open)**
+    $elem.selectric('refresh').selectric('open');
+    ;
 
     // Update pagination and filters
     if ($('.awsm-b-job-listings').length > 0) {
