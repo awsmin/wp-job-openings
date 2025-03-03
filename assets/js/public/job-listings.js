@@ -32,100 +32,58 @@ jQuery(function($) {
 	}
 
 	function awsmJobFilters($rootWrapper) { 
-		var $wrapper 		= $rootWrapper.find(wrapperSelector);
-		var $rowWrapper 	= $wrapper.find(sectionSelector);
-		var $filterForm 	= $rootWrapper.find(filterSelector + ' form');
-		var formData 		= $filterForm.serializeArray();
-		var listings 		= $wrapper.data('listings');
-		var specs 			= $wrapper.data('specs');
-		var selected_terms  = $wrapper.data('awsm-selected-terms');
-
-		var sortFilter = $rootWrapper.find('.awsm-job-sort-filter').val();  
-		
-		$rootWrapper.find('.awsm-filter-item').each(function() {
-			var currentLoopSpec = $(this).data('filter');
-			var searchParams = new URLSearchParams(document.location.search);
-			var currentSpecQueryVal = searchParams.get(currentLoopSpec); 
-			var $currentOption = $(this).find('.awsm-filter-option');
-		
-			if (!$currentOption.val() && currentSpecQueryVal) { 
-				formData = formData.map(function(item) {
-					if (item.name === $currentOption.attr('name')) {
-						return { name: item.name, value: '-1' }; // Update value
-					}
-					return item;
-				});
-			}
-		});
-
-		formData.push({
-			name: 'listings_per_page',
-			value: listings
-		});
-		if (typeof specs !== 'undefined') {
-			formData.push({
-				name: 'shortcode_specs',
-				value: specs
-			});
+		var $wrapper = $rootWrapper.find(wrapperSelector);
+		var $rowWrapper = $wrapper.find(sectionSelector);
+		var $filterForm = $rootWrapper.find(filterSelector + ' form'); 
+		var formData = [];
+	
+		// Find the sort dropdown value
+		var sortFilter = $rootWrapper.find('.awsm-job-sort-filter-short').val();
+	
+		if ($filterForm.length > 0) {
+			// Form exists → Serialize form data
+			formData = $filterForm.serializeArray();
+			var formMethod = $filterForm.attr('method') ? $filterForm.attr('method').toUpperCase() : 'POST';
+		} else {
+			// Form is missing → Manually construct data
+			formData.push({ name: 'action', value: 'jobfilter' }); // Ensure action is included
+			var formMethod = 'POST';
 		}
-
+	
+		// Add sort filter value
 		if (typeof sortFilter !== 'undefined' && sortFilter !== '') {
 			formData.push({ name: 'filter_sort', value: sortFilter });
-		} else if (typeof sort !== 'undefined') {
-			formData.push({ name: 'filter_sort', value: sort });
 		}
-
+	
+		// Get additional data (if available)
+		var listings = $wrapper.data('listings');
+		var specs = $wrapper.data('specs');
+		var selected_terms = $wrapper.data('awsm-selected-terms');
+	
+		if (listings) {
+			formData.push({ name: 'listings_per_page', value: listings });
+		}
+		if (specs) {
+			formData.push({ name: 'shortcode_specs', value: specs });
+		}
 		if (selected_terms) {
-			if (typeof selected_terms === 'string') {
-				try {
-					// Parse the JSON string into an object
-					selected_terms = JSON.parse(selected_terms);
-				} catch (error) {
-					console.error("Failed to parse selected_terms JSON:", error);
-					selected_terms = {}; // Fallback to an empty object
-				}
-			}
-		
-			// Push to wpData
-			formData.push({
-				name: 'awsm-selected-terms',
-				value: JSON.stringify(selected_terms) // Send as JSON string
-			});
+			formData.push({ name: 'awsm-selected-terms', value: JSON.stringify(selected_terms) });
 		}
-
-		var listingsData = getListingsData($wrapper);
-		if (listingsData.length > 0) {
-			formData = formData.concat(listingsData);
-		}
-		if (triggerFilter) { 
-
-			// stop the duplicate requests.
+	
+		// Perform AJAX call only if triggerFilter is true
+		if (triggerFilter) {
 			triggerFilter = false;
-
-			// now, make the request.
 			$.ajax({
-				url: $filterForm.attr('action'),
+				url: $filterForm.length > 0 ? $filterForm.attr('action') : awsmJobsPublic.ajaxurl, // Use AJAX URL if form is missing
+				type: formMethod,
+				data: formData,
 				beforeSend: function() {
 					$wrapper.addClass('awsm-jobs-loading');
-				},
-				data: formData,
-				type: $filterForm.attr('method')
-			}).done(function(data) {
-				/* $wrapper.html(data); */
-				$rowWrapper.html(data);
-
-				var $searchControl = $rootWrapper.find('.awsm-job-search');
-				if ($searchControl.length > 0) {
-					if ($searchControl.val().length > 0) {
-						$rootWrapper.find('.awsm-job-search-btn').addClass('awsm-job-hide');
-						$rootWrapper.find('.awsm-job-search-close-btn').removeClass('awsm-job-hide');
-					} else {
-						$rootWrapper.find('.awsm-job-search-btn').removeClass('awsm-job-hide');
-					}
 				}
-				$(document).trigger('awsmjobs_filtered_listings', [ $rootWrapper, data ]);
+			}).done(function(data) {
+				$rowWrapper.html(data);
+				$(document).trigger('awsmjobs_filtered_listings', [$rootWrapper, data]);
 			}).fail(function(xhr) {
-				// eslint-disable-next-line no-console
 				console.log(xhr);
 			}).always(function() {
 				$wrapper.removeClass('awsm-jobs-loading');
@@ -133,6 +91,7 @@ jQuery(function($) {
 			});
 		}
 	}
+	
 
 	function filterCheck($filterForm) {
 		var check = false;
@@ -291,17 +250,18 @@ jQuery(function($) {
 		awsmJobFilters($rootWrapper);
 	});
 	
-	$(wrapperSelector + ' .awsm-job-sort-filter').on('change', function(e) { 
+	$(wrapperSelector + ' .awsm-job-sort-filter-short').on('change', function(e) { 
 		var $elem = $(this);
-		var $rootWrapper = $elem.parents(rootWrapperSelector);
-		var sortValue = $rootWrapper.find('select.awsm-job-sort-filter').val(); 
-
+		var $rootWrapper = $elem.closest(rootWrapperSelector);
+		
+		var sortValue = $elem.val(); // Get selected sort option
 		setPaginationBase($rootWrapper, 'sort', sortValue);
-		//if (awsmJobsPublic.deep_linking.search) {
-			var $paginationBase = $rootWrapper.find('input[name="awsm_pagination_base"]');
-			updateQuery('sort', sortValue, $paginationBase.val());
-		//}
-
+	
+		// Update the URL query for deep linking (if enabled)
+		var $paginationBase = $rootWrapper.find('input[name="awsm_pagination_base"]');
+		updateQuery('sort', sortValue, $paginationBase.val());
+	
+		// **Call awsmJobFilters to trigger the AJAX request**
 		awsmJobFilters($rootWrapper);
 	});
 
