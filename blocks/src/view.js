@@ -261,7 +261,7 @@ jQuery(function($) {
 		var currentSpec = $elem.closest('.awsm-b-filter-item').data('filter');
 	
 		var allOptions = $elem.find('option');
-		var firstOption = allOptions.eq(0); // "All Job Location" option
+		var firstOption = allOptions.eq(0); 
 		var selectedOptions = $elem.find('option:selected');
 		var isAllSelected = firstOption.prop('selected');
 	

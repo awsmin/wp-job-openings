@@ -178,23 +178,62 @@ jQuery(function($) {
 	$(filterSelector + ' .awsm-filter-option').on('change', function(e) { 
 		e.preventDefault();
 		$('.awsm-job-listings').show();
-		var $elem = $(this);
-		var $selected = $elem.find('option:selected');
-		var $rootWrapper = $elem.parents(rootWrapperSelector);
-		var currentSpec = $elem.parents('.awsm-filter-item').data('filter');
-		var slug = $selected.data('slug');
+	
+		var $elem = $(this); // The original <select> element
+		var $rootWrapper = $elem.closest(rootWrapperSelector);
+		var currentSpec = $elem.closest('.awsm-filter-item').data('filter');
+	
+		var allOptions = $elem.find('option');
+		var firstOption = allOptions.eq(0); 
+		var selectedOptions = $elem.find('option:selected');
+		var isAllSelected = firstOption.prop('selected'); 
+	
+		if (isAllSelected) {
+			// Select all options in the actual <select> element
+			allOptions.prop('selected', true).addClass('selected'); 
+
+			// Collect slugs for all options except the "All" option
+			slugs = allOptions.slice(1).map(function () {
+				return $(this).data('slug');
+			}).get().filter(Boolean);
+		} else {
+			// Ensure the correct options are selected
+			allOptions.each(function () {
+				$(this).toggleClass('selected', $(this).prop('selected'));
+			});
+	
+			// If any option is deselected, unselect "All Job Location"
+			if (selectedOptions.length < allOptions.length - 1) {
+				firstOption.prop('selected', false).removeClass('selected');
+			}
+	
+			// Collect selected values for filtering
+			slugs = selectedOptions.map(function () {
+				return $(this).data('slug');
+			}).get().filter(Boolean);
+		}
+	
+		var slugString = slugs.length > 0 ? slugs.join(',') : '';
+
+		// **Refresh Selectric UI and Keep Dropdown Open**
+		$elem.selectric('refresh').selectric('open');
+
+		// Update pagination and filters
 		if ($('.awsm-job-listings').length > 0) {
 			$rootWrapper.find('.awsm-job-no-more-jobs-get').hide();
 		}
-		slug = typeof slug !== 'undefined' ? slug : '';
-		setPaginationBase($rootWrapper, currentSpec, slug);
+
+		setPaginationBase($rootWrapper, currentSpec, slugString);
+
+		// **Update the URL based on the selected options**
 		if (awsmJobsPublic.deep_linking.spec) {
 			var $paginationBase = $rootWrapper.find('input[name="awsm_pagination_base"]');
-			updateQuery(currentSpec, slug, $paginationBase.val());
-		} 
+			updateQuery(currentSpec, slugString, $paginationBase.val());
+		}
+
 		awsmJobFilters($rootWrapper);
 	});
-
+	
 	$(filterSelector + ' .awsm-job-search-btn').on('click', function() {
 		searchJobs($(this));
 	});
