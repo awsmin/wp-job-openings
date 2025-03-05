@@ -174,6 +174,7 @@ jQuery(function($) {
 		$('.awsm-job-listings').hide();
 		$('.awsm-job-no-more-jobs-get').slice(1).hide();
 	}
+	
 	$(filterSelector + ' .awsm-filter-option').on('change', function (e) {
 		e.preventDefault();
 		$('.awsm-job-listings').show();
@@ -228,6 +229,7 @@ jQuery(function($) {
 		});
 	
 		// **Refresh Selectric UI**
+		//$elem.selectric('refresh').selectric('open');
 		$elem.selectric('refresh');
 	
 		// Update pagination and filters
