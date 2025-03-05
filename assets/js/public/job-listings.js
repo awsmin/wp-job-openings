@@ -174,7 +174,7 @@ jQuery(function($) {
 		$('.awsm-job-listings').hide();
 		$('.awsm-job-no-more-jobs-get').slice(1).hide();
 	}
-	
+
 	$(filterSelector + ' .awsm-filter-option').on('change', function (e) {
 		e.preventDefault();
 		$('.awsm-job-listings').show();
@@ -185,54 +185,61 @@ jQuery(function($) {
 	
 		var isMultiple = $elem.prop('multiple'); // Check if it's a multiple select
 		var allOptions = $elem.find('option');
-		var firstOption = allOptions.eq(0);
+		var firstOption = allOptions.eq(0); // "All Job Type"
 		var selectedOptions = $elem.find('option:selected');
 		var isAllSelected = firstOption.prop('selected');
+	
+		var allLiItems = $rootWrapper.find('ul li');
+		var firstLiItem = allLiItems.eq(0); // "All Job Type" in <ul>
+		var selectedLiItems = allLiItems.filter('.selected');
 	
 		var slugs = [];
 	
 		if (isMultiple) {
 			if (isAllSelected) {
-				// Select all options except "All"
+				// **"All" is selected → Select all**
 				allOptions.prop('selected', true).addClass('selected');
+				allLiItems.addClass('selected');
+	
 				slugs = allOptions.slice(1).map(function () {
 					return $(this).data('slug');
 				}).get().filter(Boolean);
-			} else {
-				// Unselecting a checkbox should work
-				allOptions.each(function () {
-					$(this).toggleClass('selected', $(this).prop('selected'));
-				});
+			} else if (selectedOptions.length === 0) {
+				// **Nothing is selected → Deselect everything**
+				allOptions.prop('selected', false).removeClass('selected');
+				allLiItems.removeClass('selected');
+				slugs = [];
+			} else { 
+				// **Handle individual selection**
+				//allOptions.prop('selected', false).removeClass('selected');
+				//allLiItems.removeClass('selected');
 	
-				// If any option is deselected, unselect "All"
-				if (selectedOptions.length < allOptions.length - 1) {
-					firstOption.prop('selected', false).removeClass('selected');
-				}
+				selectedOptions.each(function () {
+					$(this).prop('selected', true).addClass('selected');
+					var index = $(this).index();
+					allLiItems.eq(index).addClass('selected');
+				});
 	
 				slugs = selectedOptions.map(function () {
 					return $(this).data('slug');
 				}).get().filter(Boolean);
 			}
 		} else {
-			// Single select logic
+			// **Single select logic**
 			slugs = selectedOptions.data('slug') ? [selectedOptions.data('slug')] : [];
 		}
 	
 		var slugString = slugs.length > 0 ? slugs.join(',') : '';
 	
 		// **Force unselect checkboxes visually**
-		$elem.find('option').each(function () {
+		/* allOptions.each(function () {
 			var $option = $(this);
 			if (!$option.prop('selected')) {
 				$option.removeClass('selected');
 			}
-		});
+		}); */
 	
-		// **Refresh Selectric UI**
-		//$elem.selectric('refresh').selectric('open');
-		$elem.selectric('refresh');
-	
-		// Update pagination and filters
+		// **Update pagination and filters**
 		if ($('.awsm-job-listings').length > 0) {
 			$rootWrapper.find('.awsm-job-no-more-jobs-get').hide();
 		}
