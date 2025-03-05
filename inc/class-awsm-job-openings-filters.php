@@ -57,7 +57,7 @@ class AWSM_Job_Openings_Filters {
 		 */
 		$enable_search = apply_filters( 'awsm_job_filters_enable_search', $enable_search, $shortcode_atts );
 
-		if ( $enable_job_filters !== 'enabled' && $filters_attr !== 'yes' && $enable_search !== 'enable' ) {
+		if ( $enable_job_filters !== 'enabled' && $filters_attr !== 'yes' && $enable_search !== 'enabled' ) {
 			return;
 		}
 
@@ -137,21 +137,7 @@ class AWSM_Job_Openings_Filters {
 					 *
 					 * @param array $terms_args Array of arguments.
 					 */
-					// $terms_args = apply_filters(
-					// 	'awsm_filter_spec_terms_args',
-					// 	// array(
-					// 	// 	'taxonomy'   => $taxonomy,
-					// 	// 	'orderby' => 'meta_value_num',
-					// 	// 	'meta_key' => 'term_order',
-					// 	// 	'order' => 'ASC',
-					// 	// 	'hide_empty' => true,
-					// 	// )
-					// 	array(
-					// 		'taxonomy'   => $taxonomy,
-					// 		'orderby'    => 'name',
-					// 		'hide_empty' => true,
-					// 	)
-					// );
+					
 					$terms_args = apply_filters(
 						'awsm_jobs_spec_terms_args',
 						array(
