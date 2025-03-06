@@ -62,6 +62,23 @@ if ( $query->have_posts() ) {
 		?>
 		
 		<div class="awsm-job-listings"<?php awsm_jobs_data_attrs( array(), $shortcode_atts ); ?>>
+			<div class="awsm-job-sort-wrap">
+				<div class="awsm-job-results" id="awsm-job-count"></div> 
+				<?php
+					/**
+					 * awsm_block_jobs_sort hook
+					 *
+					 * Display sort filter for job listings
+					 *
+					 * @hooked AWSM_Job_Openings_Block::display_block_job_sort()
+					 *
+					 * @since 3.5.0
+					 *
+					 * @param array $attributes Attributes array from block.
+					 */
+					do_action( 'awsm_jobs_sort', $shortcode_atts );
+				?>
+			</div>
 			<div <?php awsm_jobs_view_class( '', $shortcode_atts ); ?>>
 				<?php
 					include get_awsm_jobs_template_path( 'main', 'job-openings' );
