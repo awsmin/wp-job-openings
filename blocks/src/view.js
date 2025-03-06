@@ -259,70 +259,73 @@ jQuery(function($) {
 		var $elem = $(this);
 		var $rootWrapper = $elem.closest(rootWrapperSelector);
 		var currentSpec = $elem.closest('.awsm-b-filter-item').data('filter');
-	
+
+		var isMultiple = $elem.prop('multiple'); // Check if it's a multiple select
 		var allOptions = $elem.find('option');
-		var firstOption = allOptions.eq(0);
+		var firstOption = allOptions.eq(0); // "All Job Type"
 		var selectedOptions = $elem.find('option:selected');
 		var isAllSelected = firstOption.prop('selected');
-		var slugs = [];
 	
+		var allLiItems = $rootWrapper.find('ul li');
+		var firstLiItem = allLiItems.eq(0); // "All Job Type" in <ul>
+		var selectedLiItems = allLiItems.filter('.selected');
+	
+		var slugs = [];
 		// Check if the filter is using checkboxes (by checking for input[type=checkbox] within the wrapper)
 		var isCheckboxFilter = $rootWrapper.find('input[type="checkbox"]').length > 0;
 	
-		if (isAllSelected) {
-			if (isCheckboxFilter) {
-				// If checkboxes are used, check all of them
-				$rootWrapper.find('input[type="checkbox"]').prop('checked', true);
-				
-				// Collect slugs from checked checkboxes
-				slugs = $rootWrapper.find('input[type="checkbox"]:checked').map(function () {
-					return $(this).data('slug');
-				}).get().filter(Boolean);
-			} else {
-				// If dropdown is used, select all options
+		if (isMultiple) {
+			if (isAllSelected) {
+				// **"All" is selected → Select all**
 				allOptions.prop('selected', true).addClass('selected');
+				allLiItems.addClass('selected');
 	
-				// Collect slugs for all options except "All"
 				slugs = allOptions.slice(1).map(function () {
 					return $(this).data('slug');
 				}).get().filter(Boolean);
-			}
-		} else {
-			if (isCheckboxFilter) {
-				// If checkboxes are used, update selection normally
-				slugs = $rootWrapper.find('input[type="checkbox"]:checked').map(function () {
-					return $(this).data('slug');
-				}).get().filter(Boolean);
-			} else {
-				// Ensure the correct options are selected
-				allOptions.each(function () {
-					$(this).toggleClass('selected', $(this).prop('selected'));
+			} else if (selectedOptions.length === 0) {
+				// **Nothing is selected → Deselect everything**
+				allOptions.prop('selected', false).removeClass('selected');
+				allLiItems.removeClass('selected');
+				slugs = [];
+			} else { 
+				// **Handle individual selection**
+				//allOptions.prop('selected', false).removeClass('selected');
+				//allLiItems.removeClass('selected');
+	
+				selectedOptions.each(function () {
+					$(this).prop('selected', true).addClass('selected');
+					var index = $(this).index();
+					allLiItems.eq(index).addClass('selected');
 				});
 	
-				// If any option is deselected, unselect "All"
-				if (selectedOptions.length < allOptions.length - 1) {
-					firstOption.prop('selected', false).removeClass('selected');
-				}
-	
-				// Collect selected values for filtering
 				slugs = selectedOptions.map(function () {
 					return $(this).data('slug');
 				}).get().filter(Boolean);
 			}
+		} else {
+			// **Single select logic**
+			slugs = selectedOptions.data('slug') ? [selectedOptions.data('slug')] : [];
 		}
 	
 		var slugString = slugs.length > 0 ? slugs.join(',') : '';
 	
-		// **Refresh Selectric UI (But DON'T keep dropdown open)**
-		$elem.selectric('refresh').selectric('open');;
+		// **Force unselect checkboxes visually**
+		/* allOptions.each(function () {
+			var $option = $(this);
+			if (!$option.prop('selected')) {
+				$option.removeClass('selected');
+			}
+		}); */
 	
-		// Update pagination and filters
-		if ($('.awsm-b-job-listings').length > 0) {
+		// **Update pagination and filters**
+		if ($('.awsm-job-listings').length > 0) {
 			$rootWrapper.find('.awsm-b-job-no-more-jobs-get').hide();
 		}
 	
 		setPaginationBase($rootWrapper, currentSpec, slugString);
 	
+		// **Update the URL**
 		if (awsmJobsPublic.deep_linking.spec) {
 			var $paginationBase = $rootWrapper.find('input[name="awsm_pagination_base"]');
 			updateQuery(currentSpec, slugString, $paginationBase.val());

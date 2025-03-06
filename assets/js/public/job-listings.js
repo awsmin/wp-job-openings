@@ -255,7 +255,6 @@ jQuery(function($) {
 		awsmJobFilters($rootWrapper);
 	});
 	
-	
 	$(filterSelector + ' .awsm-job-search-btn').on('click', function() {
 		searchJobs($(this));
 	});
