@@ -157,7 +157,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'label'           => __( 'Number of columns ', 'wp-job-openings' ),
 					'type'            => 'select',
 					'container_id'    => 'awsm_jobs_number_of_columns_row',
-					'container_class' => $listing_view === 'list-view' ? $hidden_class : '',
+					'container_class' => in_array($listing_view, ['list-view', 'stack-view']) ? $hidden_class : '',
 					'class'           => 'awsm-select-control regular-text',
 					'choices'         => $no_columns_choices,
 				),
