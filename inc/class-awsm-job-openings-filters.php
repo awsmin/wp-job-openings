@@ -194,7 +194,7 @@ class AWSM_Job_Openings_Filters {
 								$multiple_for_spec   = 'multiple';
 							}
 
-							$dropdown_content = sprintf( '<div class="awsm-filter-item" data-filter="%2$s"><label for="awsm-%1$s-filter-option%5$s" class="awsm-sr-only">%3$s</label><select name="awsm_job_spec[%1$s]" class="awsm-filter-option '.$spec_multiple_class.' awsm-%1$s-filter-option" id="awsm-%1$s-filter-option%5$s" aria-label="%3$s" '.$multiple_for_spec.'><option value="">%3$s</option>%4$s</select></div>', esc_attr( $taxonomy ), esc_attr( $filter_key . self::$filter_suffix ), esc_html( $filter_label ), $options_content, esc_attr( $uid ) );
+							$dropdown_content = sprintf( '<div class="awsm-filter-item" data-filter="%2$s"><label for="awsm-%1$s-filter-option%5$s" class="awsm-sr-only">%3$s</label><select name="awsm_job_spec[%1$s][]" class="awsm-filter-option '.$spec_multiple_class.' awsm-%1$s-filter-option" id="awsm-%1$s-filter-option%5$s" aria-label="%3$s" '.$multiple_for_spec.'><option value="">%3$s</option>%4$s</select></div>', esc_attr( $taxonomy ), esc_attr( $filter_key . self::$filter_suffix ), esc_html( $filter_label ), $options_content, esc_attr( $uid ) );
 							/**
 							 * Filter the job filter dropdown content.
 							 *
@@ -536,15 +536,31 @@ class AWSM_Job_Openings_Filters {
 
 	public function awsm_posts_filters() {
         // phpcs:disable WordPress.Security.NonceVerification.Missing
-		$filters = $shortcode_atts = array(); // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
+		$filters = $filters_list = $shortcode_atts = array(); // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
 
 		$filter_action = isset( $_POST['action'] ) ? $_POST['action'] : ''; 
 
-		if ( ! empty( $_POST['awsm_job_spec'] ) ) {
+		/* if ( ! empty( $_POST['awsm_job_spec'] ) ) {
 			$job_specs = $_POST['awsm_job_spec'];
 			foreach ( $job_specs as $taxonomy => $term_id ) {
 				$taxonomy             = sanitize_text_field( $taxonomy );
 				$filters[ $taxonomy ] = intval( $term_id );
+			}
+		} */
+		
+		if ( ! empty( $_POST['awsm_job_spec'] ) ) {
+			$job_specs = $_POST['awsm_job_spec'];
+
+			foreach ( $job_specs as $taxonomy => $term_id ) {
+				$taxonomy = sanitize_text_field( $taxonomy );
+
+				if ( is_array( $term_id ) ) {
+					foreach ( $term_id as $term ) {
+						$filters_list[ $taxonomy ][] = intval( $term );
+					}
+				} else {
+					$filters[ $taxonomy ] = intval( $term_id );
+				}
 			}
 		}
 
