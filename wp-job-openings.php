@@ -1681,13 +1681,21 @@ class AWSM_Job_Openings {
 				break;
 	
 			case 'relevance':
+				$args['meta_query'] = array(
+					array(
+						'key'     => 'awsm_views_count',
+						'compare' => 'EXISTS', 
+					),
+				);
+			echo 2;die;
 				$args['orderby']  = array(
-					'meta_value_num' => 'DESC',
+					'meta_value_num' => 'DESC', 
 					'date'           => 'DESC',
 				);
-				$args['meta_key'] = '_relevance_score'; // Replace with actual meta key for relevance.
+			
+				$args['meta_key'] = 'awsm_views_count'; 
 				break;
-	
+				
 			default:
 				$args['orderby'] = 'date';
 				$args['order']   = 'DESC';
