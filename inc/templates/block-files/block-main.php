@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$attributes   = isset( $attributes ) ? $attributes : array(); 
+$attributes   = isset( $attributes ) ? $attributes : array();
 $view         = isset( $attributes['layout'] ) ? $attributes['layout'] : get_option( 'awsm_jobs_listing_view' );
 $awsm_filters = get_option( 'awsm_jobs_filter' );
 //$listing_specs = isset( $attributes['other_options'] ) ? $attributes['other_options'] : '';

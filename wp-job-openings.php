@@ -346,7 +346,7 @@ class AWSM_Job_Openings {
 				'filters'    => get_option( 'awsm_enable_job_filter_listing' ) !== 'enabled' ? 'no' : 'yes',
 				'search'     => get_option( 'awsm_enable_job_search' ) !== 'enable' ? 'no' : 'yes',
 				'listings'   => get_option( 'awsm_jobs_list_per_page' ),
-				'sort'   	 => get_option( 'awsm_jobs_enable_sort' ),
+				'sort'       => get_option( 'awsm_jobs_enable_sort' ),
 				'loadmore'   => 'yes',
 				'pagination' => get_option( 'awsm_jobs_pagination_type', 'modern' ),
 				'specs'      => '',
@@ -1613,7 +1613,7 @@ class AWSM_Job_Openings {
 			$term_id                      = $q_obj->term_id;
 			$filters                      = array( $taxonomy => $term_id );
 			$is_term_or_slug[ $taxonomy ] = 'term_id';
-		} 
+		}
 
 		/* if ( ! empty( $filters ) ) {
 			foreach ( $filters as $taxonomy => $value ) {
@@ -1628,19 +1628,19 @@ class AWSM_Job_Openings {
 				}
 			}
 		} */
-		
-		if ( ! empty( $filters ) || ! empty( $filters_list ) ) { 
-			$filters 		= is_array( $filters ) ? $filters : []; 
-			$filters_list 	= is_array( $filters_list ) ? $filters_list : []; 
-			$all_filters 	= array_merge_recursive( $filters, $filters_list );
 
-			foreach ( $all_filters as $taxonomy => $terms ) { 
+		if ( ! empty( $filters ) || ! empty( $filters_list ) ) {
+			$filters      = is_array( $filters ) ? $filters : array();
+			$filters_list = is_array( $filters_list ) ? $filters_list : array();
+			$all_filters  = array_merge_recursive( $filters, $filters_list );
+
+			foreach ( $all_filters as $taxonomy => $terms ) {
 				if ( ! empty( $terms ) ) {
 					// Ensure terms are always an array and cleaned.
 					$terms = is_array( $terms ) ? array_values( array_filter( $terms ) ) : array( $terms );
-					
-					if ( ! empty( $terms ) ) { 
-						$field_type = isset( $is_term_or_slug[ $taxonomy ] ) ? $is_term_or_slug[ $taxonomy ] : 'term_id';
+
+					if ( ! empty( $terms ) ) {
+						$field_type  = isset( $is_term_or_slug[ $taxonomy ] ) ? $is_term_or_slug[ $taxonomy ] : 'term_id';
 						$tax_query[] = array(
 							'taxonomy' => $taxonomy,
 							'field'    => $field_type,
@@ -1651,11 +1651,10 @@ class AWSM_Job_Openings {
 				}
 			}
 		}
-	
+
 		if ( ! empty( $tax_query ) ) {
 			$args['tax_query'] = $tax_query;
 		}
-		
 
 		$list_per_page          = self::get_listings_per_page( $shortcode_atts );
 		$hide_expired_jobs      = get_option( 'awsm_jobs_expired_jobs_listings' );
@@ -1670,36 +1669,37 @@ class AWSM_Job_Openings {
 				$args['orderby'] = 'date';
 				$args['order']   = 'DESC';
 				break;
-	
+
 			case 'old_to_new':
 				$args['orderby'] = 'date';
 				$args['order']   = 'ASC';
 				break;
-	
+
 			case 'random':
 				$args['orderby'] = 'rand';
 				break;
-	
+
 			case 'relevance':
 				$args['meta_query'] = array(
 					array(
 						'key'     => 'awsm_views_count',
-						'compare' => 'EXISTS', 
+						'compare' => 'EXISTS',
 					),
 				);
-			echo 2;die;
-				$args['orderby']  = array(
-					'meta_value_num' => 'DESC', 
+				echo 2;
+				die;
+				$args['orderby'] = array(
+					'meta_value_num' => 'DESC',
 					'date'           => 'DESC',
 				);
-			
-				$args['meta_key'] = 'awsm_views_count'; 
+
+				$args['meta_key'] = 'awsm_views_count';
 				break;
-				
-			default:
-				$args['orderby'] = 'date';
-				$args['order']   = 'DESC';
-				break;
+
+				default:
+					$args['orderby'] = 'date';
+					$args['order']   = 'DESC';
+					break;
 		}
 
 		return apply_filters( 'awsm_job_query_args', $args, $filters, $shortcode_atts );
@@ -1707,10 +1707,10 @@ class AWSM_Job_Openings {
 
 	public static function get_job_listing_view( $shortcode_atts = array() ) {
 		$view    = 'list';
-		$options = get_option( 'awsm_jobs_listing_view' ); 
+		$options = get_option( 'awsm_jobs_listing_view' );
 		if ( $options === 'grid-view' ) {
 			$view = 'grid';
-		}else if( $options === 'stack-view' ){
+		} elseif ( $options === 'stack-view' ) {
 			$view = 'stack';
 		}
 		/**
@@ -1725,15 +1725,15 @@ class AWSM_Job_Openings {
 	}
 
 	public static function get_job_listing_view_class( $shortcode_atts = array() ) {
-		$view = self::get_job_listing_view( $shortcode_atts );
+		$view       = self::get_job_listing_view( $shortcode_atts );
 		$view_class = 'awsm-job-listing-items';
 
 		switch ( $view ) {
 			case 'grid':
 				$number_columns = get_option( 'awsm_jobs_number_of_columns' );
-				$view_class = 'awsm-row awsm-job-listing-items';
-				$column_class = ( $number_columns == 1 ) ? 'awsm-grid-col' : 'awsm-grid-col-' . $number_columns;
-				$view_class .= ' ' . $column_class;
+				$view_class     = 'awsm-row awsm-job-listing-items';
+				$column_class   = ( $number_columns == 1 ) ? 'awsm-grid-col' : 'awsm-grid-col-' . $number_columns;
+				$view_class    .= ' ' . $column_class;
 				break;
 
 			case 'stack':
@@ -1743,7 +1743,7 @@ class AWSM_Job_Openings {
 			default:
 				$view_class .= ' awsm-lists';
 				break;
-		} 
+		}
 
 		/**
 		 * Filters the job listing view class.
@@ -1797,7 +1797,7 @@ class AWSM_Job_Openings {
 		}
 	}
 
-	public static function get_job_listing_data_attrs( $shortcode_atts = array() ) { 
+	public static function get_job_listing_data_attrs( $shortcode_atts = array() ) {
 		$attrs             = array();
 		$attrs['listings'] = self::get_listings_per_page( $shortcode_atts );
 		$attrs['specs']    = isset( $shortcode_atts['specs'] ) ? $shortcode_atts['specs'] : '';
@@ -1811,7 +1811,7 @@ class AWSM_Job_Openings {
 			$attrs['search'] = $_GET['jq'];
 		}
 
-		if ( isset( $_GET['sort'] ) ) { 
+		if ( isset( $_GET['sort'] ) ) {
 			$attrs['sort'] = $_GET['sort'];
 		}
 

@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $shortcode_atts = isset( $shortcode_atts ) ? $shortcode_atts : array();
-$view           = awsm_jobs_view( $shortcode_atts ); 
+$view           = awsm_jobs_view( $shortcode_atts );
 $awsm_filters   = get_option( 'awsm_jobs_filter' );
 $listing_specs  = get_option( 'awsm_jobs_listing_specs' );
 

@@ -61,7 +61,7 @@ if ( ! function_exists( 'get_block_filtered_job_terms' ) ) {
 }
 
 if ( ! function_exists( 'awsm_block_jobs_query' ) ) {
-	function awsm_block_jobs_query( $attributes = array() ) { 
+	function awsm_block_jobs_query( $attributes = array() ) {
 		$query_args      = array();
 		$is_term_or_slug = array();
 		$filter_suffix   = '_spec';
@@ -114,7 +114,7 @@ if ( ! function_exists( 'awsm_block_jobs_data_attrs' ) ) {
 
 if ( ! function_exists( 'awsm_block_jobs_load_more' ) ) {
 	function awsm_block_jobs_load_more( $query, $shortcode_atts = array() ) {
-		$loadmore      = isset( $shortcode_atts['block_loadmore'] ) && $shortcode_atts['block_loadmore'] === 'no' ? false : true; 
+		$loadmore      = isset( $shortcode_atts['block_loadmore'] ) && $shortcode_atts['block_loadmore'] === 'no' ? false : true;
 		$max_num_pages = $query->max_num_pages;
 		if ( $loadmore && $max_num_pages > 1 ) {
 			if ( AWSM_Job_Openings::is_default_pagination( $shortcode_atts ) ) {
