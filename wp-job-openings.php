@@ -1686,8 +1686,7 @@ class AWSM_Job_Openings {
 						'compare' => 'EXISTS',
 					),
 				);
-				echo 2;
-				die;
+				
 				$args['orderby'] = array(
 					'meta_value_num' => 'DESC',
 					'date'           => 'DESC',

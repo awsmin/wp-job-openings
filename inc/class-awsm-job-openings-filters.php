@@ -49,6 +49,7 @@ class AWSM_Job_Openings_Filters {
 		$enable_job_filters    = get_option( 'awsm_enable_job_filter_listing' );
 		$enable_search         = get_option( 'awsm_enable_job_search' );
 		$display_type          = get_option( 'awsm_jobs_listing_display_type', 'dropdown' );
+		$enable_sort    	   = get_option( 'awsm_jobs_enable_sort' );
 
 		/**
 		 * Enable search in the job listing or not.
@@ -59,11 +60,11 @@ class AWSM_Job_Openings_Filters {
 		 * @param array $shortcode_atts The shortcode attributes.
 		 */
 		$enable_search = apply_filters( 'awsm_job_filters_enable_search', $enable_search, $shortcode_atts );
-
-		if ( $enable_job_filters !== 'enabled' && $filters_attr !== 'yes' && $enable_search !== 'enable' ) {
-			return;
+		
+		if ( ($enable_job_filters !== 'enabled' && $filters_attr !== 'yes') &&  $enable_search !== 'enable' &&  $enable_sort !== 'enable' ) {
+    		return;
 		}
-
+		
 		if ( is_archive() && ! is_post_type_archive( 'awsm_job_openings' ) ) {
 			return;
 		}
@@ -95,7 +96,7 @@ class AWSM_Job_Openings_Filters {
 		$taxonomies = get_object_taxonomies( 'awsm_job_openings', 'objects' );
 
 		$display_filters = true;
-		if ( $enable_job_filters !== 'enabled' || $filters_attr === 'no' ) {
+		if ( $enable_job_filters !== 'enabled' || $filters_attr === 'no' ||  $enable_search !== 'enable' ) {
 			$display_filters = false;
 		}
 		// Hide filters if specs shortcode attribute is applied.
@@ -218,7 +219,7 @@ class AWSM_Job_Openings_Filters {
 		$custom_action_content = ob_get_clean();
 		/* end */
 
-		if ( ! empty( $search_content ) || ! empty( $specs_filter_content ) ) {
+		if ( ! empty( $search_content ) || ! empty( $specs_filter_content ) || ! empty($enable_sort) ) {
 			$current_lang          = AWSM_Job_Openings::get_current_language();
 			$hidden_fields_content = '';
 			if ( ! empty( $current_lang ) ) {

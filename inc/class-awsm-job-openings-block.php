@@ -489,13 +489,14 @@ class AWSM_Job_Openings_Block {
 		return $terms;
 	}
 
-	public function display_block_filter_form( $block_atts ) {
+	public function display_block_filter_form( $block_atts ) { 
 		$search_content        = '';
 		$specs_filter_content  = '';
 		$custom_action_content = '';
 		$filters_attr          = isset( $block_atts['filter_options'] ) ? $block_atts['filter_options'] : '';
 		$enable_job_filters    = isset( $block_atts['enable_job_filter'] ) ? $block_atts['enable_job_filter'] : '';
 		$enable_search         = isset( $block_atts['search'] ) ? $block_atts['search'] : '';
+		$enable_sort           = isset( $block_atts['sort'] ) ? $block_atts['sort'] : '';
 		$placeholder_search    = isset( $block_atts['search_placeholder'] ) ? $block_atts['search_placeholder'] : '';
 		$select_filter_full    = isset( $block_atts['select_filter_full'] ) ? $block_atts['select_filter_full'] : '';
 
@@ -539,7 +540,7 @@ class AWSM_Job_Openings_Block {
 
 		$taxonomies      = get_object_taxonomies( 'awsm_job_openings', 'objects' );
 		$display_filters = true;
-		if ( $enable_job_filters !== 'enable' || $filters_attr === '' ) {
+		if ( $enable_search !== 'enable' || $enable_job_filters !== 'enable' || $filters_attr === '' ) {
 			$display_filters = false;
 		}
 
@@ -554,7 +555,7 @@ class AWSM_Job_Openings_Block {
 
 		$available_filters = $spec_keys;
 		$available_filters = is_array( $available_filters ) ? $available_filters : array();
-		if ( ! empty( $available_filters ) ) {
+		if ( ! empty( $available_filters ) && $enable_search == 'enable' ) {
 			$display_filters = true;
 		}
 
@@ -681,7 +682,7 @@ class AWSM_Job_Openings_Block {
 		$custom_action_content = ob_get_clean();
 		/* end */
 
-		if ( ! empty( $search_content ) || ! empty( $specs_filter_content ) ) {
+		if ( ! empty( $search_content ) || ! empty( $specs_filter_content ) || ! empty( $enable_sort ) ) {
 			$current_lang          = AWSM_Job_Openings::get_current_language();
 			$hidden_fields_content = '';
 			if ( ! empty( $current_lang ) ) {
