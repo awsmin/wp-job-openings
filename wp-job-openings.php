@@ -1686,7 +1686,7 @@ class AWSM_Job_Openings {
 						'compare' => 'EXISTS',
 					),
 				);
-				
+
 				$args['orderby'] = array(
 					'meta_value_num' => 'DESC',
 					'date'           => 'DESC',
@@ -1695,10 +1695,10 @@ class AWSM_Job_Openings {
 				$args['meta_key'] = 'awsm_views_count';
 				break;
 
-				default:
-					$args['orderby'] = 'date';
-					$args['order']   = 'DESC';
-					break;
+			default:
+				$args['orderby'] = 'date';
+				$args['order']   = 'DESC';
+				break;
 		}
 
 		return apply_filters( 'awsm_job_query_args', $args, $filters, $shortcode_atts );
