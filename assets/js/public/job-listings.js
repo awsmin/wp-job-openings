@@ -343,7 +343,8 @@ jQuery(function($) {
 		var specs				 = $listingsContainer.data('specs');
 		var lang 				 = $listingsContainer.data('lang');
 		var searchQuery 		 = $listingsContainer.data('search');
-		var sort 				= $listingsContainer.data('sort'); 
+		var sort 				 = $listingsContainer.data('sort'); 
+		var sortFilter 		     = $mainContainer.find('.awsm-job-sort-filter-short').val(); 
 
 		var selected_terms 		 = $listingsContainer.data('awsm-selected-terms'); 
 
@@ -455,12 +456,11 @@ jQuery(function($) {
 				value: searchQuery
 			});
 		}
-
-		if (typeof sort !== 'undefined') {
-			wpData.push({
-				name: 'filter_sort',
-				value: sort
-			});
+		
+		if (typeof sortFilter !== 'undefined' && sortFilter !== '') {
+			wpData.push({ name: 'filter_sort', value: sortFilter });
+		} else if (typeof sort !== 'undefined') {
+			wpData.push({ name: 'filter_sort', value: orderby });
 		}
 
 		if (selected_terms) {

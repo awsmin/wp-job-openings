@@ -41,7 +41,7 @@ class AWSM_Job_Openings_Filters {
 		return $query_args;
 	}
 
-	public function display_filter_form( $shortcode_atts ) {
+	public function display_filter_form( $shortcode_atts ) { 
 		$search_content        = '';
 		$specs_filter_content  = '';
 		$custom_action_content = '';
@@ -292,7 +292,7 @@ class AWSM_Job_Openings_Filters {
 		$enable_job_filters    = get_option( 'awsm_enable_job_filter_listing' );
 		$enable_search         = get_option( 'awsm_enable_job_search' );
 		$display_type          = get_option( 'awsm_jobs_listing_display_type', 'dropdown' );
-
+		$enable_sort           = get_option( 'awsm_jobs_enable_sort' );
 		/**
 		 * Enable search in the job listing or not.
 		 *
@@ -303,7 +303,7 @@ class AWSM_Job_Openings_Filters {
 		 */
 		$enable_search = apply_filters( 'awsm_job_filters_enable_search', $enable_search, $shortcode_atts );
 
-		if ( $enable_job_filters !== 'enabled' && $filters_attr !== 'yes' && $enable_search !== 'enable' ) {
+		if ( $enable_job_filters !== 'enabled' && $filters_attr !== 'yes' && $enable_search !== 'enable' && $enable_sort !== 'enable' ) {
 			return;
 		}
 

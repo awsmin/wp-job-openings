@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$shortcode_atts = isset( $shortcode_atts ) ? $shortcode_atts : array();
+$shortcode_atts = isset( $shortcode_atts ) ? $shortcode_atts : array(); 
 /**
  * Fires before the job listing content.
  *
@@ -34,14 +34,17 @@ $available_filters = get_option( 'awsm_jobs_listing_available_filters', array() 
 
 if (
 	( ! empty( $shortcode_atts['search'] ) && $shortcode_atts['search'] === 'yes' ) ||
-	( ! empty( $shortcode_atts['filters'] ) && $shortcode_atts['filters'] === 'yes' && ! empty( $available_filters ) )
-) {
-	$show_filter             = true;
-	$placement_sidebar_class = 'awsm-job-2-col';
+	( ! empty( $shortcode_atts['filters'] ) && $shortcode_atts['filters'] === 'yes' && ! empty( $available_filters ) ) ||
+	( ! empty( $shortcode_atts['sort'] ) && $shortcode_atts['sort'] === 'enable' )
+) { 
+	$show_filter = true;
+
+	// Only assign 'awsm-job-2-col' if sort is NOT enabled
+	$placement_sidebar_class = ( ! empty( $shortcode_atts['sort'] ) && $shortcode_atts['sort'] === 'enable' ) ? null : 'awsm-job-2-col';
 }
 
 if ( $query->have_posts() ) {
-	if ( $shortcode_atts['placement'] == 'top' ) {
+	if ( $shortcode_atts['placement'] == 'top' ) { 
 		?>
 	<div class="awsm-job-wrap<?php awsm_jobs_wrapper_class(); ?>">
 		<?php
@@ -90,7 +93,7 @@ if ( $query->have_posts() ) {
 
 	</div>
 		<?php
-	} else {
+	} else {  
 		?>
 		<div class="awsm-job-wrap<?php awsm_jobs_wrapper_class(); ?> awsm-job-form-plugin-style <?php echo $placement_sidebar_class; ?>">
 		<?php if ( $show_filter ) { ?>

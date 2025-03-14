@@ -352,7 +352,7 @@ class AWSM_Job_Openings {
 				'specs'      => '',
 				'placement'  => get_option( 'awsm_jobs_placement_type', 'top' ),
 			)
-		);
+		); 
 		$shortcode_atts = shortcode_atts( $pairs, $atts, 'awsmjobs' );
 
 		$this->unique_listing_id++;

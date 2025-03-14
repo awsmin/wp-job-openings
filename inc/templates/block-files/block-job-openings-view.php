@@ -19,6 +19,11 @@ if ( isset( $attributes['search'] ) && $attributes['search'] == 'enable' ) {
 	$placement_sidebar_class = 'awsm-job-2-col';
 }
 
+if ( isset( $attributes['sort'] ) && $attributes['sort'] == 'enable' ) {
+	$show_filter             = true;
+	$placement_sidebar_class = ''; // Set to null or empty when sort is enabled
+}
+
 if ( $query->have_posts() ) :
 	if ( $attributes['placement'] == 'top' ) {
 		?>

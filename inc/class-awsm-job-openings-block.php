@@ -765,14 +765,23 @@ class AWSM_Job_Openings_Block {
 		echo apply_filters( 'awsm_filter_block_content', $filter_content, $available_filters_arr ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
-	public function display_block_filter_form_slide( $block_atts ) {
-		$uid                = isset( $block_atts['uid'] ) ? '-' . $block_atts['uid'] : '';
-		$enable_search      = isset( $block_atts['search'] ) ? $block_atts['search'] : '';
-		$placeholder_search = isset( $block_atts['search_placeholder'] ) ? $block_atts['search_placeholder'] : '';
-		$filter_options     = isset( $block_atts['filter_options'] ) ? $block_atts['filter_options'] : '';
-		$default_text       = 'search';
+	public function display_block_filter_form_slide( $block_atts ) { 
+		$uid                   = isset( $block_atts['uid'] ) ? '-' . $block_atts['uid'] : '';
+		$enable_search         = isset( $block_atts['search'] ) ? $block_atts['search'] : '';
+		$placeholder_search    = isset( $block_atts['search_placeholder'] ) ? $block_atts['search_placeholder'] : '';
+		$filter_options        = isset( $block_atts['filter_options'] ) ? $block_atts['filter_options'] : '';
+		$default_text          = 'search';
+		$search_content 	   = '';
+		$available_filters     = array();
+		$available_filters_arr = array();
+		$specs_filter_content  = '';
 
 		$hidden_fields_content = '<input type="hidden" name="action" value="block_jobfilter">';
+
+		if ( ! AWSM_Job_Openings::is_default_pagination( $block_atts ) ) {
+			$paged                  = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
+			$hidden_fields_content .= sprintf( '<input type="hidden" name="awsm_pagination_base" value="%1$s"><input type="hidden" name="paged" value="%2$s">', esc_url( get_pagenum_link() ), absint( $paged ) );
+		}
 
 		if ( $enable_search === 'enable' ) {
 			$search_query     = isset( $_GET['jq'] ) ? $_GET['jq'] : '';
@@ -783,12 +792,9 @@ class AWSM_Job_Openings_Block {
 			$search_content = sprintf( '<div class="awsm-b-filter-item-search"><div class="awsm-b-filter-item-search-in"><label for="awsm-jq-1" class="awsm-b-sr-only">%1$s</label><input type="text" id="awsm-jq%4$s" name="jq" value="%2$s" placeholder="%1$s" class="awsm-b-job-search awsm-b-job-form-control">%3$s</div></div>', esc_attr( $placeholder_text ), esc_attr( $search_query ), $search_icon, esc_attr( $uid ) );
 
 			$search_content = apply_filters( 'awsm_jobs_block_search_field_content_placement_slide', $search_content );
-
+		
 			$taxonomies            = get_object_taxonomies( 'awsm_job_openings', 'objects' );
-			$available_filters     = array();
-			$available_filters_arr = array();
-			$specs_filter_content  = '';
-
+			
 			$selected_filters = self::get_block_filters_query_args( $available_filters );
 
 			if ( ! empty( $taxonomies ) && ! empty( $filter_options ) ) {
@@ -923,6 +929,7 @@ class AWSM_Job_Openings_Block {
 					}
 				}
 			}
+		}
 
 			$filter_class_admin = '';
 			if ( self::is_edit_or_add_page() ) {
@@ -939,23 +946,16 @@ class AWSM_Job_Openings_Block {
 			if ( ! empty( $custom_action_content ) ) {
 				$custom_action_content_filter = $custom_action_content;
 			}
+		
+		// Combine search and filter content into the form
+		$filter_content = sprintf(
+			'<form action="%2$s/wp-admin/admin-ajax.php" method="POST">%1$s</form>',
+			$search_content . $custom_action_content_filter . '<div class="awsm-b-filter-items ' . $filter_class_admin . '">' . $specs_filter_content . $hidden_fields_content . '</div>',
+			esc_url( site_url() )
+		);
 
-			if ( ! AWSM_Job_Openings::is_default_pagination( $block_atts ) ) {
-				$paged                  = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
-				$hidden_fields_content .= sprintf( '<input type="hidden" name="awsm_pagination_base" value="%1$s"><input type="hidden" name="paged" value="%2$s">', esc_url( get_pagenum_link() ), absint( $paged ) );
-			}
-
-			// Combine search and filter content into the form
-			$filter_content = sprintf(
-				'<form action="%2$s/wp-admin/admin-ajax.php" method="POST">%1$s</form>',
-				$search_content . $custom_action_content_filter . '<div class="awsm-b-filter-items ' . $filter_class_admin . '">' . $specs_filter_content . $hidden_fields_content . '</div>',
-				esc_url( site_url() )
-			);
-
-			// Output the filter form content
-			echo apply_filters( 'awsm_filter_block_content_placement_slide', $filter_content ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		}
-
+		// Output the filter form content
+		echo apply_filters( 'awsm_filter_block_content_placement_slide', $filter_content ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	public function display_block_job_sort( $attributes ) {
