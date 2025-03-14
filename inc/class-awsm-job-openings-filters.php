@@ -96,7 +96,7 @@ class AWSM_Job_Openings_Filters {
 		$taxonomies = get_object_taxonomies( 'awsm_job_openings', 'objects' );
 
 		$display_filters = true;
-		if ( $enable_job_filters !== 'enabled' || $filters_attr === 'no' ||  $enable_search !== 'enable' ) {
+		if ( $enable_job_filters !== 'enabled' || $filters_attr === 'no' ) {
 			$display_filters = false;
 		}
 		// Hide filters if specs shortcode attribute is applied.
