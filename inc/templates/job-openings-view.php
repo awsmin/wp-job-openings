@@ -114,6 +114,7 @@ if ( $query->have_posts() ) {
 		<?php } ?>
 
 		<div class="awsm-job-listings"<?php awsm_jobs_data_attrs( array(), $shortcode_atts ); ?>>
+		<?php if ( isset( $shortcode_atts['sort'] ) && $shortcode_atts['sort'] == 'enable' ) { ?>
 			<div class="awsm-job-sort-wrap">
 				<div class="awsm-job-results" id="awsm-job-count"></div> 
 				<?php
@@ -131,6 +132,7 @@ if ( $query->have_posts() ) {
 					do_action( 'awsm_jobs_sort', $shortcode_atts );
 				?>
 			</div>
+		<?php } ?>
 			<div <?php awsm_jobs_view_class( '', $shortcode_atts ); ?>>
 				<?php include get_awsm_jobs_template_path( 'main', 'job-openings' ); ?>
 			</div>
