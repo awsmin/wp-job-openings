@@ -388,7 +388,7 @@ class AWSM_Job_Openings_Block {
 		}
 
 		if ( isset( $_GET['sort'] ) ) {
-			$attrs['sort'] = $_GET['sort'];
+			$attrs['orderby'] = $_GET['sort'];
 		}
 
 		foreach ( $_GET as $key => $value ) {
