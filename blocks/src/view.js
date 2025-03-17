@@ -589,7 +589,7 @@ jQuery(function($) {
 
 		if (typeof sortFilter !== 'undefined' && sortFilter !== '') {
 			wpData.push({ name: 'filter_sort', value: sortFilter });
-		} else if (typeof sort !== 'undefined') {
+		} else if (typeof orderby !== 'undefined') {
 			wpData.push({ name: 'filter_sort', value: orderby });
 		}
 

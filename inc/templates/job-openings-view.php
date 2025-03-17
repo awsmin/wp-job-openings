@@ -27,20 +27,15 @@ do_action( 'before_awsm_jobs_listing', $shortcode_atts );
 
 $query = awsm_jobs_query( $shortcode_atts );
 
-$show_filter             = false;
+$show_filter = false; 
 $placement_sidebar_class = '';
 
-$available_filters = get_option( 'awsm_jobs_listing_available_filters', array() );
-
 if (
-	( ! empty( $shortcode_atts['search'] ) && $shortcode_atts['search'] === 'yes' ) ||
-	( ! empty( $shortcode_atts['filters'] ) && $shortcode_atts['filters'] === 'yes' && ! empty( $available_filters ) ) ||
-	( ! empty( $shortcode_atts['sort'] ) && $shortcode_atts['sort'] === 'enable' )
-) { 
-	$show_filter = true;
-
-	// Only assign 'awsm-job-2-col' if sort is NOT enabled
-	$placement_sidebar_class = ( ! empty( $shortcode_atts['sort'] ) && $shortcode_atts['sort'] === 'enable' ) ? null : 'awsm-job-2-col';
+    (!empty($shortcode_atts['search']) && $shortcode_atts['search'] === 'yes') || 
+    (!empty($shortcode_atts['filters']) && $shortcode_atts['filters'] === 'yes')
+) {
+    $show_filter = true;
+    $placement_sidebar_class = 'awsm-job-2-col';
 }
 
 if ( $query->have_posts() ) {

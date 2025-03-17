@@ -309,7 +309,7 @@ class AWSM_Job_Openings_Block {
 		}
 
 		// Sorting setup.
-		$sort = isset( $attributes['filter_sort'] ) ? sanitize_text_field( $attributes['filter_sort'] ) : ( isset( $attributes['orderBy'] ) ? sanitize_text_field( $attributes['orderBy'] ) : 'new_to_old' );
+		$sort = isset( $attributes['filter_sort'] ) ? sanitize_text_field( $attributes['filter_sort'] ) : ( isset( $attributes['orderBy'] ) ? sanitize_text_field( $attributes['orderBy'] ) : 'new_to_old' ); 
 
 		switch ( $sort ) {
 			case 'new_to_old':
@@ -371,8 +371,8 @@ class AWSM_Job_Openings_Block {
 		$attrs['listings']               = AWSM_Job_Openings::get_listings_per_page( $block_atts );
 		$attrs['awsm-layout']            = isset( $block_atts['layout'] ) ? $block_atts['layout'] : '';
 		$attrs['awsm-hide-expired-jobs'] = isset( $block_atts['hide_expired_jobs'] ) ? $block_atts['hide_expired_jobs'] : '';
-		$attrs['awsm-other-options']     = isset( $block_atts['other_options'] ) ? $block_atts['other_options'] : '';
-		$attrs['awsm-listings-total']    = isset( $block_atts['listings_total'] ) ? $block_atts['listings_total'] : '';
+		//$attrs['awsm-other-options']     = isset( $block_atts['other_options'] ) ? $block_atts['other_options'] : '';
+		//$attrs['awsm-listings-total']    = isset( $block_atts['listings_total'] ) ? $block_atts['listings_total'] : '';
 		$attrs['awsm-selected-terms']    = isset( $block_atts['selectedTerms'] )
 		? htmlspecialchars( json_encode( $block_atts['selectedTerms'], JSON_UNESCAPED_SLASHES ) )
 		: '{}';
@@ -681,13 +681,13 @@ class AWSM_Job_Openings_Block {
 		do_action( 'awsm_block_form_inside', $block_atts );
 		$custom_action_content = ob_get_clean();
 		/* end */
-
-		if ( ! empty( $search_content ) || ! empty( $specs_filter_content ) || ! empty( $enable_sort ) ) {
+		
+		if ( ! empty( $search_content ) || ! empty( $specs_filter_content ) || ! empty( $enable_sort ) ) { 
 			$current_lang          = AWSM_Job_Openings::get_current_language();
 			$hidden_fields_content = '';
 			if ( ! empty( $current_lang ) ) {
 				$hidden_fields_content .= sprintf( '<input type="hidden" name="lang" value="%s">', esc_attr( $current_lang ) );
-			}
+			} 
 			if ( ! AWSM_Job_Openings::is_default_pagination( $block_atts ) ) {
 				$paged                  = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
 				$hidden_fields_content .= sprintf( '<input type="hidden" name="awsm_pagination_base" value="%1$s"><input type="hidden" name="paged" value="%2$s">', esc_url( get_pagenum_link() ), absint( $paged ) );
