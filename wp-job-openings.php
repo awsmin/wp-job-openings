@@ -1104,7 +1104,7 @@ class AWSM_Job_Openings {
 		}
 		wp_enqueue_script( 'awsm-job-scripts', AWSM_JOBS_PLUGIN_URL . '/assets/js/script.min.js', array( 'jquery' ), AWSM_JOBS_PLUGIN_VERSION, true );
 
-		$enable_search = get_option( 'awsm_enable_job_search' ) === 'enable' && isset( $_GET['jq'] );
+		$enable_search = get_option( 'awsm_enable_job_search' ) === 'enabled' && isset( $_GET['jq'] );
 		global $post;
 
 		$localized_script_data = array(
@@ -1500,16 +1500,14 @@ class AWSM_Job_Openings {
 				// Check if the job should be expired
 				if ( $expiry_on_list === 'set_listing' && ! empty( $awsm_job_expiry ) ) {
 					$expiration_time = strtotime( $awsm_job_expiry );
-
-					if ( $expiration_time < time() && $post->post_status !== 'trash' ) {
-						$post_data = array(
-							'ID'          => $post_id,
-							'post_status' => 'expired',
-						);
-
-						// Temporarily unhook save_post to prevent infinite loop
+					if ( $expiration_time < ( time() - ( 24 * 60 * 60 ) ) && $post->post_status !== 'trash' ) {
+						$post_data                = array();
+						$post_data['ID']          = $post_id;
+						$post_data['post_status'] = 'expired';
+						// unhook this function so it doesn't loop infinitely
 						remove_action( 'save_post', array( $this, 'awsm_job_save_post' ), 100 );
 						wp_update_post( $post_data );
+						// now, re-hook this function
 						add_action( 'save_post', array( $this, 'awsm_job_save_post' ), 100, 2 );
 					}
 				} elseif ( $post->post_status === 'expired' ) {

@@ -1616,6 +1616,7 @@ a.awsm-plugin-item p {
 	display: flex;
 	align-items: center;
 	gap: 16px;
+	max-width: calc(100% - 180px);
 }
 
 .awsm-application-actions {
