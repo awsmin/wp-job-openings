@@ -324,6 +324,7 @@ class AWSM_Job_Openings_Block {
 
 			case 'random':
 				$args['orderby'] = 'rand';
+				$args['post__not_in'] = get_option('awsm_excluded_posts', []);
 				break;
 
 			case 'relevance':
@@ -347,6 +348,7 @@ class AWSM_Job_Openings_Block {
 				$args['order']   = 'DESC';
 				break;
 		}
+		
 
 		// Pagination.
 		if ( ! AWSM_Job_Openings::is_default_pagination( $attributes ) && ! isset( $_POST['awsm_pagination_base'] ) ) {
@@ -958,7 +960,7 @@ class AWSM_Job_Openings_Block {
 		echo apply_filters( 'awsm_filter_block_content_placement_slide', $filter_content ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
-	public function display_block_job_sort( $attributes ) {
+	public function display_block_job_sort( $attributes ) { 
 		$sort_dropdown = '';
 
 		if ( $attributes['sort'] == 'enable' ) {
@@ -968,7 +970,7 @@ class AWSM_Job_Openings_Block {
 			}
 
 			// Get the current sort value from the URL
-			$current_sort = isset( $_GET['sort'] ) ? sanitize_text_field( $_GET['sort'] ) : '';
+			$current_sort = isset( $attributes['orderBy'] ) ? sanitize_text_field( $attributes['orderBy'] ) : ( isset( $_GET['sort'] ) ? sanitize_text_field( $_GET['sort'] ) : '' );
 
 			$sort_dropdown = sprintf(
 				'<div class="awsm-job-sort awsm-filter-item">
