@@ -1662,7 +1662,11 @@ class AWSM_Job_Openings {
 		$args['posts_per_page'] = $list_per_page;
 		$args['post_status']    = ( $hide_expired_jobs === 'expired' ) ? array( 'publish' ) : array( 'publish', 'expired' );
 
-		$sort = isset( $shortcode_atts['filter_sort'] ) ? sanitize_text_field( $shortcode_atts['filter_sort'] ) : ( isset( $shortcode_atts['orderBy'] ) ? sanitize_text_field( $shortcode_atts['orderBy'] ) : 'new_to_old' );
+		/* $sort = isset( $shortcode_atts['filter_sort'] ) ? sanitize_text_field( $shortcode_atts['filter_sort'] ) : ( isset( $shortcode_atts['orderBy'] ) ? sanitize_text_field( $shortcode_atts['orderBy'] ) : 'new_to_old' ); */
+		$sort = isset( $_GET['sort'] ) ? sanitize_text_field( $_GET['sort'] ) : 
+        ( isset( $shortcode_atts['filter_sort'] ) ? sanitize_text_field( $shortcode_atts['filter_sort'] ) : 
+        ( isset( $shortcode_atts['orderBy'] ) ? sanitize_text_field( $shortcode_atts['orderBy'] ) : 'new_to_old' ) );
+
 
 		switch ( $sort ) {
 			case 'new_to_old':

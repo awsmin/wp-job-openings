@@ -629,9 +629,8 @@ class AWSM_Job_Openings_Filters {
 
 	public function display_job_sort( $shortcode_atts ) {
 		$sort_dropdown          = '';
-		$shortcode_atts['sort'] = 'enable';
 
-		if ( $shortcode_atts['sort'] == 'enable' ) {
+		if ( isset($shortcode_atts['sort']) && $shortcode_atts['sort'] == 'enable' ) {
 			$current_sort = isset( $_GET['sort'] ) ? sanitize_text_field( $_GET['sort'] ) : '';
 
 			$sort_dropdown = sprintf(

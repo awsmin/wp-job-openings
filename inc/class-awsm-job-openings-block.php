@@ -970,7 +970,7 @@ class AWSM_Job_Openings_Block {
 			}
 
 			// Get the current sort value from the URL
-			$current_sort = isset( $attributes['orderBy'] ) ? sanitize_text_field( $attributes['orderBy'] ) : ( isset( $_GET['sort'] ) ? sanitize_text_field( $_GET['sort'] ) : '' );
+			$current_sort = isset( $_GET['sort'] ) ? sanitize_text_field( $_GET['sort'] ) : ( isset( $attributes['orderBy'] ) ? sanitize_text_field( $attributes['orderBy'] ) : '' );
 
 			$sort_dropdown = sprintf(
 				'<div class="awsm-job-sort awsm-filter-item">
