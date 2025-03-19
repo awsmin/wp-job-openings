@@ -282,12 +282,13 @@ a.awsm-job-item {
 	-ms-transition: all 0.3s ease;
 	-o-transition: all 0.3s ease;
 	transition: all 0.3s ease;
+	border-radius: 5px;
 }
 
 .awsm-load-more-classic a.page-numbers,
 .awsm-load-more-classic span.page-numbers {
 	padding: 5px 10px;
-	font-size: 90%;
+	font-size: 90%;	
 }
 
 .awsm-load-more-classic {

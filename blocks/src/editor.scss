@@ -770,6 +770,11 @@ ul.awsm-error-message li {
 	white-space: nowrap;
   	overflow: hidden;
   	text-overflow: ellipsis;
+  	border-radius: 5px;
+  	display: block;
+}
+.awsm-job-2-col .awsm-b-filter-admin label.awsm-b-sr-only{
+	min-width: 100%;
 }
 .awsm-b-filter-admin .awsm-b-filter-option {
    display: none !important;

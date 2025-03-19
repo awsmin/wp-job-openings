@@ -274,11 +274,8 @@ a.awsm-b-job-item {
 	margin: 0 !important;
 	text-decoration: none !important;
 	outline: none !important;
-	-webkit-transition: all 0.3s ease;
-	-moz-transition: all 0.3s ease;
-	-ms-transition: all 0.3s ease;
-	-o-transition: all 0.3s ease;
 	transition: all 0.3s ease;
+	border-radius: 5px;
 }
 .awsm-load-more-classic a.page-numbers, .awsm-load-more-classic span.page-numbers {
 	padding: 5px 10px;
@@ -778,6 +775,7 @@ ul.awsm-error-message li {
 	.awsm-job-2-col .awsm-b-filter-wrap form{
 		padding: 30px;
 		border: 1px solid #ccc;
+		border-radius: 5px;
 	}
 	.awsm-job-2-col .awsm-b-filter-wrap.awsm-jobs-alerts-on form{
 		margin-bottom: 80px;
