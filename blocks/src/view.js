@@ -54,7 +54,6 @@ jQuery(function($) {
 	
 		var listings 		  = $wrapper.data('listings');
 		var specs 			  = $wrapper.data('specs'); 
-		var sortFilter 		  = $rootWrapper.find('.awsm-job-sort-filter').val();  
 		var layout 			  = $wrapper.data('awsm-layout');
 		var hide_expired_jobs = $wrapper.data('awsm-hide-expired-jobs'); 
 		var selected_terms 	  = $wrapper.data('awsm-selected-terms'); 

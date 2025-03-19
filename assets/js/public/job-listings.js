@@ -37,9 +37,6 @@ jQuery(function($) {
 		var $filterForm = $rootWrapper.find(filterSelector + ' form'); 
 		var formData = [];
 	
-		// Find the sort dropdown value
-		var sortFilter = $rootWrapper.find('.awsm-job-sort-filter-short').val();
-	
 		if ($filterForm.length > 0) {
 			// Form exists → Serialize form data
 			formData = $filterForm.serializeArray();
@@ -48,11 +45,6 @@ jQuery(function($) {
 			// Form is missing → Manually construct data
 			formData.push({ name: 'action', value: 'jobfilter' }); // Ensure action is included
 			var formMethod = 'POST';
-		}
-	
-		// Add sort filter value
-		if (typeof sortFilter !== 'undefined' && sortFilter !== '') {
-			formData.push({ name: 'filter_sort', value: sortFilter });
 		}
 	
 		// Get additional data (if available)
@@ -310,21 +302,6 @@ jQuery(function($) {
 		awsmJobFilters($rootWrapper);
 	});
 	
-	$(wrapperSelector + ' .awsm-job-sort-filter-short').on('change', function(e) { 
-		var $elem = $(this);
-		var $rootWrapper = $elem.closest(rootWrapperSelector);
-		
-		var sortValue = $elem.val(); // Get selected sort option
-		setPaginationBase($rootWrapper, 'sort', sortValue);
-	
-		// Update the URL query for deep linking (if enabled)
-		var $paginationBase = $rootWrapper.find('input[name="awsm_pagination_base"]');
-		updateQuery('sort', sortValue, $paginationBase.val());
-	
-		// **Call awsmJobFilters to trigger the AJAX request**
-		awsmJobFilters($rootWrapper);
-	});
-
 	/* ========== Job Listings Load More ========== */
 
 	$(wrapperSelector).on('click', '.awsm-jobs-pagination .awsm-load-more-btn, .awsm-jobs-pagination a.page-numbers', function(e) {
@@ -343,9 +320,6 @@ jQuery(function($) {
 		var specs				 = $listingsContainer.data('specs');
 		var lang 				 = $listingsContainer.data('lang');
 		var searchQuery 		 = $listingsContainer.data('search');
-		var sort 				 = $listingsContainer.data('sort'); 
-		var sortFilter 		     = $mainContainer.find('.awsm-job-sort-filter-short').val(); 
-
 		var selected_terms 		 = $listingsContainer.data('awsm-selected-terms'); 
 
 		if (isDefaultPagination) {
@@ -457,12 +431,6 @@ jQuery(function($) {
 			});
 		}
 		
-		if (typeof sortFilter !== 'undefined' && sortFilter !== '') {
-			wpData.push({ name: 'filter_sort', value: sortFilter });
-		} else if (typeof sort !== 'undefined') {
-			wpData.push({ name: 'filter_sort', value: orderby });
-		}
-
 		if (selected_terms) {
 			if (typeof selected_terms === 'string') {
 				try {

@@ -199,9 +199,6 @@ class AWSM_Job_Openings_Settings {
 					'option_name' => 'awsm_jobs_placement_type',
 				),
 				array(
-					'option_name' => 'awsm_jobs_enable_sort',
-				),
-				array(
 					'option_name' => 'awsm_enable_job_filter_listing',
 				),
 				array(

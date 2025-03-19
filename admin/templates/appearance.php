@@ -220,18 +220,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'default_value' => 'top',
 				),
 				array(
-					'name'        => 'awsm_jobs_enable_sort',
-					'label'       => __( 'Enable Sort Option', 'wp-job-openings' ),
-					'type'        => 'checkbox',
-					'choices'     => array(
-						array(
-							'value' => 'enable',
-							'text'  => __( 'Enable job sort in job listing', 'wp-job-openings' ),
-						),
-					),
-					'description' => __( 'Check this option to show sort filter in the job listing page', 'wp-job-openings' ),
-				),
-				array(
 					'name'        => 'awsm_enable_job_filter_listing',
 					'visible'     => ! empty( $specifications ),
 					'label'       => __( 'Job filters', 'wp-job-openings' ),

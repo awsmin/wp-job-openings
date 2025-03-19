@@ -43,8 +43,7 @@ class AWSM_Job_Openings_Block {
 			'selectedTerms'      => isset( $blockatts['selectedTerms'] ) ? $blockatts['selectedTerms'] : '',
 			'orderBy'            => isset( $blockatts['orderBy'] ) ? $blockatts['orderBy'] : '',
 			'listings'           => isset( $blockatts['listing_per_page'] ) ? $blockatts['listing_per_page'] : '',
-			'pagination'         => isset( $blockatts['pagination'] ) ? $blockatts['pagination'] : '',
-			'sort'               => isset( $blockatts['sort'] ) ? $blockatts['sort'] : '',
+			'pagination'         => isset( $blockatts['pagination'] ) ? $blockatts['pagination'] : ''
 		);
 
 		 /**
@@ -307,48 +306,6 @@ class AWSM_Job_Openings_Block {
 			$args['post_status'] = array( 'publish', 'expired' );
 		}
 
-		// Sorting setup.
-		$sort = isset( $attributes['filter_sort'] ) ? sanitize_text_field( $attributes['filter_sort'] ) : ( isset( $attributes['orderBy'] ) ? sanitize_text_field( $attributes['orderBy'] ) : 'new_to_old' ); 
-
-		switch ( $sort ) {
-			case 'new_to_old':
-				$args['orderby'] = 'date';
-				$args['order']   = 'DESC';
-				break;
-
-			case 'old_to_new':
-				$args['orderby'] = 'date';
-				$args['order']   = 'ASC';
-				break;
-
-			case 'random':
-				$args['orderby'] = 'rand';
-				$args['post__not_in'] = get_option('awsm_excluded_posts', []);
-				break;
-
-			case 'relevance':
-				$args['meta_query'] = array(
-					array(
-						'key'     => 'awsm_views_count',
-						'compare' => 'EXISTS',
-					),
-				);
-
-				$args['orderby'] = array(
-					'meta_value_num' => 'DESC',
-					'date'           => 'DESC',
-				);
-
-				$args['meta_key'] = 'awsm_views_count'; // meta key name
-				break;
-
-			default:
-				$args['orderby'] = 'date';
-				$args['order']   = 'DESC';
-				break;
-		}
-		
-
 		// Pagination.
 		if ( ! AWSM_Job_Openings::is_default_pagination( $attributes ) && ! isset( $_POST['awsm_pagination_base'] ) ) {
 			$paged         = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ) : 1;
@@ -386,10 +343,6 @@ class AWSM_Job_Openings_Block {
 
 		if ( isset( $_GET['jq'] ) ) {
 			$attrs['search'] = $_GET['jq'];
-		}
-
-		if ( isset( $_GET['sort'] ) ) {
-			$attrs['orderby'] = $_GET['sort'];
 		}
 
 		foreach ( $_GET as $key => $value ) {

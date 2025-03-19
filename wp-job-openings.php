@@ -346,7 +346,6 @@ class AWSM_Job_Openings {
 				'filters'    => get_option( 'awsm_enable_job_filter_listing' ) !== 'enabled' ? 'no' : 'yes',
 				'search'     => get_option( 'awsm_enable_job_search' ) !== 'enable' ? 'no' : 'yes',
 				'listings'   => get_option( 'awsm_jobs_list_per_page' ),
-				'sort'       => get_option( 'awsm_jobs_enable_sort' ),
 				'loadmore'   => 'yes',
 				'pagination' => get_option( 'awsm_jobs_pagination_type', 'modern' ),
 				'specs'      => '',

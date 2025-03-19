@@ -83,10 +83,6 @@ class Awsm_Job_Guten_Blocks {
 			$atts['pagination'] = $atts['pagination'];
 		}
 
-		if ( isset( $atts['sort'] ) && $atts['sort'] === true ) {
-			$atts['sort'] = 'enable';
-		}
-
 		/** end */
 
 		 /**

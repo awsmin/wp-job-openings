@@ -15,7 +15,6 @@ class AWSM_Job_Openings_Filters {
 		add_action( 'wp_ajax_loadmore', array( $this, 'awsm_posts_filters' ) );
 		add_action( 'wp_ajax_nopriv_loadmore', array( $this, 'awsm_posts_filters' ) );
 		add_action( 'awsm_filter_form_slide', array( $this, 'display_filter_form_side' ) );
-		add_action( 'awsm_jobs_sort', array( $this, 'display_job_sort' ) );
 	}
 
 	public static function init() {
@@ -49,8 +48,7 @@ class AWSM_Job_Openings_Filters {
 		$enable_job_filters    = get_option( 'awsm_enable_job_filter_listing' );
 		$enable_search         = get_option( 'awsm_enable_job_search' );
 		$display_type          = get_option( 'awsm_jobs_listing_display_type', 'dropdown' );
-		$enable_sort           = get_option( 'awsm_jobs_enable_sort' );
-
+		
 		/**
 		 * Enable search in the job listing or not.
 		 *
@@ -61,7 +59,7 @@ class AWSM_Job_Openings_Filters {
 		 */
 		$enable_search = apply_filters( 'awsm_job_filters_enable_search', $enable_search, $shortcode_atts );
 
-		if ( ( $enable_job_filters !== 'enabled' && $filters_attr !== 'yes' ) && $enable_search !== 'enable' && $enable_sort !== 'enable' ) {
+		if ( ( $enable_job_filters !== 'enabled' && $filters_attr !== 'yes' ) && $enable_search !== 'enable' ) {
 			return;
 		}
 
@@ -219,7 +217,7 @@ class AWSM_Job_Openings_Filters {
 		$custom_action_content = ob_get_clean();
 		/* end */
 
-		if ( ! empty( $search_content ) || ! empty( $specs_filter_content ) || ! empty( $enable_sort ) ) {
+		if ( ! empty( $search_content ) || ! empty( $specs_filter_content ) ) {
 			$current_lang          = AWSM_Job_Openings::get_current_language();
 			$hidden_fields_content = '';
 			if ( ! empty( $current_lang ) ) {
@@ -292,7 +290,6 @@ class AWSM_Job_Openings_Filters {
 		$enable_job_filters    = get_option( 'awsm_enable_job_filter_listing' );
 		$enable_search         = get_option( 'awsm_enable_job_search' );
 		$display_type          = get_option( 'awsm_jobs_listing_display_type', 'dropdown' );
-		$enable_sort           = get_option( 'awsm_jobs_enable_sort' );
 		/**
 		 * Enable search in the job listing or not.
 		 *
@@ -303,7 +300,7 @@ class AWSM_Job_Openings_Filters {
 		 */
 		$enable_search = apply_filters( 'awsm_job_filters_enable_search', $enable_search, $shortcode_atts );
 
-		if ( $enable_job_filters !== 'enabled' && $filters_attr !== 'yes' && $enable_search !== 'enable' && $enable_sort !== 'enable' ) {
+		if ( $enable_job_filters !== 'enabled' && $filters_attr !== 'yes' && $enable_search !== 'enable' ) {
 			return;
 		}
 
@@ -625,39 +622,5 @@ class AWSM_Job_Openings_Filters {
 		}
 		wp_die();
 		// phpcs:enable
-	}
-
-	public function display_job_sort( $shortcode_atts ) {
-		$sort_dropdown          = '';
-
-		if ( isset($shortcode_atts['sort']) && $shortcode_atts['sort'] == 'enable' ) {
-			$current_sort = isset( $_GET['sort'] ) ? sanitize_text_field( $_GET['sort'] ) : '';
-
-			$sort_dropdown = sprintf(
-				'<div class="awsm-job-sort awsm-filter-item">
-					<label>%s</label>
-					<div>
-						<label class="awsm-sr-only">Relevance</label>
-						<select class="awsm-filter-option awsm-job-sort-filter-short" name="sort" data-root-wrapper=".awsm-job-listings">
-							<option value="new_to_old" %s>%s</option>
-							<option value="old_to_new" %s>%s</option>
-							<option value="random" %s>%s</option>
-							<option value="relevance" %s>%s</option>
-						</select>
-					</div>
-				</div>',
-				esc_html__( 'Sort by', 'wp-job-openings' ),
-				selected( $current_sort, 'new_to_old', false ),
-				esc_html__( 'New to Old', 'wp-job-openings' ),
-				selected( $current_sort, 'old_to_new', false ),
-				esc_html__( 'Old to New', 'wp-job-openings' ),
-				selected( $current_sort, 'random', false ),
-				esc_html__( 'Random', 'wp-job-openings' ),
-				selected( $current_sort, 'relevance', false ),
-				esc_html__( 'Relevance', 'wp-job-openings' )
-			);
-		}
-
-		echo $sort_dropdown;
 	}
 }
