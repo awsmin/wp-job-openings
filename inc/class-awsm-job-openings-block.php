@@ -205,11 +205,11 @@ class AWSM_Job_Openings_Block {
 			$attributes['pagination'] = 'modern';
 		}
 
-		if ( isset( $_POST['filter_sort'] ) ) {
-			$attributes['filter_sort'] = $_POST['filter_sort'];
+		if ( isset( $_POST['orderby'] ) ) {
+			$attributes['orderBy'] = $_POST['orderby'];
 		}
 
-		$attributes = apply_filters( 'awsm_jobs_block_post_filters', $attributes, $_POST );
+		$attributes = apply_filters( 'awsm_jobs_block_post_filters', $attributes, $_POST ); 
 
 		$args = self::awsm_block_job_query_args( $filters, $attributes, array(), $filters_list );
 
@@ -304,6 +304,25 @@ class AWSM_Job_Openings_Block {
 			$args['post_status'] = $list_per_page > 0 ? array( 'publish' ) : array();
 		} else {
 			$args['post_status'] = array( 'publish', 'expired' );
+		}
+
+		$sort = isset( $attributes['orderBy'] ) ? sanitize_text_field( $attributes['orderBy'] ) : 'new_to_old'; 
+
+		switch ( $sort ) {
+			case 'new_to_old':
+				$args['orderby'] = 'date';
+				$args['order']   = 'DESC';
+				break;
+
+			case 'old_to_new':
+				$args['orderby'] = 'date';
+				$args['order']   = 'ASC';
+				break;
+			
+			default:
+				$args['orderby'] = 'date';
+				$args['order']   = 'DESC';
+				break;
 		}
 
 		// Pagination.
