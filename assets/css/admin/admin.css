@@ -451,9 +451,14 @@ a.awsm-text-red:hover {
 .post-type-awsm_job_application #post-body-content {
 	margin-bottom: 0px;
 }
-.post-type-awsm_job_application .tablenav.top{ margin-bottom: 13px;}
 
-.post-type-awsm_job_application .tablenav.top .tablenav-pages{display: none;}
+.post-type-awsm_job_application .tablenav.top {
+	margin-bottom: 13px;
+}
+
+.post-type-awsm_job_application .tablenav.top .tablenav-pages {
+	display: none;
+}
 
 .awsm-applicant-image-container {
 	float: left;
@@ -780,7 +785,8 @@ a.awsm-text-red:hover {
 	padding-left: 0;
 	margin-bottom: 0;
 }
-.awsm_job_openings_page_awsm-jobs-setup #wpbody{
+
+.awsm_job_openings_page_awsm-jobs-setup #wpbody {
 	background-color: #6BFAE7;
 }
 
@@ -810,10 +816,11 @@ a.awsm-text-red:hover {
 	margin: 0 0 34px;
 	text-align: center;
 	opacity: 0;
-	transform:  translateY(100px);
+	transform: translateY(100px);
 	transition: all 0.3s ease;
 }
-.awsm-job-setup-head h1 a{
+
+.awsm-job-setup-head h1 a {
 	outline: none;
 	box-shadow: none;
 }
@@ -834,7 +841,7 @@ a.awsm-text-red:hover {
 	line-height: 24px;
 	color: #000;
 	opacity: 0;
-	transform:  translateY(100px);
+	transform: translateY(100px);
 	transition: all 0.3s ease 0.2s;
 }
 
@@ -848,34 +855,39 @@ a.awsm-text-red:hover {
 	border-radius: 6px;
 	box-shadow: 0 0 9px 3px rgba(0, 0, 0, 0.07);
 	opacity: 0;
-	transform:  translateY(100px);
+	transform: translateY(100px);
 	transition: all 0.3s ease 0.4s;
 	margin-bottom: 30px;
 	position: relative;
 }
+
 .awsm-job-setup-form::before,
-.awsm-job-setup-form::after{
+.awsm-job-setup-form::after {
 	content: "";
 	width: 100%;
 	background: #fff;
 	position: absolute;
 	left: 0;
 }
-.awsm-job-setup-form::before{
+
+.awsm-job-setup-form::before {
 	top: 0;
 	height: 106px;
 }
-.awsm-job-setup-form::after{
+
+.awsm-job-setup-form::after {
 	bottom: 0;
 	height: 125px;
 }
-.awsm-job-setup-foot{
+
+.awsm-job-setup-foot {
 	opacity: 0;
-	transform:  translateY(100px);
+	transform: translateY(100px);
 	transition: all 0.3s ease 0.6s;
 	text-align: center;
 }
-.awsm-job-setup-foot a{
+
+.awsm-job-setup-foot a {
 	font-size: 14px;
 	color: rgba(0, 0, 0, 0.7);
 }
@@ -1025,7 +1037,9 @@ a.awsm-text-red:hover {
 	text-decoration: none;
 	outline: none;
 }
-.awsm-job-setup-button:focus,  .awsm-job-setup-button:active{
+
+.awsm-job-setup-button:focus,
+.awsm-job-setup-button:active {
 	background-color: #6bfae7;
 	color: #000;
 	border-color: #6bfae7;
@@ -1062,14 +1076,16 @@ a.awsm-text-red:hover {
 	opacity: 1;
 	visibility: visible;
 }
+
 .awsm-job-setup.loaded .awsm-job-setup-head h1,
 .awsm-job-setup.loaded .awsm-job-setup-head p,
 .awsm-job-setup.loaded .awsm-job-setup-form,
-.awsm-job-setup.loaded .awsm-job-setup-foot{
+.awsm-job-setup.loaded .awsm-job-setup-foot {
 	opacity: 1;
 	transform: none;
 }
-.awsm-job-setup-button-next.disabled{
+
+.awsm-job-setup-button-next.disabled {
 	pointer-events: none;
 }
 
@@ -1731,14 +1747,15 @@ a.awsm-plugin-item p {
 	top: 18px;
 	text-decoration: none;
 }
+
 .application-main-tab .pro-feature .pro-ft::after {
 	display: none;
 }
+
 .application-main-tab .pro-feature:hover .pro-ft {
 	opacity: 1;
 	visibility: visible;
 }
-
 
 .application-main-tab .pro-feature::before {
 	content: "";
@@ -1860,6 +1877,11 @@ textarea.awsm-form-control {
 	color: #666;
 }
 
+.awsm-form-control:disabled {
+	opacity: 0.5;
+	background: #eee;
+}
+
 .form-control-foot {
 	display: flex;
 	justify-content: space-between;
@@ -1896,24 +1918,27 @@ input.awsm-button {
 .awsm-button:hover,
 .awsm-button:focus,
 input.awsm-button:hover,
-input.awsm-button:focus{
+input.awsm-button:focus {
 	background: #6bfae4;
 	border-color: #6bfae4;
 	color: #000;
 }
+
 .awsm-button:disabled,
-input.awsm-button:disabled{
+input.awsm-button:disabled {
 	opacity: 0.6;
 	pointer-events: none;
 }
-.awsm-button.awsm-button-alt{
+
+.awsm-button.awsm-button-alt {
 	border-color: #d1d1d1;
 	background: #fff;
 	color: #161616;
 	transition: all 0.3s ease;
 }
+
 .awsm-button.awsm-button-alt:hover,
-.awsm-button.awsm-button-alt:hover:focus{
+.awsm-button.awsm-button-alt:hover:focus {
 	border-color: #0bcfb1;
 	background-color: #ffffff;
 	color: #0bcfb1;
@@ -2048,8 +2073,9 @@ input.awsm-button:disabled{
 	text-decoration: none;
 	line-height: normal;
 }
+
 .awsm-applicant-resume-cta a svg,
-.awsm-applicant-resume-cta #awsm-print-apps svg{
+.awsm-applicant-resume-cta #awsm-print-apps svg {
 	fill: #161616;
 }
 
@@ -2062,8 +2088,9 @@ input.awsm-button:disabled{
 	background-color: #ffffff;
 	color: #0bcfb1;
 }
+
 .awsm-applicant-resume-cta a:hover svg,
-.awsm-applicant-resume-cta #awsm-print-apps:hover svg{
+.awsm-applicant-resume-cta #awsm-print-apps:hover svg {
 	fill: #0bcfb1;
 }
 
@@ -2336,6 +2363,6 @@ input.awsm-button:disabled{
 	line-height: 28px;
 	height: 28px;
 	margin: 0;
-	width:125px;
+	width: 125px;
 	margin-right: 6px;
 }
