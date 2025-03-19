@@ -15,7 +15,6 @@ class AWSM_Job_Openings_Block {
 		add_action( 'wp_ajax_block_loadmore', array( $this, 'awsm_block_posts_filters' ) );
 		add_action( 'wp_ajax_nopriv_block_loadmore', array( $this, 'awsm_block_posts_filters' ) );
 		add_action( 'awsm_block_filter_form_slide', array( $this, 'display_block_filter_form_slide' ) );
-		add_action( 'awsm_block_jobs_sort', array( $this, 'display_block_job_sort' ) );
 	}
 
 	public static function init() {
@@ -498,7 +497,6 @@ class AWSM_Job_Openings_Block {
 		$filters_attr          = isset( $block_atts['filter_options'] ) ? $block_atts['filter_options'] : '';
 		$enable_job_filters    = isset( $block_atts['enable_job_filter'] ) ? $block_atts['enable_job_filter'] : '';
 		$enable_search         = isset( $block_atts['search'] ) ? $block_atts['search'] : '';
-		$enable_sort           = isset( $block_atts['sort'] ) ? $block_atts['sort'] : '';
 		$placeholder_search    = isset( $block_atts['search_placeholder'] ) ? $block_atts['search_placeholder'] : '';
 		$select_filter_full    = isset( $block_atts['select_filter_full'] ) ? $block_atts['select_filter_full'] : '';
 
@@ -684,7 +682,7 @@ class AWSM_Job_Openings_Block {
 		$custom_action_content = ob_get_clean();
 		/* end */
 		
-		if ( ! empty( $search_content ) || ! empty( $specs_filter_content ) || ! empty( $enable_sort ) ) { 
+		if ( ! empty( $search_content ) || ! empty( $specs_filter_content ) ) { 
 			$current_lang          = AWSM_Job_Openings::get_current_language();
 			$hidden_fields_content = '';
 			if ( ! empty( $current_lang ) ) {
@@ -958,46 +956,6 @@ class AWSM_Job_Openings_Block {
 
 		// Output the filter form content
 		echo apply_filters( 'awsm_filter_block_content_placement_slide', $filter_content ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-	}
-
-	public function display_block_job_sort( $attributes ) { 
-		$sort_dropdown = '';
-
-		if ( $attributes['sort'] == 'enable' ) {
-			$filter_class_admin = '';
-			if ( self::is_edit_or_add_page() ) {
-				$filter_class_admin = 'awsm-b-filter-admin';
-			}
-
-			// Get the current sort value from the URL
-			$current_sort = isset( $_GET['sort'] ) ? sanitize_text_field( $_GET['sort'] ) : ( isset( $attributes['orderBy'] ) ? sanitize_text_field( $attributes['orderBy'] ) : '' );
-
-			$sort_dropdown = sprintf(
-				'<div class="awsm-job-sort awsm-filter-item">
-					<label>%s</label>
-					<div class="' . esc_attr( $filter_class_admin ) . '">
-						<label class="awsm-b-sr-only">Relevance</label>
-						<select class="awsm-b-filter-option awsm-job-sort-filter" name="sort">
-							<option value="new_to_old" %s>%s</option>
-							<option value="old_to_new" %s>%s</option>
-							<option value="random" %s>%s</option>
-							<option value="relevance" %s>%s</option>
-						</select>
-					</div>
-				</div>',
-				esc_html__( 'Sort by', 'wp-job-openings' ),
-				selected( $current_sort, 'new_to_old', false ),
-				esc_html__( 'New to Old', 'wp-job-openings' ),
-				selected( $current_sort, 'old_to_new', false ),
-				esc_html__( 'Old to New', 'wp-job-openings' ),
-				selected( $current_sort, 'random', false ),
-				esc_html__( 'Random', 'wp-job-openings' ),
-				selected( $current_sort, 'relevance', false ),
-				esc_html__( 'Relevance', 'wp-job-openings' )
-			);
-		}
-
-		echo $sort_dropdown;
 	}
 
 }

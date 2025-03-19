@@ -30,7 +30,6 @@ const WidgetInspectorControls = (props) => {
 		jobsPerPage,
 		layout,
 		selectedTerms,
-		sort,
 		selected_terms_main,
 		number_of_columns
 	  },
@@ -284,12 +283,6 @@ const WidgetInspectorControls = (props) => {
 						onChange={number_of_columns => onchange_number_of_columns(number_of_columns)}
 					/>
 				)} 
-
-				<ToggleControl
-					label={__("Enable Sort Option", "wp-job-openings")}
-					checked={sort}
-					onChange={(sort) => setAttributes({ sort })}
-				/>
 
 				{ wp.hooks.doAction( 'after_awsm_job_appearance',block_appearance_list,props ) }
 				{ block_appearance_list }

@@ -56,10 +56,6 @@
       "type": "string",
       "default": "modern"
     },
-    "sort": {
-      "type": "boolean",
-      "default": false
-    },
     "number_of_columns": {
       "type": "number",
       "default": 3

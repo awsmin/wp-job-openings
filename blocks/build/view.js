@@ -25,7 +25,6 @@ jQuery(function ($) {
     parsedListingsAttrs.push('awsm-other-options');
     parsedListingsAttrs.push('awsm-listings-total');
     parsedListingsAttrs.push('awsm-selected-terms');
-    parsedListingsAttrs.push('sort');
     /* end */
     $(document).trigger('awsmJobBlockListingsData', [parsedListingsAttrs]);
     var dataAttrs = $wrapper.data();
@@ -64,22 +63,10 @@ jQuery(function ($) {
     var selected_terms = $wrapper.data('awsm-selected-terms');
     var other_options = $wrapper.data('awsm-other-options');
     var listings_total = $wrapper.data('awsm-listings-total');
-    var sort = $wrapper.data('sort');
     formData.push({
       name: 'listings_per_page',
       value: listings
     });
-    if (typeof sortFilter !== 'undefined' && sortFilter !== '') {
-      formData.push({
-        name: 'filter_sort',
-        value: sortFilter
-      });
-    } else if (typeof sort !== 'undefined') {
-      formData.push({
-        name: 'filter_sort',
-        value: sort
-      });
-    }
     if (typeof specs !== 'undefined') {
       formData.push({
         name: 'shortcode_specs',
@@ -363,18 +350,6 @@ jQuery(function ($) {
     // Apply the job filters
     awsmJobFilters($rootWrapper);
   });
-  $(wrapperSelector + ' .awsm-job-sort-filter').on('change', function (e) {
-    //$('.awsm-job-sort-filter').on('change', function() {
-    var $elem = $(this);
-    var $rootWrapper = $elem.parents(rootWrapperSelector);
-    var sortValue = $rootWrapper.find('select.awsm-job-sort-filter').val();
-    setPaginationBase($rootWrapper, 'sort', sortValue);
-    //if (awsmJobsPublic.deep_linking.search) {
-    var $paginationBase = $rootWrapper.find('input[name="awsm_pagination_base"]');
-    updateQuery('sort', sortValue, $paginationBase.val());
-    //} 
-    awsmJobFilters($rootWrapper);
-  });
   $(filterSelector + ' .awsm-b-job-search-btn').on('click', function () {
     searchJobs($(this));
   });
@@ -406,8 +381,6 @@ jQuery(function ($) {
     var specs = $listingsContainer.data('specs');
     var lang = $listingsContainer.data('lang');
     var searchQuery = $listingsContainer.data('search');
-    var orderby = $listingsContainer.data('orderby');
-    var sortFilter = $mainContainer.find('.awsm-job-sort-filter').val();
 
     /* added for block */
     var layout = $listingsContainer.data('awsm-layout');
@@ -561,17 +534,6 @@ jQuery(function ($) {
       wpData.push({
         name: 'jq',
         value: searchQuery
-      });
-    }
-    if (typeof sortFilter !== 'undefined' && sortFilter !== '') {
-      wpData.push({
-        name: 'filter_sort',
-        value: sortFilter
-      });
-    } else if (typeof orderby !== 'undefined') {
-      wpData.push({
-        name: 'filter_sort',
-        value: orderby
       });
     }
     $(document).trigger('awsmjobs_block_load_more', [$listingsContainer, wpData]);
