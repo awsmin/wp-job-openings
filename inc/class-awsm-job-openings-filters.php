@@ -377,7 +377,7 @@ class AWSM_Job_Openings_Filters {
 						 * @param string $taxonomy Taxonomy key.
 						 * @param WP_Taxonomy $tax_details Taxonomy details.
 						 */
-						$filter_label = apply_filters( 'awsm_filter_label_side', esc_html_x( 'All', 'job filter', 'wp-job-openings' ) . ' ' . $spec_name, $taxonomy, $tax_details );
+						$filter_label = apply_filters( 'awsm_filter_block_label', esc_html( $spec_name ), $taxonomy, $tax_details );
 
 						if ( isset( $display_type[ $taxonomy ] ) && $display_type[ $taxonomy ] == 'dropdown' ) {
 							foreach ( $terms as $term ) {

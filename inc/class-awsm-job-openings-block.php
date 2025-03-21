@@ -462,7 +462,7 @@ class AWSM_Job_Openings_Block {
 		return $terms;
 	}
 
-	public function display_block_filter_form( $block_atts ) {
+	public function display_block_filter_form( $block_atts ) { 
 		$search_content        = '';
 		$specs_filter_content  = '';
 		$custom_action_content = '';
@@ -615,7 +615,7 @@ class AWSM_Job_Openings_Block {
 						 * @param string $taxonomy Taxonomy key.
 						 * @param WP_Taxonomy $tax_details Taxonomy details.
 						 */
-						$filter_label                      = apply_filters( 'awsm_filter_block_label', esc_html_x( 'All', 'job filter', 'wp-job-openings' ) . ' ' . $spec_name, $taxonomy, $tax_details );
+						$filter_label                      = apply_filters( 'awsm_filter_block_label', esc_html_x( 'All', 'job filter', 'wp-job-openings' ) . ' ' . $spec_name, $taxonomy, $tax_details ); 
 						$filter_class_admin_select_control = '';
 						if ( ! self::is_edit_or_add_page() ) {
 							$filter_class_admin_select_control = ' awsm-job-select-control';
@@ -791,7 +791,7 @@ class AWSM_Job_Openings_Block {
 								// Create dropdown content
 								$filter_key   = str_replace( '-', '__', $taxonomy );
 								$spec_name    = apply_filters( 'wpml_translate_single_string', $tax_details->label, 'WordPress', sprintf( 'taxonomy general name: %s', $tax_details->label ) );
-								$filter_label = apply_filters( 'awsm_filter_block_label', esc_html_x( 'All', 'job filter', 'wp-job-openings' ) . ' ' . $spec_name, $taxonomy, $tax_details );
+								$filter_label = apply_filters( 'awsm_filter_block_label', esc_html( $spec_name ), $taxonomy, $tax_details );
 
 								if ( $spec['value'] == 'dropdown' ) {
 									foreach ( $terms as $term ) {
@@ -820,6 +820,7 @@ class AWSM_Job_Openings_Block {
 									// Generate dropdown content
 									$dropdown_content = sprintf(
 										'<div class="awsm-b-filter-item" data-filter="%2$s">
+										<div>%3$s</div>
 											<label for="awsm-%1$s-filter-option-1" class="awsm-b-sr-only">%3$s</label>
 											<select name="awsm_job_spec[%1$s]" class="awsm-b-filter-option awsm-%1$s-filter-option ' . $filter_class_admin_select_control . '" id="awsm-%1$s-filter-option%5$s" aria-label="%3$s">
 												<option value="">%3$s</option>%4$s
