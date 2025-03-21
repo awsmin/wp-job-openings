@@ -782,121 +782,81 @@ class AWSM_Job_Openings_Block {
 									'hide_empty' => true,
 								)
 							);
-							$terms      = get_terms( $terms_args );
+							$terms  = get_terms( $terms_args );
 
 							if ( ! empty( $terms ) ) {
 								$available_filters_arr[ $taxonomy ] = $tax_details->label;
-								$options_content                    = '';
-
-								// Create dropdown content
-								$filter_key   = str_replace( '-', '__', $taxonomy );
-								$spec_name    = apply_filters( 'wpml_translate_single_string', $tax_details->label, 'WordPress', sprintf( 'taxonomy general name: %s', $tax_details->label ) );
-								$filter_label = apply_filters( 'awsm_filter_block_label', esc_html( $spec_name ), $taxonomy, $tax_details );
-
-								if ( $spec['value'] == 'dropdown' ) {
-									foreach ( $terms as $term ) {
-										$selected = '';
-
-										if ( isset( $block_atts['selectedTerms'][ $taxonomy ] ) && in_array( $term->term_id, $block_atts['selectedTerms'][ $taxonomy ] ) ) {
-											$selected = ' selected';
-										} else {
-											foreach ( $_GET as $key => $value ) {
-												if ( strpos( $key, 'job__' ) !== false ) {
-													$selected_specs = explode( ',', $value );
-
-													if ( in_array( esc_attr( $term->slug ), $selected_specs ) ) {
-														$selected = ' selected';
-														break;
-													}
-												}
-											}
-										}
-
-										$option_content   = sprintf( '<option value="%1$s" data-slug="%3$s"%4$s>%2$s</option>', esc_attr( $term->term_id ), esc_html( $term->name ), esc_attr( $term->slug ), esc_attr( $selected ) );
-										$options_content .= $option_content;
-									}
-
-									$filter_class_admin_select_control = ! self::is_edit_or_add_page() ? ' awsm-job-select-control' : '';
-									// Generate dropdown content
-									$dropdown_content = sprintf(
-										'<div class="awsm-b-filter-item" data-filter="%2$s">
-										<div>%3$s</div>
-											<label for="awsm-%1$s-filter-option-1" class="awsm-b-sr-only">%3$s</label>
-											<select name="awsm_job_spec[%1$s]" class="awsm-b-filter-option awsm-%1$s-filter-option ' . $filter_class_admin_select_control . '" id="awsm-%1$s-filter-option%5$s" aria-label="%3$s">
-												<option value="">%3$s</option>%4$s
-											</select>
-										</div>',
-										esc_attr( $taxonomy ),
-										esc_attr( $filter_key . '_spec' ),
-										esc_html( $filter_label ),
-										$options_content,
-										esc_attr( $uid )
-									);
-
-									$specs_filter_content .= $dropdown_content;
-								} elseif ( $spec['value'] == 'checkbox' ) {
-									$checkbox_svg_icon = '<svg xmlns="http://www.w3.org/2000/svg" width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M8.45447 0.848088L3.99989 5.30315L1.66632 2.96958L1.52489 2.82816L1.38347 2.96958L0.676473 3.67658L0.535051 3.818L0.676473 3.95942L3.85847 7.14142L3.99989 7.28284L4.14132 7.14142L9.44482 1.83792L9.58629 1.69645L9.44477 1.55503L8.73727 0.848031L8.59584 0.706702L8.45447 0.848088Z" fill="white" stroke="white" stroke-width="0.4"></path></svg>';
-
-									$filter_list_items = '';
-
-									foreach ( $terms as $term ) {
-										// Loop through the dynamic URL parameters
-										$is_checked = false;
-										$checked    = '';
-
+			
+								$options_content = '';
+								foreach ( $terms as $term ) {
+									$selected = '';
+									if ( isset( $block_atts['selectedTerms'][ $taxonomy ] ) && in_array( $term->term_id, $block_atts['selectedTerms'][ $taxonomy ] ) ) {
+										$selected = ' selected';
+									} else {
 										foreach ( $_GET as $key => $value ) {
 											if ( strpos( $key, 'job__' ) !== false ) {
 												$selected_specs = explode( ',', $value );
-
+			
 												if ( in_array( esc_attr( $term->slug ), $selected_specs ) ) {
-													$is_checked = true;
+													$selected = ' selected';
 													break;
 												}
 											}
 										}
-
-										if ( isset( $block_atts['selectedTerms'][ $taxonomy ] ) && in_array( $term->term_id, $block_atts['selectedTerms'][ $taxonomy ] ) ) {
-											$checked    = ' checked';
-											$is_checked = true; // Ensure consistency between both conditions
-										}
-
-										$filter_list_items .= sprintf(
-											'<div class="awsm-filter-list-item" data-filter="%6$s">
-												<label>
-													<input type="checkbox" name="awsm_job_specs_list[%5$s][]" class="awsm-filter-checkbox" value="%1$s" data-taxonomy="%5$s" data-term-id="%1$s" data-slug="%7$s" %8$s>
-													<div>
-														<span class="awsm-filter-checkbox-item">%2$s</span>
-														%4$s %3$s
-													</div>
-												</label>
-											</div>',
-											esc_attr( $term->term_id ),
-											$checkbox_svg_icon,
-											'',
-											sprintf( '<span class="awsm-filter-check-label">%s</span>', esc_attr( $term->name ) ),
-											esc_attr( $spec['specKey'] ),
-											esc_attr( $filter_key . '_spec' ),
-											esc_attr( $term->slug ),
-											$is_checked ? 'checked' : $checked
-										);
 									}
-
-									// Main filter container HTML
-									$filter_container = sprintf(
-										'<div class="awsm-b-filter-item" data-filter="job__location_spec">
-											<div class="awsm-filter-list">
-												<label for="awsm-job-location-filter-option-1">%2$s</label>
-												<div class="awm-filter-list-items">
-													%1$s
-												</div>
-											</div>
-										</div>',
-										$filter_list_items,
-										$filter_label
-									);
-
-									$specs_filter_content .= $filter_container;
+			
+									$option_content = sprintf( '<option value="%1$s" data-slug="%3$s"%4$s>%2$s</option>', esc_attr( $term->term_id ), esc_html( $term->name ), esc_attr( $term->slug ), esc_attr( $selected ) );
+									/**
+									 * Filter the job filter dropdown option content.
+									 *
+									 * @since 3.5.0
+									 *
+									 * @param string $option_content Filter dropdown option content.
+									 * @param WP_Term $term Job spec term.
+									 * @param string $taxonomy Job spec key.
+									 */
+									$option_content = apply_filters( 'awsm_job_filter_block_option_content', $option_content, $term, $taxonomy );
+			
+									$options_content .= $option_content;
 								}
+			
+								$filter_key = str_replace( '-', '__', $taxonomy );
+								$spec_name  = apply_filters( 'wpml_translate_single_string', $tax_details->label, 'WordPress', sprintf( 'taxonomy general name: %s', $tax_details->label ) );
+								/**
+								 * Filters the default label for the job filter.
+								 *
+								 * @since 3.5.0
+								 *
+								 * @param string $filter_label The label for the filter.
+								 * @param string $taxonomy Taxonomy key.
+								 * @param WP_Taxonomy $tax_details Taxonomy details.
+								 */
+								$filter_label                      = apply_filters( 'awsm_filter_block_label', esc_html_x( 'All', 'job filter', 'wp-job-openings' ) . ' ' . $spec_name, $taxonomy, $tax_details ); 
+								$filter_class_admin_select_control = '';
+								if ( ! self::is_edit_or_add_page() ) {
+									$filter_class_admin_select_control = ' awsm-job-select-control';
+								}
+			
+								//$block_atts['filter_options']
+								$spec_multiple_class = $multiple_for_spec = '';
+								foreach ( $block_atts['filter_options'] as $check_multiple ) {
+									if ( $taxonomy == $check_multiple['specKey'] && $check_multiple['value'] == 'checkbox' ) {
+										$spec_multiple_class = 'awsm-b-spec-multiple';
+										$multiple_for_spec   = 'multiple';
+									}
+								}
+			
+								$dropdown_content = sprintf( '<div class="awsm-b-filter-item" data-filter="%2$s"><label for="awsm-%1$s-filter-option%5$s" class="awsm-b-sr-only">%3$s</label><select name="awsm_job_spec[%1$s][]" class="awsm-b-filter-option ' . $spec_multiple_class . ' awsm-%1$s-filter-option ' . $filter_class_admin_select_control . '" id="awsm-%1$s-filter-option%5$s" aria-label="%3$s" ' . $multiple_for_spec . '><option value="">%3$s</option>%4$s</select></div>', esc_attr( $taxonomy ), esc_attr( $filter_key . '_spec' ), esc_html( $filter_label ), $options_content, esc_attr( $uid ) );
+								/**
+								 * Filter the job filter dropdown content.
+								 *
+								 * @since 3.5.0
+								 *
+								 * @param string $dropdown_content Filter dropdown content.
+								 */
+								$dropdown_content = apply_filters( 'awsm_job_filter_dropdown_content', $dropdown_content );
+			
+								$specs_filter_content .= $dropdown_content;
 							}
 						}
 					}
