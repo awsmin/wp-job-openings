@@ -831,7 +831,8 @@ class AWSM_Job_Openings_Block {
 								 * @param string $taxonomy Taxonomy key.
 								 * @param WP_Taxonomy $tax_details Taxonomy details.
 								 */
-								$filter_label                      = apply_filters( 'awsm_filter_block_label', esc_html_x( 'All', 'job filter', 'wp-job-openings' ) . ' ' . $spec_name, $taxonomy, $tax_details ); 
+								$filter_label = apply_filters( 'awsm_filter_block_label', esc_html_x( $spec_name, 'job filter', 'wp-job-openings' ), $taxonomy, $tax_details );
+
 								$filter_class_admin_select_control = '';
 								if ( ! self::is_edit_or_add_page() ) {
 									$filter_class_admin_select_control = ' awsm-job-select-control';
