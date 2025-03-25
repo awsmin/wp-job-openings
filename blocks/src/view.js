@@ -303,108 +303,92 @@ jQuery( function ( $ ) {
 		$( '.awsm-b-job-no-more-jobs-get' ).slice( 1 ).hide();
 	}
 
-	$( filterSelector + ' .awsm-b-filter-option' ).on(
-		'change',
-		function ( e ) {
-			e.preventDefault();
-			$( '.awsm-b-job-listings' ).show();
-
-			const $elem = $( this );
-			const $rootWrapper = $elem.closest( rootWrapperSelector );
-			const currentSpec = $elem
-				.closest( '.awsm-b-filter-item' )
-				.data( 'filter' );
-
-			const isMultiple = $elem.prop( 'multiple' ); // Check if it's a multiple select
-			const allOptions = $elem.find( 'option' );
-			const firstOption = allOptions.eq( 0 ); // "All Job Type"
-			const selectedOptions = $elem.find( 'option:selected' );
-			const isAllSelected = firstOption.prop( 'selected' );
-
-			const allLiItems = $rootWrapper.find( 'ul li' );
-			const firstLiItem = allLiItems.eq( 0 ); // "All Job Type" in <ul>
-			const selectedLiItems = allLiItems.filter( '.selected' );
-
-			let slugs = [];
-			// Check if the filter is using checkboxes (by checking for input[type=checkbox] within the wrapper)
-			const isCheckboxFilter =
-				$rootWrapper.find( 'input[type="checkbox"]' ).length > 0;
-
-			if ( isMultiple ) {
-				if ( isAllSelected ) {
-					// **"All" is selected → Select all**
-					allOptions.prop( 'selected', true ).addClass( 'selected' );
-					allLiItems.addClass( 'selected' );
-
-					slugs = allOptions
-						.slice( 1 )
-						.map( function () {
-							return $( this ).data( 'slug' );
-						} )
-						.get()
-						.filter( Boolean );
-				} else if ( selectedOptions.length === 0 ) {
-					// **Nothing is selected → Deselect everything**
-					allOptions
-						.prop( 'selected', false )
-						.removeClass( 'selected' );
-					allLiItems.removeClass( 'selected' );
-					slugs = [];
-				} else {
-					// **Handle individual selection**
-					//allOptions.prop('selected', false).removeClass('selected');
-					//allLiItems.removeClass('selected');
-
-					selectedOptions.each( function () {
-						$( this )
-							.prop( 'selected', true )
-							.addClass( 'selected' );
-						const index = $( this ).index();
-						allLiItems.eq( index ).addClass( 'selected' );
-					} );
-
-					slugs = selectedOptions
-						.map( function () {
-							return $( this ).data( 'slug' );
-						} )
-						.get()
-						.filter( Boolean );
-				}
+	$(filterSelector + ' .awsm-b-filter-option').on('change', function (e) {
+		e.preventDefault();
+		$('.awsm-b-job-listings').show();
+	
+		const $elem = $(this);
+		const $rootWrapper = $elem.closest(rootWrapperSelector);
+		const currentSpec = $elem.closest('.awsm-b-filter-item').data('filter');
+	
+		const isMultiple = $elem.prop('multiple'); // Check if it's a multiple select
+		const allOptions = $elem.find('option');
+		const firstOption = allOptions.eq(0); // "All Job Type"
+		const selectedOptions = $elem.find('option:selected');
+		const isAllSelected = firstOption.prop('selected');
+	
+		// **Fix: Restrict list item selection to current dropdown only**
+		const allLiItems = $elem.closest('.awsm-b-filter-item').find('ul li');
+		const firstLiItem = allLiItems.eq(0); // "All Job Type" in <ul>
+		const selectedLiItems = allLiItems.filter('.selected');
+	
+		const isCheckboxFilter = $rootWrapper.find('input[type="checkbox"]').length > 0;
+		let slugs = [];
+	
+		if (isMultiple) {
+			if (isAllSelected) {
+				// **Select all options within this dropdown only**
+				allOptions.prop('selected', true).addClass('selected');
+				allLiItems.addClass('selected'); // **Fix: Only apply to current dropdown**
+				slugs = allOptions.slice(1).map(function () {
+					return $(this).data('slug');
+				}).get().filter(Boolean);
+			} else if (selectedOptions.length === 0) {
+				// **Deselect all in the current dropdown only**
+				allOptions.prop('selected', false).removeClass('selected');
+				allLiItems.removeClass('selected'); // **Fix: Only affect current dropdown**
+				slugs = [];
 			} else {
-				// **Single select logic**
-				slugs = selectedOptions.data( 'slug' )
-					? [ selectedOptions.data( 'slug' ) ]
-					: [];
+				// **Handle individual selection within the current dropdown**
+				selectedOptions.each(function () {
+					$(this).prop('selected', true).addClass('selected');
+					const index = $(this).index();
+					allLiItems.eq(index).addClass('selected'); // **Fix: Apply changes to corresponding <li>**
+				});
+	
+				slugs = selectedOptions.map(function () {
+					return $(this).data('slug');
+				}).get().filter(Boolean);
 			}
-
-			const slugString = slugs.length > 0 ? slugs.join( ',' ) : '';
-
-			// **Force unselect checkboxes visually**
-			/* allOptions.each(function () {
-			var $option = $(this);
-			if (!$option.prop('selected')) {
-				$option.removeClass('selected');
+		} else if (isCheckboxFilter) {
+			// **Handle checkboxes**
+			const $checkboxes = $elem.closest('.awsm-b-filter-item').find('input[type="checkbox"]');
+			const $allCheckbox = $checkboxes.eq(0); // First checkbox is "All"
+	
+			if ($allCheckbox.prop('checked')) {
+				// **Select all checkboxes in this filter group only**
+				$checkboxes.prop('checked', true).addClass('selected').trigger('change');
+				slugs = $checkboxes.slice(1).map(function () {
+					return $(this).data('slug');
+				}).get().filter(Boolean);
+			} else {
+				// **Handle individual checkbox selection**
+				slugs = $checkboxes.filter(':checked').map(function () {
+					return $(this).data('slug');
+				}).get().filter(Boolean);
 			}
-		}); */
-
-			// **Update pagination and filters**
-			if ( $( '.awsm-job-listings' ).length > 0 ) {
-				$rootWrapper.find( '.awsm-b-job-no-more-jobs-get' ).hide();
-			}
-
-			setPaginationBase( $rootWrapper, currentSpec, slugString );
-
-			// **Update the URL**
-			if ( awsmJobsPublic.deep_linking.spec ) {
-				const $paginationBase = $rootWrapper.find(
-					'input[name="awsm_pagination_base"]'
-				);
-				updateQuery( currentSpec, slugString, $paginationBase.val() );
-			}
-
-			awsmJobFilters( $rootWrapper );
+		} else {
+			// **Single select logic**
+			slugs = selectedOptions.data('slug') ? [selectedOptions.data('slug')] : [];
 		}
-	);
+	
+		const slugString = slugs.length > 0 ? slugs.join(',') : '';
+	
+		// **Update pagination and filters only for the affected dropdown**
+		if ($('.awsm-job-listings').length > 0) {
+			$rootWrapper.find('.awsm-b-job-no-more-jobs-get').hide();
+		}
+	
+		setPaginationBase($rootWrapper, currentSpec, slugString);
+	
+		// **Update the URL without affecting other dropdowns**
+		if (awsmJobsPublic.deep_linking.spec) {
+			const $paginationBase = $rootWrapper.find('input[name="awsm_pagination_base"]');
+			updateQuery(currentSpec, slugString, $paginationBase.val());
+		}
+	
+		awsmJobFilters($rootWrapper);
+	});
 
 	$( filterSelector + ' .awsm-filter-checkbox' ).on(
 		'change',

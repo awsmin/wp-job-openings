@@ -1,7 +1,7 @@
 const icon = {
 	block: (
 		<svg width="31" height="41" viewBox="0 0 31 41" version="1.1">
-			<title>HireSuit Job Listings</title>
+			<title>HireZoot</title>
 			<g
 				id="Page-1"
 				stroke="none"

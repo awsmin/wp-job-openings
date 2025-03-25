@@ -29,7 +29,7 @@ import { __ } from '@wordpress/i18n';
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
  */
 registerBlockType( metadata.name, {
-	title: __( 'HireSuit Job Listings', 'wp-job-openings' ), // Block title.
+	title: __( 'HireZoot', 'wp-job-openings' ), // Block title.
 	description: __(
 		'Add and customise your Job Listing layout',
 		'wp-job-openings'
