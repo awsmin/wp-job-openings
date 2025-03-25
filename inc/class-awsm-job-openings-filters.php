@@ -69,7 +69,7 @@ class AWSM_Job_Openings_Filters {
 
 		$uid = isset( $shortcode_atts['uid'] ) ? '-' . $shortcode_atts['uid'] : '';
 
-		if ( $enable_search === 'enable' ) {
+		if ( $enable_search === 'enabled' ) {
 			$search_query = isset( $_GET['jq'] ) ? $_GET['jq'] : '';
 			/**
 			 * Filters the search field placeholder text.
@@ -139,11 +139,24 @@ class AWSM_Job_Openings_Filters {
 					 *
 					 * @param array $terms_args Array of arguments.
 					 */
+					
 					$terms_args = apply_filters(
-						'awsm_filter_spec_terms_args',
+						'awsm_jobs_spec_terms_args',
 						array(
-							'taxonomy'   => $taxonomy,
-							'orderby'    => 'name',
+							'taxonomy' => $taxonomy,
+							'orderby' => 'meta_value_num',
+							'meta_query' => array(
+								'relation' => 'OR',
+								array(
+									'key' => 'term_order',
+									'compare' => 'EXISTS'
+								),
+								array(
+									'key' => 'term_order',
+									'compare' => 'NOT EXISTS'
+								)
+							),
+							'order' => 'ASC',
 							'hide_empty' => true,
 						)
 					);

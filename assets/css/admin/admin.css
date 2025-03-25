@@ -454,6 +454,14 @@ a.awsm-text-red:hover {
 	margin-bottom: 0px;
 }
 
+.post-type-awsm_job_application .tablenav.top {
+	margin-bottom: 13px;
+}
+
+.post-type-awsm_job_application .tablenav.top .tablenav-pages {
+	display: none;
+}
+
 .awsm-applicant-image-container {
 	float: left;
 	max-width: 213px;
@@ -586,7 +594,7 @@ a.awsm-text-red:hover {
 
 .awsm-job-status-btn-wrapper a.button {
 	background: #fff;
-	border: 1px solid #D0D5DD;
+	border: 1px solid #d1d1d1;
 	padding: 7px 18px;
 	color: #161616;
 	min-height: 32px;
@@ -596,15 +604,15 @@ a.awsm-text-red:hover {
 }
 
 .awsm-job-status-btn-wrapper a.button:hover {
-	border-color: #6CFAE4;
-	background-color: #6CFAE4;
-	color: #161616;
+	border-color: #0bcfb1;
+	background-color: #ffffff;
+	color: #0bcfb1;
 }
 
 .awsm-job-status-btn-wrapper a.button:focus {
-	border-color: #fff;
-	background-color: #6CFAE4;
-	color: #161616;
+	border-color: #0bcfb1;
+	background-color: #ffffff;
+	color: #0bcfb1;
 }
 
 .awsm-job-prev-application-btn {
@@ -780,6 +788,10 @@ a.awsm-text-red:hover {
 	margin-bottom: 0;
 }
 
+.awsm_job_openings_page_awsm-jobs-setup #wpbody {
+	background-color: #6BFAE7;
+}
+
 .awsm_job_openings_page_awsm-jobs-setup #wpfooter {
 	display: none;
 }
@@ -806,16 +818,17 @@ a.awsm-text-red:hover {
 	margin: 0 0 34px;
 	text-align: center;
 	opacity: 0;
-	transform:  translateY(100px);
+	transform: translateY(100px);
 	transition: all 0.3s ease;
 }
-.awsm-job-setup-head h1 a{
+
+.awsm-job-setup-head h1 a {
 	outline: none;
 	box-shadow: none;
 }
 
 .awsm-job-setup-head h1 img {
-	max-width: 100%;
+	max-width: 75%;
 	height: auto;
 }
 
@@ -830,7 +843,7 @@ a.awsm-text-red:hover {
 	line-height: 24px;
 	color: #000;
 	opacity: 0;
-	transform:  translateY(100px);
+	transform: translateY(100px);
 	transition: all 0.3s ease 0.2s;
 }
 
@@ -844,40 +857,45 @@ a.awsm-text-red:hover {
 	border-radius: 6px;
 	box-shadow: 0 0 9px 3px rgba(0, 0, 0, 0.07);
 	opacity: 0;
-	transform:  translateY(100px);
+	transform: translateY(100px);
 	transition: all 0.3s ease 0.4s;
 	margin-bottom: 30px;
 	position: relative;
 }
+
 .awsm-job-setup-form::before,
-.awsm-job-setup-form::after{
+.awsm-job-setup-form::after {
 	content: "";
 	width: 100%;
 	background: #fff;
 	position: absolute;
 	left: 0;
 }
-.awsm-job-setup-form::before{
+
+.awsm-job-setup-form::before {
 	top: 0;
 	height: 106px;
 }
-.awsm-job-setup-form::after{
+
+.awsm-job-setup-form::after {
 	bottom: 0;
 	height: 125px;
 }
-.awsm-job-setup-foot{
+
+.awsm-job-setup-foot {
 	opacity: 0;
-	transform:  translateY(100px);
+	transform: translateY(100px);
 	transition: all 0.3s ease 0.6s;
 	text-align: center;
 }
-.awsm-job-setup-foot a{
+
+.awsm-job-setup-foot a {
 	font-size: 14px;
 	color: rgba(0, 0, 0, 0.7);
 }
 
 .awsm-job-setup-form form {
-	max-width: 395px;
+	max-width: 400px;
 	margin: 0 auto;
 	width: 100%;
 }
@@ -952,7 +970,7 @@ a.awsm-text-red:hover {
 }
 
 .awsm-job-setup-form-item {
-	padding: 26px 0;
+	padding: 26px 2px;
 	height: 144px;
 	overflow: hidden;
 }
@@ -1022,6 +1040,15 @@ a.awsm-text-red:hover {
 	outline: none;
 }
 
+.awsm-job-setup-button:focus,
+.awsm-job-setup-button:active {
+	background-color: #6bfae7;
+	color: #000;
+	border-color: #6bfae7;
+	text-decoration: none;
+	outline: none;
+}
+
 .awsm-job-setup-form-foot {
 	text-align: center;
 	background: #fff;
@@ -1051,14 +1078,16 @@ a.awsm-text-red:hover {
 	opacity: 1;
 	visibility: visible;
 }
+
 .awsm-job-setup.loaded .awsm-job-setup-head h1,
 .awsm-job-setup.loaded .awsm-job-setup-head p,
 .awsm-job-setup.loaded .awsm-job-setup-form,
-.awsm-job-setup.loaded .awsm-job-setup-foot{
+.awsm-job-setup.loaded .awsm-job-setup-foot {
 	opacity: 1;
 	transform: none;
 }
-.awsm-job-setup-button-next.disabled{
+
+.awsm-job-setup-button-next.disabled {
 	pointer-events: none;
 }
 
@@ -1517,6 +1546,7 @@ a.awsm-plugin-item p {
 	color: #6CFAE4;
 	line-height: 1;
 	position: absolute;
+	text-decoration: none;
 }
 
 .awsm-application-actions.pro-feature .pro-ft {
@@ -1604,6 +1634,7 @@ a.awsm-plugin-item p {
 	display: flex;
 	align-items: center;
 	gap: 16px;
+	max-width: calc(100% - 180px);
 }
 
 .awsm-application-actions {
@@ -1703,17 +1734,6 @@ a.awsm-plugin-item p {
 	gap: 30px;
 }
 
-.application-main-tab .pro-feature::before {
-	content: "";
-	position: absolute;
-	left: 0;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	background: rgba(255, 255, 255, 0.6);
-	z-index: 10;
-}
-
 .application-main-tab .pro-feature .pro-ft {
 	opacity: 0;
 	visibility: hidden;
@@ -1727,17 +1747,16 @@ a.awsm-plugin-item p {
 	position: absolute;
 	right: -110px;
 	top: 18px;
+	text-decoration: none;
+}
+
+.application-main-tab .pro-feature .pro-ft::after {
+	display: none;
 }
 
 .application-main-tab .pro-feature:hover .pro-ft {
 	opacity: 1;
 	visibility: visible;
-}
-
-.application-main-tab .pro-feature {
-	position: relative;
-	display: flex;
-	gap: 30px;
 }
 
 .application-main-tab .pro-feature::before {
@@ -1749,26 +1768,6 @@ a.awsm-plugin-item p {
 	bottom: 0;
 	background: rgba(255, 255, 255, 0.6);
 	z-index: 10;
-}
-
-.application-main-tab .pro-feature .pro-ft {
-	opacity: 0;
-	visibility: hidden;
-	transition: all 0.3s ease;
-	background: #161616;
-	padding: 4px 8px;
-	border-radius: 4px;
-	font-size: 11px;
-	color: #6CFAE4;
-	line-height: 1;
-	position: absolute;
-	right: -110px;
-	top: 18px;
-}
-
-.application-main-tab .pro-feature:hover .pro-ft {
-	opacity: 1;
-	visibility: visible;
 }
 
 .application-main-tab-items {
@@ -1880,6 +1879,11 @@ textarea.awsm-form-control {
 	color: #666;
 }
 
+.awsm-form-control:disabled {
+	opacity: 0.5;
+	background: #eee;
+}
+
 .form-control-foot {
 	display: flex;
 	justify-content: space-between;
@@ -1897,13 +1901,14 @@ textarea.awsm-form-control {
 	color: #161616;
 }
 
-.awsm-button {
+.awsm-button,
+input.awsm-button {
 	display: inline-block;
 	padding: 7px 18px;
 	border-radius: 4px;
-	background: #6CFAE4;
-	border: 1px solid #6CFAE4;
-	color: #161616;
+	background: #000;
+	border: 1px solid #000;
+	color: #fff;
 	font-size: 14px;
 	font-weight: 600;
 	letter-spacing: -0.24px;
@@ -1913,9 +1918,32 @@ textarea.awsm-form-control {
 }
 
 .awsm-button:hover,
-.awsm-button:focus {
-	background: #0bcfb1;
+.awsm-button:focus,
+input.awsm-button:hover,
+input.awsm-button:focus {
+	background: #6bfae4;
+	border-color: #6bfae4;
+	color: #000;
+}
+
+.awsm-button:disabled,
+input.awsm-button:disabled {
+	opacity: 0.6;
+	pointer-events: none;
+}
+
+.awsm-button.awsm-button-alt {
+	border-color: #d1d1d1;
+	background: #fff;
+	color: #161616;
+	transition: all 0.3s ease;
+}
+
+.awsm-button.awsm-button-alt:hover,
+.awsm-button.awsm-button-alt:hover:focus {
 	border-color: #0bcfb1;
+	background-color: #ffffff;
+	color: #0bcfb1;
 }
 
 .align-right .awsm-button {
@@ -2041,11 +2069,16 @@ textarea.awsm-form-control {
 	gap: 6px;
 	padding: 7px 18px;
 	border-radius: 4px;
-	border: 1px solid #D0D5DD;
+	border: 1px solid #d1d1d1;
 	background: #FFF;
 	color: #161616;
 	text-decoration: none;
 	line-height: normal;
+}
+
+.awsm-applicant-resume-cta a svg,
+.awsm-applicant-resume-cta #awsm-print-apps svg {
+	fill: #161616;
 }
 
 .awsm-applicant-resume-cta a:hover,
@@ -2053,8 +2086,14 @@ textarea.awsm-form-control {
 .awsm-applicant-resume-cta #awsm-print-apps:hover,
 .awsm-applicant-resume-cta #awsm-print-apps:focus {
 	text-decoration: none;
-	border-color: #6CFAE4;
-	background: #6CFAE4;
+	border-color: #0bcfb1;
+	background-color: #ffffff;
+	color: #0bcfb1;
+}
+
+.awsm-applicant-resume-cta a:hover svg,
+.awsm-applicant-resume-cta #awsm-print-apps:hover svg {
+	fill: #0bcfb1;
 }
 
 .awsm-application-email-main {
@@ -2320,4 +2359,12 @@ textarea.awsm-form-control {
 	display: inline-flex;
 	line-height: 1;
 	align-items: center;
+}
+
+.awsm-application-date-filter {
+	line-height: 28px;
+	height: 28px;
+	margin: 0;
+	width: 125px;
+	margin-right: 6px;
 }

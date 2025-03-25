@@ -41,15 +41,8 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 				?>
 				<div class="awsm-applicant-info">
 					<h3><?php echo esc_html( $applicant_details['name'] ); ?></h3>
-					<?php $title = esc_html( sprintf( get_post_meta( $post->ID, 'awsm_apply_for', true ) ) ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited ?>
-					<p>
-					<?php
-					// phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment, WordPress.WP.I18n.NoEmptyStrings
-					printf( esc_html__( '%s', 'wp-job-openings' ), esc_html( $title ) );
-					?>
-					</p>
-
-				</div><!-- .awsm-applicant-info -->
+					<p><?php echo esc_html( get_post_meta( $post->ID, 'awsm_apply_for', true ) ); ?></p>
+					</div><!-- .awsm-applicant-info -->
 				<?php
 				/**
 				 * Fires after applicant photo content.
@@ -60,7 +53,7 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 				?>
 			</div><!-- .awsm-application-head-main -->
 			<div class="awsm-application-actions <?php echo ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ? 'pro-feature' : ''; ?>">
-				<span class="pro-ft"><?php esc_html_e( 'Pro Features', 'wp-job-openings' ); ?></span>
+				<a class="pro-ft" href="https://wpjobopenings.com/pro-pack/" target="_blank"><?php esc_html_e( 'Pro Features', 'wp-job-openings' ); ?></a>
 				<?php if ( class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) : ?>
 					<?php do_action( 'awsm_application_rating_data' ); ?>
 				<?php else : ?>
@@ -109,7 +102,7 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 					<!-- Tabs Navigation -->
 					<ul class="application-main-tab">
 						<?php foreach ( $tab_applicant_single_view as $key => $tab_data ) : ?>
-							<li>
+							<li class="awsm-application-main-tab-item">
 								<a href="#awsm-applicant-<?php echo esc_attr( $key ); ?>" class="<?php echo $key === 'profile' ? 'active' : ''; ?>">
 									<?php
 									if ( is_array( $tab_data ) && isset( $tab_data['label'] ) ) {
@@ -126,9 +119,9 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 						<?php endforeach; ?>
 						<?php if ( ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) : ?>
 							<li class="pro-feature">
-							<div class="pro-ft">Pro Features</div>
+							<a class="pro-ft" href="https://wpjobopenings.com/pro-pack/" target="_blank"><?php esc_html_e( 'Pro Features', 'wp-job-openings' ); ?></a>
 							<a href="#"><?php echo esc_html__( 'Notifications', 'wp-job-openings' ); ?><span>8</span></a>
-							<a href="#"><?php echo esc_html__( 'Remarks', 'wp-job-openings' ); ?><span>8</span></a>
+							<a href="#"><?php echo esc_html__( 'Notes', 'wp-job-openings' ); ?><span>8</span></a>
 							</li>
 						<?php endif; ?>
 					</ul>
@@ -171,7 +164,7 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 												<?php do_action( 'after_awsm_job_applicant_details_list_preview_resume', $post->ID ); ?>
 												<a href="<?php echo esc_url( $this->get_attached_file_download_url( $attachment_id ) ); ?>" rel="nofollow" aria-label="<?php esc_attr_e( 'Download Resume', 'wp-job-openings' ); ?>">
 													<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" version="1.1" preserveAspectRatio="xMinYMin">
-														<path xmlns="http://www.w3.org/2000/svg" fill="black" d="M8.66667 7.99998H10.6667L8 10.6666L5.33333 7.99998H7.33333V5.33331H8.66667V7.99998ZM10 2.66665H3.33333V13.3333H12.6667V5.33331H10V2.66665ZM2 1.99451C2 1.62935 2.29833 1.33331 2.66567 1.33331H10.6667L13.9998 4.66665L14 13.995C14 14.3659 13.7034 14.6666 13.3377 14.6666H2.66227C2.29651 14.6666 2 14.3631 2 14.0054V1.99451Z"/>
+														<path xmlns="http://www.w3.org/2000/svg" d="M8.66667 7.99998H10.6667L8 10.6666L5.33333 7.99998H7.33333V5.33331H8.66667V7.99998ZM10 2.66665H3.33333V13.3333H12.6667V5.33331H10V2.66665ZM2 1.99451C2 1.62935 2.29833 1.33331 2.66567 1.33331H10.6667L13.9998 4.66665L14 13.995C14 14.3659 13.7034 14.6666 13.3377 14.6666H2.66227C2.29651 14.6666 2 14.3631 2 14.0054V1.99451Z"/>
 													</svg>
 													<?php esc_html_e( 'Download', 'wp-job-openings' ); ?>
 												</a>

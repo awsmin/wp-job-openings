@@ -556,9 +556,21 @@ class AWSM_Job_Openings_Block {
 					$terms_args = apply_filters(
 						'awsm_filter_block_spec_terms_args',
 						array(
-							'taxonomy'   => $taxonomy,
-							'orderby'    => 'name',
-							'hide_empty' => true,
+							'taxonomy' => $taxonomy,
+							'orderby' => 'meta_value_num',
+							'meta_query' => array(
+								'relation' => 'OR',
+								array(
+									'key' => 'term_order',
+									'compare' => 'EXISTS'
+								),
+								array(
+									'key' => 'term_order',
+									'compare' => 'NOT EXISTS'
+								)
+							),
+							'order' => 'ASC',
+							'hide_empty' => false,
 						)
 					);
 

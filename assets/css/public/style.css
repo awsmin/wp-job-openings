@@ -453,6 +453,7 @@ a.awsm-job-item .awsm-job-specification-item {
 	background: #fff;
 	border: 1px solid #dddfe3;
 	padding: 35px;
+	border-radius: 5px;
 }
 
 .awsm-job-form-inner h2 {
@@ -695,6 +696,8 @@ ul.awsm-error-message li {
 	transition: all 0.3s ease;
 	padding: 16px 32px;
 	color: #fff;
+	border: 1px solid #060606;
+	border-radius: 5px;
 }
 
 .awsm-job-form-plugin-style .awsm-jobs-primary-button:hover,

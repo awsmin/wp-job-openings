@@ -38,32 +38,66 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 					<div class="awsm-jobs-overview-welcome-left">
 						<h3>
 							<?php
-								/* translators: %s: Current user name */
-								printf( esc_html__( 'Hello %s!', 'wp-job-openings' ) . '<br>', esc_html( $user_obj->display_name ) );
+							/* translators: %s: Current user name */
+							printf( esc_html__( 'Hi %s,', 'wp-job-openings' ) . '<br>', esc_html( $user_obj->display_name ) );
 							?>
 						</h3>
+
 						<p>
 							<?php
+							// Ensure variables are defined to prevent warnings
+							$total_active_applications = isset( $total_active_applications ) ? $total_active_applications : 0;
+							$active_jobs               = isset( $active_jobs ) ? $active_jobs : 0;
+							$applications_count        = isset( $applications_count ) ? $applications_count : 0;
+
 							if ( $active_jobs === 0 ) {
-									esc_html_e( "Welcome to WP Job Openings! Let's get started?", 'wp-job-openings' );
+								esc_html_e( 'Your job listing looks empty.', 'wp-job-openings' );
 							} else {
-								if ( current_user_can( 'edit_others_applications' ) && $applications_count > 0 ) {
-									/* translators: %s: New applications count */
-									printf( esc_html__( 'You have %s new applications to review', 'wp-job-openings' ), esc_html( $applications_count ) );
+								if ( current_user_can( 'edit_others_applications' ) ) {
+									if ( $applications_count > 0 ) {
+										printf(
+											esc_html__( 'You have %s new applications waiting for review.', 'wp-job-openings' ), // phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment
+											esc_html( $applications_count )
+										);
+									} elseif ( $active_jobs > 0 && $total_active_applications > 0 ) {
+										printf(
+											esc_html__( 'You have received %1$s applications for the %2$s open positions.', 'wp-job-openings' ), // phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment
+											esc_html( $total_active_applications ),
+											esc_html( $active_jobs )
+										);
+									} elseif ( $active_jobs > 0 && $total_active_applications === 0 ) {
+										printf(
+											esc_html__( 'You have %s open positions.', 'wp-job-openings' ), // phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment
+											esc_html( $active_jobs )
+										);
+									}
 								}
 							}
 							?>
 						</p>
+
 						<?php if ( $active_jobs === 0 ) : ?>
-							<a href="<?php echo esc_url( admin_url( 'post-new.php?post_type=awsm_job_openings' ) ); ?>" class="awsm-jobs-button"><?php esc_html_e( 'Add A New Opening', 'wp-job-openings' ); ?></a>
-						<?php else : ?>
-							<?php if ( current_user_can( 'edit_others_applications' ) && $total_applications > 0 ) : ?>
-							<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_application' ) ); ?>" class="awsm-jobs-button"><?php esc_html_e( 'View All Applications', 'wp-job-openings' ); ?></a>
-						<?php else : ?>
-							<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_openings' ) ); ?>" class="awsm-jobs-button"><?php esc_html_e( 'View All Jobs', 'wp-job-openings' ); ?></a>
-						<?php endif; ?>
+							<a href="<?php echo esc_url( admin_url( 'post-new.php?post_type=awsm_job_openings' ) ); ?>" class="awsm-jobs-button">
+								<?php esc_html_e( 'Add a New Job Opening', 'wp-job-openings' ); ?>
+							</a>
+						<?php elseif ( current_user_can( 'edit_others_applications' ) ) : ?>
+							<?php if ( $applications_count > 0 ) : ?>
+								<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_application' ) ); ?>" class="awsm-jobs-button">
+									<?php esc_html_e( 'Review Applications', 'wp-job-openings' ); ?>
+								</a>
+							<?php elseif ( $active_jobs > 0 && $total_active_applications > 0 ) : ?>
+								<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_application' ) ); ?>" class="awsm-jobs-button">
+									<?php esc_html_e( 'View All Applications', 'wp-job-openings' ); ?>
+								</a>
+							<?php elseif ( $active_jobs > 0 && $total_active_applications === 0 ) : ?>
+								<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_openings' ) ); ?>" class="awsm-jobs-button">
+									<?php esc_html_e( 'View All Job Listings', 'wp-job-openings' ); ?>
+								</a>
+							<?php endif; ?>
 						<?php endif; ?>
 					</div><!-- .awsm-jobs-overview-welcome-left -->
+
+
 					<div class="awsm-jobs-overview-welcome-right">
 						<ul>
 							<li>
@@ -314,7 +348,7 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 			<div class="awsm-jobs-overview-col">
 				   <div class="awsm-jobs-overview-list awsm-jobs-overview-list-interview flex-item">
 					   <div class="awsm-jobs-overview-col-head">
-						   <h2><?php esc_html_e( 'Add-ons for HireSuit', 'wp-job-openings' ); ?></h2>
+						   <h2><?php esc_html_e( 'Add-ons for HireZoot', 'wp-job-openings' ); ?></h2>
 						   <a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_openings&page=awsm-jobs-add-ons' ) ); ?>">View All<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M10.4525 5.62256L6.98345 2.15338C6.88442 2.05436 6.75243 2 6.6117 2C6.47081 2 6.33891 2.05443 6.23988 2.15338L5.92491 2.46843C5.82596 2.5673 5.77145 2.69936 5.77145 2.84017C5.77145 2.98091 5.82596 3.11742 5.92491 3.21629L7.94873 5.24456H1.51896C1.22906 5.24456 1 5.47152 1 5.76149V6.20688C1 6.49686 1.22906 6.74669 1.51896 6.74669H7.97169L5.92499 8.78629C5.82604 8.88532 5.77153 9.01379 5.77153 9.1546C5.77153 9.29525 5.82604 9.4256 5.92499 9.52455L6.23996 9.83857C6.33898 9.9376 6.47089 9.99157 6.61178 9.99157C6.75251 9.99157 6.8845 9.9369 6.98352 9.83787L10.4526 6.36878C10.5519 6.26944 10.6065 6.13683 10.6061 5.99586C10.6064 5.85443 10.5519 5.72174 10.4525 5.62256Z" fill="#161616"/></svg></a>
 					   </div><!-- .awsm-jobs-overview-col-head -->
 					   <div class="awsm-jobs-overview-col-content">
@@ -344,8 +378,9 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 									<div class="awsm-wpjo-addon-item">
 										<div class="awsm-wpjo-addon-item-head">
 											<div>
-												<h3><?php echo esc_html( $add_on['name'] ); ?></h3>
-												
+											<h3><a href="<?php echo esc_url( $add_on['url'] ); ?>" target="_blank"><?php echo esc_html( $add_on['name'] ); ?></a></h3>
+
+
 												<?php if ( $add_on_type === 'free' || empty( $add_on['pricing']['price'] ) ) : ?>
 													<p><strong><?php echo esc_html__( 'Free', 'wp-job-openings' ); ?></strong></p>
 												<?php else : ?>
