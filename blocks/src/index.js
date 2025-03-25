@@ -21,7 +21,7 @@ import Edit from './edit';
 import save from './save';
 import icon from './icon';
 import metadata from './block.json';
-import { __ } from "@wordpress/i18n";
+import { __ } from '@wordpress/i18n';
 
 /**
  * Every block starts by registering a new block type definition.
@@ -30,10 +30,17 @@ import { __ } from "@wordpress/i18n";
  */
 registerBlockType( metadata.name, {
 	title: __( 'HireSuit Job Listings', 'wp-job-openings' ), // Block title.
-	description: __( 'Add and customise your Job Listing layout', 'wp-job-openings' ), // Block description
+	description: __(
+		'Add and customise your Job Listing layout',
+		'wp-job-openings'
+	), // Block description
 	icon: icon.block, // Block icon
 	category: 'widgets', // Block category,
-	keywords: [ __( 'jobs listings', 'wp-job-openings' ), __( 'add jobs', 'wp-job-openings' ), __( 'job application', 'wp-job-openings' ) ], // Access the block easily with keyword aliases
+	keywords: [
+		__( 'jobs listings', 'wp-job-openings' ),
+		__( 'add jobs', 'wp-job-openings' ),
+		__( 'job application', 'wp-job-openings' ),
+	], // Access the block easily with keyword aliases
 	/**
 	 * @see ./edit.js
 	 */

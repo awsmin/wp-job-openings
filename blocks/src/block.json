@@ -8,13 +8,13 @@
 	"icon": "",
 	"description": "",
 	"attributes": {
-		"search" : {
+		"search": {
 			"type": "boolean",
-			"default" : false
+			"default": false
 		},
-		"placement" : {
+		"placement": {
 			"type": "string",
-			"default" : "top"
+			"default": "top"
 		},
 		"search_placeholder": {
 			"type": "string",
@@ -24,13 +24,13 @@
 			"type": "array",
 			"default": []
 		},
-		"listType" : {
+		"listType": {
 			"type": "string",
-			"default" : "all"
+			"default": "all"
 		},
-		"layout" : {
+		"layout": {
 			"type": "string",
-			"default" : "list"
+			"default": "list"
 		},
 		"selected_terms_main": {
 			"type": "array",
@@ -40,21 +40,21 @@
 			"type": "object",
 			"default": {}
 		},
-		"orderBy" : {
+		"orderBy": {
 			"type": "string",
-			"default" : "new"
+			"default": "new"
 		},
-		"hide_expired_jobs" : {
+		"hide_expired_jobs": {
 			"type": "boolean",
-			"default" : false
+			"default": false
 		},
 		"jobsPerPage": {
 			"type": "number",
-			"default" : 5
+			"default": 5
 		},
 		"pagination": {
 			"type": "string",
-			"default" : "modern"
+			"default": "modern"
 		},
 		"number_of_columns": {
 			"type": "number",
