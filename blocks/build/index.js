@@ -276,16 +276,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ "./node_modules/@babel/runtime/helpers/esm/slicedToArray.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @wordpress/hooks */ "@wordpress/hooks");
-/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__);
 
 
 
@@ -297,7 +295,10 @@ function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t =
 
 
 
-var WidgetInspectorControls = function WidgetInspectorControls(props) {
+// Define Icons
+var settingsIcon = 'admin-generic';
+var styleIcon = 'admin-customizer';
+var BlockInspectorControls = function BlockInspectorControls(props) {
   var _props$attributes = props.attributes,
     search = _props$attributes.search,
     placement = _props$attributes.placement,
@@ -316,15 +317,15 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
 
   // Local state for block settings
   var specifications = awsmJobsAdmin.awsm_filters_block;
-  var _useState = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_4__.useState)(false),
+  var _useState = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_5__.useState)(false),
     _useState2 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_2__["default"])(_useState, 2),
     isProEnabled = _useState2[0],
     setIsProEnabled = _useState2[1];
-  var _useState3 = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_4__.useState)(selected_terms_main || {}),
+  var _useState3 = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_5__.useState)(selected_terms_main || {}),
     _useState4 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_2__["default"])(_useState3, 2),
     toggleState = _useState4[0],
     setToggleState = _useState4[1];
-  var _useState5 = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_4__.useState)(selectedTerms || {}),
+  var _useState5 = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_5__.useState)(selectedTerms || {}),
     _useState6 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_2__["default"])(_useState5, 2),
     selectedTermsState = _useState6[0],
     setSelectedTermsState = _useState6[1];
@@ -332,7 +333,7 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
   var block_job_listing = [];
 
   // Sync selected terms with props on mount or when selectedTerm changes
-  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_4__.useEffect)(function () {
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_5__.useEffect)(function () {
     if (typeof awsmJobsAdmin !== 'undefined' && awsmJobsAdmin.isProEnabled) {
       setIsProEnabled(true);
     }
@@ -413,109 +414,81 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
       number_of_columns: isNaN(columnsValue) ? 0 : columnsValue
     });
   };
-  return (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_6__.InspectorControls, null, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.PanelBody, {
-    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Search & Filters', 'wp-job-openings')
-  }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.ToggleControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Enable Search & Filters', 'wp-job-openings'),
-    checked: search,
-    onChange: function onChange(search) {
-      return setAttributes({
-        search: search
-      });
-    }
-  }), search && (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_4__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalToggleGroupControl, {
-    label: "Placement",
-    value: placement,
-    onChange: function onChange(placement) {
-      return setAttributes({
-        placement: placement
-      });
-    },
-    isBlock: true,
-    __nextHasNoMarginBottom: true,
-    __next40pxDefaultSize: true
-  }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalToggleGroupControlOption, {
-    value: "top",
-    label: "Top"
-  }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalToggleGroupControlOption, {
-    value: "slide",
-    label: "Side"
-  })), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.TextControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Search Placeholder', 'wp-job-openings'),
-    value: search_placeholder,
-    onChange: function onChange(search_placeholder) {
-      return setAttributes({
-        search_placeholder: search_placeholder
-      });
-    },
-    placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Search Jobs', 'wp-job-openings')
-  }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)("h2", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Available Filters', 'wp-job-openings')), specifications.map(function (spec) {
-    var filterOption = filter_options.find(function (option) {
-      return option.specKey === spec.key;
-    });
-
-    // Check if there are multiple selected terms for the specKey
-    var hasMultipleSelectedTerms = (selectedTermsState[spec.key] || []).length > 1;
-
-    // If multiple terms are selected for this specKey, update the filter option to "checkbox"
-    if (hasMultipleSelectedTerms && (filterOption === null || filterOption === void 0 ? void 0 : filterOption.value) !== 'checkbox') {
-      var updatedFilters = filter_options.map(function (option) {
-        return option.specKey === spec.key ? _objectSpread(_objectSpread({}, option), {}, {
-          value: 'checkbox'
-        }) : option;
-      });
-      setAttributes({
-        filter_options: updatedFilters
-      });
-    }
-    return (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)("div", {
-      key: spec.key
-    }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.ToggleControl, {
-      label: spec.label,
-      checked: filterOption !== undefined,
-      onChange: function onChange(toggleValue) {
-        var updatedFilters = toggleValue ? [].concat((0,_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(filter_options), [{
-          specKey: spec.key,
-          value: hasMultipleSelectedTerms ? 'checkbox' : 'dropdown'
-        }]) // Choose checkbox if multiple terms are selected
-        : filter_options.filter(function (option) {
-          return option.specKey !== spec.key;
-        }); // Remove the filter
-
-        // Update attributes to trigger re-render
-        setAttributes({
-          filter_options: updatedFilters
+  var HookTrigger = function HookTrigger() {
+    (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_5__.useEffect)(function () {
+      wp.hooks.doAction('after_awsm_block_job_listing', block_job_listing, props);
+    }, [block_job_listing, props]);
+    return null; // Prevents React errors
+  };
+  return (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_6__.InspectorControls, null, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.TabPanel, {
+    className: "awsm-job-tabs",
+    activeClass: "active-tab",
+    initialTabName: "settings",
+    tabs: [{
+      name: 'settings',
+      title: (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.Tooltip, {
+        text: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Settings', 'text-domain')
+      }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.Icon, {
+        icon: settingsIcon
+      })),
+      className: 'settings-tab'
+    }, {
+      name: 'styles',
+      title: (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.Tooltip, {
+        text: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Styles', 'text-domain')
+      }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.Icon, {
+        icon: styleIcon
+      })),
+      className: 'styles-tab'
+    }]
+  }, function (tab) {
+    return tab.name === 'settings' ? (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.PanelBody, {
+      title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Search & Filters', 'text-domain'),
+      initialOpen: true
+    }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.ToggleControl, {
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Enable Search & Filters', 'wp-job-openings'),
+      checked: search,
+      onChange: function onChange(search) {
+        return setAttributes({
+          search: search
         });
       }
-    }), filterOption && (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)("div", {
-      className: "filters-button"
-    }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.Button, {
-      variant: "secondary",
-      style: {
-        backgroundColor: filterOption.value === 'dropdown' ? 'black' : 'initial',
-        color: filterOption.value === 'dropdown' ? 'white' : 'black',
-        marginRight: '10px'
-      },
-      size: "default",
-      __next40pxDefaultSize: true,
-      onClick: function onClick() {
-        var updatedFilters = filter_options.map(function (option) {
-          return option.specKey === spec.key ? _objectSpread(_objectSpread({}, option), {}, {
-            value: 'dropdown'
-          }) : option;
+    }), search && (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.__experimentalToggleGroupControl, {
+      label: "Placement",
+      value: placement,
+      onChange: function onChange(placement) {
+        return setAttributes({
+          placement: placement
         });
-        setAttributes({
-          filter_options: updatedFilters
-        }); // Update attributes
-      }
-    }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Dropdown', 'wp-job-openings')), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.Button, {
-      variant: "secondary",
-      style: {
-        backgroundColor: filterOption.value === 'checkbox' ? 'black' : 'initial',
-        color: filterOption.value === 'checkbox' ? 'white' : 'black'
       },
-      __next40pxDefaultSize: true,
-      onClick: function onClick() {
+      isBlock: true,
+      __nextHasNoMarginBottom: true,
+      __next40pxDefaultSize: true
+    }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.__experimentalToggleGroupControlOption, {
+      value: "top",
+      label: "Top"
+    }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.__experimentalToggleGroupControlOption, {
+      value: "slide",
+      label: "Side"
+    })), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.TextControl, {
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Search Placeholder', 'wp-job-openings'),
+      value: search_placeholder,
+      onChange: function onChange(search_placeholder) {
+        return setAttributes({
+          search_placeholder: search_placeholder
+        });
+      },
+      placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Search Jobs', 'wp-job-openings')
+    }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)("h2", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Available Filters', 'wp-job-openings')), specifications.map(function (spec) {
+      var filterOption = filter_options.find(function (option) {
+        return option.specKey === spec.key;
+      });
+
+      // Check if there are multiple selected terms for the specKey
+      var hasMultipleSelectedTerms = (selectedTermsState[spec.key] || []).length > 1;
+
+      // If multiple terms are selected for this specKey, update the filter option to "checkbox"
+      if (hasMultipleSelectedTerms && (filterOption === null || filterOption === void 0 ? void 0 : filterOption.value) !== 'checkbox') {
         var updatedFilters = filter_options.map(function (option) {
           return option.specKey === spec.key ? _objectSpread(_objectSpread({}, option), {}, {
             value: 'checkbox'
@@ -523,175 +496,241 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
         });
         setAttributes({
           filter_options: updatedFilters
-        }); // Update attributes
+        });
       }
-    }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Checkbox', 'wp-job-openings'))));
-  }))), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.PanelBody, {
-    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Layout Settings', 'wp-job-openings')
-  }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalToggleGroupControl, {
-    label: "Layout",
-    value: layout,
-    onChange: function onChange(layout) {
-      return setAttributes({
-        layout: layout
-      });
-    },
-    isBlock: true,
-    __nextHasNoMarginBottom: true,
-    __next40pxDefaultSize: true
-  }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalToggleGroupControlOption, {
-    value: "list",
-    label: "List"
-  }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalToggleGroupControlOption, {
-    value: "grid",
-    label: "Grid"
-  }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalToggleGroupControlOption, {
-    value: "stack",
-    label: "Stack"
-  })), typeof layout !== 'undefined' && layout == 'grid' && (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.SelectControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Columns', 'wp-job-openings'),
-    value: number_of_columns,
-    options: [{
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('1 Column', 'wp-job-openings'),
-      value: '1'
-    }, {
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('2 Columns', 'wp-job-openings'),
-      value: '2'
-    }, {
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('3 Columns', 'wp-job-openings'),
-      value: '3'
-    }, {
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('4 Columns', 'wp-job-openings'),
-      value: '4'
-    }],
-    onChange: function onChange(number_of_columns) {
-      return onchange_number_of_columns(number_of_columns);
-    }
-  }), wp.hooks.doAction('after_awsm_job_appearance', block_appearance_list, props), block_appearance_list, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.RangeControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Jobs Per Page', 'wp-job-openings'),
-    onChange: function onChange(sliderValue) {
-      return setAttributes({
-        jobsPerPage: sliderValue
-      });
-    },
-    value: jobsPerPage,
-    min: 1,
-    max: 10,
-    step: 1,
-    withInputField: true
-  }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.SelectControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Pagination', 'wp-job-openings'),
-    value: pagination,
-    options: [{
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Classic', 'wp-job-openings'),
-      value: 'classic'
-    }, {
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Modern', 'wp-job-openings'),
-      value: 'modern'
-    }],
-    onChange: function onChange(pagination) {
-      return setAttributes({
-        pagination: pagination
-      });
-    }
-  })), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.PanelBody, {
-    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Job Listing', 'wp-job-openings')
-  }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalToggleGroupControl, {
-    label: "List Type",
-    value: listType,
-    onChange: function onChange(newListType) {
-      setAttributes({
-        listType: newListType
-      });
+      return (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)("div", {
+        key: spec.key
+      }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.ToggleControl, {
+        label: spec.label,
+        checked: filterOption !== undefined,
+        onChange: function onChange(toggleValue) {
+          var updatedFilters = toggleValue ? [].concat((0,_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(filter_options), [{
+            specKey: spec.key,
+            value: hasMultipleSelectedTerms ? 'checkbox' : 'dropdown'
+          }]) // Choose checkbox if multiple terms are selected
+          : filter_options.filter(function (option) {
+            return option.specKey !== spec.key;
+          }); // Remove the filter
 
-      // Clear all items in selectedTerms if listType is set to "all"
-      if (newListType === 'all') {
-        var clearedTerms = {};
-        specifications.forEach(function (spec) {
-          clearedTerms[spec.key] = [];
+          // Update attributes to trigger re-render
+          setAttributes({
+            filter_options: updatedFilters
+          });
+        }
+      }), filterOption && (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)("div", {
+        className: "filters-button"
+      }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.Button, {
+        variant: "secondary",
+        style: {
+          backgroundColor: filterOption.value === 'dropdown' ? 'black' : 'initial',
+          color: filterOption.value === 'dropdown' ? 'white' : 'black',
+          marginRight: '10px'
+        },
+        size: "default",
+        __next40pxDefaultSize: true,
+        onClick: function onClick() {
+          var updatedFilters = filter_options.map(function (option) {
+            return option.specKey === spec.key ? _objectSpread(_objectSpread({}, option), {}, {
+              value: 'dropdown'
+            }) : option;
+          });
+          setAttributes({
+            filter_options: updatedFilters
+          }); // Update attributes
+        }
+      }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Dropdown', 'wp-job-openings')), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.Button, {
+        variant: "secondary",
+        style: {
+          backgroundColor: filterOption.value === 'checkbox' ? 'black' : 'initial',
+          color: filterOption.value === 'checkbox' ? 'white' : 'black'
+        },
+        __next40pxDefaultSize: true,
+        onClick: function onClick() {
+          var updatedFilters = filter_options.map(function (option) {
+            return option.specKey === spec.key ? _objectSpread(_objectSpread({}, option), {}, {
+              value: 'checkbox'
+            }) : option;
+          });
+          setAttributes({
+            filter_options: updatedFilters
+          }); // Update attributes
+        }
+      }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Checkbox', 'wp-job-openings'))));
+    }))), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.PanelBody, {
+      title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Layout Settings', 'wp-job-openings'),
+      initialOpen: true
+    }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.__experimentalToggleGroupControl, {
+      label: "Layout",
+      value: layout,
+      onChange: function onChange(layout) {
+        return setAttributes({
+          layout: layout
         });
-        setAttributes({
-          selectedTerms: clearedTerms,
-          selected_terms_main: []
-        });
-      }
-    },
-    isBlock: true,
-    __nextHasNoMarginBottom: true,
-    __next40pxDefaultSize: true
-  }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalToggleGroupControlOption, {
-    value: "all",
-    label: "All Jobs"
-  }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalToggleGroupControlOption, {
-    value: "filtered",
-    label: "Filtered List"
-  })), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)(' Display all jobs or filtered by job specifications', 'wp-job-openings')), listType === 'filtered' && (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_4__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)("h2", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Filters', 'wp-job-openings')), specifications.map(function (spec) {
-    return (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)("div", {
-      key: spec.key,
-      className: "filter-item"
-    }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.ToggleControl, {
-      label: spec.label,
-      checked: toggleState[spec.key] || false // Check the toggle state for the spec
-      ,
-      onChange: function onChange(isChecked) {
-        // Handle toggle change and update attributes
-        handleToggleChange(spec.key, isChecked);
-      }
-    }), toggleState[spec.key] && (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.FormTokenField, {
-      value: (selectedTermsState[spec.key] || []).map(function (id) {
-        var term = spec.terms.find(function (t) {
-          return t.term_id === id;
-        });
-        return term ? term.name : '';
-      }),
-      onChange: function onChange(newTokens) {
-        return handleTermChange(newTokens, spec.key, spec);
       },
-      suggestions: spec.terms.map(function (term) {
-        return term.name;
-      }) // Suggestions are term names
-      ,
-      label: ""
-    }));
-  })), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.SelectControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Order By', 'wp-job-openings'),
-    value: orderBy,
-    options: [{
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Newest to oldest', 'wp-job-openings'),
-      value: 'new_to_old'
-    }, {
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Oldest to newest', 'wp-job-openings'),
-      value: 'old_to_new'
-    }],
-    onChange: function onChange(orderBy) {
-      return setAttributes({
-        orderBy: orderBy
-      });
-    }
-  }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.ToggleControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Hide Expired Jobs', 'wp-job-openings'),
-    checked: hide_expired_jobs,
-    onChange: function onChange(hide_expired_jobs) {
-      return setAttributes({
-        hide_expired_jobs: hide_expired_jobs
-      });
-    }
-  }), wp.hooks.doAction('after_awsm_block_job_listing', block_job_listing, props), block_job_listing));
-};
+      isBlock: true,
+      __nextHasNoMarginBottom: true,
+      __next40pxDefaultSize: true
+    }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.__experimentalToggleGroupControlOption, {
+      value: "list",
+      label: "List"
+    }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.__experimentalToggleGroupControlOption, {
+      value: "grid",
+      label: "Grid"
+    }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.__experimentalToggleGroupControlOption, {
+      value: "stack",
+      label: "Stack"
+    })), typeof layout !== 'undefined' && layout == 'grid' && (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.SelectControl, {
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Columns', 'wp-job-openings'),
+      value: number_of_columns,
+      options: [{
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('1 Column', 'wp-job-openings'),
+        value: '1'
+      }, {
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('2 Columns', 'wp-job-openings'),
+        value: '2'
+      }, {
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('3 Columns', 'wp-job-openings'),
+        value: '3'
+      }, {
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('4 Columns', 'wp-job-openings'),
+        value: '4'
+      }],
+      onChange: function onChange(number_of_columns) {
+        return onchange_number_of_columns(number_of_columns);
+      }
+    }), wp.hooks.doAction('after_awsm_job_appearance', block_appearance_list, props), block_appearance_list, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.RangeControl, {
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Jobs Per Page', 'wp-job-openings'),
+      onChange: function onChange(sliderValue) {
+        return setAttributes({
+          jobsPerPage: sliderValue
+        });
+      },
+      value: jobsPerPage,
+      min: 1,
+      max: 10,
+      step: 1,
+      withInputField: true
+    }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.SelectControl, {
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Pagination', 'wp-job-openings'),
+      value: pagination,
+      options: [{
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Classic', 'wp-job-openings'),
+        value: 'classic'
+      }, {
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Modern', 'wp-job-openings'),
+        value: 'modern'
+      }],
+      onChange: function onChange(pagination) {
+        return setAttributes({
+          pagination: pagination
+        });
+      }
+    })), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.PanelBody, {
+      title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Job Listing', 'wp-job-openings')
+    }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.__experimentalToggleGroupControl, {
+      label: "List Type",
+      value: listType,
+      onChange: function onChange(newListType) {
+        setAttributes({
+          listType: newListType
+        });
 
-// Define the HOC to add custom inspector controls
-var withCustomInspectorControls = function withCustomInspectorControls(BlockEdit) {
-  return function (props) {
-    if (props.name !== 'wp-job-openings/blocks') {
-      return (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(BlockEdit, _objectSpread({}, props));
-    }
-    return (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_4__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(BlockEdit, _objectSpread({}, props)), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(WidgetInspectorControls, _objectSpread({}, props)));
-  };
+        // Clear all items in selectedTerms if listType is set to "all"
+        if (newListType === 'all') {
+          var clearedTerms = {};
+          specifications.forEach(function (spec) {
+            clearedTerms[spec.key] = [];
+          });
+          setAttributes({
+            selectedTerms: clearedTerms,
+            selected_terms_main: []
+          });
+        }
+      },
+      isBlock: true,
+      __nextHasNoMarginBottom: true,
+      __next40pxDefaultSize: true
+    }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.__experimentalToggleGroupControlOption, {
+      value: "all",
+      label: "All Jobs"
+    }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.__experimentalToggleGroupControlOption, {
+      value: "filtered",
+      label: "Filtered List"
+    })), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)(' Display all jobs or filtered by job specifications', 'wp-job-openings')), listType === 'filtered' && (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)("h2", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Filters', 'wp-job-openings')), specifications.map(function (spec) {
+      return (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)("div", {
+        key: spec.key,
+        className: "filter-item"
+      }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.ToggleControl, {
+        label: spec.label,
+        checked: toggleState[spec.key] || false // Check the toggle state for the spec
+        ,
+        onChange: function onChange(isChecked) {
+          // Handle toggle change and update attributes
+          handleToggleChange(spec.key, isChecked);
+        }
+      }), toggleState[spec.key] && (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.FormTokenField, {
+        value: (selectedTermsState[spec.key] || []).map(function (id) {
+          var term = spec.terms.find(function (t) {
+            return t.term_id === id;
+          });
+          return term ? term.name : '';
+        }),
+        onChange: function onChange(newTokens) {
+          return handleTermChange(newTokens, spec.key, spec);
+        },
+        suggestions: spec.terms.map(function (term) {
+          return term.name;
+        }) // Suggestions are term names
+        ,
+        label: ""
+      }));
+    })), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.SelectControl, {
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Order By', 'wp-job-openings'),
+      value: orderBy,
+      options: [{
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Newest to oldest', 'wp-job-openings'),
+        value: 'new_to_old'
+      }, {
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Oldest to newest', 'wp-job-openings'),
+        value: 'old_to_new'
+      }],
+      onChange: function onChange(orderBy) {
+        return setAttributes({
+          orderBy: orderBy
+        });
+      }
+    }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.ToggleControl, {
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Hide Expired Jobs', 'wp-job-openings'),
+      checked: hide_expired_jobs,
+      onChange: function onChange(hide_expired_jobs) {
+        return setAttributes({
+          hide_expired_jobs: hide_expired_jobs
+        });
+      }
+    }), block_job_listing)) : (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.PanelBody, {
+      title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Colors', 'text-domain'),
+      initialOpen: true
+    }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.ToggleControl, {
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Enable Background Color', 'text-domain'),
+      onChange: function onChange(value) {
+        return setAttributes({
+          enableBackground: value
+        });
+      }
+    })), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.PanelBody, {
+      title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Button Styles', 'text-domain'),
+      initialOpen: false
+    }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.ToggleControl, {
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Use Outlined Button', 'text-domain'),
+      onChange: function onChange(value) {
+        return setAttributes({
+          useOutlinedButton: value
+        });
+      }
+    })));
+  }));
 };
-
-// Add the filter to extend the block's inspector controls
-(0,_wordpress_hooks__WEBPACK_IMPORTED_MODULE_7__.addFilter)('editor.BlockEdit', 'awsm-job-block-settings/awsm-block-inspector-controls', withCustomInspectorControls);
-/* harmony default export */ __webpack_exports__["default"] = (withCustomInspectorControls);
+/* harmony default export */ __webpack_exports__["default"] = (BlockInspectorControls);
 
 /***/ }),
 
@@ -808,16 +847,6 @@ module.exports = window["wp"]["components"];
 /***/ (function(module) {
 
 module.exports = window["wp"]["element"];
-
-/***/ }),
-
-/***/ "@wordpress/hooks":
-/*!*******************************!*\
-  !*** external ["wp","hooks"] ***!
-  \*******************************/
-/***/ (function(module) {
-
-module.exports = window["wp"]["hooks"];
 
 /***/ }),
 
