@@ -45,7 +45,9 @@ const WidgetInspectorControls = (props) => {
 			selected_terms_main,
 			number_of_columns,
 			border_width,
-			border_radius
+			border_radius,
+			button_styles,
+			colors
 		},
 		setAttributes,
 	} = props;
@@ -167,6 +169,18 @@ const WidgetInspectorControls = (props) => {
 		return null; // Prevents React errors
 	};
 	/** End */
+
+	const [palette, setPalette] = useState(colors || [
+        { name: 'Background', color: '#FF00000F' },
+        { name: 'Text', color: '#FF9C00' },
+        { name: 'Heading', color: '#2C2C2F' },
+		{ name: 'Note', color: '#DFFF00' }
+    ]);
+
+	const updateColors = (newColors) => {
+        setPalette(newColors);
+        setAttributes({ colors: newColors });
+    };
 
     return (
         <InspectorControls>
@@ -700,8 +714,8 @@ const WidgetInspectorControls = (props) => {
 
 								<ToggleGroupControl
 									label="Button Style"
-									value={ layout }
-									onChange={ ( layout ) => setAttributes( { layout } ) }
+									value={ button_styles || "none"  }
+									onChange={ ( button_styles ) => setAttributes( { button_styles } ) }
 									isBlock
 									__nextHasNoMarginBottom
 									__next40pxDefaultSize
@@ -712,34 +726,12 @@ const WidgetInspectorControls = (props) => {
 								</ToggleGroupControl>
 							</PanelBody>
 
-							<PanelBody>
-							<PaletteEdit
-								colors={[
-								{
-									color: '#1a4548',
-									name: 'Primary',
-									slug: 'primary'
-								},
-								{
-									color: '#0000ff',
-									name: 'Secondary',
-									slug: 'secondary'
-								},
-								{
-									color: '#fb326b',
-									name: 'Tertiary',
-									slug: 'tertiary'
-								}
-							]}
-							emptyMessage="Colors are empty"
-							onChange={() => {}}
-							paletteLabel="Colors"
-							popoverProps={{
-								offset: 8,
-								placement: 'bottom-start'
-							}}
-							/>
-
+							<PanelBody title={__('Colors', 'wp-job-openings')} initialOpen={true}>
+								<PaletteEdit
+									colors={palette}
+									onChange={updateColors}
+									showAlpha={true} // Allows transparency editing
+								/>
 							</PanelBody>
                         </Fragment>
                     )

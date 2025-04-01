@@ -318,6 +318,8 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
     number_of_columns = _props$attributes.number_of_columns,
     border_width = _props$attributes.border_width,
     border_radius = _props$attributes.border_radius,
+    button_styles = _props$attributes.button_styles,
+    colors = _props$attributes.colors,
     setAttributes = props.setAttributes;
 
   // Local state for block settings
@@ -429,6 +431,28 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
   };
   /** End */
 
+  var _useState7 = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_5__.useState)(colors || [{
+      name: 'Background',
+      color: '#FF00000F'
+    }, {
+      name: 'Text',
+      color: '#FF9C00'
+    }, {
+      name: 'Heading',
+      color: '#2C2C2F'
+    }, {
+      name: 'Note',
+      color: '#DFFF00'
+    }]),
+    _useState8 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_2__["default"])(_useState7, 2),
+    palette = _useState8[0],
+    setPalette = _useState8[1];
+  var updateColors = function updateColors(newColors) {
+    setPalette(newColors);
+    setAttributes({
+      colors: newColors
+    });
+  };
   return (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_6__.InspectorControls, null, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.TabPanel, {
     className: "awsm-job-tabs",
     activeClass: "active-tab",
@@ -828,10 +852,10 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
       onChange: function onChange() {}
     }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalToggleGroupControl, {
       label: "Button Style",
-      value: layout,
-      onChange: function onChange(layout) {
+      value: button_styles || "none",
+      onChange: function onChange(button_styles) {
         return setAttributes({
-          layout: layout
+          button_styles: button_styles
         });
       },
       isBlock: true,
@@ -846,27 +870,13 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
     }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalToggleGroupControlOption, {
       value: "outlined",
       label: "Outlined"
-    }))), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.PanelBody, null, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalPaletteEdit, {
-      colors: [{
-        color: '#1a4548',
-        name: 'Primary',
-        slug: 'primary'
-      }, {
-        color: '#0000ff',
-        name: 'Secondary',
-        slug: 'secondary'
-      }, {
-        color: '#fb326b',
-        name: 'Tertiary',
-        slug: 'tertiary'
-      }],
-      emptyMessage: "Colors are empty",
-      onChange: function onChange() {},
-      paletteLabel: "Colors",
-      popoverProps: {
-        offset: 8,
-        placement: 'bottom-start'
-      }
+    }))), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.PanelBody, {
+      title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Colors', 'wp-job-openings'),
+      initialOpen: true
+    }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalPaletteEdit, {
+      colors: palette,
+      onChange: updateColors,
+      showAlpha: true // Allows transparency editing
     })));
   }));
 };
