@@ -1,6 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import { useEffect, Fragment, useState } from '@wordpress/element';
 import { InspectorControls,BlockEdit } from '@wordpress/block-editor';
+import { addFilter } from '@wordpress/hooks';
 
 import {
     PanelBody,
@@ -13,15 +14,21 @@ import {
 	SelectControl,
 	Button,
 	FormTokenField,
+	__experimentalInputControl as InputControl,
+	__experimentalInputControlSuffixWrapper as InputControllSuffixWrapper,
 	__experimentalToggleGroupControl as ToggleGroupControl,
 	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
+	__experimentalBoxControl as BoxControl,
+	__experimentalBorderBoxControl as BorderBoxControl,
+	__experimentalSpacer as Spacer,
+	__experimentalPaletteEdit as PaletteEdit,
 } from '@wordpress/components';
 
 // Define Icons
 const settingsIcon = 'admin-generic';
 const styleIcon = 'admin-customizer';
 
-const BlockInspectorControls = (props) => {
+const WidgetInspectorControls = (props) => {
     const {
 		attributes: {
 			search,
@@ -37,6 +44,8 @@ const BlockInspectorControls = (props) => {
 			selectedTerms,
 			selected_terms_main,
 			number_of_columns,
+			border_width,
+			border_radius
 		},
 		setAttributes,
 	} = props;
@@ -149,6 +158,7 @@ const BlockInspectorControls = (props) => {
 		} );
 	};
 
+	/** this one need to be checked */
 	const HookTrigger = () => {
 		useEffect(() => {
 			wp.hooks.doAction('after_awsm_block_job_listing', block_job_listing, props);
@@ -156,9 +166,11 @@ const BlockInspectorControls = (props) => {
 	
 		return null; // Prevents React errors
 	};
+	/** End */
 
     return (
         <InspectorControls>
+			{/** Tabs define */}
             <TabPanel
                 className="awsm-job-tabs"
                 activeClass="active-tab"
@@ -167,7 +179,7 @@ const BlockInspectorControls = (props) => {
                     {
                         name: 'settings',
                         title: (
-                            <Tooltip text={__('Settings', 'text-domain')}>
+                            <Tooltip text={__('Settings', 'wp-job-openings')}>
                                 <Icon icon={settingsIcon} />
                             </Tooltip>
                         ),
@@ -176,7 +188,7 @@ const BlockInspectorControls = (props) => {
                     {
                         name: 'styles',
                         title: (
-                            <Tooltip text={__('Styles', 'text-domain')}>
+                            <Tooltip text={__('Styles', 'wp-job-openings')}>
                                 <Icon icon={styleIcon} />
                             </Tooltip>
                         ),
@@ -187,7 +199,7 @@ const BlockInspectorControls = (props) => {
                 {(tab) =>
                     tab.name === 'settings' ? (
                         <Fragment>
-                            <PanelBody title={__('Search & Filters', 'text-domain')} initialOpen={true}>
+                            <PanelBody title={__('Search & Filters', 'wp-job-openings')} initialOpen={true}>
 								<ToggleControl
 									label={ __( 'Enable Search & Filters', 'wp-job-openings' ) }
 									checked={ search }
@@ -378,6 +390,7 @@ const BlockInspectorControls = (props) => {
 									</>
 								) }
                             </PanelBody>
+							
 							<PanelBody title={ __( 'Layout Settings', 'wp-job-openings' ) } initialOpen={true}>
 								<ToggleGroupControl
 									label="Layout"
@@ -387,9 +400,9 @@ const BlockInspectorControls = (props) => {
 									__nextHasNoMarginBottom
 									__next40pxDefaultSize
 								>
-									<ToggleGroupControlOption value="list" label="List" />
-									<ToggleGroupControlOption value="grid" label="Grid" />
-									<ToggleGroupControlOption value="stack" label="Stack" />
+									<ToggleGroupControlOption value="list" label={ __( 'List', 'wp-job-openings' ) } />
+									<ToggleGroupControlOption value="grid" label={ __( 'Grid', 'wp-job-openings' ) } />
+									<ToggleGroupControlOption value="stack" label={ __( 'Stack', 'wp-job-openings' ) } />
 								</ToggleGroupControl>
 
 								{ typeof layout !== 'undefined' && layout == 'grid' && (
@@ -457,6 +470,7 @@ const BlockInspectorControls = (props) => {
 									}
 								/>
 							</PanelBody>
+
 							<PanelBody title={ __( 'Job Listing', 'wp-job-openings' ) }>
 							<ToggleGroupControl
 									label="List Type"
@@ -569,18 +583,164 @@ const BlockInspectorControls = (props) => {
                         </Fragment>
                     ) : (
                         <Fragment>
-                            <PanelBody title={__('Colors', 'text-domain')} initialOpen={true}>
-                                <ToggleControl
-                                    label={__('Enable Background Color', 'text-domain')}
-                                    onChange={(value) => setAttributes({ enableBackground: value })}
-                                />
+                            <PanelBody title={__('Search & Filters', 'wp-job-openings')} initialOpen={true}>
+								<BorderBoxControl
+									label={__('Border', 'wp-job-openings')}
+									width='30'
+									isCompact
+									withSlider
+									value={border_width || 0} // Ensure there is a fallback value
+									__experimentalIsRenderedInSidebar
+									onChange={(newBorder) => {
+										setAttributes({ border_width: newBorder });
+									}}
+								/>
+								<Spacer></Spacer>
+								<BorderBoxControl
+									label={__('Radius', 'wp-job-openings')}
+									width='30'
+									isCompact
+									withSlider
+									value={border_radius || 0} // Ensure there is a fallback value
+									onChange={(newRadius) => {
+										setAttributes({ border_radius: newRadius });
+									}}
+								/>
+								<Spacer></Spacer>
+								<BoxControl
+									label="Padding"
+									__next40pxDefaultSize
+									onChange={() => {}}
+								/>
+								<Spacer></Spacer>
+								<BoxControl
+									label="Margin"
+									__next40pxDefaultSize
+									onChange={() => {}}
+								/>
                             </PanelBody>
-                            <PanelBody title={__('Button Styles', 'text-domain')} initialOpen={false}>
-                                <ToggleControl
-                                    label={__('Use Outlined Button', 'text-domain')}
-                                    onChange={(value) => setAttributes({ useOutlinedButton: value })}
-                                />
-                            </PanelBody>
+
+							<PanelBody title={__('Layout Settings', 'wp-job-openings')} initialOpen={true}>
+
+								<InputControl
+									suffix={<InputControllSuffixWrapper>%</InputControllSuffixWrapper>}
+								/>
+
+								<BorderBoxControl
+									label={__('Border', 'wp-job-openings')}
+									width='30'
+									isCompact
+									withSlider
+									value={border_width || 0} // Ensure there is a fallback value
+									__experimentalIsRenderedInSidebar
+									onChange={(newBorder) => {
+										setAttributes({ border_width: newBorder });
+									}}
+								/>
+								<Spacer></Spacer>
+								<BorderBoxControl
+									label={__('Radius', 'wp-job-openings')}
+									width='30'
+									isCompact
+									withSlider
+									value={border_radius || 0} // Ensure there is a fallback value
+									onChange={(newRadius) => {
+										setAttributes({ border_radius: newRadius });
+									}}
+								/>
+								<Spacer></Spacer>
+								<BoxControl
+									label="Padding"
+									__next40pxDefaultSize
+									onChange={() => {}}
+								/>
+								<Spacer></Spacer>
+								<BoxControl
+									label="Margin"
+									__next40pxDefaultSize
+									onChange={() => {}}
+								/>
+							</PanelBody>
+
+							<PanelBody title={__('Job Listing', 'wp-job-openings')} initialOpen={true}>
+								<BorderBoxControl
+									label={__('Border', 'wp-job-openings')}
+									width='30'
+									isCompact
+									withSlider
+									value={border_width || 0} // Ensure there is a fallback value
+									__experimentalIsRenderedInSidebar
+									onChange={(newBorder) => {
+										setAttributes({ border_width: newBorder });
+									}}
+								/>
+								<Spacer></Spacer>
+								<BorderBoxControl
+									label={__('Radius', 'wp-job-openings')}
+									width='30'
+									isCompact
+									withSlider
+									value={border_radius || 0} // Ensure there is a fallback value
+									onChange={(newRadius) => {
+										setAttributes({ border_radius: newRadius });
+									}}
+								/>
+								<Spacer></Spacer>
+								<BoxControl
+									label="Padding"
+									__next40pxDefaultSize
+									onChange={() => {}}
+								/>
+								<Spacer></Spacer>
+								<BoxControl
+									label="Margin"
+									__next40pxDefaultSize
+									onChange={() => {}}
+								/>
+
+								<ToggleGroupControl
+									label="Button Style"
+									value={ layout }
+									onChange={ ( layout ) => setAttributes( { layout } ) }
+									isBlock
+									__nextHasNoMarginBottom
+									__next40pxDefaultSize
+								>
+									<ToggleGroupControlOption value="none" label="None" />
+									<ToggleGroupControlOption value="filled" label="Filled" />
+									<ToggleGroupControlOption value="outlined" label="Outlined" />
+								</ToggleGroupControl>
+							</PanelBody>
+
+							<PanelBody>
+							<PaletteEdit
+								colors={[
+								{
+									color: '#1a4548',
+									name: 'Primary',
+									slug: 'primary'
+								},
+								{
+									color: '#0000ff',
+									name: 'Secondary',
+									slug: 'secondary'
+								},
+								{
+									color: '#fb326b',
+									name: 'Tertiary',
+									slug: 'tertiary'
+								}
+							]}
+							emptyMessage="Colors are empty"
+							onChange={() => {}}
+							paletteLabel="Colors"
+							popoverProps={{
+								offset: 8,
+								placement: 'bottom-start'
+							}}
+							/>
+
+							</PanelBody>
                         </Fragment>
                     )
                 }
@@ -589,4 +749,25 @@ const BlockInspectorControls = (props) => {
     );
 };
 
-export default BlockInspectorControls;
+// Define the HOC to add custom inspector controls
+const withCustomInspectorControls = (BlockEdit) => (props) => {
+	if (props.name !== 'wp-job-openings/blocks') {
+		return <BlockEdit {...props} />;
+	}
+
+	return (
+		<Fragment>
+			<BlockEdit {...props} />
+			<WidgetInspectorControls {...props} />
+		</Fragment>
+	);
+};
+
+// Add the filter to extend the block's inspector controls
+addFilter(
+	'editor.BlockEdit',
+	'awsm-job-block-settings/awsm-block-inspector-controls',
+	withCustomInspectorControls
+);
+
+export default withCustomInspectorControls;
