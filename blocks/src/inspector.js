@@ -1,6 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import { useEffect, Fragment, useState } from '@wordpress/element';
-import { InspectorControls,BlockEdit, __experimentalPanelColorGradientSettings as PanelColorGradientSettings, } from '@wordpress/block-editor';
+import { InspectorControls,BlockEdit, __experimentalPanelColorGradientSettings as PanelColorGradientSettings,UnitControl } from '@wordpress/block-editor';
 import { addFilter } from '@wordpress/hooks';
 
 import {
@@ -49,6 +49,8 @@ const WidgetInspectorControls = (props) => {
 			jl_border_radius,
 			jl_padding,
 			jl_margin,
+			bs_border_width,
+			bs_border_radius,
 			button_styles,
 			backgroundColor, 
 			headingColor,
@@ -610,16 +612,16 @@ const WidgetInspectorControls = (props) => {
 									}}
 								/>
 								<Spacer></Spacer>
+								<div className="custom-box-control">
 								<BorderBoxControl
 									label={__('Radius', 'wp-job-openings')}
-									width='30'
-									isCompact
 									withSlider
 									value={sf_border_radius || 0} // Ensure there is a fallback value
 									onChange={(newRadius) => {
 										setAttributes({ sf_border_radius: newRadius });
 									}}
 								/>
+								</div>
 								<Spacer></Spacer>
 								<BoxControl
 									label={__('Padding', 'wp-job-openings')}
@@ -660,6 +662,7 @@ const WidgetInspectorControls = (props) => {
 									}}
 								/>
 								<Spacer></Spacer>
+								<div className="custom-box-control">
 								<BorderBoxControl
 									label={__('Radius', 'wp-job-openings')}
 									width='30'
@@ -670,6 +673,7 @@ const WidgetInspectorControls = (props) => {
 										setAttributes({ ls_border_radius: newRadius });
 									}}
 								/>
+								</div>
 								<Spacer></Spacer>
 								<BoxControl
 									label="Padding"
@@ -703,6 +707,7 @@ const WidgetInspectorControls = (props) => {
 									}}
 								/>
 								<Spacer></Spacer>
+								<div className="custom-box-control">
 								<BorderBoxControl
 									label={__('Radius', 'wp-job-openings')}
 									width='30'
@@ -713,6 +718,7 @@ const WidgetInspectorControls = (props) => {
 										setAttributes({ jl_border_radius: newRadius });
 									}}
 								/>
+								</div>
 								<Spacer></Spacer>
 								<BoxControl
 									label={__('Padding', 'wp-job-openings')}
@@ -744,6 +750,32 @@ const WidgetInspectorControls = (props) => {
 									<ToggleGroupControlOption value="filled" label={__('Filled', 'wp-job-openings')} />
 									<ToggleGroupControlOption value="outlined" label={__('Oulined', 'wp-job-openings')} />
 								</ToggleGroupControl>
+
+								<BorderBoxControl
+									label={__('Border', 'wp-job-openings')}
+									width='30'
+									isCompact
+									withSlider
+									value={bs_border_width || 0} // Ensure there is a fallback value
+									__experimentalIsRenderedInSidebar
+									onChange={(newBorder) => {
+										setAttributes({ jl_border_width: newBorder });
+									}}
+								/>
+								<Spacer></Spacer>
+								<div className="custom-box-control">
+								<BorderBoxControl
+									label={__('Radius', 'wp-job-openings')}
+									width='30'
+									isCompact
+									withSlider
+									value={bs_border_radius || 0} // Ensure there is a fallback value
+									onChange={(newRadius) => {
+										setAttributes({ jl_border_radius: newRadius });
+									}}
+								/>
+								</div>
+								<Spacer></Spacer>
 							</PanelBody>
 							
 							<PanelColorGradientSettings
