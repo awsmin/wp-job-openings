@@ -1,13 +1,11 @@
 import { __ } from '@wordpress/i18n';
 import { useEffect, Fragment, useState } from '@wordpress/element';
-import { InspectorControls,BlockEdit } from '@wordpress/block-editor';
+import { InspectorControls,BlockEdit, __experimentalPanelColorGradientSettings as PanelColorGradientSettings, } from '@wordpress/block-editor';
 import { addFilter } from '@wordpress/hooks';
 
 import {
     PanelBody,
-    TabPanel,
-    Tooltip,
-    Icon,
+	TabPanel,
     RangeControl,
     ToggleControl,
 	TextControl,
@@ -20,13 +18,8 @@ import {
 	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
 	__experimentalBoxControl as BoxControl,
 	__experimentalBorderBoxControl as BorderBoxControl,
-	__experimentalSpacer as Spacer,
-	__experimentalPaletteEdit as PaletteEdit,
+	__experimentalSpacer as Spacer
 } from '@wordpress/components';
-
-// Define Icons
-const settingsIcon = 'admin-generic';
-const styleIcon = 'admin-customizer';
 
 const WidgetInspectorControls = (props) => {
     const {
@@ -44,10 +37,18 @@ const WidgetInspectorControls = (props) => {
 			selectedTerms,
 			selected_terms_main,
 			number_of_columns,
-			border_width,
-			border_radius,
+			sf_border_width,
+			sf_border_radius,
+			ls_border_width,
+			ls_border_radius,
+			jl_border_width,
+			jl_border_radius,
 			button_styles,
-			colors
+			backgroundColor, 
+			headingColor,
+			overlayColor,
+			buttonColor,
+			sidebarWidth
 		},
 		setAttributes,
 	} = props;
@@ -169,45 +170,38 @@ const WidgetInspectorControls = (props) => {
 		return null; // Prevents React errors
 	};
 	/** End */
-
-	const [palette, setPalette] = useState(colors || [
-        { name: 'Background', color: '#FF00000F' },
-        { name: 'Text', color: '#FF9C00' },
-        { name: 'Heading', color: '#2C2C2F' },
-		{ name: 'Note', color: '#DFFF00' }
-    ]);
-
-	const updateColors = (newColors) => {
-        setPalette(newColors);
-        setAttributes({ colors: newColors });
-    };
+	const settingsIcon = () => (
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M10.289 4.836A1 1 0 0111.275 4h1.306a1 1 0 01.987.836l.244 1.466c.787.26 1.503.679 2.108 1.218l1.393-.522a1 1 0 011.216.437l.653 1.13a1 1 0 01-.23 1.273l-1.148.944a6.025 6.025 0 010 2.435l1.149.946a1 1 0 01.23 1.272l-.653 1.13a1 1 0 01-1.216.437l-1.394-.522c-.605.54-1.32.958-2.108 1.218l-.244 1.466a1 1 0 01-.987.836h-1.306a1 1 0 01-.986-.836l-.244-1.466a5.995 5.995 0 01-2.108-1.218l-1.394.522a1 1 0 01-1.217-.436l-.653-1.131a1 1 0 01.23-1.272l1.149-.946a6.026 6.026 0 010-2.435l-1.148-.944a1 1 0 01-.23-1.272l.653-1.131a1 1 0 011.217-.437l1.393.522a5.994 5.994 0 012.108-1.218l.244-1.466zM14.929 12a3 3 0 11-6 0 3 3 0 016 0z" clip-rule="evenodd"></path></svg>
+	);
+	// Custom SVG for contrast icon
+	const stylesIcon = () => (
+		<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="24" height="24" aria-hidden="true" focusable="false"><path fill-rule="evenodd" clip-rule="evenodd" d="M20 12a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-1.5 0a6.5 6.5 0 0 1-6.5 6.5v-13a6.5 6.5 0 0 1 6.5 6.5Z"></path></svg>
+	);
 
     return (
         <InspectorControls>
-			{/** Tabs define */}
             <TabPanel
-                className="awsm-job-tabs"
-                activeClass="active-tab"
-                initialTabName="settings"
+                /* className="block-editor-tabs" */
+                activeClass="is-active"
                 tabs={[
                     {
                         name: 'settings',
                         title: (
-                            <Tooltip text={__('Settings', 'wp-job-openings')}>
-                                <Icon icon={settingsIcon} />
-                            </Tooltip>
+                            <>
+                                {settingsIcon()} 
+                            </>
                         ),
-                        className: 'settings-tab',
+                        className: 'tab-settings',
                     },
                     {
-                        name: 'styles',
+                        name: 'style',
                         title: (
-                            <Tooltip text={__('Styles', 'wp-job-openings')}>
-                                <Icon icon={styleIcon} />
-                            </Tooltip>
+                            <>
+                                {stylesIcon()} 
+                            </>
                         ),
-                        className: 'styles-tab',
-                    },
+                        className: 'tab-style',
+                    }
                 ]}
             >
                 {(tab) =>
@@ -603,10 +597,10 @@ const WidgetInspectorControls = (props) => {
 									width='30'
 									isCompact
 									withSlider
-									value={border_width || 0} // Ensure there is a fallback value
+									value={sf_border_width || 0} // Ensure there is a fallback value
 									__experimentalIsRenderedInSidebar
 									onChange={(newBorder) => {
-										setAttributes({ border_width: newBorder });
+										setAttributes({ sf_border_width: newBorder });
 									}}
 								/>
 								<Spacer></Spacer>
@@ -615,20 +609,20 @@ const WidgetInspectorControls = (props) => {
 									width='30'
 									isCompact
 									withSlider
-									value={border_radius || 0} // Ensure there is a fallback value
+									value={sf_border_radius || 0} // Ensure there is a fallback value
 									onChange={(newRadius) => {
-										setAttributes({ border_radius: newRadius });
+										setAttributes({ sf_border_radius: newRadius });
 									}}
 								/>
 								<Spacer></Spacer>
 								<BoxControl
-									label="Padding"
+									label={__('Padding', 'wp-job-openings')}
 									__next40pxDefaultSize
 									onChange={() => {}}
 								/>
 								<Spacer></Spacer>
 								<BoxControl
-									label="Margin"
+									label={__('Margin', 'wp-job-openings')}
 									__next40pxDefaultSize
 									onChange={() => {}}
 								/>
@@ -637,6 +631,9 @@ const WidgetInspectorControls = (props) => {
 							<PanelBody title={__('Layout Settings', 'wp-job-openings')} initialOpen={true}>
 
 								<InputControl
+									name="sidebarWidth"
+									value={sidebarWidth}
+									onChange={(value) => setAttributes({ sidebarWidth: value })}
 									suffix={<InputControllSuffixWrapper>%</InputControllSuffixWrapper>}
 								/>
 
@@ -645,10 +642,10 @@ const WidgetInspectorControls = (props) => {
 									width='30'
 									isCompact
 									withSlider
-									value={border_width || 0} // Ensure there is a fallback value
+									value={ls_border_width || 0} // Ensure there is a fallback value
 									__experimentalIsRenderedInSidebar
 									onChange={(newBorder) => {
-										setAttributes({ border_width: newBorder });
+										setAttributes({ ls_border_width: newBorder });
 									}}
 								/>
 								<Spacer></Spacer>
@@ -657,9 +654,9 @@ const WidgetInspectorControls = (props) => {
 									width='30'
 									isCompact
 									withSlider
-									value={border_radius || 0} // Ensure there is a fallback value
+									value={ls_border_radius || 0} // Ensure there is a fallback value
 									onChange={(newRadius) => {
-										setAttributes({ border_radius: newRadius });
+										setAttributes({ ls_border_radius: newRadius });
 									}}
 								/>
 								<Spacer></Spacer>
@@ -682,10 +679,10 @@ const WidgetInspectorControls = (props) => {
 									width='30'
 									isCompact
 									withSlider
-									value={border_width || 0} // Ensure there is a fallback value
+									value={jl_border_width || 0} // Ensure there is a fallback value
 									__experimentalIsRenderedInSidebar
 									onChange={(newBorder) => {
-										setAttributes({ border_width: newBorder });
+										setAttributes({ jl_border_width: newBorder });
 									}}
 								/>
 								<Spacer></Spacer>
@@ -694,20 +691,20 @@ const WidgetInspectorControls = (props) => {
 									width='30'
 									isCompact
 									withSlider
-									value={border_radius || 0} // Ensure there is a fallback value
+									value={jl_border_radius || 0} // Ensure there is a fallback value
 									onChange={(newRadius) => {
-										setAttributes({ border_radius: newRadius });
+										setAttributes({ jl_border_radius: newRadius });
 									}}
 								/>
 								<Spacer></Spacer>
 								<BoxControl
-									label="Padding"
+									label={__('Padding', 'wp-job-openings')}
 									__next40pxDefaultSize
 									onChange={() => {}}
 								/>
 								<Spacer></Spacer>
 								<BoxControl
-									label="Margin"
+									label={__('Margin', 'wp-job-openings')}
 									__next40pxDefaultSize
 									onChange={() => {}}
 								/>
@@ -720,19 +717,37 @@ const WidgetInspectorControls = (props) => {
 									__nextHasNoMarginBottom
 									__next40pxDefaultSize
 								>
-									<ToggleGroupControlOption value="none" label="None" />
-									<ToggleGroupControlOption value="filled" label="Filled" />
-									<ToggleGroupControlOption value="outlined" label="Outlined" />
+									<ToggleGroupControlOption value="none" label={__('None', 'wp-job-openings')} />
+									<ToggleGroupControlOption value="filled" label={__('Filled', 'wp-job-openings')} />
+									<ToggleGroupControlOption value="outlined" label={__('Oulined', 'wp-job-openings')} />
 								</ToggleGroupControl>
 							</PanelBody>
-
-							<PanelBody title={__('Colors', 'wp-job-openings')} initialOpen={true}>
-								<PaletteEdit
-									colors={palette}
-									onChange={updateColors}
-									showAlpha={true} // Allows transparency editing
-								/>
-							</PanelBody>
+							
+							<PanelColorGradientSettings
+								title={__('Color', 'wp-job-openings')}
+								settings={[
+									{
+										label: __('Background', 'wp-job-openings'),
+										colorValue: backgroundColor,
+										onColorChange: (color) => setAttributes({ backgroundColor: color }),
+									},
+									{
+										label: __('Heading', 'wp-job-openings'),
+										colorValue: headingColor,
+										onColorChange: (color) => setAttributes({ headingColor: color }),
+									},
+									{
+										label: __('Overlay', 'wp-job-openings'),
+										colorValue: overlayColor,
+										onColorChange: (color) => setAttributes({ overlayColor: color }),
+									},
+									{
+										label: __('Button', 'wp-job-openings'),
+										colorValue: buttonColor,
+										onColorChange: (color) => setAttributes({ buttonColor: color }),
+									}
+								]}
+							/>
                         </Fragment>
                     )
                 }
