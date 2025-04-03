@@ -314,10 +314,16 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
     number_of_columns = _props$attributes.number_of_columns,
     sf_border_width = _props$attributes.sf_border_width,
     sf_border_radius = _props$attributes.sf_border_radius,
+    sf_padding = _props$attributes.sf_padding,
+    sf_margin = _props$attributes.sf_margin,
     ls_border_width = _props$attributes.ls_border_width,
     ls_border_radius = _props$attributes.ls_border_radius,
+    ls_padding = _props$attributes.ls_padding,
+    ls_margin = _props$attributes.ls_margin,
     jl_border_width = _props$attributes.jl_border_width,
     jl_border_radius = _props$attributes.jl_border_radius,
+    jl_padding = _props$attributes.jl_padding,
+    jl_margin = _props$attributes.jl_margin,
     button_styles = _props$attributes.button_styles,
     backgroundColor = _props$attributes.backgroundColor,
     headingColor = _props$attributes.headingColor,
@@ -772,11 +778,23 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
     }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalSpacer, null), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalBoxControl, {
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Padding', 'wp-job-openings'),
       __next40pxDefaultSize: true,
-      onChange: function onChange() {}
+      value: sf_padding || 0 // Ensure there is a fallback value
+      ,
+      onChange: function onChange(Padding) {
+        setAttributes({
+          sf_padding: Padding
+        });
+      }
     }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalSpacer, null), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalBoxControl, {
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Margin', 'wp-job-openings'),
       __next40pxDefaultSize: true,
-      onChange: function onChange() {}
+      value: sf_margin || 0 // Ensure there is a fallback value
+      ,
+      onChange: function onChange(Margin) {
+        setAttributes({
+          sf_margin: Margin
+        });
+      }
     })), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.PanelBody, {
       title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Layout Settings', 'wp-job-openings'),
       initialOpen: true
@@ -817,11 +835,23 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
     }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalSpacer, null), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalBoxControl, {
       label: "Padding",
       __next40pxDefaultSize: true,
-      onChange: function onChange() {}
+      value: ls_padding || 0 // Ensure there is a fallback value
+      ,
+      onChange: function onChange(Padding) {
+        setAttributes({
+          ls_padding: Padding
+        });
+      }
     }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalSpacer, null), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalBoxControl, {
       label: "Margin",
       __next40pxDefaultSize: true,
-      onChange: function onChange() {}
+      value: ls_margin || 0 // Ensure there is a fallback value
+      ,
+      onChange: function onChange(Margin) {
+        setAttributes({
+          ls_margin: Margin
+        });
+      }
     })), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.PanelBody, {
       title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Job Listing', 'wp-job-openings'),
       initialOpen: true
@@ -853,11 +883,23 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
     }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalSpacer, null), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalBoxControl, {
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Padding', 'wp-job-openings'),
       __next40pxDefaultSize: true,
-      onChange: function onChange() {}
+      value: jl_padding || 0 // Ensure there is a fallback value
+      ,
+      onChange: function onChange(Padding) {
+        setAttributes({
+          jl_padding: Padding
+        });
+      }
     }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalSpacer, null), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalBoxControl, {
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Margin', 'wp-job-openings'),
       __next40pxDefaultSize: true,
-      onChange: function onChange() {}
+      value: jl_margin || 0 // Ensure there is a fallback value
+      ,
+      onChange: function onChange(Margin) {
+        setAttributes({
+          jl_margin: Margin
+        });
+      }
     }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalToggleGroupControl, {
       label: "Button Style",
       value: button_styles || "none",

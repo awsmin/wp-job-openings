@@ -39,10 +39,16 @@ const WidgetInspectorControls = (props) => {
 			number_of_columns,
 			sf_border_width,
 			sf_border_radius,
+			sf_padding,
+			sf_margin,
 			ls_border_width,
 			ls_border_radius,
+			ls_padding,
+			ls_margin,
 			jl_border_width,
 			jl_border_radius,
+			jl_padding,
+			jl_margin,
 			button_styles,
 			backgroundColor, 
 			headingColor,
@@ -618,18 +624,23 @@ const WidgetInspectorControls = (props) => {
 								<BoxControl
 									label={__('Padding', 'wp-job-openings')}
 									__next40pxDefaultSize
-									onChange={() => {}}
+									value={sf_padding || 0} // Ensure there is a fallback value
+									onChange={(Padding) => {
+										setAttributes({ sf_padding: Padding });
+									}}
 								/>
 								<Spacer></Spacer>
 								<BoxControl
 									label={__('Margin', 'wp-job-openings')}
 									__next40pxDefaultSize
-									onChange={() => {}}
+									value={sf_margin || 0} // Ensure there is a fallback value
+									onChange={(Margin) => {
+										setAttributes({ sf_margin: Margin });
+									}}
 								/>
                             </PanelBody>
 
 							<PanelBody title={__('Layout Settings', 'wp-job-openings')} initialOpen={true}>
-
 								<InputControl
 									name="sidebarWidth"
 									value={sidebarWidth}
@@ -663,13 +674,19 @@ const WidgetInspectorControls = (props) => {
 								<BoxControl
 									label="Padding"
 									__next40pxDefaultSize
-									onChange={() => {}}
+									value={ls_padding || 0} // Ensure there is a fallback value
+									onChange={(Padding) => {
+										setAttributes({ ls_padding: Padding });
+									}}
 								/>
 								<Spacer></Spacer>
 								<BoxControl
 									label="Margin"
 									__next40pxDefaultSize
-									onChange={() => {}}
+									value={ls_margin || 0} // Ensure there is a fallback value
+									onChange={(Margin) => {
+										setAttributes({ ls_margin: Margin });
+									}}
 								/>
 							</PanelBody>
 
@@ -700,13 +717,19 @@ const WidgetInspectorControls = (props) => {
 								<BoxControl
 									label={__('Padding', 'wp-job-openings')}
 									__next40pxDefaultSize
-									onChange={() => {}}
+									value={jl_padding || 0} // Ensure there is a fallback value
+									onChange={(Padding) => {
+										setAttributes({ jl_padding: Padding });
+									}}
 								/>
 								<Spacer></Spacer>
 								<BoxControl
 									label={__('Margin', 'wp-job-openings')}
 									__next40pxDefaultSize
-									onChange={() => {}}
+									value={jl_margin || 0} // Ensure there is a fallback value
+									onChange={(Margin) => {
+										setAttributes({ jl_margin: Margin });
+									}}
 								/>
 
 								<ToggleGroupControl
