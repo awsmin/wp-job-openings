@@ -1,6 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import { useEffect, Fragment, useState } from '@wordpress/element';
-import { InspectorControls,BlockEdit, __experimentalPanelColorGradientSettings as PanelColorGradientSettings,UnitControl } from '@wordpress/block-editor';
+import { InspectorControls,BlockEdit, __experimentalPanelColorGradientSettings as PanelColorGradientSettings,useBlockProps } from '@wordpress/block-editor';
 import { addFilter } from '@wordpress/hooks';
 
 import {
@@ -56,7 +56,8 @@ const WidgetInspectorControls = (props) => {
 			headingColor,
 			overlayColor,
 			buttonColor,
-			sidebarWidth
+			sidebarWidth,
+			search_filter_class
 		},
 		setAttributes,
 	} = props;
@@ -185,6 +186,12 @@ const WidgetInspectorControls = (props) => {
 	const stylesIcon = () => (
 		<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="24" height="24" aria-hidden="true" focusable="false"><path fill-rule="evenodd" clip-rule="evenodd" d="M20 12a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-1.5 0a6.5 6.5 0 0 1-6.5 6.5v-13a6.5 6.5 0 0 1 6.5 6.5Z"></path></svg>
 	);
+
+	const updateSearchFilterClass = () => {
+		const className = `awsm-search-filters bw-${sf_border_width || 0} br-${sf_border_radius || 0} p-${sf_padding?.top || 0} m-${sf_margin?.top || 0}`;
+		setAttributes({ search_filter_class: className }); 
+	 console.log(search_filter_class); 
+	};
 
     return (
         <InspectorControls>
@@ -609,6 +616,7 @@ const WidgetInspectorControls = (props) => {
 									__experimentalIsRenderedInSidebar
 									onChange={(newBorder) => {
 										setAttributes({ sf_border_width: newBorder });
+										updateSearchFilterClass();
 									}}
 								/>
 								<Spacer></Spacer>
@@ -619,6 +627,7 @@ const WidgetInspectorControls = (props) => {
 									value={sf_border_radius || 0} // Ensure there is a fallback value
 									onChange={(newRadius) => {
 										setAttributes({ sf_border_radius: newRadius });
+										updateSearchFilterClass();
 									}}
 								/>
 								</div>
@@ -629,6 +638,7 @@ const WidgetInspectorControls = (props) => {
 									value={sf_padding || 0} // Ensure there is a fallback value
 									onChange={(Padding) => {
 										setAttributes({ sf_padding: Padding });
+										updateSearchFilterClass();
 									}}
 								/>
 								<Spacer></Spacer>
@@ -638,6 +648,7 @@ const WidgetInspectorControls = (props) => {
 									value={sf_margin || 0} // Ensure there is a fallback value
 									onChange={(Margin) => {
 										setAttributes({ sf_margin: Margin });
+										updateSearchFilterClass();
 									}}
 								/>
                             </PanelBody>
