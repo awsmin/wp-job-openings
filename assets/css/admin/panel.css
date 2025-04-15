@@ -149,3 +149,10 @@
 	font-size: 13px;
 	color: #898989;
 }
+.awsm-job-slide-panel-content .awsm-form-group{
+	margin-bottom: 20px;
+}
+.awsm-job-slide-panel-content .awsm-form-group input[type="checkbox"], 
+.awsm-job-slide-panel-content .awsm-form-group input[type="radio"]{
+	margin-right: 5px;
+}
