@@ -24,7 +24,7 @@ class AWSM_Job_Openings_Block {
 		return self::$instance;
 	}
 
-	public function awsm_jobs_block_attributes( $blockatts ) {
+	public function awsm_jobs_block_attributes( $blockatts ) { 
 		if ( ! function_exists( 'awsm_jobs_query' ) ) {
 			return;
 		}
@@ -43,7 +43,9 @@ class AWSM_Job_Openings_Block {
 			'selectedTerms'      => isset( $blockatts['selectedTerms'] ) ? $blockatts['selectedTerms'] : '',
 			'orderBy'            => isset( $blockatts['orderBy'] ) ? $blockatts['orderBy'] : '',
 			'listings'           => isset( $blockatts['listing_per_page'] ) ? $blockatts['listing_per_page'] : '',
-			'pagination'         => isset( $blockatts['pagination'] ) ? $blockatts['pagination'] : ''
+			'pagination'         => isset( $blockatts['pagination'] ) ? $blockatts['pagination'] : '',
+			'sf_border_color'    => isset( $blockatts['sf_border_width']['color'] ) ? $blockatts['sf_border_width']['color'] : '',
+			'sf_border_width'    => isset( $blockatts['sf_border_width']['width'] ) ? $blockatts['sf_border_width']['width'] : '',
 		);
 
 		 /**
@@ -462,7 +464,7 @@ class AWSM_Job_Openings_Block {
 		return $terms;
 	}
 
-	public function display_block_filter_form( $block_atts ) { 
+	public function display_block_filter_form( $block_atts ) {
 		$search_content        = '';
 		$specs_filter_content  = '';
 		$custom_action_content = '';

@@ -59,6 +59,19 @@
     "number_of_columns": {
       "type": "number",
       "default": 3
+    },
+    "sf_border_width": {
+      "type": "object",
+      "default": {
+        "top": "1px",
+        "right": "1px",
+        "bottom": "1px",
+        "left": "1px",
+        "color": "#cccccc"
+      }
+    },
+    "blockId": {
+      "type": "string"
     }
   },
   "example": {},

@@ -1126,5 +1126,13 @@ ul.awsm-error-message li {
 }
 
 /** end **/
+/** Style Tabs **/
+.awsm-b-filter-wrap {
+  border-width: var(--sf-border-width, 1px);
+  border-color: var(--sf-border-color, #ccc);
+  border-style: solid;
+}
+
+/** end **/
 
 /*# sourceMappingURL=style-index.css.map*/
