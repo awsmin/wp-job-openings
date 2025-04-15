@@ -728,4 +728,17 @@ jQuery(document).ready(function($) {
 		}
 	});
 
+	//Panel js for interview add-on
+	$(document).on('click', '.awsm-job-panel-trigger', function(e){
+		e.preventDefault();
+		var $target = $(this).attr('data-panel');
+		$('html').addClass('awsm-job-panel-open');
+		$($target).addClass('open');
+	});
+	$(document).on('click', '.awsm-job-panel-close', function(e){
+		e.preventDefault();
+		$('html').removeClass('awsm-job-panel-open');
+		$('.awsm-job-slide-panel').removeClass('open');
+	});
+
 });
