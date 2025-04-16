@@ -46,6 +46,7 @@ class AWSM_Job_Openings_Block {
 			'pagination'         => isset( $blockatts['pagination'] ) ? $blockatts['pagination'] : '',
 			'sf_border_color'    => isset( $blockatts['sf_border_width']['color'] ) ? $blockatts['sf_border_width']['color'] : '',
 			'sf_border_width'    => isset( $blockatts['sf_border_width']['width'] ) ? $blockatts['sf_border_width']['width'] : '',
+			'block_id'    		 => isset( $blockatts['block_id'] ) ? $blockatts['block_id'] : '',
 		);
 
 		 /**

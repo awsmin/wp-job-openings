@@ -354,15 +354,6 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
   var block_appearance_list = [];
   var block_job_listing = [];
 
-  // Set blockId only once per block instance
-  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_5__.useEffect)(function () {
-    if (!blockId && clientId) {
-      setAttributes({
-        blockId: "job-block-".concat(clientId)
-      });
-    }
-  }, [blockId, clientId]);
-
   // Sync selected terms with props on mount or when selectedTerm changes
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_5__.useEffect)(function () {
     if (typeof awsmJobsAdmin !== 'undefined' && awsmJobsAdmin.isProEnabled) {
@@ -382,6 +373,11 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
       }, {}) : {};
       return initialState;
     });
+    if (clientId) {
+      setAttributes({
+        blockId: "job-block-".concat(clientId)
+      });
+    }
   }, [specifications, selectedTerms, selected_terms_main]);
   var handleTermChange = function handleTermChange(newTokens, specKey, spec) {
     setSelectedTermsState(function (prevSelectedTerms) {

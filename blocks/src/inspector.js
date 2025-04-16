@@ -76,13 +76,6 @@ const WidgetInspectorControls = (props) => {
 	const block_appearance_list = [];
 	const block_job_listing = [];
 
-	// Set blockId only once per block instance
-	useEffect(() => {
-		if (!blockId && clientId) {
-			setAttributes({ blockId: `job-block-${clientId}` });
-		}
-	}, [blockId, clientId]);
-
 	// Sync selected terms with props on mount or when selectedTerm changes
 	useEffect( () => {
 		if (
@@ -109,6 +102,10 @@ const WidgetInspectorControls = (props) => {
 				: {};
 			return initialState;
 		} );
+
+		if (clientId) { 
+			setAttributes({ blockId: `job-block-${clientId}` }); 
+		}
 		
 	}, [ specifications, selectedTerms, selected_terms_main ] );
 

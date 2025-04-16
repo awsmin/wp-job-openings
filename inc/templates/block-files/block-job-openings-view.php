@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $attributes   = isset( $block_atts_set ) ? $block_atts_set : array(); 
-$query        = awsm_block_jobs_query( $attributes );
+$query        = awsm_block_jobs_query( $attributes ); 
 
 $show_filter  			 = false;
 $placement_sidebar_class = '';
@@ -19,7 +19,8 @@ if ( isset( $attributes['search'] ) && $attributes['search'] == 'enable' ) {
 	$placement_sidebar_class = 'awsm-job-2-col';
 }
 
-$sf_border_width  = $attributes['sf_border_width'] ?? '1px';
+$block_id = $attributes['block_id'] ?? 'default-block-id';
+$sf_border_width  = $attributes['sf_border_width'] ?? '1px'; 
 $sf_border_color  = $attributes['sf_border_color'] ?? '#ccc';
 
 $sf_style = sprintf(
@@ -31,7 +32,7 @@ $sf_style = sprintf(
 if ( $query->have_posts() ) :
 	if ( $attributes['placement'] == 'top' ) {
 		?>
-		<div class="awsm-b-job-wrap<?php awsm_jobs_wrapper_class(); ?>">
+		<div class="awsm-b-job-wrap<?php awsm_jobs_wrapper_class(); ?>" id="<?php echo esc_attr( $block_id ); ?>">
 			<?php
 			/**
 			 * awsm_block_filter_form hook
@@ -59,9 +60,9 @@ if ( $query->have_posts() ) :
 		<?php
 	} else { 
 		?>
-	<div class="awsm-b-job-wrap<?php awsm_jobs_wrapper_class(); ?> awsm-job-form-plugin-style <?php echo $placement_sidebar_class; ?>"  ">
+	<div class="awsm-b-job-wrap<?php awsm_jobs_wrapper_class(); ?> awsm-job-form-plugin-style <?php echo $placement_sidebar_class; ?>" id="<?php echo esc_attr( $block_id ); ?>">
 		<?php if ( $show_filter ) {  ?>
-		<div class="awsm-b-filter-wrap awsm-jobs-alerts-on" style="<?php echo esc_attr($sf_style); ?>>
+		<div class="awsm-b-filter-wrap awsm-jobs-alerts-on" >
 			<?php
 				/**
 				 * awsm_block_filter_form_slide hook

@@ -23,15 +23,28 @@ $listing_specs = array( 'job-category', 'job-location' );
  */
 do_action( 'before_awsm_block_jobs_listing_loop', $attributes );
 
+$block_id		 = $attributes['block_id'] ?? 'default-block-id';
+$sf_border_width = $attributes['sf_border_width'] ?? '1px';
+$sf_border_color = $attributes['sf_border_color'] ?? 'black';
+
 while ( $query->have_posts() ) {
 	$query->the_post();
 	$job_details = get_awsm_job_details();
 
 	$attrs  = awsm_jobs_block_listing_item_class( array( "awsm-b-{$view}-item" ) );
 	$attrs .= sprintf( ' id="awsm-b-%1$s-item-%2$s"', esc_attr( $view ), esc_attr( $job_details['id'] ) );
-
 	echo '<div ' . $attrs . '>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	?>
+	
+	<!--  Styles for css variables  -->
+    <style>
+		#<?php echo esc_attr( $block_id ); ?> {
+			--sf-border-width: <?php echo esc_attr( $sf_border_width ); ?>;
+       		--sf-border-color: <?php echo esc_attr( $sf_border_color ); ?>;
+		}
+	</style>
+	<!-- End -->
+
 		<?php echo ( $view === 'grid' ) ? sprintf( '<a href="%s" class="awsm-b-job-item">', esc_url( $job_details['permalink'] ) ) : '<div class="awsm-b-job-item">'; ?>
 			<div class="awsm-b-<?php echo esc_attr( $view ); ?>-left-col">
 				<?php
