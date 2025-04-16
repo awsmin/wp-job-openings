@@ -46,7 +46,7 @@ class AWSM_Job_Openings_Filters {
 		$filters_attr          = isset( $shortcode_atts['filters'] ) ? $shortcode_atts['filters'] : '';
 		$enable_job_filters    = get_option( 'awsm_enable_job_filter_listing' );
 		$enable_search         = get_option( 'awsm_enable_job_search' );
-		
+
 		/**
 		 * Enable search in the job listing or not.
 		 *
@@ -141,20 +141,20 @@ class AWSM_Job_Openings_Filters {
 					$terms_args = apply_filters(
 						'awsm_jobs_spec_terms_args',
 						array(
-							'taxonomy' => $taxonomy,
-							'orderby' => 'meta_value_num',
+							'taxonomy'   => $taxonomy,
+							'orderby'    => 'meta_value_num',
 							'meta_query' => array(
 								'relation' => 'OR',
 								array(
-									'key' => 'term_order',
-									'compare' => 'EXISTS'
+									'key'     => 'term_order',
+									'compare' => 'EXISTS',
 								),
 								array(
-									'key' => 'term_order',
-									'compare' => 'NOT EXISTS'
-								)
+									'key'     => 'term_order',
+									'compare' => 'NOT EXISTS',
+								),
 							),
-							'order' => 'ASC',
+							'order'      => 'ASC',
 							'hide_empty' => true,
 						)
 					);
