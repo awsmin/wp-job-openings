@@ -10,6 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $attributes   = isset( $block_atts_set ) ? $block_atts_set : array(); 
 $query        = awsm_block_jobs_query( $attributes ); 
+$block_id     = (isset($attributes['block_id']) && trim($attributes['block_id']) !== '') ? $attributes['block_id'] : 'default-block-id';
 
 $show_filter  			 = false;
 $placement_sidebar_class = '';
@@ -18,16 +19,6 @@ if ( isset( $attributes['search'] ) && $attributes['search'] == 'enable' ) {
 	$show_filter = true;
 	$placement_sidebar_class = 'awsm-job-2-col';
 }
-
-$block_id = $attributes['block_id'] ?? 'default-block-id';
-$sf_border_width  = $attributes['sf_border_width'] ?? '1px'; 
-$sf_border_color  = $attributes['sf_border_color'] ?? '#ccc';
-
-$sf_style = sprintf(
-	'--sf-border-width: %s; --sf-border-color: %s;',
-	esc_attr($sf_border_width),
-	esc_attr($sf_border_color)
-);
 
 if ( $query->have_posts() ) :
 	if ( $attributes['placement'] == 'top' ) {

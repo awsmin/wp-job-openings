@@ -611,7 +611,7 @@ const WidgetInspectorControls = (props) => {
 									width='30'
 									isCompact
 									withSlider
-									value={sf_border_width} // Ensure there is a fallback value
+									value={sf_border_width || '1px'} // Ensure there is a fallback value
 									__experimentalIsRenderedInSidebar
 									onChange={(newBorder) => {
 										setAttributes({ sf_border_width: newBorder });

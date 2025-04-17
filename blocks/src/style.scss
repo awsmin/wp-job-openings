@@ -774,7 +774,7 @@ ul.awsm-error-message li {
 	}
 	.awsm-job-2-col .awsm-b-filter-wrap form{
 		padding: 30px;
-		border: 1px solid #ccc;
+		border: var(--sf-border-width, 1px) solid var(--sf-border-color, #ccc);
 		border-radius: 5px;
 	}
 	.awsm-job-2-col .awsm-b-filter-wrap.awsm-jobs-alerts-on form{
@@ -988,13 +988,3 @@ ul.awsm-error-message li {
 }
  /** end **/
  
-/** Style Tabs **/
-
-.awsm-b-filter-wrap {
-	border-width: var(--sf-border-width, 1px);
-	border-color: var(--sf-border-color, #ccc);
-	border-style: solid;
-}
-
-/** end **/
-

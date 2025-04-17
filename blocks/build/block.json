@@ -63,10 +63,7 @@
     "sf_border_width": {
       "type": "object",
       "default": {
-        "top": "1px",
-        "right": "1px",
-        "bottom": "1px",
-        "left": "1px",
+        "width": "1px",
         "color": "#cccccc"
       }
     },

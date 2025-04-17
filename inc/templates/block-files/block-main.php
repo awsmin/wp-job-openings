@@ -23,9 +23,9 @@ $listing_specs = array( 'job-category', 'job-location' );
  */
 do_action( 'before_awsm_block_jobs_listing_loop', $attributes );
 
-$block_id		 = $attributes['block_id'] ?? 'default-block-id';
-$sf_border_width = $attributes['sf_border_width'] ?? '1px';
-$sf_border_color = $attributes['sf_border_color'] ?? 'black';
+$block_id     	  = (isset($attributes['block_id']) && trim($attributes['block_id']) !== '') ? $attributes['block_id'] : 'default-block-id';
+$sf_border_width  = (isset($attributes['sf_border_width']) && !empty($attributes['sf_border_width']) && $attributes['sf_border_width'] !== '0px') ? $attributes['sf_border_width'] : '1px';
+$sf_border_color  = isset($attributes['sf_border_color']) && !empty($attributes['sf_border_color']) ? $attributes['sf_border_color'] : '#ccc';
 
 while ( $query->have_posts() ) {
 	$query->the_post();
