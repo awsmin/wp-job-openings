@@ -832,7 +832,7 @@ ul.awsm-error-message li {
   }
   .awsm-job-2-col .awsm-b-filter-wrap form {
     padding: 30px;
-    border: var(--sf-border-width, 1px) solid var(--sf-border-color, #ccc);
+    border: var(--hz-sf-border-width, 1px) solid var(--hz-sf-border-color, #ccc);
     border-radius: 5px;
   }
   .awsm-job-2-col .awsm-b-filter-wrap.awsm-jobs-alerts-on form {

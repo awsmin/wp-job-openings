@@ -91,16 +91,6 @@ class Awsm_Job_Guten_Blocks {
 			$atts['block_id'] = $atts['blockId'];
 		} 
 
-		$sf_border 		  = $atts['sf_border_width'] ?? [];
-		$sf_border_width  = $sf_border['width'] ?? '1px';     
-		$sf_border_color  = $sf_border['color'] ?? '#ccc';    
-
-		$sf_style = sprintf(
-			'--sf-border-width: %s; --sf-border-color: %s;',
-			esc_attr($sf_border_width),
-			esc_attr($sf_border_color)
-		  );
-
 		/** End */
 
 		 /**

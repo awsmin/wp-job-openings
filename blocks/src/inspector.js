@@ -37,7 +37,7 @@ const WidgetInspectorControls = (props) => {
 			selectedTerms,
 			selected_terms_main,
 			number_of_columns,
-			sf_border_width = {},
+			hz_sf_border = {},
 			sf_border_radius,
 			sf_padding,
 			sf_margin,
@@ -611,10 +611,10 @@ const WidgetInspectorControls = (props) => {
 									width='30'
 									isCompact
 									withSlider
-									value={sf_border_width || '1px'} // Ensure there is a fallback value
+									value={hz_sf_border || '1px'} // Ensure there is a fallback value
 									__experimentalIsRenderedInSidebar
 									onChange={(newBorder) => {
-										setAttributes({ sf_border_width: newBorder });
+										setAttributes({ hz_sf_border: newBorder });
 									}}
 								/>
 								<Spacer></Spacer>

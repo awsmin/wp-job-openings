@@ -60,7 +60,7 @@
 			"type": "number",
 			"default": 3
 		},
-		"sf_border_width": {
+		"hz_sf_border": {
 			"type": "object",
 			"default": {
 				"width": "1px",
