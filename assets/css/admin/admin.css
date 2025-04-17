@@ -13,7 +13,26 @@
 .awsm-clearfix {
 	zoom: 1;
 }
-
+.awsm-jobs-button{
+	border-radius: 4px;
+	background: #000;
+	padding: 12px 18px;
+	color: #fff;
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 1.333;
+	letter-spacing: -0.24px;
+	display: inline-block;
+	transition: all 0.3s ease;
+}
+.awsm-jobs-button:hover{
+	background: #6bfae4;
+	color: #000;
+}
+.awsm-jobs-button:focus, .awsm-jobs-button:active{
+	background: #6bfae4;
+	color: #000;
+}
 .awsm-job-settings-wrap a:focus {
 	box-shadow: none;
 }
