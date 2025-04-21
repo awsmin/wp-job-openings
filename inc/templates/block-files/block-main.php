@@ -23,13 +23,7 @@ $listing_specs = array( 'job-category', 'job-location' );
  */
 do_action( 'before_awsm_block_jobs_listing_loop', $attributes );
 
-$block_id     	  	  				= (isset($attributes['block_id']) && trim($attributes['block_id']) !== '') ? $attributes['block_id'] : 'default-block-id';
-$hz_sf_border_width   				= (isset($attributes['hz_sf_border_width']) && !empty($attributes['hz_sf_border_width']) && $attributes['hz_sf_border_width'] !== '0px') ? $attributes['hz_sf_border_width'] : '1px';
-$hz_sf_border_color  		 		= isset($attributes['hz_sf_border_color']) && !empty($attributes['hz_sf_border_color']) ? $attributes['hz_sf_border_color'] : '#ccc';  
-$hz_sf_border_radius  				= isset($attributes['hz_sf_border_radius']) && !empty($attributes['hz_sf_border_radius']) ? $attributes['hz_sf_border_radius'] : '5px';  
-
-$hz_sf_padding_left  				= isset($attributes['hz_sf_padding']['left']) && !empty($attributes['hz_sf_padding']['left']) ? $attributes['hz_sf_padding']['left'] : '15px';  
-$hz_sf_padding_right  				= isset($attributes['hz_sf_padding']['right']) && !empty($attributes['hz_sf_padding']['right']) ? $attributes['hz_sf_padding']['right'] : '15px';  
+$styles = hz_get_sf_styles($attributes);
 
 while ( $query->have_posts() ) {
 	$query->the_post();
@@ -42,12 +36,14 @@ while ( $query->have_posts() ) {
 	
 	<!--  Styles for css variables  -->
     <style>
-		#<?php echo esc_attr( $block_id ); ?> {
-			--hz-sf-border-width: <?php echo esc_attr( $hz_sf_border_width ); ?>;
-       		--hz-sf-border-color: <?php echo esc_attr( $hz_sf_border_color ); ?>;
-			--hz-sf-border-radius: <?php echo esc_attr( $hz_sf_border_radius ); ?>;
-			--hz-sf-padding-left: <?php echo esc_attr( $hz_sf_padding_left ); ?>;
-			--hz-sf-padding-right: <?php echo esc_attr( $hz_sf_padding_right ); ?>;
+		#<?php echo esc_attr( $styles['block_id'] ); ?> {
+			--hz-sf-border-width: 	<?php echo esc_attr( $styles['border_width'] ); ?>;
+			--hz-sf-border-color: 	<?php echo esc_attr( $styles['border_color'] ); ?>;
+			--hz-sf-border-radius: 	<?php echo esc_attr( $styles['border_radius'] ); ?>;
+			--hz-sf-padding-left: 	<?php echo esc_attr( $styles['padding_left'] ); ?>;
+			--hz-sf-padding-right: 	<?php echo esc_attr( $styles['padding_right'] ); ?>;
+			--hz-sf-padding-top: 	<?php echo esc_attr( $styles['padding_top'] ); ?>;
+			--hz-sf-padding-bottom: <?php echo esc_attr( $styles['padding_bottom'] ); ?>;
 		}
 	</style>
 	<!-- End -->

@@ -224,3 +224,48 @@ if ( ! function_exists( 'awsm_jobs_block_listing_item_class' ) ) {
 	}
 }
 
+if ( ! function_exists( 'hz_get_sf_styles' ) ) {
+	function hz_get_sf_styles($attributes) {
+		return [
+			'block_id' => isset($attributes['block_id']) && trim($attributes['block_id']) !== ''
+				? $attributes['block_id']
+				: 'default-block-id',
+
+			'border_width' => isset($attributes['hz_sf_border_width']) && !empty($attributes['hz_sf_border_width']) && $attributes['hz_sf_border_width'] !== '0px'
+				? $attributes['hz_sf_border_width']
+				: '1px',
+
+			'border_color' => isset($attributes['hz_sf_border_color']) && !empty($attributes['hz_sf_border_color'])
+				? $attributes['hz_sf_border_color']
+				: '#ccc',
+
+			'border_radius' => isset($attributes['hz_sf_border_radius']) && !empty($attributes['hz_sf_border_radius'])
+				? $attributes['hz_sf_border_radius']
+				: '5px',
+
+			'padding_left' => isset($attributes['hz_sf_padding']['left']) && !empty($attributes['hz_sf_padding']['left'])
+				? hz_append_px_if_missing($attributes['hz_sf_padding']['left'])
+				: '15px',
+
+			'padding_right' => isset($attributes['hz_sf_padding']['right']) && !empty($attributes['hz_sf_padding']['right'])
+				? hz_append_px_if_missing($attributes['hz_sf_padding']['right'])
+				: '15px',
+
+			'padding_top' => isset($attributes['hz_sf_padding']['top']) && !empty($attributes['hz_sf_padding']['top'])
+				? hz_append_px_if_missing($attributes['hz_sf_padding']['top'])
+				: '15px',
+
+			'padding_bottom' => isset($attributes['hz_sf_padding']['bottom']) && !empty($attributes['hz_sf_padding']['bottom'])
+				? hz_append_px_if_missing($attributes['hz_sf_padding']['bottom'])
+				: '15px',
+		];
+	}
+}
+
+if ( ! function_exists( 'hz_append_px_if_missing' ) ) {
+	function hz_append_px_if_missing($value) {
+		return (is_numeric($value) || !preg_match('/(px|em|rem|%)$/', $value))
+			? $value . 'px'
+			: $value;
+	}
+}

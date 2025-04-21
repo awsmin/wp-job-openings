@@ -91,7 +91,9 @@
         "left": "0px"
       }
     },
-    "sidebarWidth": {},
+    "sidebarWidth": {
+      "type": "string"
+    },
     "blockId": {
       "type": "string"
     }
