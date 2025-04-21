@@ -23,7 +23,7 @@ $listing_specs = array( 'job-category', 'job-location' );
  */
 do_action( 'before_awsm_block_jobs_listing_loop', $attributes );
 
-$styles = hz_get_sf_styles($attributes);
+$styles = hz_get_sf_styles($attributes); 
 
 while ( $query->have_posts() ) {
 	$query->the_post();
