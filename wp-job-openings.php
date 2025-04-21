@@ -80,7 +80,7 @@ class AWSM_Job_Openings {
 			AWSM_Job_Openings_Info::init();
 		}
 
-		add_action( 'init', array( $this, 'load_textdomain' ), 5 );
+		add_action( 'init', array( $this, 'load_textdomain' ) );
 		add_action( 'plugins_loaded', array( $this, 'upgrade' ) );
 		add_action( 'after_setup_theme', array( $this, 'template_functions' ) );
 		add_action( 'init', array( $this, 'init_actions' ) );
