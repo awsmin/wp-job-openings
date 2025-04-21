@@ -40,8 +40,8 @@ const WidgetInspectorControls = (props) => {
 			hz_sf_border = {},
 			hz_sf_border_radius = {},
 			hz_sf_padding = {},
-			sf_margin,
-			ls_border_width,
+			hz_sf_margin = {},
+			hz_ls_border_width = {},
 			ls_border_radius,
 			ls_padding,
 			ls_margin,
@@ -639,9 +639,9 @@ const WidgetInspectorControls = (props) => {
 								<Spacer></Spacer>
 								<BoxControl
 									label={__('Margin', 'wp-job-openings')}
-									value={sf_margin || 0} // Ensure there is a fallback value
+									value={hz_sf_margin || 0} // Ensure there is a fallback value
 									onChange={(Margin) => {
-										setAttributes({ sf_margin: Margin });
+										setAttributes({ hz_sf_margin: Margin });
 									}}
 								/>
                             </PanelBody>
@@ -659,10 +659,10 @@ const WidgetInspectorControls = (props) => {
 									width='30'
 									isCompact
 									withSlider
-									value={ls_border_width || 0} // Ensure there is a fallback value
+									value={hz_ls_border_width || 0} // Ensure there is a fallback value
 									__experimentalIsRenderedInSidebar
 									onChange={(newBorder) => {
-										setAttributes({ ls_border_width: newBorder });
+										setAttributes({ hz_ls_border_width: newBorder });
 									}}
 								/>
 								<Spacer></Spacer>

@@ -47,10 +47,11 @@ class AWSM_Job_Openings_Block {
 			'hz_sf_border_color' => isset( $blockatts['hz_sf_border']['color'] ) ? $blockatts['hz_sf_border']['color'] : '',
 			'hz_sf_border_width' => isset( $blockatts['hz_sf_border']['width'] ) ? $blockatts['hz_sf_border']['width'] : '',
 			'hz_sf_padding'		 => isset( $blockatts['hz_sf_padding'] ) ? $blockatts['hz_sf_padding'] : '',
+			'hz_sf_margin'		 => isset( $blockatts['hz_sf_margin'] ) ? $blockatts['hz_sf_margin'] : '',
 			'hz_sf_border_radius'=> isset( $blockatts['hz_sf_border_radius']['width'] ) ? $blockatts['hz_sf_border_radius']['width'] : '',
 			'block_id'    		 => isset( $blockatts['block_id'] ) ? $blockatts['block_id'] : '',
 		);
-	
+
 		 /**
 		 * Filter the attribute set for the Job Listing block.
 		 *
