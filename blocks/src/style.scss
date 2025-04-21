@@ -748,10 +748,10 @@ ul.awsm-error-message li {
 	}
 	.awsm-job-2-col .awsm-b-filter-wrap{
 		width: 33.333%;
-		padding-left: 15px;
-		padding-right: 15px;
-		margin-left: 0;
-		margin-right: 0;
+		padding-left: 15px;  /** Variable assigned  **/
+		padding-right: 15px;  /** Variable assigned  **/
+		margin-left: 0;  /** Variable assigned  **/
+		margin-right: 0; 
 	}
 	.awsm-job-2-col .awsm-b-job-listings{
 		width: 66.6666%;
@@ -773,9 +773,9 @@ ul.awsm-error-message li {
 		width: 100% !important;
 	}
 	.awsm-job-2-col .awsm-b-filter-wrap form{
-		padding: 30px;
+		padding: var(--hz-sf-padding-left, 30px);
 		border: var(--hz-sf-border-width, 1px) solid var(--hz-sf-border-color, #ccc);
-		border-radius: 5px;
+		border-radius: var(--hz-sf-border-radius, 5px);
 	}
 	.awsm-job-2-col .awsm-b-filter-wrap.awsm-jobs-alerts-on form{
 		margin-bottom: 80px;

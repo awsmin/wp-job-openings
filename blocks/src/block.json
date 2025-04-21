@@ -67,6 +67,22 @@
 				"color": "#cccccc"
 			}
 		},
+		"hz_sf_border_radius": {
+			"type": "object",
+			"default": {
+				"width": "5px",
+				"color": "#cccccc"
+			}
+		},
+		"hz_sf_padding":{
+			"type": "object",
+			"default": {
+				"top": "0px",
+				"right": "0px",
+				"bottom": "0px",
+				"left": "0px"
+			}
+		},
 		"blockId": {
 			"type": "string"
 		}

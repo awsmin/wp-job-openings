@@ -38,8 +38,8 @@ const WidgetInspectorControls = (props) => {
 			selected_terms_main,
 			number_of_columns,
 			hz_sf_border = {},
-			sf_border_radius,
-			sf_padding,
+			hz_sf_border_radius = {},
+			hz_sf_padding = {},
 			sf_margin,
 			ls_border_width,
 			ls_border_radius,
@@ -622,25 +622,23 @@ const WidgetInspectorControls = (props) => {
 								<BorderBoxControl
 									label={__('Radius', 'wp-job-openings')}
 									withSlider
-									value={sf_border_radius || 0} // Ensure there is a fallback value
+									value={hz_sf_border_radius || 0} // Ensure there is a fallback value
 									onChange={(newRadius) => {
-										setAttributes({ sf_border_radius: newRadius });
+										setAttributes({ hz_sf_border_radius: newRadius });
 									}}
 								/>
 								</div>
 								<Spacer></Spacer>
 								<BoxControl
 									label={__('Padding', 'wp-job-openings')}
-									__next40pxDefaultSize
-									value={sf_padding || 0} // Ensure there is a fallback value
+									value={hz_sf_padding} // Ensure there is a fallback value
 									onChange={(Padding) => {
-										setAttributes({ sf_padding: Padding });
+										setAttributes({ hz_sf_padding: { ...Padding } });
 									}}
 								/>
 								<Spacer></Spacer>
 								<BoxControl
 									label={__('Margin', 'wp-job-openings')}
-									__next40pxDefaultSize
 									value={sf_margin || 0} // Ensure there is a fallback value
 									onChange={(Margin) => {
 										setAttributes({ sf_margin: Margin });
