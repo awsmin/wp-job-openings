@@ -791,11 +791,11 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
       }
     })), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalSpacer, null), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalBoxControl, {
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Padding', 'wp-job-openings'),
-      value: hz_sf_padding // Ensure there is a fallback value
+      values: hz_sf_padding // Ensure there is a fallback value
       ,
       onChange: function onChange(Padding) {
         setAttributes({
-          hz_sf_padding: _objectSpread({}, Padding)
+          hz_sf_padding: Padding
         });
       }
     }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalSpacer, null), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalBoxControl, {

@@ -631,9 +631,9 @@ const WidgetInspectorControls = (props) => {
 								<Spacer></Spacer>
 								<BoxControl
 									label={__('Padding', 'wp-job-openings')}
-									value={hz_sf_padding} // Ensure there is a fallback value
+									values={hz_sf_padding} // Ensure there is a fallback value
 									onChange={(Padding) => {
-										setAttributes({ hz_sf_padding: { ...Padding } });
+										setAttributes({ hz_sf_padding: Padding });
 									}}
 								/>
 								<Spacer></Spacer>
