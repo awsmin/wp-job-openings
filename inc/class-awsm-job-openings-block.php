@@ -52,6 +52,7 @@ class AWSM_Job_Openings_Block {
 			'block_id'    		 => isset( $blockatts['block_id'] ) ? $blockatts['block_id'] : '',
 			'hz_ls_border_color' => isset( $blockatts['hz_ls_border']['color'] ) ? $blockatts['hz_ls_border']['color'] : '',
 			'hz_ls_border_width' => isset( $blockatts['hz_ls_border']['width'] ) ? $blockatts['hz_ls_border']['width'] : '',
+			'hz_ls_border_radius'=> isset( $blockatts['hz_ls_border_radius']['width'] ) ? $blockatts['hz_ls_border_radius']['width'] : '',
 		);
 		
 		 /**

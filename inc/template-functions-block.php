@@ -270,6 +270,10 @@ if ( ! function_exists( 'hz_get_sf_styles' ) ) {
 			'border_color_field' => isset($attributes['hz_ls_border_color']) && !empty($attributes['hz_ls_border_color'])
 				? $attributes['hz_ls_border_color']
 				: '#ccc',
+
+			'border_radius_field' => isset($attributes['hz_ls_border_radius']) && !empty($attributes['hz_ls_border_radius'])
+				? $attributes['hz_ls_border_radius']
+				: '5px',
 		];
 	}
 }

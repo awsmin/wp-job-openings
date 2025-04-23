@@ -983,7 +983,7 @@ ul.awsm-error-message li {
 }
 
 .awsm-selectric{
-	border-radius: 5px !important;; 
+	border-radius: var(--hz-ls-border-radius, 5px) !important;
 	border: var(--hz-ls-border-width, 1px) solid var(--hz-ls-border-color, #d5d5d5) !important;
 }	
 

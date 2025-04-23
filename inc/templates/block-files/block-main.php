@@ -47,6 +47,7 @@ while ( $query->have_posts() ) {
 			--hz-sidebar-width: 	<?php echo esc_attr( $styles['sidebar_width'] ); ?>;
 			--hz-ls-border-width: 	<?php echo esc_attr( $styles['border_width_field'] ); ?>;
 			--hz-ls-border-color: 	<?php echo esc_attr( $styles['border_color_field'] ); ?>;
+			--hz-ls-border-radius: 	<?php echo esc_attr( $styles['border_radius_field'] ); ?>;
 		}
 	</style>
 	<!-- End -->

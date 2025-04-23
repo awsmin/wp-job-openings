@@ -320,9 +320,9 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
     hz_sf_padding = _props$attributes$hz_3 === void 0 ? {} : _props$attributes$hz_3,
     _props$attributes$hz_4 = _props$attributes.hz_ls_border,
     hz_ls_border = _props$attributes$hz_4 === void 0 ? {} : _props$attributes$hz_4,
+    _props$attributes$hz_5 = _props$attributes.hz_ls_border_radius,
+    hz_ls_border_radius = _props$attributes$hz_5 === void 0 ? {} : _props$attributes$hz_5,
     ls_border_radius = _props$attributes.ls_border_radius,
-    ls_padding = _props$attributes.ls_padding,
-    ls_margin = _props$attributes.ls_margin,
     jl_border_width = _props$attributes.jl_border_width,
     jl_border_radius = _props$attributes.jl_border_radius,
     jl_padding = _props$attributes.jl_padding,
@@ -832,34 +832,14 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
       width: "30",
       isCompact: true,
       withSlider: true,
-      value: ls_border_radius || 0 // Ensure there is a fallback value
+      value: hz_ls_border_radius || 0 // Ensure there is a fallback value
       ,
       onChange: function onChange(newRadius) {
         setAttributes({
-          ls_border_radius: newRadius
+          hz_ls_border_radius: newRadius
         });
       }
-    })), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalSpacer, null), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalBoxControl, {
-      label: "Padding",
-      __next40pxDefaultSize: true,
-      value: ls_padding || 0 // Ensure there is a fallback value
-      ,
-      onChange: function onChange(Padding) {
-        setAttributes({
-          ls_padding: Padding
-        });
-      }
-    }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalSpacer, null), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalBoxControl, {
-      label: "Margin",
-      __next40pxDefaultSize: true,
-      value: ls_margin || 0 // Ensure there is a fallback value
-      ,
-      onChange: function onChange(Margin) {
-        setAttributes({
-          ls_margin: Margin
-        });
-      }
-    })), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.PanelBody, {
+    }))), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.PanelBody, {
       title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Job Listing', 'wp-job-openings'),
       initialOpen: true
     }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalBorderBoxControl, {
@@ -1478,7 +1458,7 @@ function _unsupportedIterableToArray(r, a) {
   \************************/
 /***/ (function(module) {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"wp-job-openings/blocks","version":"1.0.0","title":"","category":"","icon":"","description":"","attributes":{"search":{"type":"boolean","default":false},"placement":{"type":"string","default":"top"},"search_placeholder":{"type":"string","default":""},"filter_options":{"type":"array","default":[]},"listType":{"type":"string","default":"all"},"layout":{"type":"string","default":"list"},"selected_terms_main":{"type":"array","default":[]},"selectedTerms":{"type":"object","default":{}},"orderBy":{"type":"string","default":"new"},"hide_expired_jobs":{"type":"boolean","default":false},"jobsPerPage":{"type":"number","default":5},"pagination":{"type":"string","default":"modern"},"number_of_columns":{"type":"number","default":3},"hz_sf_border":{"type":"object","default":{"width":"1px","color":"#cccccc"}},"hz_sf_border_radius":{"type":"object","default":{"width":"5px"}},"hz_sf_padding":{"type":"object","default":{"top":"0px","right":"0px","bottom":"0px","left":"0px"}},"blockId":{"type":"string"},"hz_sidebar_width":{"type":"string","default":""},"hz_ls_border":{"type":"object","default":{"width":"1px","color":"#cccccc"}}},"example":{},"supports":{"html":false},"textdomain":"wp-job-openings","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"wp-job-openings/blocks","version":"1.0.0","title":"","category":"","icon":"","description":"","attributes":{"search":{"type":"boolean","default":false},"placement":{"type":"string","default":"top"},"search_placeholder":{"type":"string","default":""},"filter_options":{"type":"array","default":[]},"listType":{"type":"string","default":"all"},"layout":{"type":"string","default":"list"},"selected_terms_main":{"type":"array","default":[]},"selectedTerms":{"type":"object","default":{}},"orderBy":{"type":"string","default":"new"},"hide_expired_jobs":{"type":"boolean","default":false},"jobsPerPage":{"type":"number","default":5},"pagination":{"type":"string","default":"modern"},"number_of_columns":{"type":"number","default":3},"hz_sf_border":{"type":"object","default":{"width":"1px","color":"#cccccc"}},"hz_sf_border_radius":{"type":"object","default":{"width":"5px"}},"hz_sf_padding":{"type":"object","default":{"top":"0px","right":"0px","bottom":"0px","left":"0px"}},"blockId":{"type":"string"},"hz_sidebar_width":{"type":"string","default":""},"hz_ls_border":{"type":"object","default":{"width":"1px","color":"#cccccc"}},"hz_ls_border_radius":{"type":"object","default":{"width":"5px"}}},"example":{},"supports":{"html":false},"textdomain":"wp-job-openings","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ })
 

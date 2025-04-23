@@ -41,9 +41,8 @@ const WidgetInspectorControls = (props) => {
 			hz_sf_border_radius = {},
 			hz_sf_padding = {},
 			hz_ls_border = {},
+			hz_ls_border_radius = {},
 			ls_border_radius,
-			ls_padding,
-			ls_margin,
 			jl_border_width,
 			jl_border_radius,
 			jl_padding,
@@ -665,30 +664,12 @@ const WidgetInspectorControls = (props) => {
 									width='30'
 									isCompact
 									withSlider
-									value={ls_border_radius || 0} // Ensure there is a fallback value
+									value={hz_ls_border_radius || 0} // Ensure there is a fallback value
 									onChange={(newRadius) => {
-										setAttributes({ ls_border_radius: newRadius });
+										setAttributes({ hz_ls_border_radius: newRadius });
 									}}
 								/>
 								</div>
-								<Spacer></Spacer>
-								<BoxControl
-									label="Padding"
-									__next40pxDefaultSize
-									value={ls_padding || 0} // Ensure there is a fallback value
-									onChange={(Padding) => {
-										setAttributes({ ls_padding: Padding });
-									}}
-								/>
-								<Spacer></Spacer>
-								<BoxControl
-									label="Margin"
-									__next40pxDefaultSize
-									value={ls_margin || 0} // Ensure there is a fallback value
-									onChange={(Margin) => {
-										setAttributes({ ls_margin: Margin });
-									}}
-								/>
 							</PanelBody>
 
 							<PanelBody title={__('Job Listing', 'wp-job-openings')} initialOpen={true}>

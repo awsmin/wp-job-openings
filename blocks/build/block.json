@@ -95,6 +95,12 @@
         "width": "1px",
         "color": "#cccccc"
       }
+    },
+    "hz_ls_border_radius": {
+      "type": "object",
+      "default": {
+        "width": "5px"
+      }
     }
   },
   "example": {},
