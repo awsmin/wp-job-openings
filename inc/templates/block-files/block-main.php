@@ -23,7 +23,7 @@ $listing_specs = array( 'job-category', 'job-location' );
  */
 do_action( 'before_awsm_block_jobs_listing_loop', $attributes );
 
-$styles = hz_get_sf_styles($attributes); 
+$styles = hz_get_ui_styles($attributes);
 
 while ( $query->have_posts() ) {
 	$query->the_post();
@@ -44,6 +44,7 @@ while ( $query->have_posts() ) {
 			--hz-sf-padding-right: 	<?php echo esc_attr( $styles['padding_right'] ); ?>;
 			--hz-sf-padding-top: 	<?php echo esc_attr( $styles['padding_top'] ); ?>;
 			--hz-sf-padding-bottom: <?php echo esc_attr( $styles['padding_bottom'] ); ?>;
+			--hz-sidebar-width: 	<?php echo esc_attr( $styles['sidebar_width'] ); ?>;
 		}
 	</style>
 	<!-- End -->

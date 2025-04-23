@@ -805,7 +805,7 @@ ul.awsm-error-message li {
     margin-left: -15px;
   }
   .awsm-job-2-col .awsm-b-filter-wrap {
-    width: 33.333%;
+    width: var(--hz-sidebar-width, 33.333%);
     padding-right: 15px; /** Variable assigned  **/
     padding-left: 15px; /** Variable assigned  **/
     margin-right: 0; /** Variable assigned  **/

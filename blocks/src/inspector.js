@@ -40,7 +40,6 @@ const WidgetInspectorControls = (props) => {
 			hz_sf_border = {},
 			hz_sf_border_radius = {},
 			hz_sf_padding = {},
-			hz_sf_margin = {},
 			hz_ls_border_width = {},
 			ls_border_radius,
 			ls_padding,
@@ -56,7 +55,7 @@ const WidgetInspectorControls = (props) => {
 			headingColor,
 			overlayColor,
 			buttonColor,
-			sidebarWidth,
+			hz_sidebar_width,
 			blockId,
 		},
 		setAttributes,
@@ -636,21 +635,13 @@ const WidgetInspectorControls = (props) => {
 										setAttributes({ hz_sf_padding: Padding });
 									}}
 								/>
-								<Spacer></Spacer>
-								<BoxControl
-									label={__('Margin', 'wp-job-openings')}
-									value={hz_sf_margin || 0} // Ensure there is a fallback value
-									onChange={(Margin) => {
-										setAttributes({ hz_sf_margin: Margin });
-									}}
-								/>
                             </PanelBody>
 
 							<PanelBody title={__('Layout Settings', 'wp-job-openings')} initialOpen={true}>
 								<InputControl
-									name="sidebarWidth"
-									value={sidebarWidth}
-									onChange={(value) => setAttributes({ sidebarWidth: value })}
+									name="hz_sidebar_width"
+									value={hz_sidebar_width}
+									onChange={(value) => setAttributes({ hz_sidebar_width: value })}
 									suffix={<InputControllSuffixWrapper>%</InputControllSuffixWrapper>}
 								/>
 

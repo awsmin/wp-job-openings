@@ -82,20 +82,15 @@
 				"left": "0px"
 			}
 		},
-		"hz_sf_margin":{
-			"type": "object",
-			"default": {
-				"top": "0px",
-				"right": "0px",
-				"bottom": "0px",
-				"left": "0px"
-			}
-		},
 		"sidebarWidth":{
 			"type": "string"
 		},
 		"blockId": {
 			"type": "string"
+		},
+		"sidebar_width": {
+			"type": "string",
+			"default": ""
 		}
 	},
 	"example": {},

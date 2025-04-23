@@ -225,7 +225,7 @@ if ( ! function_exists( 'awsm_jobs_block_listing_item_class' ) ) {
 }
 
 if ( ! function_exists( 'hz_get_sf_styles' ) ) {
-	function hz_get_sf_styles($attributes) {
+	function hz_get_ui_styles($attributes) {  
 		return [
 			'block_id' => isset($attributes['block_id']) && trim($attributes['block_id']) !== ''
 				? $attributes['block_id']
@@ -244,28 +244,36 @@ if ( ! function_exists( 'hz_get_sf_styles' ) ) {
 				: '5px',
 
 			'padding_left' => isset($attributes['hz_sf_padding']['left']) && !empty($attributes['hz_sf_padding']['left'])
-				? hz_append_px_if_missing($attributes['hz_sf_padding']['left'])
+				? hz_append_unit_if_missing($attributes['hz_sf_padding']['left'])
 				: '15px',
 
 			'padding_right' => isset($attributes['hz_sf_padding']['right']) && !empty($attributes['hz_sf_padding']['right'])
-				? hz_append_px_if_missing($attributes['hz_sf_padding']['right'])
+				? hz_append_unit_if_missing($attributes['hz_sf_padding']['right'])
 				: '15px',
 
 			'padding_top' => isset($attributes['hz_sf_padding']['top']) && !empty($attributes['hz_sf_padding']['top'])
-				? hz_append_px_if_missing($attributes['hz_sf_padding']['top'])
+				? hz_append_unit_if_missing($attributes['hz_sf_padding']['top'])
 				: '15px',
 
 			'padding_bottom' => isset($attributes['hz_sf_padding']['bottom']) && !empty($attributes['hz_sf_padding']['bottom'])
-				? hz_append_px_if_missing($attributes['hz_sf_padding']['bottom'])
+				? hz_append_unit_if_missing($attributes['hz_sf_padding']['bottom'])
 				: '15px',
+
+			'sidebar_width' => isset($attributes['hz_sidebar_width']) && !empty($attributes['hz_sidebar_width'])
+				? hz_append_unit_if_missing($attributes['hz_sidebar_width'],'%')
+				: '33.333%',
 		];
 	}
 }
 
-if ( ! function_exists( 'hz_append_px_if_missing' ) ) {
-	function hz_append_px_if_missing($value) {
-		return (is_numeric($value) || !preg_match('/(px|em|rem|%)$/', $value))
-			? $value . 'px'
+if ( ! function_exists( 'hz_append_unit_if_missing' ) ) {
+	function hz_append_unit_if_missing( $value, $default_unit = 'px' ) {
+		// List of common CSS units
+		$units_pattern = '/(px|em|rem|%)$/';
+
+		// If value is numeric or lacks a valid unit, append the default unit
+		return ( is_numeric( $value ) || ! preg_match( $units_pattern, $value ) )
+			? $value . $default_unit
 			: $value;
 	}
-}
+} 

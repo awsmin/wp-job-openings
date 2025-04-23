@@ -318,10 +318,8 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
     hz_sf_border_radius = _props$attributes$hz_2 === void 0 ? {} : _props$attributes$hz_2,
     _props$attributes$hz_3 = _props$attributes.hz_sf_padding,
     hz_sf_padding = _props$attributes$hz_3 === void 0 ? {} : _props$attributes$hz_3,
-    _props$attributes$hz_4 = _props$attributes.hz_sf_margin,
-    hz_sf_margin = _props$attributes$hz_4 === void 0 ? {} : _props$attributes$hz_4,
-    _props$attributes$hz_5 = _props$attributes.hz_ls_border_width,
-    hz_ls_border_width = _props$attributes$hz_5 === void 0 ? {} : _props$attributes$hz_5,
+    _props$attributes$hz_4 = _props$attributes.hz_ls_border_width,
+    hz_ls_border_width = _props$attributes$hz_4 === void 0 ? {} : _props$attributes$hz_4,
     ls_border_radius = _props$attributes.ls_border_radius,
     ls_padding = _props$attributes.ls_padding,
     ls_margin = _props$attributes.ls_margin,
@@ -336,7 +334,7 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
     headingColor = _props$attributes.headingColor,
     overlayColor = _props$attributes.overlayColor,
     buttonColor = _props$attributes.buttonColor,
-    sidebarWidth = _props$attributes.sidebarWidth,
+    hz_sidebar_width = _props$attributes.hz_sidebar_width,
     blockId = _props$attributes.blockId,
     setAttributes = props.setAttributes,
     clientId = props.clientId;
@@ -798,24 +796,15 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
           hz_sf_padding: Padding
         });
       }
-    }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalSpacer, null), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalBoxControl, {
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Margin', 'wp-job-openings'),
-      value: hz_sf_margin || 0 // Ensure there is a fallback value
-      ,
-      onChange: function onChange(Margin) {
-        setAttributes({
-          hz_sf_margin: Margin
-        });
-      }
     })), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.PanelBody, {
       title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Layout Settings', 'wp-job-openings'),
       initialOpen: true
     }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalInputControl, {
-      name: "sidebarWidth",
-      value: sidebarWidth,
+      name: "hz_sidebar_width",
+      value: hz_sidebar_width,
       onChange: function onChange(value) {
         return setAttributes({
-          sidebarWidth: value
+          hz_sidebar_width: value
         });
       },
       suffix: (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalInputControlSuffixWrapper, null, "%")
@@ -1485,7 +1474,7 @@ function _unsupportedIterableToArray(r, a) {
   \************************/
 /***/ (function(module) {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"wp-job-openings/blocks","version":"1.0.0","title":"","category":"","icon":"","description":"","attributes":{"search":{"type":"boolean","default":false},"placement":{"type":"string","default":"top"},"search_placeholder":{"type":"string","default":""},"filter_options":{"type":"array","default":[]},"listType":{"type":"string","default":"all"},"layout":{"type":"string","default":"list"},"selected_terms_main":{"type":"array","default":[]},"selectedTerms":{"type":"object","default":{}},"orderBy":{"type":"string","default":"new"},"hide_expired_jobs":{"type":"boolean","default":false},"jobsPerPage":{"type":"number","default":5},"pagination":{"type":"string","default":"modern"},"number_of_columns":{"type":"number","default":3},"hz_sf_border":{"type":"object","default":{"width":"1px","color":"#cccccc"}},"hz_sf_border_radius":{"type":"object","default":{"width":"5px"}},"hz_sf_padding":{"type":"object","default":{"top":"0px","right":"0px","bottom":"0px","left":"0px"}},"hz_sf_margin":{"type":"object","default":{"top":"0px","right":"0px","bottom":"0px","left":"0px"}},"sidebarWidth":{"type":"string"},"blockId":{"type":"string"}},"example":{},"supports":{"html":false},"textdomain":"wp-job-openings","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"wp-job-openings/blocks","version":"1.0.0","title":"","category":"","icon":"","description":"","attributes":{"search":{"type":"boolean","default":false},"placement":{"type":"string","default":"top"},"search_placeholder":{"type":"string","default":""},"filter_options":{"type":"array","default":[]},"listType":{"type":"string","default":"all"},"layout":{"type":"string","default":"list"},"selected_terms_main":{"type":"array","default":[]},"selectedTerms":{"type":"object","default":{}},"orderBy":{"type":"string","default":"new"},"hide_expired_jobs":{"type":"boolean","default":false},"jobsPerPage":{"type":"number","default":5},"pagination":{"type":"string","default":"modern"},"number_of_columns":{"type":"number","default":3},"hz_sf_border":{"type":"object","default":{"width":"1px","color":"#cccccc"}},"hz_sf_border_radius":{"type":"object","default":{"width":"5px"}},"hz_sf_padding":{"type":"object","default":{"top":"0px","right":"0px","bottom":"0px","left":"0px"}},"sidebarWidth":{"type":"string"},"blockId":{"type":"string"},"sidebar_width":{"type":"string","default":""}},"example":{},"supports":{"html":false},"textdomain":"wp-job-openings","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ })
 
