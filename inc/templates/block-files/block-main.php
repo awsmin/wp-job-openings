@@ -45,6 +45,8 @@ while ( $query->have_posts() ) {
 			--hz-sf-padding-top: 	<?php echo esc_attr( $styles['padding_top'] ); ?>;
 			--hz-sf-padding-bottom: <?php echo esc_attr( $styles['padding_bottom'] ); ?>;
 			--hz-sidebar-width: 	<?php echo esc_attr( $styles['sidebar_width'] ); ?>;
+			--hz-ls-border-width: 	<?php echo esc_attr( $styles['border_width_field'] ); ?>;
+			--hz-ls-border-color: 	<?php echo esc_attr( $styles['border_color_field'] ); ?>;
 		}
 	</style>
 	<!-- End -->

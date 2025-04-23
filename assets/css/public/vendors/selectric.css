@@ -143,7 +143,7 @@
   height: 1px !important;
   outline: none !important;
   border: none !important;
-  *font: 0/0 a !important;
+  font: 0/0 a !important;
   background: none !important;
 }
 

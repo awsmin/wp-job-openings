@@ -40,7 +40,7 @@ const WidgetInspectorControls = (props) => {
 			hz_sf_border = {},
 			hz_sf_border_radius = {},
 			hz_sf_padding = {},
-			hz_ls_border_width = {},
+			hz_ls_border = {},
 			ls_border_radius,
 			ls_padding,
 			ls_margin,
@@ -639,10 +639,12 @@ const WidgetInspectorControls = (props) => {
 
 							<PanelBody title={__('Layout Settings', 'wp-job-openings')} initialOpen={true}>
 								<InputControl
+								    label="Sidebar Width"
 									name="hz_sidebar_width"
-									value={hz_sidebar_width}
-									onChange={(value) => setAttributes({ hz_sidebar_width: value })}
-									suffix={<InputControllSuffixWrapper>%</InputControllSuffixWrapper>}
+									value={hz_sidebar_width?.replace('%', '') || ''}
+									onChange={(val) => setAttributes({ hz_sidebar_width: val })}
+									suffix="%"
+									style={{ width: '120px' }}
 								/>
 
 								<BorderBoxControl
@@ -650,10 +652,10 @@ const WidgetInspectorControls = (props) => {
 									width='30'
 									isCompact
 									withSlider
-									value={hz_ls_border_width || 0} // Ensure there is a fallback value
+									value={hz_ls_border || '1px'} // Ensure there is a fallback value
 									__experimentalIsRenderedInSidebar
 									onChange={(newBorder) => {
-										setAttributes({ hz_ls_border_width: newBorder });
+										setAttributes({ hz_ls_border: newBorder });
 									}}
 								/>
 								<Spacer></Spacer>

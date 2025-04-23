@@ -695,7 +695,7 @@ ul.awsm-error-message li {
   font: inherit;
   padding: 8px 15px;
   min-height: 46px;
-  border: 1px solid #ccc;
+  border: var(--hz-ls-border-width, 1px) solid var(--hz-ls-border-color, #ccc);
   border-radius: 5px;
   line-height: 1;
   color: #060606;
@@ -1118,7 +1118,8 @@ ul.awsm-error-message li {
 }
 
 .awsm-selectric {
-  border-radius: 5px;
+  border-radius: 5px !important;
+  border: var(--hz-ls-border-width, 1px) solid var(--hz-ls-border-color, #d5d5d5) !important;
 }
 
 .awsm-b-list-item h2.awsm-b-job-post-title {

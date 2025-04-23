@@ -82,15 +82,19 @@
         "left": "0px"
       }
     },
-    "sidebarWidth": {
-      "type": "string"
-    },
     "blockId": {
       "type": "string"
     },
-    "sidebar_width": {
+    "hz_sidebar_width": {
       "type": "string",
       "default": ""
+    },
+    "hz_ls_border": {
+      "type": "object",
+      "default": {
+        "width": "1px",
+        "color": "#cccccc"
+      }
     }
   },
   "example": {},

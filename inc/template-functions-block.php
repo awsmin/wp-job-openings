@@ -262,6 +262,14 @@ if ( ! function_exists( 'hz_get_sf_styles' ) ) {
 			'sidebar_width' => isset($attributes['hz_sidebar_width']) && !empty($attributes['hz_sidebar_width'])
 				? hz_append_unit_if_missing($attributes['hz_sidebar_width'],'%')
 				: '33.333%',
+
+			'border_width_field' => isset($attributes['hz_ls_border_width']) && !empty($attributes['hz_ls_border_width']) && $attributes['hz_ls_border_width'] !== '0px'
+				? $attributes['hz_ls_border_width']
+				: '1px',
+
+			'border_color_field' => isset($attributes['hz_ls_border_color']) && !empty($attributes['hz_ls_border_color'])
+				? $attributes['hz_ls_border_color']
+				: '#ccc',
 		];
 	}
 }
