@@ -721,8 +721,8 @@ ul.awsm-error-message li {
   font: inherit;
   padding: 8px 15px;
   min-height: 46px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  border: var(--hz-ls-border-width, 1px) solid var(--hz-ls-border-color, #ccc);
+  border-radius: var(--hz-ls-border-radius, 5px) !important;
   line-height: 1;
   color: #060606;
   -webkit-transition: all 0.3s ease;
@@ -802,7 +802,8 @@ ul.awsm-error-message li {
 
 .awsm-b-filter-admin label.awsm-b-sr-only {
   padding: 0 15px 0 50px;
-  border: 1px solid #dddfe3;
+  border: var(--hz-ls-border-width, 1px) solid var(--hz-ls-border-color, #d5d5d5) !important;
+  border-radius: var(--hz-ls-border-radius, 5px) !important;
   min-width: 160px;
   font-size: 14px;
   position: relative;
@@ -917,9 +918,16 @@ ul.awsm-error-message li {
 }
 
 .awsm-b-stack-item .awsm-b-job-item {
-  border-radius: 5px;
+  /* border-radius: 5px;
   border: 1px solid #CBCBCB;
   padding: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px; */
+  border-radius: var(--hz-jl-border-radius, 5px);
+  border: var(--hz-jl-border-width, 1px) solid var(--hz-jl-border-color, #CBCBCB);
+  padding: var(--hz-jl-padding-top, 30px) var(--hz-jl-padding-left, 30px) var(--hz-jl-padding-bottom, 30px) var(--hz-jl-padding-right, 30px);
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -968,7 +976,8 @@ ul.awsm-error-message li {
 }
 
 .awsm-selectric {
-  border-radius: 5px;
+  border-radius: var(--hz-ls-border-radius, 5px) !important;
+  border: var(--hz-ls-border-width, 1px) solid var(--hz-ls-border-color, #d5d5d5) !important;
 }
 
 .awsm-b-list-item h2.awsm-b-job-post-title {

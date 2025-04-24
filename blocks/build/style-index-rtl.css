@@ -696,7 +696,7 @@ ul.awsm-error-message li {
   padding: 8px 15px;
   min-height: 46px;
   border: var(--hz-ls-border-width, 1px) solid var(--hz-ls-border-color, #ccc);
-  border-radius: 5px;
+  border-radius: var(--hz-ls-border-radius, 5px) !important;
   line-height: 1;
   color: #060606;
   -webkit-transition: all 0.3s ease;
