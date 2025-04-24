@@ -23,8 +23,36 @@ $listing_specs = array( 'job-category', 'job-location' );
  */
 do_action( 'before_awsm_block_jobs_listing_loop', $attributes );
 
-$styles = hz_get_ui_styles($attributes);
+$styles = hz_get_ui_styles($attributes); 
+?>
 
+<!--  Styles for css variables  -->
+<style>
+	#<?php echo esc_attr( $styles['block_id'] ); ?> {
+		--hz-sf-border-width: 	<?php echo esc_attr( $styles['border_width'] ); 	    ?>;
+		--hz-sf-border-color: 	<?php echo esc_attr( $styles['border_color'] ); 	    ?>;
+		--hz-sf-border-radius: 	<?php echo esc_attr( $styles['border_radius'] ); 	    ?>;
+		--hz-sf-padding-left: 	<?php echo esc_attr( $styles['padding_left'] ); 	    ?>;
+		--hz-sf-padding-right: 	<?php echo esc_attr( $styles['padding_right'] ); 	    ?>;
+		--hz-sf-padding-top: 	<?php echo esc_attr( $styles['padding_top'] ); 		    ?>;
+		--hz-sf-padding-bottom: <?php echo esc_attr( $styles['padding_bottom'] ); 	    ?>;
+		--hz-sidebar-width: 	<?php echo esc_attr( $styles['sidebar_width'] ); 		?>;
+		--hz-ls-border-width: 	<?php echo esc_attr( $styles['border_width_field'] );   ?>;
+		--hz-ls-border-color: 	<?php echo esc_attr( $styles['border_color_field'] );   ?>;
+		--hz-ls-border-radius: 	<?php echo esc_attr( $styles['border_radius_field'] );  ?>;
+		--hz-jl-border-width: 	<?php echo esc_attr( $styles['border_width_jobs'] );    ?>;
+		--hz-jl-border-color: 	<?php echo esc_attr( $styles['border_color_jobs'] );    ?>;
+		--hz-jl-border-radius: 	<?php echo esc_attr( $styles['border_radius_jobs'] );   ?>;
+
+		--hz-jl-padding-left: 	<?php echo esc_attr( $styles['padding_left_jobs'] ); 	?>;
+		--hz-jl-padding-right: 	<?php echo esc_attr( $styles['padding_right_jobs'] ); 	?>;
+		--hz-jl-padding-top: 	<?php echo esc_attr( $styles['padding_top_jobs'] );     ?>;
+		--hz-jl-padding-bottom: <?php echo esc_attr( $styles['padding_bottom_jobs'] ); 	?>;
+	}
+</style>
+<!-- End -->
+
+<?php
 while ( $query->have_posts() ) {
 	$query->the_post();
 	$job_details = get_awsm_job_details();
@@ -33,24 +61,7 @@ while ( $query->have_posts() ) {
 	$attrs .= sprintf( ' id="awsm-b-%1$s-item-%2$s"', esc_attr( $view ), esc_attr( $job_details['id'] ) );
 	echo '<div ' . $attrs . '>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	?>
-	
-	<!--  Styles for css variables  -->
-    <style>
-		#<?php echo esc_attr( $styles['block_id'] ); ?> {
-			--hz-sf-border-width: 	<?php echo esc_attr( $styles['border_width'] ); ?>;
-			--hz-sf-border-color: 	<?php echo esc_attr( $styles['border_color'] ); ?>;
-			--hz-sf-border-radius: 	<?php echo esc_attr( $styles['border_radius'] ); ?>;
-			--hz-sf-padding-left: 	<?php echo esc_attr( $styles['padding_left'] ); ?>;
-			--hz-sf-padding-right: 	<?php echo esc_attr( $styles['padding_right'] ); ?>;
-			--hz-sf-padding-top: 	<?php echo esc_attr( $styles['padding_top'] ); ?>;
-			--hz-sf-padding-bottom: <?php echo esc_attr( $styles['padding_bottom'] ); ?>;
-			--hz-sidebar-width: 	<?php echo esc_attr( $styles['sidebar_width'] ); ?>;
-			--hz-ls-border-width: 	<?php echo esc_attr( $styles['border_width_field'] ); ?>;
-			--hz-ls-border-color: 	<?php echo esc_attr( $styles['border_color_field'] ); ?>;
-			--hz-ls-border-radius: 	<?php echo esc_attr( $styles['border_radius_field'] ); ?>;
-		}
-	</style>
-	<!-- End -->
+
 
 		<?php echo ( $view === 'grid' ) ? sprintf( '<a href="%s" class="awsm-b-job-item">', esc_url( $job_details['permalink'] ) ) : '<div class="awsm-b-job-item">'; ?>
 			<div class="awsm-b-<?php echo esc_attr( $view ); ?>-left-col">

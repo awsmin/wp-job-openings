@@ -911,9 +911,12 @@ ul.awsm-error-message li {
 	padding: 0 15px;
 }
 .awsm-b-stack-item .awsm-b-job-item{
-	border-radius: 5px;
-	border: 1px solid #CBCBCB;
-	padding: 30px;
+	border-radius: var(--hz-jl-border-radius, 5px);
+	border: var(--hz-jl-border-width, 1px) solid var(--hz-jl-border-color, #CBCBCB);
+	padding: var(--hz-jl-padding-top, 30px) 
+             var(--hz-jl-padding-right, 30px) 
+             var(--hz-jl-padding-bottom, 30px) 
+             var(--hz-jl-padding-left, 30px);
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-between;

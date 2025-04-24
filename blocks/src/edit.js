@@ -36,7 +36,7 @@ import { useEffect, useRef } from '@wordpress/element';
 
 export default function Edit( props ) {
 	const {
-		attributes: { filter_options },
+		attributes: { filter_options},
 		setAttributes,
 	} = props;
 

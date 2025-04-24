@@ -274,6 +274,34 @@ if ( ! function_exists( 'hz_get_sf_styles' ) ) {
 			'border_radius_field' => isset($attributes['hz_ls_border_radius']) && !empty($attributes['hz_ls_border_radius'])
 				? $attributes['hz_ls_border_radius']
 				: '5px',
+
+			'border_width_jobs' => isset($attributes['hz_lj_border_width']) && !empty($attributes['hz_jl_border_width']) && $attributes['hz_jl_border_width'] !== '0px'
+				? $attributes['hz_jl_border_width']
+				: '1px',
+
+			'border_color_jobs' => isset($attributes['hz_jl_border_color']) && !empty($attributes['hz_jl_border_color'])
+				? $attributes['hz_jl_border_color']
+				: '#ccc',
+
+			'border_radius_jobs' => isset($attributes['hz_jl_border_radius']) && !empty($attributes['hz_jl_border_radius'])
+				? $attributes['hz_jl_border_radius']
+				: '5px',
+
+			'padding_left_jobs' => isset($attributes['hz_jl_padding']['left']) && !empty($attributes['hz_jl_padding']['left'])
+				? hz_append_unit_if_missing($attributes['hz_jl_padding']['left'])
+				: '15px',
+
+			'padding_right_jobs' => isset($attributes['hz_jl_padding']['right']) && !empty($attributes['hz_jl_padding']['right'])
+				? hz_append_unit_if_missing($attributes['hz_jl_padding']['right'])
+				: '15px',
+
+			'padding_top_jobs' => isset($attributes['hz_jl_padding']['top']) && !empty($attributes['hz_jl_padding']['top'])
+				? hz_append_unit_if_missing($attributes['hz_jl_padding']['top'])
+				: '15px',
+
+			'padding_bottom_jobs' => isset($attributes['hz_jl_padding']['bottom']) && !empty($attributes['hz_jl_padding']['bottom'])
+				? hz_append_unit_if_missing($attributes['hz_jl_padding']['bottom'])
+				: '15px',
 		];
 	}
 }

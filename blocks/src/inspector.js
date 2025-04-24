@@ -42,10 +42,9 @@ const WidgetInspectorControls = (props) => {
 			hz_sf_padding = {},
 			hz_ls_border = {},
 			hz_ls_border_radius = {},
-			ls_border_radius,
-			jl_border_width,
-			jl_border_radius,
-			jl_padding,
+			hz_jl_border = {},
+			hz_jl_border_radius = {},
+			hz_jl_padding = {},
 			jl_margin,
 			bs_border_width,
 			bs_border_radius,
@@ -678,10 +677,10 @@ const WidgetInspectorControls = (props) => {
 									width='30'
 									isCompact
 									withSlider
-									value={jl_border_width || 0} // Ensure there is a fallback value
-									__experimentalIsRenderedInSidebar
+									value={hz_jl_border || 0} // Ensure there is a fallback value
+									__experimentalIsRenderedInSidebar  
 									onChange={(newBorder) => {
-										setAttributes({ jl_border_width: newBorder });
+										setAttributes({ hz_jl_border: newBorder });
 									}}
 								/>
 								<Spacer></Spacer>
@@ -691,22 +690,22 @@ const WidgetInspectorControls = (props) => {
 									width='30'
 									isCompact
 									withSlider
-									value={jl_border_radius || 0} // Ensure there is a fallback value
+									value={hz_jl_border_radius || 0} // Ensure there is a fallback value
 									onChange={(newRadius) => {
-										setAttributes({ jl_border_radius: newRadius });
+										setAttributes({ hz_jl_border_radius: newRadius });
 									}}
 								/>
 								</div>
 								<Spacer></Spacer>
 								<BoxControl
 									label={__('Padding', 'wp-job-openings')}
-									__next40pxDefaultSize
-									value={jl_padding || 0} // Ensure there is a fallback value
+									values={hz_jl_padding} // Ensure there is a fallback value
 									onChange={(Padding) => {
-										setAttributes({ jl_padding: Padding });
+										setAttributes({ hz_jl_padding: Padding });
 									}}
 								/>
-								<Spacer></Spacer>
+
+							{/* 	<Spacer></Spacer>
 								<BoxControl
 									label={__('Margin', 'wp-job-openings')}
 									__next40pxDefaultSize
@@ -714,7 +713,7 @@ const WidgetInspectorControls = (props) => {
 									onChange={(Margin) => {
 										setAttributes({ jl_margin: Margin });
 									}}
-								/>
+								/> */}
 
 								<ToggleGroupControl
 									label="Button Style"

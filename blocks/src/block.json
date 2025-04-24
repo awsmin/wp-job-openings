@@ -101,6 +101,28 @@
 			"default": {
 				"width": "5px"
 			}
+		},
+		"hz_jl_border": {
+			"type": "object",
+			"default": {
+				"width": "1px",
+				"color": "#CBCBCB"
+			}
+		},
+		"hz_jl_border_radius": {
+			"type": "object",
+			"default": {
+				"width": "5px"
+			}
+		},
+		"hz_jl_padding":{
+			"type": "object",
+			"default": {
+				"top": "0px",
+				"right": "0px",
+				"bottom": "0px",
+				"left": "0px"
+			}
 		}
 	},
 	"example": {},
