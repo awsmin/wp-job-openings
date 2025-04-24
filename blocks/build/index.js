@@ -328,14 +328,15 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
     hz_jl_border_radius = _props$attributes$hz_7 === void 0 ? {} : _props$attributes$hz_7,
     _props$attributes$hz_8 = _props$attributes.hz_jl_padding,
     hz_jl_padding = _props$attributes$hz_8 === void 0 ? {} : _props$attributes$hz_8,
-    jl_margin = _props$attributes.jl_margin,
-    bs_border_width = _props$attributes.bs_border_width,
-    bs_border_radius = _props$attributes.bs_border_radius,
-    button_styles = _props$attributes.button_styles,
-    backgroundColor = _props$attributes.backgroundColor,
-    headingColor = _props$attributes.headingColor,
-    overlayColor = _props$attributes.overlayColor,
-    buttonColor = _props$attributes.buttonColor,
+    _props$attributes$hz_9 = _props$attributes.hz_bs_border,
+    hz_bs_border = _props$attributes$hz_9 === void 0 ? {} : _props$attributes$hz_9,
+    _props$attributes$hz_10 = _props$attributes.hz_bs_border_radius,
+    hz_bs_border_radius = _props$attributes$hz_10 === void 0 ? {} : _props$attributes$hz_10,
+    hz_button_styles = _props$attributes.hz_button_styles,
+    hz_background_color = _props$attributes.hz_background_color,
+    hz_heading_color = _props$attributes.hz_heading_color,
+    hz_overlay_color = _props$attributes.hz_overlay_color,
+    hz_button_color = _props$attributes.hz_button_color,
     hz_sidebar_width = _props$attributes.hz_sidebar_width,
     blockId = _props$attributes.blockId,
     setAttributes = props.setAttributes,
@@ -882,10 +883,10 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
       }
     }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalToggleGroupControl, {
       label: "Button Style",
-      value: button_styles || "none",
-      onChange: function onChange(button_styles) {
+      value: hz_button_styles || "none",
+      onChange: function onChange(hz_button_styles) {
         return setAttributes({
-          button_styles: button_styles
+          hz_button_styles: hz_button_styles
         });
       },
       isBlock: true,
@@ -905,12 +906,12 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
       width: "30",
       isCompact: true,
       withSlider: true,
-      value: bs_border_width || 0 // Ensure there is a fallback value
+      value: hz_bs_border // Ensure there is a fallback value
       ,
       __experimentalIsRenderedInSidebar: true,
       onChange: function onChange(newBorder) {
         setAttributes({
-          jl_border_width: newBorder
+          hz_bs_border: newBorder
         });
       }
     }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalSpacer, null), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)("div", {
@@ -920,45 +921,45 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
       width: "30",
       isCompact: true,
       withSlider: true,
-      value: bs_border_radius || 0 // Ensure there is a fallback value
+      value: hz_bs_border_radius || 0 // Ensure there is a fallback value
       ,
       onChange: function onChange(newRadius) {
         setAttributes({
-          jl_border_radius: newRadius
+          hz_bs_border_radius: newRadius
         });
       }
     })), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalSpacer, null)), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_6__.__experimentalPanelColorGradientSettings, {
       title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Color', 'wp-job-openings'),
       settings: [{
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Background', 'wp-job-openings'),
-        colorValue: backgroundColor,
+        colorValue: hz_background_color,
         onColorChange: function onColorChange(color) {
           return setAttributes({
-            backgroundColor: color
+            hz_background_color: color
           });
         }
       }, {
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Heading', 'wp-job-openings'),
-        colorValue: headingColor,
+        colorValue: hz_heading_color,
         onColorChange: function onColorChange(color) {
           return setAttributes({
-            headingColor: color
+            hz_heading_color: color
           });
         }
       }, {
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Overlay', 'wp-job-openings'),
-        colorValue: overlayColor,
+        colorValue: hz_overlay_color,
         onColorChange: function onColorChange(color) {
           return setAttributes({
-            overlayColor: color
+            hz_overlay_color: color
           });
         }
       }, {
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Button', 'wp-job-openings'),
-        colorValue: buttonColor,
+        colorValue: hz_button_color,
         onColorChange: function onColorChange(color) {
           return setAttributes({
-            buttonColor: color
+            hz_button_color: color
           });
         }
       }]
@@ -1449,7 +1450,7 @@ function _unsupportedIterableToArray(r, a) {
   \************************/
 /***/ (function(module) {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"wp-job-openings/blocks","version":"1.0.0","title":"","category":"","icon":"","description":"","attributes":{"search":{"type":"boolean","default":false},"placement":{"type":"string","default":"top"},"search_placeholder":{"type":"string","default":""},"filter_options":{"type":"array","default":[]},"listType":{"type":"string","default":"all"},"layout":{"type":"string","default":"list"},"selected_terms_main":{"type":"array","default":[]},"selectedTerms":{"type":"object","default":{}},"orderBy":{"type":"string","default":"new"},"hide_expired_jobs":{"type":"boolean","default":false},"jobsPerPage":{"type":"number","default":5},"pagination":{"type":"string","default":"modern"},"number_of_columns":{"type":"number","default":3},"hz_sf_border":{"type":"object","default":{"width":"1px","color":"#cccccc"}},"hz_sf_border_radius":{"type":"object","default":{"width":"5px"}},"hz_sf_padding":{"type":"object","default":{"top":"0px","right":"0px","bottom":"0px","left":"0px"}},"blockId":{"type":"string"},"hz_sidebar_width":{"type":"string","default":""},"hz_ls_border":{"type":"object","default":{"width":"1px","color":"#cccccc"}},"hz_ls_border_radius":{"type":"object","default":{"width":"5px"}},"hz_jl_border":{"type":"object","default":{"width":"1px","color":"#CBCBCB"}},"hz_jl_border_radius":{"type":"object","default":{"width":"5px"}},"hz_jl_padding":{"type":"object","default":{"top":"0px","right":"0px","bottom":"0px","left":"0px"}}},"example":{},"supports":{"html":false},"textdomain":"wp-job-openings","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"wp-job-openings/blocks","version":"1.0.0","title":"","category":"","icon":"","description":"","attributes":{"search":{"type":"boolean","default":false},"placement":{"type":"string","default":"top"},"search_placeholder":{"type":"string","default":""},"filter_options":{"type":"array","default":[]},"listType":{"type":"string","default":"all"},"layout":{"type":"string","default":"list"},"selected_terms_main":{"type":"array","default":[]},"selectedTerms":{"type":"object","default":{}},"orderBy":{"type":"string","default":"new"},"hide_expired_jobs":{"type":"boolean","default":false},"jobsPerPage":{"type":"number","default":5},"pagination":{"type":"string","default":"modern"},"number_of_columns":{"type":"number","default":3},"hz_sf_border":{"type":"object","default":{"width":"1px","color":"#cccccc"}},"hz_sf_border_radius":{"type":"object","default":{"width":"5px"}},"hz_sf_padding":{"type":"object","default":{"top":"0px","right":"0px","bottom":"0px","left":"0px"}},"blockId":{"type":"string"},"hz_sidebar_width":{"type":"string","default":""},"hz_ls_border":{"type":"object","default":{"width":"1px","color":"#cccccc"}},"hz_ls_border_radius":{"type":"object","default":{"width":"5px"}},"hz_jl_border":{"type":"object","default":{"width":"1px","color":"#CBCBCB"}},"hz_jl_border_radius":{"type":"object","default":{"width":"5px"}},"hz_jl_padding":{"type":"object","default":{"top":"0px","right":"0px","bottom":"0px","left":"0px"}},"hz_button_styles":{"type":"string","default":"none"},"hz_bs_border":{"type":"object","default":{"width":"1px","color":"#CBCBCB"}},"hz_bs_border_radius":{"type":"object","default":{"width":"5px"}},"hz_background_color":{"type":"string"},"hz_heading_color":{"type":"string"},"hz_overlay_color":{"type":"string"},"hz_button_color":{"type":"string"}},"example":{},"supports":{"html":false},"textdomain":"wp-job-openings","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ })
 

@@ -45,14 +45,13 @@ const WidgetInspectorControls = (props) => {
 			hz_jl_border = {},
 			hz_jl_border_radius = {},
 			hz_jl_padding = {},
-			jl_margin,
-			bs_border_width,
-			bs_border_radius,
-			button_styles,
-			backgroundColor, 
-			headingColor,
-			overlayColor,
-			buttonColor,
+			hz_bs_border = {},
+			hz_bs_border_radius = {},
+			hz_button_styles,
+			hz_background_color, 
+			hz_heading_color,
+			hz_overlay_color,
+			hz_button_color,
 			hz_sidebar_width,
 			blockId,
 		},
@@ -717,8 +716,8 @@ const WidgetInspectorControls = (props) => {
 
 								<ToggleGroupControl
 									label="Button Style"
-									value={ button_styles || "none"  }
-									onChange={ ( button_styles ) => setAttributes( { button_styles } ) }
+									value={ hz_button_styles || "none"  }
+									onChange={ ( hz_button_styles ) => setAttributes( { hz_button_styles } ) }
 									isBlock
 									__nextHasNoMarginBottom
 									__next40pxDefaultSize
@@ -733,10 +732,10 @@ const WidgetInspectorControls = (props) => {
 									width='30'
 									isCompact
 									withSlider
-									value={bs_border_width || 0} // Ensure there is a fallback value
+									value={hz_bs_border} // Ensure there is a fallback value
 									__experimentalIsRenderedInSidebar
 									onChange={(newBorder) => {
-										setAttributes({ jl_border_width: newBorder });
+										setAttributes({ hz_bs_border: newBorder });
 									}}
 								/>
 								<Spacer></Spacer>
@@ -746,9 +745,9 @@ const WidgetInspectorControls = (props) => {
 									width='30'
 									isCompact
 									withSlider
-									value={bs_border_radius || 0} // Ensure there is a fallback value
+									value={hz_bs_border_radius || 0} // Ensure there is a fallback value
 									onChange={(newRadius) => {
-										setAttributes({ jl_border_radius: newRadius });
+										setAttributes({ hz_bs_border_radius: newRadius });
 									}}
 								/>
 								</div>
@@ -760,23 +759,23 @@ const WidgetInspectorControls = (props) => {
 								settings={[
 									{
 										label: __('Background', 'wp-job-openings'),
-										colorValue: backgroundColor,
-										onColorChange: (color) => setAttributes({ backgroundColor: color }),
+										colorValue: hz_background_color,
+										onColorChange: (color) => setAttributes({ hz_background_color: color }),
 									},
 									{
 										label: __('Heading', 'wp-job-openings'),
-										colorValue: headingColor,
-										onColorChange: (color) => setAttributes({ headingColor: color }),
+										colorValue: hz_heading_color,
+										onColorChange: (color) => setAttributes({ hz_heading_color: color }),
 									},
 									{
 										label: __('Overlay', 'wp-job-openings'),
-										colorValue: overlayColor,
-										onColorChange: (color) => setAttributes({ overlayColor: color }),
+										colorValue: hz_overlay_color,
+										onColorChange: (color) => setAttributes({ hz_overlay_color: color }),
 									},
 									{
 										label: __('Button', 'wp-job-openings'),
-										colorValue: buttonColor,
-										onColorChange: (color) => setAttributes({ buttonColor: color }),
+										colorValue: hz_button_color,
+										onColorChange: (color) => setAttributes({ hz_button_color: color }),
 									}
 								]}
 							/>
