@@ -385,7 +385,12 @@ class AWSM_Job_Openings_Form {
 	}
 
 	public function hashed_file_name( $dir, $name, $ext ) {
-		$file_name = hash( 'sha1', ( $name . uniqid( (string) rand(), true ) ) ) . time();
+		if ( function_exists( 'random_bytes' ) ) {
+			$random_bytes = bin2hex( random_bytes( 16 ) );
+		} else {
+			$random_bytes = uniqid( wp_rand(), true ) . uniqid( wp_rand(), true );
+		}
+		$file_name = hash( 'sha256', $name . $random_bytes . time() );
 		return sanitize_file_name( $file_name . $ext );
 	}
 
