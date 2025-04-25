@@ -1,5 +1,8 @@
 ## Changelog
 
+### V 3.5.2 - 2025-04-25
+* Security fixes and code improvements.
+
 ### V 3.5.1 - 2025-04-23
 * Fixed: Corrected load_plugin_textdomain() for compatibility with WP 6.8+.
 * Minor bug fixes and code improvements.
