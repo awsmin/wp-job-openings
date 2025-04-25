@@ -7,7 +7,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language-Team: AWSM innovations <hello@awsm.in>\n"
-"POT-Creation-Date: 2025-04-23 08:00+0000\n"
+"POT-Creation-Date: 2025-04-25 07:47+0000\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -920,63 +920,63 @@ msgstr ""
 msgid "--Please Choose an Option--"
 msgstr ""
 
-#: inc/class-awsm-job-openings-form.php:425, inc/class-awsm-job-openings-third-party.php:93
+#: inc/class-awsm-job-openings-form.php:430, inc/class-awsm-job-openings-third-party.php:93
 msgid "Error in submitting your application. Please refresh the page and retry."
 msgstr ""
 
-#: inc/class-awsm-job-openings-form.php:432
+#: inc/class-awsm-job-openings-form.php:437
 msgid "Please verify that you are not a robot."
 msgstr ""
 
-#: inc/class-awsm-job-openings-form.php:437
+#: inc/class-awsm-job-openings-form.php:442
 msgid "Please agree to our privacy policy."
 msgstr ""
 
-#: inc/class-awsm-job-openings-form.php:443
+#: inc/class-awsm-job-openings-form.php:448
 msgid "Error occurred: Invalid Job."
 msgstr ""
 
-#: inc/class-awsm-job-openings-form.php:446, inc/template-functions.php:252
+#: inc/class-awsm-job-openings-form.php:451, inc/template-functions.php:252
 msgid "Sorry! This job has expired."
 msgstr ""
 
-#: inc/class-awsm-job-openings-form.php:449
+#: inc/class-awsm-job-openings-form.php:454
 msgid "Name is required."
 msgstr ""
 
-#: inc/class-awsm-job-openings-form.php:455
+#: inc/class-awsm-job-openings-form.php:460
 msgid "Invalid email format."
 msgstr ""
 
-#: inc/class-awsm-job-openings-form.php:452
+#: inc/class-awsm-job-openings-form.php:457
 msgid "Email is required."
 msgstr ""
 
-#: inc/class-awsm-job-openings-form.php:462
+#: inc/class-awsm-job-openings-form.php:467
 msgid "Invalid phone number."
 msgstr ""
 
-#: inc/class-awsm-job-openings-form.php:459
+#: inc/class-awsm-job-openings-form.php:464
 msgid "Contact number is required."
 msgstr ""
 
-#: inc/class-awsm-job-openings-form.php:466
+#: inc/class-awsm-job-openings-form.php:471
 msgid "Cover Letter cannot be empty."
 msgstr ""
 
-#: inc/class-awsm-job-openings-form.php:469
+#: inc/class-awsm-job-openings-form.php:474
 msgid "Please select your cv/resume."
 msgstr ""
 
-#: inc/class-awsm-job-openings-form.php:472
+#: inc/class-awsm-job-openings-form.php:477
 msgid "Private job submission is not allowed."
 msgstr ""
 
-#: inc/class-awsm-job-openings-form.php:554
+#: inc/class-awsm-job-openings-form.php:559
 msgid "Your application has been submitted."
 msgstr ""
 
-#: inc/class-awsm-job-openings-form.php:647
+#: inc/class-awsm-job-openings-form.php:652
 msgid "The following errors have occurred:"
 msgstr ""
 
