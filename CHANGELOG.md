@@ -1,5 +1,9 @@
 ## Changelog
 
+### V 3.5.1 - 2025-04-23
+* Fixed: Corrected load_plugin_textdomain() for compatibility with WP 6.8+.
+* Minor bug fixes and code improvements.
+
 ### V 3.5.0 - 2024-11-07
 * Added: Job listing block.
 * Fixed: Translation issue in email digest.
