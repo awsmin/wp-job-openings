@@ -1005,8 +1005,8 @@ ul.awsm-error-message li {
     background-color: blueviolet; 
     color: white;              
     padding: 5px;       
-    border: none;              
-    border-radius: 5px;       
+    border: var(--hz-bs-border-width, 1px) solid var(--hz-bs-border-color, #d5d5d5); 
+    border-radius: var(--hz-bs-border-radius, 5px);   
     font-size: 10px;         
     cursor: pointer;         
     transition: background-color 0.3s ease; 

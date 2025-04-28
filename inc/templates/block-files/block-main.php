@@ -36,18 +36,23 @@ $styles = hz_get_ui_styles($attributes);
 		--hz-sf-padding-right: 	<?php echo esc_attr( $styles['padding_right'] ); 	    ?>;
 		--hz-sf-padding-top: 	<?php echo esc_attr( $styles['padding_top'] ); 		    ?>;
 		--hz-sf-padding-bottom: <?php echo esc_attr( $styles['padding_bottom'] ); 	    ?>;
+
 		--hz-sidebar-width: 	<?php echo esc_attr( $styles['sidebar_width'] ); 		?>;
 		--hz-ls-border-width: 	<?php echo esc_attr( $styles['border_width_field'] );   ?>;
 		--hz-ls-border-color: 	<?php echo esc_attr( $styles['border_color_field'] );   ?>;
 		--hz-ls-border-radius: 	<?php echo esc_attr( $styles['border_radius_field'] );  ?>;
+
 		--hz-jl-border-width: 	<?php echo esc_attr( $styles['border_width_jobs'] );    ?>;
 		--hz-jl-border-color: 	<?php echo esc_attr( $styles['border_color_jobs'] );    ?>;
 		--hz-jl-border-radius: 	<?php echo esc_attr( $styles['border_radius_jobs'] );   ?>;
-
 		--hz-jl-padding-left: 	<?php echo esc_attr( $styles['padding_left_jobs'] ); 	?>;
 		--hz-jl-padding-right: 	<?php echo esc_attr( $styles['padding_right_jobs'] ); 	?>;
 		--hz-jl-padding-top: 	<?php echo esc_attr( $styles['padding_top_jobs'] );     ?>;
 		--hz-jl-padding-bottom: <?php echo esc_attr( $styles['padding_bottom_jobs'] ); 	?>;
+
+		--hz-bs-border-width: 	<?php echo esc_attr( $styles['button_width_field'] );   ?>;
+		--hz-bs-border-color: 	<?php echo esc_attr( $styles['button_color_field'] );   ?>;
+		--hz-bs-border-radius: 	<?php echo esc_attr( $styles['button_radius_field'] );  ?>;
 	}
 </style>
 <!-- End -->

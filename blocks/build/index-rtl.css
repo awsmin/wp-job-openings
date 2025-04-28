@@ -999,3 +999,21 @@ ul.awsm-error-message li {
 .tab-style {
   padding-right: 50px;
 }
+
+.awsm-b-job-more {
+  background-color: blueviolet;
+  color: white;
+  padding: 5px;
+  border: var(--hz-bs-border-width, 1px) solid var(--hz-bs-border-color, #d5d5d5);
+  border-radius: var(--hz-bs-border-radius, 5px);
+  font-size: 10px;
+  cursor: pointer;
+  -webkit-transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease;
+}
+
+/* Button Hover Effect */
+.awsm-b-job-more:hover {
+  background-color: blue;
+  color: white;
+}

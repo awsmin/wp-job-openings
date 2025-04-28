@@ -302,6 +302,22 @@ if ( ! function_exists( 'hz_get_sf_styles' ) ) {
 			'padding_bottom_jobs' => isset($attributes['hz_jl_padding']['bottom']) && !empty($attributes['hz_jl_padding']['bottom'])
 				? hz_append_unit_if_missing($attributes['hz_jl_padding']['bottom'])
 				: '15px',
+
+			'button_width_field' => isset($attributes['hz_bs_border_width']) && !empty($attributes['hz_bs_border_width']) && $attributes['hz_ls_border_width'] !== '0px'
+				? $attributes['hz_bs_border_width']
+				: '1px',
+
+			'button_color_field' => isset($attributes['hz_bs_border_color']) && !empty($attributes['hz_bs_border_color'])
+				? $attributes['hz_bs_border_color']
+				: '#ccc',
+
+			'button_radius_field' => isset($attributes['hz_bs_border_radius']) && !empty($attributes['hz_bs_border_radius'])
+				? $attributes['hz_bs_border_radius']
+				: '5px',
+
+			'button_styles' => isset($attributes['hz_button_styles']) && !empty($attributes['hz_button_styles'])
+				? $attributes['hz_button_styles']
+				: 'none',
 		];
 	}
 }
