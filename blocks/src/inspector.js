@@ -693,16 +693,6 @@ const WidgetInspectorControls = (props) => {
 									}}
 								/>
 
-							{/* 	<Spacer></Spacer>
-								<BoxControl
-									label={__('Margin', 'wp-job-openings')}
-									__next40pxDefaultSize
-									value={jl_margin || 0} // Ensure there is a fallback value
-									onChange={(Margin) => {
-										setAttributes({ jl_margin: Margin });
-									}}
-								/> */}
-
 								<ToggleGroupControl
 									label="Button Style"
 									value={ hz_button_styles || "none"  }
@@ -718,8 +708,6 @@ const WidgetInspectorControls = (props) => {
 
 								<BorderBoxControl
 									label={__('Border', 'wp-job-openings')}
-									width='30'
-									isCompact
 									withSlider
 									value={hz_bs_border} // Ensure there is a fallback value
 									__experimentalIsRenderedInSidebar
@@ -731,8 +719,6 @@ const WidgetInspectorControls = (props) => {
 								<div className="custom-box-control">
 								<BorderBoxControl
 									label={__('Radius', 'wp-job-openings')}
-									width='30'
-									isCompact
 									withSlider
 									value={hz_bs_border_radius || 0} // Ensure there is a fallback value
 									onChange={(newRadius) => {

@@ -317,3 +317,10 @@ if ( ! function_exists( 'hz_append_unit_if_missing' ) ) {
 			: $value;
 	}
 } 
+
+if ( ! function_exists( 'awsm_b_job_more_details' ) ) {
+	function awsm_b_job_more_details( $link, $view ) {
+		$more_dtls_link = sprintf( '<div class="awsm-b-job-more-container"><%1$s class="awsm-b-job-more"%3$s>%2$s <span></span></%1$s></div>', ( $view === 'grid' ) ? 'span' : 'a', esc_html__( 'More Details', 'wp-job-openings' ), ( $view === 'grid' ) ? '' : ' href="' . esc_url( $link ) . '"' );
+		echo apply_filters( 'awsm_b_jobs_listing_details_link', $more_dtls_link, $view ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	}
+}

@@ -1127,3 +1127,26 @@ ul.awsm-error-message li {
 }
 
 /** end **/
+.awsm-jobs-b-more-details {
+  border-radius: 5px !important;
+  border: 1px solid #d5d5d5 !important;
+  padding: 20px;
+}
+
+.awsm-b-job-more {
+  background-color: blueviolet;
+  color: white;
+  padding: 5px;
+  border: none;
+  border-radius: 5px;
+  font-size: 10px;
+  cursor: pointer;
+  -webkit-transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease;
+}
+
+/* Button Hover Effect */
+.awsm-b-job-more:hover {
+  background-color: blue;
+  color: white;
+}

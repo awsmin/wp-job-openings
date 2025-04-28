@@ -892,8 +892,6 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Oulined', 'wp-job-openings')
     })), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalBorderBoxControl, {
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Border', 'wp-job-openings'),
-      width: "30",
-      isCompact: true,
       withSlider: true,
       value: hz_bs_border // Ensure there is a fallback value
       ,
@@ -907,8 +905,6 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
       className: "custom-box-control"
     }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalBorderBoxControl, {
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Radius', 'wp-job-openings'),
-      width: "30",
-      isCompact: true,
       withSlider: true,
       value: hz_bs_border_radius || 0 // Ensure there is a fallback value
       ,

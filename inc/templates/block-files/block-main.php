@@ -116,7 +116,7 @@ while ( $query->have_posts() ) {
 
 					awsm_job_listing_spec_content( $job_details['id'], $awsm_filters, $listing_specs, false );
 
-					awsm_job_more_details( $job_details['permalink'], $view );
+					awsm_b_job_more_details( $job_details['permalink'], $view );
 				?>
 			</div>
 		<?php echo ( $view === 'grid' ) ? '</a>' : '</div>'; ?>
