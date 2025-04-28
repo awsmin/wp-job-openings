@@ -604,16 +604,13 @@ const WidgetInspectorControls = (props) => {
                             <PanelBody title={__('Search & Filters', 'wp-job-openings')} initialOpen={true}>
 								<BorderBoxControl
 									label={__('Border', 'wp-job-openings')}
-									width='30'
-									isCompact
 									withSlider
 									value={hz_sf_border || '1px'} // Ensure there is a fallback value
-									__experimentalIsRenderedInSidebar
 									onChange={(newBorder) => {
 										setAttributes({ hz_sf_border: newBorder });
 									}}
 								/>
-								<Spacer></Spacer>
+								
 								<div className="custom-box-control">
 								<BorderBoxControl
 									label={__('Radius', 'wp-job-openings')}
@@ -624,7 +621,7 @@ const WidgetInspectorControls = (props) => {
 									}}
 								/>
 								</div>
-								<Spacer></Spacer>
+								
 								<BoxControl
 									label={__('Padding', 'wp-job-openings')}
 									values={hz_sf_padding} // Ensure there is a fallback value
@@ -646,8 +643,6 @@ const WidgetInspectorControls = (props) => {
 
 								<BorderBoxControl
 									label={__('Border', 'wp-job-openings')}
-									width='30'
-									isCompact
 									withSlider
 									value={hz_ls_border || '1px'} // Ensure there is a fallback value
 									__experimentalIsRenderedInSidebar
@@ -659,8 +654,6 @@ const WidgetInspectorControls = (props) => {
 								<div className="custom-box-control">
 								<BorderBoxControl
 									label={__('Radius', 'wp-job-openings')}
-									width='30'
-									isCompact
 									withSlider
 									value={hz_ls_border_radius || 0} // Ensure there is a fallback value
 									onChange={(newRadius) => {
@@ -673,8 +666,6 @@ const WidgetInspectorControls = (props) => {
 							<PanelBody title={__('Job Listing', 'wp-job-openings')} initialOpen={true}>
 								<BorderBoxControl
 									label={__('Border', 'wp-job-openings')}
-									width='30'
-									isCompact
 									withSlider
 									value={hz_jl_border || 0} // Ensure there is a fallback value
 									__experimentalIsRenderedInSidebar  
@@ -686,8 +677,6 @@ const WidgetInspectorControls = (props) => {
 								<div className="custom-box-control">
 								<BorderBoxControl
 									label={__('Radius', 'wp-job-openings')}
-									width='30'
-									isCompact
 									withSlider
 									value={hz_jl_border_radius || 0} // Ensure there is a fallback value
 									onChange={(newRadius) => {
