@@ -66,8 +66,6 @@ while ( $query->have_posts() ) {
 	$attrs .= sprintf( ' id="awsm-b-%1$s-item-%2$s"', esc_attr( $view ), esc_attr( $job_details['id'] ) );
 	echo '<div ' . $attrs . '>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	?>
-
-
 		<?php echo ( $view === 'grid' ) ? sprintf( '<a href="%s" class="awsm-b-job-item">', esc_url( $job_details['permalink'] ) ) : '<div class="awsm-b-job-item">'; ?>
 			<div class="awsm-b-<?php echo esc_attr( $view ); ?>-left-col">
 				<?php
@@ -88,6 +86,12 @@ while ( $query->have_posts() ) {
 						echo apply_filters( 'awsm_jobs_block_listing_title', $job_title, $view ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					?>
 				</h2>
+
+				<?php
+					if( $attributes['layout'] && $attributes['layout'] == 'stack' ){
+						awsm_job_listing_spec_content( $job_details['id'], $awsm_filters, $listing_specs, false );
+					}
+				?>
 
 				<?php
 					/**
@@ -119,7 +123,9 @@ while ( $query->have_posts() ) {
 
 					do_action_deprecated( 'before_awsm_block_jobs_listing_right_col_content', array( $job_details['id'], $attributes ), '3.0.0', 'before_awsm_block_jobs_listing_specs_content' );
 
-					awsm_job_listing_spec_content( $job_details['id'], $awsm_filters, $listing_specs, false );
+					if( $attributes['layout'] && $attributes['layout'] != 'stack' ){
+						awsm_job_listing_spec_content( $job_details['id'], $awsm_filters, $listing_specs, false );
+					}
 
 					awsm_b_job_more_details( $job_details['permalink'], $view );
 				?>
