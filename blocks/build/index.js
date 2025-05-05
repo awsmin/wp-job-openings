@@ -339,6 +339,8 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
     hz_button_color = _props$attributes.hz_button_color,
     hz_sidebar_width = _props$attributes.hz_sidebar_width,
     blockId = _props$attributes.blockId,
+    hz_button_background_color = _props$attributes.hz_button_background_color,
+    hz_button_text_color = _props$attributes.hz_button_text_color,
     setAttributes = props.setAttributes,
     clientId = props.clientId;
 
@@ -913,7 +915,27 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
           hz_bs_border_radius: newRadius
         });
       }
-    })), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalSpacer, null)), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_6__.__experimentalPanelColorGradientSettings, {
+    })), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalSpacer, null), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_6__.PanelColorSettings, {
+      title: "Button Color Settings",
+      initialOpen: true,
+      colorSettings: [{
+        value: hz_button_background_color,
+        onChange: function onChange(color) {
+          return setAttributes({
+            hz_button_background_color: color
+          });
+        },
+        label: 'Background Color'
+      }, {
+        value: hz_button_text_color,
+        onChange: function onChange(color) {
+          return setAttributes({
+            hz_button_text_color: color
+          });
+        },
+        label: 'Text Color'
+      }]
+    })), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_6__.__experimentalPanelColorGradientSettings, {
       title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Color', 'wp-job-openings'),
       settings: [{
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Background', 'wp-job-openings'),
@@ -1435,7 +1457,7 @@ function _unsupportedIterableToArray(r, a) {
   \************************/
 /***/ (function(module) {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"wp-job-openings/blocks","version":"1.0.0","title":"","category":"","icon":"","description":"","attributes":{"search":{"type":"boolean","default":false},"placement":{"type":"string","default":"top"},"search_placeholder":{"type":"string","default":""},"filter_options":{"type":"array","default":[]},"listType":{"type":"string","default":"all"},"layout":{"type":"string","default":"list"},"selected_terms_main":{"type":"array","default":[]},"selectedTerms":{"type":"object","default":{}},"orderBy":{"type":"string","default":"new"},"hide_expired_jobs":{"type":"boolean","default":false},"jobsPerPage":{"type":"number","default":5},"pagination":{"type":"string","default":"modern"},"number_of_columns":{"type":"number","default":3},"hz_sf_border":{"type":"object","default":{"width":"1px","color":"#cccccc"}},"hz_sf_border_radius":{"type":"object","default":{"width":"5px"}},"hz_sf_padding":{"type":"object","default":{"top":"0px","right":"0px","bottom":"0px","left":"0px"}},"blockId":{"type":"string"},"hz_sidebar_width":{"type":"string","default":""},"hz_ls_border":{"type":"object","default":{"width":"1px","color":"#cccccc"}},"hz_ls_border_radius":{"type":"object","default":{"width":"5px"}},"hz_jl_border":{"type":"object","default":{"width":"1px","color":"#CBCBCB"}},"hz_jl_border_radius":{"type":"object","default":{"width":"5px"}},"hz_jl_padding":{"type":"object","default":{"top":"0px","right":"0px","bottom":"0px","left":"0px"}},"hz_button_styles":{"type":"string","default":"none"},"hz_bs_border":{"type":"object","default":{"width":"1px","color":"red"}},"hz_bs_border_radius":{"type":"object","default":{"width":"5px"}},"hz_background_color":{"type":"string"},"hz_heading_color":{"type":"string"},"hz_overlay_color":{"type":"string"},"hz_button_color":{"type":"string"}},"example":{},"supports":{"html":false},"textdomain":"wp-job-openings","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"wp-job-openings/blocks","version":"1.0.0","title":"","category":"","icon":"","description":"","attributes":{"search":{"type":"boolean","default":false},"placement":{"type":"string","default":"top"},"search_placeholder":{"type":"string","default":""},"filter_options":{"type":"array","default":[]},"listType":{"type":"string","default":"all"},"layout":{"type":"string","default":"list"},"selected_terms_main":{"type":"array","default":[]},"selectedTerms":{"type":"object","default":{}},"orderBy":{"type":"string","default":"new"},"hide_expired_jobs":{"type":"boolean","default":false},"jobsPerPage":{"type":"number","default":5},"pagination":{"type":"string","default":"modern"},"number_of_columns":{"type":"number","default":3},"hz_sf_border":{"type":"object","default":{"width":"1px","color":"#cccccc"}},"hz_sf_border_radius":{"type":"object","default":{"width":"5px"}},"hz_sf_padding":{"type":"object","default":{"top":"0px","right":"0px","bottom":"0px","left":"0px"}},"blockId":{"type":"string"},"hz_sidebar_width":{"type":"string","default":""},"hz_ls_border":{"type":"object","default":{"width":"1px","color":"#cccccc"}},"hz_ls_border_radius":{"type":"object","default":{"width":"5px"}},"hz_jl_border":{"type":"object","default":{"width":"1px","color":"#CBCBCB"}},"hz_jl_border_radius":{"type":"object","default":{"width":"5px"}},"hz_jl_padding":{"type":"object","default":{"top":"0px","right":"0px","bottom":"0px","left":"0px"}},"hz_button_styles":{"type":"string","default":"none"},"hz_bs_border":{"type":"object","default":{"width":"1px","color":"red"}},"hz_bs_border_radius":{"type":"object","default":{"width":"5px"}},"hz_background_color":{"type":"string"},"hz_heading_color":{"type":"string"},"hz_overlay_color":{"type":"string"},"hz_button_color":{"type":"string"},"hz_button_background_color":{"type":"string"},"hz_button_text_color":{"type":"string"}},"example":{},"supports":{"html":false},"textdomain":"wp-job-openings","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ })
 

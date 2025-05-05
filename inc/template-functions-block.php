@@ -11,12 +11,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! function_exists( 'awsm_block_jobs_view_class' ) ) {
-	function awsm_block_jobs_view_class( $class = '', $attributes = array() ) {
+	function awsm_block_jobs_view_class( $class = '', $attributes = array() ) {  
 		$view_class = AWSM_Job_Openings_Block::get_job_listing_view_class_block( $attributes );
 		if ( ! empty( $class ) ) {
 			$view_class = trim( $view_class . ' ' . $class );
 		}
-		printf( 'class="%s"', esc_attr( $view_class ) );
+		return sprintf( 'class="%s"', esc_attr( $view_class ) );
 	}
 }
 
@@ -318,7 +318,15 @@ if ( ! function_exists( 'hz_get_sf_styles' ) ) {
 			'button_styles' => isset($attributes['hz_button_styles']) && !empty($attributes['hz_button_styles'])
 				? $attributes['hz_button_styles']
 				: 'none',
-		];
+
+			'button_background_color' => isset($attributes['hz_button_background_color']) && !empty($attributes['hz_button_background_color'])
+				? $attributes['hz_button_background_color']
+				: '',
+
+			'button_text_color' => isset($attributes['hz_button_text_color']) && !empty($attributes['hz_button_text_color'])
+				? $attributes['hz_button_text_color']
+				: '',
+			];
 	}
 }
 

@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$attributes    = isset( $attributes ) ? $attributes : array(); 
+$attributes    = isset( $attributes ) ? $attributes : array();  
 $view          = isset( $attributes['layout'] ) ? $attributes['layout'] : get_option( 'awsm_jobs_listing_view' );
 $button_style  = isset( $attributes['hz_button_styles'] ) ? $attributes['hz_button_styles'] : 'none'; 
 $awsm_filters  = get_option( 'awsm_jobs_filter' );
@@ -54,6 +54,9 @@ $styles = hz_get_ui_styles($attributes);
 		--hz-bs-border-width: 	<?php echo esc_attr( $styles['button_width_field'] );   ?>;
 		--hz-bs-border-color: 	<?php echo esc_attr( $styles['button_color_field'] );   ?>;
 		--hz-bs-border-radius: 	<?php echo esc_attr( $styles['button_radius_field'] );  ?>;
+
+		--hz-b-bg-color: 	<?php echo esc_attr( $styles['button_background_color'] );  ?>;
+		--hz-b-tx-color: 	<?php echo esc_attr( $styles['button_text_color'] );  ?>;
 	}
 </style>
 <!-- End -->

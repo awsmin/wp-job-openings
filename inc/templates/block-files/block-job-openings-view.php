@@ -73,9 +73,10 @@ if ( $query->have_posts() ) :
 		<?php } ?>
 		
 		<div class="awsm-b-job-listings"<?php awsm_block_jobs_data_attrs( array(), $attributes ); ?>>
+			
 			<div <?php awsm_block_jobs_view_class( '', $attributes ); ?>> 
 				<?php 
-					//include get_awsm_jobs_template_path( 'block-main', 'block-files' );
+					include get_awsm_jobs_template_path( 'block-main', 'block-files' );
 				?>
 			</div>
 		</div>

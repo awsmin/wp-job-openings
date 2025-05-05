@@ -1,6 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import { useEffect, Fragment, useState } from '@wordpress/element';
-import { InspectorControls,BlockEdit, __experimentalPanelColorGradientSettings as PanelColorGradientSettings,useBlockProps } from '@wordpress/block-editor';
+import { InspectorControls,BlockEdit, __experimentalPanelColorGradientSettings as PanelColorGradientSettings,useBlockProps,PanelColorSettings } from '@wordpress/block-editor';
 import { addFilter } from '@wordpress/hooks';
 
 import {
@@ -54,6 +54,8 @@ const WidgetInspectorControls = (props) => {
 			hz_button_color,
 			hz_sidebar_width,
 			blockId,
+			hz_button_background_color,
+			hz_button_text_color
 		},
 		setAttributes,
 		clientId,
@@ -727,6 +729,23 @@ const WidgetInspectorControls = (props) => {
 								/>
 								</div>
 								<Spacer></Spacer>
+
+								<PanelColorSettings
+									title="Button Color Settings"
+									initialOpen={true}
+									colorSettings={[
+										{
+											value: hz_button_background_color,
+											onChange: (color) => setAttributes({ hz_button_background_color: color }),
+											label: 'Background Color',
+										},
+										{
+											value: hz_button_text_color,
+											onChange: (color) => setAttributes({ hz_button_text_color: color }),
+											label: 'Text Color',
+										},
+									]}
+								/>
 							</PanelBody>
 							
 							<PanelColorGradientSettings

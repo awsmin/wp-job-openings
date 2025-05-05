@@ -152,6 +152,12 @@
     },
     "hz_button_color": {
       "type": "string"
+    },
+    "hz_button_background_color": {
+      "type": "string"
+    },
+    "hz_button_text_color": {
+      "type": "string"
     }
   },
   "example": {},
