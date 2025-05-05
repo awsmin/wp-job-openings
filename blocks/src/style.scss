@@ -5,7 +5,7 @@
  * Replace them with your own styles or remove the file completely.
  */
 
-.wp-block-create-block-wjo-block {
+ .wp-block-create-block-wjo-block {
 	background-color: #21759b;
 	color: #fff;
 	padding: 2px;
@@ -773,10 +773,11 @@ ul.awsm-error-message li {
 		width: 100% !important;
 	}
 	.awsm-job-2-col .awsm-b-filter-wrap form{
-		padding: var(--hz-sf-padding-top, 30px) 
+		 padding: var(--hz-sf-padding-top, 30px) 
 				 var(--hz-sf-padding-right, 30px) 
 				 var(--hz-sf-padding-bottom, 30px) 
-				 var(--hz-sf-padding-left, 30px);
+				 var(--hz-sf-padding-left, 30px); 
+				// padding:30px;
 		border: var(--hz-sf-border-width, 1px) solid var(--hz-sf-border-color, #ccc);
 		border-radius: var(--hz-sf-border-radius, 5px);
 	}
@@ -1001,8 +1002,8 @@ ul.awsm-error-message li {
 	padding: 20px;
 }
 
-.awsm-b-job-more {
-    background-color: blueviolet; 
+.awsm-b-job-more{
+    background-color: rgb(43, 226, 58); 
     color: white;              
     padding: 5px;       
     border: var(--hz-bs-border-width, 1px) solid var(--hz-bs-border-color, #d5d5d5); 
@@ -1013,7 +1014,7 @@ ul.awsm-error-message li {
 }
 
 /* Button Hover Effect */
-.awsm-b-job-more:hover {
+.awsm-b-job-more:hover{
     background-color: blue; 
 	color: white; 
 }

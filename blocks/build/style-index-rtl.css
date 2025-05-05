@@ -1134,7 +1134,7 @@ ul.awsm-error-message li {
 }
 
 .awsm-b-job-more {
-  background-color: blueviolet;
+  background-color: rgb(43, 226, 58);
   color: white;
   padding: 5px;
   border: var(--hz-bs-border-width, 1px) solid var(--hz-bs-border-color, #d5d5d5);

@@ -132,7 +132,7 @@
 			"type": "object",
 			"default": {
 				"width": "1px",
-				"color": "#CBCBCB"
+				"color": "red"
 			}
 		},
 		"hz_bs_border_radius": {
