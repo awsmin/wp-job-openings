@@ -764,7 +764,7 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
           hide_expired_jobs: hide_expired_jobs
         });
       }
-    }), block_job_listing)) : (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.PanelBody, {
+    }), block_job_listing)) : (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__.Fragment, null, placement === 'side' && (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.PanelBody, {
       title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Search & Filters', 'wp-job-openings'),
       initialOpen: true
     }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalBorderBoxControl, {
@@ -801,7 +801,7 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
     })), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.PanelBody, {
       title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Layout Settings', 'wp-job-openings'),
       initialOpen: true
-    }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalInputControl, {
+    }, placement === 'side' && (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalInputControl, {
       label: "Sidebar Width",
       name: "hz_sidebar_width",
       value: (hz_sidebar_width === null || hz_sidebar_width === void 0 ? void 0 : hz_sidebar_width.replace('%', '')) || '',

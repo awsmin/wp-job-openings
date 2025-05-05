@@ -603,6 +603,7 @@ const WidgetInspectorControls = (props) => {
                         </Fragment>
                     ) : (
                         <Fragment>
+							{placement === 'side' && (
                             <PanelBody title={__('Search & Filters', 'wp-job-openings')} initialOpen={true}>
 								<BorderBoxControl
 									label={__('Border', 'wp-job-openings')}
@@ -632,8 +633,10 @@ const WidgetInspectorControls = (props) => {
 									}}
 								/>
                             </PanelBody>
+							)}
 
 							<PanelBody title={__('Layout Settings', 'wp-job-openings')} initialOpen={true}>
+							{placement === 'side' && (
 								<InputControl
 								    label="Sidebar Width"
 									name="hz_sidebar_width"
@@ -642,7 +645,7 @@ const WidgetInspectorControls = (props) => {
 									suffix="%"
 									style={{ width: '120px' }}
 								/>
-
+							)}
 								<BorderBoxControl
 									label={__('Border', 'wp-job-openings')}
 									withSlider
