@@ -114,7 +114,7 @@ class AWSM_Job_Openings_Block {
 				$view_class .= ' awsm-b-lists';
 				break;
 		}
-
+		
 		return esc_attr( $view_class );
 	}
 

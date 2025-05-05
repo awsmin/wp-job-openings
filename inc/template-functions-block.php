@@ -335,8 +335,27 @@ if ( ! function_exists( 'hz_append_unit_if_missing' ) ) {
 } 
 
 if ( ! function_exists( 'awsm_b_job_more_details' ) ) {
-	function awsm_b_job_more_details( $link, $view ) {
-		$more_dtls_link = sprintf( '<div class="awsm-b-job-more-container"><%1$s class="awsm-b-job-more"%3$s>%2$s <span></span></%1$s></div>', ( $view === 'grid' ) ? 'span' : 'a', esc_html__( 'More Details', 'wp-job-openings' ), ( $view === 'grid' ) ? '' : ' href="' . esc_url( $link ) . '"' );
-		echo apply_filters( 'awsm_b_jobs_listing_details_link', $more_dtls_link, $view ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	function awsm_b_job_more_details( $link, $view , $button_style) { 
+
+		$button_class = 'awsm-b-job-more';
+		if ( 'filled' === $button_style ) {
+			$button_class .= ' filled';
+		} elseif ( 'outlined' === $button_style ) {
+		    $button_class .= ' outlined';
+		}
+
+		if ( 'none' === $button_style ) {
+            $button_class .= ''; 
+        }
+		
+        $more_dtls_link = sprintf(
+            '<div class="awsm-b-job-more-container"><%1$s class="%2$s"%3$s>%4$s <span></span></%1$s></div>',
+            ( $view === 'grid' ) ? 'span' : 'a',
+            esc_attr( $button_class ), 
+            ( $view === 'grid' ) ? '' : ' href="' . esc_url( $link ) . '"', 
+            esc_html__( 'More Details', 'wp-job-openings' ) 
+        );
+        
+        echo apply_filters( 'awsm_b_jobs_listing_details_link', $more_dtls_link, $view ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 }

@@ -13,7 +13,7 @@ $query        = awsm_block_jobs_query( $attributes );
 $block_id     = (isset($attributes['block_id']) && trim($attributes['block_id']) !== '') ? $attributes['block_id'] : 'default-block-id';
 
 $show_filter  			 = false;
-$placement_sidebar_class = '';
+$placement_sidebar_class = '';  
 
 if ( isset( $attributes['search'] ) && $attributes['search'] == 'enable' ) {
 	$show_filter = true;
@@ -51,7 +51,7 @@ if ( $query->have_posts() ) :
 		<?php
 	} else { 
 		?>
-	<div class="awsm-b-job-wrap<?php awsm_jobs_wrapper_class(); ?> awsm-job-form-plugin-style <?php echo $placement_sidebar_class; ?>" id="<?php echo esc_attr( $block_id ); ?>">
+	<div class="awsm-b-job-wrap<?php awsm_jobs_wrapper_class(); ?> awsm-job-form-plugin-style <?php echo $placement_sidebar_class; ?>" id="<?php echo esc_attr( $block_id ); ?>"> 
 		<?php if ( $show_filter ) {  ?>
 		<div class="awsm-b-filter-wrap awsm-jobs-alerts-on" >
 			<?php
@@ -69,13 +69,13 @@ if ( $query->have_posts() ) :
 				do_action( 'awsm_block_filter_form_slide', $attributes );
 				do_action( 'awsm_block_form_outside', $attributes ); 
 			?>
-		</div>
+		</div> 
 		<?php } ?>
-
+		
 		<div class="awsm-b-job-listings"<?php awsm_block_jobs_data_attrs( array(), $attributes ); ?>>
-			<div <?php awsm_block_jobs_view_class( '', $attributes ); ?>>
-				<?php
-					include get_awsm_jobs_template_path( 'block-main', 'block-files' );
+			<div <?php awsm_block_jobs_view_class( '', $attributes ); ?>> 
+				<?php 
+					//include get_awsm_jobs_template_path( 'block-main', 'block-files' );
 				?>
 			</div>
 		</div>

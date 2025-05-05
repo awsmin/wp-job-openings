@@ -1019,4 +1019,18 @@ ul.awsm-error-message li {
 	color: white; 
 }
 
+/* Filled button */
+.awsm-b-job-more.filled {
+	background-color: #2ba74a; /* Green for filled button */
+    color: #ffffff; /* White text for filled button */
+    border: 1px solid #2ba74a; /* Green border for filled button */
+}
+
+/* Outlined button */
+.awsm-b-job-more.outlined {
+	background-color: transparent; /* Transparent background for outlined */
+    color: #2ba74a; /* Green text for outlined button */
+    border: 1px solid #2ba74a; /* Green border for outlined button */
+}
+
  
