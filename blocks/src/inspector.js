@@ -75,7 +75,7 @@ const WidgetInspectorControls = (props) => {
 	const block_job_listing = [];
 
 	// Sync selected terms with props on mount or when selectedTerm changes
-	useEffect( () => {
+	useEffect( () => { 
 		if (
 			typeof awsmJobsAdmin !== 'undefined' &&
 			awsmJobsAdmin.isProEnabled
@@ -603,7 +603,7 @@ const WidgetInspectorControls = (props) => {
                         </Fragment>
                     ) : (
                         <Fragment>
-							{placement === 'side' && (
+							{placement === 'slide' && (
                             <PanelBody title={__('Search & Filters', 'wp-job-openings')} initialOpen={true}>
 								<BorderBoxControl
 									label={__('Border', 'wp-job-openings')}
@@ -636,7 +636,7 @@ const WidgetInspectorControls = (props) => {
 							)}
 
 							<PanelBody title={__('Layout Settings', 'wp-job-openings')} initialOpen={true}>
-							{placement === 'side' && (
+							{placement === 'slide' && (
 								<InputControl
 								    label="Sidebar Width"
 									name="hz_sidebar_width"
