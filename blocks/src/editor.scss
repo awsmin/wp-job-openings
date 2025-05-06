@@ -903,7 +903,6 @@ ul.awsm-error-message li {
 .awsm-b-stack-item {
 	width: 100%;
 	margin-bottom: 30px;
-	padding: 0 15px;
 }
 
 .awsm-b-stack-item .awsm-b-job-item {
@@ -928,7 +927,7 @@ ul.awsm-error-message li {
 
 .awsm-b-stack-left-col {
 	display: flex;
-	gap: 15px;
+	flex-direction: column;
 	flex-wrap: wrap;
 
 	.awsm-job-featured-image {
@@ -976,18 +975,52 @@ ul.awsm-error-message li {
 }
 
 .awsm-b-job-more {
-    background-color: blueviolet; 
-    color: white;              
-    padding: 5px;       
-    border: var(--hz-bs-border-width, 1px) solid var(--hz-bs-border-color, #d5d5d5); 
-    border-radius: var(--hz-bs-border-radius, 5px);   
-    font-size: 10px;         
-    cursor: pointer;         
-    transition: background-color 0.3s ease; 
+	background-color: var(--hz-b-bg-color, #2ba74a); /* fallback for filled */
+	color: var(--hz-b-tx-color, #ffffff);
+	border: var(--hz-bs-border-width, 1px) solid var(--hz-bs-border-color, #d5d5d5);
+	border-radius: var(--hz-bs-border-radius, 5px);
+	font-size: 8px;
+	padding: 0.6em 1.2em;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
 }
 
-/* Button Hover Effect */
+/* Hover effect (general) */
 .awsm-b-job-more:hover {
-    background-color: blue; 
-	color: white; 
+	filter: brightness(0.9);
+}
+
+/* Filled style (default) */
+.awsm-b-job-more.filled {
+	background-color: var(--hz-b-bg-color, #2ba74a);
+	color: var(--hz-b-tx-color, #ffffff);
+	border-color: var(--hz-b-bg-color, #2ba74a);
+}
+
+/* Outlined style */
+.awsm-b-job-more.outlined {
+	background-color: transparent;
+	color: var(--hz-b-bg-color, #2ba74a);
+	border-color: var(--hz-b-bg-color, #2ba74a);
+}
+
+/* Hover state for outlined button */
+.awsm-b-job-more.outlined:hover {
+	background-color: var(--hz-b-bg-color, #2ba74a);
+	color: #fff;
+}
+
+/* Minimal style (optional like core button) */
+.awsm-b-job-more.minimal {
+	background-color: transparent;
+	border: none;
+	color: var(--hz-b-bg-color, #2ba74a);
+}
+
+/* Hover state for minimal */
+.awsm-b-job-more.minimal:hover {
+	text-decoration: underline;
 }
