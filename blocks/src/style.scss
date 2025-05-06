@@ -927,7 +927,7 @@ ul.awsm-error-message li {
 }
 .awsm-b-stack-left-col{
 	display: flex;
-	gap: 15px;
+	flex-direction: column;
 	flex-wrap: wrap;
 	@media (max-width:600px){
 		width: 100%;
