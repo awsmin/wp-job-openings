@@ -135,6 +135,7 @@ a.awsm-b-job-item {
 
 .awsm-b-job-item h2.awsm-b-job-post-title a {
   font-size: 18px;
+  color: var(--hz-heading-color, #3A4F66);
 }
 
 .awsm-b-grid-item .awsm-job-info {

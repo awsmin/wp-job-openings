@@ -60,9 +60,10 @@ class AWSM_Job_Openings_Block {
 			'hz_bs_border_color' => isset( $blockatts['hz_bs_border']['color'] ) ? $blockatts['hz_bs_border']['color'] : '',
 			'hz_bs_border_width' => isset( $blockatts['hz_bs_border']['width'] ) ? $blockatts['hz_bs_border']['width'] : '',
 			'hz_bs_border_radius'=> isset( $blockatts['hz_bs_border_radius']['width'] ) ? $blockatts['hz_bs_border_radius']['width'] : '',
-			'hz_button_styles'   => isset( $blockatts['hz_button_styles'] ) ? $blockatts['hz_button_styles'] : '',
+			'hz_button_styles'   		   => isset( $blockatts['hz_button_styles'] ) ? $blockatts['hz_button_styles'] : '',
 			'hz_button_background_color'   => isset( $blockatts['hz_button_background_color'] ) ? $blockatts['hz_button_background_color'] : '',
 			'hz_button_text_color'         => isset( $blockatts['hz_button_text_color'] ) ? $blockatts['hz_button_text_color'] : '',
+			'hz_heading_color'         	   => isset( $blockatts['hz_heading_color'] ) ? $blockatts['hz_heading_color'] : '',
 		);
 		
 		 /**

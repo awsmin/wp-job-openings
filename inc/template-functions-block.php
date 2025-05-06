@@ -326,6 +326,10 @@ if ( ! function_exists( 'hz_get_sf_styles' ) ) {
 			'button_text_color' => isset($attributes['hz_button_text_color']) && !empty($attributes['hz_button_text_color'])
 				? $attributes['hz_button_text_color']
 				: '',
+
+			'heading_color' => isset($attributes['hz_heading_color']) && !empty($attributes['hz_heading_color'])
+				? $attributes['hz_heading_color']
+				: '',
 			];
 	}
 }

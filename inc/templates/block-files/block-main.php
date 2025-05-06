@@ -57,6 +57,8 @@ $styles = hz_get_ui_styles($attributes);
 
 		--hz-b-bg-color: 	<?php echo esc_attr( $styles['button_background_color'] );  ?>;
 		--hz-b-tx-color: 	<?php echo esc_attr( $styles['button_text_color'] );  ?>;
+
+		--hz-heading-color: 	<?php echo esc_attr( $styles['heading_color'] );  ?>;
 	}
 </style>
 <!-- End -->
