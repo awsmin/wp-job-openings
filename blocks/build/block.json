@@ -76,10 +76,10 @@
     "hz_sf_padding": {
       "type": "object",
       "default": {
-        "top": "0px",
-        "right": "0px",
-        "bottom": "0px",
-        "left": "0px"
+        "top": "15px",
+        "right": "15px",
+        "bottom": "15px",
+        "left": "15px"
       }
     },
     "blockId": {
@@ -87,7 +87,7 @@
     },
     "hz_sidebar_width": {
       "type": "string",
-      "default": ""
+      "default": "33.33"
     },
     "hz_ls_border": {
       "type": "object",
@@ -118,10 +118,10 @@
     "hz_jl_padding": {
       "type": "object",
       "default": {
-        "top": "0px",
-        "right": "0px",
-        "bottom": "0px",
-        "left": "0px"
+        "top": "15px",
+        "right": "15px",
+        "bottom": "15px",
+        "left": "15px"
       }
     },
     "hz_button_styles": {

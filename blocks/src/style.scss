@@ -757,7 +757,7 @@ ul.awsm-error-message li {
 		margin-right: 0; 
 	}
 	.awsm-job-2-col .awsm-b-job-listings{
-		width: 66.6666%;
+		width: calc(100% - var(--hz-sidebar-width, 33.333%));
 		padding-left: 15px;
 		padding-right: 15px;
 	}
