@@ -10,11 +10,11 @@
   "attributes": {
     "search": {
       "type": "boolean",
-      "default": false
+      "default": true
     },
     "placement": {
       "type": "string",
-      "default": "top"
+      "default": "slide"
     },
     "search_placeholder": {
       "type": "string",
@@ -30,7 +30,7 @@
     },
     "layout": {
       "type": "string",
-      "default": "list"
+      "default": "stack"
     },
     "selected_terms_main": {
       "type": "array",

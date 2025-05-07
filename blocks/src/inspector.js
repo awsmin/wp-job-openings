@@ -104,7 +104,7 @@ const WidgetInspectorControls = (props) => {
 		if (clientId) { 
 			setAttributes({ blockId: `job-block-${clientId}` }); 
 		}
-		
+
 	}, [ specifications, selectedTerms, selected_terms_main ] );
 
 	const handleTermChange = ( newTokens, specKey, spec ) => {
