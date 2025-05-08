@@ -67,6 +67,7 @@ const WidgetInspectorControls = (props) => {
 	const [ toggleState, setToggleState ] = useState(
 		selected_terms_main || {}
 	);
+	
 	const [ selectedTermsState, setSelectedTermsState ] = useState(
 		selectedTerms || {}
 	);

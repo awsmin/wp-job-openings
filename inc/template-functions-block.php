@@ -225,112 +225,112 @@ if ( ! function_exists( 'awsm_jobs_block_listing_item_class' ) ) {
 }
 
 if ( ! function_exists( 'hz_get_sf_styles' ) ) {
-	function hz_get_ui_styles($attributes) {  
+	function hz_get_ui_styles($attributes) {
 		return [
-			'block_id' => isset($attributes['block_id']) && trim($attributes['block_id']) !== ''
+			'block_id' => !empty(trim($attributes['block_id'] ?? ''))
 				? $attributes['block_id']
 				: 'default-block-id',
-
-			'border_width' => isset($attributes['hz_sf_border_width']) && !empty($attributes['hz_sf_border_width']) && $attributes['hz_sf_border_width'] !== '0px'
+	
+			'border_width' => !empty($attributes['hz_sf_border_width']) && $attributes['hz_sf_border_width'] !== '0px'
 				? $attributes['hz_sf_border_width']
-				: '1px',
-
-			'border_color' => isset($attributes['hz_sf_border_color']) && !empty($attributes['hz_sf_border_color'])
+				: '',
+	
+			'border_color' => !empty($attributes['hz_sf_border_color'])
 				? $attributes['hz_sf_border_color']
 				: '#ccc',
-
-			'border_radius' => isset($attributes['hz_sf_border_radius']) && !empty($attributes['hz_sf_border_radius'])
+	
+			'border_radius' => !empty($attributes['hz_sf_border_radius'])
 				? $attributes['hz_sf_border_radius']
 				: '5px',
-
-			'padding_left' => isset($attributes['hz_sf_padding']['left']) && !empty($attributes['hz_sf_padding']['left'])
+	
+			'padding_left' => !empty($attributes['hz_sf_padding']['left'])
 				? hz_append_unit_if_missing($attributes['hz_sf_padding']['left'])
 				: '15px',
-
-			'padding_right' => isset($attributes['hz_sf_padding']['right']) && !empty($attributes['hz_sf_padding']['right'])
+	
+			'padding_right' => !empty($attributes['hz_sf_padding']['right'])
 				? hz_append_unit_if_missing($attributes['hz_sf_padding']['right'])
 				: '15px',
-
-			'padding_top' => isset($attributes['hz_sf_padding']['top']) && !empty($attributes['hz_sf_padding']['top'])
+	
+			'padding_top' => !empty($attributes['hz_sf_padding']['top'])
 				? hz_append_unit_if_missing($attributes['hz_sf_padding']['top'])
 				: '15px',
-
-			'padding_bottom' => isset($attributes['hz_sf_padding']['bottom']) && !empty($attributes['hz_sf_padding']['bottom'])
+	
+			'padding_bottom' => !empty($attributes['hz_sf_padding']['bottom'])
 				? hz_append_unit_if_missing($attributes['hz_sf_padding']['bottom'])
 				: '15px',
-
-			'sidebar_width' => isset($attributes['hz_sidebar_width']) && !empty($attributes['hz_sidebar_width'])
-				? hz_append_unit_if_missing($attributes['hz_sidebar_width'],'%')
+	
+			'sidebar_width' => !empty($attributes['hz_sidebar_width'])
+				? hz_append_unit_if_missing($attributes['hz_sidebar_width'], '%')
 				: '33.333%',
-
-			'border_width_field' => isset($attributes['hz_ls_border_width']) && !empty($attributes['hz_ls_border_width']) && $attributes['hz_ls_border_width'] !== '0px'
+	
+			'border_width_field' => !empty($attributes['hz_ls_border_width']) && $attributes['hz_ls_border_width'] !== '0px'
 				? $attributes['hz_ls_border_width']
 				: '1px',
-
-			'border_color_field' => isset($attributes['hz_ls_border_color']) && !empty($attributes['hz_ls_border_color'])
+	
+			'border_color_field' => !empty($attributes['hz_ls_border_color'])
 				? $attributes['hz_ls_border_color']
 				: '#ccc',
-
-			'border_radius_field' => isset($attributes['hz_ls_border_radius']) && !empty($attributes['hz_ls_border_radius'])
+	
+			'border_radius_field' => !empty($attributes['hz_ls_border_radius'])
 				? $attributes['hz_ls_border_radius']
 				: '5px',
-
-			'border_width_jobs' => isset($attributes['hz_lj_border_width']) && !empty($attributes['hz_jl_border_width']) && $attributes['hz_jl_border_width'] !== '0px'
+	
+			'border_width_jobs' => !empty($attributes['hz_jl_border_width']) && $attributes['hz_jl_border_width'] !== '0px'
 				? $attributes['hz_jl_border_width']
-				: '1px',
-
-			'border_color_jobs' => isset($attributes['hz_jl_border_color']) && !empty($attributes['hz_jl_border_color'])
+				: '',
+	
+			'border_color_jobs' => !empty($attributes['hz_jl_border_color'])
 				? $attributes['hz_jl_border_color']
 				: '#ccc',
-
-			'border_radius_jobs' => isset($attributes['hz_jl_border_radius']) && !empty($attributes['hz_jl_border_radius'])
+	
+			'border_radius_jobs' => !empty($attributes['hz_jl_border_radius']) && $attributes['hz_jl_border_radius'] !== '0px'
 				? $attributes['hz_jl_border_radius']
-				: '5px',
-
-			'padding_left_jobs' => isset($attributes['hz_jl_padding']['left']) && !empty($attributes['hz_jl_padding']['left'])
+				: '',
+	
+			'padding_left_jobs' => !empty($attributes['hz_jl_padding']['left'])
 				? hz_append_unit_if_missing($attributes['hz_jl_padding']['left'])
 				: '15px',
-
-			'padding_right_jobs' => isset($attributes['hz_jl_padding']['right']) && !empty($attributes['hz_jl_padding']['right'])
+	
+			'padding_right_jobs' => !empty($attributes['hz_jl_padding']['right'])
 				? hz_append_unit_if_missing($attributes['hz_jl_padding']['right'])
 				: '15px',
-
-			'padding_top_jobs' => isset($attributes['hz_jl_padding']['top']) && !empty($attributes['hz_jl_padding']['top'])
+	
+			'padding_top_jobs' => !empty($attributes['hz_jl_padding']['top'])
 				? hz_append_unit_if_missing($attributes['hz_jl_padding']['top'])
 				: '15px',
-
-			'padding_bottom_jobs' => isset($attributes['hz_jl_padding']['bottom']) && !empty($attributes['hz_jl_padding']['bottom'])
+	
+			'padding_bottom_jobs' => !empty($attributes['hz_jl_padding']['bottom'])
 				? hz_append_unit_if_missing($attributes['hz_jl_padding']['bottom'])
 				: '15px',
-
-			'button_width_field' => isset($attributes['hz_bs_border_width']) && !empty($attributes['hz_bs_border_width']) && $attributes['hz_ls_border_width'] !== '0px'
+	
+			'button_width_field' => !empty($attributes['hz_bs_border_width']) && $attributes['hz_bs_border_width'] !== '0px'
 				? $attributes['hz_bs_border_width']
 				: '1px',
-
-			'button_color_field' => isset($attributes['hz_bs_border_color']) && !empty($attributes['hz_bs_border_color'])
+	
+			'button_color_field' => !empty($attributes['hz_bs_border_color'])
 				? $attributes['hz_bs_border_color']
 				: '#ccc',
-
-			'button_radius_field' => isset($attributes['hz_bs_border_radius']) && !empty($attributes['hz_bs_border_radius'])
+	
+			'button_radius_field' => !empty($attributes['hz_bs_border_radius'])
 				? $attributes['hz_bs_border_radius']
 				: '5px',
-
-			'button_styles' => isset($attributes['hz_button_styles']) && !empty($attributes['hz_button_styles'])
+	
+			'button_styles' => !empty($attributes['hz_button_styles'])
 				? $attributes['hz_button_styles']
 				: 'none',
-
-			'button_background_color' => isset($attributes['hz_button_background_color']) && !empty($attributes['hz_button_background_color'])
+	
+			'button_background_color' => !empty($attributes['hz_button_background_color'])
 				? $attributes['hz_button_background_color']
 				: '',
-
-			'button_text_color' => isset($attributes['hz_button_text_color']) && !empty($attributes['hz_button_text_color'])
+	
+			'button_text_color' => !empty($attributes['hz_button_text_color'])
 				? $attributes['hz_button_text_color']
 				: '',
-
-			'heading_color' => isset($attributes['hz_heading_color']) && !empty($attributes['hz_heading_color'])
+	
+			'heading_color' => !empty($attributes['hz_heading_color'])
 				? $attributes['hz_heading_color']
 				: '',
-			];
+		];
 	}
 }
 

@@ -776,13 +776,23 @@ ul.awsm-error-message li {
 		width: 100% !important;
 	}
 	.awsm-job-2-col .awsm-b-filter-wrap form{
-		 padding: var(--hz-sf-padding-top, 30px) 
+		/* padding: var(--hz-sf-padding-top, 30px) 
 				 var(--hz-sf-padding-right, 30px) 
 				 var(--hz-sf-padding-bottom, 30px) 
 				 var(--hz-sf-padding-left, 30px); 
 				// padding:30px;
-		border: var(--hz-sf-border-width, 1px) solid var(--hz-sf-border-color, #ccc);
-		border-radius: var(--hz-sf-border-radius, 5px);
+		border: var(--hz-sf-border-width, 0px) solid var(--hz-sf-border-color, #ccc);
+		border-radius: var(--hz-sf-border-radius, 5px);  */
+
+		padding: var(--hz-sf-padding-top, 30px)
+	         var(--hz-sf-padding-right, 30px)
+	         var(--hz-sf-padding-bottom, 30px)
+	         var(--hz-sf-padding-left, 30px);
+
+		border-width: var(--hz-sf-border-width, 0px);
+		border-style: var(--hz-sf-border-style, none); /* none if border not defined */
+		border-color: var(--hz-sf-border-color, transparent);
+		border-radius: var(--hz-sf-border-radius, 0);
 	}
 	.awsm-job-2-col .awsm-b-filter-wrap.awsm-jobs-alerts-on form{
 		margin-bottom: 80px;
@@ -914,12 +924,16 @@ ul.awsm-error-message li {
 	margin-bottom: 30px;
 }
 .awsm-b-stack-item .awsm-b-job-item{
-	border-radius: var(--hz-jl-border-radius, 5px);
-	border: var(--hz-jl-border-width, 1px) solid var(--hz-jl-border-color, #CBCBCB);
-	padding: var(--hz-jl-padding-top, 30px) 
-             var(--hz-jl-padding-right, 30px) 
-             var(--hz-jl-padding-bottom, 30px) 
-             var(--hz-jl-padding-left, 30px);
+	border-radius: var(--hz-jl-border-radius, 0px);
+	border-width: var(--hz-jl-border-width, 0px);
+	border-style: var(--hz-jl-border-style, none);
+	border-color: var(--hz-jl-border-color, #CBCBCB);
+
+	padding-top: var(--hz-jl-padding-top, 30px);
+	padding-right: var(--hz-jl-padding-right, 30px);
+	padding-bottom: var(--hz-jl-padding-bottom, 30px);
+	padding-left: var(--hz-jl-padding-left, 30px);
+
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-between;
