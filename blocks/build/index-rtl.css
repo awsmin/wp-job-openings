@@ -917,16 +917,14 @@ ul.awsm-error-message li {
 }
 
 .awsm-b-stack-item .awsm-b-job-item {
-  /* border-radius: 5px;
-  border: 1px solid #CBCBCB;
-  padding: 30px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 10px; */
-  border-radius: var(--hz-jl-border-radius, 5px);
-  border: var(--hz-jl-border-width, 1px) solid var(--hz-jl-border-color, #CBCBCB);
-  padding: var(--hz-jl-padding-top, 30px) var(--hz-jl-padding-left, 30px) var(--hz-jl-padding-bottom, 30px) var(--hz-jl-padding-right, 30px);
+  border-radius: var(--hz-jl-border-radius, 0px);
+  border-width: var(--hz-jl-border-width, 0px);
+  border-style: var(--hz-jl-border-style, none);
+  border-color: var(--hz-jl-border-color, #CBCBCB);
+  padding-top: var(--hz-jl-padding-top, 30px);
+  padding-left: var(--hz-jl-padding-right, 30px);
+  padding-bottom: var(--hz-jl-padding-bottom, 30px);
+  padding-right: var(--hz-jl-padding-left, 30px);
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1022,36 +1020,4 @@ ul.awsm-error-message li {
 .awsm-b-job-more:hover {
   -webkit-filter: brightness(0.9);
           filter: brightness(0.9);
-}
-
-/* Filled style (default) */
-.awsm-b-job-more.filled {
-  background-color: var(--hz-b-bg-color, #2ba74a);
-  color: var(--hz-b-tx-color, #ffffff);
-  border-color: var(--hz-b-bg-color, #2ba74a);
-}
-
-/* Outlined style */
-.awsm-b-job-more.outlined {
-  background-color: transparent;
-  color: var(--hz-b-bg-color, #2ba74a);
-  border-color: var(--hz-b-bg-color, #2ba74a);
-}
-
-/* Hover state for outlined button */
-.awsm-b-job-more.outlined:hover {
-  background-color: var(--hz-b-bg-color, #2ba74a);
-  color: #fff;
-}
-
-/* Minimal style (optional like core button) */
-.awsm-b-job-more.minimal {
-  background-color: transparent;
-  border: none;
-  color: var(--hz-b-bg-color, #2ba74a);
-}
-
-/* Hover state for minimal */
-.awsm-b-job-more.minimal:hover {
-  text-decoration: underline;
 }

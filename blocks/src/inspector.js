@@ -13,11 +13,10 @@ import {
 	Button,
 	FormTokenField,
 	__experimentalInputControl as InputControl,
-	__experimentalInputControlSuffixWrapper as InputControllSuffixWrapper,
 	__experimentalToggleGroupControl as ToggleGroupControl,
 	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
-	__experimentalBoxControl as BoxControl,
-	__experimentalBorderBoxControl as BorderBoxControl,
+	BoxControl,
+	BorderBoxControl,
 	__experimentalSpacer as Spacer
 } from '@wordpress/components';
 
@@ -609,7 +608,7 @@ const WidgetInspectorControls = (props) => {
 								<BorderBoxControl
 									label={__('Border', 'wp-job-openings')}
 									withSlider
-									value={hz_sf_border || '1px'} // Ensure there is a fallback value
+									value={hz_sf_border} 
 									onChange={(newBorder) => {
 										setAttributes({ hz_sf_border: newBorder });
 									}}
@@ -699,7 +698,7 @@ const WidgetInspectorControls = (props) => {
 									}}
 								/>
 
-								<ToggleGroupControl
+								{/* <ToggleGroupControl
 									label="Button Style"
 									value={ hz_button_styles || "none"  }
 									onChange={ ( hz_button_styles ) => setAttributes( { hz_button_styles } ) }
@@ -732,9 +731,9 @@ const WidgetInspectorControls = (props) => {
 									}}
 								/>
 								</div>
-								<Spacer></Spacer>
+								<Spacer></Spacer> */}
 
-								<PanelColorSettings
+								{/* <PanelColorSettings
 									title="Button Color Settings"
 									initialOpen={true}
 									colorSettings={[
@@ -749,13 +748,13 @@ const WidgetInspectorControls = (props) => {
 											label: 'Text Color',
 										},
 									]}
-								/>
+								/> */}
 							</PanelBody>
 							
 							<PanelColorGradientSettings
 								title={__('Color', 'wp-job-openings')}
 								settings={[
-									{
+									/* {
 										label: __('Background', 'wp-job-openings'),
 										colorValue: hz_background_color,
 										onColorChange: (color) => setAttributes({ hz_background_color: color }),
@@ -769,7 +768,7 @@ const WidgetInspectorControls = (props) => {
 										label: __('Overlay', 'wp-job-openings'),
 										colorValue: hz_overlay_color,
 										onColorChange: (color) => setAttributes({ hz_overlay_color: color }),
-									},
+									}, */
 									{
 										label: __('Button', 'wp-job-openings'),
 										colorValue: hz_button_color,

@@ -124,7 +124,6 @@ a.awsm-b-job-item {
 
 .awsm-b-job-item h2.awsm-b-job-post-title a {
 	font-size: 18px;
-	color: var(--hz-heading-color, #3A4F66);
 }
 
 .awsm-b-grid-item .awsm-job-info {
@@ -1037,36 +1036,6 @@ ul.awsm-error-message li {
 	filter: brightness(0.9);
 }
 
-/* Filled style (default) */
-.awsm-b-job-more.filled {
-	background-color: var(--hz-b-bg-color, #2ba74a);
-	color: var(--hz-b-tx-color, #ffffff);
-	border-color: var(--hz-b-bg-color, #2ba74a);
-}
 
-/* Outlined style */
-.awsm-b-job-more.outlined {
-	background-color: transparent;
-	color: var(--hz-b-bg-color, #2ba74a);
-	border-color: var(--hz-b-bg-color, #2ba74a);
-}
-
-/* Hover state for outlined button */
-.awsm-b-job-more.outlined:hover {
-	background-color: var(--hz-b-bg-color, #2ba74a);
-	color: #fff;
-}
-
-/* Minimal style (optional like core button) */
-.awsm-b-job-more.minimal {
-	background-color: transparent;
-	border: none;
-	color: var(--hz-b-bg-color, #2ba74a);
-}
-
-/* Hover state for minimal */
-.awsm-b-job-more.minimal:hover {
-	text-decoration: underline;
-}
 
  

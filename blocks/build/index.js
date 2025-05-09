@@ -767,11 +767,10 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
     }), block_job_listing)) : (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__.Fragment, null, placement === 'slide' && (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.PanelBody, {
       title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Search & Filters', 'wp-job-openings'),
       initialOpen: true
-    }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalBorderBoxControl, {
+    }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.BorderBoxControl, {
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Border', 'wp-job-openings'),
       withSlider: true,
-      value: hz_sf_border || '1px' // Ensure there is a fallback value
-      ,
+      value: hz_sf_border,
       onChange: function onChange(newBorder) {
         setAttributes({
           hz_sf_border: newBorder
@@ -779,7 +778,7 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
       }
     }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)("div", {
       className: "custom-box-control"
-    }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalBorderBoxControl, {
+    }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.BorderBoxControl, {
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Radius', 'wp-job-openings'),
       withSlider: true,
       value: hz_sf_border_radius || 0 // Ensure there is a fallback value
@@ -789,7 +788,7 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
           hz_sf_border_radius: newRadius
         });
       }
-    })), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalBoxControl, {
+    })), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.BoxControl, {
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Padding', 'wp-job-openings'),
       values: hz_sf_padding // Ensure there is a fallback value
       ,
@@ -814,7 +813,7 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
       style: {
         width: '120px'
       }
-    }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalBorderBoxControl, {
+    }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.BorderBoxControl, {
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Border', 'wp-job-openings'),
       withSlider: true,
       value: hz_ls_border || '1px' // Ensure there is a fallback value
@@ -827,7 +826,7 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
       }
     }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalSpacer, null), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)("div", {
       className: "custom-box-control"
-    }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalBorderBoxControl, {
+    }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.BorderBoxControl, {
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Radius', 'wp-job-openings'),
       withSlider: true,
       value: hz_ls_border_radius || 0 // Ensure there is a fallback value
@@ -840,7 +839,7 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
     }))), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.PanelBody, {
       title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Job Listing', 'wp-job-openings'),
       initialOpen: true
-    }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalBorderBoxControl, {
+    }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.BorderBoxControl, {
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Border', 'wp-job-openings'),
       withSlider: true,
       value: hz_jl_border || 0 // Ensure there is a fallback value
@@ -853,7 +852,7 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
       }
     }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalSpacer, null), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)("div", {
       className: "custom-box-control"
-    }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalBorderBoxControl, {
+    }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.BorderBoxControl, {
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Radius', 'wp-job-openings'),
       withSlider: true,
       value: hz_jl_border_radius || 0 // Ensure there is a fallback value
@@ -863,7 +862,7 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
           hz_jl_border_radius: newRadius
         });
       }
-    })), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalSpacer, null), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalBoxControl, {
+    })), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalSpacer, null), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.BoxControl, {
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Padding', 'wp-job-openings'),
       values: hz_jl_padding // Ensure there is a fallback value
       ,
@@ -872,96 +871,25 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
           hz_jl_padding: Padding
         });
       }
-    }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalToggleGroupControl, {
-      label: "Button Style",
-      value: hz_button_styles || "none",
-      onChange: function onChange(hz_button_styles) {
-        return setAttributes({
-          hz_button_styles: hz_button_styles
-        });
-      },
-      isBlock: true,
-      __nextHasNoMarginBottom: true,
-      __next40pxDefaultSize: true
-    }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalToggleGroupControlOption, {
-      value: "none",
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('None', 'wp-job-openings')
-    }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalToggleGroupControlOption, {
-      value: "filled",
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Filled', 'wp-job-openings')
-    }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalToggleGroupControlOption, {
-      value: "outlined",
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Oulined', 'wp-job-openings')
-    })), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalBorderBoxControl, {
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Border', 'wp-job-openings'),
-      withSlider: true,
-      value: hz_bs_border // Ensure there is a fallback value
-      ,
-      __experimentalIsRenderedInSidebar: true,
-      onChange: function onChange(newBorder) {
-        setAttributes({
-          hz_bs_border: newBorder
-        });
-      }
-    }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalSpacer, null), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)("div", {
-      className: "custom-box-control"
-    }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalBorderBoxControl, {
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Radius', 'wp-job-openings'),
-      withSlider: true,
-      value: hz_bs_border_radius || 0 // Ensure there is a fallback value
-      ,
-      onChange: function onChange(newRadius) {
-        setAttributes({
-          hz_bs_border_radius: newRadius
-        });
-      }
-    })), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalSpacer, null), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_6__.PanelColorSettings, {
-      title: "Button Color Settings",
-      initialOpen: true,
-      colorSettings: [{
-        value: hz_button_background_color,
-        onChange: function onChange(color) {
-          return setAttributes({
-            hz_button_background_color: color
-          });
-        },
-        label: 'Background Color'
-      }, {
-        value: hz_button_text_color,
-        onChange: function onChange(color) {
-          return setAttributes({
-            hz_button_text_color: color
-          });
-        },
-        label: 'Text Color'
-      }]
     })), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_6__.__experimentalPanelColorGradientSettings, {
       title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Color', 'wp-job-openings'),
-      settings: [{
-        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Background', 'wp-job-openings'),
-        colorValue: hz_background_color,
-        onColorChange: function onColorChange(color) {
-          return setAttributes({
-            hz_background_color: color
-          });
-        }
-      }, {
-        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Heading', 'wp-job-openings'),
-        colorValue: hz_heading_color,
-        onColorChange: function onColorChange(color) {
-          return setAttributes({
-            hz_heading_color: color
-          });
-        }
-      }, {
-        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Overlay', 'wp-job-openings'),
-        colorValue: hz_overlay_color,
-        onColorChange: function onColorChange(color) {
-          return setAttributes({
-            hz_overlay_color: color
-          });
-        }
-      }, {
+      settings: [
+      /* {
+      	label: __('Background', 'wp-job-openings'),
+      	colorValue: hz_background_color,
+      	onColorChange: (color) => setAttributes({ hz_background_color: color }),
+      },
+      {
+      	label: __('Heading', 'wp-job-openings'),
+      	colorValue: hz_heading_color,
+      	onColorChange: (color) => setAttributes({ hz_heading_color: color }),
+      },
+      {
+      	label: __('Overlay', 'wp-job-openings'),
+      	colorValue: hz_overlay_color,
+      	onColorChange: (color) => setAttributes({ hz_overlay_color: color }),
+      }, */
+      {
         label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Button', 'wp-job-openings'),
         colorValue: hz_button_color,
         onColorChange: function onColorChange(color) {
