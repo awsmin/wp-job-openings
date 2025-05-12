@@ -360,8 +360,6 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
     setSelectedTermsState = _useState6[1];
   var block_appearance_list = [];
   var block_job_listing = [];
-
-  // Sync selected terms with props on mount or when selectedTerm changes
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_5__.useEffect)(function () {
     if (typeof awsmJobsAdmin !== 'undefined' && awsmJobsAdmin.isProEnabled) {
       setIsProEnabled(true);
@@ -369,7 +367,7 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
 
     // Sync state with selectedTerms attribute
     var initialSelectedTerms = specifications.reduce(function (acc, spec) {
-      acc[spec.key] = selectedTerms[spec.key] || []; // Initialize with existing selected terms or empty array
+      acc[spec.key] = selectedTerms[spec.key] || [];
       return acc;
     }, {});
     setSelectedTermsState(initialSelectedTerms);
@@ -384,6 +382,29 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
       setAttributes({
         blockId: "job-block-".concat(clientId)
       });
+    }
+
+    // **Ensure default filters are initialized**
+    if (!filter_options.length) {
+      var defaultFilters = specifications.map(function (spec) {
+        return {
+          specKey: spec.key,
+          value: 'dropdown'
+        };
+      });
+      setAttributes({
+        filter_options: defaultFilters
+      });
+
+      // **Force Gutenberg to recognize the change immediately**
+      wp.data.dispatch('core/block-editor').updateBlockAttributes(clientId, {
+        filter_options: defaultFilters
+      });
+      // Ensure the block editor re-renders
+      setTimeout(function () {
+        wp.data.dispatch('core/block-editor').selectBlock(clientId);
+        wp.data.dispatch('core/block-editor').clearSelectedBlock();
+      }, 200);
     }
   }, [specifications, selectedTerms, selected_terms_main]);
   var handleTermChange = function handleTermChange(newTokens, specKey, spec) {

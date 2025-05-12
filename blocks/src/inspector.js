@@ -74,39 +74,57 @@ const WidgetInspectorControls = (props) => {
 	const block_appearance_list = [];
 	const block_job_listing = [];
 
-	// Sync selected terms with props on mount or when selectedTerm changes
-	useEffect( () => { 
-		if (
-			typeof awsmJobsAdmin !== 'undefined' &&
-			awsmJobsAdmin.isProEnabled
-		) {
-			setIsProEnabled( true );
+	useEffect(() => {
+		if (typeof awsmJobsAdmin !== 'undefined' && awsmJobsAdmin.isProEnabled) {
+			setIsProEnabled(true);
 		}
-
+	
 		// Sync state with selectedTerms attribute
-		const initialSelectedTerms = specifications.reduce( ( acc, spec ) => {
-			acc[ spec.key ] = selectedTerms[ spec.key ] || []; // Initialize with existing selected terms or empty array
+		const initialSelectedTerms = specifications.reduce((acc, spec) => {
+			acc[spec.key] = selectedTerms[spec.key] || [];
 			return acc;
-		}, {} );
-
-		setSelectedTermsState( initialSelectedTerms );
-
-		setToggleState( ( prevState ) => {
-			const initialState = Array.isArray( selected_terms_main )
-				? selected_terms_main.reduce( ( acc, key ) => {
-						acc[ key ] = true;
-						return acc;
-				  }, {} )
+		}, {});
+	
+		setSelectedTermsState(initialSelectedTerms);
+	
+		setToggleState((prevState) => {
+			const initialState = Array.isArray(selected_terms_main)
+				? selected_terms_main.reduce((acc, key) => {
+					  acc[key] = true;
+					  return acc;
+				  }, {})
 				: {};
 			return initialState;
-		} );
-
-		if (clientId) { 
-			setAttributes({ blockId: `job-block-${clientId}` }); 
+		});
+	
+		if (clientId) {
+			setAttributes({ blockId: `job-block-${clientId}` });
 		}
+	
+		// **Ensure default filters are initialized**
+		if (!filter_options.length) {
+			const defaultFilters = specifications.map((spec) => ({
+				specKey: spec.key,
+				value: 'dropdown',
+			}));
+	
+			setAttributes({ filter_options: defaultFilters });
+	
+			// **Force Gutenberg to recognize the change immediately**
+			wp.data.dispatch('core/block-editor').updateBlockAttributes(clientId, { 
+				filter_options: defaultFilters,
+			});
+			// Ensure the block editor re-renders
+			setTimeout(() => {
+				wp.data.dispatch('core/block-editor').selectBlock(clientId);
+				wp.data.dispatch('core/block-editor').clearSelectedBlock();
+			}, 200);
+		}
+	
+	}, [specifications, selectedTerms, selected_terms_main]);
+	
 
-	}, [ specifications, selectedTerms, selected_terms_main ] );
-
+	
 	const handleTermChange = ( newTokens, specKey, spec ) => {
 		setSelectedTermsState( ( prevSelectedTerms ) => {
 			const updatedSelectedTerms = { ...prevSelectedTerms };
