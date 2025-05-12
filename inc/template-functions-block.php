@@ -158,7 +158,7 @@ if ( ! function_exists( 'awsm_block_jobs_paginate_links' ) ) {
 			'current' => max( 1, $current ),
 			'total'   => $max_num_pages,
 		);
-		$pagination_content = sprintf( '<div class="awsm-b-jobs-pagination awsm-load-more-classic" data-effect-duration="slow">%s</div>', paginate_links( $args ) );
+		$pagination_content = sprintf( '<div class="awsm-b-jobs-pagination awsm-b-load-more-classic" data-effect-duration="slow">%s</div>', paginate_links( $args ) );
 		/**
 		 * Filters the paginate links content.
 		 *

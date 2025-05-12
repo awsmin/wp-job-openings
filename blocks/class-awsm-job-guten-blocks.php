@@ -33,7 +33,17 @@ class Awsm_Job_Guten_Blocks {
 		register_block_type( __DIR__ . '/build', $args );
 	}
 
-	public function block_render_callback( $atts, $content ) {  error_log(print_r($atts,1));
+	public function block_render_callback( $atts, $content ) {  
+
+		if ( empty( $atts['filter_options'] ) ) {
+			$default_filters = array();
+			$specs = AWSM_Job_Openings::get_filter_specifications();
+			foreach($specs as $k => $v){
+                $default_filters[$k]['specKey']  = $v['key'];
+				$default_filters[$k]['value']    = 'dropdown';
+			}
+			$atts['filter_options'] = $test;
+		}
 		
 		if ( isset( $atts['search'] ) && $atts['search'] === true ) {
 			$atts['search'] = 'enable';
