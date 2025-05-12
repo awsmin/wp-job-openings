@@ -42,7 +42,7 @@ class Awsm_Job_Guten_Blocks {
                 $default_filters[$k]['specKey']  = $v['key'];
 				$default_filters[$k]['value']    = 'dropdown';
 			}
-			$atts['filter_options'] = $test;
+			$atts['filter_options'] = $default_filters;
 		}
 		
 		if ( isset( $atts['search'] ) && $atts['search'] === true ) {
