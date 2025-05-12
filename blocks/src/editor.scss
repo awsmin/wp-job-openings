@@ -112,6 +112,8 @@ a.awsm-b-job-item {
 
 .awsm-b-job-item h2.awsm-b-job-post-title a {
 	font-size: 18px;
+	color:#4E35DF;
+	text-decoration: none;
 }
 
 .awsm-b-grid-item .awsm-job-info {
@@ -969,16 +971,14 @@ ul.awsm-error-message li {
 }
 
 .awsm-b-job-more {
-	width: 140px;
-	height: 40px;
-	flex-shrink: 0;
-	border-radius: 4px;
+	display: inline-flex;
+	gap: 8px;
+	align-items: center;
+	border-radius: 5px;
     background: #4E35DF;
-	color: #FFF;
-	padding: 12px 8px 12px 12px;;
-	font-family: Inter;
+	color: #FFF !important;
+	text-decoration: none;
+	padding: 13px 8px;
 	font-size: 14px;
-	font-style: normal;
-	font-weight: 500;
 	line-height: 1;
 }
