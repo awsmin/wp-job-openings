@@ -123,7 +123,7 @@ const WidgetInspectorControls = (props) => {
 	
 	}, [specifications, selectedTerms, selected_terms_main]);
 	
-
+	//console.log(specifications);
 	
 	const handleTermChange = ( newTokens, specKey, spec ) => {
 		setSelectedTermsState( ( prevSelectedTerms ) => {

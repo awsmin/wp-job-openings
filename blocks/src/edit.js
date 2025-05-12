@@ -108,7 +108,7 @@ export default function Edit( props ) {
 	useEffect( () => {}, [
 		props.attributes.enable_job_filter,
 		props.attributes.filter_options,
-	] );
+	]);
 
 	const checkFilters = () => {
 		const wrapper = document.querySelector(

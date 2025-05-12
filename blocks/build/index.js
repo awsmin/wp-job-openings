@@ -407,6 +407,9 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
       }, 200);
     }
   }, [specifications, selectedTerms, selected_terms_main]);
+
+  //console.log(specifications);
+
   var handleTermChange = function handleTermChange(newTokens, specKey, spec) {
     setSelectedTermsState(function (prevSelectedTerms) {
       var updatedSelectedTerms = _objectSpread({}, prevSelectedTerms);

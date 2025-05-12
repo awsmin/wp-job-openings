@@ -418,12 +418,12 @@ a.awsm-b-job-item .awsm-job-specification-item {
   color: #4C4C4C;
 }
 
-.awsm-b-list-item .awsm-job-more-container {
+.awsm-b-list-item .awsm-b-job-more-container {
   display: inline-block;
   vertical-align: middle;
 }
 
-.awsm-job-more-container .awsm-job-more span::before {
+.awsm-b-job-more-container .awsm-b-job-more span::before {
   content: "→";
 }
 
@@ -686,7 +686,7 @@ ul.awsm-error-message li {
     padding-bottom: 5px;
     float: none;
   }
-  .awsm-b-list-item .awsm-job-more-container {
+  .awsm-b-list-item .awsm-b-job-more-container {
     display: block;
     float: none;
   }
@@ -1153,22 +1153,18 @@ ul.awsm-error-message li {
 }
 
 .awsm-b-job-more {
-  background-color: var(--hz-b-bg-color, #2ba74a); /* fallback for filled */
-  color: var(--hz-b-tx-color, #ffffff);
-  border: var(--hz-bs-border-width, 1px) solid var(--hz-bs-border-color, #d5d5d5);
-  border-radius: var(--hz-bs-border-radius, 5px);
-  font-size: 8px;
-  padding: 0.6em 1.2em;
-  cursor: pointer;
-  -webkit-transition: all 0.3s ease;
-  transition: all 0.3s ease;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-}
-
-/* Hover effect (general) */
-.awsm-b-job-more:hover {
-  -webkit-filter: brightness(0.9);
-          filter: brightness(0.9);
+  width: 140px;
+  height: 40px;
+  -webkit-flex-shrink: 0;
+      -ms-flex-negative: 0;
+          flex-shrink: 0;
+  border-radius: 4px;
+  background: #4E35DF;
+  color: #FFF;
+  padding: 12px 12px 12px 8px;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1;
 }

@@ -350,16 +350,7 @@ if ( ! function_exists( 'awsm_b_job_more_details' ) ) {
 	function awsm_b_job_more_details( $link, $view , $button_style) { 
 
 		$button_class = 'awsm-b-job-more';
-		if ( 'filled' === $button_style ) {
-			$button_class .= ' filled';
-		} elseif ( 'outlined' === $button_style ) {
-		    $button_class .= ' outlined';
-		}
-
-		if ( 'none' === $button_style ) {
-            $button_class .= ''; 
-        }
-		
+		 
         $more_dtls_link = sprintf(
             '<div class="awsm-b-job-more-container"><%1$s class="%2$s"%3$s>%4$s <span></span></%1$s></div>',
             ( $view === 'grid' ) ? 'span' : 'a',

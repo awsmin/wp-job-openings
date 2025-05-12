@@ -33,7 +33,7 @@ class Awsm_Job_Guten_Blocks {
 		register_block_type( __DIR__ . '/build', $args );
 	}
 
-	public function block_render_callback( $atts, $content ) { 
+	public function block_render_callback( $atts, $content ) {  error_log(print_r($atts,1));
 		
 		if ( isset( $atts['search'] ) && $atts['search'] === true ) {
 			$atts['search'] = 'enable';
