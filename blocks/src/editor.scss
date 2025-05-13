@@ -982,3 +982,9 @@ ul.awsm-error-message li {
 	font-size: 14px;
 	line-height: 1;
 }
+
+.hz-inspector-controls .components-base-control:where(:not(:last-child)),
+.hz-inspector-controls .components-radio-control:where(:not(:last-child)) {
+  margin-bottom: 0px !important;
+}
+

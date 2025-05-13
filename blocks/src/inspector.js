@@ -235,6 +235,7 @@ const WidgetInspectorControls = (props) => {
 									checked={ search }
 									onChange={ ( search ) => setAttributes( { search } ) }
 								/>
+								
 								{ search && (
 									<>
 										<ToggleGroupControl
@@ -613,6 +614,7 @@ const WidgetInspectorControls = (props) => {
                         </Fragment>
                     ) : (
                         <Fragment>
+							<div className="hz-inspector-controls">
 							{placement === 'slide' && (
                             <PanelBody title={__('Search & Filters', 'wp-job-openings')} initialOpen={true}>
 								<BorderBoxControl
@@ -623,7 +625,7 @@ const WidgetInspectorControls = (props) => {
 										setAttributes({ hz_sf_border: newBorder });
 									}}
 								/>
-								
+								<Spacer></Spacer>
 								<div className="custom-box-control">
 								<BorderBoxControl
 									label={__('Radius', 'wp-job-openings')}
@@ -634,7 +636,7 @@ const WidgetInspectorControls = (props) => {
 									}}
 								/>
 								</div>
-								
+								<Spacer></Spacer>
 								<BoxControl
 									label={__('Padding', 'wp-job-openings')}
 									values={hz_sf_padding} // Ensure there is a fallback value
@@ -642,6 +644,7 @@ const WidgetInspectorControls = (props) => {
 										setAttributes({ hz_sf_padding: Padding });
 									}}
 								/>
+							
                             </PanelBody>
 							)}
 
@@ -656,6 +659,7 @@ const WidgetInspectorControls = (props) => {
 									style={{ width: '120px' }}
 								/>
 							)}
+								<Spacer></Spacer>
 								<BorderBoxControl
 									label={__('Border', 'wp-job-openings')}
 									withSlider
@@ -665,7 +669,7 @@ const WidgetInspectorControls = (props) => {
 										setAttributes({ hz_ls_border: newBorder });
 									}}
 								/>
-								<Spacer></Spacer>
+									<Spacer></Spacer>
 								<div className="custom-box-control">
 								<BorderBoxControl
 									label={__('Radius', 'wp-job-openings')}
@@ -688,7 +692,7 @@ const WidgetInspectorControls = (props) => {
 										setAttributes({ hz_jl_border: newBorder });
 									}}
 								/>
-								<Spacer></Spacer>
+									<Spacer></Spacer>
 								<div className="custom-box-control">
 								<BorderBoxControl
 									label={__('Radius', 'wp-job-openings')}
@@ -708,77 +712,11 @@ const WidgetInspectorControls = (props) => {
 									}}
 								/>
 
-								{/* <ToggleGroupControl
-									label="Button Style"
-									value={ hz_button_styles || "none"  }
-									onChange={ ( hz_button_styles ) => setAttributes( { hz_button_styles } ) }
-									isBlock
-									__nextHasNoMarginBottom
-									__next40pxDefaultSize
-								>
-									<ToggleGroupControlOption value="none" label={__('None', 'wp-job-openings')} />
-									<ToggleGroupControlOption value="filled" label={__('Filled', 'wp-job-openings')} />
-									<ToggleGroupControlOption value="outlined" label={__('Oulined', 'wp-job-openings')} />
-								</ToggleGroupControl>
-
-								<BorderBoxControl
-									label={__('Border', 'wp-job-openings')}
-									withSlider
-									value={hz_bs_border} // Ensure there is a fallback value
-									__experimentalIsRenderedInSidebar
-									onChange={(newBorder) => {
-										setAttributes({ hz_bs_border: newBorder });
-									}}
-								/>
-								<Spacer></Spacer>
-								<div className="custom-box-control">
-								<BorderBoxControl
-									label={__('Radius', 'wp-job-openings')}
-									withSlider
-									value={hz_bs_border_radius || 0} // Ensure there is a fallback value
-									onChange={(newRadius) => {
-										setAttributes({ hz_bs_border_radius: newRadius });
-									}}
-								/>
-								</div>
-								<Spacer></Spacer> */}
-
-								{/* <PanelColorSettings
-									title="Button Color Settings"
-									initialOpen={true}
-									colorSettings={[
-										{
-											value: hz_button_background_color,
-											onChange: (color) => setAttributes({ hz_button_background_color: color }),
-											label: 'Background Color',
-										},
-										{
-											value: hz_button_text_color,
-											onChange: (color) => setAttributes({ hz_button_text_color: color }),
-											label: 'Text Color',
-										},
-									]}
-								/> */}
 							</PanelBody>
 							
 							<PanelColorGradientSettings
 								title={__('Color', 'wp-job-openings')}
 								settings={[
-									/* {
-										label: __('Background', 'wp-job-openings'),
-										colorValue: hz_background_color,
-										onColorChange: (color) => setAttributes({ hz_background_color: color }),
-									},
-									{
-										label: __('Heading', 'wp-job-openings'),
-										colorValue: hz_heading_color,
-										onColorChange: (color) => setAttributes({ hz_heading_color: color }),
-									},
-									{
-										label: __('Overlay', 'wp-job-openings'),
-										colorValue: hz_overlay_color,
-										onColorChange: (color) => setAttributes({ hz_overlay_color: color }),
-									}, */
 									{
 										label: __('Button', 'wp-job-openings'),
 										colorValue: hz_button_color,
@@ -786,6 +724,7 @@ const WidgetInspectorControls = (props) => {
 									}
 								]}
 							/>
+							 </div>
                         </Fragment>
                     )
                 }
