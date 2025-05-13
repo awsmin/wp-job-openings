@@ -124,39 +124,7 @@
         "left": "15px"
       }
     },
-    "hz_button_styles": {
-      "type": "string",
-      "default": "none"
-    },
-    "hz_bs_border": {
-      "type": "object",
-      "default": {
-        "width": "1px",
-        "color": "red"
-      }
-    },
-    "hz_bs_border_radius": {
-      "type": "object",
-      "default": {
-        "width": "5px"
-      }
-    },
-    "hz_background_color": {
-      "type": "string"
-    },
-    "hz_heading_color": {
-      "type": "string"
-    },
-    "hz_overlay_color": {
-      "type": "string"
-    },
     "hz_button_color": {
-      "type": "string"
-    },
-    "hz_button_background_color": {
-      "type": "string"
-    },
-    "hz_button_text_color": {
       "type": "string"
     }
   },

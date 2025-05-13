@@ -44,17 +44,9 @@ const WidgetInspectorControls = (props) => {
 			hz_jl_border = {},
 			hz_jl_border_radius = {},
 			hz_jl_padding = {},
-			hz_bs_border = {},
-			hz_bs_border_radius = {},
-			hz_button_styles,
-			hz_background_color, 
-			hz_heading_color,
-			hz_overlay_color,
 			hz_button_color,
 			hz_sidebar_width,
-			blockId,
-			hz_button_background_color,
-			hz_button_text_color
+			blockId
 		},
 		setAttributes,
 		clientId,

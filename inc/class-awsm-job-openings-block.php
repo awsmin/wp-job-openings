@@ -24,7 +24,7 @@ class AWSM_Job_Openings_Block {
 		return self::$instance;
 	}
 
-	public function awsm_jobs_block_attributes( $blockatts ) {
+	public function awsm_jobs_block_attributes( $blockatts ) { 
 		if ( ! function_exists( 'awsm_jobs_query' ) ) {
 			return;
 		}
@@ -57,13 +57,7 @@ class AWSM_Job_Openings_Block {
 			'hz_jl_border_width' => isset( $blockatts['hz_jl_border']['width'] ) ? $blockatts['hz_jl_border']['width'] : '',
 			'hz_jl_border_radius'=> isset( $blockatts['hz_jl_border_radius']['width'] ) ? $blockatts['hz_jl_border_radius']['width'] : '',
 			'hz_jl_padding'		 => isset( $blockatts['hz_jl_padding'] ) ? $blockatts['hz_jl_padding'] : '',
-			'hz_bs_border_color' => isset( $blockatts['hz_bs_border']['color'] ) ? $blockatts['hz_bs_border']['color'] : '',
-			'hz_bs_border_width' => isset( $blockatts['hz_bs_border']['width'] ) ? $blockatts['hz_bs_border']['width'] : '',
-			'hz_bs_border_radius'=> isset( $blockatts['hz_bs_border_radius']['width'] ) ? $blockatts['hz_bs_border_radius']['width'] : '',
-			'hz_button_styles'   		   => isset( $blockatts['hz_button_styles'] ) ? $blockatts['hz_button_styles'] : '',
-			'hz_button_background_color'   => isset( $blockatts['hz_button_background_color'] ) ? $blockatts['hz_button_background_color'] : '',
-			'hz_button_text_color'         => isset( $blockatts['hz_button_text_color'] ) ? $blockatts['hz_button_text_color'] : '',
-			'hz_heading_color'         	   => isset( $blockatts['hz_heading_color'] ) ? $blockatts['hz_heading_color'] : '',
+			'hz_button_color'	 => isset( $blockatts['hz_button_color'] ) ? $blockatts['hz_button_color'] : '',
 		);
 		
 		 /**
