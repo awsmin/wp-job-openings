@@ -304,9 +304,8 @@ if ( ! function_exists( 'hz_get_sf_styles' ) ) {
 				: '15px',
 
 			'button_color' => !empty($attributes['hz_button_color'])
-				? hz_append_unit_if_missing($attributes['hz_button_color'])
+				? $attributes['hz_button_color']
 				: '#4E35DF',
-	
 		];
 	}
 }
