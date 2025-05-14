@@ -11,14 +11,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! function_exists( 'awsm_block_jobs_view_class' ) ) {
-	function awsm_block_jobs_view_class( $class = '', $attributes = array() ) {  
+	function awsm_block_jobs_view_class( $class = '', $attributes = array() ) {
 		$view_class = AWSM_Job_Openings_Block::get_job_listing_view_class_block( $attributes );
+
+		// Merge custom class with view class if present
 		if ( ! empty( $class ) ) {
-			$view_class = trim( $view_class . ' ' . $class );
+			$view_class = trim( "$view_class $class" );
 		}
-		return sprintf( 'class="%s"', esc_attr( $view_class ) );
+
+		// Only return the class attribute if there's a class to output
+		return $view_class ? sprintf( 'class="%s"', esc_attr( $view_class ) ) : '';
 	}
 }
+
 
 if ( ! function_exists( 'awsm_block_job_filters_explode' ) ) {
 	function awsm_block_job_filters_explode( $filter_data ) {

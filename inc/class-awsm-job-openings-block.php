@@ -90,13 +90,13 @@ class AWSM_Job_Openings_Block {
 		return apply_filters( 'awsm_jobs_block_output_content', $block_content );
 	}
 
-	public static function get_job_listing_view_class_block( $attributes = array() ) { 
+	public static function get_job_listing_view_class_block( $attributes = array() ) {   
 		$view       = isset( $attributes['layout'] ) ? sanitize_text_field( $attributes['layout'] ) : 'list';
 		$view_class = 'awsm-b-job-listing-items';
-
+		
 		switch ( $view ) {
 			case 'grid':
-				$number_columns = isset( $attributes['number_of_columns'] ) && intval( $attributes['number_of_columns'] ) > 0 ? intval( $attributes['number_of_columns'] ) : 3;
+				$number_columns = isset( $attributes['number_of_columns'] ) && intval( $attributes['number_of_columns'] ) > 0 ? intval( $attributes['number_of_columns'] ) : 3; 
 				$view_class     = 'awsm-b-row awsm-b-job-listing-items';
 				$column_class   = $number_columns === 1 ? 'awsm-b-grid-col' : 'awsm-b-grid-col-' . $number_columns;
 
