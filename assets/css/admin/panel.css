@@ -45,6 +45,8 @@
 	top: 0;
 	transform: translateX(100%);
 	transition: all 0.3s ease;
+	display: flex;
+  	flex-direction: column;
 }
 .awsm-job-slide-panel.open .awsm-job-slide-panel-in{
 	transform: none;
@@ -75,7 +77,7 @@
 	fill: #000;
 }
 .awsm-job-slide-panel-content{
-	height: calc(100% - 52px);
+	flex: 1 1 auto;
 	overflow: auto;
 	padding: 30px 20px;
 }
