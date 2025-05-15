@@ -608,7 +608,12 @@ const WidgetInspectorControls = (props) => {
 									}
 								/>
 
-								{ block_job_listing }
+                                { wp.hooks.doAction(
+									'after_awsm_job_appearance',
+									block_appearance_list,
+									props
+								) }
+								{ block_appearance_list }
 
 							</PanelBody>
                         </Fragment>
