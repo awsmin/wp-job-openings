@@ -54,7 +54,11 @@ $styles = hz_get_ui_styles( $attributes );
 	--hz-jl-padding-bottom: <?php echo esc_attr( $styles['padding_bottom_jobs'] ); ?>;
 	--hz-jl-border-style:   <?php echo ( ! empty( $styles['border_width_jobs'] ) && $styles['border_width_jobs'] !== '0px' ) ? 'solid' : 'none'; ?>;
 
-	--hz-bt-color: 	<?php echo esc_attr( $styles['button_color'] ); ?>;
+	--hz-bs-border-width: 	<?php echo esc_attr( $styles['button_width_field'] ); ?>;
+	--hz-bs-border-color: 	<?php echo esc_attr( $styles['button_color_field'] ); ?>;
+	--hz-bs-border-radius: 	<?php echo esc_attr( $styles['button_radius_field'] ); ?>;
+	--hz-b-bg-color: 		<?php echo esc_attr( $styles['button_background_color'] ); ?>;
+	--hz-b-tx-color: 		<?php echo esc_attr( $styles['button_text_color'] ); ?>;
 }
 </style>
 <!-- End -->

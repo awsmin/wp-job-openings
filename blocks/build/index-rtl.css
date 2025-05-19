@@ -1003,6 +1003,20 @@ ul.awsm-error-message li {
 }
 
 .awsm-b-job-more {
+  /* display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  border-radius: 5px;
+     background: var(--hz-bt-color, #4E35DF);
+  color: #FFF !important;
+  text-decoration: none;
+  padding: 13px 8px;
+  font-size: 14px;
+  line-height: 1; */
+  background-color: var(--hz-b-bg-color, #2ba74a) !important; /* fallback for filled */
+  color: var(--hz-b-tx-color, #ffffff) !important;
+  border: var(--hz-bs-border-width, 1px) solid var(--hz-bs-border-color, #d5d5d5) !important;
+  border-radius: var(--hz-bs-border-radius, 5px) !important;
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1013,8 +1027,7 @@ ul.awsm-error-message li {
       -ms-flex-align: center;
           align-items: center;
   border-radius: 5px;
-  background: var(--hz-bt-color, #4E35DF);
-  color: #FFF !important;
+  background: var(--hz-bt-color, #4e35df) !important;
   text-decoration: none;
   padding: 13px 8px;
   font-size: 14px;

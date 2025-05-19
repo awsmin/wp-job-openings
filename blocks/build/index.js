@@ -782,12 +782,14 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
     }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.BorderBoxControl, {
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Border', 'wp-job-openings'),
       withSlider: true,
+      isCompact: true,
       value: hz_sf_border,
       onChange: function onChange(newBorder) {
         setAttributes({
           hz_sf_border: newBorder
         });
-      }
+      },
+      enableStyle: false
     }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalSpacer, null), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)("div", {
       className: "custom-box-control"
     }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.BorderBoxControl, {

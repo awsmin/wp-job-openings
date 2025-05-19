@@ -619,10 +619,12 @@ const WidgetInspectorControls = (props) => {
 								<BorderBoxControl
 									label={__('Border', 'wp-job-openings')}
 									withSlider
+									isCompact={true} 
 									value={hz_sf_border} 
 									onChange={(newBorder) => {
 										setAttributes({ hz_sf_border: newBorder });
 									}}
+									enableStyle={false}
 								/>
 								<Spacer></Spacer>
 								<div className="custom-box-control">
