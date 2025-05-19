@@ -40,7 +40,7 @@ class AWSM_Job_Openings_Filters {
 		return $query_args;
 	}
 
-	public function display_filter_form( $shortcode_atts ) { 
+	public function display_filter_form( $shortcode_atts ) {
 		$search_content        = '';
 		$specs_filter_content  = '';
 		$custom_action_content = '';
@@ -48,7 +48,7 @@ class AWSM_Job_Openings_Filters {
 		$enable_job_filters    = get_option( 'awsm_enable_job_filter_listing' );
 		$enable_search         = get_option( 'awsm_enable_job_search' );
 		$display_type          = get_option( 'awsm_jobs_listing_display_type', 'dropdown' );
-		
+
 		/**
 		 * Enable search in the job listing or not.
 		 *
@@ -139,24 +139,24 @@ class AWSM_Job_Openings_Filters {
 					 *
 					 * @param array $terms_args Array of arguments.
 					 */
-					
+
 					$terms_args = apply_filters(
 						'awsm_jobs_spec_terms_args',
 						array(
-							'taxonomy' => $taxonomy,
-							'orderby' => 'meta_value_num',
+							'taxonomy'   => $taxonomy,
+							'orderby'    => 'meta_value_num',
 							'meta_query' => array(
 								'relation' => 'OR',
 								array(
-									'key' => 'term_order',
-									'compare' => 'EXISTS'
+									'key'     => 'term_order',
+									'compare' => 'EXISTS',
 								),
 								array(
-									'key' => 'term_order',
-									'compare' => 'NOT EXISTS'
-								)
+									'key'     => 'term_order',
+									'compare' => 'NOT EXISTS',
+								),
 							),
-							'order' => 'ASC',
+							'order'      => 'ASC',
 							'hide_empty' => true,
 						)
 					);
@@ -380,25 +380,25 @@ class AWSM_Job_Openings_Filters {
 						$available_filters_arr[ $taxonomy ] = $tax_details->label;
 
 						$options_content = '';
-					foreach ( $terms as $term ) {
-						$selected = '';
-						if ( in_array( $taxonomy, array_keys( $selected_filters ) ) && $selected_filters[ $taxonomy ] === $term->slug ) {
-							$selected = ' selected';
-						}
-						$option_content = sprintf( '<option value="%1$s" data-slug="%3$s"%4$s>%2$s</option>', esc_attr( $term->term_id ), esc_html( $term->name ), esc_attr( $term->slug ), esc_attr( $selected ) );
-						/**
-						 * Filter the job filter dropdown option content.
-						 *
-						 * @since 3.3.0
-						 *
-						 * @param string $option_content Filter dropdown option content.
-						 * @param WP_Term $term Job spec term.
-						 * @param string $taxonomy Job spec key.
-						 */
-						$option_content = apply_filters( 'awsm_job_filter_option_content', $option_content, $term, $taxonomy );
+						foreach ( $terms as $term ) {
+							$selected = '';
+							if ( in_array( $taxonomy, array_keys( $selected_filters ) ) && $selected_filters[ $taxonomy ] === $term->slug ) {
+								$selected = ' selected';
+							}
+							$option_content = sprintf( '<option value="%1$s" data-slug="%3$s"%4$s>%2$s</option>', esc_attr( $term->term_id ), esc_html( $term->name ), esc_attr( $term->slug ), esc_attr( $selected ) );
+							/**
+							 * Filter the job filter dropdown option content.
+							 *
+							 * @since 3.3.0
+							 *
+							 * @param string $option_content Filter dropdown option content.
+							 * @param WP_Term $term Job spec term.
+							 * @param string $taxonomy Job spec key.
+							 */
+							$option_content = apply_filters( 'awsm_job_filter_option_content', $option_content, $term, $taxonomy );
 
-						$options_content .= $option_content;
-					}
+							$options_content .= $option_content;
+						}
 
 						$filter_key = str_replace( '-', '__', $taxonomy );
 						$spec_name  = apply_filters( 'wpml_translate_single_string', $tax_details->label, 'WordPress', sprintf( 'taxonomy general name: %s', $tax_details->label ) );
@@ -413,22 +413,22 @@ class AWSM_Job_Openings_Filters {
 						 */
 						$main_spec_label = apply_filters( 'awsm_filter_block_label', esc_html_x( $spec_name, 'job filter', 'wp-job-openings' ), $taxonomy, $tax_details );
 
-						$filter_label = apply_filters( 
-							'awsm_filter_block_label', 
-							esc_html_x( 'All ' . $spec_name, 'job filter', 'wp-job-openings' ), 
-							$taxonomy, 
-							$tax_details 
+						$filter_label = apply_filters(
+							'awsm_filter_block_label',
+							esc_html_x( 'All ' . $spec_name, 'job filter', 'wp-job-openings' ),
+							$taxonomy,
+							$tax_details
 						);
 
 						$spec_multiple_class = '';
 						$multiple_for_spec   = '';
 
-					if ( isset( $display_type[ $taxonomy ] ) && $display_type[ $taxonomy ] === 'checkbox' ) {
-						$spec_multiple_class = 'awsm-spec-multiple';
-						$multiple_for_spec   = 'multiple';
-					}
+						if ( isset( $display_type[ $taxonomy ] ) && $display_type[ $taxonomy ] === 'checkbox' ) {
+							$spec_multiple_class = 'awsm-spec-multiple';
+							$multiple_for_spec   = 'multiple';
+						}
 
-						$dropdown_content = sprintf( '<div class="awsm-filter-item" data-filter="%2$s"><div>%6$s</div><label for="awsm-%1$s-filter-option%5$s" class="awsm-sr-only">%3$s</label><select name="awsm_job_spec[%1$s][]" class="awsm-filter-option ' . $spec_multiple_class . ' awsm-%1$s-filter-option" id="awsm-%1$s-filter-option%5$s" aria-label="%3$s" ' . $multiple_for_spec . '><option value="">%3$s</option>%4$s</select></div>', esc_attr( $taxonomy ), esc_attr( $filter_key . self::$filter_suffix ), esc_html( $filter_label ), $options_content, esc_attr( $uid ) ,esc_html( $main_spec_label ));
+						$dropdown_content = sprintf( '<div class="awsm-filter-item" data-filter="%2$s"><div>%6$s</div><label for="awsm-%1$s-filter-option%5$s" class="awsm-sr-only">%3$s</label><select name="awsm_job_spec[%1$s][]" class="awsm-filter-option ' . $spec_multiple_class . ' awsm-%1$s-filter-option" id="awsm-%1$s-filter-option%5$s" aria-label="%3$s" ' . $multiple_for_spec . '><option value="">%3$s</option>%4$s</select></div>', esc_attr( $taxonomy ), esc_attr( $filter_key . self::$filter_suffix ), esc_html( $filter_label ), $options_content, esc_attr( $uid ), esc_html( $main_spec_label ) );
 						/**
 						 * Filter the job filter dropdown content.
 						 *
@@ -439,7 +439,7 @@ class AWSM_Job_Openings_Filters {
 						$dropdown_content = apply_filters( 'awsm_job_filter_dropdown_content', $dropdown_content );
 
 						$specs_filter_content .= $dropdown_content;
-				}
+					}
 				}
 			}
 		}

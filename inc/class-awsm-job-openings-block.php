@@ -24,42 +24,42 @@ class AWSM_Job_Openings_Block {
 		return self::$instance;
 	}
 
-	public function awsm_jobs_block_attributes( $blockatts ) { 
+	public function awsm_jobs_block_attributes( $blockatts ) {
 		if ( ! function_exists( 'awsm_jobs_query' ) ) {
 			return;
 		}
 
 		$block_atts_set = array(
-			'uid'                => $this->unique_listing_id,
-			'search'             => isset( $blockatts['search'] ) ? $blockatts['search'] : '',
-			'filter_options'     => isset( $blockatts['filter_options'] ) ? $blockatts['filter_options'] : '',
-			'layout'             => isset( $blockatts['layout'] ) ? $blockatts['layout'] : '',
-			'hide_expired_jobs'  => isset( $blockatts['hide_expired_jobs'] ) ? $blockatts['hide_expired_jobs'] : '',
-			'placement'          => isset( $blockatts['placement'] ) ? $blockatts['placement'] : 'slide',
-			'search_placeholder' => isset( $blockatts['search_placeholder'] ) ? $blockatts['search_placeholder'] : '',
-			'number_of_columns'  => isset( $blockatts['number_of_columns'] ) ? $blockatts['number_of_columns'] : 3,
+			'uid'                 => $this->unique_listing_id,
+			'search'              => isset( $blockatts['search'] ) ? $blockatts['search'] : '',
+			'filter_options'      => isset( $blockatts['filter_options'] ) ? $blockatts['filter_options'] : '',
+			'layout'              => isset( $blockatts['layout'] ) ? $blockatts['layout'] : '',
+			'hide_expired_jobs'   => isset( $blockatts['hide_expired_jobs'] ) ? $blockatts['hide_expired_jobs'] : '',
+			'placement'           => isset( $blockatts['placement'] ) ? $blockatts['placement'] : 'slide',
+			'search_placeholder'  => isset( $blockatts['search_placeholder'] ) ? $blockatts['search_placeholder'] : '',
+			'number_of_columns'   => isset( $blockatts['number_of_columns'] ) ? $blockatts['number_of_columns'] : 3,
 			//'block_loadmore'     => 'no',
-			'listType'           => isset( $blockatts['listType'] ) ? $blockatts['listType'] : '',
-			'selectedTerms'      => isset( $blockatts['selectedTerms'] ) ? $blockatts['selectedTerms'] : '',
-			'orderBy'            => isset( $blockatts['orderBy'] ) ? $blockatts['orderBy'] : '',
-			'listings'           => isset( $blockatts['listing_per_page'] ) ? $blockatts['listing_per_page'] : '',
-			'pagination'         => isset( $blockatts['pagination'] ) ? $blockatts['pagination'] : '',
-			'hz_sf_border_color' => isset( $blockatts['hz_sf_border']['color'] ) ? $blockatts['hz_sf_border']['color'] : '',
-			'hz_sf_border_width' => isset( $blockatts['hz_sf_border']['width'] ) ? $blockatts['hz_sf_border']['width'] : '',
-			'hz_sf_padding'		 => isset( $blockatts['hz_sf_padding'] ) ? $blockatts['hz_sf_padding'] : '',
-			'hz_sf_border_radius'=> isset( $blockatts['hz_sf_border_radius']['width'] ) ? $blockatts['hz_sf_border_radius']['width'] : '',
-			'hz_sidebar_width'	 => isset( $blockatts['hz_sidebar_width'] ) ? $blockatts['hz_sidebar_width'] : '',
-			'block_id'    		 => isset( $blockatts['block_id'] ) ? $blockatts['block_id'] : '',
-			'hz_ls_border_color' => isset( $blockatts['hz_ls_border']['color'] ) ? $blockatts['hz_ls_border']['color'] : '',
-			'hz_ls_border_width' => isset( $blockatts['hz_ls_border']['width'] ) ? $blockatts['hz_ls_border']['width'] : '',
-			'hz_ls_border_radius'=> isset( $blockatts['hz_ls_border_radius']['width'] ) ? $blockatts['hz_ls_border_radius']['width'] : '',
-			'hz_jl_border_color' => isset( $blockatts['hz_jl_border']['color'] ) ? $blockatts['hz_jl_border']['color'] : '',
-			'hz_jl_border_width' => isset( $blockatts['hz_jl_border']['width'] ) ? $blockatts['hz_jl_border']['width'] : '',
-			'hz_jl_border_radius'=> isset( $blockatts['hz_jl_border_radius']['width'] ) ? $blockatts['hz_jl_border_radius']['width'] : '',
-			'hz_jl_padding'		 => isset( $blockatts['hz_jl_padding'] ) ? $blockatts['hz_jl_padding'] : '',
-			'hz_button_color'	 => isset( $blockatts['hz_button_color'] ) ? $blockatts['hz_button_color'] : '',
+			'listType'            => isset( $blockatts['listType'] ) ? $blockatts['listType'] : '',
+			'selectedTerms'       => isset( $blockatts['selectedTerms'] ) ? $blockatts['selectedTerms'] : '',
+			'orderBy'             => isset( $blockatts['orderBy'] ) ? $blockatts['orderBy'] : '',
+			'listings'            => isset( $blockatts['listing_per_page'] ) ? $blockatts['listing_per_page'] : '',
+			'pagination'          => isset( $blockatts['pagination'] ) ? $blockatts['pagination'] : '',
+			'hz_sf_border_color'  => isset( $blockatts['hz_sf_border']['color'] ) ? $blockatts['hz_sf_border']['color'] : '',
+			'hz_sf_border_width'  => isset( $blockatts['hz_sf_border']['width'] ) ? $blockatts['hz_sf_border']['width'] : '',
+			'hz_sf_padding'       => isset( $blockatts['hz_sf_padding'] ) ? $blockatts['hz_sf_padding'] : '',
+			'hz_sf_border_radius' => isset( $blockatts['hz_sf_border_radius']['width'] ) ? $blockatts['hz_sf_border_radius']['width'] : '',
+			'hz_sidebar_width'    => isset( $blockatts['hz_sidebar_width'] ) ? $blockatts['hz_sidebar_width'] : '',
+			'block_id'            => isset( $blockatts['block_id'] ) ? $blockatts['block_id'] : '',
+			'hz_ls_border_color'  => isset( $blockatts['hz_ls_border']['color'] ) ? $blockatts['hz_ls_border']['color'] : '',
+			'hz_ls_border_width'  => isset( $blockatts['hz_ls_border']['width'] ) ? $blockatts['hz_ls_border']['width'] : '',
+			'hz_ls_border_radius' => isset( $blockatts['hz_ls_border_radius']['width'] ) ? $blockatts['hz_ls_border_radius']['width'] : '',
+			'hz_jl_border_color'  => isset( $blockatts['hz_jl_border']['color'] ) ? $blockatts['hz_jl_border']['color'] : '',
+			'hz_jl_border_width'  => isset( $blockatts['hz_jl_border']['width'] ) ? $blockatts['hz_jl_border']['width'] : '',
+			'hz_jl_border_radius' => isset( $blockatts['hz_jl_border_radius']['width'] ) ? $blockatts['hz_jl_border_radius']['width'] : '',
+			'hz_jl_padding'       => isset( $blockatts['hz_jl_padding'] ) ? $blockatts['hz_jl_padding'] : '',
+			'hz_button_color'     => isset( $blockatts['hz_button_color'] ) ? $blockatts['hz_button_color'] : '',
 		);
-		
+
 		 /**
 		 * Filter the attribute set for the Job Listing block.
 		 *
@@ -90,13 +90,13 @@ class AWSM_Job_Openings_Block {
 		return apply_filters( 'awsm_jobs_block_output_content', $block_content );
 	}
 
-	public static function get_job_listing_view_class_block( $attributes = array() ) {   
+	public static function get_job_listing_view_class_block( $attributes = array() ) {
 		$view       = isset( $attributes['layout'] ) ? sanitize_text_field( $attributes['layout'] ) : 'list';
 		$view_class = 'awsm-b-job-listing-items';
-		
+
 		switch ( $view ) {
 			case 'grid':
-				$number_columns = isset( $attributes['number_of_columns'] ) && intval( $attributes['number_of_columns'] ) > 0 ? intval( $attributes['number_of_columns'] ) : 3; 
+				$number_columns = isset( $attributes['number_of_columns'] ) && intval( $attributes['number_of_columns'] ) > 0 ? intval( $attributes['number_of_columns'] ) : 3;
 				$view_class     = 'awsm-b-row awsm-b-job-listing-items';
 				$column_class   = $number_columns === 1 ? 'awsm-b-grid-col' : 'awsm-b-grid-col-' . $number_columns;
 
@@ -111,7 +111,7 @@ class AWSM_Job_Openings_Block {
 				$view_class .= ' awsm-b-lists';
 				break;
 		}
-		
+
 		return esc_attr( $view_class );
 	}
 
@@ -223,7 +223,7 @@ class AWSM_Job_Openings_Block {
 			$attributes['orderBy'] = $_POST['orderby'];
 		}
 
-		$attributes = apply_filters( 'awsm_jobs_block_post_filters', $attributes, $_POST ); 
+		$attributes = apply_filters( 'awsm_jobs_block_post_filters', $attributes, $_POST );
 
 		$args = self::awsm_block_job_query_args( $filters, $attributes, array(), $filters_list );
 
@@ -320,7 +320,7 @@ class AWSM_Job_Openings_Block {
 			$args['post_status'] = array( 'publish', 'expired' );
 		}
 
-		$sort = isset( $attributes['orderBy'] ) ? sanitize_text_field( $attributes['orderBy'] ) : 'new_to_old'; 
+		$sort = isset( $attributes['orderBy'] ) ? sanitize_text_field( $attributes['orderBy'] ) : 'new_to_old';
 
 		switch ( $sort ) {
 			case 'new_to_old':
@@ -332,7 +332,7 @@ class AWSM_Job_Openings_Block {
 				$args['orderby'] = 'date';
 				$args['order']   = 'ASC';
 				break;
-			
+
 			default:
 				$args['orderby'] = 'date';
 				$args['order']   = 'DESC';
@@ -364,10 +364,10 @@ class AWSM_Job_Openings_Block {
 		$attrs['awsm-hide-expired-jobs'] = isset( $block_atts['hide_expired_jobs'] ) ? $block_atts['hide_expired_jobs'] : '';
 		//$attrs['awsm-other-options']     = isset( $block_atts['other_options'] ) ? $block_atts['other_options'] : '';
 		//$attrs['awsm-listings-total']    = isset( $block_atts['listings_total'] ) ? $block_atts['listings_total'] : '';
-		$attrs['awsm-selected-terms']    = isset( $block_atts['selectedTerms'] )
+		$attrs['awsm-selected-terms'] = isset( $block_atts['selectedTerms'] )
 		? htmlspecialchars( json_encode( $block_atts['selectedTerms'], JSON_UNESCAPED_SLASHES ) )
 		: '{}';
-		$attrs['orderby']                = isset( $block_atts['orderBy'] ) ? $block_atts['orderBy'] : '';
+		$attrs['orderby']             = isset( $block_atts['orderBy'] ) ? $block_atts['orderBy'] : '';
 
 		$current_lang = AWSM_Job_Openings::get_current_language();
 		if ( ! empty( $current_lang ) ) {
@@ -570,20 +570,20 @@ class AWSM_Job_Openings_Block {
 					$terms_args = apply_filters(
 						'awsm_filter_block_spec_terms_args',
 						array(
-							'taxonomy' => $taxonomy,
-							'orderby' => 'meta_value_num',
+							'taxonomy'   => $taxonomy,
+							'orderby'    => 'meta_value_num',
 							'meta_query' => array(
 								'relation' => 'OR',
 								array(
-									'key' => 'term_order',
-									'compare' => 'EXISTS'
+									'key'     => 'term_order',
+									'compare' => 'EXISTS',
 								),
 								array(
-									'key' => 'term_order',
-									'compare' => 'NOT EXISTS'
-								)
+									'key'     => 'term_order',
+									'compare' => 'NOT EXISTS',
+								),
 							),
-							'order' => 'ASC',
+							'order'      => 'ASC',
 							'hide_empty' => false,
 						)
 					);
@@ -641,7 +641,7 @@ class AWSM_Job_Openings_Block {
 						 * @param string $taxonomy Taxonomy key.
 						 * @param WP_Taxonomy $tax_details Taxonomy details.
 						 */
-						$filter_label                      = apply_filters( 'awsm_filter_block_label', esc_html_x( 'All', 'job filter', 'wp-job-openings' ) . ' ' . $spec_name, $taxonomy, $tax_details ); 
+						$filter_label                      = apply_filters( 'awsm_filter_block_label', esc_html_x( 'All', 'job filter', 'wp-job-openings' ) . ' ' . $spec_name, $taxonomy, $tax_details );
 						$filter_class_admin_select_control = '';
 						if ( ! self::is_edit_or_add_page() ) {
 							$filter_class_admin_select_control = ' awsm-job-select-control';
@@ -679,13 +679,13 @@ class AWSM_Job_Openings_Block {
 		do_action( 'awsm_block_form_inside', $block_atts );
 		$custom_action_content = ob_get_clean();
 		/* end */
-		
-		if ( ! empty( $search_content ) || ! empty( $specs_filter_content ) ) { 
+
+		if ( ! empty( $search_content ) || ! empty( $specs_filter_content ) ) {
 			$current_lang          = AWSM_Job_Openings::get_current_language();
 			$hidden_fields_content = '';
 			if ( ! empty( $current_lang ) ) {
 				$hidden_fields_content .= sprintf( '<input type="hidden" name="lang" value="%s">', esc_attr( $current_lang ) );
-			} 
+			}
 			if ( ! AWSM_Job_Openings::is_default_pagination( $block_atts ) ) {
 				$paged                  = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
 				$hidden_fields_content .= sprintf( '<input type="hidden" name="awsm_pagination_base" value="%1$s"><input type="hidden" name="paged" value="%2$s">', esc_url( get_pagenum_link() ), absint( $paged ) );
@@ -763,13 +763,13 @@ class AWSM_Job_Openings_Block {
 		echo apply_filters( 'awsm_filter_block_content', $filter_content, $available_filters_arr ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
-	public function display_block_filter_form_slide( $block_atts ) { 
+	public function display_block_filter_form_slide( $block_atts ) {
 		$uid                   = isset( $block_atts['uid'] ) ? '-' . $block_atts['uid'] : '';
 		$enable_search         = isset( $block_atts['search'] ) ? $block_atts['search'] : '';
 		$placeholder_search    = isset( $block_atts['search_placeholder'] ) ? $block_atts['search_placeholder'] : '';
 		$filter_options        = isset( $block_atts['filter_options'] ) ? $block_atts['filter_options'] : '';
 		$default_text          = 'search';
-		$search_content 	   = '';
+		$search_content        = '';
 		$available_filters     = array();
 		$available_filters_arr = array();
 		$specs_filter_content  = '';
@@ -790,9 +790,9 @@ class AWSM_Job_Openings_Block {
 			$search_content = sprintf( '<div class="awsm-b-filter-item-search"><div class="awsm-b-filter-item-search-in"><label for="awsm-jq-1" class="awsm-b-sr-only">%1$s</label><input type="text" id="awsm-jq%4$s" name="jq" value="%2$s" placeholder="%1$s" class="awsm-b-job-search awsm-b-job-form-control">%3$s</div></div>', esc_attr( $placeholder_text ), esc_attr( $search_query ), $search_icon, esc_attr( $uid ) );
 
 			$search_content = apply_filters( 'awsm_jobs_block_search_field_content_placement_slide', $search_content );
-		
-			$taxonomies            = get_object_taxonomies( 'awsm_job_openings', 'objects' );
-			
+
+			$taxonomies = get_object_taxonomies( 'awsm_job_openings', 'objects' );
+
 			$selected_filters = self::get_block_filters_query_args( $available_filters );
 
 			if ( ! empty( $taxonomies ) && ! empty( $filter_options ) ) {
@@ -808,11 +808,11 @@ class AWSM_Job_Openings_Block {
 									'hide_empty' => true,
 								)
 							);
-							$terms  = get_terms( $terms_args );
+							$terms      = get_terms( $terms_args );
 
 							if ( ! empty( $terms ) ) {
 								$available_filters_arr[ $taxonomy ] = $tax_details->label;
-			
+
 								$options_content = '';
 								foreach ( $terms as $term ) {
 									$selected = '';
@@ -822,7 +822,7 @@ class AWSM_Job_Openings_Block {
 										foreach ( $_GET as $key => $value ) {
 											if ( strpos( $key, 'job__' ) !== false ) {
 												$selected_specs = explode( ',', $value );
-			
+
 												if ( in_array( esc_attr( $term->slug ), $selected_specs ) ) {
 													$selected = ' selected';
 													break;
@@ -830,7 +830,7 @@ class AWSM_Job_Openings_Block {
 											}
 										}
 									}
-			
+
 									$option_content = sprintf( '<option value="%1$s" data-slug="%3$s"%4$s>%2$s</option>', esc_attr( $term->term_id ), esc_html( $term->name ), esc_attr( $term->slug ), esc_attr( $selected ) );
 									/**
 									 * Filter the job filter dropdown option content.
@@ -842,10 +842,10 @@ class AWSM_Job_Openings_Block {
 									 * @param string $taxonomy Job spec key.
 									 */
 									$option_content = apply_filters( 'awsm_job_filter_block_option_content', $option_content, $term, $taxonomy );
-			
+
 									$options_content .= $option_content;
 								}
-			
+
 								$filter_key = str_replace( '-', '__', $taxonomy );
 								$spec_name  = apply_filters( 'wpml_translate_single_string', $tax_details->label, 'WordPress', sprintf( 'taxonomy general name: %s', $tax_details->label ) );
 								/**
@@ -859,18 +859,18 @@ class AWSM_Job_Openings_Block {
 								 */
 								$main_spec_label = apply_filters( 'awsm_filter_block_label', esc_html_x( $spec_name, 'job filter', 'wp-job-openings' ), $taxonomy, $tax_details );
 
-								$filter_label = apply_filters( 
-									'awsm_filter_block_label', 
-									esc_html_x( 'All ' . $spec_name, 'job filter', 'wp-job-openings' ), 
-									$taxonomy, 
-									$tax_details 
+								$filter_label = apply_filters(
+									'awsm_filter_block_label',
+									esc_html_x( 'All ' . $spec_name, 'job filter', 'wp-job-openings' ),
+									$taxonomy,
+									$tax_details
 								);
 
 								$filter_class_admin_select_control = '';
 								if ( ! self::is_edit_or_add_page() ) {
 									$filter_class_admin_select_control = ' awsm-job-select-control';
 								}
-			
+
 								//$block_atts['filter_options']
 								$spec_multiple_class = $multiple_for_spec = '';
 								foreach ( $block_atts['filter_options'] as $check_multiple ) {
@@ -879,8 +879,8 @@ class AWSM_Job_Openings_Block {
 										$multiple_for_spec   = 'multiple';
 									}
 								}
-			
-								$dropdown_content = sprintf( '<div class="awsm-b-filter-item" data-filter="%2$s"><div>%6$s</div><label for="awsm-%1$s-filter-option%5$s" class="awsm-b-sr-only">%3$s</label><select name="awsm_job_spec[%1$s][]" class="awsm-b-filter-option ' . $spec_multiple_class . ' awsm-%1$s-filter-option ' . $filter_class_admin_select_control . '" id="awsm-%1$s-filter-option%5$s" aria-label="%3$s" ' . $multiple_for_spec . '><option value="">%3$s</option>%4$s</select></div>', esc_attr( $taxonomy ), esc_attr( $filter_key . '_spec' ), esc_html( $filter_label ), $options_content, esc_attr( $uid ),esc_html( $main_spec_label )  );
+
+								$dropdown_content = sprintf( '<div class="awsm-b-filter-item" data-filter="%2$s"><div>%6$s</div><label for="awsm-%1$s-filter-option%5$s" class="awsm-b-sr-only">%3$s</label><select name="awsm_job_spec[%1$s][]" class="awsm-b-filter-option ' . $spec_multiple_class . ' awsm-%1$s-filter-option ' . $filter_class_admin_select_control . '" id="awsm-%1$s-filter-option%5$s" aria-label="%3$s" ' . $multiple_for_spec . '><option value="">%3$s</option>%4$s</select></div>', esc_attr( $taxonomy ), esc_attr( $filter_key . '_spec' ), esc_html( $filter_label ), $options_content, esc_attr( $uid ), esc_html( $main_spec_label ) );
 								/**
 								 * Filter the job filter dropdown content.
 								 *
@@ -889,7 +889,7 @@ class AWSM_Job_Openings_Block {
 								 * @param string $dropdown_content Filter dropdown content.
 								 */
 								$dropdown_content = apply_filters( 'awsm_job_filter_dropdown_content', $dropdown_content );
-			
+
 								$specs_filter_content .= $dropdown_content;
 							}
 						}
@@ -899,9 +899,9 @@ class AWSM_Job_Openings_Block {
 		}
 
 			$filter_class_admin = '';
-			if ( self::is_edit_or_add_page() ) {
-				$filter_class_admin = ' awsm-b-filter-admin';
-			}
+		if ( self::is_edit_or_add_page() ) {
+			$filter_class_admin = ' awsm-b-filter-admin';
+		}
 
 			/* Action for custom content for job listing */
 			ob_start();
@@ -910,10 +910,10 @@ class AWSM_Job_Openings_Block {
 			/* end */
 
 			$custom_action_content_filter = '';
-			if ( ! empty( $custom_action_content ) ) {
-				$custom_action_content_filter = $custom_action_content;
-			}
-		
+		if ( ! empty( $custom_action_content ) ) {
+			$custom_action_content_filter = $custom_action_content;
+		}
+
 		// Combine search and filter content into the form
 		$filter_content = sprintf(
 			'<form action="%2$s/wp-admin/admin-ajax.php" method="POST">%1$s</form>',

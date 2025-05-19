@@ -230,88 +230,88 @@ if ( ! function_exists( 'awsm_jobs_block_listing_item_class' ) ) {
 }
 
 if ( ! function_exists( 'hz_get_sf_styles' ) ) {
-	function hz_get_ui_styles($attributes) {
-		return [
-			'block_id' => !empty(trim($attributes['block_id'] ?? ''))
+	function hz_get_ui_styles( $attributes ) {
+		return array(
+			'block_id'            => ! empty( trim( $attributes['block_id'] ?? '' ) )
 				? $attributes['block_id']
 				: 'default-block-id',
-	
-			'border_width' => !empty($attributes['hz_sf_border_width']) && $attributes['hz_sf_border_width'] !== '0px'
+
+			'border_width'        => ! empty( $attributes['hz_sf_border_width'] ) && $attributes['hz_sf_border_width'] !== '0px'
 				? $attributes['hz_sf_border_width']
 				: '',
-	
-			'border_color' => !empty($attributes['hz_sf_border_color'])
+
+			'border_color'        => ! empty( $attributes['hz_sf_border_color'] )
 				? $attributes['hz_sf_border_color']
 				: '#ccc',
-	
-			'border_radius' => !empty($attributes['hz_sf_border_radius'])
+
+			'border_radius'       => ! empty( $attributes['hz_sf_border_radius'] )
 				? $attributes['hz_sf_border_radius']
 				: '5px',
-	
-			'padding_left' => !empty($attributes['hz_sf_padding']['left'])
-				? hz_append_unit_if_missing($attributes['hz_sf_padding']['left'])
-				: '15px',
-	
-			'padding_right' => !empty($attributes['hz_sf_padding']['right'])
-				? hz_append_unit_if_missing($attributes['hz_sf_padding']['right'])
-				: '15px',
-	
-			'padding_top' => !empty($attributes['hz_sf_padding']['top'])
-				? hz_append_unit_if_missing($attributes['hz_sf_padding']['top'])
-				: '15px',
-	
-			'padding_bottom' => !empty($attributes['hz_sf_padding']['bottom'])
-				? hz_append_unit_if_missing($attributes['hz_sf_padding']['bottom'])
-				: '15px',
-	
-			'sidebar_width' => !empty($attributes['hz_sidebar_width'])
-				? hz_append_unit_if_missing($attributes['hz_sidebar_width'], '%')
-				: '33.333%',
-	
-			'border_width_field' => !empty($attributes['hz_ls_border_width']) && $attributes['hz_ls_border_width'] !== '0px'
-				? $attributes['hz_ls_border_width']
-				: '1px',
-	
-			'border_color_field' => !empty($attributes['hz_ls_border_color'])
-				? $attributes['hz_ls_border_color']
-				: '#ccc',
-	
-			'border_radius_field' => !empty($attributes['hz_ls_border_radius'])
-				? $attributes['hz_ls_border_radius']
-				: '5px',
-	
-			'border_width_jobs' => !empty($attributes['hz_jl_border_width']) && $attributes['hz_jl_border_width'] !== '0px'
-				? $attributes['hz_jl_border_width']
-				: '',
-	
-			'border_color_jobs' => !empty($attributes['hz_jl_border_color'])
-				? $attributes['hz_jl_border_color']
-				: '#ccc',
-	
-			'border_radius_jobs' => !empty($attributes['hz_jl_border_radius']) && $attributes['hz_jl_border_radius'] !== '0px'
-				? $attributes['hz_jl_border_radius']
-				: '',
-	
-			'padding_left_jobs' => !empty($attributes['hz_jl_padding']['left'])
-				? hz_append_unit_if_missing($attributes['hz_jl_padding']['left'])
-				: '15px',
-	
-			'padding_right_jobs' => !empty($attributes['hz_jl_padding']['right'])
-				? hz_append_unit_if_missing($attributes['hz_jl_padding']['right'])
-				: '15px',
-	
-			'padding_top_jobs' => !empty($attributes['hz_jl_padding']['top'])
-				? hz_append_unit_if_missing($attributes['hz_jl_padding']['top'])
-				: '15px',
-	
-			'padding_bottom_jobs' => !empty($attributes['hz_jl_padding']['bottom'])
-				? hz_append_unit_if_missing($attributes['hz_jl_padding']['bottom'])
+
+			'padding_left'        => ! empty( $attributes['hz_sf_padding']['left'] )
+				? hz_append_unit_if_missing( $attributes['hz_sf_padding']['left'] )
 				: '15px',
 
-			'button_color' => !empty($attributes['hz_button_color'])
+			'padding_right'       => ! empty( $attributes['hz_sf_padding']['right'] )
+				? hz_append_unit_if_missing( $attributes['hz_sf_padding']['right'] )
+				: '15px',
+
+			'padding_top'         => ! empty( $attributes['hz_sf_padding']['top'] )
+				? hz_append_unit_if_missing( $attributes['hz_sf_padding']['top'] )
+				: '15px',
+
+			'padding_bottom'      => ! empty( $attributes['hz_sf_padding']['bottom'] )
+				? hz_append_unit_if_missing( $attributes['hz_sf_padding']['bottom'] )
+				: '15px',
+
+			'sidebar_width'       => ! empty( $attributes['hz_sidebar_width'] )
+				? hz_append_unit_if_missing( $attributes['hz_sidebar_width'], '%' )
+				: '33.333%',
+
+			'border_width_field'  => ! empty( $attributes['hz_ls_border_width'] ) && $attributes['hz_ls_border_width'] !== '0px'
+				? $attributes['hz_ls_border_width']
+				: '1px',
+
+			'border_color_field'  => ! empty( $attributes['hz_ls_border_color'] )
+				? $attributes['hz_ls_border_color']
+				: '#ccc',
+
+			'border_radius_field' => ! empty( $attributes['hz_ls_border_radius'] )
+				? $attributes['hz_ls_border_radius']
+				: '5px',
+
+			'border_width_jobs'   => ! empty( $attributes['hz_jl_border_width'] ) && $attributes['hz_jl_border_width'] !== '0px'
+				? $attributes['hz_jl_border_width']
+				: '',
+
+			'border_color_jobs'   => ! empty( $attributes['hz_jl_border_color'] )
+				? $attributes['hz_jl_border_color']
+				: '#ccc',
+
+			'border_radius_jobs'  => ! empty( $attributes['hz_jl_border_radius'] ) && $attributes['hz_jl_border_radius'] !== '0px'
+				? $attributes['hz_jl_border_radius']
+				: '',
+
+			'padding_left_jobs'   => ! empty( $attributes['hz_jl_padding']['left'] )
+				? hz_append_unit_if_missing( $attributes['hz_jl_padding']['left'] )
+				: '15px',
+
+			'padding_right_jobs'  => ! empty( $attributes['hz_jl_padding']['right'] )
+				? hz_append_unit_if_missing( $attributes['hz_jl_padding']['right'] )
+				: '15px',
+
+			'padding_top_jobs'    => ! empty( $attributes['hz_jl_padding']['top'] )
+				? hz_append_unit_if_missing( $attributes['hz_jl_padding']['top'] )
+				: '15px',
+
+			'padding_bottom_jobs' => ! empty( $attributes['hz_jl_padding']['bottom'] )
+				? hz_append_unit_if_missing( $attributes['hz_jl_padding']['bottom'] )
+				: '15px',
+
+			'button_color'        => ! empty( $attributes['hz_button_color'] )
 				? $attributes['hz_button_color']
 				: '#4E35DF',
-		];
+		);
 	}
 }
 
@@ -325,21 +325,21 @@ if ( ! function_exists( 'hz_append_unit_if_missing' ) ) {
 			? $value . $default_unit
 			: $value;
 	}
-} 
+}
 
 if ( ! function_exists( 'awsm_b_job_more_details' ) ) {
-	function awsm_b_job_more_details( $link, $view , $button_style) { 
+	function awsm_b_job_more_details( $link, $view, $button_style ) {
 
 		$button_class = 'awsm-b-job-more';
-		 
-        $more_dtls_link = sprintf(
-            '<div class="awsm-b-job-more-container"><%1$s class="%2$s"%3$s>%4$s <span></span></%1$s></div>',
-            ( $view === 'grid' ) ? 'span' : 'a',
-            esc_attr( $button_class ), 
-            ( $view === 'grid' ) ? '' : ' href="' . esc_url( $link ) . '"', 
-            esc_html__( 'More Details', 'wp-job-openings' ) 
-        );
-        
-        echo apply_filters( 'awsm_b_jobs_listing_details_link', $more_dtls_link, $view ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+
+		$more_dtls_link = sprintf(
+			'<div class="awsm-b-job-more-container"><%1$s class="%2$s"%3$s>%4$s <span></span></%1$s></div>',
+			( $view === 'grid' ) ? 'span' : 'a',
+			esc_attr( $button_class ),
+			( $view === 'grid' ) ? '' : ' href="' . esc_url( $link ) . '"',
+			esc_html__( 'More Details', 'wp-job-openings' )
+		);
+
+		echo apply_filters( 'awsm_b_jobs_listing_details_link', $more_dtls_link, $view ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 }

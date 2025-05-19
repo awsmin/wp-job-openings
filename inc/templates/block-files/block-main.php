@@ -8,10 +8,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$attributes    = isset( $attributes ) ? $attributes : array();  
-$view          = isset( $attributes['layout'] ) ? $attributes['layout'] : get_option( 'awsm_jobs_listing_view' );
-$button_style  = isset( $attributes['hz_button_styles'] ) ? $attributes['hz_button_styles'] : 'none'; 
-$awsm_filters  = get_option( 'awsm_jobs_filter' );
+$attributes   = isset( $attributes ) ? $attributes : array();
+$view         = isset( $attributes['layout'] ) ? $attributes['layout'] : get_option( 'awsm_jobs_listing_view' );
+$button_style = isset( $attributes['hz_button_styles'] ) ? $attributes['hz_button_styles'] : 'none';
+$awsm_filters = get_option( 'awsm_jobs_filter' );
 //$listing_specs = isset( $attributes['other_options'] ) ? $attributes['other_options'] : '';
 //$listing_specs = awsm_block_job_filters_explode( $listing_specs );
 $listing_specs = array( 'job-category', 'job-location' );
@@ -24,7 +24,7 @@ $listing_specs = array( 'job-category', 'job-location' );
  */
 do_action( 'before_awsm_block_jobs_listing_loop', $attributes );
 
-$styles = hz_get_ui_styles($attributes); 
+$styles = hz_get_ui_styles( $attributes );
 ?>
 
 <!--  Styles for css variables  -->
@@ -63,7 +63,8 @@ $styles = hz_get_ui_styles($attributes);
 <?php
 while ( $query->have_posts() ) {
 	$query->the_post();
-	$job_details = get_awsm_job_details(); error_log( 'Post ID: ' . get_the_ID() );
+	$job_details = get_awsm_job_details();
+	error_log( 'Post ID: ' . get_the_ID() );
 
 	$attrs  = awsm_jobs_block_listing_item_class( array( "awsm-b-{$view}-item" ) );
 	$attrs .= sprintf( ' id="awsm-b-%1$s-item-%2$s"', esc_attr( $view ), esc_attr( $job_details['id'] ) );
@@ -91,9 +92,9 @@ while ( $query->have_posts() ) {
 				</h2>
 
 				<?php
-					if( $attributes['layout'] && $attributes['layout'] == 'stack' ){
-						awsm_job_listing_spec_content( $job_details['id'], $awsm_filters, $listing_specs, false );
-					}
+				if ( $attributes['layout'] && $attributes['layout'] == 'stack' ) {
+					awsm_job_listing_spec_content( $job_details['id'], $awsm_filters, $listing_specs, false );
+				}
 				?>
 
 				<?php
@@ -126,11 +127,11 @@ while ( $query->have_posts() ) {
 
 					do_action_deprecated( 'before_awsm_block_jobs_listing_right_col_content', array( $job_details['id'], $attributes ), '3.0.0', 'before_awsm_block_jobs_listing_specs_content' );
 
-					if( $attributes['layout'] && $attributes['layout'] != 'stack' ){
-						awsm_job_listing_spec_content( $job_details['id'], $awsm_filters, $listing_specs, false );
-					}
+				if ( $attributes['layout'] && $attributes['layout'] != 'stack' ) {
+					awsm_job_listing_spec_content( $job_details['id'], $awsm_filters, $listing_specs, false );
+				}
 
-					awsm_b_job_more_details( $job_details['permalink'], $view ,$button_style);
+					awsm_b_job_more_details( $job_details['permalink'], $view, $button_style );
 				?>
 			</div>
 		<?php echo ( $view === 'grid' ) ? '</a>' : '</div>'; ?>
