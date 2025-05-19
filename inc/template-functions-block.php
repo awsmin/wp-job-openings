@@ -328,7 +328,7 @@ if ( ! function_exists( 'hz_append_unit_if_missing' ) ) {
 }
 
 if ( ! function_exists( 'awsm_b_job_more_details' ) ) {
-	function awsm_b_job_more_details( $link, $view, $button_style ) {
+	function awsm_b_job_more_details( $link, $view ) {
 
 		$button_class = 'awsm-b-job-more';
 

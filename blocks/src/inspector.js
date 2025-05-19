@@ -44,7 +44,10 @@ const WidgetInspectorControls = (props) => {
 			hz_jl_border = {},
 			hz_jl_border_radius = {},
 			hz_jl_padding = {},
-			hz_button_color,
+			hz_bs_border = {},
+			hz_bs_border_radius = {},
+			hz_button_background_color,
+			hz_button_text_color,
 			hz_sidebar_width,
 			blockId
 		},
@@ -707,20 +710,51 @@ const WidgetInspectorControls = (props) => {
 										setAttributes({ hz_jl_padding: Padding });
 									}}
 								/>
+								<h3 style={{ marginTop: '20px', fontWeight: 'bold' }}>
+									{__('Button Styles', 'wp-job-openings')}
+								</h3>
+
+								<BorderBoxControl
+									label={__('Border', 'wp-job-openings')}
+									withSlider
+									value={hz_bs_border} // Ensure there is a fallback value
+									__experimentalIsRenderedInSidebar
+									onChange={(newBorder) => {
+										setAttributes({ hz_bs_border: newBorder });
+									}}
+								/>
+								<Spacer></Spacer>
+								<div className="custom-box-control">
+								<BorderBoxControl
+									label={__('Radius', 'wp-job-openings')}
+									withSlider
+									value={hz_bs_border_radius || 0} // Ensure there is a fallback value
+									onChange={(newRadius) => {
+										setAttributes({ hz_bs_border_radius: newRadius });
+									}}
+								/>
+								</div>
+
+								<Spacer></Spacer>
+								<PanelColorSettings
+									title="Button Color Settings"
+									initialOpen={true}
+									colorSettings={[
+										{
+											value: hz_button_background_color,
+											onChange: (color) => setAttributes({ hz_button_background_color: color }),
+											label: 'Background Color',
+										},
+										{
+											value: hz_button_text_color,
+											onChange: (color) => setAttributes({ hz_button_text_color: color }),
+											label: 'Text Color',
+										},
+									]}
+								/> 
 
 							</PanelBody>
-							
-							<PanelColorGradientSettings
-								title={__('Color', 'wp-job-openings')}
-								settings={[
-									{
-										label: __('Button', 'wp-job-openings'),
-										colorValue: hz_button_color,
-										onColorChange: (color) => setAttributes({ hz_button_color: color }),
-									}
-								]}
-							/>
-							 </div>
+							</div>
                         </Fragment>
                     )
                 }

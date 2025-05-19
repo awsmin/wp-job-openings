@@ -10,7 +10,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $attributes   = isset( $attributes ) ? $attributes : array();
 $view         = isset( $attributes['layout'] ) ? $attributes['layout'] : get_option( 'awsm_jobs_listing_view' );
-$button_style = isset( $attributes['hz_button_styles'] ) ? $attributes['hz_button_styles'] : 'none';
 $awsm_filters = get_option( 'awsm_jobs_filter' );
 //$listing_specs = isset( $attributes['other_options'] ) ? $attributes['other_options'] : '';
 //$listing_specs = awsm_block_job_filters_explode( $listing_specs );
@@ -131,7 +130,7 @@ while ( $query->have_posts() ) {
 					awsm_job_listing_spec_content( $job_details['id'], $awsm_filters, $listing_specs, false );
 				}
 
-					awsm_b_job_more_details( $job_details['permalink'], $view, $button_style );
+					awsm_b_job_more_details( $job_details['permalink'], $view );
 				?>
 			</div>
 		<?php echo ( $view === 'grid' ) ? '</a>' : '</div>'; ?>
