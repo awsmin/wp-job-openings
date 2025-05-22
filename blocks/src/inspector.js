@@ -68,6 +68,7 @@ const WidgetInspectorControls = (props) => {
 
 	const block_appearance_list = [];
 	const block_job_listing = [];
+	const block_styles_panel = [];
 
 	useEffect(() => {
 		if (typeof awsmJobsAdmin !== 'undefined' && awsmJobsAdmin.isProEnabled) {
@@ -756,6 +757,15 @@ const WidgetInspectorControls = (props) => {
 								/> 
 
 							</PanelBody>
+
+							{ wp.hooks.doAction(
+									'after_awsm_block_styles_panel',
+									block_styles_panel,
+									props
+							) }
+
+							{ block_styles_panel }
+
 							</div>
                         </Fragment>
                     )

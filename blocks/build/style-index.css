@@ -1181,7 +1181,6 @@ ul.awsm-error-message li {
       -ms-flex-align: center;
           align-items: center;
   border-radius: 5px;
-  background: var(--hz-bt-color, #4e35df);
   padding: 13px 8px;
   font-size: 14px;
   line-height: 1;

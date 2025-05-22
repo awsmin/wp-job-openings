@@ -355,6 +355,7 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
     setSelectedTermsState = _useState6[1];
   var block_appearance_list = [];
   var block_job_listing = [];
+  var block_styles_panel = [];
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_5__.useEffect)(function () {
     if (typeof awsmJobsAdmin !== 'undefined' && awsmJobsAdmin.isProEnabled) {
       setIsProEnabled(true);
@@ -933,7 +934,7 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
         },
         label: 'Text Color'
       }]
-    }))));
+    })), wp.hooks.doAction('after_awsm_block_styles_panel', block_styles_panel, props), block_styles_panel));
   }));
 };
 
