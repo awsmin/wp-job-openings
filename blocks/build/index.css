@@ -74,7 +74,10 @@
 
 .awsm-b-job-item {
   background: #fff;
-  padding: 20px;
+  padding-top: var(--hz-jl-padding-top, 20px);
+  padding-right: var(--hz-jl-padding-right, 20px);
+  padding-bottom: var(--hz-jl-padding-bottom, 20px);
+  padding-left: var(--hz-jl-padding-left, 20px);
   font-size: 14px;
 }
 
