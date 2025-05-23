@@ -26,42 +26,49 @@ do_action( 'before_awsm_block_jobs_listing_loop', $attributes );
 $styles = hz_get_ui_styles( $attributes );
 ?>
 
-<!--  Styles for css variables  -->
+<!-- Styles for css variables -->
 <style>
-#<?php echo esc_attr( $styles['block_id'] ); ?> {
-	--hz-sf-border-width: 	<?php echo esc_attr( $styles['border_width'] ); ?>;
-	--hz-sf-border-color: 	<?php echo esc_attr( $styles['border_color'] ); ?>;
-	--hz-sf-border-radius: 	<?php echo esc_attr( $styles['border_radius'] ); ?>;
-	--hz-sf-padding-left: 	<?php echo esc_attr( $styles['padding_left'] ); ?>;
-	--hz-sf-padding-right: 	<?php echo esc_attr( $styles['padding_right'] ); ?>;
-	--hz-sf-padding-top: 	<?php echo esc_attr( $styles['padding_top'] ); ?>;
-	--hz-sf-padding-bottom: <?php echo esc_attr( $styles['padding_bottom'] ); ?>;
-	--hz-sf-border-style: <?php echo ( ! empty( $styles['border_width'] ) && $styles['border_width'] !== '0px' ) ? 'solid' : 'none'; ?>;
+<?php
+$block_style_variables = "
+	#{$styles['block_id']} {
+		--hz-sf-border-width: {$styles['border_width']};
+		--hz-sf-border-color: {$styles['border_color']};
+		--hz-sf-border-radius: {$styles['border_radius']};
+		--hz-sf-padding-left: {$styles['padding_left']};
+		--hz-sf-padding-right: {$styles['padding_right']};
+		--hz-sf-padding-top: {$styles['padding_top']};
+		--hz-sf-padding-bottom: {$styles['padding_bottom']};
+		--hz-sf-border-style: " . ( ! empty( $styles['border_width'] ) && $styles['border_width'] !== '0px' ? 'solid' : 'none' ) . ";
 
-	--hz-sidebar-width: 	<?php echo esc_attr( $styles['sidebar_width'] ); ?>;
+		--hz-sidebar-width: {$styles['sidebar_width']};
 
-	--hz-ls-border-width: 	<?php echo esc_attr( $styles['border_width_field'] ); ?>;
-	--hz-ls-border-color: 	<?php echo esc_attr( $styles['border_color_field'] ); ?>;
-	--hz-ls-border-radius: 	<?php echo esc_attr( $styles['border_radius_field'] ); ?>;
-	--hz-ls-border-style: <?php echo ( ! empty( $styles['border_width_field'] ) && $styles['border_width_field'] !== '0px' ) ? 'solid' : 'none'; ?>;
+		--hz-ls-border-width: {$styles['border_width_field']};
+		--hz-ls-border-color: {$styles['border_color_field']};
+		--hz-ls-border-radius: {$styles['border_radius_field']};
+		--hz-ls-border-style: " . ( ! empty( $styles['border_width_field'] ) && $styles['border_width_field'] !== '0px' ? 'solid' : 'none' ) . ";
 
-	--hz-jl-border-width: 	<?php echo esc_attr( $styles['border_width_jobs'] ); ?>;
-	--hz-jl-border-color: 	<?php echo esc_attr( $styles['border_color_jobs'] ); ?>;
-	--hz-jl-border-radius: 	<?php echo esc_attr( $styles['border_radius_jobs'] ); ?>;
-	--hz-jl-padding-left: 	<?php echo esc_attr( $styles['padding_left_jobs'] ); ?>;
-	--hz-jl-padding-right: 	<?php echo esc_attr( $styles['padding_right_jobs'] ); ?>;
-	--hz-jl-padding-top: 	<?php echo esc_attr( $styles['padding_top_jobs'] ); ?>;
-	--hz-jl-padding-bottom: <?php echo esc_attr( $styles['padding_bottom_jobs'] ); ?>;
-	--hz-jl-border-style:   <?php echo ( ! empty( $styles['border_width_jobs'] ) && $styles['border_width_jobs'] !== '0px' ) ? 'solid' : 'none'; ?>;
+		--hz-jl-border-width: {$styles['border_width_jobs']};
+		--hz-jl-border-color: {$styles['border_color_jobs']};
+		--hz-jl-border-radius: {$styles['border_radius_jobs']};
+		--hz-jl-padding-left: {$styles['padding_left_jobs']};
+		--hz-jl-padding-right: {$styles['padding_right_jobs']};
+		--hz-jl-padding-top: {$styles['padding_top_jobs']};
+		--hz-jl-padding-bottom: {$styles['padding_bottom_jobs']};
+		--hz-jl-border-style:   " . ( ! empty( $styles['border_width_jobs'] ) && $styles['border_width_jobs'] !== '0px' ? 'solid' : 'none' ) . ";
 
-	--hz-bs-border-width: 	<?php echo esc_attr( $styles['button_width_field'] ); ?>;
-	--hz-bs-border-color: 	<?php echo esc_attr( $styles['button_color_field'] ); ?>;
-	--hz-bs-border-radius: 	<?php echo esc_attr( $styles['button_radius_field'] ); ?>;
-	--hz-b-bg-color: 		<?php echo esc_attr( $styles['button_background_color'] ); ?>;
-	--hz-b-tx-color: 		<?php echo esc_attr( $styles['button_text_color'] ); ?>;
-}
+		--hz-bs-border-width: {$styles['button_width_field']};
+		--hz-bs-border-color: {$styles['button_color_field']};
+		--hz-bs-border-radius: {$styles['button_radius_field']};
+		--hz-b-bg-color: {$styles['button_background_color']};
+		--hz-b-tx-color: {$styles['button_text_color']};
+	}
+	";
+	
+	echo apply_filters( 'hz_ui_styles_css_variables', $block_style_variables, $styles );
+?>
 </style>
 <!-- End -->
+
 
 <?php
 while ( $query->have_posts() ) {
