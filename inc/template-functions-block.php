@@ -238,7 +238,7 @@ if ( ! function_exists( 'hz_get_sf_styles' ) ) {
 			
 			'border_width'        => ! empty( $attributes['hz_sf_border_width'] ) && $attributes['hz_sf_border_width'] !== '0px'
 			? $attributes['hz_sf_border_width']
-			: '',
+			: '1px',
 			
 			'border_color'        => ! empty( $attributes['hz_sf_border_color'] )
 			? $attributes['hz_sf_border_color']

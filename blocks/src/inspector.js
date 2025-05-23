@@ -623,7 +623,15 @@ const WidgetInspectorControls = (props) => {
 									isCompact={true} 
 									value={hz_sf_border} 
 									onChange={(newBorder) => {
-										setAttributes({ hz_sf_border: newBorder });
+										const width = newBorder?.width;
+										const validatedWidth = !width || parseInt(width) < 1 ? '1px' : width;
+								
+										setAttributes({
+											hz_sf_border: {
+												...newBorder,
+												width: validatedWidth,
+											},
+										});
 									}}
 									enableStyle={false}
 								/>
@@ -665,13 +673,21 @@ const WidgetInspectorControls = (props) => {
 								<BorderBoxControl
 									label={__('Border', 'wp-job-openings')}
 									withSlider
-									value={hz_ls_border || '1px'} // Ensure there is a fallback value
+									value={hz_ls_border} 
 									__experimentalIsRenderedInSidebar
 									onChange={(newBorder) => {
-										setAttributes({ hz_ls_border: newBorder });
+										const width = newBorder?.width;
+										const validatedWidth = !width || parseInt(width) < 1 ? '1px' : width;
+
+										setAttributes({
+											hz_ls_border: {
+												...newBorder,
+												width: validatedWidth,
+											},
+										});
 									}}
 								/>
-									<Spacer></Spacer>
+								<Spacer></Spacer>
 								<div className="custom-box-control">
 								<BorderBoxControl
 									label={__('Radius', 'wp-job-openings')}
@@ -688,13 +704,21 @@ const WidgetInspectorControls = (props) => {
 								<BorderBoxControl
 									label={__('Border', 'wp-job-openings')}
 									withSlider
-									value={hz_jl_border || 0} // Ensure there is a fallback value
-									__experimentalIsRenderedInSidebar  
+									value={hz_jl_border} // Use a valid default object
+									__experimentalIsRenderedInSidebar
 									onChange={(newBorder) => {
-										setAttributes({ hz_jl_border: newBorder });
+										const width = newBorder?.width;
+										const validatedWidth = !width || parseInt(width) < 1 ? '1px' : width;
+
+										setAttributes({
+											hz_jl_border: {
+												...newBorder,
+												width: validatedWidth,
+											},
+										});
 									}}
 								/>
-									<Spacer></Spacer>
+								<Spacer></Spacer>
 								<div className="custom-box-control">
 								<BorderBoxControl
 									label={__('Radius', 'wp-job-openings')}

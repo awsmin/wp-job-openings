@@ -799,7 +799,7 @@ ul.awsm-error-message li {
 	         var(--hz-sf-padding-bottom, 30px)
 	         var(--hz-sf-padding-left, 30px);
 
-		border-width: var(--hz-sf-border-width, 0px);
+		border-width: var(--hz-sf-border-width, 1px);
 		border-style: var(--hz-sf-border-style, none); /* none if border not defined */
 		border-color: var(--hz-sf-border-color, transparent);
 		border-radius: var(--hz-sf-border-radius, 0);
@@ -936,7 +936,7 @@ ul.awsm-error-message li {
 }
 .awsm-b-stack-item .awsm-b-job-item{
 	border-radius: var(--hz-jl-border-radius, 0px);
-	border-width: var(--hz-jl-border-width, 0px);
+	border-width: var(--hz-jl-border-width, 1px);
 	border-style: var(--hz-jl-border-style, none);
 	border-color: var(--hz-jl-border-color, #CBCBCB);
 
