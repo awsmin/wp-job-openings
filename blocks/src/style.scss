@@ -318,7 +318,7 @@ a.awsm-b-job-item {
 /*---- List ----*/
 
 .awsm-b-lists {
-	border: 1px solid #d5d5d5;
+	border: var(--hz-jl-border-width, 1px) solid var(--hz-jl-border-color, #d5d5d5);
 }
 
 .awsm-b-list-item {
@@ -932,6 +932,7 @@ ul.awsm-error-message li {
 .awsm-b-stack-item{
 	width: 100%;
 	margin-bottom: 30px;
+	padding: 0 15px;
 }
 .awsm-b-stack-item .awsm-b-job-item{
 	border-radius: var(--hz-jl-border-radius, 0px);
