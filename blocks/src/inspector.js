@@ -616,7 +616,7 @@ const WidgetInspectorControls = (props) => {
                         <Fragment>
 							<div className="hz-inspector-controls">
 							{placement === 'slide' && (
-                            <PanelBody title={__('Search & Filters', 'wp-job-openings')} initialOpen={true}>
+                            <PanelBody title={__('Layout Settings', 'wp-job-openings')} initialOpen={true}>
 								<BorderBoxControl
 									label={__('Border', 'wp-job-openings')}
 									withSlider
@@ -658,7 +658,7 @@ const WidgetInspectorControls = (props) => {
                             </PanelBody>
 							)}
 
-							<PanelBody title={__('Layout Settings', 'wp-job-openings')} initialOpen={true}>
+							<PanelBody title={__('Search & Filters', 'wp-job-openings')} initialOpen={true}>
 							{placement === 'slide' && (
 								<InputControl
 								    label="Sidebar Width"
