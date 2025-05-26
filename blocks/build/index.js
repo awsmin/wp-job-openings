@@ -777,46 +777,7 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
       }
     }), wp.hooks.doAction('after_awsm_block_job_listing', block_job_listing, props), block_job_listing)) : (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)("div", {
       className: "hz-inspector-controls"
-    }, placement === 'slide' && (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.PanelBody, {
-      title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Layout Settings', 'wp-job-openings'),
-      initialOpen: true
-    }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.BorderBoxControl, {
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Border', 'wp-job-openings'),
-      withSlider: true,
-      isCompact: true,
-      value: hz_sf_border,
-      onChange: function onChange(newBorder) {
-        var width = newBorder === null || newBorder === void 0 ? void 0 : newBorder.width;
-        var validatedWidth = !width || parseInt(width) < 1 ? '1px' : width;
-        setAttributes({
-          hz_sf_border: _objectSpread(_objectSpread({}, newBorder), {}, {
-            width: validatedWidth
-          })
-        });
-      },
-      enableStyle: false
-    }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalSpacer, null), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)("div", {
-      className: "custom-box-control"
-    }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.BorderBoxControl, {
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Radius', 'wp-job-openings'),
-      withSlider: true,
-      value: hz_sf_border_radius || 0 // Ensure there is a fallback value
-      ,
-      onChange: function onChange(newRadius) {
-        setAttributes({
-          hz_sf_border_radius: newRadius
-        });
-      }
-    })), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalSpacer, null), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.BoxControl, {
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Padding', 'wp-job-openings'),
-      values: hz_sf_padding // Ensure there is a fallback value
-      ,
-      onChange: function onChange(Padding) {
-        setAttributes({
-          hz_sf_padding: Padding
-        });
-      }
-    })), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.PanelBody, {
+    }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.PanelBody, {
       title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Search & Filters', 'wp-job-openings'),
       initialOpen: true
     }, placement === 'slide' && (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalInputControl, {
@@ -858,7 +819,46 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
           hz_ls_border_radius: newRadius
         });
       }
-    }))), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.PanelBody, {
+    }))), placement === 'slide' && (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.PanelBody, {
+      title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Layout Settings', 'wp-job-openings'),
+      initialOpen: true
+    }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.BorderBoxControl, {
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Border', 'wp-job-openings'),
+      withSlider: true,
+      isCompact: true,
+      value: hz_sf_border,
+      onChange: function onChange(newBorder) {
+        var width = newBorder === null || newBorder === void 0 ? void 0 : newBorder.width;
+        var validatedWidth = !width || parseInt(width) < 1 ? '1px' : width;
+        setAttributes({
+          hz_sf_border: _objectSpread(_objectSpread({}, newBorder), {}, {
+            width: validatedWidth
+          })
+        });
+      },
+      enableStyle: false
+    }), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalSpacer, null), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)("div", {
+      className: "custom-box-control"
+    }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.BorderBoxControl, {
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Radius', 'wp-job-openings'),
+      withSlider: true,
+      value: hz_sf_border_radius || 0 // Ensure there is a fallback value
+      ,
+      onChange: function onChange(newRadius) {
+        setAttributes({
+          hz_sf_border_radius: newRadius
+        });
+      }
+    })), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalSpacer, null), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.BoxControl, {
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Padding', 'wp-job-openings'),
+      values: hz_sf_padding // Ensure there is a fallback value
+      ,
+      onChange: function onChange(Padding) {
+        setAttributes({
+          hz_sf_padding: Padding
+        });
+      }
+    })), (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.PanelBody, {
       title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Job Listing', 'wp-job-openings'),
       initialOpen: true
     }, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.BorderBoxControl, {

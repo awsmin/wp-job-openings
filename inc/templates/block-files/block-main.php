@@ -69,14 +69,12 @@ $block_style_variables = "
 </style>
 <!-- End -->
 
-
 <?php
 while ( $query->have_posts() ) {
 	$query->the_post();
 	$job_details = get_awsm_job_details();
-	error_log( 'Post ID: ' . get_the_ID() );
 
-	$attrs  = awsm_jobs_block_listing_item_class( array( "awsm-b-{$view}-item" ) );
+	$attrs  = awsm_jobs_block_listing_item_class( array( "awsm-b-{$view}-item" ) ); 
 	$attrs .= sprintf( ' id="awsm-b-%1$s-item-%2$s"', esc_attr( $view ), esc_attr( $job_details['id'] ) );
 	echo '<div ' . $attrs . '>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	?>

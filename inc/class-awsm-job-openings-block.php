@@ -96,7 +96,7 @@ class AWSM_Job_Openings_Block {
 
 	public static function get_job_listing_view_class_block( $attributes = array() ) {
 		$view       = isset( $attributes['layout'] ) ? sanitize_text_field( $attributes['layout'] ) : 'list';
-		$view_class = 'awsm-b-job-listing-items';
+		$view_class = 'awsm-b-job-listing-items'; 
 
 		switch ( $view ) {
 			case 'grid':

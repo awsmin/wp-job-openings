@@ -615,48 +615,6 @@ const WidgetInspectorControls = (props) => {
                     ) : (
                         <Fragment>
 							<div className="hz-inspector-controls">
-							{placement === 'slide' && (
-                            <PanelBody title={__('Layout Settings', 'wp-job-openings')} initialOpen={true}>
-								<BorderBoxControl
-									label={__('Border', 'wp-job-openings')}
-									withSlider
-									isCompact={true} 
-									value={hz_sf_border} 
-									onChange={(newBorder) => {
-										const width = newBorder?.width;
-										const validatedWidth = !width || parseInt(width) < 1 ? '1px' : width;
-								
-										setAttributes({
-											hz_sf_border: {
-												...newBorder,
-												width: validatedWidth,
-											},
-										});
-									}}
-									enableStyle={false}
-								/>
-								<Spacer></Spacer>
-								<div className="custom-box-control">
-								<BorderBoxControl
-									label={__('Radius', 'wp-job-openings')}
-									withSlider
-									value={hz_sf_border_radius || 0} // Ensure there is a fallback value
-									onChange={(newRadius) => {
-										setAttributes({ hz_sf_border_radius: newRadius });
-									}}
-								/>
-								</div>
-								<Spacer></Spacer>
-								<BoxControl
-									label={__('Padding', 'wp-job-openings')}
-									values={hz_sf_padding} // Ensure there is a fallback value
-									onChange={(Padding) => {
-										setAttributes({ hz_sf_padding: Padding });
-									}}
-								/>
-							
-                            </PanelBody>
-							)}
 
 							<PanelBody title={__('Search & Filters', 'wp-job-openings')} initialOpen={true}>
 							{placement === 'slide' && (
@@ -699,6 +657,49 @@ const WidgetInspectorControls = (props) => {
 								/>
 								</div>
 							</PanelBody>
+
+							{placement === 'slide' && (
+                            <PanelBody title={__('Layout Settings', 'wp-job-openings')} initialOpen={true}>
+								<BorderBoxControl
+									label={__('Border', 'wp-job-openings')}
+									withSlider
+									isCompact={true} 
+									value={hz_sf_border} 
+									onChange={(newBorder) => {
+										const width = newBorder?.width;
+										const validatedWidth = !width || parseInt(width) < 1 ? '1px' : width;
+								
+										setAttributes({
+											hz_sf_border: {
+												...newBorder,
+												width: validatedWidth,
+											},
+										});
+									}}
+									enableStyle={false}
+								/>
+								<Spacer></Spacer>
+								<div className="custom-box-control">
+								<BorderBoxControl
+									label={__('Radius', 'wp-job-openings')}
+									withSlider
+									value={hz_sf_border_radius || 0} // Ensure there is a fallback value
+									onChange={(newRadius) => {
+										setAttributes({ hz_sf_border_radius: newRadius });
+									}}
+								/>
+								</div>
+								<Spacer></Spacer>
+								<BoxControl
+									label={__('Padding', 'wp-job-openings')}
+									values={hz_sf_padding} // Ensure there is a fallback value
+									onChange={(Padding) => {
+										setAttributes({ hz_sf_padding: Padding });
+									}}
+								/>
+							
+                            </PanelBody>
+							)}
 
 							<PanelBody title={__('Job Listing', 'wp-job-openings')} initialOpen={true}>
 								<BorderBoxControl

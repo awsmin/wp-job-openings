@@ -18,9 +18,9 @@ if ( ! function_exists( 'awsm_block_jobs_view_class' ) ) {
 		if ( ! empty( $class ) ) {
 			$view_class = trim( "$view_class $class" );
 		}
-
+		
 		// Only return the class attribute if there's a class to output
-		return $view_class ? sprintf( 'class="%s"', esc_attr( $view_class ) ) : '';
+		echo $view_class ? sprintf( 'class="%s"', esc_attr( $view_class ) ) : '';
 	}
 }
 
