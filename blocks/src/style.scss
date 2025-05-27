@@ -263,7 +263,7 @@ a.awsm-b-job-item {
 }
 
 .awsm-b-row .awsm-b-jobs-pagination {
-	//padding: 0 15px;
+	padding: 0 15px;
 	width: 100%;
 }
 
@@ -932,6 +932,7 @@ ul.awsm-error-message li {
 .awsm-b-stack-item{
 	width: 100%;
 	margin-bottom: 30px;
+	padding: 0 15px;
 }
 .awsm-b-stack-item .awsm-b-job-item{
 	border-radius: var(--hz-jl-border-radius, 0px);
