@@ -633,17 +633,27 @@ const WidgetInspectorControls = (props) => {
 									withSlider
 									value={hz_ls_border} 
 									__experimentalIsRenderedInSidebar
-									onChange={(newBorder) => {
-										const width = newBorder?.width; 
-										if( width === '0px' ){
-											width = '1px';
-										}
+									onChange={(newBorder) => { console.log(newBorder);
+										var width = newBorder?.width; 
+										
 										setAttributes({
 											hz_ls_border: {
 												...newBorder,
 												width: width,
 											},
 										}); 
+										
+										if( width === '0px' ){
+											setTimeout(() => {
+												setAttributes({
+													hz_ls_border: {
+														...newBorder,
+														width: '1px',
+													},
+												}); 
+											}, 100);
+										}
+										
 									}}
 								/>
 								<Spacer></Spacer>
@@ -667,15 +677,24 @@ const WidgetInspectorControls = (props) => {
 									isCompact={true} 
 									value={hz_sf_border} 
 									onChange={(newBorder) => {
-										const width = newBorder?.width;
-										const validatedWidth = !width || parseInt(width) < 1 ? '1px' : width;
-								
+										var width = newBorder?.width;
 										setAttributes({
 											hz_sf_border: {
 												...newBorder,
-												width: validatedWidth,
+												width: width,
 											},
 										});
+
+										if( width === '0px' ){
+											setTimeout(() => {
+												setAttributes({
+													hz_sf_border: {
+														...newBorder,
+														width: '1px',
+													},
+												}); 
+											}, 100);
+										}
 									}}
 									enableStyle={false}
 								/>
@@ -709,15 +728,24 @@ const WidgetInspectorControls = (props) => {
 									value={hz_jl_border} // Use a valid default object
 									__experimentalIsRenderedInSidebar
 									onChange={(newBorder) => {
-										const width = newBorder?.width;
-										const validatedWidth = !width || parseInt(width) < 1 ? '1px' : width;
-
+										var width = newBorder?.width;
 										setAttributes({
 											hz_jl_border: {
 												...newBorder,
-												width: validatedWidth,
+												width: width,
 											},
 										});
+
+										if( width === '0px' ){
+											setTimeout(() => {
+												setAttributes({
+													hz_jl_border: {
+														...newBorder,
+														width: '1px',
+													},
+												}); 
+											}, 100);
+										}
 									}}
 								/>
 								<Spacer></Spacer>
@@ -749,7 +777,25 @@ const WidgetInspectorControls = (props) => {
 									value={hz_bs_border} // Ensure there is a fallback value
 									__experimentalIsRenderedInSidebar
 									onChange={(newBorder) => {
-										setAttributes({ hz_bs_border: newBorder });
+										var width = newBorder?.width;
+										setAttributes({
+											hz_bs_border: {
+												...newBorder,
+												width: width,
+											},
+										});
+
+										if( width === '0px' ){
+											setTimeout(() => {
+												setAttributes({
+													hz_bs_border: {
+														...newBorder,
+														width: '1px',
+													},
+												}); 
+											}, 100);
+										}
+										
 									}}
 								/>
 								<Spacer></Spacer>
