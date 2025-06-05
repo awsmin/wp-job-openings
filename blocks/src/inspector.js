@@ -364,7 +364,7 @@ const WidgetInspectorControls = (props) => {
 																} }
 															>
 																{ __(
-																	'Dropdown',
+																	'Single Select',
 																	'wp-job-openings'
 																) }
 															</Button>
@@ -404,7 +404,7 @@ const WidgetInspectorControls = (props) => {
 																} }
 															>
 																{ __(
-																	'Checkbox',
+																	'Multi Select',
 																	'wp-job-openings'
 																) }
 															</Button>
