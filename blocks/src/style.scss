@@ -931,7 +931,7 @@ ul.awsm-error-message li {
 
 .awsm-b-stack-item{
 	width: 100%;
-	margin-bottom: 30px;
+	margin-bottom: 20px;
 	padding: 0 15px;
 }
 .awsm-b-stack-item .awsm-b-job-item{
@@ -947,6 +947,7 @@ ul.awsm-error-message li {
 
 	display: flex;
 	flex-wrap: wrap;
+	align-items: center;
 	justify-content: space-between;
 	gap: 10px;
 }
