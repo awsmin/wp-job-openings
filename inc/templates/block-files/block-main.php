@@ -61,6 +61,11 @@ $block_style_variables = "
 		--hz-bs-border-radius: {$styles['button_radius_field']};
 		--hz-b-bg-color: {$styles['button_background_color']};
 		--hz-b-tx-color: {$styles['button_text_color']};
+
+		--hz-b-padding-left: {$styles['padding_left_button']};
+		--hz-b-padding-right: {$styles['padding_right_button']};
+		--hz-b-padding-top: {$styles['padding_top_button']};
+		--hz-b-padding-bottom: {$styles['padding_bottom_button']};
 	}
 	";
 	

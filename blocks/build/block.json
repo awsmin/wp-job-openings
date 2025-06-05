@@ -137,6 +137,15 @@
         "width": "5px"
       }
     },
+    "hz_bs_padding": {
+      "type": "object",
+      "default": {
+        "top": "13px",
+        "right": "13px",
+        "bottom": "13px",
+        "left": "13px"
+      }
+    },
     "hz_button_background_color": {
       "type": "string"
     },

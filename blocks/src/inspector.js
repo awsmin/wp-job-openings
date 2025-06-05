@@ -46,6 +46,7 @@ const WidgetInspectorControls = (props) => {
 			hz_jl_padding = {},
 			hz_bs_border = {},
 			hz_bs_border_radius = {},
+			hz_bs_padding = {},
 			hz_button_background_color,
 			hz_button_text_color,
 			hz_sidebar_width,
@@ -685,7 +686,7 @@ const WidgetInspectorControls = (props) => {
 											},
 										});
 
-										if( width === '0px' ){
+										/* if( width === '0px' ){
 											setTimeout(() => {
 												setAttributes({
 													hz_sf_border: {
@@ -694,7 +695,7 @@ const WidgetInspectorControls = (props) => {
 													},
 												}); 
 											}, 100);
-										}
+										} */
 									}}
 									enableStyle={false}
 								/>
@@ -768,7 +769,7 @@ const WidgetInspectorControls = (props) => {
 									}}
 								/>
 								<h3 style={{ marginTop: '20px', fontWeight: 'bold' }}>
-									{__('Button Styles', 'wp-job-openings')}
+									{__('Button', 'wp-job-openings')}
 								</h3>
 
 								<BorderBoxControl
@@ -808,27 +809,33 @@ const WidgetInspectorControls = (props) => {
 										setAttributes({ hz_bs_border_radius: newRadius });
 									}}
 								/>
-								</div>
-
 								<Spacer></Spacer>
-								<PanelColorSettings
-									title="Button Color Settings"
-									initialOpen={true}
-									colorSettings={[
-										{
-											value: hz_button_background_color,
-											onChange: (color) => setAttributes({ hz_button_background_color: color }),
-											label: 'Background Color',
-										},
-										{
-											value: hz_button_text_color,
-											onChange: (color) => setAttributes({ hz_button_text_color: color }),
-											label: 'Text Color',
-										},
-									]}
-								/> 
-
+								<BoxControl
+									label={__('Padding', 'wp-job-openings')}
+									values={hz_bs_padding} // Ensure there is a fallback value
+									onChange={(Padding) => {
+										setAttributes({ hz_bs_padding: Padding });
+									}}
+								/>
+								</div>
 							</PanelBody>
+
+							<PanelColorSettings
+								title="Button Color Settings"
+								initialOpen={true}
+								colorSettings={[
+									{
+										value: hz_button_background_color,
+										onChange: (color) => setAttributes({ hz_button_background_color: color }),
+										label: 'Background Color',
+									},
+									{
+										value: hz_button_text_color,
+										onChange: (color) => setAttributes({ hz_button_text_color: color }),
+										label: 'Text Color',
+									},
+								]}
+							/> 
 
 							{ wp.hooks.doAction(
 									'after_awsm_block_styles_panel',

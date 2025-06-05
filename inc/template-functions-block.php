@@ -236,9 +236,9 @@ if ( ! function_exists( 'hz_get_sf_styles' ) ) {
 			? $attributes['block_id']
 			: 'default-block-id',
 			
-			'border_width'        => ! empty( $attributes['hz_sf_border_width'] ) && $attributes['hz_sf_border_width'] !== '0px'
+			'border_width' => ! empty( $attributes['hz_sf_border_width'] ) && $attributes['hz_sf_border_width'] !== '0px'
 			? $attributes['hz_sf_border_width']
-			: '1px',
+			: '',
 			
 			'border_color'        => ! empty( $attributes['hz_sf_border_color'] )
 			? $attributes['hz_sf_border_color']
@@ -327,6 +327,22 @@ if ( ! function_exists( 'hz_get_sf_styles' ) ) {
 			'button_text_color' => !empty($attributes['hz_button_text_color'])
 			? $attributes['hz_button_text_color']
 			: '',
+
+			'padding_left_button'   => ! empty( $attributes['hz_bs_padding']['left'] )
+			? hz_append_unit_if_missing( $attributes['hz_bs_padding']['left'] )
+			: '13px',
+			
+			'padding_right_button'  => ! empty( $attributes['hz_bs_padding']['right'] )
+			? hz_append_unit_if_missing( $attributes['hz_bs_padding']['right'] )
+			: '13px',
+			
+			'padding_top_button'    => ! empty( $attributes['hz_bs_padding']['top'] )
+			? hz_append_unit_if_missing( $attributes['hz_bs_padding']['top'] )
+			: '13px',
+			
+			'padding_bottom_button' => ! empty( $attributes['hz_bs_padding']['bottom'] )
+			? hz_append_unit_if_missing( $attributes['hz_bs_padding']['bottom'] )
+			: '13px',
 		);
 		
 		return apply_filters( 'hz_ui_styles', $styles, $attributes );

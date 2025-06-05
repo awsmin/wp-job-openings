@@ -1049,7 +1049,13 @@ ul.awsm-error-message li {
 	gap: 8px;
 	align-items: center;
 	border-radius: 5px;
-	padding: 13px 8px;
+	/* padding: 13px 8px; */
+
+	padding-top: var(--hz-b-padding-top, 13px);
+	padding-right: var(--hz-b-padding-right, 13px);
+	padding-bottom: var(--hz-b-padding-bottom, 13px);
+	padding-left: var(--hz-b-padding-left, 13px);
+
 	font-size: 14px;
 	line-height: 1;
 }
