@@ -654,7 +654,6 @@ const WidgetInspectorControls = (props) => {
 												}); 
 											}, 100);
 										}
-										console.log( width );
 									}}
 								/>
 								<Spacer></Spacer>
