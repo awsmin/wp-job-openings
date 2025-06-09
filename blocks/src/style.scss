@@ -1030,9 +1030,7 @@ ul.awsm-error-message li {
 	padding: 20px;
 }
 
-
 .awsm-b-job-more {
-	
 	background-color: var(--hz-b-bg-color, #2ba74a); /* fallback for filled */
 	color: var(--hz-b-tx-color, #ffffff);
 	border: var(--hz-bs-border-width, 1px) solid var(--hz-bs-border-color, #d5d5d5);
@@ -1041,7 +1039,6 @@ ul.awsm-error-message li {
 	gap: 8px;
 	align-items: center;
 	border-radius: 5px;
-	/* padding: 13px 8px; */
 
 	padding-top: var(--hz-b-padding-top, 13px);
 	padding-right: var(--hz-b-padding-right, 13px);

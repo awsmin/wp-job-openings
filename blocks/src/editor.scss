@@ -979,7 +979,6 @@ ul.awsm-error-message li {
 }
 
 .awsm-b-job-more {
-	
 	background-color: var(--hz-b-bg-color, #2ba74a) !important; /* fallback for filled */
 	color: var(--hz-b-tx-color, #ffffff) !important;
 	border: var(--hz-bs-border-width, 1px) solid var(--hz-bs-border-color, #d5d5d5) !important;
@@ -989,7 +988,7 @@ ul.awsm-error-message li {
 	align-items: center;
 	border-radius: 5px;
 	text-decoration: none;
-	/* padding: 13px 8px; */
+	
 
 	padding-top: var(--hz-b-padding-top, 13px);
 	padding-right: var(--hz-b-padding-right, 13px);
@@ -1005,6 +1004,6 @@ ul.awsm-error-message li {
   margin-bottom: 0px !important;
 }
 
-.components-border-box-control-linked-button{
+.hz-inspector-controls .components-border-box-control-linked-button{
 	display: none;
 }

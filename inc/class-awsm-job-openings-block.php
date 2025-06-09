@@ -903,26 +903,62 @@ class AWSM_Job_Openings_Block {
 			}
 		}
 
-			$filter_class_admin = '';
+		$filter_class_admin = '';
 		if ( self::is_edit_or_add_page() ) {
 			$filter_class_admin = ' awsm-b-filter-admin';
 		}
 
-			/* Action for custom content for job listing */
-			ob_start();
-			do_action( 'awsm_block_form_inside', $block_atts );
-			$custom_action_content = ob_get_clean();
-			/* end */
+		/* Action for custom content for job listing */
+		ob_start();
+		do_action( 'awsm_block_form_inside', $block_atts );
+		$custom_action_content = ob_get_clean();
+		/* end */
 
-			$custom_action_content_filter = '';
+		if ( ! empty( $specs_filter_content ) ) {
+				$toggle_icon = '<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" version="1.1" preserveAspectRatio="xMinYMin"><path xmlns="http://www.w3.org/2000/svg" fill="rgb(9.803922%,9.803922%,9.803922%)" d="M 36.417969 19.9375 L 36.417969 17.265625 C 36.417969 16.160156 35.523438 15.265625 34.417969 15.265625 L 21.578125 15.265625 C 20.476562 15.265625 19.578125 16.160156 19.578125 17.265625 L 19.578125 19.9375 L 11 19.9375 L 11 26.9375 L 19.578125 26.9375 L 19.578125 30.105469 C 19.578125 31.210938 20.476562 32.105469 21.578125 32.105469 L 34.417969 32.105469 C 35.523438 32.105469 36.417969 31.210938 36.417969 30.105469 L 36.417969 26.9375 L 89 26.9375 L 89 19.9375 Z M 58.421875 43.578125 C 58.421875 42.476562 57.527344 41.578125 56.421875 41.578125 L 43.582031 41.578125 C 42.480469 41.578125 41.582031 42.476562 41.582031 43.578125 L 41.582031 46.5 L 11 46.5 L 11 53.5 L 41.582031 53.5 L 41.582031 56.421875 C 41.582031 57.527344 42.480469 58.421875 43.582031 58.421875 L 56.421875 58.421875 C 57.527344 58.421875 58.421875 57.527344 58.421875 56.421875 L 58.421875 53.5 L 89 53.5 L 89 46.5 L 58.421875 46.5 Z M 80.417969 70.140625 C 80.417969 69.035156 79.523438 68.140625 78.417969 68.140625 L 65.578125 68.140625 C 64.476562 68.140625 63.578125 69.035156 63.578125 70.140625 L 63.578125 73.0625 L 11 73.0625 L 11 80.0625 L 63.578125 80.0625 L 63.578125 82.984375 C 63.578125 84.085938 64.476562 84.984375 65.578125 84.984375 L 78.417969 84.984375 C 79.523438 84.984375 80.417969 84.085938 80.417969 82.984375 L 80.417969 80.0625 L 89 80.0625 L 89 73.0625 L 80.417969 73.0625 Z M 80.417969 70.140625"/></svg>';
+
+				$toggle_text_wrapper_class = 'awsm-filter-toggle-text-wrapper';
+				if ( $enable_search === 'enable' ) {
+					$toggle_text_wrapper_class .= ' awsm-b-sr-only';
+				}
+				$toggle_control = sprintf( '<span class="%2$s">%1$s</span>%3$s', esc_html_x( 'Filter by', 'job filter', 'wp-job-openings' ), esc_attr( $toggle_text_wrapper_class ), $toggle_icon );
+				/**
+				 * Filters the HTML content for the specifications toggle button.
+				 *
+				 * @since 3.5.0
+				 *
+				 * @param string $toggle_control Toogle button HTML content.
+			 */
+				$toggle_control = apply_filters( 'awsm_job_filters_block_toggle_btn', $toggle_control );
+
+				$filter_class_admin = '';
+				if ( self::is_edit_or_add_page() ) {
+					$filter_class_admin = ' awsm-b-filter-admin';
+				}
+
+				$custom_action_content_filter = '';
+				if ( ! empty( $custom_action_content ) ) {
+					$custom_action_content_filter = $custom_action_content;
+				}
+
+				$specs_filter_content = sprintf( '<a href="#" class="awsm-b-filter-toggle" role="button" aria-pressed="false">%2$s</a>' . $custom_action_content_filter . '<div class="awsm-b-filter-items' . $filter_class_admin . '">%1$s</div>', $specs_filter_content, $toggle_control );  
+		}
+
+		$custom_action_content_filter = '';
 		if ( ! empty( $custom_action_content ) ) {
 			$custom_action_content_filter = $custom_action_content;
 		}
 
 		// Combine search and filter content into the form
-		$filter_content = sprintf(
+		/* $filter_content = sprintf(
 			'<form action="%2$s/wp-admin/admin-ajax.php" method="POST">%1$s</form>',
 			$search_content . $custom_action_content_filter . '<div class="awsm-b-filter-items ' . $filter_class_admin . '">' . $specs_filter_content . $hidden_fields_content . '</div>',
+			esc_url( site_url() )
+		); */
+
+		$filter_content = sprintf(
+			'<form action="%2$s/wp-admin/admin-ajax.php" method="POST">%1$s</form>',
+			$search_content . $custom_action_content_filter . $specs_filter_content . $hidden_fields_content ,
 			esc_url( site_url() )
 		);
 
