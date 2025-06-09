@@ -1,5 +1,9 @@
 ## Changelog
 
+### V 3.5.3 - 2025-06-09
+* Improved: Removed `load_plugin_textdomain()` usage for compatibility with WordPress 6.8+ just-in-time translation loading.
+* Minor bug fixes and code improvements.
+
 ### V 3.5.2 - 2025-04-25
 * Security fixes and code improvements.
 
