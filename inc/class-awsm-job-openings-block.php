@@ -1072,11 +1072,11 @@ class AWSM_Job_Openings_Block {
 				$specs_filter_content = sprintf( '<a href="#" class="awsm-b-filter-toggle" role="button" aria-pressed="false">%2$s</a>' . $custom_action_content_filter . '<div class="awsm-b-filter-items' . $filter_class_admin . '">%1$s</div>', $specs_filter_content, $toggle_control );  
 		}
 
-		$custom_action_content_filter = '';
+		/* $custom_action_content_filter = '';
 		if ( ! empty( $custom_action_content ) ) {
 			$custom_action_content_filter = $custom_action_content;
 		}
-
+ */
 		// Combine search and filter content into the form
 		/* $filter_content = sprintf(
 			'<form action="%2$s/wp-admin/admin-ajax.php" method="POST">%1$s</form>',
@@ -1086,7 +1086,7 @@ class AWSM_Job_Openings_Block {
 
 		$filter_content = sprintf(
 			'<form action="%2$s/wp-admin/admin-ajax.php" method="POST">%1$s</form>',
-			$search_content . $custom_action_content_filter . $specs_filter_content . $hidden_fields_content ,
+			$search_content  . $specs_filter_content . $hidden_fields_content ,
 			esc_url( site_url() )
 		);
 
