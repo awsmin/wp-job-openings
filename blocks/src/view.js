@@ -33,6 +33,29 @@ jQuery( function ( $ ) {
 		parsedListingsAttrs.push( 'awsm-listings-total' );
 		parsedListingsAttrs.push( 'awsm-selected-terms' );
 		/* end */
+
+		/* added for block styles tab */
+		parsedListingsAttrs.push('hz_sf_border_color');
+		parsedListingsAttrs.push('hz_sf_border_width');
+		parsedListingsAttrs.push('hz_sf_padding');
+		parsedListingsAttrs.push('hz_sf_border_radius');
+		parsedListingsAttrs.push('hz_sidebar_width');
+		parsedListingsAttrs.push('block_id');
+		parsedListingsAttrs.push('hz_ls_border_color');
+		parsedListingsAttrs.push('hz_ls_border_width');
+		parsedListingsAttrs.push('hz_ls_border_radius');
+		parsedListingsAttrs.push('hz_jl_border_color');
+		parsedListingsAttrs.push('hz_jl_border_width');
+		parsedListingsAttrs.push('hz_jl_border_radius');
+		parsedListingsAttrs.push('hz_jl_padding');
+		parsedListingsAttrs.push('hz_bs_border_color');
+		parsedListingsAttrs.push('hz_bs_border_width');
+		parsedListingsAttrs.push('hz_bs_border_radius');
+		parsedListingsAttrs.push('hz_bs_padding');
+		parsedListingsAttrs.push('hz_button_background_color');
+		parsedListingsAttrs.push('hz_button_text_color');
+		/* end */
+
 		$( document ).trigger( 'awsmJobBlockListingsData', [
 			parsedListingsAttrs,
 		] );
@@ -74,6 +97,28 @@ jQuery( function ( $ ) {
 		let selected_terms = $wrapper.data( 'awsm-selected-terms' );
 		const other_options = $wrapper.data( 'awsm-other-options' );
 		const listings_total = $wrapper.data( 'awsm-listings-total' );
+
+		/* variables for style tabs */
+		const hz_sf_border_color = $wrapper.data('hz_sf_border_color');
+		const hz_sf_border_width = $wrapper.data('hz_sf_border_width');
+		const hz_sf_padding = $wrapper.data('hz_sf_padding');
+		const hz_sf_border_radius = $wrapper.data('hz_sf_border_radius');
+		const hz_sidebar_width = $wrapper.data('hz_sidebar_width');
+		const block_id = $wrapper.data('block_id');
+		const hz_ls_border_color = $wrapper.data('hz_ls_border_color');
+		const hz_ls_border_width = $wrapper.data('hz_ls_border_width');
+		const hz_ls_border_radius = $wrapper.data('hz_ls_border_radius');
+		const hz_jl_border_color = $wrapper.data('hz_jl_border_color');
+		const hz_jl_border_width = $wrapper.data('hz_jl_border_width');
+		const hz_jl_border_radius = $wrapper.data('hz_jl_border_radius');
+		const hz_jl_padding = $wrapper.data('hz_jl_padding');
+		const hz_bs_border_color = $wrapper.data('hz_bs_border_color');
+		const hz_bs_border_width = $wrapper.data('hz_bs_border_width');
+		const hz_bs_border_radius = $wrapper.data('hz_bs_border_radius');
+		const hz_bs_padding = $wrapper.data('hz_bs_padding');
+		const hz_button_background_color = $wrapper.data('hz_button_background_color');
+		const hz_button_text_color = $wrapper.data('hz_button_text_color');
+		/* End */
 
 		formData.push( { name: 'listings_per_page', value: listings } );
 
@@ -124,6 +169,66 @@ jQuery( function ( $ ) {
 			} );
 		}
 
+		/* variables for style */
+		if (typeof hz_sf_border_color !== 'undefined') {
+			formData.push({ name: 'hz_sf_border_color', value: hz_sf_border_color });
+		}
+		if (typeof hz_sf_border_width !== 'undefined') {
+			formData.push({ name: 'hz_sf_border_width', value: hz_sf_border_width });
+		}
+		if (typeof hz_sf_padding !== 'undefined') {
+			formData.push({ name: 'hz_sf_padding', value: JSON.stringify(hz_sf_padding) });
+		}
+		if (typeof hz_sf_border_radius !== 'undefined') {
+			formData.push({ name: 'hz_sf_border_radius', value: hz_sf_border_radius });
+		}
+		if (typeof hz_sidebar_width !== 'undefined') {
+			formData.push({ name: 'hz_sidebar_width', value: hz_sidebar_width });
+		}
+		if (typeof block_id !== 'undefined') {
+			formData.push({ name: 'block_id', value: block_id });
+		}
+		if (typeof hz_ls_border_color !== 'undefined') {
+			formData.push({ name: 'hz_ls_border_color', value: hz_ls_border_color });
+		}
+		if (typeof hz_ls_border_width !== 'undefined') {
+			formData.push({ name: 'hz_ls_border_width', value: hz_ls_border_width });
+		}
+		if (typeof hz_ls_border_radius !== 'undefined') {
+			formData.push({ name: 'hz_ls_border_radius', value: hz_ls_border_radius });
+		}
+		if (typeof hz_jl_border_color !== 'undefined') {
+			formData.push({ name: 'hz_jl_border_color', value: hz_jl_border_color });
+		}
+		if (typeof hz_jl_border_width !== 'undefined') {
+			formData.push({ name: 'hz_jl_border_width', value: hz_jl_border_width });
+		}
+		if (typeof hz_jl_border_radius !== 'undefined') {
+			formData.push({ name: 'hz_jl_border_radius', value: hz_jl_border_radius });
+		}
+		if (typeof hz_jl_padding !== 'undefined') {
+			formData.push({ name: 'hz_jl_padding', value: JSON.stringify(hz_jl_padding) });
+		}
+		if (typeof hz_bs_border_color !== 'undefined') {
+			formData.push({ name: 'hz_bs_border_color', value: hz_bs_border_color });
+		}
+		if (typeof hz_bs_border_width !== 'undefined') {
+			formData.push({ name: 'hz_bs_border_width', value: hz_bs_border_width });
+		}
+		if (typeof hz_bs_border_radius !== 'undefined') {
+			formData.push({ name: 'hz_bs_border_radius', value: hz_bs_border_radius });
+		}
+		if (typeof hz_bs_padding !== 'undefined') {
+			formData.push({ name: 'hz_bs_padding', value: JSON.stringify(hz_bs_padding) });
+		}
+		if (typeof hz_button_background_color !== 'undefined') {
+			formData.push({ name: 'hz_button_background_color', value: hz_button_background_color });
+		}
+		if (typeof hz_button_text_color !== 'undefined') {
+			formData.push({ name: 'hz_button_text_color', value: hz_button_text_color });
+		}
+		/* End */
+
 		const listingsData = getListingsData( $wrapper );
 		if ( listingsData.length > 0 ) {
 			formData = formData.concat( listingsData );
@@ -152,8 +257,13 @@ jQuery( function ( $ ) {
 				data: formData,
 				type: formMethod,
 			} )
-				.done( function ( data ) {
-					$rowWrapper.html( data );
+				.done( function ( response ) { 
+					$rowWrapper.html( response.data.html );  
+
+					if (response.data.style) {
+						// Append new style tag
+						jQuery('head').append('<style id="">' + response.data.style + '</style>');
+					}
 
 					const $searchControl =
 						$rootWrapper.find( '.awsm-b-job-search' );
@@ -176,7 +286,7 @@ jQuery( function ( $ ) {
 					}
 					$( document ).trigger( 'awsmjobs_filtered_listings', [
 						$rootWrapper,
-						data,
+						response.data.html,
 					] );
 				} )
 				.fail( function ( xhr ) {
@@ -186,6 +296,7 @@ jQuery( function ( $ ) {
 					$wrapper.removeClass( 'awsm-jobs-loading' );
 					triggerFilter = true;
 				} );
+				
 		}
 	}
 

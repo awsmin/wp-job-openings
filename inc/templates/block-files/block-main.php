@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$attributes   = isset( $attributes ) ? $attributes : array();
+$attributes   = isset( $attributes ) ? $attributes : array(); 
 $view         = isset( $attributes['layout'] ) ? $attributes['layout'] : get_option( 'awsm_jobs_listing_view' );
 $awsm_filters = get_option( 'awsm_jobs_filter' );
 //$listing_specs = isset( $attributes['other_options'] ) ? $attributes['other_options'] : '';
@@ -23,7 +23,7 @@ $listing_specs = array( 'job-category', 'job-location' );
  */
 do_action( 'before_awsm_block_jobs_listing_loop', $attributes );
 
-$styles = hz_get_ui_styles( $attributes );
+$styles = hz_get_ui_styles( $attributes ); 
 ?>
 
 <!-- Styles for css variables -->
@@ -70,6 +70,7 @@ $block_style_variables = "
 	";
 	
 	echo apply_filters( 'hz_ui_styles_css_variables', $block_style_variables, $styles );
+
 ?>
 </style>
 <!-- End -->

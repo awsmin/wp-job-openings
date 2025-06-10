@@ -63,7 +63,7 @@ class AWSM_Job_Openings_Block {
 			'hz_bs_padding'       => isset( $blockatts['hz_bs_padding'] ) ? $blockatts['hz_bs_padding'] : '',
 			'hz_button_background_color'   => isset( $blockatts['hz_button_background_color'] ) ? $blockatts['hz_button_background_color'] : '',
 			'hz_button_text_color'         => isset( $blockatts['hz_button_text_color'] ) ? $blockatts['hz_button_text_color'] : '',
-		);
+		); 
 
 		 /**
 		 * Filter the attribute set for the Job Listing block.
@@ -157,7 +157,7 @@ class AWSM_Job_Openings_Block {
 		return $query_args;
 	}
 
-	public function awsm_block_posts_filters() {
+	public function awsm_block_posts_filters() { 
         // phpcs:disable WordPress.Security.NonceVerification.Missing
 		$filters = $filters_list = $attributes = array(); // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
 
@@ -228,7 +228,7 @@ class AWSM_Job_Openings_Block {
 			$attributes['orderBy'] = $_POST['orderby'];
 		}
 
-		$attributes = apply_filters( 'awsm_jobs_block_post_filters', $attributes, $_POST );
+		$attributes = apply_filters( 'awsm_jobs_block_post_filters', $attributes, $_POST ); 
 
 		$args = self::awsm_block_job_query_args( $filters, $attributes, array(), $filters_list );
 
@@ -245,6 +245,53 @@ class AWSM_Job_Openings_Block {
 		}
 
 		$query = new WP_Query( $args );
+
+		// Define which fields are JSON (arrays as strings) and need decoding
+		$json_fields = array(
+			'hz_sf_padding',
+			'hz_jl_padding',
+			'hz_bs_padding',
+		);
+
+		// Handle style-related POST data
+		$style_fields = array(
+			'hz_sf_border_width',
+			'hz_sf_border_color',
+			'hz_sf_padding',
+			'hz_sf_border_radius',
+			'hz_sidebar_width',
+			'hz_ls_border_color',
+			'hz_ls_border_width',
+			'hz_ls_border_radius',
+			'hz_jl_border_color',
+			'hz_jl_border_width',
+			'hz_jl_border_radius',
+			'hz_jl_padding',
+			'hz_bs_border_color',
+			'hz_bs_border_width',
+			'hz_bs_border_radius',
+			'hz_bs_padding',
+			'hz_button_background_color',
+			'hz_button_text_color',
+			'block_id',
+		);
+
+		foreach ( $style_fields as $field ) {
+			if ( isset( $_POST[ $field ] ) ) {
+				// If the field is JSON, decode it into an array
+				if ( in_array( $field, $json_fields, true ) ) {
+					$decoded = json_decode( stripslashes( $_POST[ $field ] ), true );
+					$attributes[ $field ] = is_array( $decoded ) ? $decoded : [];
+				} else {
+					$attributes[ $field ] = sanitize_text_field( wp_unslash( $_POST[ $field ] ) );
+				}
+			}
+		}
+
+		// Now call the style generator
+		$styles = hz_get_ui_styles( $attributes );
+
+		ob_start();
 
 		if ( $query->have_posts() ) {
 			include AWSM_Job_Openings::get_template_path( 'block-main.php', 'block-files' );
@@ -264,7 +311,55 @@ class AWSM_Job_Openings_Block {
 			 */
 			echo apply_filters( 'awsm_block_no_filtered_jobs_content', $no_jobs_content ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
-		wp_die();
+
+		$html = ob_get_clean();
+
+		$block_style_variables = "
+		#{$styles['block_id']} {
+			--hz-sf-border-width: {$styles['border_width']};
+			--hz-sf-border-color: {$styles['border_color']};
+			--hz-sf-border-radius: {$styles['border_radius']};
+			--hz-sf-padding-left: {$styles['padding_left']};
+			--hz-sf-padding-right: {$styles['padding_right']};
+			--hz-sf-padding-top: {$styles['padding_top']};
+			--hz-sf-padding-bottom: {$styles['padding_bottom']};
+			--hz-sf-border-style: " . ( ! empty( $styles['border_width'] ) && $styles['border_width'] !== '0px' ? 'solid' : 'none' ) . ";
+
+			--hz-sidebar-width: {$styles['sidebar_width']};
+
+			--hz-ls-border-width: {$styles['border_width_field']};
+			--hz-ls-border-color: {$styles['border_color_field']};
+			--hz-ls-border-radius: {$styles['border_radius_field']};
+			--hz-ls-border-style: " . ( ! empty( $styles['border_width_field'] ) && $styles['border_width_field'] !== '0px' ? 'solid' : 'none' ) . ";
+
+			--hz-jl-border-width: {$styles['border_width_jobs']};
+			--hz-jl-border-color: {$styles['border_color_jobs']};
+			--hz-jl-border-radius: {$styles['border_radius_jobs']};
+			--hz-jl-padding-left: {$styles['padding_left_jobs']};
+			--hz-jl-padding-right: {$styles['padding_right_jobs']};
+			--hz-jl-padding-top: {$styles['padding_top_jobs']};
+			--hz-jl-padding-bottom: {$styles['padding_bottom_jobs']};
+			--hz-jl-border-style: " . ( ! empty( $styles['border_width_jobs'] ) && $styles['border_width_jobs'] !== '0px' ? 'solid' : 'none' ) . ";
+
+			--hz-bs-border-width: {$styles['button_width_field']};
+			--hz-bs-border-color: {$styles['button_color_field']};
+			--hz-bs-border-radius: {$styles['button_radius_field']};
+			--hz-b-bg-color: {$styles['button_background_color']};
+			--hz-b-tx-color: {$styles['button_text_color']};
+
+			--hz-b-padding-left: {$styles['padding_left_button']};
+			--hz-b-padding-right: {$styles['padding_right_button']};
+			--hz-b-padding-top: {$styles['padding_top_button']};
+			--hz-b-padding-bottom: {$styles['padding_bottom_button']};
+		}
+		";
+		$block_style_variables = apply_filters( 'hz_ui_styles_css_variables', $block_style_variables, $styles );
+
+		wp_send_json_success([
+       	 	'html'  => $html,
+			'style' => "<style>{$block_style_variables}</style>",
+   		]);
+		//wp_die();
 		// phpcs:enable
 	}
 
@@ -367,12 +462,44 @@ class AWSM_Job_Openings_Block {
 		$attrs['listings']               = AWSM_Job_Openings::get_listings_per_page( $block_atts );
 		$attrs['awsm-layout']            = isset( $block_atts['layout'] ) ? $block_atts['layout'] : '';
 		$attrs['awsm-hide-expired-jobs'] = isset( $block_atts['hide_expired_jobs'] ) ? $block_atts['hide_expired_jobs'] : '';
-		//$attrs['awsm-other-options']     = isset( $block_atts['other_options'] ) ? $block_atts['other_options'] : '';
-		//$attrs['awsm-listings-total']    = isset( $block_atts['listings_total'] ) ? $block_atts['listings_total'] : '';
+		
+		// Variables for style
+		$style_fields = array(
+			'hz_sf_border_width',
+			'hz_sf_border_color',
+			'hz_sf_padding',
+			'hz_sf_border_radius',
+			'hz_sidebar_width',
+			'hz_ls_border_color',
+			'hz_ls_border_width',
+			'hz_ls_border_radius',
+			'hz_jl_border_color',
+			'hz_jl_border_width',
+			'hz_jl_border_radius',
+			'hz_jl_padding',
+			'hz_bs_border_color',
+			'hz_bs_border_width',
+			'hz_bs_border_radius',
+			'hz_bs_padding',
+			'hz_button_background_color',
+			'hz_button_text_color',
+			'block_id',
+		);
+
+		foreach ( $style_fields as $field ) {
+			if ( array_key_exists( $field, $block_atts ) ) {
+				$value = $block_atts[ $field ];
+				$attrs[ $field ] = is_array( $value ) ? json_encode( $value, JSON_UNESCAPED_SLASHES ) : $value;
+			} else {
+				$attrs[ $field ] = '';
+			}
+		}
+
 		$attrs['awsm-selected-terms'] = isset( $block_atts['selectedTerms'] )
-		? htmlspecialchars( json_encode( $block_atts['selectedTerms'], JSON_UNESCAPED_SLASHES ) )
-		: '{}';
-		$attrs['orderby']             = isset( $block_atts['orderBy'] ) ? $block_atts['orderBy'] : '';
+			? htmlspecialchars( json_encode( $block_atts['selectedTerms'], JSON_UNESCAPED_SLASHES ) )
+			: '{}';
+
+		$attrs['orderby'] = isset( $block_atts['orderBy'] ) ? $block_atts['orderBy'] : '';
 
 		$current_lang = AWSM_Job_Openings::get_current_language();
 		if ( ! empty( $current_lang ) ) {
@@ -400,6 +527,7 @@ class AWSM_Job_Openings_Block {
 			$attrs['taxonomy'] = $q_obj->taxonomy;
 			$attrs['term-id']  = $q_obj->term_id;
 		}
+
 		/**
 		 * Filters the data attributes for the job listings div element.
 		 *
