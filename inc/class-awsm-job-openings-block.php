@@ -1076,7 +1076,7 @@ class AWSM_Job_Openings_Block {
 		if ( ! empty( $custom_action_content ) ) {
 			$custom_action_content_filter = $custom_action_content;
 		}
- */
+ 		*/
 		// Combine search and filter content into the form
 		/* $filter_content = sprintf(
 			'<form action="%2$s/wp-admin/admin-ajax.php" method="POST">%1$s</form>',
