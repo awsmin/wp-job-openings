@@ -608,6 +608,28 @@ jQuery( function ( $ ) {
 				$listingsContainer.data( 'awsm-other-options' );
 			/* end */
 
+			/* variables for style tabs */
+			const hz_sf_border_color = $listingsContainer.data('hz_sf_border_color');
+			const hz_sf_border_width = $listingsContainer.data('hz_sf_border_width');
+			const hz_sf_padding = $listingsContainer.data('hz_sf_padding');
+			const hz_sf_border_radius = $listingsContainer.data('hz_sf_border_radius');
+			const hz_sidebar_width = $listingsContainer.data('hz_sidebar_width');
+			const block_id = $listingsContainer.data('block_id');
+			const hz_ls_border_color = $listingsContainer.data('hz_ls_border_color');
+			const hz_ls_border_width = $listingsContainer.data('hz_ls_border_width');
+			const hz_ls_border_radius = $listingsContainer.data('hz_ls_border_radius');
+			const hz_jl_border_color = $listingsContainer.data('hz_jl_border_color');
+			const hz_jl_border_width = $listingsContainer.data('hz_jl_border_width');
+			const hz_jl_border_radius = $listingsContainer.data('hz_jl_border_radius');
+			const hz_jl_padding = $listingsContainer.data('hz_jl_padding');
+			const hz_bs_border_color = $listingsContainer.data('hz_bs_border_color');
+			const hz_bs_border_width = $listingsContainer.data('hz_bs_border_width');
+			const hz_bs_border_radius = $listingsContainer.data('hz_bs_border_radius');
+			const hz_bs_padding = $listingsContainer.data('hz_bs_padding');
+			const hz_button_background_color = $listingsContainer.data('hz_button_background_color');
+			const hz_button_text_color = $listingsContainer.data('hz_button_text_color');
+			/* End */
+
 			if ( isDefaultPagination ) {
 				$triggerElem.prop( 'disabled', true );
 				paged = $triggerElem.data( 'page' );
@@ -784,6 +806,66 @@ jQuery( function ( $ ) {
 				} );
 			}
 
+			/* variables for style */
+			if (typeof hz_sf_border_color !== 'undefined') {
+				wpData.push({ name: 'hz_sf_border_color', value: hz_sf_border_color });
+			}
+			if (typeof hz_sf_border_width !== 'undefined') {
+				wpData.push({ name: 'hz_sf_border_width', value: hz_sf_border_width });
+			}
+			if (typeof hz_sf_padding !== 'undefined') {
+				wpData.push({ name: 'hz_sf_padding', value: JSON.stringify(hz_sf_padding) });
+			}
+			if (typeof hz_sf_border_radius !== 'undefined') {
+				wpData.push({ name: 'hz_sf_border_radius', value: hz_sf_border_radius });
+			}
+			if (typeof hz_sidebar_width !== 'undefined') {
+				wpData.push({ name: 'hz_sidebar_width', value: hz_sidebar_width });
+			}
+			if (typeof block_id !== 'undefined') {
+				wpData.push({ name: 'block_id', value: block_id });
+			}
+			if (typeof hz_ls_border_color !== 'undefined') {
+				wpData.push({ name: 'hz_ls_border_color', value: hz_ls_border_color });
+			}
+			if (typeof hz_ls_border_width !== 'undefined') {
+				wpData.push({ name: 'hz_ls_border_width', value: hz_ls_border_width });
+			}
+			if (typeof hz_ls_border_radius !== 'undefined') {
+				wpData.push({ name: 'hz_ls_border_radius', value: hz_ls_border_radius });
+			}
+			if (typeof hz_jl_border_color !== 'undefined') {
+				wpData.push({ name: 'hz_jl_border_color', value: hz_jl_border_color });
+			}
+			if (typeof hz_jl_border_width !== 'undefined') {
+				wpData.push({ name: 'hz_jl_border_width', value: hz_jl_border_width });
+			}
+			if (typeof hz_jl_border_radius !== 'undefined') {
+				wpData.push({ name: 'hz_jl_border_radius', value: hz_jl_border_radius });
+			}
+			if (typeof hz_jl_padding !== 'undefined') {
+				wpData.push({ name: 'hz_jl_padding', value: JSON.stringify(hz_jl_padding) });
+			}
+			if (typeof hz_bs_border_color !== 'undefined') {
+				wpData.push({ name: 'hz_bs_border_color', value: hz_bs_border_color });
+			}
+			if (typeof hz_bs_border_width !== 'undefined') {
+				wpData.push({ name: 'hz_bs_border_width', value: hz_bs_border_width });
+			}
+			if (typeof hz_bs_border_radius !== 'undefined') {
+				wpData.push({ name: 'hz_bs_border_radius', value: hz_bs_border_radius });
+			}
+			if (typeof hz_bs_padding !== 'undefined') {
+				wpData.push({ name: 'hz_bs_padding', value: JSON.stringify(hz_bs_padding) });
+			}
+			if (typeof hz_button_background_color !== 'undefined') {
+				wpData.push({ name: 'hz_button_background_color', value: hz_button_background_color });
+			}
+			if (typeof hz_button_text_color !== 'undefined') {
+				wpData.push({ name: 'hz_button_text_color', value: hz_button_text_color });
+			}
+			/* End */
+
 			$( document ).trigger( 'awsmjobs_block_load_more', [
 				$listingsContainer,
 				wpData,
@@ -806,15 +888,15 @@ jQuery( function ( $ ) {
 					}
 				},
 			} )
-				.done( function ( data ) {
-					if ( data ) {
+				.done( function ( response ) {
+					if ( response.data.html ) {
 						let effectDuration =
 							$paginationWrapper.data( 'effectDuration' );
 						$paginationWrapper.remove();
 						if ( isDefaultPagination ) {
-							$listingsrowContainer.append( data );
+							$listingsrowContainer.append( response.data.html );
 						} else {
-							$listingsrowContainer.html( data );
+							$listingsrowContainer.html( response.data.html );
 							$listingsContainer.removeClass(
 								'awsm-jobs-loading'
 							);
@@ -837,7 +919,7 @@ jQuery( function ( $ ) {
 
 					$( document ).trigger( 'awsmjobs_load_more', [
 						$triggerElem,
-						data,
+						response.data.html,
 					] );
 				} )
 				.fail( function ( xhr ) {
