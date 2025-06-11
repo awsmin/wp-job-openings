@@ -24,6 +24,7 @@
 	letter-spacing: -0.24px;
 	display: inline-block;
 	transition: all 0.3s ease;
+	border: none;
 }
 .awsm-jobs-button:hover{
 	background: #6bfae4;
