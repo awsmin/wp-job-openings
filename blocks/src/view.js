@@ -433,10 +433,10 @@ jQuery( function ( $ ) {
 		const firstLiItem = allLiItems.eq(0); // "All Job Type" in <ul>
 		const selectedLiItems = allLiItems.filter('.selected');
 	
-		const isCheckboxFilter = $rootWrapper.find('input[type="checkbox"]').length > 0;
+		const isCheckboxFilter = $elem.closest('.awsm-b-filter-item').find('input[type="checkbox"]').length > 0;
 		let slugs = [];
 	
-		if (isMultiple) {
+		if (isMultiple) { 
 			if (isAllSelected) {
 				// **Select all options within this dropdown only**
 				allOptions.prop('selected', true).addClass('selected');
@@ -472,18 +472,18 @@ jQuery( function ( $ ) {
 				slugs = $checkboxes.slice(1).map(function () {
 					return $(this).data('slug');
 				}).get().filter(Boolean);
-			} else {
+			} else { 
 				// **Handle individual checkbox selection**
 				slugs = $checkboxes.filter(':checked').map(function () {
 					return $(this).data('slug');
-				}).get().filter(Boolean);
+				}).get().filter(Boolean);  
 			}
 		} else {
 			// **Single select logic**
 			slugs = selectedOptions.data('slug') ? [selectedOptions.data('slug')] : [];
 		}
 	
-		const slugString = slugs.length > 0 ? slugs.join(',') : '';
+		const slugString = slugs.length > 0 ? slugs.join(',') : ''; 
 	
 		// **Update pagination and filters only for the affected dropdown**
 		if ($('.awsm-job-listings').length > 0) {
