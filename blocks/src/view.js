@@ -262,7 +262,7 @@ jQuery( function ( $ ) {
 
 					if (response.data.style) {
 						// Append new style tag
-						jQuery('head').append('<style id="">' + response.data.style + '</style>');
+						jQuery('head').append(response.data.style);
 					}
 
 					const $searchControl =
