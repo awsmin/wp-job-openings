@@ -158,13 +158,13 @@
 .awsm-selectric-items {
   display: none;
   position: absolute;
-  top: calc(100% - 1px);
+  top: calc(100% + 4px);
   left: 0;
   background: #fff;
-  border: 1px solid #dbdbdb;
+  border: 1px solid #dddfe3;
   z-index: -1;
   box-shadow: 0 0 5px -6px rgba(0,0,0,0.4);
-  border-top: none;;
+  border-radius: 4px;
 }
 
 .awsm-selectric-items .awsm-selectric-scroll {
