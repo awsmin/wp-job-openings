@@ -197,34 +197,9 @@ const WidgetInspectorControls = (props) => {
 	);
 	console.log( hz_ls_border );
     return (
-        <InspectorControls>
-            <TabPanel
-                /* className="block-editor-tabs" */
-                activeClass="is-active"
-                tabs={[
-                    {
-                        name: 'settings',
-                        title: (
-                            <>
-                                {settingsIcon()} 
-                            </>
-                        ),
-                        className: 'tab-settings',
-                    },
-                    {
-                        name: 'style',
-                        title: (
-                            <>
-                                {stylesIcon()} 
-                            </>
-                        ),
-                        className: 'tab-style',
-                    }
-                ]}
-            >
-                {(tab) =>
-                    tab.name === 'settings' ? (
-                        <Fragment>
+		<>
+			<InspectorControls group="settings">
+ 				<Fragment>
                             <PanelBody title={__('Search & Filters', 'wp-job-openings')} initialOpen={true}>
 								<ToggleControl
 									label={ __( 'Enable Search & Filters', 'wp-job-openings' ) }
@@ -612,9 +587,10 @@ const WidgetInspectorControls = (props) => {
 								{ block_job_listing }
 
 							</PanelBody>
-                        </Fragment>
-                    ) : (
-                        <Fragment>
+                </Fragment>
+			</InspectorControls>
+			<InspectorControls group="styles">
+<Fragment>
 							<div className="hz-inspector-controls">
 
 							<PanelBody title={__('Search & Filters', 'wp-job-openings')} initialOpen={true}>
@@ -846,10 +822,8 @@ const WidgetInspectorControls = (props) => {
 
 							</div>
                         </Fragment>
-                    )
-                }
-            </TabPanel>
-        </InspectorControls>
+			</InspectorControls>
+	  	</>
     );
 };
 
