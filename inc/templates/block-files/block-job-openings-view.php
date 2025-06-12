@@ -20,7 +20,7 @@ if ( isset( $attributes['search'] ) && $attributes['search'] == 'enable' ) {
 	$placement_sidebar_class = 'awsm-job-2-col';
 }
 
-if ( $query->have_posts() ) :
+if ( $query->have_posts() ) {
 	if ( $attributes['placement'] == 'top' ) {
 		?>
 		<div class="awsm-b-job-wrap<?php awsm_jobs_wrapper_class(); ?>" id="<?php echo esc_attr( $block_id ); ?>">
@@ -79,9 +79,8 @@ if ( $query->have_posts() ) :
 			</div>
 		</div>
 	</div>
-<?php } ?>
-	<?php
-	/* else :
+<?php }
+}else { 
 		$filter_suffix = '_spec';
 		$job_spec      = array();
 
@@ -121,5 +120,5 @@ if ( $query->have_posts() ) :
 				<p><?php awsm_no_jobs_msg(); ?></p>
 			</div>
 			<?php
-		} */
-	endif;
+		}
+}
