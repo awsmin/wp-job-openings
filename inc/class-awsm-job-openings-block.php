@@ -774,7 +774,7 @@ class AWSM_Job_Openings_Block {
 						 * @param string $taxonomy Taxonomy key.
 						 * @param WP_Taxonomy $tax_details Taxonomy details.
 						 */
-						$filter_label                      = apply_filters( 'awsm_filter_block_label', esc_html_x( 'All', 'job filter', 'wp-job-openings' ) . ' ' . $spec_name, $taxonomy, $tax_details );
+						$filter_label                      = apply_filters( 'awsm_filter_block_label', esc_html_x( '', 'job filter', 'wp-job-openings' ) . ' ' . $spec_name, $taxonomy, $tax_details );
 						$filter_class_admin_select_control = '';
 						if ( ! self::is_edit_or_add_page() ) {
 							$filter_class_admin_select_control = ' awsm-job-select-control';
@@ -1013,7 +1013,12 @@ class AWSM_Job_Openings_Block {
 									}
 								}
 
-								$dropdown_content = sprintf( '<div class="awsm-b-filter-item" data-filter="%2$s"><label for="awsm-%1$s-filter-option%5$s">%3$s</label><select name="awsm_job_spec[%1$s][]" class="awsm-b-filter-option ' . $spec_multiple_class . ' awsm-%1$s-filter-option ' . $filter_class_admin_select_control . '" id="awsm-%1$s-filter-option%5$s" aria-label="%3$s" ' . $multiple_for_spec . '><option value="">%3$s</option>%4$s</select></div>', esc_attr( $taxonomy ), esc_attr( $filter_key . '_spec' ), esc_html( $filter_label ), $options_content, esc_attr( $uid ), esc_html( $main_spec_label ) );
+								$label_class_name = '';
+								if( self::is_edit_or_add_page() ){
+									$label_class_name = 'awsm-b-sr-only';
+								}
+
+								$dropdown_content = sprintf( '<div class="awsm-b-filter-item" data-filter="%2$s"><label for="awsm-%1$s-filter-option%5$s" class="'.$label_class_name.'">%3$s</label><select name="awsm_job_spec[%1$s][]" class="awsm-b-filter-option ' . $spec_multiple_class . ' awsm-%1$s-filter-option ' . $filter_class_admin_select_control . '" id="awsm-%1$s-filter-option%5$s" aria-label="%3$s" ' . $multiple_for_spec . '><option value="">%3$s</option>%4$s</select></div>', esc_attr( $taxonomy ), esc_attr( $filter_key . '_spec' ), esc_html( $filter_label ), $options_content, esc_attr( $uid ), esc_html( $main_spec_label ) );
 								/**
 								 * Filter the job filter dropdown content.
 								 *
