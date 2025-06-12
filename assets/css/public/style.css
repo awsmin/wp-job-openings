@@ -675,12 +675,11 @@ ul.awsm-error-message li {
 	pointer-events: none;
 }
 .awsm-job-form-plugin-style .awsm-selectric{
-	border-color: #ccc;
 	box-shadow: none;
 	border-radius: 4px;
 }
 .awsm-job-form-plugin-style .awsm-selectric-open .awsm-selectric{
-	border-color: #c6c6c6;
+	border-color: #060606;
 }
 .awsm-job-form-plugin-style .awsm-selectric .label{
 	margin-left: 15px;
