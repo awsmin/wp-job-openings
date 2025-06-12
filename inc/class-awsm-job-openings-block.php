@@ -994,7 +994,7 @@ class AWSM_Job_Openings_Block {
 
 								$filter_label = apply_filters(
 									'awsm_filter_block_label',
-									esc_html_x( 'All ' . $spec_name, 'job filter', 'wp-job-openings' ),
+									esc_html_x($spec_name, 'job filter', 'wp-job-openings' ),
 									$taxonomy,
 									$tax_details
 								);
@@ -1013,7 +1013,7 @@ class AWSM_Job_Openings_Block {
 									}
 								}
 
-								$dropdown_content = sprintf( '<div class="awsm-b-filter-item" data-filter="%2$s"><div>%6$s</div><label for="awsm-%1$s-filter-option%5$s" class="awsm-b-sr-only">%3$s</label><select name="awsm_job_spec[%1$s][]" class="awsm-b-filter-option ' . $spec_multiple_class . ' awsm-%1$s-filter-option ' . $filter_class_admin_select_control . '" id="awsm-%1$s-filter-option%5$s" aria-label="%3$s" ' . $multiple_for_spec . '><option value="">%3$s</option>%4$s</select></div>', esc_attr( $taxonomy ), esc_attr( $filter_key . '_spec' ), esc_html( $filter_label ), $options_content, esc_attr( $uid ), esc_html( $main_spec_label ) );
+								$dropdown_content = sprintf( '<div class="awsm-b-filter-item" data-filter="%2$s"><label for="awsm-%1$s-filter-option%5$s">%3$s</label><select name="awsm_job_spec[%1$s][]" class="awsm-b-filter-option ' . $spec_multiple_class . ' awsm-%1$s-filter-option ' . $filter_class_admin_select_control . '" id="awsm-%1$s-filter-option%5$s" aria-label="%3$s" ' . $multiple_for_spec . '><option value="">%3$s</option>%4$s</select></div>', esc_attr( $taxonomy ), esc_attr( $filter_key . '_spec' ), esc_html( $filter_label ), $options_content, esc_attr( $uid ), esc_html( $main_spec_label ) );
 								/**
 								 * Filter the job filter dropdown content.
 								 *
@@ -1056,7 +1056,7 @@ class AWSM_Job_Openings_Block {
 				 * @since 3.5.0
 				 *
 				 * @param string $toggle_control Toogle button HTML content.
-			 */
+			    */
 				$toggle_control = apply_filters( 'awsm_job_filters_block_toggle_btn', $toggle_control );
 
 				$filter_class_admin = '';
