@@ -63,7 +63,7 @@ a.awsm-job-item {
 .awsm-grid-item .awsm-job-item {
 	margin-bottom: 30px;
 	box-shadow: 0 1px 4px 0 rgb(0 0 0 / 5%);
-	border: 1px solid #dddfe3;
+	border: 1px solid #ccc;
 	border-radius: 2px;
 	display: -webkit-box;
 	display: -moz-box;
@@ -149,6 +149,7 @@ a.awsm-job-item {
 	margin: 0 10px 10px;
 	border-radius: 4px;
 	outline: none !important;
+	color: #111;
 }
 .awsm-filter-toggle.awsm-on{
 	background: #ccc;
@@ -249,15 +250,12 @@ a.awsm-job-item {
 	padding: 20px;
 	background: #fff;
 	box-shadow: 0 1px 4px 0 rgb(0 0 0 / 5%);
-	border: 1px solid #dddfe3;
+	border: 1px solid #ccc;
 	margin: 0 !important;
 	text-decoration: none !important;
 	outline: none !important;
-	-webkit-transition: all 0.3s ease;
-	-moz-transition: all 0.3s ease;
-	-ms-transition: all 0.3s ease;
-	-o-transition: all 0.3s ease;
 	transition: all 0.3s ease;
+	border-radius: 4px;
 }
 .awsm-load-more-classic a.page-numbers, .awsm-load-more-classic span.page-numbers {
 	padding: 5px 10px;
@@ -423,7 +421,7 @@ a.awsm-job-item .awsm-job-specification-item {
 
 .awsm-job-form-inner {
 	background: #fff;
-	border: 1px solid #dddfe3;
+	border: 1px solid #ccc;
 	padding: 35px;
 }
 
@@ -639,6 +637,7 @@ ul.awsm-error-message li {
 	line-height: 1;
 	color: #060606;
 	transition:  all 0.3s ease;
+	font-size: 14px;
 }
 .awsm-job-form-plugin-style .awsm-job-form-control:focus{
 	outline: none;
