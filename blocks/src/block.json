@@ -70,7 +70,10 @@
 		"hz_sf_border_radius": {
 			"type": "object",
 			"default": {
-				"width": "5px"
+				"topLeft": "5px",
+				"topRight": "5px",
+				"bottomLeft": "5px",
+				"bottomRight": "5px"
 			}
 		},
 		"hz_sf_padding":{
@@ -99,7 +102,10 @@
 		"hz_ls_border_radius": {
 			"type": "object",
 			"default": {
-				"width": "5px"
+				"topLeft": "5px",
+				"topRight": "5px",
+				"bottomLeft": "5px",
+				"bottomRight": "5px"
 			}
 		},
 		"hz_jl_border": {
@@ -112,7 +118,10 @@
 		"hz_jl_border_radius": {
 			"type": "object",
 			"default": {
-				"width": "5px"
+				"topLeft": "5px",
+				"topRight": "5px",
+				"bottomLeft": "5px",
+				"bottomRight": "5px"
 			}
 		},
 		"hz_jl_padding":{
@@ -134,7 +143,10 @@
 		"hz_bs_border_radius": {
 			"type": "object",
 			"default": {
-				"width": "5px"
+				"topLeft": "5px",
+				"topRight": "5px",
+				"bottomLeft": "5px",
+				"bottomRight": "5px"
 			}
 		},
 		"hz_bs_padding":{

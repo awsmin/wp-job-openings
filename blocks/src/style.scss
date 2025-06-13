@@ -671,7 +671,10 @@ ul.awsm-error-message li {
 	padding: 8px 15px;
 	min-height: 46px;
 	border: var(--hz-ls-border-width, 1px) solid var(--hz-ls-border-color, #ccc);
-	border-radius: var(--hz-ls-border-radius, 5px) !important;
+	border-radius: var(--hz-ls-border-radius-topright, 5px) 
+			var(--hz-ls-border-radius-topleft, 5px) 
+			var(--hz-ls-border-radius-bottomright, 5px) 
+			var(--hz-ls-border-radius-bottomleft, 5px) !important;
 	line-height: 1;
 	color: #060606;
 	transition:  all 0.3s ease;
@@ -794,8 +797,13 @@ ul.awsm-error-message li {
 		border-width: var(--hz-sf-border-width, 1px);
 		border-style: var(--hz-sf-border-style, none); /* none if border not defined */
 		border-color: var(--hz-sf-border-color, transparent);
-		border-radius: var(--hz-sf-border-radius, 0);
+		border-radius: 
+			var(--hz-sf-border-radius-topright, 0) 
+			var(--hz-sf-border-radius-topleft, 0) 
+			var(--hz-sf-border-radius-bottomright, 0) 
+			var(--hz-sf-border-radius-bottomleft, 0);
 	}
+	
 	.awsm-job-2-col .awsm-b-filter-wrap.awsm-jobs-alerts-on form{
 		margin-bottom: 80px;
 		position: relative;
@@ -1007,7 +1015,12 @@ ul.awsm-error-message li {
 }
 
 .awsm-selectric{
-	border-radius: var(--hz-ls-border-radius, 5px) !important;
+	//border-radius: var(--hz-ls-border-radius, 5px) !important;
+	border-radius: var(--hz-ls-border-radius-topright, 5px) 
+			var(--hz-ls-border-radius-topleft, 5px) 
+			var(--hz-ls-border-radius-bottomright, 5px) 
+			var(--hz-ls-border-radius-bottomleft, 5px) !important;
+
 	border: var(--hz-ls-border-width, 1px) solid var(--hz-ls-border-color, #d5d5d5) !important;
 }	
 

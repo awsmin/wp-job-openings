@@ -23,7 +23,7 @@ $listing_specs = array( 'job-category', 'job-location' );
  */
 do_action( 'before_awsm_block_jobs_listing_loop', $attributes );
 
-$styles = hz_get_ui_styles( $attributes ); 
+$styles = hz_get_ui_styles( $attributes ); //echo '<pre>';print_r($styles);
 ?>
 
 <!-- Styles for css variables -->
@@ -33,7 +33,12 @@ $block_style_variables = "
 	#{$styles['block_id']} {
 		--hz-sf-border-width: {$styles['border_width']};
 		--hz-sf-border-color: {$styles['border_color']};
-		--hz-sf-border-radius: {$styles['border_radius']};
+
+		--hz-sf-border-radius-topleft: {$styles['sf_border_radius_topleft']};
+		--hz-sf-border-radius-topright: {$styles['sf_border_radius_topright']};
+		--hz-sf-border-radius-bottomright: {$styles['sf_border_radius_bottomright']};
+		--hz-sf-border-radius-bottomleft: {$styles['sf_border_radius_bottomleft']};
+
 		--hz-sf-padding-left: {$styles['padding_left']};
 		--hz-sf-padding-right: {$styles['padding_right']};
 		--hz-sf-padding-top: {$styles['padding_top']};
@@ -44,12 +49,22 @@ $block_style_variables = "
 
 		--hz-ls-border-width: {$styles['border_width_field']};
 		--hz-ls-border-color: {$styles['border_color_field']};
-		--hz-ls-border-radius: {$styles['border_radius_field']};
+
+		--hz-ls-border-radius-topleft: {$styles['ls_border_radius_topleft']};
+		--hz-ls-border-radius-topright: {$styles['ls_border_radius_topright']};
+		--hz-ls-border-radius-bottomright: {$styles['ls_border_radius_bottomright']};
+		--hz-ls-border-radius-bottomleft: {$styles['ls_border_radius_bottomleft']};
+
 		--hz-ls-border-style: " . ( ! empty( $styles['border_width_field'] ) && $styles['border_width_field'] !== '0px' ? 'solid' : 'none' ) . ";
 
 		--hz-jl-border-width: {$styles['border_width_jobs']};
 		--hz-jl-border-color: {$styles['border_color_jobs']};
-		--hz-jl-border-radius: {$styles['border_radius_jobs']};
+
+		--hz-jl-border-radius-topleft: {$styles['jobs_border_radius_topleft']};
+		--hz-jl-border-radius-topright: {$styles['jobs_border_radius_topright']};
+		--hz-jl-border-radius-bottomright: {$styles['jobs_border_radius_bottomright']};
+		--hz-jl-border-radius-bottomleft: {$styles['jobs_border_radius_bottomleft']};
+
 		--hz-jl-padding-left: {$styles['padding_left_jobs']};
 		--hz-jl-padding-right: {$styles['padding_right_jobs']};
 		--hz-jl-padding-top: {$styles['padding_top_jobs']};
@@ -58,7 +73,12 @@ $block_style_variables = "
 
 		--hz-bs-border-width: {$styles['button_width_field']};
 		--hz-bs-border-color: {$styles['button_color_field']};
-		--hz-bs-border-radius: {$styles['button_radius_field']};
+
+		--hz-bs-border-radius-topleft: {$styles['button_border_radius_topleft']};
+		--hz-bs-border-radius-topright: {$styles['button_border_radius_topright']};
+		--hz-bs-border-radius-bottomright: {$styles['button_border_radius_bottomright']};
+		--hz-bs-border-radius-bottomleft: {$styles['button_border_radius_bottomleft']};
+
 		--hz-b-bg-color: {$styles['button_background_color']};
 		--hz-b-tx-color: {$styles['button_text_color']};
 

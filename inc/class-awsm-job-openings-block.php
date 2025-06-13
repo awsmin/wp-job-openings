@@ -24,7 +24,7 @@ class AWSM_Job_Openings_Block {
 		return self::$instance;
 	}
 
-	public function awsm_jobs_block_attributes( $blockatts ) { error_log(print_r($blockatts,1));
+	public function awsm_jobs_block_attributes( $blockatts ) { 
 		if ( ! function_exists( 'awsm_jobs_query' ) ) {
 			return;
 		}
@@ -47,23 +47,24 @@ class AWSM_Job_Openings_Block {
 			'hz_sf_border_color'  => isset( $blockatts['hz_sf_border']['color'] ) ? $blockatts['hz_sf_border']['color'] : '',
 			'hz_sf_border_width'  => isset( $blockatts['hz_sf_border']['width'] ) ? $blockatts['hz_sf_border']['width'] : '',
 			'hz_sf_padding'       => isset( $blockatts['hz_sf_padding'] ) ? $blockatts['hz_sf_padding'] : '',
-			'hz_sf_border_radius' => isset( $blockatts['hz_sf_border_radius']['width'] ) ? $blockatts['hz_sf_border_radius']['width'] : '',
+			'hz_sf_border_radius' => isset( $blockatts['hz_sf_border_radius'] ) ? $blockatts['hz_sf_border_radius']: '',
 			'hz_sidebar_width'    => isset( $blockatts['hz_sidebar_width'] ) ? $blockatts['hz_sidebar_width'] : '',
 			'block_id'            => isset( $blockatts['block_id'] ) ? $blockatts['block_id'] : '',
 			'hz_ls_border_color'  => isset( $blockatts['hz_ls_border']['color'] ) ? $blockatts['hz_ls_border']['color'] : '',
 			'hz_ls_border_width'  => isset( $blockatts['hz_ls_border']['width'] ) && $blockatts['hz_ls_border']['width'] !== '0px' ? $blockatts['hz_ls_border']['width'] : '1px',
-			'hz_ls_border_radius' => isset( $blockatts['hz_ls_border_radius']['width'] ) ? $blockatts['hz_ls_border_radius']['width'] : '',
+			'hz_ls_border_radius' => isset( $blockatts['hz_ls_border_radius']) ? $blockatts['hz_ls_border_radius'] : '',
 			'hz_jl_border_color'  => isset( $blockatts['hz_jl_border']['color'] ) ? $blockatts['hz_jl_border']['color'] : '',
 			'hz_jl_border_width'  => isset( $blockatts['hz_jl_border']['width'] ) ? $blockatts['hz_jl_border']['width'] : '',
-			'hz_jl_border_radius' => isset( $blockatts['hz_jl_border_radius']['width'] ) ? $blockatts['hz_jl_border_radius']['width'] : '',
+			'hz_jl_border_radius' => isset( $blockatts['hz_jl_border_radius']) ? $blockatts['hz_jl_border_radius'] : '',
 			'hz_jl_padding'       => isset( $blockatts['hz_jl_padding'] ) ? $blockatts['hz_jl_padding'] : '',
 			'hz_bs_border_color' => isset( $blockatts['hz_bs_border']['color'] ) ? $blockatts['hz_bs_border']['color'] : '',
 			'hz_bs_border_width' => isset( $blockatts['hz_bs_border']['width'] ) ? $blockatts['hz_bs_border']['width'] : '',
-			'hz_bs_border_radius'=> isset( $blockatts['hz_bs_border_radius']['width'] ) ? $blockatts['hz_bs_border_radius']['width'] : '',
+			'hz_bs_border_radius'=> isset( $blockatts['hz_bs_border_radius']) ? $blockatts['hz_bs_border_radius']: '',
 			'hz_bs_padding'       => isset( $blockatts['hz_bs_padding'] ) ? $blockatts['hz_bs_padding'] : '',
 			'hz_button_background_color'   => isset( $blockatts['hz_button_background_color'] ) ? $blockatts['hz_button_background_color'] : '',
 			'hz_button_text_color'         => isset( $blockatts['hz_button_text_color'] ) ? $blockatts['hz_button_text_color'] : '',
 		); 
+		
 
 		 /**
 		 * Filter the attribute set for the Job Listing block.
@@ -1098,7 +1099,6 @@ class AWSM_Job_Openings_Block {
 		// Output the filter form content
 		echo apply_filters( 'awsm_filter_block_content_placement_slide', $filter_content ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
-
 }
 
 AWSM_Job_Openings_Block::init();

@@ -727,7 +727,10 @@ ul.awsm-error-message li {
 	//border: 1px solid #ccc;
 	border: var(--hz-ls-border-width, 1px) solid var(--hz-ls-border-color, #ccc);
 	//border-radius: 5px;
-	border-radius: var(--hz-ls-border-radius, 5px) !important;
+	border-radius: var(--hz-ls-border-radius-topright, 5px) 
+			var(--hz-ls-border-radius-topleft, 5px) 
+			var(--hz-ls-border-radius-bottomright, 5px) 
+			var(--hz-ls-border-radius-bottomleft, 5px) !important;
 	line-height: 1;
 	color: #060606;
 	transition: all 0.3s ease;
@@ -806,7 +809,10 @@ ul.awsm-error-message li {
 	//border: 1px solid #dddfe3;
 	//border-radius: 5px;
 	border: var(--hz-ls-border-width, 1px) solid var(--hz-ls-border-color, #d5d5d5) !important;
-    border-radius: var(--hz-ls-border-radius, 5px) !important;
+    border-radius: var(--hz-ls-border-radius-topright, 5px) 
+			var(--hz-ls-border-radius-topleft, 5px) 
+			var(--hz-ls-border-radius-bottomright, 5px) 
+			var(--hz-ls-border-radius-bottomleft, 5px) !important;
 	min-width: 160px;
 	font-size: 14px;
 	position: relative;
@@ -954,7 +960,10 @@ ul.awsm-error-message li {
 
 .awsm-selectric {
 	//border-radius: 5px;
-	border-radius: var(--hz-ls-border-radius, 5px) !important;
+	border-radius: var(--hz-ls-border-radius-topright, 5px) 
+			var(--hz-ls-border-radius-topleft, 5px) 
+			var(--hz-ls-border-radius-bottomright, 5px) 
+			var(--hz-ls-border-radius-bottomleft, 5px) !important;
 	border: var(--hz-ls-border-width, 1px) solid var(--hz-ls-border-color, #d5d5d5) !important;
 }
 
