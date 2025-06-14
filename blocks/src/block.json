@@ -90,7 +90,7 @@
 		},
 		"hz_sidebar_width": {
 			"type": "string",
-			"default": "33.33"
+			"default": "33.33%"
 		},
 		"hz_ls_border": {
 			"type": "object",

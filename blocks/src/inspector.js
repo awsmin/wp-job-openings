@@ -17,8 +17,7 @@ import {
 	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
 	BoxControl,
 	BorderBoxControl,
-	__experimentalSpacer as Spacer,
-	
+	__experimentalSpacer as Spacer
 } from '@wordpress/components';
 
 const WidgetInspectorControls = (props) => {
@@ -602,34 +601,44 @@ const WidgetInspectorControls = (props) => {
 									style={{ width: '120px' }}
 								/>
 							)} */}
- 							
+
+							<RangeControl
+								label="Sidebar Width"
+								min={33.33}
+								max={80.33}
+								name="hz_sidebar_width"
+								value={parseFloat(hz_sidebar_width) || 33.33}
+								onChange={(val) => setAttributes({ hz_sidebar_width: val })}
+							/>
+
 							<BorderBoxControl
 								label={__('Border', 'wp-job-openings')}
 								withSlider
-								value={hz_ls_border} 
-								__experimentalIsRenderedInSidebar
-								onChange={(newBorder) => { console.log(newBorder);
-									var width = newBorder?.width; 
-									
+								isCompact={true} 
+								value={hz_sf_border} 
+								onChange={(newBorder) => {
+									var width = newBorder?.width;
 									setAttributes({
-										hz_ls_border: {
+										hz_sf_border: {
 											...newBorder,
 											width: width,
 										},
-									}); 
-									
-									if( width === '0px' ){
+									});
+
+									/* if( width === '0px' ){
 										setTimeout(() => {
 											setAttributes({
-												hz_ls_border: {
+												hz_sf_border: {
 													...newBorder,
 													width: '1px',
 												},
 											}); 
 										}, 100);
-									}
+									} */
 								}}
+								enableStyle={false}
 							/>
+
 							<Spacer></Spacer>
 
 							<BorderRadiusControl
@@ -654,29 +663,29 @@ const WidgetInspectorControls = (props) => {
 								<BorderBoxControl
 									label={__('Border', 'wp-job-openings')}
 									withSlider
-									isCompact={true} 
-									value={hz_sf_border} 
-									onChange={(newBorder) => {
-										var width = newBorder?.width;
+									value={hz_ls_border} 
+									__experimentalIsRenderedInSidebar
+									onChange={(newBorder) => { console.log(newBorder);
+										var width = newBorder?.width; 
+										
 										setAttributes({
-											hz_sf_border: {
+											hz_ls_border: {
 												...newBorder,
 												width: width,
 											},
-										});
-
-										/* if( width === '0px' ){
+										}); 
+										
+										if( width === '0px' ){
 											setTimeout(() => {
 												setAttributes({
-													hz_sf_border: {
+													hz_ls_border: {
 														...newBorder,
 														width: '1px',
 													},
 												}); 
 											}, 100);
-										} */
+										}
 									}}
-									enableStyle={false}
 								/>
 
 								<Spacer></Spacer>
