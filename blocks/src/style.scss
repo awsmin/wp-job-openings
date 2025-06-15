@@ -796,7 +796,7 @@ ul.awsm-error-message li {
 
 		border-width: var(--hz-sf-border-width, 1px);
 		border-style: var(--hz-sf-border-style, none); /* none if border not defined */
-		border-color: var(--hz-sf-border-color, transparent);
+		border-color: var(--hz-sf-border-color, transparent) !important;
 		border-radius: 
 			var(--hz-sf-border-radius-topright, 5px) 
 			var(--hz-sf-border-radius-topleft, 5px) 

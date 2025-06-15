@@ -17,7 +17,8 @@ import {
 	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
 	BoxControl,
 	BorderBoxControl,
-	__experimentalSpacer as Spacer
+	__experimentalSpacer as Spacer,
+	BorderControl
 } from '@wordpress/components';
 
 const WidgetInspectorControls = (props) => {
@@ -611,12 +612,12 @@ const WidgetInspectorControls = (props) => {
 								onChange={(val) => setAttributes({ hz_sidebar_width: val })}
 							/>
 
-							<BorderBoxControl
+							<BorderControl
 								label={__('Border', 'wp-job-openings')}
 								withSlider
 								isCompact={true} 
 								value={hz_sf_border} 
-								onChange={(newBorder) => {
+								onChange={(newBorder) => { 
 									var width = newBorder?.width;
 									setAttributes({
 										hz_sf_border: {
@@ -660,12 +661,13 @@ const WidgetInspectorControls = (props) => {
 						</PanelBody>
 						{placement === 'slide' && (
 							<PanelBody title={__('Layout Settings', 'wp-job-openings')} initialOpen={true}>
-								<BorderBoxControl
+								<BorderControl
 									label={__('Border', 'wp-job-openings')}
 									withSlider
+									isCompact={true} 
 									value={hz_ls_border} 
 									__experimentalIsRenderedInSidebar
-									onChange={(newBorder) => { console.log(newBorder);
+									onChange={(newBorder) => { 
 										var width = newBorder?.width; 
 										
 										setAttributes({
@@ -686,6 +688,7 @@ const WidgetInspectorControls = (props) => {
 											}, 100);
 										}
 									}}
+									enableStyle={false}
 								/>
 
 								<Spacer></Spacer>
@@ -718,9 +721,10 @@ const WidgetInspectorControls = (props) => {
 						)}
 
 						<PanelBody title={__('Job Listing', 'wp-job-openings')} initialOpen={true}>
-							<BorderBoxControl
+							<BorderControl
 								label={__('Border', 'wp-job-openings')}
 								withSlider
+								isCompact={true} 
 								value={hz_jl_border} // Use a valid default object
 								__experimentalIsRenderedInSidebar
 								onChange={(newBorder) => {
@@ -743,6 +747,7 @@ const WidgetInspectorControls = (props) => {
 										}, 100);
 									}
 								}}
+								enableStyle={false}
 							/>
 
 							<Spacer></Spacer>
