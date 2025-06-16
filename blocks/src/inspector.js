@@ -781,10 +781,11 @@ const WidgetInspectorControls = (props) => {
 								{__('Button', 'wp-job-openings')}
 							</h3>
 
-							<BorderBoxControl
+							<BorderControl
 								label={__('Border', 'wp-job-openings')}
 								withSlider
-								value={hz_bs_border} // Ensure there is a fallback value
+								isCompact={true} 
+								value={hz_bs_border} // Use a valid default object
 								__experimentalIsRenderedInSidebar
 								onChange={(newBorder) => {
 									var width = newBorder?.width;
@@ -805,8 +806,8 @@ const WidgetInspectorControls = (props) => {
 											}); 
 										}, 100);
 									}
-									
 								}}
+								enableStyle={false}
 							/>
 
 							<Spacer></Spacer>
