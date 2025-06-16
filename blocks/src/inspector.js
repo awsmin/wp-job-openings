@@ -18,7 +18,8 @@ import {
 	BoxControl,
 	BorderBoxControl,
 	__experimentalSpacer as Spacer,
-	BorderControl
+	BorderControl,
+	PanelRow
 } from '@wordpress/components';
 
 const WidgetInspectorControls = (props) => {
@@ -777,65 +778,65 @@ const WidgetInspectorControls = (props) => {
 								}}
 							/>
 
-							<h3 style={{ marginTop: '20px', fontWeight: 'bold' }}>
-								{__('Button', 'wp-job-openings')}
-							</h3>
+							<PanelRow>
+								<strong>{__('Button', 'wp-job-openings')}</strong>
+									</PanelRow>
+								<BorderControl
+									label={__('Border', 'wp-job-openings')}
+									withSlider
+									isCompact={true} 
+									value={hz_bs_border} // Use a valid default object
+									__experimentalIsRenderedInSidebar
+									onChange={(newBorder) => {
+										var width = newBorder?.width;
+										setAttributes({
+											hz_bs_border: {
+												...newBorder,
+												width: width,
+											},
+										});
 
-							<BorderControl
-								label={__('Border', 'wp-job-openings')}
-								withSlider
-								isCompact={true} 
-								value={hz_bs_border} // Use a valid default object
-								__experimentalIsRenderedInSidebar
-								onChange={(newBorder) => {
-									var width = newBorder?.width;
-									setAttributes({
-										hz_bs_border: {
-											...newBorder,
-											width: width,
-										},
-									});
+										if( width === '0px' ){
+											setTimeout(() => {
+												setAttributes({
+													hz_bs_border: {
+														...newBorder,
+														width: '1px',
+													},
+												}); 
+											}, 100);
+										}
+									}}
+									enableStyle={false}
+								/>
 
-									if( width === '0px' ){
-										setTimeout(() => {
-											setAttributes({
-												hz_bs_border: {
-													...newBorder,
-													width: '1px',
-												},
-											}); 
-										}, 100);
-									}
-								}}
-								enableStyle={false}
-							/>
+								<Spacer></Spacer>
 
-							<Spacer></Spacer>
+								<BorderRadiusControl
+									values={hz_bs_border_radius}
+									onChange={(newRadius) => {
+										if (typeof newRadius === 'string') {
+											const radiusObject = {
+												topLeft: newRadius,
+												topRight: newRadius,
+												bottomRight: newRadius,
+												bottomLeft: newRadius,
+											}; 
+												setAttributes({ hz_bs_border_radius: radiusObject });
+										} else {
+												setAttributes({ hz_bs_border_radius: newRadius });
+										}
+									}}
+								/>
 
-							<BorderRadiusControl
-								values={hz_bs_border_radius}
-								onChange={(newRadius) => {
-									if (typeof newRadius === 'string') {
-										const radiusObject = {
-											topLeft: newRadius,
-											topRight: newRadius,
-											bottomRight: newRadius,
-											bottomLeft: newRadius,
-										}; 
-											setAttributes({ hz_bs_border_radius: radiusObject });
-									} else {
-											setAttributes({ hz_bs_border_radius: newRadius });
-									}
-								}}
-							/>
-
-							<BoxControl
-								label={__('Padding', 'wp-job-openings')}
-								values={hz_bs_padding} // Ensure there is a fallback value
-								onChange={(Padding) => {
-									setAttributes({ hz_bs_padding: Padding });
-								}}
-							/>
+								<BoxControl
+									label={__('Padding', 'wp-job-openings')}
+									values={hz_bs_padding} // Ensure there is a fallback value
+									onChange={(Padding) => {
+										setAttributes({ hz_bs_padding: Padding });
+									}}
+								/>
+						
 						</PanelBody>
 
 						<PanelColorSettings
