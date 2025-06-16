@@ -795,17 +795,6 @@ const WidgetInspectorControls = (props) => {
 												width: width,
 											},
 										});
-
-										if( width === '0px' ){
-											setTimeout(() => {
-												setAttributes({
-													hz_bs_border: {
-														...newBorder,
-														width: '1px',
-													},
-												}); 
-											}, 100);
-										}
 									}}
 									enableStyle={false}
 								/>
