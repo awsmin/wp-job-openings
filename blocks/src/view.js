@@ -13,7 +13,7 @@ jQuery( function ( $ ) {
 		'//' +
 		window.location.host +
 		window.location.pathname;
-	let triggerFilter = true;
+	let triggerFilter = true; 
 
 	function getListingsData( $wrapper ) {
 		const data = [];
@@ -328,9 +328,9 @@ jQuery( function ( $ ) {
 			updateQuery( 'jq', searchQuery, $paginationBase.val() );
 		}
 		awsmJobFilters( $rootWrapper );
-	}
+	} 
 
-	if ( $( rootWrapperSelector ).length > 0 ) {
+	/* if ( $( rootWrapperSelector ).length > 0 ) {
 		$( rootWrapperSelector ).each( function () {
 			const $currentWrapper = $( this );
 			const $filterForm = $currentWrapper.find(
@@ -344,9 +344,9 @@ jQuery( function ( $ ) {
 				awsmJobFilters( $currentWrapper );
 			}
 		} );
-	}
+	} */
 
-	if ( $( rootWrapperSelector ).length > 0 ) {
+	/* if ( $( rootWrapperSelector ).length > 0 ) {
 		$( rootWrapperSelector ).each( function () {
 			const $currentWrapper = $( this );
 			const $filterForm = $currentWrapper.find(
@@ -366,7 +366,7 @@ jQuery( function ( $ ) {
 			}
 		} );
 	}
-
+ */
 	var updateQuery = function ( key, value, url ) {
 		url = typeof url !== 'undefined' ? url : currentUrl;
 		url = url.split( '?' )[ 0 ];
