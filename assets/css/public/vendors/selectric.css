@@ -13,7 +13,7 @@
 }
 
 .awsm-selectric {
-  border: 1px solid #dddfe3;
+  border: 1px solid #ccc;
   box-shadow: 0 1px 4px 0 rgb(0 0 0 / 5%);
   background: #fff;
   position: relative;
@@ -158,13 +158,14 @@
 .awsm-selectric-items {
   display: none;
   position: absolute;
-  top: calc(100% - 1px);
+  top: calc(100% + 4px);
   left: 0;
   background: #fff;
-  border: 1px solid #dbdbdb;
+  border: 1px solid #ccc;
   z-index: -1;
   box-shadow: 0 0 5px -6px rgba(0,0,0,0.4);
-  border-top: none;;
+  border-radius: 4px;
+  overflow: hidden;
 }
 
 .awsm-selectric-items .awsm-selectric-scroll {
@@ -250,7 +251,7 @@
   content: "";
   width: 14px;
   height: 14px;
-  border: 1px solid #dddfe3;
+  border: 1px solid #ccc;
   position: absolute;
   left: 10px;
   top: calc(50% - 7px);
