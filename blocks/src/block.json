@@ -167,8 +167,7 @@
 	},
 	"example": {},
 	"supports": {
-		"html": false
-	},
+},
 	"textdomain": "wp-job-openings",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",

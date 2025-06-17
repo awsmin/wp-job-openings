@@ -166,9 +166,7 @@
     }
   },
   "example": {},
-  "supports": {
-    "html": false
-  },
+  "supports": {},
   "textdomain": "wp-job-openings",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",

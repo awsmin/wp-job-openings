@@ -1,6 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import { useEffect, Fragment, useState } from '@wordpress/element';
-import { InspectorControls,BlockEdit, __experimentalPanelColorGradientSettings as PanelColorGradientSettings,useBlockProps,PanelColorSettings, __experimentalBorderRadiusControl as BorderRadiusControl } from '@wordpress/block-editor';
+import { InspectorControls,BlockEdit, __experimentalPanelColorGradientSettings as PanelColorGradientSettings,useBlockProps,PanelColorSettings, __experimentalBorderRadiusControl as BorderRadiusControl} from '@wordpress/block-editor';
 import { addFilter } from '@wordpress/hooks';
 
 import {
@@ -592,7 +592,7 @@ const WidgetInspectorControls = (props) => {
 		    <InspectorControls group="styles">
 				<Fragment>
 					<div className="hz-inspector-controls">
-						<PanelBody title={__('Search & Filters', 'wp-job-openings')} initialOpen={true}>
+						<PanelBody title={__('Sidebar', 'wp-job-openings')} initialOpen={true}>
 							{/* {placement === 'slide' && (
 								<InputControl
 									label="Sidebar Width"
@@ -605,12 +605,15 @@ const WidgetInspectorControls = (props) => {
 							)} */}
 
 							<RangeControl
-								label="Sidebar Width"
+								label={__('Sidebar Width', 'wp-job-openings')}
+								__nextHasNoMarginBottom
 								min={33.33}
 								max={80.33}
+								step={0.1}
 								name="hz_sidebar_width"
 								value={parseFloat(hz_sidebar_width) || 33.33}
 								onChange={(val) => setAttributes({ hz_sidebar_width: val })}
+								__next40pxDefaultSize
 							/>
 
 							<BorderControl
@@ -659,9 +662,19 @@ const WidgetInspectorControls = (props) => {
 										}
 								}}
 							/>
+
+							<Spacer></Spacer>
+
+							<BoxControl
+								label={__('Padding', 'wp-job-openings')}
+								values={hz_sf_padding} // Ensure there is a fallback value
+								onChange={(Padding) => {
+									setAttributes({ hz_sf_padding: Padding });
+								}}
+							/>
 						</PanelBody>
 						{placement === 'slide' && (
-							<PanelBody title={__('Layout Settings', 'wp-job-openings')} initialOpen={true}>
+							<PanelBody title={__('Search and Filter Fields', 'wp-job-openings')} initialOpen={true}>
 								<BorderControl
 									label={__('Border', 'wp-job-openings')}
 									withSlider
@@ -711,13 +724,6 @@ const WidgetInspectorControls = (props) => {
 									}}
 								/>
 
-								<BoxControl
-									label={__('Padding', 'wp-job-openings')}
-									values={hz_sf_padding} // Ensure there is a fallback value
-									onChange={(Padding) => {
-										setAttributes({ hz_sf_padding: Padding });
-									}}
-								/>
 							</PanelBody>
 						)}
 

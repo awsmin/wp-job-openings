@@ -78,6 +78,7 @@ $block_style_variables = "
 		--hz-bs-border-radius-topright: {$styles['button_border_radius_topright']};
 		--hz-bs-border-radius-bottomright: {$styles['button_border_radius_bottomright']};
 		--hz-bs-border-radius-bottomleft: {$styles['button_border_radius_bottomleft']};
+		--hz-bs-border-style:   " . ( ! empty( $styles['button_width_field'] ) && $styles['button_width_field'] !== '0px' ? 'solid' : 'none' ) . ";
 
 		--hz-b-bg-color: {$styles['button_background_color']};
 		--hz-b-tx-color: {$styles['button_text_color']};

@@ -397,7 +397,7 @@ if ( ! function_exists( 'hz_get_sf_styles' ) ) {
 			
 			'button_width_field' => !empty($attributes['hz_bs_border_width']) && $attributes['hz_bs_border_width'] !== '0px'
 			? $attributes['hz_bs_border_width']
-			: '1px',
+			: '',
 			
 			'button_color_field' => !empty($attributes['hz_bs_border_color'])
 			? $attributes['hz_bs_border_color']
