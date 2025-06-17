@@ -104,8 +104,12 @@ if ( $query->have_posts() ) {
 					esc_html__( 'Sorry! No jobs to show.', 'wp-job-openings' )
 				);
 				?>
-				<div <?php awsm_block_jobs_view_class( '', $attributes ); ?> <?php awsm_block_jobs_data_attrs( array(), $attributes ); ?>>
-					<?php include get_awsm_jobs_template_path( 'block-main', 'block-files' ); ?>
+				<div class="awsm-b-job-listings"<?php awsm_block_jobs_data_attrs( array(), $attributes ); ?>>
+					<div <?php awsm_block_jobs_view_class( '', $attributes ); ?>>
+						<?php
+							include get_awsm_jobs_template_path( 'block-main', 'block-files' );
+						?>
+					</div>
 				</div>
 			</div>
 			<?php
@@ -123,12 +127,12 @@ if ( $query->have_posts() ) {
 				<?php
 				get_block_filtered_job_terms( $attributes );
 				?>
-				<div <?php awsm_block_jobs_view_class( 'custom-class', $attributes ); ?> <?php awsm_block_jobs_data_attrs( array(), $attributes ); ?>>
-					<?php echo sprintf(
-						'<div class="awsm-jobs-pagination awsm-load-more-main awsm-no-more-jobs-container awsm-b-job-no-more-jobs-get"><p>%s</p></div>',
-						esc_html__( 'Sorry! No jobs to show.', 'wp-job-openings' )
-					); ?>
-					<?php include get_awsm_jobs_template_path( 'block-main', 'block-files' ); ?>
+				<div class="awsm-b-job-listings"<?php awsm_block_jobs_data_attrs( array(), $attributes ); ?>>
+					<div <?php echo awsm_block_jobs_view_class( 'custom-class', $attributes ); ?>> 
+						<?php
+							include get_awsm_jobs_template_path( 'block-main', 'block-files' );
+						?>
+					</div>
 				</div>
 			</div>
 			<?php
