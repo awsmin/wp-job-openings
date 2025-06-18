@@ -592,18 +592,9 @@ const WidgetInspectorControls = (props) => {
 		    <InspectorControls group="styles">
 				<Fragment>
 					<div className="hz-inspector-controls">
-						<PanelBody title={__('Sidebar', 'wp-job-openings')} initialOpen={true}>
-							{/* {placement === 'slide' && (
-								<InputControl
-									label="Sidebar Width"
-									name="hz_sidebar_width"
-									value={hz_sidebar_width?.replace('%', '') || ''}
-									onChange={(val) => setAttributes({ hz_sidebar_width: val })}
-									suffix="%"
-									style={{ width: '120px' }}
-								/>
-							)} */}
 
+						{placement === 'slide' && (
+						<PanelBody title={__('Sidebar', 'wp-job-openings')} initialOpen={true}>
 							<RangeControl
 								label={__('Sidebar Width', 'wp-job-openings')}
 								__nextHasNoMarginBottom
@@ -612,7 +603,9 @@ const WidgetInspectorControls = (props) => {
 								step={0.1}
 								name="hz_sidebar_width"
 								value={parseFloat(hz_sidebar_width) || 33.33}
-								onChange={(val) => setAttributes({ hz_sidebar_width: val })}
+								onChange={(val) => {
+									setAttributes({ hz_sidebar_width: val });
+								}}
 								__next40pxDefaultSize
 							/>
 
@@ -673,7 +666,8 @@ const WidgetInspectorControls = (props) => {
 								}}
 							/>
 						</PanelBody>
-						{placement === 'slide' && (
+						)}
+						
 							<PanelBody title={__('Search and Filter Fields', 'wp-job-openings')} initialOpen={true}>
 								<BorderControl
 									label={__('Border', 'wp-job-openings')}
@@ -725,7 +719,7 @@ const WidgetInspectorControls = (props) => {
 								/>
 
 							</PanelBody>
-						)}
+						
 
 						<PanelBody title={__('Job Listing', 'wp-job-openings')} initialOpen={true}>
 							<BorderControl

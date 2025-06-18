@@ -23,7 +23,7 @@ $listing_specs = array( 'job-category', 'job-location' );
  */
 do_action( 'before_awsm_block_jobs_listing_loop', $attributes );
 
-$styles = hz_get_ui_styles( $attributes ); //echo '<pre>';print_r($styles);
+$styles = hz_get_ui_styles( $attributes ); //echo '<pre>';print_r($attributes['hz_sidebar_width']);
 ?>
 
 <!-- Styles for css variables -->
@@ -88,7 +88,7 @@ $block_style_variables = "
 		--hz-b-padding-top: {$styles['padding_top_button']};
 		--hz-b-padding-bottom: {$styles['padding_bottom_button']};
 	}
-	";
+	"; 
 	
 	echo apply_filters( 'hz_ui_styles_css_variables', $block_style_variables, $styles );
 
