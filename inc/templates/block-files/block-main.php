@@ -176,4 +176,11 @@ while ( $query->have_posts() ) {
 
 wp_reset_postdata();
 
+if ( ! $query->have_posts() ) {
+	printf(
+		'<div class="awsm-jobs-none-container awsm-b-jobs-none-container">%s</div>',
+		__( 'Sorry! No jobs to show.', 'wp-job-openings' )
+	);
+}
+
 awsm_block_jobs_load_more( $query, $attributes );

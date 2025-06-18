@@ -99,10 +99,7 @@ if ( $query->have_posts() ) {
 				do_dynamic_filter_form_action( $attributes );
 				do_action( 'awsm_block_form_outside', $attributes );
 				get_block_filtered_job_terms( $attributes );
-				echo sprintf(
-					'<div class="awsm-jobs-pagination awsm-load-more-main awsm-no-more-jobs-container awsm-b-job-no-more-jobs-get"><p>%s</p></div>',
-					esc_html__( 'Sorry! No jobs to show.', 'wp-job-openings' )
-				);
+				
 				?>
 				<div class="awsm-b-job-listings"<?php awsm_block_jobs_data_attrs( array(), $attributes ); ?>>
 					<div <?php awsm_block_jobs_view_class( '', $attributes ); ?>>
