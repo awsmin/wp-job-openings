@@ -178,7 +178,7 @@ class AWSM_Job_Openings_Block {
 					$filters[ $taxonomy ] = intval( $term_id );
 				}
 			}
-		}
+		} 
 
 		if ( isset( $_POST['awsm_job_specs_list'] ) ) {
 			$filters_list = $_POST['awsm_job_specs_list'];
@@ -318,40 +318,61 @@ class AWSM_Job_Openings_Block {
 		$block_style_variables = "
 		#{$styles['block_id']} {
 			--hz-sf-border-width: {$styles['border_width']};
-			--hz-sf-border-color: {$styles['border_color']};
-			--hz-sf-border-radius: {$styles['border_radius']};
-			--hz-sf-padding-left: {$styles['padding_left']};
-			--hz-sf-padding-right: {$styles['padding_right']};
-			--hz-sf-padding-top: {$styles['padding_top']};
-			--hz-sf-padding-bottom: {$styles['padding_bottom']};
-			--hz-sf-border-style: " . ( ! empty( $styles['border_width'] ) && $styles['border_width'] !== '0px' ? 'solid' : 'none' ) . ";
+		--hz-sf-border-color: {$styles['border_color']};
 
-			--hz-sidebar-width: {$styles['sidebar_width']};
+		--hz-sf-border-radius-topleft: {$styles['sf_border_radius_topleft']};
+		--hz-sf-border-radius-topright: {$styles['sf_border_radius_topright']};
+		--hz-sf-border-radius-bottomright: {$styles['sf_border_radius_bottomright']};
+		--hz-sf-border-radius-bottomleft: {$styles['sf_border_radius_bottomleft']};
 
-			--hz-ls-border-width: {$styles['border_width_field']};
-			--hz-ls-border-color: {$styles['border_color_field']};
-			--hz-ls-border-radius: {$styles['border_radius_field']};
-			--hz-ls-border-style: " . ( ! empty( $styles['border_width_field'] ) && $styles['border_width_field'] !== '0px' ? 'solid' : 'none' ) . ";
+		--hz-sf-padding-left: {$styles['padding_left']};
+		--hz-sf-padding-right: {$styles['padding_right']};
+		--hz-sf-padding-top: {$styles['padding_top']};
+		--hz-sf-padding-bottom: {$styles['padding_bottom']};
+		--hz-sf-border-style: " . ( ! empty( $styles['border_width'] ) && $styles['border_width'] !== '0px' ? 'solid' : 'none' ) . ";
 
-			--hz-jl-border-width: {$styles['border_width_jobs']};
-			--hz-jl-border-color: {$styles['border_color_jobs']};
-			--hz-jl-border-radius: {$styles['border_radius_jobs']};
-			--hz-jl-padding-left: {$styles['padding_left_jobs']};
-			--hz-jl-padding-right: {$styles['padding_right_jobs']};
-			--hz-jl-padding-top: {$styles['padding_top_jobs']};
-			--hz-jl-padding-bottom: {$styles['padding_bottom_jobs']};
-			--hz-jl-border-style: " . ( ! empty( $styles['border_width_jobs'] ) && $styles['border_width_jobs'] !== '0px' ? 'solid' : 'none' ) . ";
+		--hz-sidebar-width: {$styles['sidebar_width']};
 
-			--hz-bs-border-width: {$styles['button_width_field']};
-			--hz-bs-border-color: {$styles['button_color_field']};
-			--hz-bs-border-radius: {$styles['button_radius_field']};
-			--hz-b-bg-color: {$styles['button_background_color']};
-			--hz-b-tx-color: {$styles['button_text_color']};
+		--hz-ls-border-width: {$styles['border_width_field']};
+		--hz-ls-border-color: {$styles['border_color_field']};
 
-			--hz-b-padding-left: {$styles['padding_left_button']};
-			--hz-b-padding-right: {$styles['padding_right_button']};
-			--hz-b-padding-top: {$styles['padding_top_button']};
-			--hz-b-padding-bottom: {$styles['padding_bottom_button']};
+		--hz-ls-border-radius-topleft: {$styles['ls_border_radius_topleft']};
+		--hz-ls-border-radius-topright: {$styles['ls_border_radius_topright']};
+		--hz-ls-border-radius-bottomright: {$styles['ls_border_radius_bottomright']};
+		--hz-ls-border-radius-bottomleft: {$styles['ls_border_radius_bottomleft']};
+
+		--hz-ls-border-style: " . ( ! empty( $styles['border_width_field'] ) && $styles['border_width_field'] !== '0px' ? 'solid' : 'none' ) . ";
+
+		--hz-jl-border-width: {$styles['border_width_jobs']};
+		--hz-jl-border-color: {$styles['border_color_jobs']};
+
+		--hz-jl-border-radius-topleft: {$styles['jobs_border_radius_topleft']};
+		--hz-jl-border-radius-topright: {$styles['jobs_border_radius_topright']};
+		--hz-jl-border-radius-bottomright: {$styles['jobs_border_radius_bottomright']};
+		--hz-jl-border-radius-bottomleft: {$styles['jobs_border_radius_bottomleft']};
+
+		--hz-jl-padding-left: {$styles['padding_left_jobs']};
+		--hz-jl-padding-right: {$styles['padding_right_jobs']};
+		--hz-jl-padding-top: {$styles['padding_top_jobs']};
+		--hz-jl-padding-bottom: {$styles['padding_bottom_jobs']};
+		--hz-jl-border-style:   " . ( ! empty( $styles['border_width_jobs'] ) && $styles['border_width_jobs'] !== '0px' ? 'solid' : 'none' ) . ";
+
+		--hz-bs-border-width: {$styles['button_width_field']};
+		--hz-bs-border-color: {$styles['button_color_field']};
+
+		--hz-bs-border-radius-topleft: {$styles['button_border_radius_topleft']};
+		--hz-bs-border-radius-topright: {$styles['button_border_radius_topright']};
+		--hz-bs-border-radius-bottomright: {$styles['button_border_radius_bottomright']};
+		--hz-bs-border-radius-bottomleft: {$styles['button_border_radius_bottomleft']};
+		--hz-bs-border-style:   " . ( ! empty( $styles['button_width_field'] ) && $styles['button_width_field'] !== '0px' ? 'solid' : 'none' ) . ";
+
+		--hz-b-bg-color: {$styles['button_background_color']};
+		--hz-b-tx-color: {$styles['button_text_color']};
+
+		--hz-b-padding-left: {$styles['padding_left_button']};
+		--hz-b-padding-right: {$styles['padding_right_button']};
+		--hz-b-padding-top: {$styles['padding_top_button']};
+		--hz-b-padding-bottom: {$styles['padding_bottom_button']};
 		}
 		";
 		$block_style_variables = apply_filters( 'hz_ui_styles_css_variables', $block_style_variables, $styles );
@@ -381,14 +402,13 @@ class AWSM_Job_Openings_Block {
 		if ( isset( $attributes['selectedTerms'] ) && ! empty( $attributes['selectedTerms'] ) ) {
 			$filters_list = $attributes['selectedTerms'];
 		}
-
 		// Process taxonomy filters.
 		if ( ! empty( $filters ) || ! empty( $filters_list ) ) {
 			$filters      = is_array( $filters ) ? $filters : array();
 			$filters_list = is_array( $filters_list ) ? $filters_list : array();
 			$all_filters  = array_merge_recursive( $filters, $filters_list );
 
-			foreach ( $all_filters as $taxonomy => $terms ) {
+			foreach ( $all_filters as $taxonomy => $terms ) { error_log( print_r($terms,1) );
 				if ( ! empty( $terms ) ) {
 					// Ensure terms are always an array and cleaned.
 					$terms = is_array( $terms ) ? array_values( array_filter( $terms ) ) : array( $terms );
@@ -408,7 +428,7 @@ class AWSM_Job_Openings_Block {
 
 		if ( ! empty( $tax_query ) ) {
 			$args['tax_query'] = $tax_query;
-		}
+		} 
 
 		// General query setup.
 		$list_per_page          = AWSM_Job_Openings::get_listings_per_page( $attributes );
