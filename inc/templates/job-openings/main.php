@@ -114,6 +114,13 @@ while ( $query->have_posts() ) {
 
 wp_reset_postdata();
 
+if ( ! $query->have_posts() ) {
+	printf(
+		'<div class="awsm-jobs-none-container ">%s</div>',
+		__( 'Sorry! No jobs to show.', 'wp-job-openings' )
+	);
+}
+
 /**
  * Fires after The Loop.
  *
