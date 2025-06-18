@@ -120,6 +120,23 @@ jQuery( function ( $ ) {
 		const hz_button_text_color = $wrapper.data('hz_button_text_color');
 		/* End */
 
+		$rootWrapper.find('.awsm-b-filter-item').each(function() {
+			var currentLoopSpec = $(this).data('filter');
+			console.log($(this).data('filter'));
+			
+			var searchParams = new URLSearchParams(document.location.search);
+			var currentSpecQueryVal = searchParams.get(currentLoopSpec); 
+			var $currentOption = $(this).find('.awsm-b-filter-option');
+			
+			if ($currentOption.val().length === 0 && currentSpecQueryVal && currentSpecQueryVal.length > 0) {
+				formData.forEach(function(item) {
+					if (item.name === $currentOption.attr('name')) {
+						item.value = '-1';
+					}
+				});
+			}
+		});
+
 		formData.push( { name: 'listings_per_page', value: listings } );
 
 		if ( typeof specs !== 'undefined' ) {
