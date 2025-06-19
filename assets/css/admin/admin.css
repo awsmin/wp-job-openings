@@ -1869,6 +1869,7 @@ textarea.awsm-form-control {
 	font-weight: normal;
 	letter-spacing: -0.06px;
 	line-height: 1.333;
+	max-width: 100%;
 }
 
 .awsm-form-control::placeholder {
