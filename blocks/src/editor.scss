@@ -84,7 +84,10 @@ a.awsm-b-job-item {
 	box-shadow: 0 1px 4px 0 rgb(0 0 0 / 5%);
 	//border: 1px solid #dddfe3;
 	border: var(--hz-jl-border-width, 1px) solid var(--hz-jl-border-color, #dddfe3);
-	border-radius: var(--hz-jl-border-radius, 5px);
+	border-radius: var(--hz-jl-border-radius-topright, 0px) 
+		var(--hz-jl-border-radius-topleft, 0px) 
+		var(--hz-jl-border-radius-bottomright, 0px) 
+		var(--hz-jl-border-radius-bottomleft, 0px);
 	display: -webkit-box;
 	display: -moz-box;
 	display: -ms-flexbox;
@@ -333,6 +336,10 @@ a.awsm-b-job-item {
 /*---- List ----*/
 .awsm-b-lists {
 	border: var(--hz-jl-border-width, 1px) solid var(--hz-jl-border-color, #d5d5d5);
+	border-radius: var(--hz-jl-border-radius-topright, 0px) 
+		var(--hz-jl-border-radius-topleft, 0px) 
+		var(--hz-jl-border-radius-bottomright, 0px) 
+		var(--hz-jl-border-radius-bottomleft, 0px);
 }
 
 .awsm-b-list-item {
