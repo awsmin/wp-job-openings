@@ -1039,7 +1039,20 @@ class AWSM_Job_Openings_Block {
 									$label_class_name = 'awsm-b-sr-only';
 								}
 
-								$dropdown_content = sprintf( '<div class="awsm-b-filter-item" data-filter="%2$s"><label for="awsm-%1$s-filter-option%5$s" class="'.$label_class_name.'">%3$s</label><select name="awsm_job_spec[%1$s][]" class="awsm-b-filter-option ' . $spec_multiple_class . ' awsm-%1$s-filter-option ' . $filter_class_admin_select_control . '" id="awsm-%1$s-filter-option%5$s" aria-label="%3$s" ' . $multiple_for_spec . '><option value="">%3$s</option>%4$s</select></div>', esc_attr( $taxonomy ), esc_attr( $filter_key . '_spec' ), esc_html( $filter_label ), $options_content, esc_attr( $uid ), esc_html( $main_spec_label ) );
+								$dropdown_content = sprintf(
+									'<div class="awsm-b-filter-item" data-filter="%2$s">'
+									. ( self::is_edit_or_add_page() ? '<div>%3$s</div>' : '' ) .
+									'<label for="awsm-%1$s-filter-option%5$s" class="' . $label_class_name . '">%3$s</label>
+									<select name="awsm_job_spec[%1$s][]" class="awsm-b-filter-option ' . $spec_multiple_class . ' awsm-%1$s-filter-option ' . $filter_class_admin_select_control . '" id="awsm-%1$s-filter-option%5$s" aria-label="%3$s" ' . $multiple_for_spec . '>
+									<option value="">%3$s</option>%4$s
+									</select>
+									</div>',
+									esc_attr( $taxonomy ),
+									esc_attr( $filter_key . '_spec' ),
+									esc_html( $filter_label ),
+									$options_content,
+									esc_attr( $uid )
+								);
 								/**
 								 * Filter the job filter dropdown content.
 								 *
@@ -1097,18 +1110,6 @@ class AWSM_Job_Openings_Block {
 
 				$specs_filter_content = sprintf( '<a href="#" class="awsm-b-filter-toggle" role="button" aria-pressed="false">%2$s</a>' . $custom_action_content_filter . '<div class="awsm-b-filter-items' . $filter_class_admin . '">%1$s</div>', $specs_filter_content, $toggle_control );  
 		}
-
-		/* $custom_action_content_filter = '';
-		if ( ! empty( $custom_action_content ) ) {
-			$custom_action_content_filter = $custom_action_content;
-		}
- 		*/
-		// Combine search and filter content into the form
-		/* $filter_content = sprintf(
-			'<form action="%2$s/wp-admin/admin-ajax.php" method="POST">%1$s</form>',
-			$search_content . $custom_action_content_filter . '<div class="awsm-b-filter-items ' . $filter_class_admin . '">' . $specs_filter_content . $hidden_fields_content . '</div>',
-			esc_url( site_url() )
-		); */
 
 		$filter_content = sprintf(
 			'<form action="%2$s/wp-admin/admin-ajax.php" method="POST">%1$s</form>',
