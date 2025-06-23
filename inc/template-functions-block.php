@@ -18,7 +18,7 @@ if ( ! function_exists( 'awsm_block_jobs_view_class' ) ) {
 		if ( ! empty( $class ) ) {
 			$view_class = trim( "$view_class $class" );
 		}
-		
+
 		// Only return the class attribute if there's a class to output
 		echo $view_class ? sprintf( 'class="%s"', esc_attr( $view_class ) ) : '';
 	}
@@ -71,7 +71,7 @@ if ( ! function_exists( 'get_block_filtered_job_terms' ) ) {
 		if ( ! empty( $filters ) && is_array( $filters ) ) {
 			foreach ( $filters as $filter ) {
 				if ( ! empty( $filter['specKey'] ) ) {
-					$taxonomy = $filter['specKey'];
+					$taxonomy           = $filter['specKey'];
 					$current_filter_key = str_replace( '-', '__', $taxonomy ) . $filter_suffix;
 
 					if ( isset( $_GET[ $current_filter_key ] ) ) {
@@ -106,8 +106,8 @@ if ( ! function_exists( 'awsm_block_jobs_query' ) ) {
 			$filter_options_array = explode( ',', $attributes['filter_options'] );
 		} else {
 			$filter_options_array = array(); // Or handle the case as per your requirement
-		} 
- */
+		}
+		*/
 		/* if ( ! empty( $filter_options_array ) ) {
 			foreach ( $filter_options_array as $filter ) {
 				$current_filter_key = str_replace( '-', '__', $filter ) . $filter_suffix;
@@ -128,7 +128,7 @@ if ( ! function_exists( 'awsm_block_jobs_query' ) ) {
 		if ( ! empty( $filter_options_array ) ) {
 			foreach ( $filter_options_array as $filter ) {
 				if ( ! empty( $filter['specKey'] ) ) {
-					$taxonomy = $filter['specKey'];
+					$taxonomy           = $filter['specKey'];
 					$current_filter_key = str_replace( '-', '__', $taxonomy ) . $filter_suffix;
 
 					if ( isset( $_GET[ $current_filter_key ] ) ) {
@@ -281,93 +281,93 @@ if ( ! function_exists( 'awsm_jobs_block_listing_item_class' ) ) {
 }
 
 if ( ! function_exists( 'hz_get_sf_styles' ) ) {
-	function hz_get_ui_styles( $attributes ) { 
+	function hz_get_ui_styles( $attributes ) {
 		$styles = array(
-			'block_id'            => ! empty( trim( $attributes['block_id'] ?? '' ) )
+			'block_id'                         => ! empty( trim( $attributes['block_id'] ?? '' ) )
 			? $attributes['block_id']
 			: 'default-block-id',
-			
-			'border_width' => ! empty( $attributes['hz_sf_border_width'] ) && $attributes['hz_sf_border_width'] !== '0px'
+
+			'border_width'                     => ! empty( $attributes['hz_sf_border_width'] ) && $attributes['hz_sf_border_width'] !== '0px'
 			? $attributes['hz_sf_border_width']
 			: '',
-			
-			'border_color'        => ! empty( $attributes['hz_sf_border_color'] )
+
+			'border_color'                     => ! empty( $attributes['hz_sf_border_color'] )
 			? $attributes['hz_sf_border_color']
 			: '#ccc',
 
-			'sf_border_radius_topleft'   => ! empty( $attributes['hz_sf_border_radius']['topLeft'] )
+			'sf_border_radius_topleft'         => ! empty( $attributes['hz_sf_border_radius']['topLeft'] )
 			? $attributes['hz_sf_border_radius']['topLeft']
 			: '5px',
 
-			'sf_border_radius_topright'   => ! empty( $attributes['hz_sf_border_radius']['topRight'] )
+			'sf_border_radius_topright'        => ! empty( $attributes['hz_sf_border_radius']['topRight'] )
 			? $attributes['hz_sf_border_radius']['topRight']
 			: '5px',
 
-			'sf_border_radius_bottomright'   => ! empty( $attributes['hz_sf_border_radius']['bottomRight'] )
+			'sf_border_radius_bottomright'     => ! empty( $attributes['hz_sf_border_radius']['bottomRight'] )
 			? $attributes['hz_sf_border_radius']['bottomRight']
 			: '5px',
 
-			'sf_border_radius_bottomleft'   => ! empty( $attributes['hz_sf_border_radius']['bottomLeft'] )
+			'sf_border_radius_bottomleft'      => ! empty( $attributes['hz_sf_border_radius']['bottomLeft'] )
 			? $attributes['hz_sf_border_radius']['bottomLeft']
 			: '5px',
-			
-			'padding_left'        => ! empty( $attributes['hz_sf_padding']['left'] )
+
+			'padding_left'                     => ! empty( $attributes['hz_sf_padding']['left'] )
 			? hz_append_unit_if_missing( $attributes['hz_sf_padding']['left'] )
 			: '15px',
-			
-			'padding_right'       => ! empty( $attributes['hz_sf_padding']['right'] )
+
+			'padding_right'                    => ! empty( $attributes['hz_sf_padding']['right'] )
 			? hz_append_unit_if_missing( $attributes['hz_sf_padding']['right'] )
 			: '15px',
-			
-			'padding_top'         => ! empty( $attributes['hz_sf_padding']['top'] )
+
+			'padding_top'                      => ! empty( $attributes['hz_sf_padding']['top'] )
 			? hz_append_unit_if_missing( $attributes['hz_sf_padding']['top'] )
 			: '15px',
-			
-			'padding_bottom'      => ! empty( $attributes['hz_sf_padding']['bottom'] )
+
+			'padding_bottom'                   => ! empty( $attributes['hz_sf_padding']['bottom'] )
 			? hz_append_unit_if_missing( $attributes['hz_sf_padding']['bottom'] )
 			: '15px',
-			
-			'sidebar_width'       => ! empty( $attributes['hz_sidebar_width'] )
+
+			'sidebar_width'                    => ! empty( $attributes['hz_sidebar_width'] )
 			? hz_append_unit_if_missing( $attributes['hz_sidebar_width'], '%' )
 			: '33.333%',
-			
-			'border_width_field'  => ! empty( $attributes['hz_ls_border_width'] ) && $attributes['hz_ls_border_width'] !== '0px'
+
+			'border_width_field'               => ! empty( $attributes['hz_ls_border_width'] ) && $attributes['hz_ls_border_width'] !== '0px'
 			? $attributes['hz_ls_border_width']
 			: '1px',
-			
-			'border_color_field'  => ! empty( $attributes['hz_ls_border_color'] )
+
+			'border_color_field'               => ! empty( $attributes['hz_ls_border_color'] )
 			? $attributes['hz_ls_border_color']
 			: '#ccc',
-			
-			'ls_border_radius_topleft'   => ! empty( $attributes['hz_ls_border_radius']['topLeft'] )
+
+			'ls_border_radius_topleft'         => ! empty( $attributes['hz_ls_border_radius']['topLeft'] )
 			? $attributes['hz_ls_border_radius']['topLeft']
 			: '5px',
 
-			'ls_border_radius_topright'   => ! empty( $attributes['hz_ls_border_radius']['topRight'] )
+			'ls_border_radius_topright'        => ! empty( $attributes['hz_ls_border_radius']['topRight'] )
 			? $attributes['hz_ls_border_radius']['topRight']
 			: '5px',
 
-			'ls_border_radius_bottomright'   => ! empty( $attributes['hz_ls_border_radius']['bottomRight'] )
+			'ls_border_radius_bottomright'     => ! empty( $attributes['hz_ls_border_radius']['bottomRight'] )
 			? $attributes['hz_ls_border_radius']['bottomRight']
 			: '5px',
 
-			'ls_border_radius_bottomleft'   => ! empty( $attributes['hz_ls_border_radius']['bottomLeft'] )
+			'ls_border_radius_bottomleft'      => ! empty( $attributes['hz_ls_border_radius']['bottomLeft'] )
 			? $attributes['hz_ls_border_radius']['bottomLeft']
 			: '5px',
-			
-			'border_width_jobs'   => ! empty( $attributes['hz_jl_border_width'] ) && $attributes['hz_jl_border_width'] !== '0px'
+
+			'border_width_jobs'                => ! empty( $attributes['hz_jl_border_width'] ) && $attributes['hz_jl_border_width'] !== '0px'
 			? $attributes['hz_jl_border_width']
 			: '',
-			
-			'border_color_jobs'   => ! empty( $attributes['hz_jl_border_color'] )
+
+			'border_color_jobs'                => ! empty( $attributes['hz_jl_border_color'] )
 			? $attributes['hz_jl_border_color']
 			: '#ccc',
-			
-			'jobs_border_radius_topleft'   => ! empty( $attributes['hz_jl_border_radius']['topLeft'] )
+
+			'jobs_border_radius_topleft'       => ! empty( $attributes['hz_jl_border_radius']['topLeft'] )
 			? $attributes['hz_jl_border_radius']['topLeft']
 			: '5px',
 
-			'jobs_border_radius_topright'   => ! empty( $attributes['hz_jl_border_radius']['topRight'] )
+			'jobs_border_radius_topright'      => ! empty( $attributes['hz_jl_border_radius']['topRight'] )
 			? $attributes['hz_jl_border_radius']['topRight']
 			: '5px',
 
@@ -375,75 +375,75 @@ if ( ! function_exists( 'hz_get_sf_styles' ) ) {
 			? $attributes['hz_jl_border_radius']['bottomRight']
 			: '5px',
 
-			'jobs_border_radius_bottomleft'   => ! empty( $attributes['hz_jl_border_radius']['bottomLeft'] )
+			'jobs_border_radius_bottomleft'    => ! empty( $attributes['hz_jl_border_radius']['bottomLeft'] )
 			? $attributes['hz_jl_border_radius']['bottomLeft']
 			: '5px',
-			
-			'padding_left_jobs'   => ! empty( $attributes['hz_jl_padding']['left'] )
+
+			'padding_left_jobs'                => ! empty( $attributes['hz_jl_padding']['left'] )
 			? hz_append_unit_if_missing( $attributes['hz_jl_padding']['left'] )
 			: '15px',
-			
-			'padding_right_jobs'  => ! empty( $attributes['hz_jl_padding']['right'] )
+
+			'padding_right_jobs'               => ! empty( $attributes['hz_jl_padding']['right'] )
 			? hz_append_unit_if_missing( $attributes['hz_jl_padding']['right'] )
 			: '15px',
-			
-			'padding_top_jobs'    => ! empty( $attributes['hz_jl_padding']['top'] )
+
+			'padding_top_jobs'                 => ! empty( $attributes['hz_jl_padding']['top'] )
 			? hz_append_unit_if_missing( $attributes['hz_jl_padding']['top'] )
 			: '15px',
-			
-			'padding_bottom_jobs' => ! empty( $attributes['hz_jl_padding']['bottom'] )
+
+			'padding_bottom_jobs'              => ! empty( $attributes['hz_jl_padding']['bottom'] )
 			? hz_append_unit_if_missing( $attributes['hz_jl_padding']['bottom'] )
 			: '15px',
-			
-			'button_width_field' => !empty($attributes['hz_bs_border_width']) && $attributes['hz_bs_border_width'] !== '0px'
+
+			'button_width_field'               => ! empty( $attributes['hz_bs_border_width'] ) && $attributes['hz_bs_border_width'] !== '0px'
 			? $attributes['hz_bs_border_width']
 			: '',
-			
-			'button_color_field' => !empty($attributes['hz_bs_border_color'])
+
+			'button_color_field'               => ! empty( $attributes['hz_bs_border_color'] )
 			? $attributes['hz_bs_border_color']
 			: '#ccc',
-			
-			'button_border_radius_topleft'   => ! empty( $attributes['hz_bs_border_radius']['topLeft'] )
+
+			'button_border_radius_topleft'     => ! empty( $attributes['hz_bs_border_radius']['topLeft'] )
 			? $attributes['hz_bs_border_radius']['topLeft']
 			: '5px',
 
-			'button_border_radius_topright'   => ! empty( $attributes['hz_bs_border_radius']['topRight'] )
+			'button_border_radius_topright'    => ! empty( $attributes['hz_bs_border_radius']['topRight'] )
 			? $attributes['hz_bs_border_radius']['topRight']
 			: '5px',
 
-			'button_border_radius_bottomright'   => ! empty( $attributes['hz_bs_border_radius']['bottomRight'] )
+			'button_border_radius_bottomright' => ! empty( $attributes['hz_bs_border_radius']['bottomRight'] )
 			? $attributes['hz_bs_border_radius']['bottomRight']
 			: '5px',
 
-			'button_border_radius_bottomleft'   => ! empty( $attributes['hz_bs_border_radius']['bottomLeft'] )
+			'button_border_radius_bottomleft'  => ! empty( $attributes['hz_bs_border_radius']['bottomLeft'] )
 			? $attributes['hz_bs_border_radius']['bottomLeft']
 			: '5px',
-			
-			'button_background_color' => !empty($attributes['hz_button_background_color'])
+
+			'button_background_color'          => ! empty( $attributes['hz_button_background_color'] )
 			? $attributes['hz_button_background_color']
 			: '',
-			
-			'button_text_color' => !empty($attributes['hz_button_text_color'])
+
+			'button_text_color'                => ! empty( $attributes['hz_button_text_color'] )
 			? $attributes['hz_button_text_color']
 			: '',
 
-			'padding_left_button'   => ! empty( $attributes['hz_bs_padding']['left'] )
+			'padding_left_button'              => ! empty( $attributes['hz_bs_padding']['left'] )
 			? hz_append_unit_if_missing( $attributes['hz_bs_padding']['left'] )
 			: '13px',
-			
-			'padding_right_button'  => ! empty( $attributes['hz_bs_padding']['right'] )
+
+			'padding_right_button'             => ! empty( $attributes['hz_bs_padding']['right'] )
 			? hz_append_unit_if_missing( $attributes['hz_bs_padding']['right'] )
 			: '13px',
-			
-			'padding_top_button'    => ! empty( $attributes['hz_bs_padding']['top'] )
+
+			'padding_top_button'               => ! empty( $attributes['hz_bs_padding']['top'] )
 			? hz_append_unit_if_missing( $attributes['hz_bs_padding']['top'] )
 			: '13px',
-			
-			'padding_bottom_button' => ! empty( $attributes['hz_bs_padding']['bottom'] )
+
+			'padding_bottom_button'            => ! empty( $attributes['hz_bs_padding']['bottom'] )
 			? hz_append_unit_if_missing( $attributes['hz_bs_padding']['bottom'] )
 			: '13px',
 		);
-		
+
 		return apply_filters( 'hz_ui_styles', $styles, $attributes );
 	}
 }
@@ -527,6 +527,5 @@ if ( ! function_exists( 'render_awsm_block_job_wrap' ) ) {
 			</div>
 			<?php
 		}
-}
-
+	}
 }

@@ -33,7 +33,7 @@ class Awsm_Job_Guten_Blocks {
 		register_block_type( __DIR__ . '/build', $args );
 	}
 
-	public function block_render_callback( $atts, $content ) { 
+	public function block_render_callback( $atts, $content ) {
 
 		if ( empty( $atts['filter_options'] ) ) {
 			$default_filters = array();
@@ -118,7 +118,7 @@ class Awsm_Job_Guten_Blocks {
 		$block_content    = $class_block_init->awsm_jobs_block_attributes( $atts );
 
 		if ( empty( $block_content ) ) {
-			return '<p>No job listings found.</p>'; // Fallback content
+			return '<p>' . __( 'No job listings found.', 'wp-job-openings' ) . '</p>';
 		}
 
 		return $block_content;

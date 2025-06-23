@@ -100,7 +100,7 @@ if ( $query->have_posts() ) {
 	</div>
 		<?php
 	}
-}else { 
+} else {
 		// When no jobs are found, check for filters in URL
 	$filter_suffix = '_spec';
 	$job_spec      = array();
@@ -113,7 +113,7 @@ if ( $query->have_posts() ) {
 
 	if ( ! empty( $job_spec ) ) {
 		if ( $shortcode_atts['placement'] == 'top' ) {
-		?>
+			?>
 			<div class="awsm-job-wrap<?php awsm_jobs_wrapper_class(); ?>">
 				<?php
 					do_action( 'awsm_filter_form', $shortcode_atts );
@@ -129,8 +129,8 @@ if ( $query->have_posts() ) {
 				</div>
 
 			</div>
-		<?php
-	} else {
+			<?php
+		} else {
 			?>
 			<div class="awsm-job-wrap<?php awsm_jobs_wrapper_class(); ?> awsm-job-form-plugin-style <?php echo $placement_sidebar_class; ?>">
 				<?php if ( $show_filter ) { ?>
@@ -148,7 +148,7 @@ if ( $query->have_posts() ) {
 					</div>
 				</div>
 			</div>
-			<?php
+				<?php
 		}
 	} else {
 		?>
@@ -158,7 +158,7 @@ if ( $query->have_posts() ) {
 		<?php
 	}
 }
- 
+
 
 
 /**

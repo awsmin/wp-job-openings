@@ -282,13 +282,12 @@ jQuery( function( $ ) {
 			} )
 				.done( function( response ) {
 					$rowWrapper.html( response.data.html );
-
+/* 
 					if (response.data.style) {
-
 						// Append new style tag
 						jQuery('head').append(response.data.style);
 					}
-
+ */
 					const $searchControl =
 						$rootWrapper.find( '.awsm-b-job-search' );
 					if ( $searchControl.length > 0 ) {

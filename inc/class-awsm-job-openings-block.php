@@ -24,47 +24,46 @@ class AWSM_Job_Openings_Block {
 		return self::$instance;
 	}
 
-	public function awsm_jobs_block_attributes( $blockatts ) { 
+	public function awsm_jobs_block_attributes( $blockatts ) {
 		if ( ! function_exists( 'awsm_jobs_query' ) ) {
 			return;
 		}
 
 		$block_atts_set = array(
-			'uid'                 => $this->unique_listing_id,
-			'search'              => isset( $blockatts['search'] ) ? $blockatts['search'] : '',
-			'filter_options'      => isset( $blockatts['filter_options'] ) ? $blockatts['filter_options'] : '',
-			'layout'              => isset( $blockatts['layout'] ) ? $blockatts['layout'] : '',
-			'hide_expired_jobs'   => isset( $blockatts['hide_expired_jobs'] ) ? $blockatts['hide_expired_jobs'] : '',
-			'placement'           => isset( $blockatts['placement'] ) ? $blockatts['placement'] : 'slide',
-			'search_placeholder'  => isset( $blockatts['search_placeholder'] ) ? $blockatts['search_placeholder'] : '',
-			'number_of_columns'   => isset( $blockatts['number_of_columns'] ) ? $blockatts['number_of_columns'] : 3,
+			'uid'                        => $this->unique_listing_id,
+			'search'                     => isset( $blockatts['search'] ) ? $blockatts['search'] : '',
+			'filter_options'             => isset( $blockatts['filter_options'] ) ? $blockatts['filter_options'] : '',
+			'layout'                     => isset( $blockatts['layout'] ) ? $blockatts['layout'] : '',
+			'hide_expired_jobs'          => isset( $blockatts['hide_expired_jobs'] ) ? $blockatts['hide_expired_jobs'] : '',
+			'placement'                  => isset( $blockatts['placement'] ) ? $blockatts['placement'] : 'slide',
+			'search_placeholder'         => isset( $blockatts['search_placeholder'] ) ? $blockatts['search_placeholder'] : '',
+			'number_of_columns'          => isset( $blockatts['number_of_columns'] ) ? $blockatts['number_of_columns'] : 3,
 			//'block_loadmore'     => 'no',
-			'listType'            => isset( $blockatts['listType'] ) ? $blockatts['listType'] : '',
-			'selectedTerms'       => isset( $blockatts['selectedTerms'] ) ? $blockatts['selectedTerms'] : '',
-			'orderBy'             => isset( $blockatts['orderBy'] ) ? $blockatts['orderBy'] : '',
-			'listings'            => isset( $blockatts['listing_per_page'] ) ? $blockatts['listing_per_page'] : '',
-			'pagination'          => isset( $blockatts['pagination'] ) ? $blockatts['pagination'] : '',
-			'hz_sf_border_color'  => isset( $blockatts['hz_sf_border']['color'] ) ? $blockatts['hz_sf_border']['color'] : '',
-			'hz_sf_border_width'  => isset( $blockatts['hz_sf_border']['width'] ) ? $blockatts['hz_sf_border']['width'] : '',
-			'hz_sf_padding'       => isset( $blockatts['hz_sf_padding'] ) ? $blockatts['hz_sf_padding'] : '',
-			'hz_sf_border_radius' => isset( $blockatts['hz_sf_border_radius'] ) ? $blockatts['hz_sf_border_radius']: '',
-			'hz_sidebar_width'    => isset( $blockatts['hz_sidebar_width'] ) ? $blockatts['hz_sidebar_width'] : '',
-			'block_id'            => isset( $blockatts['block_id'] ) ? $blockatts['block_id'] : '',
-			'hz_ls_border_color'  => isset( $blockatts['hz_ls_border']['color'] ) ? $blockatts['hz_ls_border']['color'] : '',
-			'hz_ls_border_width'  => isset( $blockatts['hz_ls_border']['width'] ) && $blockatts['hz_ls_border']['width'] !== '0px' ? $blockatts['hz_ls_border']['width'] : '1px',
-			'hz_ls_border_radius' => isset( $blockatts['hz_ls_border_radius']) ? $blockatts['hz_ls_border_radius'] : '',
-			'hz_jl_border_color'  => isset( $blockatts['hz_jl_border']['color'] ) ? $blockatts['hz_jl_border']['color'] : '',
-			'hz_jl_border_width'  => isset( $blockatts['hz_jl_border']['width'] ) ? $blockatts['hz_jl_border']['width'] : '',
-			'hz_jl_border_radius' => isset( $blockatts['hz_jl_border_radius']) ? $blockatts['hz_jl_border_radius'] : '',
-			'hz_jl_padding'       => isset( $blockatts['hz_jl_padding'] ) ? $blockatts['hz_jl_padding'] : '',
-			'hz_bs_border_color' => isset( $blockatts['hz_bs_border']['color'] ) ? $blockatts['hz_bs_border']['color'] : '',
-			'hz_bs_border_width' => isset( $blockatts['hz_bs_border']['width'] ) ? $blockatts['hz_bs_border']['width'] : '',
-			'hz_bs_border_radius'=> isset( $blockatts['hz_bs_border_radius']) ? $blockatts['hz_bs_border_radius']: '',
-			'hz_bs_padding'       => isset( $blockatts['hz_bs_padding'] ) ? $blockatts['hz_bs_padding'] : '',
-			'hz_button_background_color'   => isset( $blockatts['hz_button_background_color'] ) ? $blockatts['hz_button_background_color'] : '',
-			'hz_button_text_color'         => isset( $blockatts['hz_button_text_color'] ) ? $blockatts['hz_button_text_color'] : '',
-		); 
-		
+			'listType'                   => isset( $blockatts['listType'] ) ? $blockatts['listType'] : '',
+			'selectedTerms'              => isset( $blockatts['selectedTerms'] ) ? $blockatts['selectedTerms'] : '',
+			'orderBy'                    => isset( $blockatts['orderBy'] ) ? $blockatts['orderBy'] : '',
+			'listings'                   => isset( $blockatts['listing_per_page'] ) ? $blockatts['listing_per_page'] : '',
+			'pagination'                 => isset( $blockatts['pagination'] ) ? $blockatts['pagination'] : '',
+			'hz_sf_border_color'         => isset( $blockatts['hz_sf_border']['color'] ) ? $blockatts['hz_sf_border']['color'] : '',
+			'hz_sf_border_width'         => isset( $blockatts['hz_sf_border']['width'] ) ? $blockatts['hz_sf_border']['width'] : '',
+			'hz_sf_padding'              => isset( $blockatts['hz_sf_padding'] ) ? $blockatts['hz_sf_padding'] : '',
+			'hz_sf_border_radius'        => isset( $blockatts['hz_sf_border_radius'] ) ? $blockatts['hz_sf_border_radius'] : '',
+			'hz_sidebar_width'           => isset( $blockatts['hz_sidebar_width'] ) ? $blockatts['hz_sidebar_width'] : '',
+			'block_id'                   => isset( $blockatts['block_id'] ) ? $blockatts['block_id'] : '',
+			'hz_ls_border_color'         => isset( $blockatts['hz_ls_border']['color'] ) ? $blockatts['hz_ls_border']['color'] : '',
+			'hz_ls_border_width'         => isset( $blockatts['hz_ls_border']['width'] ) && $blockatts['hz_ls_border']['width'] !== '0px' ? $blockatts['hz_ls_border']['width'] : '1px',
+			'hz_ls_border_radius'        => isset( $blockatts['hz_ls_border_radius'] ) ? $blockatts['hz_ls_border_radius'] : '',
+			'hz_jl_border_color'         => isset( $blockatts['hz_jl_border']['color'] ) ? $blockatts['hz_jl_border']['color'] : '',
+			'hz_jl_border_width'         => isset( $blockatts['hz_jl_border']['width'] ) ? $blockatts['hz_jl_border']['width'] : '',
+			'hz_jl_border_radius'        => isset( $blockatts['hz_jl_border_radius'] ) ? $blockatts['hz_jl_border_radius'] : '',
+			'hz_jl_padding'              => isset( $blockatts['hz_jl_padding'] ) ? $blockatts['hz_jl_padding'] : '',
+			'hz_bs_border_color'         => isset( $blockatts['hz_bs_border']['color'] ) ? $blockatts['hz_bs_border']['color'] : '',
+			'hz_bs_border_width'         => isset( $blockatts['hz_bs_border']['width'] ) ? $blockatts['hz_bs_border']['width'] : '',
+			'hz_bs_border_radius'        => isset( $blockatts['hz_bs_border_radius'] ) ? $blockatts['hz_bs_border_radius'] : '',
+			'hz_bs_padding'              => isset( $blockatts['hz_bs_padding'] ) ? $blockatts['hz_bs_padding'] : '',
+			'hz_button_background_color' => isset( $blockatts['hz_button_background_color'] ) ? $blockatts['hz_button_background_color'] : '',
+			'hz_button_text_color'       => isset( $blockatts['hz_button_text_color'] ) ? $blockatts['hz_button_text_color'] : '',
+		);
 
 		 /**
 		 * Filter the attribute set for the Job Listing block.
@@ -98,7 +97,7 @@ class AWSM_Job_Openings_Block {
 
 	public static function get_job_listing_view_class_block( $attributes = array() ) {
 		$view       = isset( $attributes['layout'] ) ? sanitize_text_field( $attributes['layout'] ) : 'list';
-		$view_class = 'awsm-b-job-listing-items'; 
+		$view_class = 'awsm-b-job-listing-items';
 
 		switch ( $view ) {
 			case 'grid':
@@ -158,7 +157,7 @@ class AWSM_Job_Openings_Block {
 		return $query_args;
 	}
 
-	public function awsm_block_posts_filters() { 
+	public function awsm_block_posts_filters() {
         // phpcs:disable WordPress.Security.NonceVerification.Missing
 		$filters = $filters_list = $attributes = array(); // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
 
@@ -178,7 +177,7 @@ class AWSM_Job_Openings_Block {
 					$filters[ $taxonomy ] = intval( $term_id );
 				}
 			}
-		} 
+		}
 
 		if ( isset( $_POST['awsm_job_specs_list'] ) ) {
 			$filters_list = $_POST['awsm_job_specs_list'];
@@ -229,7 +228,7 @@ class AWSM_Job_Openings_Block {
 			$attributes['orderBy'] = $_POST['orderby'];
 		}
 
-		$attributes = apply_filters( 'awsm_jobs_block_post_filters', $attributes, $_POST ); 
+		$attributes = apply_filters( 'awsm_jobs_block_post_filters', $attributes, $_POST );
 
 		$args = self::awsm_block_job_query_args( $filters, $attributes, array(), $filters_list );
 
@@ -281,8 +280,8 @@ class AWSM_Job_Openings_Block {
 			if ( isset( $_POST[ $field ] ) ) {
 				// If the field is JSON, decode it into an array
 				if ( in_array( $field, $json_fields, true ) ) {
-					$decoded = json_decode( stripslashes( $_POST[ $field ] ), true );
-					$attributes[ $field ] = is_array( $decoded ) ? $decoded : [];
+					$decoded              = json_decode( stripslashes( $_POST[ $field ] ), true );
+					$attributes[ $field ] = is_array( $decoded ) ? $decoded : array();
 				} else {
 					$attributes[ $field ] = sanitize_text_field( wp_unslash( $_POST[ $field ] ) );
 				}
@@ -314,73 +313,12 @@ class AWSM_Job_Openings_Block {
 		}
 
 		$html = ob_get_clean();
-
-		$block_style_variables = "
-		#{$styles['block_id']} {
-			--hz-sf-border-width: {$styles['border_width']};
-		--hz-sf-border-color: {$styles['border_color']};
-
-		--hz-sf-border-radius-topleft: {$styles['sf_border_radius_topleft']};
-		--hz-sf-border-radius-topright: {$styles['sf_border_radius_topright']};
-		--hz-sf-border-radius-bottomright: {$styles['sf_border_radius_bottomright']};
-		--hz-sf-border-radius-bottomleft: {$styles['sf_border_radius_bottomleft']};
-
-		--hz-sf-padding-left: {$styles['padding_left']};
-		--hz-sf-padding-right: {$styles['padding_right']};
-		--hz-sf-padding-top: {$styles['padding_top']};
-		--hz-sf-padding-bottom: {$styles['padding_bottom']};
-		--hz-sf-border-style: " . ( ! empty( $styles['border_width'] ) && $styles['border_width'] !== '0px' ? 'solid' : 'none' ) . ";
-
-		--hz-sidebar-width: {$styles['sidebar_width']};
-
-		--hz-ls-border-width: {$styles['border_width_field']};
-		--hz-ls-border-color: {$styles['border_color_field']};
-
-		--hz-ls-border-radius-topleft: {$styles['ls_border_radius_topleft']};
-		--hz-ls-border-radius-topright: {$styles['ls_border_radius_topright']};
-		--hz-ls-border-radius-bottomright: {$styles['ls_border_radius_bottomright']};
-		--hz-ls-border-radius-bottomleft: {$styles['ls_border_radius_bottomleft']};
-
-		--hz-ls-border-style: " . ( ! empty( $styles['border_width_field'] ) && $styles['border_width_field'] !== '0px' ? 'solid' : 'none' ) . ";
-
-		--hz-jl-border-width: {$styles['border_width_jobs']};
-		--hz-jl-border-color: {$styles['border_color_jobs']};
-
-		--hz-jl-border-radius-topleft: {$styles['jobs_border_radius_topleft']};
-		--hz-jl-border-radius-topright: {$styles['jobs_border_radius_topright']};
-		--hz-jl-border-radius-bottomright: {$styles['jobs_border_radius_bottomright']};
-		--hz-jl-border-radius-bottomleft: {$styles['jobs_border_radius_bottomleft']};
-
-		--hz-jl-padding-left: {$styles['padding_left_jobs']};
-		--hz-jl-padding-right: {$styles['padding_right_jobs']};
-		--hz-jl-padding-top: {$styles['padding_top_jobs']};
-		--hz-jl-padding-bottom: {$styles['padding_bottom_jobs']};
-		--hz-jl-border-style:   " . ( ! empty( $styles['border_width_jobs'] ) && $styles['border_width_jobs'] !== '0px' ? 'solid' : 'none' ) . ";
-
-		--hz-bs-border-width: {$styles['button_width_field']};
-		--hz-bs-border-color: {$styles['button_color_field']};
-
-		--hz-bs-border-radius-topleft: {$styles['button_border_radius_topleft']};
-		--hz-bs-border-radius-topright: {$styles['button_border_radius_topright']};
-		--hz-bs-border-radius-bottomright: {$styles['button_border_radius_bottomright']};
-		--hz-bs-border-radius-bottomleft: {$styles['button_border_radius_bottomleft']};
-		--hz-bs-border-style:   " . ( ! empty( $styles['button_width_field'] ) && $styles['button_width_field'] !== '0px' ? 'solid' : 'none' ) . ";
-
-		--hz-b-bg-color: {$styles['button_background_color']};
-		--hz-b-tx-color: {$styles['button_text_color']};
-
-		--hz-b-padding-left: {$styles['padding_left_button']};
-		--hz-b-padding-right: {$styles['padding_right_button']};
-		--hz-b-padding-top: {$styles['padding_top_button']};
-		--hz-b-padding-bottom: {$styles['padding_bottom_button']};
-		}
-		";
-		$block_style_variables = apply_filters( 'hz_ui_styles_css_variables', $block_style_variables, $styles );
-
-		wp_send_json_success([
-       	 	'html'  => $html,
-			'style' => "<style>{$block_style_variables}</style>",
-   		]);
+		
+		wp_send_json_success(
+			array(
+				'html'  => $html,
+			)
+		);
 		//wp_die();
 		// phpcs:enable
 	}
@@ -408,7 +346,8 @@ class AWSM_Job_Openings_Block {
 			$filters_list = is_array( $filters_list ) ? $filters_list : array();
 			$all_filters  = array_merge_recursive( $filters, $filters_list );
 
-			foreach ( $all_filters as $taxonomy => $terms ) { error_log( print_r($terms,1) );
+			foreach ( $all_filters as $taxonomy => $terms ) {
+				error_log( print_r( $terms, 1 ) );
 				if ( ! empty( $terms ) ) {
 					// Ensure terms are always an array and cleaned.
 					$terms = is_array( $terms ) ? array_values( array_filter( $terms ) ) : array( $terms );
@@ -428,7 +367,7 @@ class AWSM_Job_Openings_Block {
 
 		if ( ! empty( $tax_query ) ) {
 			$args['tax_query'] = $tax_query;
-		} 
+		}
 
 		// General query setup.
 		$list_per_page          = AWSM_Job_Openings::get_listings_per_page( $attributes );
@@ -483,7 +422,7 @@ class AWSM_Job_Openings_Block {
 		$attrs['listings']               = AWSM_Job_Openings::get_listings_per_page( $block_atts );
 		$attrs['awsm-layout']            = isset( $block_atts['layout'] ) ? $block_atts['layout'] : '';
 		$attrs['awsm-hide-expired-jobs'] = isset( $block_atts['hide_expired_jobs'] ) ? $block_atts['hide_expired_jobs'] : '';
-		
+
 		// Variables for style
 		$style_fields = array(
 			'hz_sf_border_width',
@@ -509,7 +448,7 @@ class AWSM_Job_Openings_Block {
 
 		foreach ( $style_fields as $field ) {
 			if ( array_key_exists( $field, $block_atts ) ) {
-				$value = $block_atts[ $field ];
+				$value           = $block_atts[ $field ];
 				$attrs[ $field ] = is_array( $value ) ? json_encode( $value, JSON_UNESCAPED_SLASHES ) : $value;
 			} else {
 				$attrs[ $field ] = '';
@@ -1015,7 +954,7 @@ class AWSM_Job_Openings_Block {
 
 								$filter_label = apply_filters(
 									'awsm_filter_block_label',
-									esc_html_x($spec_name, 'job filter', 'wp-job-openings' ),
+									esc_html_x( $spec_name, 'job filter', 'wp-job-openings' ),
 									$taxonomy,
 									$tax_details
 								);
@@ -1035,7 +974,7 @@ class AWSM_Job_Openings_Block {
 								}
 
 								$label_class_name = '';
-								if( self::is_edit_or_add_page() ){
+								if ( self::is_edit_or_add_page() ) {
 									$label_class_name = 'awsm-b-sr-only';
 								}
 
@@ -1085,9 +1024,9 @@ class AWSM_Job_Openings_Block {
 				$toggle_icon = '<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" version="1.1" preserveAspectRatio="xMinYMin"><path xmlns="http://www.w3.org/2000/svg" fill="rgb(9.803922%,9.803922%,9.803922%)" d="M 36.417969 19.9375 L 36.417969 17.265625 C 36.417969 16.160156 35.523438 15.265625 34.417969 15.265625 L 21.578125 15.265625 C 20.476562 15.265625 19.578125 16.160156 19.578125 17.265625 L 19.578125 19.9375 L 11 19.9375 L 11 26.9375 L 19.578125 26.9375 L 19.578125 30.105469 C 19.578125 31.210938 20.476562 32.105469 21.578125 32.105469 L 34.417969 32.105469 C 35.523438 32.105469 36.417969 31.210938 36.417969 30.105469 L 36.417969 26.9375 L 89 26.9375 L 89 19.9375 Z M 58.421875 43.578125 C 58.421875 42.476562 57.527344 41.578125 56.421875 41.578125 L 43.582031 41.578125 C 42.480469 41.578125 41.582031 42.476562 41.582031 43.578125 L 41.582031 46.5 L 11 46.5 L 11 53.5 L 41.582031 53.5 L 41.582031 56.421875 C 41.582031 57.527344 42.480469 58.421875 43.582031 58.421875 L 56.421875 58.421875 C 57.527344 58.421875 58.421875 57.527344 58.421875 56.421875 L 58.421875 53.5 L 89 53.5 L 89 46.5 L 58.421875 46.5 Z M 80.417969 70.140625 C 80.417969 69.035156 79.523438 68.140625 78.417969 68.140625 L 65.578125 68.140625 C 64.476562 68.140625 63.578125 69.035156 63.578125 70.140625 L 63.578125 73.0625 L 11 73.0625 L 11 80.0625 L 63.578125 80.0625 L 63.578125 82.984375 C 63.578125 84.085938 64.476562 84.984375 65.578125 84.984375 L 78.417969 84.984375 C 79.523438 84.984375 80.417969 84.085938 80.417969 82.984375 L 80.417969 80.0625 L 89 80.0625 L 89 73.0625 L 80.417969 73.0625 Z M 80.417969 70.140625"/></svg>';
 
 				$toggle_text_wrapper_class = 'awsm-filter-toggle-text-wrapper';
-				if ( $enable_search === 'enable' ) {
-					$toggle_text_wrapper_class .= ' awsm-b-sr-only';
-				}
+			if ( $enable_search === 'enable' ) {
+				$toggle_text_wrapper_class .= ' awsm-b-sr-only';
+			}
 				$toggle_control = sprintf( '<span class="%2$s">%1$s</span>%3$s', esc_html_x( 'Filter by', 'job filter', 'wp-job-openings' ), esc_attr( $toggle_text_wrapper_class ), $toggle_icon );
 				/**
 				 * Filters the HTML content for the specifications toggle button.
@@ -1095,25 +1034,25 @@ class AWSM_Job_Openings_Block {
 				 * @since 3.5.0
 				 *
 				 * @param string $toggle_control Toogle button HTML content.
-			    */
+				*/
 				$toggle_control = apply_filters( 'awsm_job_filters_block_toggle_btn', $toggle_control );
 
 				$filter_class_admin = '';
-				if ( self::is_edit_or_add_page() ) {
-					$filter_class_admin = ' awsm-b-filter-admin';
-				}
+			if ( self::is_edit_or_add_page() ) {
+				$filter_class_admin = ' awsm-b-filter-admin';
+			}
 
 				$custom_action_content_filter = '';
-				if ( ! empty( $custom_action_content ) ) {
-					$custom_action_content_filter = $custom_action_content;
-				}
+			if ( ! empty( $custom_action_content ) ) {
+				$custom_action_content_filter = $custom_action_content;
+			}
 
-				$specs_filter_content = sprintf( '<a href="#" class="awsm-b-filter-toggle" role="button" aria-pressed="false">%2$s</a>' . $custom_action_content_filter . '<div class="awsm-b-filter-items' . $filter_class_admin . '">%1$s</div>', $specs_filter_content, $toggle_control );  
+				$specs_filter_content = sprintf( '<a href="#" class="awsm-b-filter-toggle" role="button" aria-pressed="false">%2$s</a>' . $custom_action_content_filter . '<div class="awsm-b-filter-items' . $filter_class_admin . '">%1$s</div>', $specs_filter_content, $toggle_control );
 		}
 
 		$filter_content = sprintf(
 			'<form action="%2$s/wp-admin/admin-ajax.php" method="POST">%1$s</form>',
-			$search_content  . $specs_filter_content . $hidden_fields_content ,
+			$search_content . $specs_filter_content . $hidden_fields_content,
 			esc_url( site_url() )
 		);
 
