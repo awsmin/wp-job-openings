@@ -1053,7 +1053,7 @@ ul.awsm-error-message li {
 
 .awsm-b-job-more {
 	background-color: var(--hz-b-bg-color, #2ba74a); /* fallback for filled */
-	color: var(--hz-b-tx-color, #ffffff);
+	color: var(--hz-b-tx-color, #ffffff) !important;
 	border: var(--hz-bs-border-width, 1px) solid var(--hz-bs-border-color, #d5d5d5);
 	border-radius: var(--hz-bs-border-radius-topright, 5px) 
 		var(--hz-bs-border-radius-topleft, 5px) 
