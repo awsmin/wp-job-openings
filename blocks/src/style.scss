@@ -289,9 +289,7 @@ a.awsm-b-job-item {
 	text-decoration: none !important;
 	outline: none !important;
 	transition: all 0.3s ease;
-	//border-radius: 5px;
-
-	border-radius: var(--hz-jl-border-radius, 0px);
+	border-radius: var(--hz-jl-border-radius-topright,5px) var(--hz-jl-border-radius-topleft,5px) var(--hz-jl-border-radius-bottomright,5px) var(--hz-jl-border-radius-bottomleft,5px);
 	border-width: var(--hz-jl-border-width, 0px);
 	border-style: var(--hz-jl-border-style, none);
 	border-color: var(--hz-jl-border-color, #dddfe3);
