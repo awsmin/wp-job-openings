@@ -137,7 +137,7 @@ class AWSM_Job_Openings_Filters {
 					 *
 					 * @param array $terms_args Array of arguments.
 					 */
-					
+
 					$terms_args = apply_filters(
 						'awsm_jobs_spec_terms_args',
 						array(
