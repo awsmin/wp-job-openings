@@ -1226,7 +1226,7 @@ class AWSM_Job_Openings_Settings {
 			foreach ( $filters as $filter ) {
 				if ( $spec_key === $filter['taxonomy'] ) {
 					if ( ! empty( $filter['icon'] ) ) {
-						$icon_option = sprintf( '<option value="%1$s" selected><i class="awsm-job-icon-%1$s"></i> %1$s</option>', esc_attr( $filter['icon'] ) );
+						$icon_option = sprintf( '<option value="%1$s" selected><i class="awsm-job-icon-%1$s"></i> %1$s</option>', sanitize_html_class( $filter['icon'] ) );
 					}
 				}
 			}
