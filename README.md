@@ -95,6 +95,9 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 
 ## Changelog
 
+**V 3.5.4 - 2025-07-02**
+* Security fixes and code improvements.
+
 **V 3.5.3 - 2025-06-10**
 * Improved: Removed `load_plugin_textdomain()` usage for compatibility with WordPress 6.8+ just-in-time translation loading.
 * Minor bug fixes and code improvements.
