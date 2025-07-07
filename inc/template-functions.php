@@ -388,6 +388,18 @@ if ( ! function_exists( 'awsm_job_form_submit_btn' ) ) {
 	}
 }
 
+if ( ! function_exists( 'do_dynamic_filter_form_action_shortcode' ) ) {
+	function do_dynamic_filter_form_action_shortcode( $shortcode_atts ) {
+		$placement = isset( $shortcode_atts['placement'] ) ? $shortcode_atts['placement'] : 'slide';
+
+		$action_name = ( $placement === 'top' )
+			? 'awsm_block_filter_form'
+			: 'awsm_block_filter_form_slide';
+
+		do_action( $action_name, $shortcode_atts );
+	}
+}
+
 if ( ! function_exists( 'awsm_jobs_featured_image' ) ) {
 	function awsm_jobs_featured_image( $echo = true, $size = 'thumbnail', $attr = '' ) {
 		$content                = '';

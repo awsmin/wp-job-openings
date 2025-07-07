@@ -95,7 +95,10 @@ a.awsm-b-job-item {
 	margin-bottom: 30px;
 	box-shadow: 0 1px 4px 0 rgb(0 0 0 / 5%);
 	border: var(--hz-jl-border-width, 1px) solid var(--hz-jl-border-color, #dddfe3);
-	border-radius: var(--hz-bs-border-radius, 5px);
+	border-radius: var(--hz-jl-border-radius-topright, 0px) 
+		var(--hz-jl-border-radius-topleft, 0px) 
+		var(--hz-jl-border-radius-bottomright, 0px) 
+		var(--hz-jl-border-radius-bottomleft, 0px);
 	display: -webkit-box;
 	display: -moz-box;
 	display: -ms-flexbox;
@@ -236,7 +239,10 @@ a.awsm-b-job-item {
     padding-right: 48px;
     min-height: 48px;
 	border: var(--hz-ls-border-width, 1px) solid var(--hz-ls-border-color, #ccc);
-	border-radius: var(--hz-ls-border-radius, 5px) !important;
+	border-radius: var(--hz-ls-border-radius-topright, 5px) 
+			var(--hz-ls-border-radius-topleft, 5px) 
+			var(--hz-ls-border-radius-bottomright, 5px) 
+			var(--hz-ls-border-radius-bottomleft, 5px) !important;
 }
 .awsm-b-filter-item-search-in {
 	position: relative;
@@ -283,9 +289,7 @@ a.awsm-b-job-item {
 	text-decoration: none !important;
 	outline: none !important;
 	transition: all 0.3s ease;
-	//border-radius: 5px;
-
-	border-radius: var(--hz-jl-border-radius, 0px);
+	border-radius: var(--hz-jl-border-radius-topright,5px) var(--hz-jl-border-radius-topleft,5px) var(--hz-jl-border-radius-bottomright,5px) var(--hz-jl-border-radius-bottomleft,5px);
 	border-width: var(--hz-jl-border-width, 0px);
 	border-style: var(--hz-jl-border-style, none);
 	border-color: var(--hz-jl-border-color, #dddfe3);
@@ -319,6 +323,10 @@ a.awsm-b-job-item {
 
 .awsm-b-lists {
 	border: var(--hz-jl-border-width, 1px) solid var(--hz-jl-border-color, #d5d5d5);
+	border-radius: var(--hz-jl-border-radius-topright, 0px) 
+		var(--hz-jl-border-radius-topleft, 0px) 
+		var(--hz-jl-border-radius-bottomright, 0px) 
+		var(--hz-jl-border-radius-bottomleft, 0px);
 }
 
 .awsm-b-list-item {
@@ -763,7 +771,7 @@ ul.awsm-error-message li {
 		margin-right: -15px;
 	}
 	.awsm-job-2-col .awsm-b-filter-wrap{
-		width: var(--hz-sidebar-width, 33.333%) ;
+		width: var(--hz-sidebar-width, 33.333%);
 		padding-left: 15px;  /** Variable assigned  **/
 		padding-right: 15px;  /** Variable assigned  **/
 		margin-left: 0;  /** Variable assigned  **/
@@ -1043,7 +1051,7 @@ ul.awsm-error-message li {
 
 .awsm-b-job-more {
 	background-color: var(--hz-b-bg-color, #2ba74a); /* fallback for filled */
-	color: var(--hz-b-tx-color, #ffffff);
+	color: var(--hz-b-tx-color, #ffffff) !important;
 	border: var(--hz-bs-border-width, 1px) solid var(--hz-bs-border-color, #d5d5d5);
 	border-radius: var(--hz-bs-border-radius-topright, 5px) 
 		var(--hz-bs-border-radius-topleft, 5px) 
@@ -1060,6 +1068,7 @@ ul.awsm-error-message li {
 	font-size: 14px;
 	line-height: 1;
 	text-decoration: none;
+	border-style:var(--hz-bs-border-style,none);
 }
 
 

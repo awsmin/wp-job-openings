@@ -89,8 +89,8 @@
       "type": "string"
     },
     "hz_sidebar_width": {
-      "type": "string",
-      "default": "33.33%"
+      "type": "number",
+      "default": "33.33"
     },
     "hz_ls_border": {
       "type": "object",
@@ -166,9 +166,7 @@
     }
   },
   "example": {},
-  "supports": {
-    "html": false
-  },
+  "supports": {},
   "textdomain": "wp-job-openings",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",

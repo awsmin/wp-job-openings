@@ -313,52 +313,10 @@ class AWSM_Job_Openings_Block {
 		}
 
 		$html = ob_get_clean();
-
-		$block_style_variables = "
-		#{$styles['block_id']} {
-			--hz-sf-border-width: {$styles['border_width']};
-			--hz-sf-border-color: {$styles['border_color']};
-			--hz-sf-border-radius: {$styles['border_radius']};
-			--hz-sf-padding-left: {$styles['padding_left']};
-			--hz-sf-padding-right: {$styles['padding_right']};
-			--hz-sf-padding-top: {$styles['padding_top']};
-			--hz-sf-padding-bottom: {$styles['padding_bottom']};
-			--hz-sf-border-style: " . ( ! empty( $styles['border_width'] ) && $styles['border_width'] !== '0px' ? 'solid' : 'none' ) . ";
-
-			--hz-sidebar-width: {$styles['sidebar_width']};
-
-			--hz-ls-border-width: {$styles['border_width_field']};
-			--hz-ls-border-color: {$styles['border_color_field']};
-			--hz-ls-border-radius: {$styles['border_radius_field']};
-			--hz-ls-border-style: " . ( ! empty( $styles['border_width_field'] ) && $styles['border_width_field'] !== '0px' ? 'solid' : 'none' ) . ";
-
-			--hz-jl-border-width: {$styles['border_width_jobs']};
-			--hz-jl-border-color: {$styles['border_color_jobs']};
-			--hz-jl-border-radius: {$styles['border_radius_jobs']};
-			--hz-jl-padding-left: {$styles['padding_left_jobs']};
-			--hz-jl-padding-right: {$styles['padding_right_jobs']};
-			--hz-jl-padding-top: {$styles['padding_top_jobs']};
-			--hz-jl-padding-bottom: {$styles['padding_bottom_jobs']};
-			--hz-jl-border-style: " . ( ! empty( $styles['border_width_jobs'] ) && $styles['border_width_jobs'] !== '0px' ? 'solid' : 'none' ) . ";
-
-			--hz-bs-border-width: {$styles['button_width_field']};
-			--hz-bs-border-color: {$styles['button_color_field']};
-			--hz-bs-border-radius: {$styles['button_radius_field']};
-			--hz-b-bg-color: {$styles['button_background_color']};
-			--hz-b-tx-color: {$styles['button_text_color']};
-
-			--hz-b-padding-left: {$styles['padding_left_button']};
-			--hz-b-padding-right: {$styles['padding_right_button']};
-			--hz-b-padding-top: {$styles['padding_top_button']};
-			--hz-b-padding-bottom: {$styles['padding_bottom_button']};
-		}
-		";
-		$block_style_variables = apply_filters( 'hz_ui_styles_css_variables', $block_style_variables, $styles );
-
+		
 		wp_send_json_success(
 			array(
 				'html'  => $html,
-				'style' => "<style>{$block_style_variables}</style>",
 			)
 		);
 		//wp_die();
@@ -382,7 +340,6 @@ class AWSM_Job_Openings_Block {
 		if ( isset( $attributes['selectedTerms'] ) && ! empty( $attributes['selectedTerms'] ) ) {
 			$filters_list = $attributes['selectedTerms'];
 		}
-
 		// Process taxonomy filters.
 		if ( ! empty( $filters ) || ! empty( $filters_list ) ) {
 			$filters      = is_array( $filters ) ? $filters : array();
@@ -390,6 +347,7 @@ class AWSM_Job_Openings_Block {
 			$all_filters  = array_merge_recursive( $filters, $filters_list );
 
 			foreach ( $all_filters as $taxonomy => $terms ) {
+				error_log( print_r( $terms, 1 ) );
 				if ( ! empty( $terms ) ) {
 					// Ensure terms are always an array and cleaned.
 					$terms = is_array( $terms ) ? array_values( array_filter( $terms ) ) : array( $terms );
@@ -1020,7 +978,20 @@ class AWSM_Job_Openings_Block {
 									$label_class_name = 'awsm-b-sr-only';
 								}
 
-								$dropdown_content = sprintf( '<div class="awsm-b-filter-item" data-filter="%2$s"><label for="awsm-%1$s-filter-option%5$s" class="' . $label_class_name . '">%3$s</label><select name="awsm_job_spec[%1$s][]" class="awsm-b-filter-option ' . $spec_multiple_class . ' awsm-%1$s-filter-option ' . $filter_class_admin_select_control . '" id="awsm-%1$s-filter-option%5$s" aria-label="%3$s" ' . $multiple_for_spec . '><option value="">%3$s</option>%4$s</select></div>', esc_attr( $taxonomy ), esc_attr( $filter_key . '_spec' ), esc_html( $filter_label ), $options_content, esc_attr( $uid ), esc_html( $main_spec_label ) );
+								$dropdown_content = sprintf(
+									'<div class="awsm-b-filter-item" data-filter="%2$s">'
+									. ( self::is_edit_or_add_page() ? '<div>%3$s</div>' : '' ) .
+									'<label for="awsm-%1$s-filter-option%5$s" class="' . $label_class_name . '">%3$s</label>
+									<select name="awsm_job_spec[%1$s][]" class="awsm-b-filter-option ' . $spec_multiple_class . ' awsm-%1$s-filter-option ' . $filter_class_admin_select_control . '" id="awsm-%1$s-filter-option%5$s" aria-label="%3$s" ' . $multiple_for_spec . '>
+									<option value="">%3$s</option>%4$s
+									</select>
+									</div>',
+									esc_attr( $taxonomy ),
+									esc_attr( $filter_key . '_spec' ),
+									esc_html( $filter_label ),
+									$options_content,
+									esc_attr( $uid )
+								);
 								/**
 								 * Filter the job filter dropdown content.
 								 *
@@ -1078,18 +1049,6 @@ class AWSM_Job_Openings_Block {
 
 				$specs_filter_content = sprintf( '<a href="#" class="awsm-b-filter-toggle" role="button" aria-pressed="false">%2$s</a>' . $custom_action_content_filter . '<div class="awsm-b-filter-items' . $filter_class_admin . '">%1$s</div>', $specs_filter_content, $toggle_control );
 		}
-
-		/* $custom_action_content_filter = '';
-		if ( ! empty( $custom_action_content ) ) {
-			$custom_action_content_filter = $custom_action_content;
-		}
-		 */
-		// Combine search and filter content into the form
-		/* $filter_content = sprintf(
-			'<form action="%2$s/wp-admin/admin-ajax.php" method="POST">%1$s</form>',
-			$search_content . $custom_action_content_filter . '<div class="awsm-b-filter-items ' . $filter_class_admin . '">' . $specs_filter_content . $hidden_fields_content . '</div>',
-			esc_url( site_url() )
-		); */
 
 		$filter_content = sprintf(
 			'<form action="%2$s/wp-admin/admin-ajax.php" method="POST">%1$s</form>',

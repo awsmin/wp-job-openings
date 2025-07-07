@@ -38,7 +38,7 @@ if ( ! function_exists( 'awsm_block_job_filters_explode' ) ) {
 
 if ( ! function_exists( 'get_block_filtered_job_terms' ) ) {
 	function get_block_filtered_job_terms( $attributes ) {
-		$filter_suffix  = '_spec';
+		/* $filter_suffix  = '_spec';
 		$filters        = explode( ',', $attributes['filter_options'] );
 		$filtered_terms = array();
 
@@ -61,6 +61,33 @@ if ( ! function_exists( 'get_block_filtered_job_terms' ) ) {
 			}
 		}
 
+		return $filtered_terms; */
+		$filter_suffix  = '_spec';
+		$filters        = $attributes['filter_options'];
+		$filtered_terms = array();
+
+		error_log( json_encode( 'enters get_block_filtered_job_terms', JSON_PRETTY_PRINT ) );
+
+		if ( ! empty( $filters ) && is_array( $filters ) ) {
+			foreach ( $filters as $filter ) {
+				if ( ! empty( $filter['specKey'] ) ) {
+					$taxonomy           = $filter['specKey'];
+					$current_filter_key = str_replace( '-', '__', $taxonomy ) . $filter_suffix;
+
+					if ( isset( $_GET[ $current_filter_key ] ) ) {
+						$term_slug = sanitize_title( $_GET[ $current_filter_key ] );
+						$term      = get_term_by( 'slug', $term_slug, $taxonomy );
+
+						if ( $term && ! is_wp_error( $term ) ) {
+							$filtered_terms[ $taxonomy ] = $term;
+						} else {
+							$filtered_terms[ $taxonomy ] = null;
+						}
+					}
+				}
+			}
+		}
+
 		return $filtered_terms;
 	}
 }
@@ -71,15 +98,17 @@ if ( ! function_exists( 'awsm_block_jobs_query' ) ) {
 		$is_term_or_slug = array();
 		$filter_suffix   = '_spec';
 
+		$filter_options_array = $attributes['filter_options'];
+
 		//$filter_options_array = explode( ',', $attributes['filter_options'] );
 
-		if ( is_string( $attributes['filter_options'] ) ) {
+		/* if ( is_string( $attributes['filter_options'] ) ) {
 			$filter_options_array = explode( ',', $attributes['filter_options'] );
 		} else {
 			$filter_options_array = array(); // Or handle the case as per your requirement
 		}
-
-		if ( ! empty( $filter_options_array ) ) {
+		*/
+		/* if ( ! empty( $filter_options_array ) ) {
 			foreach ( $filter_options_array as $filter ) {
 				$current_filter_key = str_replace( '-', '__', $filter ) . $filter_suffix;
 				if ( isset( $_GET[ $current_filter_key ] ) ) {
@@ -91,6 +120,28 @@ if ( ! function_exists( 'awsm_block_jobs_query' ) ) {
 					} else {
 						$query_args[ $filter ]      = $term_slug;
 						$is_term_or_slug[ $filter ] = 'slug';
+					}
+				}
+			}
+		} */
+
+		if ( ! empty( $filter_options_array ) ) {
+			foreach ( $filter_options_array as $filter ) {
+				if ( ! empty( $filter['specKey'] ) ) {
+					$taxonomy           = $filter['specKey'];
+					$current_filter_key = str_replace( '-', '__', $taxonomy ) . $filter_suffix;
+
+					if ( isset( $_GET[ $current_filter_key ] ) ) {
+						$term_slug = sanitize_title( $_GET[ $current_filter_key ] );
+						$term      = get_term_by( 'slug', $term_slug, $taxonomy );
+
+						if ( $term && ! is_wp_error( $term ) ) {
+							$query_args[ $taxonomy ]      = $term->term_id;
+							$is_term_or_slug[ $taxonomy ] = 'term_id';
+						} else {
+							$query_args[ $taxonomy ]      = $term_slug;
+							$is_term_or_slug[ $taxonomy ] = 'slug';
+						}
 					}
 				}
 			}
@@ -346,7 +397,7 @@ if ( ! function_exists( 'hz_get_sf_styles' ) ) {
 
 			'button_width_field'               => ! empty( $attributes['hz_bs_border_width'] ) && $attributes['hz_bs_border_width'] !== '0px'
 			? $attributes['hz_bs_border_width']
-			: '1px',
+			: '',
 
 			'button_color_field'               => ! empty( $attributes['hz_bs_border_color'] )
 			? $attributes['hz_bs_border_color']
@@ -423,5 +474,58 @@ if ( ! function_exists( 'awsm_b_job_more_details' ) ) {
 		);
 
 		echo apply_filters( 'awsm_b_jobs_listing_details_link', $more_dtls_link, $view ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	}
+}
+
+if ( ! function_exists( 'do_dynamic_filter_form_action' ) ) {
+	function do_dynamic_filter_form_action( $attributes ) {
+		$placement = isset( $attributes['placement'] ) ? $attributes['placement'] : 'slide';
+
+		$action_name = ( $placement === 'top' )
+			? 'awsm_block_filter_form'
+			: 'awsm_block_filter_form_slide';
+
+		do_action( $action_name, $attributes );
+	}
+}
+
+if ( ! function_exists( 'render_awsm_block_job_wrap' ) ) {
+	function render_awsm_block_job_wrap( $attributes, $block_id = '', $placement_sidebar_class = '', $show_filter = true ) {
+		$placement = isset( $attributes['placement'] ) ? $attributes['placement'] : 'top';
+
+		if ( $placement === 'top' ) {
+			?>
+			<div class="awsm-b-job-wrap<?php awsm_jobs_wrapper_class(); ?>" id="<?php echo esc_attr( $block_id ); ?>">
+				<?php
+					do_dynamic_filter_form_action( $attributes );
+					do_action( 'awsm_block_form_outside', $attributes );
+				?>
+				<div class="awsm-b-job-listings"<?php awsm_block_jobs_data_attrs( array(), $attributes ); ?>>
+					<div <?php awsm_block_jobs_view_class( '', $attributes ); ?>>
+						<?php include get_awsm_jobs_template_path( 'block-main', 'block-files' ); ?>
+					</div>
+				</div>
+			</div>
+			<?php
+		} else {
+			?>
+			<div class="awsm-b-job-wrap<?php awsm_jobs_wrapper_class(); ?> awsm-job-form-plugin-style <?php echo esc_attr( $placement_sidebar_class ); ?>" id="<?php echo esc_attr( $block_id ); ?>">
+				<?php if ( $show_filter ) : ?>
+					<div class="awsm-b-filter-wrap awsm-jobs-alerts-on">
+						<?php
+							do_dynamic_filter_form_action( $attributes );
+							do_action( 'awsm_block_form_outside', $attributes );
+						?>
+					</div>
+				<?php endif; ?>
+
+				<div class="awsm-b-job-listings"<?php awsm_block_jobs_data_attrs( array(), $attributes ); ?>>
+					<div <?php echo awsm_block_jobs_view_class( 'custom-class', $attributes ); ?>>
+						<?php include get_awsm_jobs_template_path( 'block-main', 'block-files' ); ?>
+					</div>
+				</div>
+			</div>
+			<?php
+		}
 	}
 }
