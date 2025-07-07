@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$attributes   = isset( $attributes ) ? $attributes : array(); 
+$attributes   = isset( $attributes ) ? $attributes : array();
 $view         = isset( $attributes['layout'] ) ? $attributes['layout'] : get_option( 'awsm_jobs_listing_view' );
 $awsm_filters = get_option( 'awsm_jobs_filter' );
 //$listing_specs = isset( $attributes['other_options'] ) ? $attributes['other_options'] : '';
@@ -88,7 +88,7 @@ $block_style_variables = "
 		--hz-b-padding-bottom: {$styles['padding_bottom_button']};
 	}
 	";
-	
+
 	echo apply_filters( 'hz_ui_styles_css_variables', $block_style_variables, $styles );
 
 ?>
@@ -100,7 +100,7 @@ while ( $query->have_posts() ) {
 	$query->the_post();
 	$job_details = get_awsm_job_details();
 
-	$attrs  = awsm_jobs_block_listing_item_class( array( "awsm-b-{$view}-item" ) ); 
+	$attrs  = awsm_jobs_block_listing_item_class( array( "awsm-b-{$view}-item" ) );
 	$attrs .= sprintf( ' id="awsm-b-%1$s-item-%2$s"', esc_attr( $view ), esc_attr( $job_details['id'] ) );
 	echo '<div ' . $attrs . '>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	?>
