@@ -242,11 +242,11 @@ ul.awsm-list-inline label {
 	position: absolute;
 	left: 0;
 	top: calc(50% - 3px);
+	transition: all 0.3s ease;
 }
 
 .awsm-acc-head.on h3::before {
-	border-width: 0 5px 6px;
-	border-color: transparent transparent #000;
+	transform:  rotate(180deg);
 }
 
 .awsm-acc-form-switch .awsm-acc-head {
