@@ -131,6 +131,7 @@ class AWSM_Job_Openings_Form {
 		return $form_fields;
 	}
 
+
 	public function display_dynamic_fields( $form_attrs ) {
 		$dynamic_form_fields = $this->dynamic_form_fields( $form_attrs );
 		if ( ! empty( $dynamic_form_fields ) ) {
@@ -534,8 +535,20 @@ class AWSM_Job_Openings_Form {
 						$attach_id       = wp_insert_attachment( $attachment_data, $movefile['file'], $application_id, true );
 
 						if ( ! is_wp_error( $attach_id ) ) {
+							// Generate attachment metadata
 							$attach_data = wp_generate_attachment_metadata( $attach_id, $movefile['file'] );
 							wp_update_attachment_metadata( $attach_id, $attach_data );
+
+							// Save the actual file name as a meta field for the attachment
+							$original_file_name = isset( $attachment['name'] ) ? sanitize_text_field( $attachment['name'] ) : '';
+
+							if ( ! empty( $original_file_name ) ) {
+								update_post_meta( $attach_id, 'awsm_actual_file_name', $original_file_name );
+								$updated_meta = get_post_meta( $attach_id, 'awsm_actual_file_name', true );
+
+							}
+
+							// Add the applicant details as meta data
 							$applicant_details = array(
 								'awsm_job_id'           => $job_id,
 								'awsm_apply_for'        => html_entity_decode( esc_html( get_the_title( $job_id ) ) ),
@@ -549,9 +562,11 @@ class AWSM_Job_Openings_Form {
 							if ( ! empty( $agree_privacy_policy ) ) {
 								$applicant_details['awsm_agree_privacy_policy'] = $agree_privacy_policy;
 							}
+
 							foreach ( $applicant_details as $meta_key => $meta_value ) {
 								update_post_meta( $application_id, $meta_key, $meta_value );
 							}
+
 							// Now, send notification email
 							$applicant_details['application_id'] = $application_id;
 							$this->notification_email( $applicant_details );
@@ -988,4 +1003,19 @@ class AWSM_Job_Openings_Form {
 			}
 		}
 	}
+
+	public function get_attachment_label( $applicant_job_id = null ) {
+
+		if ( has_filter( 'awsm_jobs_application_attachment_label' ) ) {
+			$filtered_label = apply_filters( 'awsm_jobs_application_attachment_label', $applicant_job_id );
+
+			if ( $filtered_label !== null ) {
+				return $filtered_label;
+			}
+		}
+		$form_fields = $this->dynamic_form_fields( $applicant_job_id );
+		return isset( $form_fields['awsm_file']['label'] ) ? $form_fields['awsm_file']['label'] : __( 'Upload CV/Resume', 'wp-job-openings' );
+
+	}
+
 }

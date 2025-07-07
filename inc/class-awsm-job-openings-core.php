@@ -24,6 +24,8 @@ class AWSM_Job_Openings_Core {
 		// WooCommerce - Allow the backend access for users with HR Role.
 		add_filter( 'woocommerce_disable_admin_bar', array( $this, 'woocommerce_disable_backend_access' ) );
 		add_filter( 'woocommerce_prevent_admin_access', array( $this, 'woocommerce_disable_backend_access' ) );
+		add_filter( 'enter_title_here', array( $this, 'change_add_title_for_awsm_job_openings' ), 10, 2 );
+
 	}
 
 	public static function init() {
@@ -117,6 +119,8 @@ class AWSM_Job_Openings_Core {
 			return;
 		}
 
+		$application_count = $this->get_unviewed_applications_count();
+
 		$labels = array(
 			'name'               => __( 'Applications', 'wp-job-openings' ),
 			'singular_name'      => __( 'Application', 'wp-job-openings' ),
@@ -125,6 +129,13 @@ class AWSM_Job_Openings_Core {
 			'search_items'       => __( 'Search Applications', 'wp-job-openings' ),
 			'not_found'          => __( 'No Applications found', 'wp-job-openings' ),
 			'not_found_in_trash' => __( 'No Applications found in Trash', 'wp-job-openings' ),
+			'all_items'          => $application_count
+			? sprintf(
+			/* translators: Number of applications */
+				__( 'Applications %s', 'wp-job-openings' ),
+				'<span class="awaiting-mod">' . $application_count . '</span>'
+			)
+			: __( 'Applications', 'wp-job-openings' ),
 		);
 
 		/**
@@ -152,6 +163,32 @@ class AWSM_Job_Openings_Core {
 		);
 
 		register_post_type( 'awsm_job_application', $args );
+	}
+
+	public static function get_unviewed_applications_count() {
+		$args = array(
+			'post_type'   => 'awsm_job_application',
+			'post_status' => 'publish',
+			'meta_query'  => array(
+				'relation' => 'OR',
+				array(
+					'key'     => 'awsm_application_viewed',
+					'value'   => '0',
+					'type'    => 'numeric',
+					'compare' => '=',
+				),
+				array(
+					'key'     => 'awsm_application_viewed',
+					'compare' => 'NOT EXISTS',
+				),
+			),
+			'fields'      => 'ids',
+		);
+
+		$query          = new WP_Query( $args );
+		$unviewed_count = $query->found_posts;
+
+		return $unviewed_count;
 	}
 
 	private function get_caps() {
@@ -428,4 +465,12 @@ class AWSM_Job_Openings_Core {
 		}
 		return $disable;
 	}
+
+	public function change_add_title_for_awsm_job_openings( $title, $post ) {
+		if ( $post->post_type === 'awsm_job_openings' ) {
+			$title = 'Add Job Title';
+		}
+		return $title;
+	}
+
 }

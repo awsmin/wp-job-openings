@@ -90,7 +90,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							'text'  => __( 'Plugin Template', 'wp-job-openings' ),
 						),
 					),
-					'default_value' => 'plugin',
+					'default_value' => 'theme',
 				),
 				array(
 					'name'    => 'awsm_jobs_listing_view',
@@ -123,6 +123,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							),
 						),
 					),
+
 					'value'   => $listing_view,
 				),
 				array(
@@ -170,7 +171,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'type'        => 'checkbox',
 					'choices'     => array(
 						array(
-							'value' => 'enable',
+							'value' => 'enabled',
 							'text'  => __( 'Enable job search field in job listing', 'wp-job-openings' ),
 						),
 					),

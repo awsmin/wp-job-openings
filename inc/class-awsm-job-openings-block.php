@@ -176,9 +176,21 @@ class AWSM_Job_Openings_Block {
 					$terms_args = apply_filters(
 						'awsm_filter_block_spec_terms_args',
 						array(
-							'taxonomy'   => $taxonomy,
-							'orderby'    => 'name',
-							'hide_empty' => true,
+							'taxonomy' => $taxonomy,
+							'orderby' => 'meta_value_num',
+							'meta_query' => array(
+								'relation' => 'OR',
+								array(
+									'key' => 'term_order',
+									'compare' => 'EXISTS'
+								),
+								array(
+									'key' => 'term_order',
+									'compare' => 'NOT EXISTS'
+								)
+							),
+							'order' => 'ASC',
+							'hide_empty' => false,
 						)
 					);
 						$terms  = get_terms( $terms_args );
@@ -448,22 +460,24 @@ class AWSM_Job_Openings_Block {
 		// phpcs:enable
 	}
 
-	public static function awsm_block_job_query_args( $filters = array(), $attributes = array() ) {
+	public static function awsm_block_job_query_args( $filters = array(), $attributes = array(), $is_term_or_slug = array() ) {
 		$args = array();
 		if ( is_tax() ) {
-			$q_obj    = get_queried_object();
-			$taxonomy = $q_obj->taxonomy;
-			$term_id  = $q_obj->term_id;
-			$filters  = array( $taxonomy => $term_id );
+			$q_obj                        = get_queried_object();
+			$taxonomy                     = $q_obj->taxonomy;
+			$term_id                      = $q_obj->term_id;
+			$filters                      = array( $taxonomy => $term_id );
+			$is_term_or_slug[ $taxonomy ] = 'term_id';
 		}
 
 		if ( ! empty( $filters ) ) {
-			foreach ( $filters as $taxonomy => $term_id ) {
-				if ( ! empty( $term_id ) ) {
+			foreach ( $filters as $taxonomy => $value ) {
+				if ( ! empty( $value ) ) {
+					$field_type          = isset( $is_term_or_slug[ $taxonomy ] ) ? $is_term_or_slug[ $taxonomy ] : 'term_id';
 					$spec                = array(
 						'taxonomy' => $taxonomy,
-						'field'    => 'term_id',
-						'terms'    => $term_id,
+						'field'    => $field_type,
+						'terms'    => (array) $value,
 					);
 					$args['tax_query'][] = $spec;
 				}

@@ -502,6 +502,7 @@ jQuery(document).ready(function($) {
 		});
 	});
 
+	/*================ Setup page ================*/
 	$('#awsm-job-setup-form').on('submit', function(e) {
 		e.preventDefault();
 		$('#awsm-jobs-setup-btn').prop('disabled', true);
@@ -528,4 +529,203 @@ jQuery(document).ready(function($) {
 			$('#awsm-jobs-setup-btn').prop('disabled', false);
 		});
 	});
+	
+
+	function awsm_next_prev(ai, ni, i) {
+	    if (ni.length === 0) {
+	        return;
+	    }else{
+	        ai.removeClass('active');
+	        ni.addClass('active');
+	    }
+	   if(i > 0){
+	        $('.awsm-job-setup-back').addClass('active');
+	    }else{
+	        $('.awsm-job-setup-back').removeClass('active');
+	    }
+	    $('.awsm-job-setup-form-head ul li').removeClass('active');
+	    $('.awsm-job-setup-form-head ul li').eq(i).addClass('active');
+	}
+
+	$(document).on('click', '.awsm-job-setup-button-next', function(e){
+	    e.preventDefault();
+	    var $ai = $('.awsm-job-setup-form-item.active');
+	    var $ni = $ai.next();
+	    var $i = $('.awsm-job-setup-form-item').index($ni);
+
+	    $ni.find('.awsm-job-form-control').focus();
+
+	    if($i == 1){
+	            var name = $('#awsm_job_company_name').val();
+	            if(name === ''){
+	                $('#awsm-jobs-setup-btn').eq(0).click();
+	                return false;
+	            }
+	        }
+	    if($i == 2){
+	        var email = $('#awsm_hr_email_address').val();
+	            if(email === '' || AwsmIsEmail(email) === false){
+	                $('#awsm-jobs-setup-btn').eq(0).click();
+	                return false;
+	            }else{
+	                $('.awsm-job-setup-button-next').removeClass('active');
+	                $('#awsm-jobs-setup-btn').addClass('active');
+	            }
+	    }
+	    awsm_next_prev($ai,$ni,$i);
+	    $('.awsm-job-setup-form-main-in').css('transform', 'translateY(-'+ $i * 33.3333+'%)');
+	    $(this).addClass('disabled');
+	    setTimeout(function () {
+             $('.awsm-job-setup-button-next').removeClass('disabled');
+        }, 500);
+	});
+	$(document).on('click', '.awsm-job-setup-back',  function(e){
+		e.preventDefault();
+	    var $ai = $('.awsm-job-setup-form-item.active');
+	    var $ni = $ai.prev();
+	    var $i = $('.awsm-job-setup-form-item').index($ni);
+	    $ni.find('.awsm-job-form-control').focus();
+	    if($i == 1){
+	        $('.awsm-job-setup-button-next').addClass('active');
+	        $('#awsm-jobs-setup-btn').removeClass('active');
+	    }
+	    awsm_next_prev($ai,$ni,$i);
+	    $('.awsm-job-setup-form-main-in').css('transform', 'translateY(-'+ $i * 33.3333+'%)');
+	});
+	$(document).on('keypress', '#awsm_job_company_name, #awsm_hr_email_address', function(event){
+	   if(event.keyCode === 13) {
+	          $('.awsm-job-setup-button-next').eq(0).click();
+	        return false;
+	  }
+	});
+
+    function AwsmIsEmail(email) {
+    	//const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+	    const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]/;
+	    if (!regex.test(email)) {
+	        return false;
+	    }
+	}
+
+	/*================ Application detail view tab ================*/
+	
+	$('.application-main-tab .awsm-application-main-tab-item a').on( 'click', function(e) {
+        e.preventDefault();
+        $('.application-main-tab .awsm-application-main-tab-item a').removeClass('active');
+        $('.application-main-tab-item').removeClass('active');
+        $(this).addClass('active');
+        var target = $(this).attr('href');
+        $(target).addClass('active');
+    });
+	
+	var rangeFrom = $('#awsm_application_date_filter_from'),
+	rangeTo = $('#awsm_application_date_filter_to');
+	$('#awsm_application_date_filter_from, #awsm_application_date_filter_to').datepicker({ dateFormat: "yy-mm-dd" });
+		rangeFrom.on('change', function() {
+			rangeTo.datepicker('option', 'minDate', rangeFrom.val());
+		});
+
+		rangeTo.on('change', function() {
+		rangeFrom.datepicker('option', 'maxDate', rangeTo.val());
+	});
+
+	/*================ Job Spec Drag ================*/
+	
+	function enableSelect2Sortable(select2Container, selectElement) {
+		var $ul = select2Container.find('.select2-selection__rendered');
+	
+		$ul.sortable({
+			containment: 'parent',
+			items: '.select2-selection__choice',
+			stop: function () {
+				let sortedValues = [];
+	
+				// Get the sorted values from the UI
+				$ul.find('.select2-selection__choice').each(function () {
+					let text = $(this).attr('title').trim(); 
+	
+					let option = selectElement.find('option').filter(function () {
+						return $(this).text().trim() === text;
+					});
+	
+					if (option.length) {
+						sortedValues.push(option.val());
+					}
+				});
+	
+				// **Step 1: Update <select> selected values**
+				selectElement.val(sortedValues).trigger('change');
+	
+				// **Step 2: Reorder <option> elements in <select>**
+				sortedValues.forEach(function (val) {
+					let $option = selectElement.find('option[value="' + val + '"]');
+					selectElement.append($option); // Move option to the correct order
+				});
+	
+			}
+		});
+	}
+	$('.awsm_jobs_filter_tags').each(function () {
+		var $select = $(this);
+		var $container = $select.next('.select2-container');
+		enableSelect2Sortable($container, $select);
+	});
+
+	if (typeof inlineEditPost !== 'undefined') {
+		var $wp_inline_edit = inlineEditPost.edit;
+
+		inlineEditPost.edit = function (id) {
+			$wp_inline_edit.apply(this, arguments);
+
+			var post_id = 0;
+			if (typeof id == "object") {
+				post_id = parseInt(this.getId(id));
+			}
+
+			if (post_id > 0) {
+				var $quickEditRow = $("#edit-" + post_id);
+				var $postRow = $("#post-" + post_id);
+				var $dateField = $quickEditRow.find('.awsm-jobs-datepicker');
+
+				// Fetch the latest data from hidden fields
+				var setExpiry = $("#awsm_set_exp_list_" + post_id).val();
+				var jobExpiryValue = $("#awsm_job_expiry_" + post_id).val(); 
+				var displayExpiry = $("#awsm_exp_list_display_" + post_id).val();
+
+				if (setExpiry === "set_listing") {
+					$quickEditRow.find('input[name="awsm_set_exp_list"]').prop("checked", true);
+					$('#awsm-job-expiry-fields').show();
+					
+					if (jobExpiryValue) {
+						$dateField.val(jobExpiryValue);
+					}
+					if(displayExpiry) {
+						$quickEditRow.find('input[name="awsm_exp_list_display"]').prop("checked", true);
+					}
+				}
+
+				setTimeout(function() {
+					$dateField.datepicker("destroy").datepicker({
+						altField: $quickEditRow.find('#awsm-jobs-datepicker-alt'),
+						altFormat: 'yy-mm-dd',
+						showOn: 'both',
+						buttonText: '',
+						buttonImageOnly: true,
+						changeMonth: true,
+						numberOfMonths: 1,
+						minDate: new Date()
+					}).datepicker("setDate", jobExpiryValue); // Ensure the date is set
+				}, 100);
+			}
+		};
+	}
+
+	$(document).on('change', '#awsm-job-expiry-qedit', function() {
+		if ($(this).is(':checked')) {
+			$('#awsm-job-expiry-fields').slideDown();
+		} else {
+			$('#awsm-job-expiry-fields').slideUp();
+		}
+	});
+
 });
