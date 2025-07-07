@@ -31,7 +31,6 @@ class AWSM_Job_Openings_Settings {
 		add_action( 'update_option_awsm_jobs_remove_filters', array( $this, 'update_awsm_jobs_remove_filters' ), 10, 2 );
 		add_action( 'update_option_awsm_jobs_make_specs_clickable', array( $this, 'update_awsm_jobs_make_specs_clickable' ), 10, 2 );
 		add_action( 'update_option_awsm_jobs_email_digest', array( $this, 'update_awsm_jobs_email_digest' ), 10, 2 );
-		
 
 	}
 
@@ -198,10 +197,17 @@ class AWSM_Job_Openings_Settings {
 					'option_name' => 'awsm_enable_job_search',
 				),
 				array(
+					'option_name' => 'awsm_jobs_placement_type',
+				),
+				array(
 					'option_name' => 'awsm_enable_job_filter_listing',
 				),
 				array(
 					'option_name' => 'awsm_jobs_listing_available_filters',
+					'callback'    => array( $this, 'sanitize_array_fields' ),
+				),
+				array(
+					'option_name' => 'awsm_jobs_listing_display_type',
 					'callback'    => array( $this, 'sanitize_array_fields' ),
 				),
 				array(
@@ -453,6 +459,7 @@ class AWSM_Job_Openings_Settings {
 			'awsm_enable_job_filter_listing'        => 'enabled',
 			'awsm_enable_job_search'                => 'enabled',
 			'awsm_jobs_listing_available_filters'   => array( 'job-category', 'job-type', 'job-location' ),
+			'awsm_jobs_listing_display_type'        => 'dropdown',
 			'awsm_jobs_listing_specs'               => array( 'job-category', 'job-location' ),
 			'awsm_jobs_admin_upload_file_ext'       => array( 'pdf', 'doc', 'docx' ),
 			'awsm_enable_gdpr_cb'                   => 'true',
@@ -716,7 +723,7 @@ class AWSM_Job_Openings_Settings {
 		}
 		return $filters;
 	}
-	
+
 	public function update_awsm_jobs_filter( $old_value, $new_value ) {
 		$awsm_job_openings = AWSM_Job_Openings::init();
 		$awsm_job_openings->awsm_jobs_taxonomies( $new_value );
@@ -1103,6 +1110,84 @@ class AWSM_Job_Openings_Settings {
 									} else {
 										$field_content .= $choice_field_content;
 									}
+
+									if ( isset( $choice_details['html'] ) && is_array( $choice_details['html'] ) ) {
+										$field_content .= '<ul class="awsm-list-inline">';
+
+										// Fetch saved display type choice
+										$awsm_jobs_listing_display_type = get_option( 'awsm_jobs_listing_display_type', '' );
+
+										if ( is_string( $awsm_jobs_listing_display_type ) && ! empty( $awsm_jobs_listing_display_type ) ) {
+											$display_type_choices = unserialize( $awsm_jobs_listing_display_type );
+										} else {
+											$display_type_choices = $awsm_jobs_listing_display_type;
+										}
+
+										// Variable to track if any selection exists
+										$has_selected = false;
+
+										foreach ( $choice_details['html'] as $html_choice ) {
+											foreach ( $html_choice as $index => $radio_choice ) {
+												$radio_attrs = isset( $radio_choice['value'] ) ? ' value="' . esc_attr( $radio_choice['value'] ) . '"' : '';
+												$radio_label = isset( $radio_choice['text'] ) ? esc_html( $radio_choice['text'] ) : '';
+
+												// Extract spec_key from name attribute
+												preg_match( '/\[(.*?)\]/', $radio_choice['name'], $matches );
+												$spec_key = $matches[1] ?? '';
+
+												// Determine if this radio should be checked
+												$radio_checked = ( isset( $display_type_choices[ $spec_key ] ) && $display_type_choices[ $spec_key ] === $radio_choice['value'] ) ? ' checked' : '';
+
+												if ( $radio_checked ) {
+													$has_selected = true; // Mark that at least one option is selected
+												}
+
+												$field_content .= '<li>';
+												$field_content .= sprintf(
+													'<label for="%s"><input type="radio" name="%s" id="%s" %s %s/>%s</label>',
+													esc_attr( $radio_choice['id'] . '-' . $radio_choice['value'] ),
+													esc_attr( $radio_choice['name'] ),
+													esc_attr( $radio_choice['id'] . '-' . $radio_choice['value'] ),
+													$radio_attrs,
+													$radio_checked,
+													$radio_label
+												);
+												$field_content .= '</li>';
+											}
+										}
+
+										$field_content .= '</ul>';
+
+										// If no option was selected, make the first option selected by default
+										if ( ! $has_selected && ! empty( $choice_details['html'] ) ) {
+											foreach ( $choice_details['html'] as $html_choice ) {
+												if ( ! empty( $html_choice ) ) {
+													$first_radio = reset( $html_choice ); // Get the first radio button option
+
+													if ( isset( $first_radio['value'], $first_radio['name'] ) ) {
+														$default_value = $first_radio['value'];
+														$default_name  = $first_radio['name'];
+
+														// Add JavaScript to select the first option automatically
+														$field_content .= sprintf(
+															'<script>
+																document.addEventListener("DOMContentLoaded", function() {
+																	var firstOption = document.querySelector("input[name=\'%s\'][value=\'%s\']");
+																	if (firstOption) {
+																		firstOption.checked = true;
+																	}
+																});
+															</script>',
+															esc_attr( $default_name ),
+															esc_attr( $default_value )
+														);
+													}
+													break;
+												}
+											}
+										}
+									}
+
 									$choice_fields++;
 								} elseif ( $field_type === 'select' ) {
 									$choice_attrs  .= ' ' . selected( $value, $choice, false );
@@ -1210,18 +1295,18 @@ class AWSM_Job_Openings_Settings {
 			return $content;
 		}
 	}
-	
-	public function spec_template($index, $tax_details = array(), $filters = array()) {
-		if (!empty($tax_details) && !is_numeric($index)) {
+
+	public function spec_template( $index, $tax_details = array(), $filters = array() ) {
+		if ( ! empty( $tax_details ) && ! is_numeric( $index ) ) {
 			return;
 		}
 		$spec_title = $row_data = $del_btn_data = $icon_option = $tag_options = '';
 
 		$spec_key_html = sprintf(
 			'<input type="text" class="widefat awsm-jobs-spec-key" name="awsm_jobs_filter[%1$s][taxonomy]" value="" maxlength="32" placeholder="%2$s" title="%3$s" required /><input type="hidden" name="awsm_jobs_filter[%1$s][register]" value="true" />',
-			esc_attr($index),
-			esc_attr__('Specification key', 'wp-job-openings'),
-			esc_attr__('The job specification key should only contain alphanumeric, latin characters separated by hyphen/underscore, and cannot begin or end with a hyphen/underscore.', 'wp-job-openings')
+			esc_attr( $index ),
+			esc_attr__( 'Specification key', 'wp-job-openings' ),
+			esc_attr__( 'The job specification key should only contain alphanumeric, latin characters separated by hyphen/underscore, and cannot begin or end with a hyphen/underscore.', 'wp-job-openings' )
 		);
 
 		if ( ! empty( $tax_details ) && isset( $tax_details['key'] ) && isset( $tax_details['options'] ) ) {
@@ -1240,60 +1325,64 @@ class AWSM_Job_Openings_Settings {
 			}
 
 			// Get current taxonomy terms
-			$terms = get_terms(array(
-				'taxonomy' => $spec_key,
-				'orderby' => 'term_order',
-				'order' => 'ASC',
-				'hide_empty' => false,
-			));
+			$terms = get_terms(
+				array(
+					'taxonomy'   => $spec_key,
+					'orderby'    => 'term_order',
+					'order'      => 'ASC',
+					'hide_empty' => false,
+				)
+			);
 
 			// Find matching filter and update term order if necessary
-			foreach ($filters as $filter) {
-				if ($spec_key === $filter['taxonomy'] && !empty($filter['tags'])) {
+			foreach ( $filters as $filter ) {
+				if ( $spec_key === $filter['taxonomy'] && ! empty( $filter['tags'] ) ) {
 					// Create a map of term names to term objects
 					$terms_map = array();
-					foreach ($terms as $term) {
-						$terms_map[$term->name] = $term;
+					foreach ( $terms as $term ) {
+						$terms_map[ $term->name ] = $term;
 					}
 
 					// Update term orders based on filter tags order
-					$ordered_terms = [];
-					$position = 0;
-					foreach ($filter['tags'] as $tag_name) {
-						if (isset($terms_map[$tag_name])) {
-							$term_id = $terms_map[$tag_name]->term_id;
-							update_term_meta($term_id, 'term_order', $position);
+					$ordered_terms = array();
+					$position      = 0;
+					foreach ( $filter['tags'] as $tag_name ) {
+						if ( isset( $terms_map[ $tag_name ] ) ) {
+							$term_id = $terms_map[ $tag_name ]->term_id;
+							update_term_meta( $term_id, 'term_order', $position );
 							$ordered_terms[] = $term_id;
 							$position++;
 						}
 					}
 					// Then, handle terms not in the filtered list
-					foreach ($terms as $term) {
-						if (!in_array($term->term_id, $ordered_terms)) {
-							update_term_meta($term->term_id, 'term_order', $position);
+					foreach ( $terms as $term ) {
+						if ( ! in_array( $term->term_id, $ordered_terms ) ) {
+							update_term_meta( $term->term_id, 'term_order', $position );
 							$position++;
 						}
 					}
 					// Get terms again with updated order
-					$terms = get_terms(array(
-						'taxonomy' => $spec_key,
-						'orderby' => 'meta_value_num',
-						'meta_key' => 'term_order',
-						'order' => 'ASC',
-						'hide_empty' => false,
-					));
+					$terms = get_terms(
+						array(
+							'taxonomy'   => $spec_key,
+							'orderby'    => 'meta_value_num',
+							'meta_key'   => 'term_order',
+							'order'      => 'ASC',
+							'hide_empty' => false,
+						)
+					);
 					break;
 				}
 			}
 
 			// Generate tag options
-			if (!empty($terms)) {
-				foreach ($terms as $term) {
+			if ( ! empty( $terms ) ) {
+				foreach ( $terms as $term ) {
 					$tag_options .= sprintf(
 						'<option value="%1$s" data-termid="%2$s" selected>%1$s (%3$s)</option>',
-						esc_attr($term->name),
-						esc_attr($term->term_id),
-						esc_attr($term->count)
+						esc_attr( $term->name ),
+						esc_attr( $term->term_id ),
+						esc_attr( $term->count )
 					);
 				}
 			}
@@ -1320,7 +1409,7 @@ class AWSM_Job_Openings_Settings {
 		</tr>
 		<?php
 	}
-	
+
 
 	public function get_template_tags() {
 		$template_tags = apply_filters(
@@ -1373,6 +1462,6 @@ class AWSM_Job_Openings_Settings {
 
 		return $from_email;
 	}
-	
-	
+
+
 }

@@ -147,7 +147,9 @@ ul.awsm-list-inline label {
 .awsm-check-list.awsm-check-list-small li {
 	padding-bottom: 3px;
 }
-
+.awsm-check-list .awsm-list-inline{
+	padding-bottom: 10px;
+}
 .awsm-form-bottom {
 	padding: 20px 0;
 }

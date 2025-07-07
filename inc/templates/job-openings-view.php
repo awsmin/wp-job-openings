@@ -13,7 +13,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $shortcode_atts = isset( $shortcode_atts ) ? $shortcode_atts : array();
-
 /**
  * Fires before the job listing content.
  *
@@ -28,9 +27,21 @@ do_action( 'before_awsm_jobs_listing', $shortcode_atts );
 
 $query = awsm_jobs_query( $shortcode_atts );
 
-if ( $query->have_posts() ) : ?>
-	<div class="awsm-job-wrap<?php awsm_jobs_wrapper_class(); ?>">
+$show_filter             = false;
+$placement_sidebar_class = '';
 
+if (
+	( ! empty( $shortcode_atts['search'] ) && $shortcode_atts['search'] === 'yes' ) ||
+	( ! empty( $shortcode_atts['filters'] ) && $shortcode_atts['filters'] === 'yes' )
+) {
+	$show_filter             = true;
+	$placement_sidebar_class = 'awsm-job-2-col';
+}
+
+if ( $query->have_posts() ) {
+	if ( $shortcode_atts['placement'] == 'top' ) {
+		?>
+	<div class="awsm-job-wrap<?php awsm_jobs_wrapper_class(); ?>">
 		<?php
 			/**
 			 * awsm_filter_form hook
@@ -47,14 +58,50 @@ if ( $query->have_posts() ) : ?>
 			do_action( 'awsm_filter_form', $shortcode_atts );
 			do_action( 'awsm_filter_after_form' );
 		?>
-
-		<div <?php awsm_jobs_view_class( '', $shortcode_atts ); ?><?php awsm_jobs_data_attrs( array(), $shortcode_atts ); ?>>
-			<?php include get_awsm_jobs_template_path( 'main', 'job-openings' ); ?>
+		
+		<div class="awsm-job-listings"<?php awsm_jobs_data_attrs( array(), $shortcode_atts ); ?>>
+			<div <?php awsm_jobs_view_class( '', $shortcode_atts ); ?>>
+				<?php
+					include get_awsm_jobs_template_path( 'main', 'job-openings' );
+				?>
+			</div>
 		</div>
 
 	</div>
-	<?php
-else :
+		<?php
+	} else {
+		?>
+		<div class="awsm-job-wrap<?php awsm_jobs_wrapper_class(); ?> awsm-job-form-plugin-style <?php echo $placement_sidebar_class; ?>">
+		<?php if ( $show_filter ) { ?>
+		<div class="awsm-filter-wrap awsm-jobs-alerts-on">
+			<?php
+				/**
+				 * awsm_block_filter_form_slide hook
+				 *
+				 * Display filter form  in placement slide for job listings
+				 *
+				 * @hooked AWSM_Job_Openings_Block::display_block_filter_form_slide()
+				 *
+				 * @since 3.5.0
+				 *
+				 * @param array $attributes Attributes array from block.
+				 */
+				do_action( 'awsm_filter_form_slide', $shortcode_atts );
+				do_action( 'awsm_form_outside', $shortcode_atts );
+			?>
+		</div>
+		<?php } ?>
+
+		<div class="awsm-job-listings"<?php awsm_jobs_data_attrs( array(), $shortcode_atts ); ?>>
+			<div <?php awsm_jobs_view_class( '', $shortcode_atts ); ?>>
+				<?php include get_awsm_jobs_template_path( 'main', 'job-openings' ); ?>
+			</div>
+		</div>
+	</div>
+		<?php
+	}
+}
+/* else :
 	$filter_suffix = '_spec';
 	$job_spec      = array();
 
@@ -92,8 +139,8 @@ else :
 			<p><?php awsm_no_jobs_msg(); ?></p>
 		</div>
 		<?php
-	}
-endif;
+	}*/
+
 
 /**
  * Fires after the job listing content.
@@ -103,4 +150,4 @@ endif;
  *
  * @param array $shortcode_atts Attributes array if shortcode is used, else an empty array.
  */
-do_action( 'after_awsm_jobs_listing', $shortcode_atts );
+//do_action( 'after_awsm_jobs_listing', $shortcode_atts );
