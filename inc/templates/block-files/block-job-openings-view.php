@@ -13,8 +13,8 @@ $query      = awsm_block_jobs_query( $attributes );
 $block_id   = ( isset( $attributes['block_id'] ) && trim( $attributes['block_id'] ) !== '' ) ? $attributes['block_id'] : 'default-block-id';
 
 $show_filter             = false;
-$placement_sidebar_class = ''; 
-$styles = hz_get_ui_styles( $attributes ); 
+$placement_sidebar_class = '';
+$styles                  = hz_get_ui_styles( $attributes );
 ?>
 
 <!-- Styles for css variables -->

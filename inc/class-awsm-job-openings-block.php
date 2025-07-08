@@ -313,10 +313,10 @@ class AWSM_Job_Openings_Block {
 		}
 
 		$html = ob_get_clean();
-		
+
 		wp_send_json_success(
 			array(
-				'html'  => $html,
+				'html' => $html,
 			)
 		);
 		//wp_die();
@@ -891,7 +891,7 @@ class AWSM_Job_Openings_Block {
 			if ( ! empty( $taxonomies ) && ! empty( $filter_options ) ) {
 				foreach ( $taxonomies as $taxonomy => $tax_details ) {
 					foreach ( $filter_options as $spec ) {
-						if ( $taxonomy == $spec['specKey'] ) {
+						if ( isset( $spec['specKey'] ) && $taxonomy == $spec['specKey'] ) {
 							// Get terms for the taxonomy
 							$terms_args = apply_filters(
 								'awsm_filter_block_spec_slide_terms_args',
