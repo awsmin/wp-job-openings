@@ -259,9 +259,9 @@ ul.awsm-list-inline label {
 	width: 14px;
 	height: 8px;
 	position: absolute;
-	left: 0;
-	top: calc(50% - 3px);
-	transition: all 0.3s ease;
+	right: 0;
+	top: calc(50% - 4px);
+	background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQiIGhlaWdodD0iOCIgdmlld0JveD0iMCAwIDE0IDgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0xNCAyLjAwMDg4TDcgOEwwIDIuMDAwODhMMS43MTMxNCAwTDcgNC41MzE4MUwxMi4yODY5IDAuMDAxNzU1ODdMMTQgMi4wMDA4OFoiIGZpbGw9ImJsYWNrIi8+Cjwvc3ZnPgo=);
 }
 
 .awsm-acc-head.on h3::before {
