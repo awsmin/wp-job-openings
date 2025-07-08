@@ -13,7 +13,27 @@
 .awsm-clearfix {
 	zoom: 1;
 }
-
+.awsm-jobs-button{
+	border-radius: 4px;
+	background: #000;
+	padding: 12px 18px;
+	color: #fff;
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 1.333;
+	letter-spacing: -0.24px;
+	display: inline-block;
+	transition: all 0.3s ease;
+	border: none;
+}
+.awsm-jobs-button:hover{
+	background: #6bfae4;
+	color: #000;
+}
+.awsm-jobs-button:focus, .awsm-jobs-button:active{
+	background: #6bfae4;
+	color: #000;
+}
 .awsm-job-settings-wrap a:focus {
 	box-shadow: none;
 }
@@ -231,14 +251,13 @@ ul.awsm-list-inline label {
 .awsm-acc-head h3 {
 	margin: 0;
 	position: relative;
-	padding-left: 15px;
+	padding-right: 20px;
 }
 
 .awsm-acc-head h3::before {
 	content: "";
-	border-width: 6px 5px 0;
-	border-style: solid;
-	border-color: #000 transparent transparent;
+	width: 14px;
+	height: 8px;
 	position: absolute;
 	left: 0;
 	top: calc(50% - 3px);
@@ -259,6 +278,10 @@ ul.awsm-list-inline label {
 	right: 20px;
 	top: calc(50% - 8px);
 	height: 16px;
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	cursor: pointer;
 }
 
 .awsm-toggle-switch .awsm-ts-inner {
@@ -1868,6 +1891,7 @@ textarea.awsm-form-control {
 	font-weight: normal;
 	letter-spacing: -0.06px;
 	line-height: 1.333;
+	max-width: 100%;
 }
 
 .awsm-form-control::placeholder {
