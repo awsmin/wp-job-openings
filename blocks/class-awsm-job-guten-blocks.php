@@ -33,29 +33,24 @@ class Awsm_Job_Guten_Blocks {
 		register_block_type( __DIR__ . '/build', $args );
 	}
 
-	public function block_render_callback( $atts, $content ) {
-		if ( isset( $atts['filter_options'] ) && is_array( $atts['filter_options'] ) ) {
-			$atts['filter_options'] = implode( ',', $atts['filter_options'] );
-		}
-
-		if ( isset( $atts['other_options'] ) && is_array( $atts['other_options'] ) ) {
-			$atts['other_options'] = implode( ',', $atts['other_options'] );
-		}
+	public function block_render_callback( $atts, $content ) { 
+		
+		// if ( empty( $atts['filter_options'] ) ) {
+		// 	$default_filters = array();
+		// 	$specs           = AWSM_Job_Openings::get_filter_specifications();
+		// 	foreach ( $specs as $k => $v ) {
+		// 		$default_filters[ $k ]['specKey'] = $v['key'];
+		// 		$default_filters[ $k ]['value']   = 'dropdown';
+		// 	}
+		// 	$atts['filter_options'] = $default_filters;
+		// }
 
 		if ( isset( $atts['search'] ) && $atts['search'] === true ) {
 			$atts['search'] = 'enable';
 		}
 
-		if ( isset( $atts['enable_job_filter'] ) && $atts['enable_job_filter'] === true ) {
-			$atts['enable_job_filter'] = 'enable';
-		}
-
-		if ( isset( $atts['listing_per_page'] ) ) {
-			$atts['listing_per_page'] = $atts['listing_per_page'];
-		}
-
-		if ( isset( $atts['hide_expired_jobs'] ) && $atts['hide_expired_jobs'] === true ) {
-			$atts['hide_expired_jobs'] = 'expired';
+		if ( isset( $atts['filter_options'] ) && is_array( $atts['filter_options'] ) ) {
+			$atts['filter_options'] = $atts['filter_options'];
 		}
 
 		if ( isset( $atts['layout'] ) && is_array( $atts['layout'] ) ) {
@@ -66,9 +61,47 @@ class Awsm_Job_Guten_Blocks {
 			$atts['number_of_columns'] = $atts['number_of_columns'];
 		}
 
-		if ( isset( $atts['select_filter_full'] ) && is_array( $atts['select_filter_full'] ) ) {
-			$atts['select_filter_full'] = $atts['select_filter_full'];
+		if ( isset( $atts['hide_expired_jobs'] ) && $atts['hide_expired_jobs'] === true ) {
+			$atts['hide_expired_jobs'] = 'expired';
 		}
+
+		if ( isset( $atts['placement'] ) ) {
+			$atts['placement'] = $atts['placement'];
+		}
+
+		if ( isset( $atts['search_placeholder'] ) && $atts['search_placeholder'] === true ) {
+			$atts['search_placeholder'] = $atts['search_placeholder'];
+		}
+
+		if ( isset( $atts['listType'] ) && $atts['listType'] === true ) {
+			$atts['listType'] = $atts['listType'];
+		}
+
+		if ( isset( $atts['selectedTerms'] ) && is_array( $atts['selectedTerms'] ) ) {
+			$atts['selectedTerms'] = $atts['selectedTerms'];
+		}
+
+		if ( isset( $atts['orderBy'] ) && $atts['orderBy'] === true ) {
+			$atts['orderBy'] = $atts['orderBy'];
+		}
+
+		if ( isset( $atts['jobsPerPage'] ) ) {
+			$atts['listing_per_page'] = $atts['jobsPerPage'];
+		}
+
+		if ( isset( $atts['pagination'] ) ) {
+			$atts['pagination'] = $atts['pagination'];
+		}
+
+		/** end */
+
+		/** Style Tab */
+
+		if ( isset( $atts['blockId'] ) ) {
+			$atts['block_id'] = $atts['blockId'];
+		}
+
+		/** End */
 
 		 /**
 		 * Filters the block attributes.
@@ -83,6 +116,11 @@ class Awsm_Job_Guten_Blocks {
 
 		$class_block_init = AWSM_Job_Openings_Block::init();
 		$block_content    = $class_block_init->awsm_jobs_block_attributes( $atts );
+
+		if ( empty( $block_content ) ) {
+			return '<p>' . __( 'No job listings found.', 'wp-job-openings' ) . '</p>';
+		}
+
 		return $block_content;
 	}
 

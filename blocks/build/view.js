@@ -8,6 +8,7 @@
 jQuery(function ($) {
   var rootWrapperSelector = '.awsm-b-job-wrap';
   var wrapperSelector = '.awsm-b-job-listings';
+  var sectionSelector = '.awsm-b-job-listing-items';
 
   /* ========== Job Search and Filtering ========== */
 
@@ -22,7 +23,34 @@ jQuery(function ($) {
     parsedListingsAttrs.push('awsm-layout');
     parsedListingsAttrs.push('awsm-hide-expired-jobs');
     parsedListingsAttrs.push('awsm-other-options');
+    parsedListingsAttrs.push('awsm-listings-total');
+    parsedListingsAttrs.push('awsm-selected-terms');
+
     /* end */
+
+    /* added for block styles tab */
+    parsedListingsAttrs.push('hz_sf_border_color');
+    parsedListingsAttrs.push('hz_sf_border_width');
+    parsedListingsAttrs.push('hz_sf_padding');
+    parsedListingsAttrs.push('hz_sf_border_radius');
+    parsedListingsAttrs.push('hz_sidebar_width');
+    parsedListingsAttrs.push('block_id');
+    parsedListingsAttrs.push('hz_ls_border_color');
+    parsedListingsAttrs.push('hz_ls_border_width');
+    parsedListingsAttrs.push('hz_ls_border_radius');
+    parsedListingsAttrs.push('hz_jl_border_color');
+    parsedListingsAttrs.push('hz_jl_border_width');
+    parsedListingsAttrs.push('hz_jl_border_radius');
+    parsedListingsAttrs.push('hz_jl_padding');
+    parsedListingsAttrs.push('hz_bs_border_color');
+    parsedListingsAttrs.push('hz_bs_border_width');
+    parsedListingsAttrs.push('hz_bs_border_radius');
+    parsedListingsAttrs.push('hz_bs_padding');
+    parsedListingsAttrs.push('hz_button_background_color');
+    parsedListingsAttrs.push('hz_button_text_color');
+
+    /* end */
+
     $(document).trigger('awsmJobBlockListingsData', [parsedListingsAttrs]);
     var dataAttrs = $wrapper.data();
     $.each(dataAttrs, function (dataAttr, value) {
@@ -37,16 +65,51 @@ jQuery(function ($) {
   }
   function awsmJobFilters($rootWrapper) {
     var $wrapper = $rootWrapper.find(wrapperSelector);
+    var $rowWrapper = $wrapper.find(sectionSelector);
     var $filterForm = $rootWrapper.find(filterSelector + ' form');
-    var formData = $filterForm.serializeArray();
+    var formData = [];
+    if ($filterForm.length > 0) {
+      // Form exists → Serialize form data
+      formData = $filterForm.serializeArray();
+      var formMethod = $filterForm.attr('method') ? $filterForm.attr('method').toUpperCase() : 'POST';
+    } else {
+      // Form is missing → Manually construct data
+      formData.push({
+        name: 'action',
+        value: 'block_jobfilter'
+      }); // Ensure action is included
+      var formMethod = 'POST';
+    }
     var listings = $wrapper.data('listings');
     var specs = $wrapper.data('specs');
-
-    /* added for block */
     var layout = $wrapper.data('awsm-layout');
     var hide_expired_jobs = $wrapper.data('awsm-hide-expired-jobs');
+    var selected_terms = $wrapper.data('awsm-selected-terms');
     var other_options = $wrapper.data('awsm-other-options');
-    /* end */
+    var listings_total = $wrapper.data('awsm-listings-total');
+
+    /* variables for style tabs */
+    var hz_sf_border_color = $wrapper.data('hz_sf_border_color');
+    var hz_sf_border_width = $wrapper.data('hz_sf_border_width');
+    var hz_sf_padding = $wrapper.data('hz_sf_padding');
+    var hz_sf_border_radius = $wrapper.data('hz_sf_border_radius');
+    var hz_sidebar_width = $wrapper.data('hz_sidebar_width');
+    var block_id = $wrapper.data('block_id');
+    var hz_ls_border_color = $wrapper.data('hz_ls_border_color');
+    var hz_ls_border_width = $wrapper.data('hz_ls_border_width');
+    var hz_ls_border_radius = $wrapper.data('hz_ls_border_radius');
+    var hz_jl_border_color = $wrapper.data('hz_jl_border_color');
+    var hz_jl_border_width = $wrapper.data('hz_jl_border_width');
+    var hz_jl_border_radius = $wrapper.data('hz_jl_border_radius');
+    var hz_jl_padding = $wrapper.data('hz_jl_padding');
+    var hz_bs_border_color = $wrapper.data('hz_bs_border_color');
+    var hz_bs_border_width = $wrapper.data('hz_bs_border_width');
+    var hz_bs_border_radius = $wrapper.data('hz_bs_border_radius');
+    var hz_bs_padding = $wrapper.data('hz_bs_padding');
+    var hz_button_background_color = $wrapper.data('hz_button_background_color');
+    var hz_button_text_color = $wrapper.data('hz_button_text_color');
+
+    /* End */
 
     $rootWrapper.find('.awsm-b-filter-item').each(function () {
       var currentLoopSpec = $(this).data('filter');
@@ -72,12 +135,24 @@ jQuery(function ($) {
         value: specs
       });
     }
-
-    /* added for block */
     if (typeof layout !== 'undefined') {
       formData.push({
         name: 'awsm-layout',
         value: layout
+      });
+    }
+    if (selected_terms) {
+      if (typeof selected_terms === 'string') {
+        try {
+          selected_terms = JSON.parse(selected_terms);
+        } catch (error) {
+          console.error('Failed to parse selected_terms JSON:', error);
+          selected_terms = {};
+        }
+      }
+      formData.push({
+        name: 'awsm-selected-terms',
+        value: JSON.stringify(selected_terms)
       });
     }
     if (typeof hide_expired_jobs !== 'undefined') {
@@ -92,7 +167,130 @@ jQuery(function ($) {
         value: other_options
       });
     }
-    /* end */
+    if (typeof listings_total !== 'undefined') {
+      formData.push({
+        name: 'awsm-listings-total',
+        value: listings_total
+      });
+    }
+
+    /* variables for style */
+    if (typeof hz_sf_border_color !== 'undefined') {
+      formData.push({
+        name: 'hz_sf_border_color',
+        value: hz_sf_border_color
+      });
+    }
+    if (typeof hz_sf_border_width !== 'undefined') {
+      formData.push({
+        name: 'hz_sf_border_width',
+        value: hz_sf_border_width
+      });
+    }
+    if (typeof hz_sf_padding !== 'undefined') {
+      formData.push({
+        name: 'hz_sf_padding',
+        value: JSON.stringify(hz_sf_padding)
+      });
+    }
+    if (typeof hz_sf_border_radius !== 'undefined') {
+      formData.push({
+        name: 'hz_sf_border_radius',
+        value: hz_sf_border_radius
+      });
+    }
+    if (typeof hz_sidebar_width !== 'undefined') {
+      formData.push({
+        name: 'hz_sidebar_width',
+        value: hz_sidebar_width
+      });
+    }
+    if (typeof block_id !== 'undefined') {
+      formData.push({
+        name: 'block_id',
+        value: block_id
+      });
+    }
+    if (typeof hz_ls_border_color !== 'undefined') {
+      formData.push({
+        name: 'hz_ls_border_color',
+        value: hz_ls_border_color
+      });
+    }
+    if (typeof hz_ls_border_width !== 'undefined') {
+      formData.push({
+        name: 'hz_ls_border_width',
+        value: hz_ls_border_width
+      });
+    }
+    if (typeof hz_ls_border_radius !== 'undefined') {
+      formData.push({
+        name: 'hz_ls_border_radius',
+        value: hz_ls_border_radius
+      });
+    }
+    if (typeof hz_jl_border_color !== 'undefined') {
+      formData.push({
+        name: 'hz_jl_border_color',
+        value: hz_jl_border_color
+      });
+    }
+    if (typeof hz_jl_border_width !== 'undefined') {
+      formData.push({
+        name: 'hz_jl_border_width',
+        value: hz_jl_border_width
+      });
+    }
+    if (typeof hz_jl_border_radius !== 'undefined') {
+      formData.push({
+        name: 'hz_jl_border_radius',
+        value: hz_jl_border_radius
+      });
+    }
+    if (typeof hz_jl_padding !== 'undefined') {
+      formData.push({
+        name: 'hz_jl_padding',
+        value: JSON.stringify(hz_jl_padding)
+      });
+    }
+    if (typeof hz_bs_border_color !== 'undefined') {
+      formData.push({
+        name: 'hz_bs_border_color',
+        value: hz_bs_border_color
+      });
+    }
+    if (typeof hz_bs_border_width !== 'undefined') {
+      formData.push({
+        name: 'hz_bs_border_width',
+        value: hz_bs_border_width
+      });
+    }
+    if (typeof hz_bs_border_radius !== 'undefined') {
+      formData.push({
+        name: 'hz_bs_border_radius',
+        value: hz_bs_border_radius
+      });
+    }
+    if (typeof hz_bs_padding !== 'undefined') {
+      formData.push({
+        name: 'hz_bs_padding',
+        value: JSON.stringify(hz_bs_padding)
+      });
+    }
+    if (typeof hz_button_background_color !== 'undefined') {
+      formData.push({
+        name: 'hz_button_background_color',
+        value: hz_button_background_color
+      });
+    }
+    if (typeof hz_button_text_color !== 'undefined') {
+      formData.push({
+        name: 'hz_button_text_color',
+        value: hz_button_text_color
+      });
+    }
+
+    /* End */
 
     var listingsData = getListingsData($wrapper);
     if (listingsData.length > 0) {
@@ -102,34 +300,40 @@ jQuery(function ($) {
     // Trigger custom event to provide formData
     $(document).trigger('awsmJobBlockFiltersFormData', [$wrapper, formData]);
     if (triggerFilter) {
-      // stop the duplicate requests.
       triggerFilter = false;
 
-      // now, make the request.
+      // Determine action URL (fallback if form is missing)
+      var actionUrl = $filterForm.length > 0 ? $filterForm.attr('action') : awsmJobsPublic.ajaxurl;
       $.ajax({
-        url: $filterForm.attr('action'),
+        url: actionUrl,
         beforeSend: function beforeSend() {
-          $wrapper.addClass('awsm-b-jobs-loading');
+          $wrapper.addClass('awsm-jobs-loading');
         },
         data: formData,
-        type: $filterForm.attr('method')
-      }).done(function (data) {
-        $wrapper.html(data);
+        type: formMethod
+      }).done(function (response) {
+        $rowWrapper.html(response.data.html);
+        /* 
+        					if (response.data.style) {
+        						// Append new style tag
+        						jQuery('head').append(response.data.style);
+        					}
+         */
         var $searchControl = $rootWrapper.find('.awsm-b-job-search');
         if ($searchControl.length > 0) {
           if ($searchControl.val().length > 0) {
-            $rootWrapper.find('.awsm-b-job-search-btn').addClass('awsm-b-job-hide');
-            $rootWrapper.find('.awsm-b-job-search-close-btn').removeClass('awsm-b-job-hide');
+            $rootWrapper.find('.awsm-b-job-search-btn').addClass('awsm-job-hide');
+            $rootWrapper.find('.awsm-b-job-search-close-btn').removeClass('awsm-job-hide');
           } else {
-            $rootWrapper.find('.awsm-b-job-search-btn').removeClass('awsm-b-job-hide');
+            $rootWrapper.find('.awsm-b-job-search-btn').removeClass('awsm-job-hide');
+            $rootWrapper.find('.awsm-b-job-search-close-btn').addClass('awsm-job-hide');
           }
         }
-        $(document).trigger('awsmjobs_filtered_listings', [$rootWrapper, data]);
+        $(document).trigger('awsmjobs_filtered_listings', [$rootWrapper, response.data.html]);
       }).fail(function (xhr) {
-        // eslint-disable-next-line no-console
         console.log(xhr);
       }).always(function () {
-        $wrapper.removeClass('awsm-b-jobs-loading');
+        $wrapper.removeClass('awsm-jobs-loading');
         triggerFilter = true;
       });
     }
@@ -151,7 +355,8 @@ jQuery(function ($) {
     var searchQuery = $rootWrapper.find('.awsm-b-job-search').val();
     $rootWrapper.find(wrapperSelector).data('search', searchQuery);
     if (searchQuery.length === 0) {
-      $rootWrapper.find('.awsm-b-job-search-icon-wrapper').addClass('awsm-b-job-hide');
+
+      //$rootWrapper.find('.awsm-b-job-search-icon-wrapper').addClass('awsm-b-job-hide');
     }
     setPaginationBase($rootWrapper, 'jq', searchQuery);
     if (awsmJobsPublic.deep_linking.search) {
@@ -160,6 +365,41 @@ jQuery(function ($) {
     }
     awsmJobFilters($rootWrapper);
   }
+
+  /* if ( $( rootWrapperSelector ).length > 0 ) {
+  	$( rootWrapperSelector ).each( function () {
+  		const $currentWrapper = $( this );
+  		const $filterForm = $currentWrapper.find(
+  			filterSelector + ' form'
+  		);
+  		if (
+  			awsmJobsPublic.is_search.length > 0 ||
+  			filterCheck( $filterForm )
+  		) {
+  			triggerFilter = true;
+  			awsmJobFilters( $currentWrapper );
+  		}
+  	} );
+  } */
+
+  /* if ( $( rootWrapperSelector ).length > 0 ) {
+  	$( rootWrapperSelector ).each( function () {
+  		const $currentWrapper = $( this );
+  		const $filterForm = $currentWrapper.find(
+  			filterSelector + ' form'
+  		);
+  			const searchParams = new URLSearchParams( window.location.search );
+  		let hasFiltersInURL = false;
+  			if ( searchParams.toString().length > 0 ) {
+  			hasFiltersInURL = true;
+  		}
+  			if ( hasFiltersInURL || filterCheck( $filterForm ) ) {
+  			triggerFilter = true;
+  			awsmJobFilters( $currentWrapper );
+  		}
+  	} );
+  }
+  */
   var updateQuery = function updateQuery(key, value, url) {
     url = typeof url !== 'undefined' ? url : currentUrl;
     url = url.split('?')[0];
@@ -204,19 +444,115 @@ jQuery(function ($) {
     e.preventDefault();
     $('.awsm-b-job-listings').show();
     var $elem = $(this);
-    var $selected = $elem.find('option:selected');
-    var $rootWrapper = $elem.parents(rootWrapperSelector);
-    var currentSpec = $elem.parents('.awsm-b-filter-item').data('filter');
-    var slug = $selected.data('slug');
-    if ($('.awsm-b-job-listings').length > 0) {
+    var $rootWrapper = $elem.closest(rootWrapperSelector);
+    var currentSpec = $elem.closest('.awsm-b-filter-item').data('filter');
+    var isMultiple = $elem.prop('multiple'); // Check if it's a multiple select
+    var allOptions = $elem.find('option');
+    var firstOption = allOptions.eq(0); // "All Job Type"
+    var selectedOptions = $elem.find('option:selected');
+    var isAllSelected = firstOption.prop('selected');
+
+    // **Fix: Restrict list item selection to current dropdown only**
+    var allLiItems = $elem.closest('.awsm-b-filter-item').find('ul li');
+    var firstLiItem = allLiItems.eq(0); // "All Job Type" in <ul>
+    var selectedLiItems = allLiItems.filter('.selected');
+    var isCheckboxFilter = $elem.closest('.awsm-b-filter-item').find('input[type="checkbox"]').length > 0;
+    var slugs = [];
+    if (isMultiple) {
+      if (isAllSelected) {
+        // **Select all options within this dropdown only**
+        allOptions.prop('selected', true).addClass('selected');
+        allLiItems.addClass('selected'); // **Fix: Only apply to current dropdown**
+        slugs = allOptions.slice(1).map(function () {
+          return $(this).data('slug');
+        }).get().filter(Boolean);
+      } else if (selectedOptions.length === 0) {
+        // **Deselect all in the current dropdown only**
+        allOptions.prop('selected', false).removeClass('selected');
+        allLiItems.removeClass('selected'); // **Fix: Only affect current dropdown**
+        slugs = [];
+      } else {
+        // **Handle individual selection within the current dropdown**
+        selectedOptions.each(function () {
+          $(this).prop('selected', true).addClass('selected');
+          var index = $(this).index();
+          allLiItems.eq(index).addClass('selected'); // **Fix: Apply changes to corresponding <li>**
+        });
+        slugs = selectedOptions.map(function () {
+          return $(this).data('slug');
+        }).get().filter(Boolean);
+      }
+    } else if (isCheckboxFilter) {
+      // **Handle checkboxes**
+      var $checkboxes = $elem.closest('.awsm-b-filter-item').find('input[type="checkbox"]');
+      var $allCheckbox = $checkboxes.eq(0); // First checkbox is "All"
+
+      if ($allCheckbox.prop('checked')) {
+        // **Select all checkboxes in this filter group only**
+        $checkboxes.prop('checked', true).addClass('selected').trigger('change');
+        slugs = $checkboxes.slice(1).map(function () {
+          return $(this).data('slug');
+        }).get().filter(Boolean);
+      } else {
+        // **Handle individual checkbox selection**
+        slugs = $checkboxes.filter(':checked').map(function () {
+          return $(this).data('slug');
+        }).get().filter(Boolean);
+      }
+    } else {
+      // **Single select logic**
+      slugs = selectedOptions.data('slug') ? [selectedOptions.data('slug')] : [];
+    }
+    var slugString = slugs.length > 0 ? slugs.join(',') : '';
+
+    // **Update pagination and filters only for the affected dropdown**
+    if ($('.awsm-job-listings').length > 0) {
       $rootWrapper.find('.awsm-b-job-no-more-jobs-get').hide();
     }
-    slug = typeof slug !== 'undefined' ? slug : '';
-    setPaginationBase($rootWrapper, currentSpec, slug);
+    setPaginationBase($rootWrapper, currentSpec, slugString);
+
+    // **Update the URL without affecting other dropdowns**
     if (awsmJobsPublic.deep_linking.spec) {
       var $paginationBase = $rootWrapper.find('input[name="awsm_pagination_base"]');
-      updateQuery(currentSpec, slug, $paginationBase.val());
+      updateQuery(currentSpec, slugString, $paginationBase.val());
     }
+    awsmJobFilters($rootWrapper);
+  });
+  $(filterSelector + ' .awsm-filter-checkbox').on('change', function (e) {
+    var selectedFilters = {};
+    var slugs = []; // Initialize an array to collect slugs
+    var $elem = $(this);
+    var $rootWrapper = $elem.parents(rootWrapperSelector);
+    var currentSpec = $elem.parents('.awsm-filter-list-item').data('filter');
+
+    // Loop through checked checkboxes and build selectedFilters and slugs array
+    $('.awsm-filter-checkbox:checked').each(function () {
+      var taxonomy = $(this).data('taxonomy');
+      var termId = $(this).data('term-id');
+      var slug = $(this).data('slug'); // Get the slug from the checkbox
+
+      // Add the slug to the slugs array if it exists
+      if (slug) {
+        slugs.push(slug);
+      }
+
+      // Populate the selectedFilters object
+      if (!selectedFilters[taxonomy]) {
+        selectedFilters[taxonomy] = [];
+      }
+      selectedFilters[taxonomy].push(termId);
+    });
+
+    // Convert slugs array to a comma-separated string
+    var slugString = slugs.length > 0 ? slugs.join(',') : '';
+
+    // Handle deep linking
+    if (awsmJobsPublic.deep_linking.spec) {
+      var $paginationBase = $rootWrapper.find('input[name="awsm_pagination_base"]');
+      updateQuery(currentSpec, slugString, $paginationBase.val()); // Use the comma-separated slugString
+    }
+
+    // Apply the job filters
     awsmJobFilters($rootWrapper);
   });
   $(filterSelector + ' .awsm-b-job-search-btn').on('click', function () {
@@ -243,8 +579,10 @@ jQuery(function ($) {
     var wpData = [];
     var $mainContainer = $triggerElem.parents(rootWrapperSelector);
     var $listingsContainer = $mainContainer.find(wrapperSelector);
+    var $listingsrowContainer = $listingsContainer.find(sectionSelector);
     var $paginationWrapper = $triggerElem.parents('.awsm-b-jobs-pagination');
     var listings = $listingsContainer.data('listings');
+    var totalPosts = $listingsContainer.data('total-posts'); // Assuming this is passed via data
     var specs = $listingsContainer.data('specs');
     var lang = $listingsContainer.data('lang');
     var searchQuery = $listingsContainer.data('search');
@@ -252,13 +590,38 @@ jQuery(function ($) {
     /* added for block */
     var layout = $listingsContainer.data('awsm-layout');
     var hide_expired_jobs = $listingsContainer.data('awsm-hide-expired-jobs');
+    var selected_terms = $listingsContainer.data('awsm-selected-terms');
     var other_options = $listingsContainer.data('awsm-other-options');
+
     /* end */
+
+    /* variables for style tabs */
+    var hz_sf_border_color = $listingsContainer.data('hz_sf_border_color');
+    var hz_sf_border_width = $listingsContainer.data('hz_sf_border_width');
+    var hz_sf_padding = $listingsContainer.data('hz_sf_padding');
+    var hz_sf_border_radius = $listingsContainer.data('hz_sf_border_radius');
+    var hz_sidebar_width = $listingsContainer.data('hz_sidebar_width');
+    var block_id = $listingsContainer.data('block_id');
+    var hz_ls_border_color = $listingsContainer.data('hz_ls_border_color');
+    var hz_ls_border_width = $listingsContainer.data('hz_ls_border_width');
+    var hz_ls_border_radius = $listingsContainer.data('hz_ls_border_radius');
+    var hz_jl_border_color = $listingsContainer.data('hz_jl_border_color');
+    var hz_jl_border_width = $listingsContainer.data('hz_jl_border_width');
+    var hz_jl_border_radius = $listingsContainer.data('hz_jl_border_radius');
+    var hz_jl_padding = $listingsContainer.data('hz_jl_padding');
+    var hz_bs_border_color = $listingsContainer.data('hz_bs_border_color');
+    var hz_bs_border_width = $listingsContainer.data('hz_bs_border_width');
+    var hz_bs_border_radius = $listingsContainer.data('hz_bs_border_radius');
+    var hz_bs_padding = $listingsContainer.data('hz_bs_padding');
+    var hz_button_background_color = $listingsContainer.data('hz_button_background_color');
+    var hz_button_text_color = $listingsContainer.data('hz_button_text_color');
+
+    /* End */
 
     if (isDefaultPagination) {
       $triggerElem.prop('disabled', true);
       paged = $triggerElem.data('page');
-      paged = typeof paged == 'undefined' ? 1 : paged;
+      paged = typeof paged === 'undefined' ? 1 : paged;
     } else {
       $triggerElem.parents('.page-numbers').find('.page-numbers').removeClass('current').removeAttr('aria-current');
       $triggerElem.addClass('current').attr('aria-current', 'page');
@@ -270,6 +633,30 @@ jQuery(function ($) {
     if (filterCheck($filterForm)) {
       var $filterOption = $filterForm.find('.awsm-b-filter-option');
       wpData = $filterOption.serializeArray();
+    }
+    var specsList = {};
+    $filterForm.find('.awsm-filter-checkbox:checked').each(function () {
+      var $checkbox = $(this);
+      var taxonomy = $checkbox.data('taxonomy'); // Get taxonomy from data attribute
+      var termId = $checkbox.data('term-id'); // Get term ID from data attribute
+
+      if (taxonomy && termId) {
+        if (!specsList[taxonomy]) {
+          specsList[taxonomy] = []; // Initialize array for this taxonomy
+        }
+        specsList[taxonomy].push(termId); // Add term ID to the array
+      }
+    });
+    for (var taxonomy in specsList) {
+      if (specsList.hasOwnProperty(taxonomy)) {
+        specsList[taxonomy].forEach(function (termId) {
+          wpData.push({
+            name: "awsm_job_specs_list[".concat(taxonomy, "][]"),
+            // Add taxonomy as part of the key
+            value: termId
+          });
+        });
+      }
     }
     if (!isDefaultPagination) {
       var paginationBaseURL = $triggerElem.attr('href');
@@ -337,10 +724,33 @@ jQuery(function ($) {
         value: hide_expired_jobs
       });
     }
+    if (selected_terms) {
+      if (typeof selected_terms === 'string') {
+        try {
+          // Parse the JSON string into an object
+          selected_terms = JSON.parse(selected_terms);
+        } catch (error) {
+          console.error('Failed to parse selected_terms JSON:', error);
+          selected_terms = {}; // Fallback to an empty object
+        }
+      }
+
+      // Push to wpData
+      wpData.push({
+        name: 'awsm-selected-terms',
+        value: JSON.stringify(selected_terms) // Send as JSON string
+      });
+    }
     if (typeof other_options !== 'undefined') {
       wpData.push({
         name: 'awsm-other-options',
         value: other_options
+      });
+    }
+    if (typeof listings_total !== 'undefined') {
+      wpData.push({
+        name: 'awsm-listings-total',
+        value: listings_total
       });
     }
     if (typeof lang !== 'undefined') {
@@ -355,6 +765,125 @@ jQuery(function ($) {
         value: searchQuery
       });
     }
+
+    /* variables for style */
+    if (typeof hz_sf_border_color !== 'undefined') {
+      wpData.push({
+        name: 'hz_sf_border_color',
+        value: hz_sf_border_color
+      });
+    }
+    if (typeof hz_sf_border_width !== 'undefined') {
+      wpData.push({
+        name: 'hz_sf_border_width',
+        value: hz_sf_border_width
+      });
+    }
+    if (typeof hz_sf_padding !== 'undefined') {
+      wpData.push({
+        name: 'hz_sf_padding',
+        value: JSON.stringify(hz_sf_padding)
+      });
+    }
+    if (typeof hz_sf_border_radius !== 'undefined') {
+      wpData.push({
+        name: 'hz_sf_border_radius',
+        value: hz_sf_border_radius
+      });
+    }
+    if (typeof hz_sidebar_width !== 'undefined') {
+      wpData.push({
+        name: 'hz_sidebar_width',
+        value: hz_sidebar_width
+      });
+    }
+    if (typeof block_id !== 'undefined') {
+      wpData.push({
+        name: 'block_id',
+        value: block_id
+      });
+    }
+    if (typeof hz_ls_border_color !== 'undefined') {
+      wpData.push({
+        name: 'hz_ls_border_color',
+        value: hz_ls_border_color
+      });
+    }
+    if (typeof hz_ls_border_width !== 'undefined') {
+      wpData.push({
+        name: 'hz_ls_border_width',
+        value: hz_ls_border_width
+      });
+    }
+    if (typeof hz_ls_border_radius !== 'undefined') {
+      wpData.push({
+        name: 'hz_ls_border_radius',
+        value: hz_ls_border_radius
+      });
+    }
+    if (typeof hz_jl_border_color !== 'undefined') {
+      wpData.push({
+        name: 'hz_jl_border_color',
+        value: hz_jl_border_color
+      });
+    }
+    if (typeof hz_jl_border_width !== 'undefined') {
+      wpData.push({
+        name: 'hz_jl_border_width',
+        value: hz_jl_border_width
+      });
+    }
+    if (typeof hz_jl_border_radius !== 'undefined') {
+      wpData.push({
+        name: 'hz_jl_border_radius',
+        value: hz_jl_border_radius
+      });
+    }
+    if (typeof hz_jl_padding !== 'undefined') {
+      wpData.push({
+        name: 'hz_jl_padding',
+        value: JSON.stringify(hz_jl_padding)
+      });
+    }
+    if (typeof hz_bs_border_color !== 'undefined') {
+      wpData.push({
+        name: 'hz_bs_border_color',
+        value: hz_bs_border_color
+      });
+    }
+    if (typeof hz_bs_border_width !== 'undefined') {
+      wpData.push({
+        name: 'hz_bs_border_width',
+        value: hz_bs_border_width
+      });
+    }
+    if (typeof hz_bs_border_radius !== 'undefined') {
+      wpData.push({
+        name: 'hz_bs_border_radius',
+        value: hz_bs_border_radius
+      });
+    }
+    if (typeof hz_bs_padding !== 'undefined') {
+      wpData.push({
+        name: 'hz_bs_padding',
+        value: JSON.stringify(hz_bs_padding)
+      });
+    }
+    if (typeof hz_button_background_color !== 'undefined') {
+      wpData.push({
+        name: 'hz_button_background_color',
+        value: hz_button_background_color
+      });
+    }
+    if (typeof hz_button_text_color !== 'undefined') {
+      wpData.push({
+        name: 'hz_button_text_color',
+        value: hz_button_text_color
+      });
+    }
+
+    /* End */
+
     $(document).trigger('awsmjobs_block_load_more', [$listingsContainer, wpData]);
     var listingsData = getListingsData($listingsContainer);
     if (listingsData.length > 0) {
@@ -370,18 +899,18 @@ jQuery(function ($) {
         if (isDefaultPagination) {
           $triggerElem.text(awsmJobsPublic.i18n.loading_text);
         } else {
-          $listingsContainer.addClass('awsm-b-jobs-loading');
+          $listingsContainer.addClass('awsm-jobs-loading');
         }
       }
-    }).done(function (data) {
-      if (data) {
+    }).done(function (response) {
+      if (response.data.html) {
         var effectDuration = $paginationWrapper.data('effectDuration');
         $paginationWrapper.remove();
         if (isDefaultPagination) {
-          $listingsContainer.append(data);
+          $listingsrowContainer.append(response.data.html);
         } else {
-          $listingsContainer.html(data);
-          $listingsContainer.removeClass('awsm-b-jobs-loading');
+          $listingsrowContainer.html(response.data.html);
+          $listingsContainer.removeClass('awsm-jobs-loading');
           if (typeof effectDuration !== 'undefined') {
             effectDuration = isNaN(effectDuration) ? effectDuration : Number(effectDuration);
             $('html, body').animate({
@@ -392,7 +921,7 @@ jQuery(function ($) {
       } else {
         $triggerElem.remove();
       }
-      $(document).trigger('awsmjobs_load_more', [$triggerElem, data]);
+      $(document).trigger('awsmjobs_load_more', [$triggerElem, response.data.html]);
     }).fail(function (xhr) {
       // eslint-disable-next-line no-console
       console.log(xhr);

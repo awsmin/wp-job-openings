@@ -7,7 +7,7 @@ jQuery(window).on('load', function() {
 	jQuery('.awsm-job-setup').addClass('loaded');
 });
 
-jQuery(document).ready(function($) {
+jQuery(document).ready(function($) { 
 	var jobsAdminMain = window.awsmJobsAdminMain = window.awsmJobsAdminMain || {};
 
 	/**
@@ -285,7 +285,7 @@ jQuery(document).ready(function($) {
 			}
 		}
 	});
-
+	
 	/*================ Settings Error Handling ================*/
 
 	$('#awsm-job-settings-wrap input[type="submit"]').on('click', function() {

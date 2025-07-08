@@ -7,7 +7,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language-Team: AWSM innovations <hello@awsm.in>\n"
-"POT-Creation-Date: 2025-04-23 08:00+0000\n"
+<<<<<<< HEAD
+"POT-Creation-Date: 2025-06-10 10:25+0000\n"
+=======
+"POT-Creation-Date: 2025-01-22 06:45+0000\n"
+>>>>>>> feature/block-new-layout
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -15,6 +19,7 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+<<<<<<< HEAD
 #: wp-job-openings.php:275
 msgid "Jobs"
 msgstr ""
@@ -72,16 +77,93 @@ msgid "ago"
 msgstr ""
 
 #: wp-job-openings.php:525, wp-job-openings.php:545, wp-job-openings.php:806, wp-job-openings.php:2086, admin/templates/meta/job-status.php:54
+=======
+#: wp-job-openings.php:154, admin/class-awsm-job-openings-info.php:302, admin/class-awsm-job-openings-settings.php:471, inc/class-awsm-job-openings-mail-customizer.php:72, inc/class-awsm-job-openings-mail-customizer.php:108
+msgid "WP Job Openings"
+msgstr ""
+
+#: wp-job-openings.php:155
+msgid "Pro Pack"
+msgstr ""
+
+#. translators: %1$s: main plugin, %2$s: current plugin, %3$s: minimum required version of the main plugin, %4$s: plugin update link
+#: wp-job-openings.php:158
+msgid "Update required: The %2$s of the plugin must be updated to version 4.0 or higher to function with the Free version of %1$s."
+msgstr ""
+
+#: wp-job-openings.php:308
+msgid "Jobs"
+msgstr ""
+
+#: wp-job-openings.php:380, admin/class-awsm-job-openings-info.php:272, admin/class-awsm-job-openings-settings.php:48, admin/class-awsm-job-openings-settings.php:48, admin/templates/base.php:13
+msgid "Settings"
+msgstr ""
+
+#: wp-job-openings.php:387, inc/widgets/class-awsm-job-openings-dashboard-widget.php:55, admin/templates/meta/job-status.php:30
+msgid "Job Title"
+msgstr ""
+
+#: wp-job-openings.php:388
+msgid "Job ID"
+msgstr ""
+
+#: wp-job-openings.php:390, wp-job-openings.php:1187, admin/class-awsm-job-openings-info.php:250, inc/class-awsm-job-openings-core.php:124, inc/class-awsm-job-openings-core.php:126, inc/class-awsm-job-openings-core.php:127, inc/class-awsm-job-openings-core.php:137, inc/widgets/class-awsm-job-openings-dashboard-widget.php:58, admin/templates/meta/job-status.php:147, admin/templates/overview/widgets/job-listings.php:27
+msgid "Applications"
+msgstr ""
+
+#: wp-job-openings.php:391, inc/widgets/class-awsm-job-openings-dashboard-widget.php:66
+msgid "Expiry"
+msgstr ""
+
+#: wp-job-openings.php:392, inc/widgets/class-awsm-job-openings-dashboard-widget.php:63
+msgid "Views"
+msgstr ""
+
+#: wp-job-openings.php:393
+msgid "Conversion"
+msgstr ""
+
+#: wp-job-openings.php:509, admin/templates/overview/widgets/recent-applications.php:24
+msgid "Applicant"
+msgstr ""
+
+#: wp-job-openings.php:510, admin/templates/overview/widgets/job-listings.php:23
+msgid "ID"
+msgstr ""
+
+#: wp-job-openings.php:511, inc/class-awsm-job-openings-core.php:59, inc/templates/mail/email-digest.php:67
+msgid "Job"
+msgstr ""
+
+#: wp-job-openings.php:512, inc/templates/mail/email-digest.php:68
+msgid "Applied on"
+msgstr ""
+
+#: wp-job-openings.php:540
+msgid "View Job: "
+msgstr ""
+
+#: wp-job-openings.php:548, admin/templates/meta/job-status.php:70, admin/templates/overview/main.php:230, admin/templates/overview/widgets/recent-applications.php:34
+msgid "ago"
+msgstr ""
+
+#: wp-job-openings.php:558, wp-job-openings.php:578, wp-job-openings.php:845, wp-job-openings.php:2105, admin/templates/meta/job-status.php:54
+>>>>>>> feature/block-new-layout
 msgid "Expired"
 msgstr ""
 
 #. translators: %s: posts count with expired status
+<<<<<<< HEAD
 #: wp-job-openings.php:532
+=======
+#: wp-job-openings.php:565
+>>>>>>> feature/block-new-layout
 msgid "Expired <span class=\"count\">(%s)</span>"
 msgid_plural "Expired <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
+<<<<<<< HEAD
 #: wp-job-openings.php:741
 msgid "Email Digest - WP Job Openings"
 msgstr ""
@@ -103,15 +185,43 @@ msgid "All Jobs"
 msgstr ""
 
 #: wp-job-openings.php:905
+=======
+#: wp-job-openings.php:774
+msgid "Email Digest - WP Job Openings"
+msgstr ""
+
+#: wp-job-openings.php:842
+msgid "Published"
+msgstr ""
+
+#: wp-job-openings.php:842
+msgid "Current Openings"
+msgstr ""
+
+#: wp-job-openings.php:845
+msgid "Inactive"
+msgstr ""
+
+#: wp-job-openings.php:866
+msgid "All Jobs"
+msgstr ""
+
+#: wp-job-openings.php:944
+>>>>>>> feature/block-new-layout
 msgid "JavaScript is required! Please enable it in your browser."
 msgstr ""
 
 #. translators: %1$s: opening html tag, %2$s: closing html tag, %3$s: Jobs count, %4$s: Plugin rating site
+<<<<<<< HEAD
 #: wp-job-openings.php:923
+=======
+#: wp-job-openings.php:962
+>>>>>>> feature/block-new-layout
 msgid "That's awesome! You have just published %3$sth job posting on your wesbite using %1$sWP Job Openings%2$s. Could you please do us a BIG favor and give it a %1$s5-star%2$s rating on %4$s? Just to help us spread the word and boost our motivation."
 msgstr ""
 
 #. translators: %1$s: opening html tag, %2$s: closing html tag, %3$s: Applications count, %4$s: Plugin rating site
+<<<<<<< HEAD
 #: wp-job-openings.php:926
 msgid "You have received over %1$s%3$s%2$s job applications through %1$sWP Job Openings%2$s. That's awesome! May we ask you to give it a %1$s5-Star%2$s rating on %4$s. It will help us spread the word and boost our motivation."
 msgstr ""
@@ -169,15 +279,79 @@ msgid "Select or Upload an Image"
 msgstr ""
 
 #: wp-job-openings.php:1130
+=======
+#: wp-job-openings.php:965
+msgid "You have received over %1$s%3$s%2$s job applications through %1$sWP Job Openings%2$s. That's awesome! May we ask you to give it a %1$s5-Star%2$s rating on %4$s. It will help us spread the word and boost our motivation."
+msgstr ""
+
+#: wp-job-openings.php:971
+msgid "Ok, you deserve it"
+msgstr ""
+
+#: wp-job-openings.php:972
+msgid "I already did"
+msgstr ""
+
+#: wp-job-openings.php:973
+msgid "Maybe later"
+msgstr ""
+
+#: wp-job-openings.php:1042
+msgid "Invalid request!"
+msgstr ""
+
+#: wp-job-openings.php:1048
+msgid "Invalid context!"
+msgstr ""
+
+#: wp-job-openings.php:1096
+msgid "Loading..."
+msgstr ""
+
+#: wp-job-openings.php:1098
+msgid "Error in submitting your application. Please try again later!"
+msgstr ""
+
+#: wp-job-openings.php:1099
+msgid "The file you have selected is too large."
+msgstr ""
+
+#: wp-job-openings.php:1163, admin/templates/general.php:20
+msgid "Select a page"
+msgstr ""
+
+#: wp-job-openings.php:1165, admin/class-awsm-job-openings-settings.php:1145
+msgid "Select Image"
+msgstr ""
+
+#: wp-job-openings.php:1166, admin/class-awsm-job-openings-settings.php:1148
+msgid "Change Image"
+msgstr ""
+
+#: wp-job-openings.php:1167, admin/class-awsm-job-openings-settings.php:1144
+msgid "No Image selected"
+msgstr ""
+
+#: wp-job-openings.php:1168
+msgid "Select or Upload an Image"
+msgstr ""
+
+#: wp-job-openings.php:1169
+>>>>>>> feature/block-new-layout
 msgid "Choose"
 msgstr ""
 
 #. translators: %1$s: application id, %2$s: job title
+<<<<<<< HEAD
 #: wp-job-openings.php:1300
+=======
+#: wp-job-openings.php:1340
+>>>>>>> feature/block-new-layout
 msgid "Application #%1$s for %2$s"
 msgstr ""
 
 #. translators: %s: application submission time
+<<<<<<< HEAD
 #: wp-job-openings.php:1309
 msgid "Submitted on %s"
 msgstr ""
@@ -231,6 +405,61 @@ msgid "Per Diem"
 msgstr ""
 
 #: wp-job-openings.php:1846
+=======
+#: wp-job-openings.php:1349
+msgid "Submitted on %s"
+msgstr ""
+
+#: wp-job-openings.php:1353
+msgid "from IP "
+msgstr ""
+
+#: wp-job-openings.php:1574
+msgid "View Applications"
+msgstr ""
+
+#: wp-job-openings.php:1745
+msgid "Closing on"
+msgstr ""
+
+#: wp-job-openings.php:1747
+msgid "Expired on"
+msgstr ""
+
+#: wp-job-openings.php:1749
+msgid "M j, Y"
+msgstr ""
+
+#: wp-job-openings.php:1858
+msgid "Full Time"
+msgstr ""
+
+#: wp-job-openings.php:1859
+msgid "Part Time"
+msgstr ""
+
+#: wp-job-openings.php:1860
+msgid "Freelance"
+msgstr ""
+
+#: wp-job-openings.php:1861
+msgid "Temporary"
+msgstr ""
+
+#: wp-job-openings.php:1862
+msgid "Intern"
+msgstr ""
+
+#: wp-job-openings.php:1863
+msgid "Volunteer"
+msgstr ""
+
+#: wp-job-openings.php:1864
+msgid "Per Diem"
+msgstr ""
+
+#: wp-job-openings.php:1865
+>>>>>>> feature/block-new-layout
 msgid "Other"
 msgstr ""
 
@@ -278,7 +507,7 @@ msgstr ""
 msgid "Add-ons"
 msgstr ""
 
-#: admin/class-awsm-job-openings-info.php:121, admin/class-awsm-job-openings-info.php:277, inc/widgets/class-awsm-job-openings-dashboard-widget.php:102
+#: admin/class-awsm-job-openings-info.php:121, admin/class-awsm-job-openings-info.php:283, inc/widgets/class-awsm-job-openings-dashboard-widget.php:102
 msgid "Upgrade"
 msgstr ""
 
@@ -307,80 +536,92 @@ msgstr ""
 msgid "Activated"
 msgstr ""
 
-#: admin/class-awsm-job-openings-info.php:254
+#: admin/class-awsm-job-openings-info.php:260
 msgid "Openings"
 msgstr ""
 
-#: admin/class-awsm-job-openings-info.php:272, admin/templates/info/add-ons.php:21
+#: admin/class-awsm-job-openings-info.php:278, admin/templates/info/add-ons.php:21
 msgid "Add-Ons"
 msgstr ""
 
-#: admin/class-awsm-job-openings-info.php:296, admin/class-awsm-job-openings-settings.php:471, inc/class-awsm-job-openings-mail-customizer.php:72, inc/class-awsm-job-openings-mail-customizer.php:108, admin/templates/info/setup.php:20
-msgid "WP Job Openings"
-msgstr ""
-
-#: admin/class-awsm-job-openings-meta.php:34
+#: admin/class-awsm-job-openings-meta.php:40
 msgid "Job Status"
 msgstr ""
 
-#: admin/class-awsm-job-openings-meta.php:35
+#: admin/class-awsm-job-openings-meta.php:41
 msgid "Job Details"
 msgstr ""
 
-#: admin/class-awsm-job-openings-meta.php:39, admin/class-awsm-job-openings-settings.php:62
+#: admin/class-awsm-job-openings-meta.php:46, admin/class-awsm-job-openings-settings.php:62
 msgid "Job Specifications"
 msgstr ""
 
-#: admin/class-awsm-job-openings-meta.php:41
+#: admin/class-awsm-job-openings-meta.php:49
 msgid "Job Expiry"
 msgstr ""
 
-#: admin/class-awsm-job-openings-meta.php:43
+#: admin/class-awsm-job-openings-meta.php:51
 msgid "Applicant Details"
 msgstr ""
 
-#: admin/class-awsm-job-openings-meta.php:45
+#: admin/class-awsm-job-openings-meta.php:58
+msgid "Resume Preview"
+msgstr ""
+
+#: admin/class-awsm-job-openings-meta.php:64
 msgid "Actions"
 msgstr ""
 
-#: admin/class-awsm-job-openings-meta.php:46
+#: admin/class-awsm-job-openings-meta.php:65
 msgid "Upgrade to WPJO Pro"
 msgstr ""
 
-#: admin/class-awsm-job-openings-meta.php:85, inc/templates/mail/email-digest.php:66
+#: admin/class-awsm-job-openings-meta.php:115
+msgid "Profile"
+msgstr ""
+
+#: admin/class-awsm-job-openings-meta.php:135, inc/templates/mail/email-digest.php:66
 msgid "Name"
 msgstr ""
 
-#: admin/class-awsm-job-openings-meta.php:88, inc/class-awsm-job-openings-form.php:88
-msgid "Phone"
+#: admin/class-awsm-job-openings-meta.php:138
+msgid "Email Address"
 msgstr ""
 
-#: admin/class-awsm-job-openings-meta.php:91, inc/class-awsm-job-openings-form.php:74
-msgid "Email"
+#: admin/class-awsm-job-openings-meta.php:141
+msgid "Phone Number"
 msgstr ""
 
-#: admin/class-awsm-job-openings-meta.php:94, inc/class-awsm-job-openings-form.php:101
-msgid "Cover Letter"
+#: admin/class-awsm-job-openings-meta.php:144
+msgid "Bio"
 msgstr ""
 
-#: admin/class-awsm-job-openings-meta.php:118
+#: admin/class-awsm-job-openings-meta.php:187
 msgid "Download File"
 msgstr ""
 
-#: admin/class-awsm-job-openings-meta.php:188
+#: admin/class-awsm-job-openings-meta.php:265
 msgid "Error occurred!"
 msgstr ""
 
-#: admin/class-awsm-job-openings-meta.php:192
+#: admin/class-awsm-job-openings-meta.php:269
 msgid "Invalid id."
 msgstr ""
 
-#: admin/class-awsm-job-openings-meta.php:208
+#: admin/class-awsm-job-openings-meta.php:285
 msgid "File not found!"
 msgstr ""
 
-#: admin/class-awsm-job-openings-meta.php:214
+#: admin/class-awsm-job-openings-meta.php:291
 msgid "resume"
+msgstr ""
+
+#: admin/class-awsm-job-openings-meta.php:318
+msgid "Edit"
+msgstr ""
+
+#: admin/class-awsm-job-openings-meta.php:318, inc/templates/mail/email-digest.php:81
+msgid "View"
 msgstr ""
 
 #: admin/class-awsm-job-openings-overview.php:50, inc/widgets/class-awsm-job-openings-dashboard-widget.php:22
@@ -391,32 +632,32 @@ msgstr ""
 msgid "Overview"
 msgstr ""
 
-#: admin/class-awsm-job-openings-overview.php:75
+#: admin/class-awsm-job-openings-overview.php:77
 msgid "Applications Analytics"
 msgstr ""
 
-#: admin/class-awsm-job-openings-overview.php:79, admin/templates/info/setup.php:61
+#: admin/class-awsm-job-openings-overview.php:81, admin/templates/info/setup.php:66, admin/templates/info/setup.php:67
 msgid "Get Started"
 msgstr ""
 
-#: admin/class-awsm-job-openings-overview.php:85
+#: admin/class-awsm-job-openings-overview.php:87
 msgid "Applications by Status"
 msgstr ""
 
-#: admin/class-awsm-job-openings-overview.php:91, inc/templates/mail/email-digest.php:62
+#: admin/class-awsm-job-openings-overview.php:93, admin/templates/overview/main.php:214, inc/templates/mail/email-digest.php:62
 msgid "Recent Applications"
 msgstr ""
 
-#: admin/class-awsm-job-openings-overview.php:94, admin/templates/overview/main.php:53
+#: admin/class-awsm-job-openings-overview.php:96, admin/templates/overview/main.php:71
 msgid "Open Positions"
 msgstr ""
 
-#: admin/class-awsm-job-openings-overview.php:99
+#: admin/class-awsm-job-openings-overview.php:101
 msgid "Your Listings"
 msgstr ""
 
 #. translators: %1$s: opening anchor tag, %2$s: closing anchor tag
-#: admin/class-awsm-job-openings-overview.php:138
+#: admin/class-awsm-job-openings-overview.php:140, admin/templates/overview/main.php:101
 msgid "This feature requires %1$sPRO Plan%2$s to work"
 msgstr ""
 
@@ -436,7 +677,7 @@ msgstr ""
 msgid "Form"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:64
+#: admin/class-awsm-job-openings-settings.php:64, admin/templates/meta/applicant-single.php:130
 msgid "Notifications"
 msgstr ""
 
@@ -456,7 +697,7 @@ msgstr ""
 msgid "Customize"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:430, inc/template-functions.php:245
+#: admin/class-awsm-job-openings-settings.php:430, inc/template-functions.php:296
 msgid "We currently have no job openings"
 msgstr ""
 
@@ -653,234 +894,239 @@ msgstr ""
 msgid "Default from email:"
 msgstr ""
 
-#: inc/class-awsm-job-openings-block.php:103
+#: inc/class-awsm-job-openings-block.php:107
 msgctxt "job filter"
 msgid "Search Jobs"
 msgstr ""
 
-#: inc/class-awsm-job-openings-block.php:220, inc/class-awsm-job-openings-filters.php:184
+#: inc/class-awsm-job-openings-block.php:231, inc/class-awsm-job-openings-block.php:778, inc/class-awsm-job-openings-filters.php:184
 msgctxt "job filter"
 msgid "All"
 msgstr ""
 
-#: inc/class-awsm-job-openings-block.php:268, inc/class-awsm-job-openings-filters.php:228
+#: inc/class-awsm-job-openings-block.php:288, inc/class-awsm-job-openings-filters.php:228
 msgctxt "job filter"
 msgid "Filter by"
 msgstr ""
 
-#: inc/class-awsm-job-openings-block.php:436, inc/class-awsm-job-openings-filters.php:330
+#: inc/class-awsm-job-openings-block.php:478, inc/class-awsm-job-openings-filters.php:330
 msgid "Sorry! No more jobs to show."
 msgstr ""
 
-#: inc/class-awsm-job-openings-block.php:434, inc/class-awsm-job-openings-filters.php:328
+#: inc/class-awsm-job-openings-block.php:476, inc/class-awsm-job-openings-filters.php:328, inc/templates/job-openings-view.php:80, inc/templates/block-files/block-job-openings-view.php:121
 msgid "Sorry! No jobs to show."
 msgstr ""
 
-#: inc/class-awsm-job-openings-core.php:57, inc/class-awsm-job-openings-core.php:67
+#: inc/class-awsm-job-openings-core.php:58, inc/class-awsm-job-openings-core.php:68
 msgid "Job Openings"
 msgstr ""
 
-#: inc/class-awsm-job-openings-core.php:59
+#: inc/class-awsm-job-openings-core.php:60
 msgid "New Opening"
 msgstr ""
 
-#: inc/class-awsm-job-openings-core.php:60
+#: inc/class-awsm-job-openings-core.php:61
 msgid "Add New Job"
 msgstr ""
 
-#: inc/class-awsm-job-openings-core.php:61
+#: inc/class-awsm-job-openings-core.php:62
 msgid "Edit Job"
 msgstr ""
 
-#: inc/class-awsm-job-openings-core.php:62
+#: inc/class-awsm-job-openings-core.php:63
 msgid "New job"
 msgstr ""
 
-#: inc/class-awsm-job-openings-core.php:63
+#: inc/class-awsm-job-openings-core.php:64
 msgid "Search Jobs"
 msgstr ""
 
-#: inc/class-awsm-job-openings-core.php:64
+#: inc/class-awsm-job-openings-core.php:65
 msgid "No Jobs found"
 msgstr ""
 
-#: inc/class-awsm-job-openings-core.php:65
+#: inc/class-awsm-job-openings-core.php:66
 msgid "No Jobs found in Trash"
 msgstr ""
 
-#: inc/class-awsm-job-openings-core.php:66
+#: inc/class-awsm-job-openings-core.php:67
 msgid "Parent Job :"
 msgstr ""
 
-#: inc/class-awsm-job-openings-core.php:68, inc/class-awsm-job-openings-core.php:327
+#: inc/class-awsm-job-openings-core.php:69, inc/class-awsm-job-openings-core.php:363
 msgid "View Job listing"
 msgstr ""
 
-#: inc/class-awsm-job-openings-core.php:69
+#: inc/class-awsm-job-openings-core.php:70
 msgid "View Job listings"
 msgstr ""
 
-#: inc/class-awsm-job-openings-core.php:70, inc/class-awsm-job-openings-core.php:340
+#: inc/class-awsm-job-openings-core.php:71, inc/class-awsm-job-openings-core.php:376
 msgid "Job listing published."
 msgstr ""
 
-#: inc/class-awsm-job-openings-core.php:71
+#: inc/class-awsm-job-openings-core.php:72
 msgid "Job listing published privately."
 msgstr ""
 
-#: inc/class-awsm-job-openings-core.php:72
+#: inc/class-awsm-job-openings-core.php:73
 msgid "Job listing reverted to draft."
 msgstr ""
 
-#: inc/class-awsm-job-openings-core.php:73
+#: inc/class-awsm-job-openings-core.php:74
 msgid "Job listing scheduled."
 msgstr ""
 
-#: inc/class-awsm-job-openings-core.php:74, inc/class-awsm-job-openings-core.php:334, inc/class-awsm-job-openings-core.php:337
+#: inc/class-awsm-job-openings-core.php:75, inc/class-awsm-job-openings-core.php:370, inc/class-awsm-job-openings-core.php:373
 msgid "Job listing updated."
 msgstr ""
 
-#: inc/class-awsm-job-openings-core.php:122
+#: inc/class-awsm-job-openings-core.php:125
 msgid "Application"
 msgstr ""
 
-#: inc/class-awsm-job-openings-core.php:125
+#: inc/class-awsm-job-openings-core.php:128
 msgid "Search Applications"
 msgstr ""
 
-#: inc/class-awsm-job-openings-core.php:126
+#: inc/class-awsm-job-openings-core.php:129
 msgid "No Applications found"
 msgstr ""
 
-#: inc/class-awsm-job-openings-core.php:127
+#: inc/class-awsm-job-openings-core.php:130
 msgid "No Applications found in Trash"
 msgstr ""
 
-#: inc/class-awsm-job-openings-core.php:219
+#. translators: Number of applications
+#: inc/class-awsm-job-openings-core.php:134
+msgid "Applications %s"
+msgstr ""
+
+#: inc/class-awsm-job-openings-core.php:255
 msgid "HR"
 msgstr ""
 
-#: inc/class-awsm-job-openings-core.php:315, inc/class-awsm-job-openings-core.php:321
+#: inc/class-awsm-job-openings-core.php:351, inc/class-awsm-job-openings-core.php:357
 msgid "Preview Job listing"
 msgstr ""
 
 #. translators: %s: date and time of the revision
-#: inc/class-awsm-job-openings-core.php:339
+#: inc/class-awsm-job-openings-core.php:375
 msgid "Job listing restored to revision from %s."
 msgstr ""
 
-#: inc/class-awsm-job-openings-core.php:341
+#: inc/class-awsm-job-openings-core.php:377
 msgid "Job listing saved."
 msgstr ""
 
-#: inc/class-awsm-job-openings-core.php:342
+#: inc/class-awsm-job-openings-core.php:378
 msgid "Job listing submitted."
 msgstr ""
 
 #. translators: %s: scheduled date
-#: inc/class-awsm-job-openings-core.php:344
+#: inc/class-awsm-job-openings-core.php:380
 msgid "Job listing scheduled for: %s."
 msgstr ""
 
-#: inc/class-awsm-job-openings-core.php:345
+#: inc/class-awsm-job-openings-core.php:381
 msgid "Job listing draft updated."
 msgstr ""
 
-#: inc/class-awsm-job-openings-core.php:350, inc/class-awsm-job-openings-core.php:353
+#: inc/class-awsm-job-openings-core.php:386, inc/class-awsm-job-openings-core.php:389
 msgid "Application updated."
 msgstr ""
 
 #. translators: %s: date and time of the revision
-#: inc/class-awsm-job-openings-core.php:355
+#: inc/class-awsm-job-openings-core.php:391
 msgid "Application restored to revision from %s."
 msgstr ""
 
-#: inc/class-awsm-job-openings-core.php:356
+#: inc/class-awsm-job-openings-core.php:392
 msgid "Application published."
 msgstr ""
 
-#: inc/class-awsm-job-openings-core.php:357
+#: inc/class-awsm-job-openings-core.php:393
 msgid "Application saved."
 msgstr ""
 
-#: inc/class-awsm-job-openings-core.php:358
+#: inc/class-awsm-job-openings-core.php:394
 msgid "Application submitted."
 msgstr ""
 
 #. translators: %s: scheduled date
-#: inc/class-awsm-job-openings-core.php:360
+#: inc/class-awsm-job-openings-core.php:396
 msgid "Application scheduled for: %s."
 msgstr ""
 
-#: inc/class-awsm-job-openings-core.php:361
+#: inc/class-awsm-job-openings-core.php:397
 msgid "Application draft updated."
 msgstr ""
 
 #. translators: %s: job count
-#: inc/class-awsm-job-openings-core.php:369
+#: inc/class-awsm-job-openings-core.php:405
 msgid "%s job listing updated."
 msgid_plural "%s job listings updated."
 msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s: job count
-#: inc/class-awsm-job-openings-core.php:371
+#: inc/class-awsm-job-openings-core.php:407
 msgid "%s job listing not updated, somebody is editing it."
 msgid_plural "%s job listings not updated, somebody is editing them."
 msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s: job count
-#: inc/class-awsm-job-openings-core.php:373
+#: inc/class-awsm-job-openings-core.php:409
 msgid "%s job listing permanently deleted."
 msgid_plural "%s job listings permanently deleted."
 msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s: job count
-#: inc/class-awsm-job-openings-core.php:375
+#: inc/class-awsm-job-openings-core.php:411
 msgid "%s job listing moved to the Trash."
 msgid_plural "%s job listings moved to the Trash."
 msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s: job count
-#: inc/class-awsm-job-openings-core.php:377
+#: inc/class-awsm-job-openings-core.php:413
 msgid "%s job listing restored from the Trash."
 msgid_plural "%s job listings restored from the Trash."
 msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s: job application count
-#: inc/class-awsm-job-openings-core.php:382
+#: inc/class-awsm-job-openings-core.php:418
 msgid "%s application updated."
 msgid_plural "%s applications updated."
 msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s: job application count
-#: inc/class-awsm-job-openings-core.php:384
+#: inc/class-awsm-job-openings-core.php:420
 msgid "%s application not updated, somebody is editing it."
 msgid_plural "%s applications not updated, somebody is editing them."
 msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s: job application count
-#: inc/class-awsm-job-openings-core.php:386
+#: inc/class-awsm-job-openings-core.php:422
 msgid "%s application permanently deleted."
 msgid_plural "%s applications permanently deleted."
 msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s: job application count
-#: inc/class-awsm-job-openings-core.php:388
+#: inc/class-awsm-job-openings-core.php:424
 msgid "%s application moved to the Trash."
 msgid_plural "%s applications moved to the Trash."
 msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s: job application count
-#: inc/class-awsm-job-openings-core.php:390
+#: inc/class-awsm-job-openings-core.php:426
 msgid "%s application restored from the Trash."
 msgid_plural "%s applications restored from the Trash."
 msgstr[0] ""
@@ -900,83 +1146,155 @@ msgstr ""
 msgid "Full Name"
 msgstr ""
 
+#: inc/class-awsm-job-openings-form.php:74
+msgid "Email"
+msgstr ""
+
 #: inc/class-awsm-job-openings-form.php:83
 msgid "Please enter a valid email address."
+msgstr ""
+
+#: inc/class-awsm-job-openings-form.php:88
+msgid "Phone"
 msgstr ""
 
 #: inc/class-awsm-job-openings-form.php:96
 msgid "Please enter a valid phone number."
 msgstr ""
 
-#: inc/class-awsm-job-openings-form.php:110
+#: inc/class-awsm-job-openings-form.php:101
+msgid "Cover Letter"
+msgstr ""
+
+#: inc/class-awsm-job-openings-form.php:110, inc/class-awsm-job-openings-form.php:1012
 msgid "Upload CV/Resume"
 msgstr ""
 
-#: inc/class-awsm-job-openings-form.php:153, inc/class-awsm-job-openings-form.php:278
+#: inc/class-awsm-job-openings-form.php:154, inc/class-awsm-job-openings-form.php:279
 msgid "This field is required."
 msgstr ""
 
-#: inc/class-awsm-job-openings-form.php:194
+#: inc/class-awsm-job-openings-form.php:195
 msgid "--Please Choose an Option--"
 msgstr ""
 
-#: inc/class-awsm-job-openings-form.php:425, inc/class-awsm-job-openings-third-party.php:93
+<<<<<<< HEAD
+#: inc/class-awsm-job-openings-form.php:430, inc/class-awsm-job-openings-third-party.php:93
 msgid "Error in submitting your application. Please refresh the page and retry."
 msgstr ""
 
-#: inc/class-awsm-job-openings-form.php:432
+#: inc/class-awsm-job-openings-form.php:437
 msgid "Please verify that you are not a robot."
 msgstr ""
 
-#: inc/class-awsm-job-openings-form.php:437
+#: inc/class-awsm-job-openings-form.php:442
 msgid "Please agree to our privacy policy."
 msgstr ""
 
-#: inc/class-awsm-job-openings-form.php:443
+#: inc/class-awsm-job-openings-form.php:448
 msgid "Error occurred: Invalid Job."
 msgstr ""
 
-#: inc/class-awsm-job-openings-form.php:446, inc/template-functions.php:252
+#: inc/class-awsm-job-openings-form.php:451, inc/template-functions.php:252
 msgid "Sorry! This job has expired."
 msgstr ""
 
-#: inc/class-awsm-job-openings-form.php:449
+#: inc/class-awsm-job-openings-form.php:454
 msgid "Name is required."
 msgstr ""
 
-#: inc/class-awsm-job-openings-form.php:455
+#: inc/class-awsm-job-openings-form.php:460
 msgid "Invalid email format."
 msgstr ""
 
-#: inc/class-awsm-job-openings-form.php:452
+#: inc/class-awsm-job-openings-form.php:457
 msgid "Email is required."
 msgstr ""
 
-#: inc/class-awsm-job-openings-form.php:462
+#: inc/class-awsm-job-openings-form.php:467
 msgid "Invalid phone number."
 msgstr ""
 
-#: inc/class-awsm-job-openings-form.php:459
+#: inc/class-awsm-job-openings-form.php:464
 msgid "Contact number is required."
 msgstr ""
 
-#: inc/class-awsm-job-openings-form.php:466
+#: inc/class-awsm-job-openings-form.php:471
 msgid "Cover Letter cannot be empty."
 msgstr ""
 
-#: inc/class-awsm-job-openings-form.php:469
+#: inc/class-awsm-job-openings-form.php:474
 msgid "Please select your cv/resume."
 msgstr ""
 
-#: inc/class-awsm-job-openings-form.php:472
+#: inc/class-awsm-job-openings-form.php:477
 msgid "Private job submission is not allowed."
 msgstr ""
 
-#: inc/class-awsm-job-openings-form.php:554
+#: inc/class-awsm-job-openings-form.php:559
 msgid "Your application has been submitted."
 msgstr ""
 
-#: inc/class-awsm-job-openings-form.php:647
+#: inc/class-awsm-job-openings-form.php:652
+=======
+#: inc/class-awsm-job-openings-form.php:426, inc/class-awsm-job-openings-third-party.php:93
+msgid "Error in submitting your application. Please refresh the page and retry."
+msgstr ""
+
+#: inc/class-awsm-job-openings-form.php:433
+msgid "Please verify that you are not a robot."
+msgstr ""
+
+#: inc/class-awsm-job-openings-form.php:438
+msgid "Please agree to our privacy policy."
+msgstr ""
+
+#: inc/class-awsm-job-openings-form.php:444
+msgid "Error occurred: Invalid Job."
+msgstr ""
+
+#: inc/class-awsm-job-openings-form.php:447, inc/template-functions.php:303
+msgid "Sorry! This job has expired."
+msgstr ""
+
+#: inc/class-awsm-job-openings-form.php:450
+msgid "Name is required."
+msgstr ""
+
+#: inc/class-awsm-job-openings-form.php:456
+msgid "Invalid email format."
+msgstr ""
+
+#: inc/class-awsm-job-openings-form.php:453
+msgid "Email is required."
+msgstr ""
+
+#: inc/class-awsm-job-openings-form.php:463
+msgid "Invalid phone number."
+msgstr ""
+
+#: inc/class-awsm-job-openings-form.php:460
+msgid "Contact number is required."
+msgstr ""
+
+#: inc/class-awsm-job-openings-form.php:467
+msgid "Cover Letter cannot be empty."
+msgstr ""
+
+#: inc/class-awsm-job-openings-form.php:470
+msgid "Please select your cv/resume."
+msgstr ""
+
+#: inc/class-awsm-job-openings-form.php:473
+msgid "Private job submission is not allowed."
+msgstr ""
+
+#: inc/class-awsm-job-openings-form.php:569
+msgid "Your application has been submitted."
+msgstr ""
+
+#: inc/class-awsm-job-openings-form.php:662
+>>>>>>> feature/block-new-layout
 msgid "The following errors have occurred:"
 msgstr ""
 
@@ -984,19 +1302,19 @@ msgstr ""
 msgid "It looks like you have overridden the mail HTML template files. This version is unsupported with the notification customizer. Please update template files for full support."
 msgstr ""
 
-#: inc/template-functions-block.php:65, inc/template-functions.php:224
-msgid "Load more..."
+#: inc/template-functions-block.php:123, inc/template-functions.php:275
+msgid "Load more"
 msgstr ""
 
-#: inc/template-functions.php:177, admin/templates/info/add-ons.php:95
+#: inc/template-functions.php:228, admin/templates/info/add-ons.php:95
 msgid "More Details"
 msgstr ""
 
-#: inc/template-functions.php:279
+#: inc/template-functions.php:330
 msgid "Submit"
 msgstr ""
 
-#: inc/template-functions.php:288
+#: inc/template-functions.php:339
 msgid "Submitting.."
 msgstr ""
 
@@ -1461,11 +1779,11 @@ msgstr ""
 msgid "Active Jobs"
 msgstr ""
 
-#: inc/widgets/class-awsm-job-openings-dashboard-widget.php:39, admin/templates/overview/main.php:59, inc/templates/mail/email-digest.php:46
+#: inc/widgets/class-awsm-job-openings-dashboard-widget.php:39, admin/templates/overview/main.php:77, inc/templates/mail/email-digest.php:46
 msgid "New Applications"
 msgstr ""
 
-#: inc/widgets/class-awsm-job-openings-dashboard-widget.php:43, admin/templates/overview/main.php:63, inc/templates/mail/email-digest.php:50
+#: inc/widgets/class-awsm-job-openings-dashboard-widget.php:43, admin/templates/overview/main.php:82, inc/templates/mail/email-digest.php:50
 msgid "Total Applications"
 msgstr ""
 
@@ -1473,7 +1791,7 @@ msgstr ""
 msgid "View More"
 msgstr ""
 
-#: inc/widgets/class-awsm-job-openings-dashboard-widget.php:108, admin/templates/overview/main.php:43
+#: inc/widgets/class-awsm-job-openings-dashboard-widget.php:108, admin/templates/overview/main.php:61
 msgid "View All Applications"
 msgstr ""
 
@@ -1505,15 +1823,15 @@ msgstr ""
 msgid "Display 'More Details' link?"
 msgstr ""
 
-#: admin/templates/info/add-ons.php:108
+#: admin/templates/info/add-ons.php:108, admin/templates/overview/main.php:399
 msgid "Sorry! Error fetching add-ons data. Please come back later."
 msgstr ""
 
-#: admin/templates/info/add-ons.php:69
+#: admin/templates/info/add-ons.php:69, admin/templates/overview/main.php:350
 msgid "Free"
 msgstr ""
 
-#: admin/templates/info/add-ons.php:88
+#: admin/templates/info/add-ons.php:88, admin/templates/overview/main.php:383
 msgid "Coming soon!"
 msgstr ""
 
@@ -1522,44 +1840,80 @@ msgstr ""
 msgid "More add-ons are being developed by our team. If you have any suggestions or feature request, please feel free to reach us through %1$s our website %2$s."
 msgstr ""
 
-#: admin/templates/info/setup.php:21
-msgid "by AWSM INNOVATIONS"
+#: admin/templates/info/setup.php:19, admin/templates/info/setup.php:20
+msgid "HireZoot by AWSM INNOVATIONS"
 msgstr ""
 
-#: admin/templates/info/setup.php:26
-msgid "Thanks for installing WP Job Openings, you are awesome! With WP Job Openings, it will take you only a few minutes to set up your job listing page and start hiring."
+#: admin/templates/info/setup.php:24
+msgid "Thanks for installing Hirezoot, you are awesome! "
 msgstr ""
 
-#: admin/templates/info/setup.php:30
-msgid "Set up the listing page"
+#: admin/templates/info/setup.php:25
+msgid "Your are a few minutes away from setting up your job page and start hiring."
 msgstr ""
 
 #: admin/templates/info/setup.php:31
-msgid "Add job openings"
+msgid "Let’s get started 🚀"
 msgstr ""
 
-#: admin/templates/info/setup.php:32
-msgid "Start hunting talents!"
+#: admin/templates/info/setup.php:33
+msgid "1"
 msgstr ""
 
-#: admin/templates/info/setup.php:38
-msgid "Let's set up your job listing"
+#: admin/templates/info/setup.php:34
+msgid "2"
+msgstr ""
+
+#: admin/templates/info/setup.php:35
+msgid "3"
 msgstr ""
 
 #: admin/templates/info/setup.php:44
-msgid "The official name, which will be displayed all over"
+msgid "Please enter the full name of your hiring company"
 msgstr ""
 
 #: admin/templates/info/setup.php:49
-msgid "The email address that should be receiving all notifications"
+msgid "Enter the email you want to receive applications and notifications"
 msgstr ""
 
 #: admin/templates/info/setup.php:57
-msgid "The page you want to display the listing. You an choose it later also."
+msgid "Select the page where your job listings will be displayed"
 msgstr ""
 
-#: admin/templates/meta/applicant-single.php:32
+#: admin/templates/info/setup.php:63, admin/templates/meta/job-status.php:161
+msgid "Next"
+msgstr ""
+
+#: admin/templates/info/setup.php:70
+msgid "← Back"
+msgstr ""
+
+#: admin/templates/info/setup.php:77
+msgid "Skip to dashboard"
+msgstr ""
+
+#: admin/templates/meta/applicant-single.php:48
+msgid "%s"
+msgstr ""
+
+#: admin/templates/meta/applicant-single.php:63
+msgid "Pro Features"
+msgstr ""
+
+#: admin/templates/meta/applicant-single.php:131
+msgid "Remarks"
+msgstr ""
+
+#: admin/templates/meta/applicant-single.php:155, admin/templates/meta/applicant-single.php:163
+msgid "Resume"
+msgstr ""
+
+#: admin/templates/meta/applicant-single.php:172
 msgid "Download Resume"
+msgstr ""
+
+#: admin/templates/meta/applicant-single.php:176
+msgid "Download"
 msgstr ""
 
 #. translators: %s: application submission time
@@ -1567,17 +1921,17 @@ msgstr ""
 msgid "Submitted on: %s"
 msgstr ""
 
-#: admin/templates/meta/application-actions.php:32
+#: admin/templates/meta/application-actions.php:37, admin/templates/meta/application-actions.php:48
+msgid "Pro Feature"
+msgstr ""
+
+#: admin/templates/meta/application-actions.php:38, admin/templates/meta/application-actions.php:49
 msgid "Status:"
 msgstr ""
 
-#: admin/templates/meta/application-actions.php:35
+#: admin/templates/meta/application-actions.php:41, admin/templates/meta/application-actions.php:52
 msgctxt "post status"
 msgid "New"
-msgstr ""
-
-#: admin/templates/meta/application-actions.php:53
-msgid "Pro Features"
 msgstr ""
 
 #: admin/templates/meta/get-pro.php:10
@@ -1601,7 +1955,7 @@ msgid "Custom Email Notifications &amp; Templates"
 msgstr ""
 
 #: admin/templates/meta/get-pro.php:16
-msgid "Notes, Activity Log and more!"
+msgid "Remarks, Activity Log and more!"
 msgstr ""
 
 #: admin/templates/meta/get-pro.php:19
@@ -1632,62 +1986,135 @@ msgstr ""
 msgid "Last Submission:"
 msgstr ""
 
-#: admin/templates/meta/job-status.php:56
+#: admin/templates/meta/job-status.php:58
 msgid "Pending"
+msgstr ""
+
+#: admin/templates/meta/job-status.php:56
+msgid "Trashed"
 msgstr ""
 
 #: admin/templates/meta/job-status.php:52
 msgid "Active"
 msgstr ""
 
-#: admin/templates/meta/job-status.php:70, admin/templates/meta/job-status.php:77
+#: admin/templates/meta/job-status.php:72, admin/templates/meta/job-status.php:79
 msgid "NA"
 msgstr ""
 
-#: admin/templates/meta/job-status.php:85
+#: admin/templates/meta/job-status.php:87
 msgid "Deleted"
 msgstr ""
 
-#: admin/templates/meta/job-status.php:90
+#: admin/templates/meta/job-status.php:92
 msgid "Date Posted:"
 msgstr ""
 
-#: admin/templates/meta/job-status.php:95
+#: admin/templates/meta/job-status.php:97
 msgid "Date of Expiry:"
 msgstr ""
 
-#: admin/templates/meta/job-status.php:116
+#: admin/templates/meta/job-status.php:153
 msgid "Prev"
 msgstr ""
 
-#: admin/templates/meta/job-status.php:120
-msgid "Next"
+#: admin/templates/meta/resume-preview.php:40
+msgid "No resume to preview. File not found!"
 msgstr ""
 
-#: admin/templates/overview/main.php:18
-msgid "Job Openings Overview"
+#: admin/templates/meta/resume-preview.php:34
+msgid "This file type cannot be previewed. Please download the file to view it."
 msgstr ""
 
 #. translators: %s: Current user name
-#: admin/templates/overview/main.php:27
-msgid "Hi %s!"
+#: admin/templates/overview/main.php:42
+msgid "Hello %s!"
 msgstr ""
 
 #. translators: %s: New applications count
-#: admin/templates/overview/main.php:34
+#: admin/templates/overview/main.php:52
 msgid "You have %s new applications to review"
 msgstr ""
 
-#: admin/templates/overview/main.php:30
+#: admin/templates/overview/main.php:48
 msgid "Welcome to WP Job Openings! Let's get started?"
 msgstr ""
 
-#: admin/templates/overview/main.php:45
+#: admin/templates/overview/main.php:63
 msgid "View All Jobs"
 msgstr ""
 
-#: admin/templates/overview/main.php:40
+#: admin/templates/overview/main.php:58
 msgid "Add A New Opening"
+msgstr ""
+
+#: admin/templates/overview/main.php:95
+msgid "Application by Status"
+msgstr ""
+
+#: admin/templates/overview/main.php:127
+msgid "Template not found."
+msgstr ""
+
+#: admin/templates/overview/main.php:137
+msgid "Application Analytics"
+msgstr ""
+
+#: admin/templates/overview/main.php:156, admin/templates/overview/widgets/get-started.php:23
+msgid "Plugin Documentation"
+msgstr ""
+
+#: admin/templates/overview/main.php:161, admin/templates/overview/widgets/get-started.php:28
+msgid "Hooks & Functions"
+msgstr ""
+
+#: admin/templates/overview/main.php:166, admin/templates/overview/widgets/get-started.php:33
+msgid "Feedback"
+msgstr ""
+
+#: admin/templates/overview/main.php:171, admin/templates/overview/widgets/get-started.php:38
+msgid "Roadmap"
+msgstr ""
+
+#: admin/templates/overview/main.php:176, admin/templates/overview/widgets/get-started.php:43
+msgid "Get Support"
+msgstr ""
+
+#: admin/templates/overview/main.php:192
+msgid "Get started"
+msgstr ""
+
+#: admin/templates/overview/main.php:195, admin/templates/overview/widgets/get-started.php:62
+msgid "Need help with something?"
+msgstr ""
+
+#: admin/templates/overview/main.php:216, admin/templates/overview/main.php:255
+msgid "View All"
+msgstr ""
+
+#: admin/templates/overview/main.php:245, admin/templates/overview/widgets/applications-analytics.php:28, admin/templates/overview/widgets/recent-applications.php:61
+msgid "Awaiting applications"
+msgstr ""
+
+#: admin/templates/overview/main.php:253
+msgid "Open Job Positions"
+msgstr ""
+
+#. translators: %1$s: opening anchor tag, %2$s: closing anchor tag
+#: admin/templates/overview/main.php:306, admin/templates/overview/widgets/job-listings.php:73
+msgid "It Looks empty here! %1$sAdd a Job Opening%2$s"
+msgstr ""
+
+#: admin/templates/overview/main.php:288
+msgid "Published on: %s"
+msgstr ""
+
+#: admin/templates/overview/main.php:317
+msgid "Add-ons for HireSuit"
+msgstr ""
+
+#: admin/templates/overview/main.php:353
+msgid "Price starting from"
 msgstr ""
 
 #: inc/templates/mail/email-digest.php:23
@@ -1703,45 +2130,8 @@ msgstr ""
 msgid "j F Y"
 msgstr ""
 
-#: inc/templates/mail/email-digest.php:81
-msgid "View"
-msgstr ""
-
 #: inc/templates/single-job/form.php:41
 msgid "Apply for this position"
-msgstr ""
-
-#: admin/templates/overview/widgets/applications-analytics.php:27, admin/templates/overview/widgets/recent-applications.php:61
-msgid "Awaiting applications"
-msgstr ""
-
-#: admin/templates/overview/widgets/get-started.php:23
-msgid "Plugin Documentation"
-msgstr ""
-
-#: admin/templates/overview/widgets/get-started.php:28
-msgid "Hooks & Functions"
-msgstr ""
-
-#: admin/templates/overview/widgets/get-started.php:33
-msgid "Feedback"
-msgstr ""
-
-#: admin/templates/overview/widgets/get-started.php:38
-msgid "Roadmap"
-msgstr ""
-
-#: admin/templates/overview/widgets/get-started.php:43
-msgid "Get Support"
-msgstr ""
-
-#: admin/templates/overview/widgets/get-started.php:62
-msgid "Need help with something?"
-msgstr ""
-
-#. translators: %1$s: opening anchor tag, %2$s: closing anchor tag
-#: admin/templates/overview/widgets/job-listings.php:73
-msgid "Looks empty! %1$sAdd some%2$s"
 msgstr ""
 
 #: admin/templates/overview/widgets/job-listings.php:24, admin/templates/overview/widgets/recent-applications.php:25

@@ -167,7 +167,9 @@ ul.awsm-list-inline label {
 .awsm-check-list.awsm-check-list-small li {
 	padding-bottom: 3px;
 }
-
+.awsm-check-list .awsm-list-inline{
+	padding-bottom: 10px;
+}
 .awsm-form-bottom {
 	padding: 20px 0;
 }
@@ -257,14 +259,13 @@ ul.awsm-list-inline label {
 	width: 14px;
 	height: 8px;
 	position: absolute;
-	right: 0;
-	top: calc(50% - 4px);
-	background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQiIGhlaWdodD0iOCIgdmlld0JveD0iMCAwIDE0IDgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0xNCAyLjAwMDg4TDcgOEwwIDIuMDAwODhMMS43MTMxNCAwTDcgNC41MzE4MUwxMi4yODY5IDAuMDAxNzU1ODdMMTQgMi4wMDA4OFoiIGZpbGw9ImJsYWNrIi8+Cjwvc3ZnPgo=);
+	left: 0;
+	top: calc(50% - 3px);
+	transition: all 0.3s ease;
 }
 
 .awsm-acc-head.on h3::before {
-	border-width: 0 5px 6px;
-	border-color: transparent transparent #000;
+	transform:  rotate(180deg);
 }
 
 .awsm-acc-form-switch .awsm-acc-head {

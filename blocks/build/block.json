@@ -8,55 +8,165 @@
   "icon": "",
   "description": "",
   "attributes": {
-    "filter_options": {
-      "type": "array",
-      "default": []
-    },
-    "select_filter_full": {
-      "type": "boolean",
-      "default": false
-    },
-    "other_options": {
-      "type": "array",
-      "default": []
-    },
-    "layout": {
-      "type": "string",
-      "default": "list"
-    },
-    "listing_per_page": {
-      "type": "number",
-      "default": 10
-    },
-    "number_of_columns": {
-      "type": "number",
-      "default": 3
-    },
-    "pagination": {
-      "type": "string",
-      "default": "modern"
-    },
-    "hide_expired_jobs": {
-      "type": "boolean",
-      "default": false
-    },
     "search": {
       "type": "boolean",
-      "default": false
+      "default": true
+    },
+    "placement": {
+      "type": "string",
+      "default": "slide"
     },
     "search_placeholder": {
       "type": "string",
       "default": ""
     },
-    "enable_job_filter": {
+    "filter_options": {
+      "type": "array",
+      "default": []
+    },
+    "listType": {
+      "type": "string",
+      "default": "all"
+    },
+    "layout": {
+      "type": "string",
+      "default": "stack"
+    },
+    "selected_terms_main": {
+      "type": "array",
+      "default": []
+    },
+    "selectedTerms": {
+      "type": "object",
+      "default": {}
+    },
+    "orderBy": {
+      "type": "string",
+      "default": "new"
+    },
+    "hide_expired_jobs": {
       "type": "boolean",
-      "default": true
+      "default": false
+    },
+    "jobsPerPage": {
+      "type": "number",
+      "default": 5
+    },
+    "pagination": {
+      "type": "string",
+      "default": "modern"
+    },
+    "number_of_columns": {
+      "type": "number",
+      "default": 3
+    },
+    "hz_sf_border": {
+      "type": "object",
+      "default": {
+        "width": "1px",
+        "color": "#cccccc"
+      }
+    },
+    "hz_sf_border_radius": {
+      "type": "object",
+      "default": {
+        "topLeft": "5px",
+        "topRight": "5px",
+        "bottomLeft": "5px",
+        "bottomRight": "5px"
+      }
+    },
+    "hz_sf_padding": {
+      "type": "object",
+      "default": {
+        "top": "15px",
+        "right": "15px",
+        "bottom": "15px",
+        "left": "15px"
+      }
+    },
+    "blockId": {
+      "type": "string"
+    },
+    "hz_sidebar_width": {
+      "type": "number",
+      "default": "33.33"
+    },
+    "hz_ls_border": {
+      "type": "object",
+      "default": {
+        "width": "1px",
+        "color": "#cccccc"
+      }
+    },
+    "hz_ls_border_radius": {
+      "type": "object",
+      "default": {
+        "topLeft": "5px",
+        "topRight": "5px",
+        "bottomLeft": "5px",
+        "bottomRight": "5px"
+      }
+    },
+    "hz_jl_border": {
+      "type": "object",
+      "default": {
+        "width": "1px",
+        "color": "#CBCBCB"
+      }
+    },
+    "hz_jl_border_radius": {
+      "type": "object",
+      "default": {
+        "topLeft": "5px",
+        "topRight": "5px",
+        "bottomLeft": "5px",
+        "bottomRight": "5px"
+      }
+    },
+    "hz_jl_padding": {
+      "type": "object",
+      "default": {
+        "top": "15px",
+        "right": "15px",
+        "bottom": "15px",
+        "left": "15px"
+      }
+    },
+    "hz_bs_border": {
+      "type": "object",
+      "default": {
+        "width": "1px",
+        "color": "#4E35DF"
+      }
+    },
+    "hz_bs_border_radius": {
+      "type": "object",
+      "default": {
+        "topLeft": "5px",
+        "topRight": "5px",
+        "bottomLeft": "5px",
+        "bottomRight": "5px"
+      }
+    },
+    "hz_bs_padding": {
+      "type": "object",
+      "default": {
+        "top": "13px",
+        "right": "13px",
+        "bottom": "13px",
+        "left": "13px"
+      }
+    },
+    "hz_button_background_color": {
+      "type": "string"
+    },
+    "hz_button_text_color": {
+      "type": "string"
     }
   },
   "example": {},
-  "supports": {
-    "html": false
-  },
+  "supports": {},
   "textdomain": "wp-job-openings",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",

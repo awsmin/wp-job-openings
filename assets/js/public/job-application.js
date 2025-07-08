@@ -83,6 +83,7 @@ jQuery(document).ready(function($) {
 						} else {
 							if (response.success.length > 0) {
 								$form[0].reset();
+								$form.find('select.awsm-job-form-field').selectric('refresh');
 								className = successClass;
 								msgArray = response.success;
 								$form.trigger('awsmjobs_application_submitted', [ response ]);

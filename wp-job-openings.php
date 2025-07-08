@@ -80,7 +80,7 @@ class AWSM_Job_Openings {
 			AWSM_Job_Openings_Info::init();
 		}
 
-		add_action( 'init', array( $this, 'load_textdomain' ), 5 );
+		// add_action( 'init', array( $this, 'load_textdomain' ), 5 );
 		add_action( 'plugins_loaded', array( $this, 'upgrade' ) );
 		add_action( 'after_setup_theme', array( $this, 'template_functions' ) );
 		add_action( 'init', array( $this, 'init_actions' ) );
@@ -347,10 +347,12 @@ class AWSM_Job_Openings {
 			array(
 				'uid'        => $this->unique_listing_id,
 				'filters'    => get_option( 'awsm_enable_job_filter_listing' ) !== 'enabled' ? 'no' : 'yes',
+				'search'     => get_option( 'awsm_enable_job_search' ) !== 'enable' ? 'no' : 'yes',
 				'listings'   => get_option( 'awsm_jobs_list_per_page' ),
 				'loadmore'   => 'yes',
 				'pagination' => get_option( 'awsm_jobs_pagination_type', 'modern' ),
 				'specs'      => '',
+				'placement'  => get_option( 'awsm_jobs_placement_type', 'top' ),
 			)
 		);
 		$shortcode_atts = shortcode_atts( $pairs, $atts, 'awsmjobs' );
@@ -1690,7 +1692,7 @@ class AWSM_Job_Openings {
 		return ( isset( $shortcode_atts['listings'] ) && is_numeric( $shortcode_atts['listings'] ) && $shortcode_atts['listings'] > 0 ) ? intval( $shortcode_atts['listings'] ) : get_option( 'awsm_jobs_list_per_page' );
 	}
 
-	public static function awsm_job_query_args( $filters = array(), $shortcode_atts = array(), $is_term_or_slug = array() ) {
+	public static function awsm_job_query_args( $filters = array(), $shortcode_atts = array(), $is_term_or_slug = array(), $filters_list = array() ) {
 		$args = array();
 
 		if ( is_tax() ) {
@@ -1701,7 +1703,7 @@ class AWSM_Job_Openings {
 			$is_term_or_slug[ $taxonomy ] = 'term_id';
 		}
 
-		if ( ! empty( $filters ) ) {
+		/* if ( ! empty( $filters ) ) {
 			foreach ( $filters as $taxonomy => $value ) {
 				if ( ! empty( $value ) ) {
 					$field_type          = isset( $is_term_or_slug[ $taxonomy ] ) ? $is_term_or_slug[ $taxonomy ] : 'term_id';
@@ -1713,6 +1715,33 @@ class AWSM_Job_Openings {
 					$args['tax_query'][] = $spec;
 				}
 			}
+		} */
+
+		if ( ! empty( $filters ) || ! empty( $filters_list ) ) {
+			$filters      = is_array( $filters ) ? $filters : array();
+			$filters_list = is_array( $filters_list ) ? $filters_list : array();
+			$all_filters  = array_merge_recursive( $filters, $filters_list );
+
+			foreach ( $all_filters as $taxonomy => $terms ) {
+				if ( ! empty( $terms ) ) {
+					// Ensure terms are always an array and cleaned.
+					$terms = is_array( $terms ) ? array_values( array_filter( $terms ) ) : array( $terms );
+
+					if ( ! empty( $terms ) ) {
+						$field_type  = isset( $is_term_or_slug[ $taxonomy ] ) ? $is_term_or_slug[ $taxonomy ] : 'term_id';
+						$tax_query[] = array(
+							'taxonomy' => $taxonomy,
+							'field'    => $field_type,
+							'terms'    => $terms,
+							'operator' => 'IN',
+						);
+					}
+				}
+			}
+		}
+
+		if ( ! empty( $tax_query ) ) {
+			$args['tax_query'] = $tax_query;
 		}
 
 		$list_per_page          = self::get_listings_per_page( $shortcode_atts );
@@ -1720,6 +1749,48 @@ class AWSM_Job_Openings {
 		$args['post_type']      = 'awsm_job_openings';
 		$args['posts_per_page'] = $list_per_page;
 		$args['post_status']    = ( $hide_expired_jobs === 'expired' ) ? array( 'publish' ) : array( 'publish', 'expired' );
+
+		/* $sort = isset( $shortcode_atts['filter_sort'] ) ? sanitize_text_field( $shortcode_atts['filter_sort'] ) : ( isset( $shortcode_atts['orderBy'] ) ? sanitize_text_field( $shortcode_atts['orderBy'] ) : 'new_to_old' ); */
+		$sort = isset( $_GET['sort'] ) ? sanitize_text_field( $_GET['sort'] ) :
+		( isset( $shortcode_atts['filter_sort'] ) ? sanitize_text_field( $shortcode_atts['filter_sort'] ) :
+		( isset( $shortcode_atts['orderBy'] ) ? sanitize_text_field( $shortcode_atts['orderBy'] ) : 'new_to_old' ) );
+
+		switch ( $sort ) {
+			case 'new_to_old':
+				$args['orderby'] = 'date';
+				$args['order']   = 'DESC';
+				break;
+
+			case 'old_to_new':
+				$args['orderby'] = 'date';
+				$args['order']   = 'ASC';
+				break;
+
+			case 'random':
+				$args['orderby'] = 'rand';
+				break;
+
+			case 'relevance':
+				$args['meta_query'] = array(
+					array(
+						'key'     => 'awsm_views_count',
+						'compare' => 'EXISTS',
+					),
+				);
+
+				$args['orderby'] = array(
+					'meta_value_num' => 'DESC',
+					'date'           => 'DESC',
+				);
+
+				$args['meta_key'] = 'awsm_views_count';
+				break;
+
+			default:
+				$args['orderby'] = 'date';
+				$args['order']   = 'DESC';
+				break;
+		}
 
 		return apply_filters( 'awsm_job_query_args', $args, $filters, $shortcode_atts );
 	}
@@ -1729,6 +1800,8 @@ class AWSM_Job_Openings {
 		$options = get_option( 'awsm_jobs_listing_view' );
 		if ( $options === 'grid-view' ) {
 			$view = 'grid';
+		} elseif ( $options === 'stack-view' ) {
+			$view = 'stack';
 		}
 		/**
 		 * Filters the job listing view.
@@ -1743,6 +1816,38 @@ class AWSM_Job_Openings {
 
 	public static function get_job_listing_view_class( $shortcode_atts = array() ) {
 		$view       = self::get_job_listing_view( $shortcode_atts );
+		$view_class = 'awsm-job-listing-items';
+
+		switch ( $view ) {
+			case 'grid':
+				$number_columns = get_option( 'awsm_jobs_number_of_columns' );
+				$view_class     = 'awsm-row awsm-job-listing-items';
+				$column_class   = ( $number_columns == 1 ) ? 'awsm-grid-col' : 'awsm-grid-col-' . $number_columns;
+				$view_class    .= ' ' . $column_class;
+				break;
+
+			case 'stack':
+				$view_class .= ' awsm-row awsm-list-stacked';
+				break;
+
+			default:
+				$view_class .= ' awsm-lists';
+				break;
+		}
+
+		/**
+		 * Filters the job listing view class.
+		 *
+		 * @since 1.1.0
+		 * @since 3.1.0 The `$shortcode_atts` parameter was added.
+		 *
+		 * @param string $view_class Class names.
+		 * @param array $shortcode_atts The shortcode attributes.
+		 */
+		$view_class = apply_filters( 'awsm_job_listing_view_class', $view_class, $shortcode_atts );
+
+		return esc_attr( $view_class );
+		/* $view       = self::get_job_listing_view( $shortcode_atts );
 		$view_class = 'awsm-lists';
 		if ( $view === 'grid' ) {
 			$number_columns = get_option( 'awsm_jobs_number_of_columns' );
@@ -1762,8 +1867,8 @@ class AWSM_Job_Openings {
 		 * @param string $view_class Class names.
 		 * @param array $shortcode_atts The shortcode attributes.
 		 */
-		$view_class = apply_filters( 'awsm_job_listing_view_class', $view_class, $shortcode_atts );
-		return sprintf( 'awsm-job-listings %s', $view_class );
+		/*$view_class = apply_filters( 'awsm_job_listing_view_class', $view_class, $shortcode_atts );
+		return sprintf( 'awsm-job-listings %s', $view_class ); */
 	}
 
 	public static function get_current_language() {
@@ -1794,6 +1899,10 @@ class AWSM_Job_Openings {
 
 		if ( isset( $_GET['jq'] ) ) {
 			$attrs['search'] = $_GET['jq'];
+		}
+
+		if ( isset( $_GET['sort'] ) ) {
+			$attrs['sort'] = $_GET['sort'];
 		}
 
 		if ( is_tax() ) {
