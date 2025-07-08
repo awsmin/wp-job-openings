@@ -33,8 +33,8 @@ class Awsm_Job_Guten_Blocks {
 		register_block_type( __DIR__ . '/build', $args );
 	}
 
-	public function block_render_callback( $atts, $content ) {
-
+	public function block_render_callback( $atts, $content ) { 
+		
 		// if ( empty( $atts['filter_options'] ) ) {
 		// 	$default_filters = array();
 		// 	$specs           = AWSM_Job_Openings::get_filter_specifications();

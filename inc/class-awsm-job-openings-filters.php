@@ -323,7 +323,7 @@ class AWSM_Job_Openings_Filters {
 
 		$uid = isset( $shortcode_atts['uid'] ) ? '-' . $shortcode_atts['uid'] : '';
 
-		if ( $enable_search === 'enable' ) {
+		if ( $enable_search === 'enabled' ) {
 			$search_query = isset( $_GET['jq'] ) ? $_GET['jq'] : '';
 			/**
 			 * Filters the search field placeholder text.
@@ -343,6 +343,7 @@ class AWSM_Job_Openings_Filters {
 			 * @param string $search_content Search field content.
 			 */
 			$search_content = apply_filters( 'awsm_jobs_search_field_content', $search_content );
+			
 		}
 
 		$taxonomies        = get_object_taxonomies( 'awsm_job_openings', 'objects' );
