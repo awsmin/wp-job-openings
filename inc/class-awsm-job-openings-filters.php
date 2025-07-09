@@ -343,7 +343,7 @@ class AWSM_Job_Openings_Filters {
 			 * @param string $search_content Search field content.
 			 */
 			$search_content = apply_filters( 'awsm_jobs_search_field_content', $search_content );
-			
+
 		}
 
 		$taxonomies        = get_object_taxonomies( 'awsm_job_openings', 'objects' );

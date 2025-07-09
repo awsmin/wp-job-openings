@@ -32,7 +32,6 @@ class AWSM_Job_Openings_Settings {
 		add_action( 'update_option_awsm_jobs_make_specs_clickable', array( $this, 'update_awsm_jobs_make_specs_clickable' ), 10, 2 );
 		add_action( 'update_option_awsm_jobs_email_digest', array( $this, 'update_awsm_jobs_email_digest' ), 10, 2 );
 
-
 	}
 
 	public static function init( $awsm_core ) {
