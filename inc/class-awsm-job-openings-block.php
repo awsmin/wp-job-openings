@@ -500,7 +500,7 @@ class AWSM_Job_Openings_Block {
 	}
 
 	public static function get_block_filter_specifications( $specs_keys = array() ) {
-		$awsm_filters = get_option( 'awsm_jobs_filter' );
+		$awsm_filters = get_option( 'awsm_jobs_filter' ); 
 		$spec_keys    = wp_list_pluck( $awsm_filters, 'taxonomy' );
 		if ( ! is_array( $specs_keys ) ) {
 			$specs_keys = explode( ',', $specs_keys );
