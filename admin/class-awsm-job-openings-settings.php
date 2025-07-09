@@ -32,6 +32,7 @@ class AWSM_Job_Openings_Settings {
 		add_action( 'update_option_awsm_jobs_make_specs_clickable', array( $this, 'update_awsm_jobs_make_specs_clickable' ), 10, 2 );
 		add_action( 'update_option_awsm_jobs_email_digest', array( $this, 'update_awsm_jobs_email_digest' ), 10, 2 );
 
+
 	}
 
 	public static function init( $awsm_core ) {
@@ -1300,7 +1301,7 @@ class AWSM_Job_Openings_Settings {
 		if ( ! empty( $tax_details ) && ! is_numeric( $index ) ) {
 			return;
 		}
-		$spec_title = $row_data = $del_btn_data = $icon_option = $tag_options = '';
+		$spec_title = $row_data = $del_btn_data = $icon_option = $tag_options = ''; // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
 
 		$spec_key_html = sprintf(
 			'<input type="text" class="widefat awsm-jobs-spec-key" name="awsm_jobs_filter[%1$s][taxonomy]" value="" maxlength="32" placeholder="%2$s" title="%3$s" required /><input type="hidden" name="awsm_jobs_filter[%1$s][register]" value="true" />',

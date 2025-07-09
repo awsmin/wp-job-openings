@@ -42,12 +42,9 @@ if ( ! function_exists( 'get_block_filtered_job_terms' ) ) {
 		$filters        = explode( ',', $attributes['filter_options'] );
 		$filtered_terms = array();
 
-		error_log( json_encode( 'enters get_block_filtered_job_terms', JSON_PRETTY_PRINT ) );
-
 		if ( ! empty( $filters ) ) {
 			foreach ( $filters as $filter ) {
 				$current_filter_key = str_replace( '-', '__', $filter ) . $filter_suffix;
-
 				if ( isset( $_GET[ $current_filter_key ] ) ) {
 					$term_slug = sanitize_title( $_GET[ $current_filter_key ] );
 					$term      = get_term_by( 'slug', $term_slug, $filter );
