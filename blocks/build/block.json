@@ -24,6 +24,10 @@
       "type": "array",
       "default": []
     },
+    "filtersInitialized": {
+      "type": "boolean",
+      "default": false
+    },
     "listType": {
       "type": "string",
       "default": "all"

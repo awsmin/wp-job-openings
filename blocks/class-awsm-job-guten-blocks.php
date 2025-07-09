@@ -44,6 +44,24 @@ class Awsm_Job_Guten_Blocks {
 		// 	}
 		// 	$atts['filter_options'] = $default_filters;
 		// }
+		
+		if (
+			( ! isset( $atts['filter_options'] ) || ! is_array( $atts['filter_options'] ) || empty( $atts['filter_options'] ) )
+			&& ( ! isset( $atts['filtersInitialized'] ) || ! $atts['filtersInitialized'] )
+		) {
+			$default_filters = array();
+			$specs = AWSM_Job_Openings::get_filter_specifications();
+
+			foreach ( $specs as $spec ) {
+				$default_filters[] = array(
+					'specKey' => $spec['key'],
+					'value'   => 'dropdown',
+				);
+			}
+
+			$atts['filter_options'] = $default_filters;
+		}
+
 
 		if ( isset( $atts['search'] ) && $atts['search'] === true ) {
 			$atts['search'] = 'enable';

@@ -51,7 +51,8 @@ const WidgetInspectorControls = (props) => {
 			hz_button_background_color,
 			hz_button_text_color,
 			hz_sidebar_width,
-			blockId
+			blockId,
+			filtersInitialized 
 		},
 		setAttributes,
 		clientId,
@@ -76,49 +77,41 @@ const WidgetInspectorControls = (props) => {
 		if (typeof awsmJobsAdmin !== 'undefined' && awsmJobsAdmin.isProEnabled) {
 			setIsProEnabled(true);
 		}
-	
+
 		// Sync state with selectedTerms attribute
 		const initialSelectedTerms = specifications.reduce((acc, spec) => {
 			acc[spec.key] = selectedTerms[spec.key] || [];
 			return acc;
 		}, {});
-	
+
 		setSelectedTermsState(initialSelectedTerms);
-	
-		setToggleState((prevState) => {
+
+		setToggleState(() => {
 			const initialState = Array.isArray(selected_terms_main)
 				? selected_terms_main.reduce((acc, key) => {
-					  acc[key] = true;
-					  return acc;
-				  }, {})
+					acc[key] = true;
+					return acc;
+				}, {})
 				: {};
 			return initialState;
 		});
-	
-		if (clientId) {
+
+		if (clientId && !blockId) {
 			setAttributes({ blockId: `job-block-${clientId}` });
 		}
-	
-		// **Ensure default filters are initialized**
-		if (!filter_options.length) {
+
+		// Ensure default filters are initialized only once
+		if (!filtersInitialized && specifications.length > 0) {
 			const defaultFilters = specifications.map((spec) => ({
 				specKey: spec.key,
 				value: 'dropdown',
 			}));
-	
-			setAttributes({ filter_options: defaultFilters });
-	
-			// **Force Gutenberg to recognize the change immediately**
-			wp.data.dispatch('core/block-editor').updateBlockAttributes(clientId, { 
+
+			setAttributes({
 				filter_options: defaultFilters,
+				filtersInitialized: true, // Mark as initialized
 			});
-			// Ensure the block editor re-renders
-			setTimeout(() => {
-				wp.data.dispatch('core/block-editor').selectBlock(clientId);
-				wp.data.dispatch('core/block-editor').clearSelectedBlock();
-			}, 200);
 		}
-	
 	}, [specifications, selectedTerms, selected_terms_main]);
 	
 	const handleTermChange = ( newTokens, specKey, spec ) => {
