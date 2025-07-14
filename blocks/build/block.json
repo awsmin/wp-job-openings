@@ -64,6 +64,10 @@
       "type": "number",
       "default": 3
     },
+    "other_options": {
+      "type": "array",
+      "default": []
+    },
     "hz_sf_border": {
       "type": "object",
       "default": {

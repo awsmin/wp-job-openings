@@ -39,6 +39,7 @@ class AWSM_Job_Openings_Block {
 			'search_placeholder'         => isset( $blockatts['search_placeholder'] ) ? $blockatts['search_placeholder'] : '',
 			'number_of_columns'          => isset( $blockatts['number_of_columns'] ) ? $blockatts['number_of_columns'] : 3,
 			//'block_loadmore'     => 'no',
+			'other_options'      		 => isset( $blockatts['other_options'] ) ? $blockatts['other_options'] : '',
 			'listType'                   => isset( $blockatts['listType'] ) ? $blockatts['listType'] : '',
 			'selectedTerms'              => isset( $blockatts['selectedTerms'] ) ? $blockatts['selectedTerms'] : '',
 			'orderBy'                    => isset( $blockatts['orderBy'] ) ? $blockatts['orderBy'] : '',
@@ -63,7 +64,7 @@ class AWSM_Job_Openings_Block {
 			'hz_bs_padding'              => isset( $blockatts['hz_bs_padding'] ) ? $blockatts['hz_bs_padding'] : '',
 			'hz_button_background_color' => isset( $blockatts['hz_button_background_color'] ) ? $blockatts['hz_button_background_color'] : '',
 			'hz_button_text_color'       => isset( $blockatts['hz_button_text_color'] ) ? $blockatts['hz_button_text_color'] : '',
-		);
+		); 
 
 		 /**
 		 * Filter the attribute set for the Job Listing block.

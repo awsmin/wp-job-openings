@@ -52,6 +52,10 @@ class Awsm_Job_Guten_Blocks {
 			$atts['filter_options'] = $default_filters;
 		}
 
+		if ( isset( $atts['other_options'] ) && is_array( $atts['other_options'] ) ) {
+			$atts['other_options'] = implode( ',', $atts['other_options'] );
+		}
+
 		if ( isset( $atts['search'] ) && $atts['search'] === true ) {
 			$atts['search'] = 'enable';
 		}
