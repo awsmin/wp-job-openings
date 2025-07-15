@@ -52,9 +52,20 @@ class Awsm_Job_Guten_Blocks {
 			$atts['filter_options'] = $default_filters;
 		}
 
-		if ( isset( $atts['other_options'] ) && is_array( $atts['other_options'] ) ) {
-			$atts['other_options'] = implode( ',', $atts['other_options'] );
+		if (
+		( ! isset( $atts['other_options'] ) || ! is_array( $atts['other_options'] ) || empty( $atts['other_options'] ) )
+		&& ( ! isset( $atts['specsInitialized'] ) || ! $atts['specsInitialized'] )
+		) { 
+			$specs           = AWSM_Job_Openings::get_filter_specifications(); // Your internal specs provider
+			$default_options = array();
+
+			foreach ( array_slice( $specs, 0, 2 ) as $spec ) {
+				$default_options[] = $spec['key'];
+			}
+
+			$atts['other_options'] = $default_options;
 		}
+
 
 		if ( isset( $atts['search'] ) && $atts['search'] === true ) {
 			$atts['search'] = 'enable';

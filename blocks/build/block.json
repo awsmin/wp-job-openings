@@ -68,6 +68,10 @@
       "type": "array",
       "default": []
     },
+    "specsInitialized": {
+      "type": "boolean",
+      "default": false
+    },
     "hz_sf_border": {
       "type": "object",
       "default": {

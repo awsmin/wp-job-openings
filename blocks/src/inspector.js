@@ -53,7 +53,8 @@ const WidgetInspectorControls = (props) => {
 			hz_button_text_color,
 			hz_sidebar_width,
 			blockId,
-			filtersInitialized 
+			filtersInitialized,
+			specsInitialized
 		},
 		setAttributes,
 		clientId,
@@ -113,6 +114,20 @@ const WidgetInspectorControls = (props) => {
 				filtersInitialized: true, // Mark as initialized
 			});
 		}
+
+		if (
+			Array.isArray(specifications) &&
+			specifications.length >= 2 &&
+			(!Array.isArray(other_options) || other_options.length === 0) &&
+			!specsInitialized
+		) {
+			const defaultKeys = specifications.slice(0, 2).map((spec) => spec.key);
+			setAttributes({
+				other_options: defaultKeys,
+				specsInitialized: true
+			});
+		}
+
 	}, [specifications, selectedTerms, selected_terms_main]);
 	
 	const handleTermChange = ( newTokens, specKey, spec ) => {
@@ -182,17 +197,15 @@ const WidgetInspectorControls = (props) => {
 	};
 
 	const other_options_handler = (toggleValue, specKey) => {
-		if (typeof other_options !== "undefined") {
-			let modfilteroptions = [...other_options];
-			if (!toggleValue) {
-				modfilteroptions = modfilteroptions.filter(
-					specOption => specOption !== specKey
-				);
-			} else {
-				modfilteroptions.push(specKey);
+		let updated = [...other_options];
+		if (toggleValue) {
+			if (!updated.includes(specKey)) {
+				updated.push(specKey);
 			}
-			setAttributes({ other_options: modfilteroptions });
+		} else {
+			updated = updated.filter((key) => key !== specKey);
 		}
+		setAttributes({ other_options: updated });
 	};
 	
     return (
@@ -472,21 +485,16 @@ const WidgetInspectorControls = (props) => {
 						/>
 
 						<h2>{__("Job Specs in the Listing", "wp-job-openings")}</h2>
-						{specifications.length > 0 &&
-							specifications.map(spec => {
-								return (
-									<ToggleControl
-										label={spec.label}
-										checked={
-											typeof other_options !== "undefined" &&
-											other_options.includes(spec.key)
-										}
-										onChange={toggleValue =>
-											other_options_handler(toggleValue, spec.key)
-										}
-									/>
-								);
-						})}	
+
+						{specifications.map((spec) => (
+							<ToggleControl
+								key={spec.key}
+								label={spec.label}
+								checked={Array.isArray(other_options) && other_options.includes(spec.key)}
+								onChange={(toggleValue) => other_options_handler(toggleValue, spec.key)}
+							/>
+						))}
+
 					</PanelBody>
 
 					<PanelBody title={ __( 'Job Listing', 'wp-job-openings' ) }>
