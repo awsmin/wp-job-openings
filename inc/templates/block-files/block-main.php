@@ -12,9 +12,8 @@ $attributes    = isset( $attributes ) ? $attributes : array();
 $attributes    = isset( $attributes ) ? $attributes : array();
 $view          = isset( $attributes['layout'] ) ? $attributes['layout'] : get_option( 'awsm_jobs_listing_view' );
 $awsm_filters  = get_option( 'awsm_jobs_filter' );
-//$listing_specs = array( 'job-category', 'job-location' );
 $listing_specs = isset( $attributes['other_options'] ) ? $attributes['other_options'] : '';
-//$listing_specs = awsm_block_job_filters_explode( $listing_specs );
+$listing_specs = awsm_block_job_filters_explode( $listing_specs );
 /**
  * Fires before The Loop to query for jobs.
  *

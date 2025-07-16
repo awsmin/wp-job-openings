@@ -27,14 +27,18 @@ if ( ! function_exists( 'awsm_block_jobs_view_class' ) ) {
 
 if ( ! function_exists( 'awsm_block_job_filters_explode' ) ) {
 	function awsm_block_job_filters_explode( $filter_data ) {
-		$available_filters = array();
-
-		if ( ! empty( $filter_data ) ) {
-			$available_filters = explode( ',', $filter_data );
+		if ( is_array( $filter_data ) ) {
+			return $filter_data;
 		}
-		return $available_filters;
+
+		if ( is_string( $filter_data ) && ! empty( $filter_data ) ) {
+			return explode( ',', $filter_data );
+		}
+
+		return array();
 	}
 }
+
 
 if ( ! function_exists( 'get_block_filtered_job_terms' ) ) {
 	function get_block_filtered_job_terms( $attributes ) {
