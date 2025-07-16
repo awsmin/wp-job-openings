@@ -196,6 +196,10 @@ class AWSM_Job_Openings_Block {
 			$attributes['hide_expired_jobs'] = $_POST['awsm-hide-expired-jobs'];
 		}
 
+		if ( isset( $_POST['awsm-other-options'] ) ) {
+			$attributes['other_options'] = $_POST['awsm-other-options'];
+		}
+
 		if ( isset( $_POST['awsm-selected-terms'] ) ) {
 			$selectedTerms = json_decode( stripslashes( $_POST['awsm-selected-terms'] ), true );
 
@@ -423,6 +427,10 @@ class AWSM_Job_Openings_Block {
 		$attrs['listings']               = AWSM_Job_Openings::get_listings_per_page( $block_atts );
 		$attrs['awsm-layout']            = isset( $block_atts['layout'] ) ? $block_atts['layout'] : '';
 		$attrs['awsm-hide-expired-jobs'] = isset( $block_atts['hide_expired_jobs'] ) ? $block_atts['hide_expired_jobs'] : '';
+		$attrs['awsm-other-options'] = isset( $block_atts['other_options'] ) && is_array( $block_atts['other_options'] )
+		? implode( ',', $block_atts['other_options'] )
+		: '';
+
 
 		// Variables for style
 		$style_fields = array(
