@@ -476,7 +476,7 @@ class AWSM_Job_Openings_Block {
 		}
 
 		if ( isset( $_GET['jq'] ) ) {
-			$attrs['search'] = $_GET['jq'];
+			$attrs['search'] = sanitize_text_field( $_GET['jq'] );
 		}
 
 		foreach ( $_GET as $key => $value ) {
@@ -602,7 +602,7 @@ class AWSM_Job_Openings_Block {
 		$uid = isset( $block_atts['uid'] ) ? '-' . $block_atts['uid'] : '';
 
 		if ( $enable_search === 'enable' ) {
-			$search_query = isset( $_GET['jq'] ) ? $_GET['jq'] : '';
+			$search_query = isset( $_GET['jq'] ) ? sanitize_text_field( $_GET['jq'] ) : '';
 			/**
 			 * Filters the search field placeholder text.
 			 *
@@ -884,7 +884,7 @@ class AWSM_Job_Openings_Block {
 		}
 
 		if ( $enable_search === 'enable' ) {
-			$search_query     = isset( $_GET['jq'] ) ? $_GET['jq'] : '';
+			$search_query     = isset( $_GET['jq'] ) ? sanitize_text_field( $_GET['jq'] ) : '';
 			$placeholder_text = apply_filters( 'awsm_jobs_block_search_field_slide_placeholder', $placeholder_search ? $placeholder_search : $default_text );
 
 			$search_icon = '<span class="awsm-b-job-search-btn awsm-b-job-search-icon-wrapper"><i class="awsm-job-icon-search awsm-b-job-icon-search"></i></span><span class="awsm-b-job-search-close-btn awsm-b-job-search-icon-wrapper awsm-job-hide"><i class="awsm-job-icon-close-circle"></i></span>';

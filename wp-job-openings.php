@@ -1898,7 +1898,7 @@ class AWSM_Job_Openings {
 		}
 
 		if ( isset( $_GET['jq'] ) ) {
-			$attrs['search'] = $_GET['jq'];
+			$attrs['search'] = sanitize_text_field( $_GET['jq'] );
 		}
 
 		if ( isset( $_GET['sort'] ) ) {
