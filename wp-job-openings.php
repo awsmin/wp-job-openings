@@ -475,29 +475,22 @@ class AWSM_Job_Openings {
 					edit_post_link( esc_html( $post_id ) );
 				break;
 
-			// case 'awsm_job_applications':
-			// 		$output = $default_display;
-			// 	if ( $application_count > 0 ) {
-			// 		$output = sprintf( '<a href="%1$s">%2$s</a>', esc_url( admin_url( 'edit.php?post_type=awsm_job_application&awsm_filter_posts=' . $post_id ) ), $application_count );
-			// 	}
-			// 		echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-			// 	break;
-				case 'awsm_job_applications':
-    $output = $default_display;
-    if ( $application_count > 0 ) {
-        $application_display = sprintf(
-            '<a href="%1$s">%2$s</a>',
-            esc_url( admin_url( 'edit.php?post_type=awsm_job_application&awsm_filter_posts=' . $post_id ) ),
-            $application_count
-        );
+			case 'awsm_job_applications':
+				$output = $default_display;
+				if ( $application_count > 0 ) {
+					$application_display = sprintf(
+						'<a href="%1$s">%2$s</a>',
+						esc_url( admin_url( 'edit.php?post_type=awsm_job_application&awsm_filter_posts=' . $post_id ) ),
+						$application_count
+					);
 
-        // Apply filter to allow Pro plugin to modify the display
-$application_display = apply_filters( 'awsm_job_applications_column_display', $application_display, $post_id, $application_count );
+					// Apply filter to allow Pro plugin to modify the display
+				$application_display = apply_filters( 'awsm_job_applications_column_display', $application_display, $post_id, $application_count );
 
-        $output = $application_display;
-    }
-    echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-    break;
+					$output = $application_display;
+				}
+				echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				break;
 
 			case 'awsm_job_expiry':
 					$expiry_on_list = get_post_meta( $post_id, 'awsm_set_exp_list', true );
