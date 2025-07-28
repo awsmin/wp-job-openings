@@ -720,7 +720,7 @@ jQuery(document).ready(function($) {
 		};
 	}
 
-	$(document).on('change', '#awsm-job-expiry-qedit', function() {
+	$(document).on('change', '#awsm-job-expiry-edit', function() {
 		if ($(this).is(':checked')) {
 			$('#awsm-job-expiry-fields').slideDown();
 		} else {
