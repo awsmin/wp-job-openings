@@ -232,7 +232,7 @@ class AWSM_Job_Openings_Core {
 			'administrator' => array_merge( $caps['level_1'], $caps['level_2'], $caps['level_3'], $caps['level_4'] ),
 			'editor'        => array_merge( $caps['level_1'], $caps['level_2'], $caps['level_3'] ),
 			'author'        => array_merge( $caps['level_1'], $caps['level_2'] ),
-			'contributor'   => $caps['level_1'],
+			// 'contributor'   => $caps['level_1'],
 		);
 		foreach ( $role_caps as $slug => $current_caps ) {
 			$role = get_role( $slug );
