@@ -39,7 +39,7 @@ class AWSM_Job_Openings_Block {
 			'search_placeholder'         => isset( $blockatts['search_placeholder'] ) ? $blockatts['search_placeholder'] : '',
 			'number_of_columns'          => isset( $blockatts['number_of_columns'] ) ? $blockatts['number_of_columns'] : 3,
 			//'block_loadmore'     => 'no',
-			'other_options'      		 => isset( $blockatts['other_options'] ) ? $blockatts['other_options'] : '',
+			'other_options'              => isset( $blockatts['other_options'] ) ? $blockatts['other_options'] : '',
 			'listType'                   => isset( $blockatts['listType'] ) ? $blockatts['listType'] : '',
 			'selectedTerms'              => isset( $blockatts['selectedTerms'] ) ? $blockatts['selectedTerms'] : '',
 			'orderBy'                    => isset( $blockatts['orderBy'] ) ? $blockatts['orderBy'] : '',
@@ -64,7 +64,7 @@ class AWSM_Job_Openings_Block {
 			'hz_bs_padding'              => isset( $blockatts['hz_bs_padding'] ) ? $blockatts['hz_bs_padding'] : '',
 			'hz_button_background_color' => isset( $blockatts['hz_button_background_color'] ) ? $blockatts['hz_button_background_color'] : '',
 			'hz_button_text_color'       => isset( $blockatts['hz_button_text_color'] ) ? $blockatts['hz_button_text_color'] : '',
-		); 
+		);
 
 		 /**
 		 * Filter the attribute set for the Job Listing block.
@@ -427,10 +427,9 @@ class AWSM_Job_Openings_Block {
 		$attrs['listings']               = AWSM_Job_Openings::get_listings_per_page( $block_atts );
 		$attrs['awsm-layout']            = isset( $block_atts['layout'] ) ? $block_atts['layout'] : '';
 		$attrs['awsm-hide-expired-jobs'] = isset( $block_atts['hide_expired_jobs'] ) ? $block_atts['hide_expired_jobs'] : '';
-		$attrs['awsm-other-options'] = isset( $block_atts['other_options'] ) && is_array( $block_atts['other_options'] )
+		$attrs['awsm-other-options']     = isset( $block_atts['other_options'] ) && is_array( $block_atts['other_options'] )
 		? implode( ',', $block_atts['other_options'] )
 		: '';
-
 
 		// Variables for style
 		$style_fields = array(
@@ -509,7 +508,7 @@ class AWSM_Job_Openings_Block {
 	}
 
 	public static function get_block_filter_specifications( $specs_keys = array() ) {
-		$awsm_filters = get_option( 'awsm_jobs_filter' ); 
+		$awsm_filters = get_option( 'awsm_jobs_filter' );
 		$spec_keys    = wp_list_pluck( $awsm_filters, 'taxonomy' );
 		if ( ! is_array( $specs_keys ) ) {
 			$specs_keys = explode( ',', $specs_keys );

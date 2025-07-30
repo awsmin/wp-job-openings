@@ -485,7 +485,7 @@ class AWSM_Job_Openings {
 					);
 
 					// Apply filter to allow Pro plugin to modify the display
-				$application_display = apply_filters( 'awsm_job_applications_column_display', $application_display, $post_id, $application_count );
+					$application_display = apply_filters( 'awsm_job_applications_column_display', $application_display, $post_id, $application_count );
 
 					$output = $application_display;
 				}

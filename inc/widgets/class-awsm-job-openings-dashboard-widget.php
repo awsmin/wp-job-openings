@@ -19,7 +19,9 @@ class AWSM_Job_Openings_Dashboard_Widget {
 	}
 
 	public function dashboard_setup() {
-		wp_add_dashboard_widget( 'awsm-jobs-overview-dashboard', esc_html__( 'WP Job Openings - Overview', 'wp-job-openings' ), array( $this, 'display_widget' ) );
+		if ( current_user_can( 'edit_jobs' ) ) {
+			wp_add_dashboard_widget( 'awsm-jobs-overview-dashboard', esc_html__( 'WP Job Openings - Overview', 'wp-job-openings' ), array( $this, 'display_widget' ) );
+		}
 	}
 
 	public function display_widget() {
