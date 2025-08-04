@@ -714,7 +714,7 @@ jQuery(document).ready(function($) {
 						changeMonth: true,
 						numberOfMonths: 1,
 						minDate: new Date()
-					}).datepicker("setDate", jobExpiryValue); // Ensure the date is set
+					});
 				}, 100);
 			}
 		};
