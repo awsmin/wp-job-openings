@@ -698,24 +698,24 @@ jQuery(document).ready(function($) {
 					
 					if (jobExpiryValue) {
 						$dateField.val(jobExpiryValue);
+						$quickEditRow.find('#awsm-jobs-datepicker-alt').val(jobExpiryValue);						
 					}
 					if(displayExpiry) {
 						$quickEditRow.find('input[name="awsm_exp_list_display"]').prop("checked", true);
 					}
 				}
 
-				setTimeout(function() {
-					$dateField.datepicker("destroy").datepicker({
-						altField: $quickEditRow.find('#awsm-jobs-datepicker-alt'),
-						altFormat: 'yy-mm-dd',
-						showOn: 'both',
-						buttonText: '',
-						buttonImageOnly: true,
-						changeMonth: true,
-						numberOfMonths: 1,
-						minDate: new Date()
-					});
-				}, 100);
+				var dateToday = new Date();
+				$dateField.datepicker({
+					altField: $quickEditRow.find('#awsm-jobs-datepicker-alt'),
+					altFormat: 'yy-mm-dd',
+					showOn: 'both',
+					buttonText: '',
+					buttonImageOnly: true,
+					changeMonth: true,
+					numberOfMonths: 1,
+					minDate: dateToday
+				});
 			}
 		};
 	}
