@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<div class="awsm-job-setup-head">
 				<h1>
 				<a href="https://wpjobopenings.com" target="_blank">
-						<img src="<?php echo esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/new-logo-b.svg' ); ?>" align="<?php esc_html_e( 'HireZoot by AWSM INNOVATIONS', 'wp-job-openings' ); ?>">
+						<img src="<?php echo esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/hirezoot-logo-b.svg' ); ?>" align="<?php esc_html_e( 'HireZoot by AWSM INNOVATIONS', 'wp-job-openings' ); ?>">
 						<span><?php esc_html_e( 'HireZoot by AWSM INNOVATIONS', 'wp-job-openings' ); ?></span>
 					</a>
 				</h1>

@@ -108,7 +108,7 @@ class AWSM_Job_Openings_Core {
 					'with_front' => $with_front,
 				),
 				'capability_type' => 'job',
-				'menu_icon'       => esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/nav-icon.svg' ),
+				'menu_icon'       => esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/hirezoot-icon.svg' ),
 				'supports'        => $supports,
 			)
 		);
