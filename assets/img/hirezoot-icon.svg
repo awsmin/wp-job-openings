@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Combined Shape</title>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Menu/SideMenu" transform="translate(-12, -207)" fill="#FFFFFF">
+            <g id="Group-2" transform="translate(12, 207)">
+                <path d="M8,0 C12.418278,0 16,3.581722 16,8 C16,12.418278 12.418278,16 8,16 C3.581722,16 0,12.418278 0,8 C0,3.581722 3.581722,0 8,0 Z M6.92210657,4.3474991 L4.69507643,4.3474991 L4.69507643,11.7011494 L6.77263422,11.7011494 L6.77263422,10.8088119 L9.23937041,10.8088119 L9.23937041,11.7011494 L11.3628256,11.7011494 L11.3628256,4.3474991 L9.07407302,4.3474991 L9.23937041,8.94386449 L8.02895101,9.85266962 L6.77263422,8.94386449 L6.92210657,4.3474991 Z" id="Combined-Shape"></path>
+            </g>
+        </g>
+    </g>
+</svg>
