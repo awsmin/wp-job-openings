@@ -129,7 +129,7 @@ class AWSM_Job_Openings_Core {
 			'search_items'       => __( 'Search Applications', 'wp-job-openings' ),
 			'not_found'          => __( 'No Applications found', 'wp-job-openings' ),
 			'not_found_in_trash' => __( 'No Applications found in Trash', 'wp-job-openings' ),
-			'all_items'          => $application_count
+			'all_items'          => ( $application_count && !current_user_can( 'hiring_panelist' ) )
 			? sprintf(
 			/* translators: Number of applications */
 				__( 'Applications %s', 'wp-job-openings' ),

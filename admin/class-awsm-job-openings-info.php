@@ -248,9 +248,10 @@ class AWSM_Job_Openings_Info {
 		$nav_page           = self::get_admin_nav_page();
 		$applications_count = AWSM_Job_Openings_Core::get_unviewed_applications_count();
 		$label              = __( 'Applications', 'wp-job-openings' );
-		if ( $applications_count > 0 ) {
+		if ( $applications_count > 0 && !current_user_can( 'hiring_panelist' ) ) {
 			$label .= sprintf( ' <span class="awsm-application-unviewed-count">%d</span>', $applications_count );
 		}
+
 
 		if ( ! empty( $nav_page ) ) :
 			$nav_items = array(
