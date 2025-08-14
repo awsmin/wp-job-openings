@@ -142,6 +142,7 @@ class AWSM_Job_Openings_Overview {
 		printf( '<div class="awsm-jobs-overview-widget-wrapper"><div class="awsm-jobs-pro-feature"><img src="%2$s"><p>%1$s</p></div></div>', $pro_link, esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/applications-by-status-chart.png' ) );
 	}
 
+
 	public function open_positions_widget() {
 		$widget_id = 'open-positions';
 		$jobs      = self::get_jobs(

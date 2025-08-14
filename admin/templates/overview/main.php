@@ -134,23 +134,16 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 						// Translators: %1$s is the opening <a> tag for the PRO Plan link, %2$s is the closing </a> tag.
 						$pro_link = sprintf( esc_html__( 'This feature requires %1$sPRO Plan%2$s to work', 'wp-job-openings' ), '<a href="https://awsm.in/get/wpjo-pro/">', '</a>' );
 						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-						printf( '<div class="awsm-jobs-overview-widget-wrapper"><div class="awsm-jobs-pro-feature"><img src="%2$s"><p>%1$s</p></div></div>', $pro_link, esc_url( 'https://i.ibb.co/vXyz24d/Screenshot-2024-03-05-at-12-41-12-PM.png' ) );
+						printf( '<div class="awsm-jobs-overview-widget-wrapper"><div class="awsm-jobs-pro-feature"><img src="%2$s"><p>%1$s</p></div></div>', $pro_link, esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/applications-by-status-chart.png' ) );
 					} else {
-						// Ensure the AWSM_Job_Openings_Pro_Overview class is initialized
 						$overview_instance = AWSM_Job_Openings_Pro_Overview::init();
-
-						// Set the unique ID for which you want the template path
 						$unique_id = 'awsm-jobs-overview-applications-by-status';
-
-						// Create a template args array to pass variables to the template
 						$template_args = array(
-							'widget_id' => $unique_id, // Pass the unique_id as widget_id
+							'widget_id' => $unique_id, 
 						);
-
-						// Get the template path
 						$template_path = $overview_instance->pro_widget_template_path( '', $unique_id );
 
-						// Include the template file if it exists
+						
 						if ( file_exists( $template_path ) ) {
 
 							foreach ( $template_args as $key => $value ) {
@@ -173,7 +166,6 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 						
 							<?php
 								$widget_id = 'awsm-jobs-overview-applications-by-analytics';
-								// Include your template here
 								require AWSM_JOBS_PLUGIN_DIR . '/admin/templates/overview/widgets/applications-analytics.php';
 							?>
 								<!-- Replace this image with chart.js -->
