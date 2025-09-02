@@ -1,0 +1,61 @@
+import { createBlock } from '@wordpress/blocks';
+
+export default [
+	{
+		attributes: {
+			filter_options: { type: 'array', default: [] },
+			select_filter_full: { type: 'boolean', default: false },
+			other_options: { type: 'array', default: [] },
+			layout: { type: 'string', default: 'list' },
+			listing_per_page: { type: 'number', default: 10 },
+			number_of_columns: { type: 'number', default: 3 },
+			pagination: { type: 'string', default: 'modern' },
+			hide_expired_jobs: { type: 'boolean', default: false },
+			search: { type: 'boolean', default: false },
+			search_placeholder: { type: 'string', default: '' },
+			enable_job_filter: { type: 'boolean', default: true },
+		},
+
+		save() {
+			return null;
+		},
+
+		transforms: {
+			from: [
+				{
+					type: 'block',
+					blocks: ['wp-job-openings/blocks'],
+					transform: (attributes) => {
+						return createBlock('wp-job-openings/blocks', {
+							// direct carry over
+							filter_options: attributes.filter_options,
+							other_options: attributes.other_options,
+							number_of_columns: attributes.number_of_columns,
+							pagination: attributes.pagination,
+							hide_expired_jobs: attributes.hide_expired_jobs,
+							search_placeholder: attributes.search_placeholder,
+
+							// renamed attributes
+							jobsPerPage: attributes.listing_per_page,
+
+							// layout migration
+							layout: attributes.layout === 'list' ? 'stack' : attributes.layout,
+
+							// keep search toggle
+							search: attributes.search,
+
+							// defaults for new ones
+							listType: 'all',
+							orderBy: 'new',
+							placement: 'slide',
+							selected_terms_main: [],
+							selectedTerms: {},
+							filtersInitialized: false,
+							specsInitialized: false,
+						});
+					},
+				},
+			],
+		},
+	},
+];

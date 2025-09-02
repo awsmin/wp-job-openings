@@ -21,6 +21,7 @@ import Edit from './edit';
 import save from './save';
 import icon from './icon';
 import metadata from './block.json';
+import deprecated from './deprecated';
 import { __ } from '@wordpress/i18n';
 
 /**
@@ -50,4 +51,5 @@ registerBlockType( metadata.name, {
 	 * @see ./save.js
 	 */
 	save,
+	deprecated
 } );
