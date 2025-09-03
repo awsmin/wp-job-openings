@@ -479,6 +479,15 @@ a.awsm-text-red:hover {
 
 .post-type-awsm_job_application .tablenav.top {
 	margin-bottom: 13px;
+	height: auto;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px 0;
+}
+.post-type-awsm_job_application .tablenav.top .actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px 0;
 }
 
 .post-type-awsm_job_application .tablenav.top .tablenav-pages {

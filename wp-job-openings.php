@@ -152,7 +152,7 @@ class AWSM_Job_Openings {
 		<div class="notice notice-warning is-dismissible">
 			<p>
 				<?php
-					$req_plugin = sprintf( '<strong>%s</strong>', esc_html__( 'WP Job Openings', 'wp-job-openings' ) );
+					$req_plugin = sprintf( '<strong>%s</strong>', esc_html__( 'HireZoot', 'wp-job-openings' ) );
 					$plugin     = sprintf( '<strong>%s</strong>', esc_html__( 'Pro Pack', 'wp-job-openings' ) );
 
 					/* translators: %1$s: main plugin, %2$s: current plugin, %3$s: minimum required version of the main plugin, %4$s: plugin update link */
