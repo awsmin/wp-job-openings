@@ -86,7 +86,7 @@ $block_style_variables = "
 ?>
 </style>
 <!-- End -->
-<?php
+<?php 
 if ( isset( $attributes['search'] ) && $attributes['search'] == 'enable' ) {
 	$show_filter             = true;
 	$placement_sidebar_class = 'awsm-job-2-col';
