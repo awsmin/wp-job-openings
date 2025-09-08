@@ -20,42 +20,35 @@ export default [
 			return null;
 		},
 
-		transforms: {
-			from: [
-				{
-					type: 'block',
-					blocks: ['wp-job-openings/blocks'],
-					transform: (attributes) => {
-						return createBlock('wp-job-openings/blocks', {
-							// direct carry over
-							filter_options: attributes.filter_options,
-							other_options: attributes.other_options,
-							number_of_columns: attributes.number_of_columns,
-							pagination: attributes.pagination,
-							hide_expired_jobs: attributes.hide_expired_jobs,
-							search_placeholder: attributes.search_placeholder,
+		// 👇 Migration logic runs automatically for existing blocks
+		migrate: (attributes) => {
+			return {
+				// direct carry over
+				filter_options: attributes.filter_options || [],
+				other_options: attributes.other_options || [],
+				number_of_columns: attributes.number_of_columns || 3,
+				pagination: attributes.pagination || 'modern',
+				hide_expired_jobs: attributes.hide_expired_jobs || false,
+				search_placeholder: attributes.search_placeholder || '',
 
-							// renamed attributes
-							jobsPerPage: attributes.listing_per_page,
+				// renamed attributes
+				jobsPerPage: attributes.listing_per_page || 5,
 
-							// layout migration
-							layout: attributes.layout === 'list' ? 'stack' : attributes.layout,
+				// layout migration
+				layout: attributes.layout === 'list' ? 'stack' : attributes.layout,
 
-							// keep search toggle
-							search: attributes.search,
+				// keep search toggle
+				search: attributes.search !== undefined ? attributes.search : true,
 
-							// defaults for new ones
-							listType: 'all',
-							orderBy: 'new',
-							placement: 'slide',
-							selected_terms_main: [],
-							selectedTerms: {},
-							filtersInitialized: false,
-							specsInitialized: false,
-						});
-					},
-				},
-			],
+				// defaults for new ones
+				listType: 'all',
+				orderBy: 'new',
+				placement: 'slide',
+				selected_terms_main: [],
+				selectedTerms: {},
+				filtersInitialized: false,
+				specsInitialized: false,
+			};
 		},
 	},
 ];
