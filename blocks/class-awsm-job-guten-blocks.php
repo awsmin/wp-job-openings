@@ -146,28 +146,31 @@ class Awsm_Job_Guten_Blocks {
 	}
 
 	public function block_assets() {
-		wp_enqueue_script( 'awsm-job-admin' );
+    	wp_enqueue_script( 'awsm-job-admin' );
+
 		if ( ! wp_style_is( 'awsm-jobs-style' ) || ! wp_script_is( 'awsm-job-scripts' ) ) {
 			$awsm_job_openings = AWSM_Job_Openings::init();
 			$awsm_job_openings->awsm_enqueue_scripts();
 		}
 
-		$asset_file = include plugin_dir_path( __FILE__ ) . 'blocks/build/index.asset.php';
-		$version = $asset_file['version'] ?? filemtime( plugin_dir_path( __FILE__ ) . 'blocks/build/index.js' );
+		$asset_file = include plugin_dir_path( __FILE__ ) . 'build/index.asset.php';
+		$version    = $asset_file['version'] ?? filemtime( plugin_dir_path( __FILE__ ) . 'build/index.js' );
 
 		wp_enqueue_style(
 			'awsm-jobs-block-style',
-			plugins_url( 'build/style-index.css', __FILE__ ),
+			plugins_url( 'blocks/build/style-index.css', dirname( __FILE__ ) ),
 			array(),
-			$version // 👈 forces reload on update
+			$version
 		);
 
 		wp_enqueue_style(
 			'awsm-jobs-block-editor',
-			plugins_url( 'build/index.css', __FILE__ ),
+			plugins_url( 'blocks/build/index.css', dirname( __FILE__ ) ),
 			array( 'wp-edit-blocks' ),
 			$version
 		);
+
 	}
+
 }
 Awsm_Job_Guten_Blocks::get_instance();
