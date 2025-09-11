@@ -20,7 +20,7 @@ export default [
 			return null;
 		},
 
-		// 👇 Migration logic runs automatically for existing blocks
+		// Migration for existing blocks
 		migrate: (attributes) => {
 			return {
 				// direct carry over
@@ -43,12 +43,39 @@ export default [
 				// defaults for new ones
 				listType: 'all',
 				orderBy: 'new',
+
+				// ✅ Placement fix: old blocks = "top", new blocks = keep default
 				placement: attributes.placement ? attributes.placement : 'top',
+
 				selected_terms_main: [],
 				selectedTerms: {},
 				filtersInitialized: false,
 				specsInitialized: false,
 			};
+		},
+
+		// Transform old blocks into the new schema (extra safety for copy/paste, import, etc.)
+		transforms: {
+			from: [
+				{
+					type: 'block',
+					blocks: ['wp-job-openings/blocks'],
+					transform: (attributes) => {
+						return createBlock('wp-job-openings/blocks', {
+							...attributes,
+							jobsPerPage: attributes.listing_per_page || 5,
+							layout: attributes.layout === 'list' ? 'stack' : attributes.layout,
+							placement: attributes.placement ? attributes.placement : 'top',
+							listType: 'all',
+							orderBy: 'new',
+							selected_terms_main: [],
+							selectedTerms: {},
+							filtersInitialized: false,
+							specsInitialized: false,
+						});
+					},
+				},
+			],
 		},
 	},
 ];
