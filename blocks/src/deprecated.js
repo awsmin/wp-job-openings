@@ -43,7 +43,7 @@ export default [
 				// defaults for new ones
 				listType: 'all',
 				orderBy: 'new',
-				placement: 'slide',
+				placement: attributes.placement ? attributes.placement : 'top',
 				selected_terms_main: [],
 				selectedTerms: {},
 				filtersInitialized: false,

@@ -81,7 +81,7 @@ __webpack_require__.r(__webpack_exports__);
       // defaults for new ones
       listType: 'all',
       orderBy: 'new',
-      placement: 'slide',
+      placement: attributes.placement ? attributes.placement : 'top',
       selected_terms_main: [],
       selectedTerms: {},
       filtersInitialized: false,
