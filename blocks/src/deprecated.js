@@ -21,9 +21,13 @@ export default [
 		},
 
 		// Migration for existing blocks
-		migrate: (attributes) => {
+		migrate: ( attributes ) => {
+			const placement = ( typeof attributes.placement === 'undefined' || attributes.placement === null )
+				? 'top'
+				: attributes.placement;
+
 			return {
-				// direct carry over
+				// direct carry over / safe defaults
 				filter_options: attributes.filter_options || [],
 				other_options: attributes.other_options || [],
 				number_of_columns: attributes.number_of_columns || 3,
@@ -41,18 +45,19 @@ export default [
 				search: attributes.search !== undefined ? attributes.search : true,
 
 				// defaults for new ones
-				listType: 'all',
-				orderBy: 'new',
+				listType: attributes.listType || 'all',
+				orderBy: attributes.orderBy || 'new',
 
-				// ✅ Placement fix: old blocks = "top", new blocks = keep default
-				placement: attributes.placement ? attributes.placement : 'top',
+				// Important: preserve placement if present; otherwise set to top for migrated blocks
+				placement,
 
-				selected_terms_main: [],
-				selectedTerms: {},
-				filtersInitialized: false,
-				specsInitialized: false,
+				selected_terms_main: attributes.selected_terms_main || [],
+				selectedTerms: attributes.selectedTerms || {},
+				filtersInitialized: attributes.filtersInitialized || false,
+				specsInitialized: attributes.specsInitialized || false,
 			};
 		},
+
 
 		// Transform old blocks into the new schema (extra safety for copy/paste, import, etc.)
 		transforms: {
