@@ -26,6 +26,8 @@ export default [
 				? 'top'
 				: attributes.placement;
 
+				console.log(placement);
+				
 			return {
 				// direct carry over / safe defaults
 				filter_options: attributes.filter_options || [],
