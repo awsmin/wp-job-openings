@@ -16,6 +16,7 @@ __webpack_require__.r(__webpack_exports__);
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 
+console.log('entered deprecated');
 /* harmony default export */ __webpack_exports__["default"] = ([{
   attributes: {
     filter_options: {
@@ -69,6 +70,7 @@ function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t =
   // Migration for existing blocks
   migrate: function migrate(attributes) {
     var placement = typeof attributes.placement === 'undefined' || attributes.placement === null ? 'top' : attributes.placement;
+    console.log('migrating');
     return {
       // direct carry over / safe defaults
       filter_options: attributes.filter_options || [],

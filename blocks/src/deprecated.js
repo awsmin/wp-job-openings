@@ -1,5 +1,5 @@
 import { createBlock } from '@wordpress/blocks';
-
+console.log('entered deprecated');
 export default [
 	{
 		attributes: {
@@ -25,7 +25,7 @@ export default [
 			const placement = ( typeof attributes.placement === 'undefined' || attributes.placement === null )
 				? 'top'
 				: attributes.placement;
-
+console.log('migrating');
 				
 			return {
 				// direct carry over / safe defaults
