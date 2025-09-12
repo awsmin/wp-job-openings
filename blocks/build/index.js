@@ -69,7 +69,6 @@ function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t =
   // Migration for existing blocks
   migrate: function migrate(attributes) {
     var placement = typeof attributes.placement === 'undefined' || attributes.placement === null ? 'top' : attributes.placement;
-    console.log(placement);
     return {
       // direct carry over / safe defaults
       filter_options: attributes.filter_options || [],

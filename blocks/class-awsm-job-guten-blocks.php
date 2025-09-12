@@ -152,24 +152,6 @@ class Awsm_Job_Guten_Blocks {
 			$awsm_job_openings = AWSM_Job_Openings::init();
 			$awsm_job_openings->awsm_enqueue_scripts();
 		}
-
-		$asset_file = include plugin_dir_path( __FILE__ ) . 'build/index.asset.php';
-		$version    = $asset_file['version'] ?? filemtime( plugin_dir_path( __FILE__ ) . 'build/index.js' );
-
-		wp_enqueue_style(
-			'awsm-jobs-block-style',
-			plugins_url( 'blocks/build/style-index.css', dirname( __FILE__ ) ),
-			array(),
-			$version
-		);
-
-		wp_enqueue_style(
-			'awsm-jobs-block-editor',
-			plugins_url( 'blocks/build/index.css', dirname( __FILE__ ) ),
-			array( 'wp-edit-blocks' ),
-			$version
-		);
-
 	}
 
 }

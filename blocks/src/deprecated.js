@@ -26,7 +26,6 @@ export default [
 				? 'top'
 				: attributes.placement;
 
-				console.log(placement);
 				
 			return {
 				// direct carry over / safe defaults
