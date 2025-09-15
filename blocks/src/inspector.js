@@ -26,6 +26,7 @@ const WidgetInspectorControls = (props) => {
 		attributes: {
 			search,
 			placement,
+			version,
 			filter_options,
 			pagination,
 			search_placeholder,
@@ -128,12 +129,18 @@ const WidgetInspectorControls = (props) => {
 			});
 		}
 
-		// This only runs for OLD blocks (no placement stored yet)
-        if ( typeof placement === 'undefined' ) {
-            setAttributes({ placement: 'top' });
-        }
+		console.log('Version attribute:', version);
+		if (typeof version === 'undefined') {
+			// Mark as version 1 and set placement to "top"
+			setAttributes({
+				version: 1,
+				placement: 'top'
+			});
 
-	}, [specifications, selectedTerms, selected_terms_main, placement]);
+			console.log('entered attribute:');
+		}
+
+	}, [specifications, selectedTerms, selected_terms_main]);
 	
 	const handleTermChange = ( newTokens, specKey, spec ) => {
 		setSelectedTermsState( ( prevSelectedTerms ) => {

@@ -419,6 +419,7 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
   var _props$attributes = props.attributes,
     search = _props$attributes.search,
     placement = _props$attributes.placement,
+    version = _props$attributes.version,
     filter_options = _props$attributes.filter_options,
     pagination = _props$attributes.pagination,
     search_placeholder = _props$attributes.search_placeholder,
@@ -525,14 +526,16 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
         specsInitialized: true
       });
     }
-
-    // This only runs for OLD blocks (no placement stored yet)
-    if (typeof placement === 'undefined') {
+    console.log('Version attribute:', version);
+    if (typeof version === 'undefined') {
+      // Mark as version 1 and set placement to "top"
       setAttributes({
+        version: 1,
         placement: 'top'
       });
+      console.log('entered attribute:');
     }
-  }, [specifications, selectedTerms, selected_terms_main, placement]);
+  }, [specifications, selectedTerms, selected_terms_main]);
   var handleTermChange = function handleTermChange(newTokens, specKey, spec) {
     setSelectedTermsState(function (prevSelectedTerms) {
       var updatedSelectedTerms = _objectSpread({}, prevSelectedTerms);
@@ -1600,7 +1603,7 @@ function _unsupportedIterableToArray(r, a) {
   \************************/
 /***/ (function(module) {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"wp-job-openings/blocks","version":"1.0.0","title":"","category":"","icon":"","description":"","attributes":{"search":{"type":"boolean","default":true},"placement":{"type":"string","default":"slide"},"search_placeholder":{"type":"string","default":""},"filter_options":{"type":"array","default":[]},"filtersInitialized":{"type":"boolean","default":false},"listType":{"type":"string","default":"all"},"layout":{"type":"string","default":"stack"},"selected_terms_main":{"type":"array","default":[]},"selectedTerms":{"type":"object","default":{}},"orderBy":{"type":"string","default":"new"},"hide_expired_jobs":{"type":"boolean","default":false},"jobsPerPage":{"type":"number","default":5},"pagination":{"type":"string","default":"modern"},"number_of_columns":{"type":"number","default":3},"other_options":{"type":"array","default":[]},"specsInitialized":{"type":"boolean","default":false},"hz_sf_border":{"type":"object","default":{"width":"1px","color":"#cccccc"}},"hz_sf_border_radius":{"type":"object","default":{"topLeft":"5px","topRight":"5px","bottomLeft":"5px","bottomRight":"5px"}},"hz_sf_padding":{"type":"object","default":{"top":"15px","right":"15px","bottom":"15px","left":"15px"}},"blockId":{"type":"string"},"hz_sidebar_width":{"type":"number","default":"33.33"},"hz_ls_border":{"type":"object","default":{"width":"1px","color":"#cccccc"}},"hz_ls_border_radius":{"type":"object","default":{"topLeft":"5px","topRight":"5px","bottomLeft":"5px","bottomRight":"5px"}},"hz_jl_border":{"type":"object","default":{"width":"1px","color":"#CBCBCB"}},"hz_jl_border_radius":{"type":"object","default":{"topLeft":"5px","topRight":"5px","bottomLeft":"5px","bottomRight":"5px"}},"hz_jl_padding":{"type":"object","default":{"top":"15px","right":"15px","bottom":"15px","left":"15px"}},"hz_bs_border":{"type":"object","default":{"width":"1px","color":"#4E35DF"}},"hz_bs_border_radius":{"type":"object","default":{"topLeft":"5px","topRight":"5px","bottomLeft":"5px","bottomRight":"5px"}},"hz_bs_padding":{"type":"object","default":{"top":"13px","right":"13px","bottom":"13px","left":"13px"}},"hz_button_background_color":{"type":"string"},"hz_button_text_color":{"type":"string"}},"example":{},"supports":{},"textdomain":"wp-job-openings","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"wp-job-openings/blocks","version":"1.0.0","title":"","category":"","icon":"","description":"","attributes":{"search":{"type":"boolean","default":true},"version":{"type":"number","default":2},"placement":{"type":"string","default":"slide"},"search_placeholder":{"type":"string","default":""},"filter_options":{"type":"array","default":[]},"filtersInitialized":{"type":"boolean","default":false},"listType":{"type":"string","default":"all"},"layout":{"type":"string","default":"stack"},"selected_terms_main":{"type":"array","default":[]},"selectedTerms":{"type":"object","default":{}},"orderBy":{"type":"string","default":"new"},"hide_expired_jobs":{"type":"boolean","default":false},"jobsPerPage":{"type":"number","default":5},"pagination":{"type":"string","default":"modern"},"number_of_columns":{"type":"number","default":3},"other_options":{"type":"array","default":[]},"specsInitialized":{"type":"boolean","default":false},"hz_sf_border":{"type":"object","default":{"width":"1px","color":"#cccccc"}},"hz_sf_border_radius":{"type":"object","default":{"topLeft":"5px","topRight":"5px","bottomLeft":"5px","bottomRight":"5px"}},"hz_sf_padding":{"type":"object","default":{"top":"15px","right":"15px","bottom":"15px","left":"15px"}},"blockId":{"type":"string"},"hz_sidebar_width":{"type":"number","default":"33.33"},"hz_ls_border":{"type":"object","default":{"width":"1px","color":"#cccccc"}},"hz_ls_border_radius":{"type":"object","default":{"topLeft":"5px","topRight":"5px","bottomLeft":"5px","bottomRight":"5px"}},"hz_jl_border":{"type":"object","default":{"width":"1px","color":"#CBCBCB"}},"hz_jl_border_radius":{"type":"object","default":{"topLeft":"5px","topRight":"5px","bottomLeft":"5px","bottomRight":"5px"}},"hz_jl_padding":{"type":"object","default":{"top":"15px","right":"15px","bottom":"15px","left":"15px"}},"hz_bs_border":{"type":"object","default":{"width":"1px","color":"#4E35DF"}},"hz_bs_border_radius":{"type":"object","default":{"topLeft":"5px","topRight":"5px","bottomLeft":"5px","bottomRight":"5px"}},"hz_bs_padding":{"type":"object","default":{"top":"13px","right":"13px","bottom":"13px","left":"13px"}},"hz_button_background_color":{"type":"string"},"hz_button_text_color":{"type":"string"}},"example":{},"supports":{},"textdomain":"wp-job-openings","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ })
 

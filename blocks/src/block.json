@@ -12,6 +12,10 @@
 			"type": "boolean",
 			"default": true
 		},
+		 "version": {
+			"type": "number",
+			"default": 2
+		},
 		"placement": {
 			"type": "string",
 			"default": "slide"
