@@ -128,7 +128,12 @@ const WidgetInspectorControls = (props) => {
 			});
 		}
 
-	}, [specifications, selectedTerms, selected_terms_main]);
+		// This only runs for OLD blocks (no placement stored yet)
+        if ( typeof placement === 'undefined' ) {
+            setAttributes({ placement: 'top' });
+        }
+
+	}, [specifications, selectedTerms, selected_terms_main, placement]);
 	
 	const handleTermChange = ( newTokens, specKey, spec ) => {
 		setSelectedTermsState( ( prevSelectedTerms ) => {
@@ -224,18 +229,13 @@ const WidgetInspectorControls = (props) => {
 								<ToggleGroupControl
 									label="Placement"
 									value={ placement }
-									onChange={ ( placement ) =>
-										setAttributes( { placement } )
-									}
+									onChange={ ( newPlacement ) => setAttributes( { placement: newPlacement } ) }
 									isBlock
 									__nextHasNoMarginBottom
 									__next40pxDefaultSize
 								>
 									<ToggleGroupControlOption value="top" label="Top" />
-									<ToggleGroupControlOption
-										value="slide"
-										label="Side"
-									/>
+									<ToggleGroupControlOption value="slide" label="Side" />
 								</ToggleGroupControl>
 
 								<TextControl

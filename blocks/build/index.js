@@ -525,7 +525,14 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
         specsInitialized: true
       });
     }
-  }, [specifications, selectedTerms, selected_terms_main]);
+
+    // This only runs for OLD blocks (no placement stored yet)
+    if (typeof placement === 'undefined') {
+      setAttributes({
+        placement: 'top'
+      });
+    }
+  }, [specifications, selectedTerms, selected_terms_main, placement]);
   var handleTermChange = function handleTermChange(newTokens, specKey, spec) {
     setSelectedTermsState(function (prevSelectedTerms) {
       var updatedSelectedTerms = _objectSpread({}, prevSelectedTerms);
@@ -619,9 +626,9 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
   }), search && (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_3__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__.__experimentalToggleGroupControl, {
     label: "Placement",
     value: placement,
-    onChange: function onChange(placement) {
+    onChange: function onChange(newPlacement) {
       return setAttributes({
-        placement: placement
+        placement: newPlacement
       });
     },
     isBlock: true,
