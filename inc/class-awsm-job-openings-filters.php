@@ -145,6 +145,13 @@ class AWSM_Job_Openings_Filters {
 							'hide_empty' => true,
 						)
 					);
+
+						if($taxonomy === 'job-type') {
+						// $terms_args['include'] = array(2);
+						// error_log( json_encode( $terms_args, JSON_PRETTY_PRINT ) );
+						// exit;
+
+					}
 					$terms      = get_terms( $terms_args );
 					if ( ! empty( $terms ) ) {
 							$available_filters_arr[ $taxonomy ] = $tax_details->label;

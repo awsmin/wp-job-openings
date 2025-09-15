@@ -194,6 +194,63 @@ jQuery(function($) {
 		}
 	});
 
+	$(filterSelector + ' .awsm-job-type-filter-option').on('change', function(e) {
+
+	// jQuery(document).on('change', '.awsm-job-type-filter-option', function () {
+    var selectedType = jQuery(this).val();
+
+	console.log(selectedType);
+	
+
+    $.ajax({
+        url: awsmJobsPublic.ajaxurl,
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            action: 'get_dependent_filters',
+            job_type: selectedType
+        },
+        success: function (response) {
+            if (response.success) {
+				console.log(response);
+				
+                // Loop through all returned taxonomies dynamically
+                $.each(response.data, function (taxonomy, terms) {
+                    // Example: taxonomy = "job-category" or "job-location"
+                    // Build dropdown selector dynamically
+                    var $dropdown = jQuery('.awsm-job-' + taxonomy + '-filter-option');
+					// console.log($dropdown);
+					// console.log('.awsm-job-' + taxonomy + '-filter-option');
+					// console.log($dropdown);
+					
+
+                    if ($dropdown.length) {
+						// alert('here');
+                        // Get label dynamically from the data attribute or fallback
+                       var defaultLabel = $dropdown.find('option:first').text().trim();
+
+        // Clear options and re-add the default label
+        $dropdown.empty().append('<option value="">' + defaultLabel + '</option>');
+
+                        // Add new options
+                        jQuery.each(terms, function (id, name) {
+                            $dropdown.append('<option value="' + id + '">' + name + '</option>');
+                        });
+
+                        // Re-initialize Selectric or other UI library
+                        if (jQuery.fn.selectric) {
+                            $dropdown.selectric('refresh');
+                        }
+                    }
+                });
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error('AJAX Error:', status, error);
+        }
+    });
+});
+
 	/* ========== Job Listings Load More ========== */
 
 	$(wrapperSelector).on('click', '.awsm-jobs-pagination .awsm-load-more-btn, .awsm-jobs-pagination a.page-numbers', function(e) {

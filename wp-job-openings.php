@@ -2089,6 +2089,44 @@ class AWSM_Job_Openings {
 	}
 }
 
+
+add_action( 'wp_ajax_get_dependent_filters', 'get_dependent_filters_callback' );
+add_action( 'wp_ajax_nopriv_get_dependent_filters', 'get_dependent_filters_callback' );
+
+function get_dependent_filters_callback() {
+	error_log( json_encode( 'sdfsdfd', JSON_PRETTY_PRINT ) );
+    $job_type = isset( $_POST['job_type'] ) ? intval( $_POST['job_type'] ) : 0;
+	error_log( json_encode( $job_type, JSON_PRETTY_PRINT ) );
+
+    if ( ! $job_type ) {
+        wp_send_json_error( array( 'message' => 'No job type selected' ) );
+    }
+
+    // Get all job posts with selected job type
+    $job_query = new WP_Query( array(
+        'post_type'      => 'awsm_job_openings',
+        'posts_per_page' => -1,
+        'tax_query'      => array(
+            array(
+                'taxonomy' => 'job-type',
+                'field'    => 'term_id',
+                'terms'    => $job_type,
+            ),
+        ),
+    ) );
+
+    $job_ids = wp_list_pluck( $job_query->posts, 'ID' );
+
+    // Get related categories & locations
+    $categories = wp_get_object_terms( $job_ids, 'job-category', array( 'fields' => 'id=>name' ) );
+    $locations  = wp_get_object_terms( $job_ids, 'job-location', array( 'fields' => 'id=>name' ) );
+
+    wp_send_json_success( array(
+        'category' => $categories,
+        'location'  => $locations,
+    ) );
+}
+
 $awsm_job_openings = AWSM_Job_Openings::init();
 
 // activation
