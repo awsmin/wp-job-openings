@@ -1495,19 +1495,25 @@ class AWSM_Job_Openings {
 
 		if ( $post->post_type === 'awsm_job_openings' ) {
 			if ( defined( 'DOING_AJAX' ) && DOING_AJAX && isset( $_POST['action'] ) && $_POST['action'] === 'inline-save' ) {
-				// Get posted values
-				$expiry_on_list  = isset( $_POST['awsm_set_exp_list'] ) ? 'set_listing' : ''; // Ensure unchecked checkboxes are handled
+				$expiry_on_list  = isset( $_POST['awsm_set_exp_list'] ) ? sanitize_text_field( $_POST['awsm_set_exp_list'] ) : '';
 				$awsm_job_expiry = isset( $_POST['awsm_job_expiry'] ) ? sanitize_text_field( $_POST['awsm_job_expiry'] ) : '';
-				$display_list    = isset( $_POST['awsm_exp_list_display'] ) ? 'list_display' : ''; // Same for display checkbox
-
-				// Update or delete post meta
-				update_post_meta( $post_id, 'awsm_set_exp_list', $expiry_on_list );
-				update_post_meta( $post_id, 'awsm_exp_list_display', $display_list );
-
-				if ( ! empty( $awsm_job_expiry ) ) {
-					update_post_meta( $post_id, 'awsm_job_expiry', $awsm_job_expiry );
-				} else {
-					delete_post_meta( $post_id, 'awsm_job_expiry' );
+				$display_list    = isset( $_POST['awsm_exp_list_display'] ) ? sanitize_text_field( $_POST['awsm_exp_list_display'] ) : '';
+				$job_expiry_meta = array(
+					'awsm_set_exp_list'     => $expiry_on_list,
+					'awsm_job_expiry'       => $awsm_job_expiry,
+					'awsm_exp_list_display' => $display_list,
+				);
+				foreach ( $job_expiry_meta as $meta_key => $meta_value ) {
+					$olddata = get_post_meta( $post_id, $meta_key, true );
+					if ( ! empty( $meta_value ) ) {
+						if ( $meta_value !== $olddata && $expiry_on_list === 'set_listing' ) {
+							update_post_meta( $post_id, $meta_key, $meta_value );
+						} elseif ( empty( $expiry_on_list ) ) {
+							delete_post_meta( $post_id, $meta_key, $meta_value );
+						}
+					} else {
+						delete_post_meta( $post_id, $meta_key, $olddata );
+					}
 				}
 
 				// Check if the job should be expired
