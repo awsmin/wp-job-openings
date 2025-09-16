@@ -526,14 +526,19 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
         specsInitialized: true
       });
     }
-    console.log('Version attribute:', version);
+    alert(placement);
     if (typeof version === 'undefined') {
-      // Mark as version 1 and set placement to "top"
-      setAttributes({
-        version: 1,
-        placement: 'top'
-      });
-      console.log('entered attribute:');
+      // If placement also missing (old block had none) → force "top"
+      if (typeof placement === 'undefined') {
+        setAttributes({
+          version: 1,
+          placement: 'top'
+        });
+      } else {
+        setAttributes({
+          version: 1
+        });
+      }
     }
   }, [specifications, selectedTerms, selected_terms_main]);
   var handleTermChange = function handleTermChange(newTokens, specKey, spec) {
