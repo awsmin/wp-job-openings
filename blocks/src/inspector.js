@@ -129,16 +129,6 @@ const WidgetInspectorControls = (props) => {
 			});
 		}
 
-		alert(placement);
-		if (typeof version === 'undefined') {
-			// If placement also missing (old block had none) → force "top"
-			if (typeof placement === 'undefined') {
-				setAttributes({ version: 1, placement: 'top' });
-			} else {
-				setAttributes({ version: 1 });
-			}
-		}
-
 	}, [specifications, selectedTerms, selected_terms_main]);
 	
 	const handleTermChange = ( newTokens, specKey, spec ) => {
