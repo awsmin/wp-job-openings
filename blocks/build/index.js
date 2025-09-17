@@ -504,18 +504,27 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
       });
     }
 
-    // Ensure default filters are initialized only once
-    if (!filtersInitialized && specifications.length > 0) {
-      var defaultFilters = specifications.map(function (spec) {
-        return {
-          specKey: spec.key,
-          value: 'dropdown'
-        };
+    // Ensure default filters are initialized or migrated for older blocks
+    if (specifications.length > 0) {
+      var missingSpecs = specifications.filter(function (spec) {
+        return !filter_options.some(function (opt) {
+          return opt.specKey === spec.key;
+        });
       });
-      setAttributes({
-        filter_options: defaultFilters,
-        filtersInitialized: true // Mark as initialized
-      });
+
+      // Only update if there are missing specs OR nothing initialized yet
+      if (missingSpecs.length > 0 || !filtersInitialized) {
+        var defaultFilters = specifications.map(function (spec) {
+          return {
+            specKey: spec.key,
+            value: 'dropdown'
+          };
+        });
+        setAttributes({
+          filter_options: defaultFilters,
+          filtersInitialized: true
+        });
+      }
     }
     if (Array.isArray(specifications) && specifications.length >= 2 && (!Array.isArray(other_options) || other_options.length === 0) && !specsInitialized) {
       var defaultKeys = specifications.slice(0, 2).map(function (spec) {
