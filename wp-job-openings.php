@@ -228,8 +228,6 @@ class AWSM_Job_Openings {
 	}
 
 	public function upgrade() {
-		$plugin_version = get_option( 'awsm_jobs_plugin_version' );
-		$new_version     = '4.0';
 		
 		if ( intval( get_option( 'awsm_jobs_upgrade_count' ) ) !== 1 ) {
 			$upload_dir = wp_upload_dir();
@@ -239,7 +237,7 @@ class AWSM_Job_Openings {
 			update_option( 'awsm_jobs_upgrade_count', 1 );
 		}
 
-		 if ( version_compare( $plugin_version, $new_version, '<' ) ) {
+			if (AWSM_JOBS_PLUGIN_VERSION == '4.0.0') {
 			// Run migration only if upgrading from < 4.0
 			$settings = get_option( 'awsm_jobs_notification_customizer' );
 
@@ -254,7 +252,7 @@ class AWSM_Job_Openings {
 				}
 			}
 			// Save new plugin version to avoid running again
-			update_option( 'awsm_jobs_plugin_version', $new_version );
+			// update_option( 'awsm_jobs_plugin_version', $new_version );
 		}
 	}
 
