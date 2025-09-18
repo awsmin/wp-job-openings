@@ -115,13 +115,13 @@ const WidgetInspectorControls = (props) => {
 				filtersInitialized: true, // Mark as initialized
 			});
 		} */
-
+console.log('AAA');
 		if (specifications?.length > 0 && (!filtersInitialized || !Array.isArray(filter_options) || filter_options.length === 0)) {
 			const defaultFilters = specifications.map((spec) => ({
 				specKey: spec.key,
 				value: 'dropdown',
 			}));
-
+console.log('BBBBBB');
 			setAttributes({
 				filter_options: defaultFilters,
 				filtersInitialized: true,
