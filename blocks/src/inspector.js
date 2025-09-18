@@ -104,7 +104,7 @@ const WidgetInspectorControls = (props) => {
 		}
 
 		// Ensure default filters are initialized only once
-		if (!filtersInitialized && specifications.length > 0) {
+		/* if (!filtersInitialized && specifications.length > 0) {
 			const defaultFilters = specifications.map((spec) => ({
 				specKey: spec.key,
 				value: 'dropdown',
@@ -114,7 +114,20 @@ const WidgetInspectorControls = (props) => {
 				filter_options: defaultFilters,
 				filtersInitialized: true, // Mark as initialized
 			});
-		}
+		} */
+
+		if (specifications?.length > 0 && (!filtersInitialized || !Array.isArray(filter_options) || filter_options.length === 0)) {
+			const defaultFilters = specifications.map((spec) => ({
+				specKey: spec.key,
+				value: 'dropdown',
+			}));
+
+			setAttributes({
+				filter_options: defaultFilters,
+				filtersInitialized: true,
+			});
+	    }
+
 
 		if (
 			Array.isArray(specifications) &&
