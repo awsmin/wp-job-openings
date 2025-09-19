@@ -103,44 +103,31 @@ const WidgetInspectorControls = (props) => {
 			setAttributes({ blockId: `job-block-${clientId}` });
 		}
 
-		// Ensure default filters are initialized only once
-		/* if (!filtersInitialized && specifications.length > 0) {
-			const defaultFilters = specifications.map((spec) => ({
-				specKey: spec.key,
-				value: 'dropdown',
-			}));
+		if (!filtersInitialized && specifications.length > 0) {
+        let normalizedFilters = [];
 
-			setAttributes({
-				filter_options: defaultFilters,
-				filtersInitialized: true, // Mark as initialized
-			});
-		} */
-console.log('AAA');
-		if (specifications?.length > 0 && (!filtersInitialized || !Array.isArray(filter_options) || filter_options.length === 0)) {
-			const defaultFilters = specifications.map((spec) => ({
-				specKey: spec.key,
-				value: 'dropdown',
-			}));
-console.log('BBBBBB');
-			setAttributes({
-				filter_options: defaultFilters,
-				filtersInitialized: true,
-			});
-	    }
+        if (filter_options && filter_options.length > 0) {
+            // Old block: normalize string format to { specKey, value }
+            normalizedFilters = filter_options.map((option) => {
+                if (typeof option === 'object' && option.specKey) {
+                    return option; // already in new format
+                }
+                return { specKey: option, value: 'dropdown' }; // old string format
+            });
+        } else {
+            // Fresh block: create default filters
+            normalizedFilters = specifications.map((spec) => ({
+                specKey: spec.key,
+                value: 'dropdown',
+            }));
+        }
 
-
-		if (
-			Array.isArray(specifications) &&
-			specifications.length >= 2 &&
-			(!Array.isArray(other_options) || other_options.length === 0) &&
-			!specsInitialized
-		) {
-			const defaultKeys = specifications.slice(0, 2).map((spec) => spec.key);
-			setAttributes({
-				other_options: defaultKeys,
-				specsInitialized: true
-			});
-		}
+        // Update attributes once
+        setAttributes({
+            filter_options: normalizedFilters,
+            filtersInitialized: true,
+        });
+    }
 
 	}, [specifications, selectedTerms, selected_terms_main]);
 	
@@ -292,7 +279,7 @@ console.log('BBBBBB');
 									}
 
 									return (
-										<div key={ spec.key }>
+										<div key={ spec.key }> 
 											{ /* Toggle Control */ }
 											<ToggleControl
 												label={ spec.label }

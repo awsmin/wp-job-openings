@@ -631,7 +631,7 @@ class AWSM_Job_Openings_Block {
 			$display_filters = false;
 		}
 
-		$available_filters = get_option( 'awsm_jobs_listing_available_filters' );
+		/* $available_filters = get_option( 'awsm_jobs_listing_available_filters' );
 
 		$spec_keys = array();
 		if ( ! empty( $block_atts['filter_options'] ) ) {
@@ -644,7 +644,32 @@ class AWSM_Job_Openings_Block {
 		$available_filters = is_array( $available_filters ) ? $available_filters : array();
 		if ( ! empty( $available_filters ) && $enable_search == 'enable' ) {
 			$display_filters = true;
+		} */
+
+		$available_filters = get_option( 'awsm_jobs_listing_available_filters' );
+
+		if ( isset( $block_atts['filter_options'] ) && is_array( $block_atts['filter_options'] ) && ! empty( $block_atts['filter_options'] ) ) {
+			$spec_keys = array();
+			foreach ( $block_atts['filter_options'] as $option ) {
+				// If it's the new format with specKey + value
+				if ( is_array( $option ) && isset( $option['specKey'] ) ) {
+					$spec_keys[] = $option['specKey'];
+				}
+				// If it's just a string array (older format)
+				elseif ( is_string( $option ) ) {
+					$spec_keys[] = $option;
+				}
+			}
+
+			if ( ! empty( $spec_keys ) ) {
+				$available_filters = $spec_keys;
+			}
 		}
+
+		$available_filters = is_array( $available_filters ) ? $available_filters : array();
+		if ( ! empty( $available_filters ) && $enable_search == 'enable' ) {
+			$display_filters = true;
+		} 
 
 		$available_filters_arr = array();
 		if ( $display_filters && ! empty( $taxonomies ) ) {

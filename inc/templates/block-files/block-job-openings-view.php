@@ -96,7 +96,7 @@ if ( $query->have_posts() ) {
 	if ( $attributes['placement'] == 'top' ) {
 		?>
 			<div class="awsm-b-job-wrap<?php awsm_jobs_wrapper_class(); ?>" id="<?php echo esc_attr( $block_id ); ?>">
-				<?php
+				<?php 
 				/**
 				 * awsm_block_filter_form hook
 				 *
