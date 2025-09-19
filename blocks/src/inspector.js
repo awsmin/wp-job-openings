@@ -104,30 +104,30 @@ const WidgetInspectorControls = (props) => {
 		}
 
 		if (!filtersInitialized && specifications.length > 0) {
-        let normalizedFilters = [];
+			let normalizedFilters = [];
 
-        if (filter_options && filter_options.length > 0) {
-            // Old block: normalize string format to { specKey, value }
-            normalizedFilters = filter_options.map((option) => {
-                if (typeof option === 'object' && option.specKey) {
-                    return option; // already in new format
-                }
-                return { specKey: option, value: 'dropdown' }; // old string format
-            });
-        } else {
-            // Fresh block: create default filters
-            normalizedFilters = specifications.map((spec) => ({
-                specKey: spec.key,
-                value: 'dropdown',
-            }));
-        }
+			if (filter_options && filter_options.length > 0) {
+				// Old block: normalize string format to { specKey, value }
+				normalizedFilters = filter_options.map((option) => {
+					if (typeof option === 'object' && option.specKey) {
+						return option; // already in new format
+					}
+					return { specKey: option, value: 'dropdown' }; // old string format
+				});
+			} else {
+				// Fresh block: create default filters
+				normalizedFilters = specifications.map((spec) => ({
+					specKey: spec.key,
+					value: 'dropdown',
+				}));
+			}
 
-        // Update attributes once
-        setAttributes({
-            filter_options: normalizedFilters,
-            filtersInitialized: true,
-        });
-    }
+			// Update attributes once
+			setAttributes({
+				filter_options: normalizedFilters,
+				filtersInitialized: true,
+			});
+    	}
 
 	}, [specifications, selectedTerms, selected_terms_main]);
 	
