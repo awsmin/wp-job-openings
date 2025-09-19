@@ -352,7 +352,6 @@ class AWSM_Job_Openings_Block {
 			$all_filters  = array_merge_recursive( $filters, $filters_list );
 
 			foreach ( $all_filters as $taxonomy => $terms ) {
-				error_log( print_r( $terms, 1 ) );
 				if ( ! empty( $terms ) ) {
 					// Ensure terms are always an array and cleaned.
 					$terms = is_array( $terms ) ? array_values( array_filter( $terms ) ) : array( $terms );

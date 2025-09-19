@@ -1118,7 +1118,7 @@ class AWSM_Job_Openings_Settings {
 										$awsm_jobs_listing_display_type = get_option( 'awsm_jobs_listing_display_type', '' );
 
 										if ( is_string( $awsm_jobs_listing_display_type ) && ! empty( $awsm_jobs_listing_display_type ) ) {
-											$display_type_choices = unserialize( $awsm_jobs_listing_display_type );
+											$display_type_choices = maybe_unserialize( $awsm_jobs_listing_display_type );
 										} else {
 											$display_type_choices = $awsm_jobs_listing_display_type;
 										}
