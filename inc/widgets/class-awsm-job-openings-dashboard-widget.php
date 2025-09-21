@@ -48,7 +48,7 @@ class AWSM_Job_Openings_Dashboard_Widget {
 			<?php
 			if ( ! empty( $job_data ) ) :
 				?>
-				<h3><?php echo esc_html_e( 'Active Jobs', 'wp-job-openings' ); ?></h3>
+				<h3><?php esc_html_e( 'Active Jobs', 'wp-job-openings' ); ?></h3>
 				<table class="awsm-jobs-dashboard-table widefat">
 					<thead>
 						<tr>
