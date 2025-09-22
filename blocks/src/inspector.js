@@ -76,7 +76,7 @@ const WidgetInspectorControls = (props) => {
 	const block_job_listing = [];
 	const block_styles_panel = [];
 
-	useEffect(() => { 
+	useEffect(() => {  
 		if (typeof awsmJobsAdmin !== 'undefined' && awsmJobsAdmin.isProEnabled) {
 			setIsProEnabled(true);
 		}
@@ -127,7 +127,7 @@ const WidgetInspectorControls = (props) => {
 				filter_options: normalizedFilters,
 				filtersInitialized: true,
 			});
-    	}
+      }
 
 	}, [specifications, selectedTerms, selected_terms_main]);
 	
