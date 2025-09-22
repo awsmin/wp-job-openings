@@ -771,13 +771,16 @@ class AWSM_Job_Openings_Block {
 						if ( ! self::is_edit_or_add_page() ) {
 							$filter_class_admin_select_control = ' awsm-job-select-control';
 						}
-
-						//$block_atts['filter_options']
+						
 						$spec_multiple_class = $multiple_for_spec = '';
-						foreach ( $block_atts['filter_options'] as $check_multiple ) {
-							if ( $taxonomy == $check_multiple['specKey'] && $check_multiple['value'] == 'checkbox' ) {
-								$spec_multiple_class = 'awsm-b-spec-multiple';
-								$multiple_for_spec   = 'multiple';
+						if ( isset($block_atts['filter_options']) && is_array($block_atts['filter_options']) ) {
+							foreach ( $block_atts['filter_options'] as $check_multiple ) {
+								if ( is_array($check_multiple) && isset($check_multiple['specKey'], $check_multiple['value']) ) {
+									if ( $taxonomy == $check_multiple['specKey'] && $check_multiple['value'] == 'checkbox' ) {
+										$spec_multiple_class = 'awsm-b-spec-multiple';
+										$multiple_for_spec   = 'multiple';
+									}
+								}
 							}
 						}
 
@@ -923,7 +926,7 @@ class AWSM_Job_Openings_Block {
 			if ( ! empty( $taxonomies ) && ! empty( $filter_options ) ) {
 				foreach ( $taxonomies as $taxonomy => $tax_details ) {
 					foreach ( $filter_options as $spec ) {
-						if ( isset( $spec['specKey'] ) && $taxonomy == $spec['specKey'] ) {
+						if ( is_array( $spec ) && isset( $spec['specKey'] ) && $taxonomy == $spec['specKey'] ) {
 							// Get terms for the taxonomy
 							$terms_args = apply_filters(
 								'awsm_filter_block_spec_slide_terms_args',
