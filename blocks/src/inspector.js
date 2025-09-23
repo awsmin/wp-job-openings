@@ -62,7 +62,7 @@ const WidgetInspectorControls = (props) => {
 	} = props;
 
 	// Local state for block settings
-	const specifications = awsmJobsAdmin.awsm_filters_block;
+	const specifications = awsmJobsAdmin.awsm_filters_block; 
 	const [ isProEnabled, setIsProEnabled ] = useState( false );
 	const [ toggleState, setToggleState ] = useState(
 		selected_terms_main || {}
@@ -127,7 +127,7 @@ const WidgetInspectorControls = (props) => {
 				filter_options: normalizedFilters,
 				filtersInitialized: true,
 			});
-      }
+        }
 
 	}, [specifications, selectedTerms, selected_terms_main]);
 	
@@ -197,7 +197,7 @@ const WidgetInspectorControls = (props) => {
 		} );
 	};
 
-	const other_options_handler = (toggleValue, specKey) => {
+	const other_options_handler = (toggleValue, specKey) => { 
 		let updated = [...other_options];
 		if (toggleValue) {
 			if (!updated.includes(specKey)) {
