@@ -326,6 +326,7 @@ const WidgetInspectorControls = (props) => {
 																	? 'white'
 																	: 'black',
 															marginRight: '10px',
+															marginBottom: '5px',
 														} }
 														size="default"
 														__next40pxDefaultSize
