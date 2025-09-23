@@ -1035,22 +1035,3 @@ ul.awsm-error-message li {
   margin-top: 8px;
 }
 
-.filter-btn {
-  background: white !important;
-  color: black !important;
-  border: 1px solid #ccc !important;
-  border-radius: 4px !important;
-  padding: 6px 12px !important; /* fixes padding issue */
-  font-size: 13px !important;
-  line-height: 1.4 !important;
-  min-width: 100px;
-  text-align: center;
-  box-shadow: none !important;
-}
-
-.filter-btn.is-active-dropdown,
-.filter-btn.is-active-checkbox {
-  background: black !important;
-  color: white !important;
-  border-color: black !important;
-}
