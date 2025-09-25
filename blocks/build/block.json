@@ -70,10 +70,7 @@
     },
     "other_options": {
       "type": "array",
-      "default": [
-        "job-category",
-        "job-type"
-      ]
+      "default": []
     },
     "specsInitialized": {
       "type": "boolean",

@@ -63,7 +63,7 @@ class Awsm_Job_Guten_Blocks {
 				$default_options[] = $spec['key'];
 			}
 
-			$atts['other_options'] = $default_options;
+			//$atts['other_options'] = $default_options; error_log( print_r($atts['other_options'],1) );
 		}
 
 		if ( isset( $atts['search'] ) && $atts['search'] === true ) {
@@ -146,7 +146,7 @@ class Awsm_Job_Guten_Blocks {
 	}
 
 	public function block_assets() {
-    	wp_enqueue_script( 'awsm-job-admin' );
+		wp_enqueue_script( 'awsm-job-admin' );
 
 		if ( ! wp_style_is( 'awsm-jobs-style' ) || ! wp_script_is( 'awsm-job-scripts' ) ) {
 			$awsm_job_openings = AWSM_Job_Openings::init();

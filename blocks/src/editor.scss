@@ -1035,3 +1035,15 @@ ul.awsm-error-message li {
   margin-top: 8px;
 }
 
+.filter-btn {
+	margin-right: 10px;
+	margin-bottom: 5px;
+	color: black;
+	background-color: initial;
+}
+
+.filter-btn.is-dropdown {
+	background-color: black;
+	color: white;
+}
+

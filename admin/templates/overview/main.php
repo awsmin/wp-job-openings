@@ -137,13 +137,13 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 						printf( '<div class="awsm-jobs-overview-widget-wrapper"><div class="awsm-jobs-pro-feature"><img src="%2$s"><p>%1$s</p></div></div>', $pro_link, esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/applications-by-status-chart.png' ) );
 					} else {
 						$overview_instance = AWSM_Job_Openings_Pro_Overview::init();
-						$unique_id = 'awsm-jobs-overview-applications-by-status';
-						$template_args = array(
-							'widget_id' => $unique_id, 
+						$unique_id         = 'awsm-jobs-overview-applications-by-status';
+						$template_args     = array(
+							'widget_id' => $unique_id,
 						);
-						$template_path = $overview_instance->pro_widget_template_path( '', $unique_id );
+						$template_path     = $overview_instance->pro_widget_template_path( '', $unique_id );
 
-						
+
 						if ( file_exists( $template_path ) ) {
 
 							foreach ( $template_args as $key => $value ) {

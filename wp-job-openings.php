@@ -228,7 +228,7 @@ class AWSM_Job_Openings {
 	}
 
 	public function upgrade() {
-		
+
 		if ( intval( get_option( 'awsm_jobs_upgrade_count' ) ) !== 1 ) {
 			$upload_dir = wp_upload_dir();
 			$base_dir   = trailingslashit( $upload_dir['basedir'] );
@@ -237,7 +237,7 @@ class AWSM_Job_Openings {
 			update_option( 'awsm_jobs_upgrade_count', 1 );
 		}
 
-			if (AWSM_JOBS_PLUGIN_VERSION == '4.0.0') {
+		if ( AWSM_JOBS_PLUGIN_VERSION == '4.0.0' ) {
 			// Run migration only if upgrading from < 4.0
 			$settings = get_option( 'awsm_jobs_notification_customizer' );
 
@@ -245,7 +245,7 @@ class AWSM_Job_Openings {
 				// Check if footer still has the old "Wp Job Openings" text
 				if ( strpos( $settings['footer_text'], 'Wp Job Openings' ) !== false ) {
 					// Get new defaults
-					$default_settings = AWSM_Job_Openings_Mail_Customizer::get_settings();
+					$default_settings        = AWSM_Job_Openings_Mail_Customizer::get_settings();
 					$settings['footer_text'] = $default_settings['footer_text']; // Replace with new default
 
 					update_option( 'awsm_jobs_notification_customizer', $settings );

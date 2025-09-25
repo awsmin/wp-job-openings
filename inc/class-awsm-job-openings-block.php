@@ -668,7 +668,7 @@ class AWSM_Job_Openings_Block {
 		$available_filters = is_array( $available_filters ) ? $available_filters : array();
 		if ( ! empty( $available_filters ) && $enable_search == 'enable' ) {
 			$display_filters = true;
-		} 
+		}
 
 		$available_filters_arr = array();
 		if ( $display_filters && ! empty( $taxonomies ) ) {
@@ -771,11 +771,11 @@ class AWSM_Job_Openings_Block {
 						if ( ! self::is_edit_or_add_page() ) {
 							$filter_class_admin_select_control = ' awsm-job-select-control';
 						}
-						
+
 						$spec_multiple_class = $multiple_for_spec = '';
-						if ( isset($block_atts['filter_options']) && is_array($block_atts['filter_options']) ) {
+						if ( isset( $block_atts['filter_options'] ) && is_array( $block_atts['filter_options'] ) ) {
 							foreach ( $block_atts['filter_options'] as $check_multiple ) {
-								if ( is_array($check_multiple) && isset($check_multiple['specKey'], $check_multiple['value']) ) {
+								if ( is_array( $check_multiple ) && isset( $check_multiple['specKey'], $check_multiple['value'] ) ) {
 									if ( $taxonomy == $check_multiple['specKey'] && $check_multiple['value'] == 'checkbox' ) {
 										$spec_multiple_class = 'awsm-b-spec-multiple';
 										$multiple_for_spec   = 'multiple';

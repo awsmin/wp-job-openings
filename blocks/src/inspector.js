@@ -313,21 +313,8 @@ const WidgetInspectorControls = (props) => {
 												<div className="filters-button">
 													{ /* Dropdown Button */ }
 													<Button
+														className={ `filter-btn ${ filterOption.value === 'dropdown' ? 'is-dropdown' : '' }` }
 														variant="secondary"
-														style={ {
-															backgroundColor:
-																filterOption.value ===
-																'dropdown'
-																	? 'black'
-																	: 'initial',
-															color:
-																filterOption.value ===
-																'dropdown'
-																	? 'white'
-																	: 'black',
-															marginRight: '10px',
-															marginBottom: '5px',
-														} }
 														size="default"
 														__next40pxDefaultSize
 														onClick={ () => {
