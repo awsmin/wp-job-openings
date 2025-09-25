@@ -98,7 +98,7 @@ class AWSM_Job_Openings_Form {
 			),
 
 			'awsm_applicant_letter' => array(
-				'label'      => __( 'Cover Letter', 'wp-job-openings' ),
+				'label'      => __( 'Bio', 'wp-job-openings' ),
 				'field_type' => array(
 					'tag' => 'textarea',
 				),
