@@ -2094,9 +2094,7 @@ add_action( 'wp_ajax_get_dependent_filters', 'get_dependent_filters_callback' );
 add_action( 'wp_ajax_nopriv_get_dependent_filters', 'get_dependent_filters_callback' );
 
 function get_dependent_filters_callback() {
-	error_log( json_encode( 'sdfsdfd', JSON_PRETTY_PRINT ) );
     $job_type = isset( $_POST['job_type'] ) ? intval( $_POST['job_type'] ) : 0;
-	error_log( json_encode( $job_type, JSON_PRETTY_PRINT ) );
 
     if ( ! $job_type ) {
         wp_send_json_error( array( 'message' => 'No job type selected' ) );

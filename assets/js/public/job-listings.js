@@ -195,62 +195,70 @@ jQuery(function($) {
 	});
 
 	$(filterSelector + ' .awsm-job-type-filter-option').on('change', function(e) {
+		var selectedType = $(this).val();
 
-	// jQuery(document).on('change', '.awsm-job-type-filter-option', function () {
-    var selectedType = jQuery(this).val();
+		// Save to localStorage so we can restore it later
+		localStorage.setItem('awsm_selected_job_type', selectedType);
 
-	console.log(selectedType);
-	
+		if (!selectedType) {
+			// If cleared, reset dependent dropdowns and remove saved state
+			localStorage.removeItem('awsm_selected_job_type');
+			jQuery('.awsm-job-category-filter-option, .awsm-job-location-filter-option').each(function() {
+				var defaultLabel = $(this).find('option:first').text().trim();
+				$(this).empty().append('<option value="">' + defaultLabel + '</option>');
+				if ($.fn.selectric) {
+					$(this).selectric('refresh');
+				}
+			});
+			return;
+		}
 
-    $.ajax({
-        url: awsmJobsPublic.ajaxurl,
-        type: 'POST',
-        dataType: 'json',
-        data: {
-            action: 'get_dependent_filters',
-            job_type: selectedType
-        },
-        success: function (response) {
-            if (response.success) {
-				console.log(response);
-				
-                // Loop through all returned taxonomies dynamically
-                $.each(response.data, function (taxonomy, terms) {
-                    // Example: taxonomy = "job-category" or "job-location"
-                    // Build dropdown selector dynamically
-                    var $dropdown = jQuery('.awsm-job-' + taxonomy + '-filter-option');
-					// console.log($dropdown);
-					// console.log('.awsm-job-' + taxonomy + '-filter-option');
-					// console.log($dropdown);
-					
+		// Fetch dependent filters
+		$.ajax({
+			url: awsmJobsPublic.ajaxurl,
+			type: 'POST',
+			dataType: 'json',
+			data: {
+				action: 'get_dependent_filters',
+				job_type: selectedType
+			},
+			success: function(response) {
+				if (response.success) {
+					$.each(response.data, function(taxonomy, terms) {
+						var $dropdown = $('.awsm-job-' + taxonomy + '-filter-option');
+						if ($dropdown.length) {
+							var defaultLabel = $dropdown.find('option:first').text().trim();
+							$dropdown.empty().append('<option value="">' + defaultLabel + '</option>');
+							$.each(terms, function(id, name) {
+								$dropdown.append('<option value="' + id + '">' + name + '</option>');
+							});
+							if ($.fn.selectric) {
+								$dropdown.selectric('refresh');
+							}
+						}
+					});
+				}
+			},
+			error: function(xhr, status, error) {
+				console.error('AJAX Error:', status, error);
+			}
+		});
+	});
 
-                    if ($dropdown.length) {
-						// alert('here');
-                        // Get label dynamically from the data attribute or fallback
-                       var defaultLabel = $dropdown.find('option:first').text().trim();
-
-        // Clear options and re-add the default label
-        $dropdown.empty().append('<option value="">' + defaultLabel + '</option>');
-
-                        // Add new options
-                        jQuery.each(terms, function (id, name) {
-                            $dropdown.append('<option value="' + id + '">' + name + '</option>');
-                        });
-
-                        // Re-initialize Selectric or other UI library
-                        if (jQuery.fn.selectric) {
-                            $dropdown.selectric('refresh');
-                        }
-                    }
-                });
-            }
-        },
-        error: function (xhr, status, error) {
-            console.error('AJAX Error:', status, error);
-        }
-    });
+// Restore saved job type + trigger filter AJAX on page load
+$(document).ready(function() {
+	var savedType = localStorage.getItem('awsm_selected_job_type');
+	if (savedType) {
+		var $jobTypeDropdown = $(filterSelector + ' .awsm-job-type-filter-option');
+		if ($jobTypeDropdown.length) {
+			$jobTypeDropdown.val(savedType);
+			if ($.fn.selectric) {
+				$jobTypeDropdown.selectric('refresh');
+			}
+			$jobTypeDropdown.trigger('change');
+		}
+	}
 });
-
 	/* ========== Job Listings Load More ========== */
 
 	$(wrapperSelector).on('click', '.awsm-jobs-pagination .awsm-load-more-btn, .awsm-jobs-pagination a.page-numbers', function(e) {
