@@ -34,23 +34,6 @@ class Awsm_Job_Guten_Blocks {
 	}
 
 	public function block_render_callback( $atts, $content ) {
-
-		// 🔧 Backward compatibility fix for old saved data
-		if ( isset( $atts['filter_options'] ) ) {
-			if ( is_array( $atts['filter_options'] ) ) {
-				// If it's an array of arrays (newer format)
-				if ( isset( $atts['filter_options'][0] ) && is_array( $atts['filter_options'][0] ) ) {
-					$atts['filter_options'] = implode(
-						',',
-						wp_list_pluck( $atts['filter_options'], 'specKey' )
-					);
-				} else {
-					// If it's already a simple array
-					$atts['filter_options'] = implode( ',', $atts['filter_options'] );
-				}
-			}
-		}
-
 		if (
 			( ! isset( $atts['filter_options'] ) || ! is_array( $atts['filter_options'] ) || empty( $atts['filter_options'] ) )
 			&& ( ! isset( $atts['filtersInitialized'] ) || ! $atts['filtersInitialized'] )
@@ -150,6 +133,10 @@ class Awsm_Job_Guten_Blocks {
 		 * @param array $atts List of supported attributes.
 		 */
 		$atts = apply_filters( 'awsm_jobs_listings_block_attributes', $atts );
+
+		if ( isset( $atts['filter_options'] ) && is_array( $atts['filter_options'] ) ) {
+			$atts['filter_options_json'] = wp_json_encode( $atts['filter_options'] );
+		}
 
 		$class_block_init = AWSM_Job_Openings_Block::init();
 		$block_content    = $class_block_init->awsm_jobs_block_attributes( $atts );
