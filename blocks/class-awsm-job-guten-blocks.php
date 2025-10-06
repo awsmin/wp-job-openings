@@ -35,6 +35,22 @@ class Awsm_Job_Guten_Blocks {
 
 	public function block_render_callback( $atts, $content ) {
 
+		// 🔧 Backward compatibility fix for old saved data
+		if ( isset( $atts['filter_options'] ) ) {
+			if ( is_array( $atts['filter_options'] ) ) {
+				// If it's an array of arrays (newer format)
+				if ( isset( $atts['filter_options'][0] ) && is_array( $atts['filter_options'][0] ) ) {
+					$atts['filter_options'] = implode(
+						',',
+						wp_list_pluck( $atts['filter_options'], 'specKey' )
+					);
+				} else {
+					// If it's already a simple array
+					$atts['filter_options'] = implode( ',', $atts['filter_options'] );
+				}
+			}
+		}
+
 		if (
 			( ! isset( $atts['filter_options'] ) || ! is_array( $atts['filter_options'] ) || empty( $atts['filter_options'] ) )
 			&& ( ! isset( $atts['filtersInitialized'] ) || ! $atts['filtersInitialized'] )
