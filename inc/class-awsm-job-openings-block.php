@@ -32,7 +32,7 @@ class AWSM_Job_Openings_Block {
 		$block_atts_set = array(
 			'uid'                        => $this->unique_listing_id,
 			'search'                     => isset( $blockatts['search'] ) ? $blockatts['search'] : '',
-			'filter_options'             => isset( $blockatts['filter_options_json'] ) && ! empty( $blockatts['filter_options_json'] ) ? json_decode( $blockatts['filter_options_json'], true )  : array(),
+			'filter_options'             => isset( $blockatts['filter_options'] ) ? $blockatts['filter_options'] : '',
 			'layout'                     => isset( $blockatts['layout'] ) ? $blockatts['layout'] : '',
 			'hide_expired_jobs'          => isset( $blockatts['hide_expired_jobs'] ) ? $blockatts['hide_expired_jobs'] : '',
 			'placement'                  => isset( $blockatts['placement'] ) ? $blockatts['placement'] : 'slide',

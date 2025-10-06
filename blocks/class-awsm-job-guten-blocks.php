@@ -134,10 +134,6 @@ class Awsm_Job_Guten_Blocks {
 		 */
 		$atts = apply_filters( 'awsm_jobs_listings_block_attributes', $atts );
 
-		if ( isset( $atts['filter_options'] ) && is_array( $atts['filter_options'] ) ) {
-			$atts['filter_options_json'] = wp_json_encode( $atts['filter_options'] );
-		}
-
 		$class_block_init = AWSM_Job_Openings_Block::init();
 		$block_content    = $class_block_init->awsm_jobs_block_attributes( $atts );
 
