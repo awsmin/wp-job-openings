@@ -580,7 +580,7 @@ class AWSM_Job_Openings_Block {
 		$search_content        = '';
 		$specs_filter_content  = '';
 		$custom_action_content = '';
-		$filters_attr          = isset( $block_atts['filter_options'] ) ? $block_atts['filter_options'] : '';
+		$filters_attr          = isset( $block_atts['filter_options'] ) ? $block_atts['filter_options'] : array();
 		$enable_job_filters    = isset( $block_atts['enable_job_filter'] ) ? $block_atts['enable_job_filter'] : '';
 		$enable_search         = isset( $block_atts['search'] ) ? $block_atts['search'] : '';
 		$placeholder_search    = isset( $block_atts['search_placeholder'] ) ? $block_atts['search_placeholder'] : '';
@@ -598,7 +598,7 @@ class AWSM_Job_Openings_Block {
 		 * @param array $block_atts The shortcode attributes.
 		 */
 		$uid = isset( $block_atts['uid'] ) ? '-' . $block_atts['uid'] : '';
-
+		
 		if ( $enable_search === 'enable' ) {
 			$search_query = isset( $_GET['jq'] ) ? sanitize_text_field( $_GET['jq'] ) : '';
 			/**
@@ -645,7 +645,7 @@ class AWSM_Job_Openings_Block {
 			$display_filters = true;
 		} */
 
-		$available_filters = get_option( 'awsm_jobs_listing_available_filters' );
+		$available_filters = get_option( 'awsm_jobs_listing_available_filters' ); 
 
 		if ( isset( $block_atts['filter_options'] ) && is_array( $block_atts['filter_options'] ) && ! empty( $block_atts['filter_options'] ) ) {
 			$spec_keys = array();
@@ -666,7 +666,7 @@ class AWSM_Job_Openings_Block {
 		}
 
 		$available_filters = is_array( $available_filters ) ? $available_filters : array();
-		if ( ! empty( $available_filters ) && $enable_search == 'enable' ) {
+		if ( ! empty( $block_atts['filter_options'] ) && $enable_search == 'enable' ) {
 			$display_filters = true;
 		}
 

@@ -284,7 +284,7 @@ const WidgetInspectorControls = (props) => {
 											<ToggleControl
 												label={ spec.label }
 												checked={ filterOption !== undefined }
-												onChange={ ( toggleValue ) => {
+												onChange={ ( toggleValue ) => { 
 													const updatedFilters = toggleValue
 														? [
 																...filter_options,
