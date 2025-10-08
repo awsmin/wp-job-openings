@@ -14,7 +14,7 @@ $block_id   = ( isset( $attributes['block_id'] ) && trim( $attributes['block_id'
 
 $show_filter             = false;
 $placement_sidebar_class = '';
-$styles                  = hz_get_ui_styles( $attributes );
+$styles                  = hz_get_ui_styles( $attributes ); 
 ?>
 
 <!-- Styles for css variables -->
@@ -138,10 +138,22 @@ if ( $query->have_posts() ) {
 						 * @param array $attributes Attributes array from block.
 						 */
 						do_dynamic_filter_form_action( $attributes );
-						do_action( 'awsm_block_form_outside', $attributes );
 					?>
 				</div> 
 				<?php } ?>
+				<?php 
+					/**
+					 * awsm_block_filter_form_extra hook
+					 *
+					 * Display extra fields if search and filters are not enabled
+					 *
+					 * @since 4.0.0
+					 *
+					 * @param array $attributes Attributes array from block.
+					 */
+					do_action( 'awsm_block_filter_form_extra', $attributes );
+					do_action( 'awsm_block_form_outside', $attributes );
+				?>
 				
 				<div class="awsm-b-job-listings"<?php awsm_block_jobs_data_attrs( array(), $attributes ); ?>>
 					<div <?php echo awsm_block_jobs_view_class( 'custom-class', $attributes ); ?>> 
