@@ -445,7 +445,7 @@ const WidgetInspectorControls = (props) => {
 							}
 							value={ jobsPerPage }
 							min={ 1 }
-							max={ 10 }
+							max={ 20 }
 							step={ 1 }
 							withInputField={ true }
 						/>
