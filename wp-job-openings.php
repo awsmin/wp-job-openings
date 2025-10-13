@@ -242,19 +242,18 @@ class AWSM_Job_Openings {
 			update_option( 'awsm_jobs_upgrade_count', 1 );
 		}
 
-		if ( AWSM_JOBS_PLUGIN_VERSION == '4.0.0' ) {
-			// Run migration only if upgrading from < 4.0
-			$settings = get_option( 'awsm_jobs_notification_customizer' );
-
-			if ( $settings && isset( $settings['footer_text'] ) ) {
-				// Check if footer still has the old "Wp Job Openings" text
-				if ( strpos( $settings['footer_text'], 'Wp Job Openings' ) !== false ) {
-					// Get new defaults
-					$default_settings        = AWSM_Job_Openings_Mail_Customizer::get_settings();
-					$settings['footer_text'] = $default_settings['footer_text']; // Replace with new default
-
-					update_option( 'awsm_jobs_notification_customizer', $settings );
+		if ( AWSM_JOBS_PLUGIN_VERSION === '4.0.0' ) {
+			$footer_updated = get_option( 'awsm_jobs_footer_text_migrated', 0 );
+			if ( intval( $footer_updated ) !== 1 ) {
+				$settings = get_option( 'awsm_jobs_notification_customizer' );
+				if ( $settings && isset( $settings['footer_text'] ) ) {
+					if ( strpos( $settings['footer_text'], 'WP Job Openings' ) !== false ) {
+						$settings['footer_text'] = str_replace( 'WP Job Openings', 'HireZoot', $settings['footer_text'] );
+						update_option( 'awsm_jobs_notification_customizer', $settings );
+					}
 				}
+
+				update_option( 'awsm_jobs_footer_text_migrated', 1 );
 			}
 		}
 
