@@ -34,7 +34,7 @@ class AWSM_Job_Openings_Mail_Customizer {
 	}
 
 	public static function get_default_logo() {
-		return AWSM_JOBS_PLUGIN_URL . '/assets/img/logo.png';
+		return AWSM_JOBS_PLUGIN_URL . '/assets/img/hirezoot-logo.png';
 	}
 
 	public static function sanitize_content( $content ) {
