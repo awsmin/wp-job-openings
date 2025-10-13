@@ -256,14 +256,20 @@ class AWSM_Job_Openings {
 					update_option( 'awsm_jobs_notification_customizer', $settings );
 				}
 			}
-			// Save new plugin version to avoid running again
-			// update_option( 'awsm_jobs_plugin_version', $new_version );
+		}
+
+		// Only update stored version if it's less than current (upgrade)
+		$stored_version  = get_option( 'awsm_jobs_plugin_version' );
+		$current_version = AWSM_JOBS_PLUGIN_VERSION;
+
+		if ( ! $stored_version || version_compare( $current_version, $stored_version, '>' ) ) {
+			update_option( 'awsm_jobs_plugin_version', $current_version );
 		}
 	}
 
 	public function check_downgrade() {
 		$stored_version  = get_option( 'awsm_jobs_plugin_version' );
-		$current_version = defined( 'AWSM_JOBS_PLUGIN_VERSION' ) ? AWSM_JOBS_PLUGIN_VERSION : null;
+		$current_version = defined( 'AWSM_JOBS_PLUGIN_VERSION' ) ? AWSM_JOBS_PLUGIN_VERSION : null; 
 
 		if ( $stored_version && $current_version && version_compare( $current_version, $stored_version, '<' ) ) {
 			add_action( 'admin_notices', array( $this, 'show_downgrade_notice' ) );
