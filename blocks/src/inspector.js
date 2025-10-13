@@ -33,7 +33,7 @@ const WidgetInspectorControls = (props) => {
 			hide_expired_jobs,
 			orderBy,
 			listType,
-			jobsPerPage,
+			listing_per_page,
 			layout,
 			selectedTerms,
 			selected_terms_main,
@@ -441,9 +441,9 @@ const WidgetInspectorControls = (props) => {
 						<RangeControl
 							label={ __( 'Jobs Per Page', 'wp-job-openings' ) }
 							onChange={ ( sliderValue ) =>
-								setAttributes( { jobsPerPage: sliderValue } )
+								setAttributes( { listing_per_page: sliderValue } )
 							}
-							value={ jobsPerPage }
+							value={ listing_per_page }
 							min={ 1 }
 							max={ 20 }
 							step={ 1 }

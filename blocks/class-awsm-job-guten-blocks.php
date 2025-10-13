@@ -105,8 +105,8 @@ class Awsm_Job_Guten_Blocks {
 			$atts['orderBy'] = $atts['orderBy'];
 		}
 
-		if ( isset( $atts['jobsPerPage'] ) ) {
-			$atts['listing_per_page'] = $atts['jobsPerPage'];
+		if ( isset( $atts['listing_per_page'] ) ) {
+			$atts['listing_per_page'] = $atts['listing_per_page'];
 		}
 
 		if ( isset( $atts['pagination'] ) ) {

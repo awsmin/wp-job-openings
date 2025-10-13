@@ -56,7 +56,7 @@
       "type": "boolean",
       "default": false
     },
-    "jobsPerPage": {
+    "listing_per_page": {
       "type": "number",
       "default": 9
     },

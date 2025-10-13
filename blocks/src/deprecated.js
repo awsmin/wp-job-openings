@@ -25,7 +25,7 @@ export default [
 			const placement = ( typeof attributes.placement === 'undefined' || attributes.placement === null )
 				? 'top'
 				: attributes.placement;
-console.log('migrating');
+
 				
 			return {
 				// direct carry over / safe defaults
@@ -35,9 +35,6 @@ console.log('migrating');
 				pagination: attributes.pagination || 'modern',
 				hide_expired_jobs: attributes.hide_expired_jobs || false,
 				search_placeholder: attributes.search_placeholder || '',
-
-				// renamed attributes
-				jobsPerPage: attributes.listing_per_page || 5,
 
 				// layout migration
 				layout: attributes.layout === 'list' ? 'stack' : attributes.layout,
