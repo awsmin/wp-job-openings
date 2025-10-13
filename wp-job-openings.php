@@ -81,7 +81,7 @@ class AWSM_Job_Openings {
 		}
 
 		// add_action( 'init', array( $this, 'load_textdomain' ), 5 );
-		add_action( 'plugins_loaded', array( $this, 'upgrade' ) );
+		add_action( 'plugins_loaded', array( $this, 'handle_upgrade_process' ) );
 		add_action( 'after_setup_theme', array( $this, 'template_functions' ) );
 		add_action( 'init', array( $this, 'init_actions' ) );
 		add_action( 'wp_head', array( $this, 'awsm_wp_head' ) );
@@ -227,6 +227,11 @@ class AWSM_Job_Openings {
 		}
 	}
 
+	public function handle_upgrade_process() {
+		$this->check_downgrade();
+		$this->upgrade();
+	}
+
 	public function upgrade() {
 
 		if ( intval( get_option( 'awsm_jobs_upgrade_count' ) ) !== 1 ) {
@@ -254,6 +259,26 @@ class AWSM_Job_Openings {
 			// Save new plugin version to avoid running again
 			// update_option( 'awsm_jobs_plugin_version', $new_version );
 		}
+	}
+
+	public function check_downgrade() {
+		$stored_version  = get_option( 'awsm_jobs_plugin_version' );
+		$current_version = defined( 'AWSM_JOBS_PLUGIN_VERSION' ) ? AWSM_JOBS_PLUGIN_VERSION : null;
+
+		if ( $stored_version && $current_version && version_compare( $current_version, $stored_version, '<' ) ) {
+			add_action( 'admin_notices', array( $this, 'show_downgrade_notice' ) );
+		}
+	}
+
+	public function show_downgrade_notice() {
+	?>
+		<div class="notice notice-warning is-dismissible">
+			<p>
+				<strong><?php esc_html_e( 'Warning:', 'wp-job-openings' ); ?></strong>
+				<?php esc_html_e( 'You have activated an older version of WP Job Openings than previously installed. This may cause data conflicts or unexpected behaviour.', 'wp-job-openings' ); ?>
+			</p>
+		</div>
+	<?php
 	}
 
 	public function index_to_upload_dir( $dir ) {
@@ -2355,8 +2380,6 @@ class AWSM_Job_Openings {
 		}
 		return $post_states;
 	}
-
-
 }
 
 $awsm_job_openings = AWSM_Job_Openings::init();
