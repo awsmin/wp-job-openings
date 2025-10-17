@@ -199,11 +199,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'value'       => $enable_search, 
 					'choices'     => array(
 						array(
-							'value' => 'enabled',
+							'value' => 'enable',
 							'text'  => __( 'Enable job search field in job listing', 'wp-job-openings' ),
 						),
 					),
-					'default_value' => 'enabled', 
+					'default_value' => 'enable', 
 					'description' => __( 'Check this option to show job search field in the job listing page', 'wp-job-openings' ),
 				),
 				array(
