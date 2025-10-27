@@ -42,11 +42,11 @@ require AWSM_Job_Openings::get_template_path( 'header.php', 'mail' );
 						<?php esc_html_e( 'Active Jobs', 'wp-job-openings' ); ?>
 					</li>
 					<li>
-						<span><?php echo esc_html( $overview_data['new_applications'] ); ?></span>
+						<span><?php echo esc_html( $overview_data['unread_applications'] ); ?></span>
 						<?php esc_html_e( 'New Applications', 'wp-job-openings' ); ?>
 					</li>
 					<li>
-						<span><?php echo esc_html( $overview_data['total_applications'] ); ?></span>
+						<span><?php echo esc_html( $overview_data['active_applications'] ); ?></span>
 						<?php esc_html_e( 'Total Applications', 'wp-job-openings' ); ?>
 					</li>
 				</ul>

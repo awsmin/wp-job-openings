@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			'above_content' => 'Above job description',
 		)
 	);
-
+	$enable_search       = get_option( 'awsm_enable_job_search');
 	if ( ! empty( $no_columns_options ) ) {
 		foreach ( $no_columns_options as $column ) {
 			/* translators: %d: number of columns in grid view layout */
@@ -196,12 +196,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'name'        => 'awsm_enable_job_search',
 					'label'       => __( 'Job Search ', 'wp-job-openings' ),
 					'type'        => 'checkbox',
+					'value'       => $enable_search, 
 					'choices'     => array(
 						array(
-							'value' => 'enabled',
+							'value' => 'enable',
 							'text'  => __( 'Enable job search field in job listing', 'wp-job-openings' ),
 						),
 					),
+					'default_value' => 'enable', 
 					'description' => __( 'Check this option to show job search field in the job listing page', 'wp-job-openings' ),
 				),
 				array(
