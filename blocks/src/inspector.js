@@ -445,7 +445,7 @@ const WidgetInspectorControls = (props) => {
 							}
 							value={ listing_per_page }
 							min={ 1 }
-							max={ 20 }
+							max={ 100 }
 							step={ 1 }
 							withInputField={ true }
 						/>
