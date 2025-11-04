@@ -1694,6 +1694,9 @@ a.awsm-plugin-item p {
 	letter-spacing: -0.06px;
 	line-height: 1.3333;
 	margin: 0;
+	overflow-wrap: break-word;
+  	word-wrap: break-word;   
+  	word-break: break-word;
 }
 
 .application-main-cnt {
@@ -2189,6 +2192,11 @@ input.awsm-button:disabled {
 
 .application-main-tab li {
 	margin-bottom: 0;
+}
+.awsm-job-stat-table td:not(:first-child) {
+	overflow-wrap: break-word;
+    word-wrap: break-word;   
+    word-break: break-word;
 }
 
 @media (min-width:991px) {
