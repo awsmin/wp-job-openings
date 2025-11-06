@@ -160,7 +160,7 @@ class AWSM_Job_Openings_Uninstall {
 	private static function remove_posts() {
 		global $wpdb;
 		self::remove_attachments();
-		$wpdb->query( "DELETE FROM {$wpdb->posts} WHERE post_type IN( 'awsm_job_openings', 'awsm_job_application' );" );
+		$wpdb->query( "DELETE FROM {$wpdb->posts} WHERE post_type IN( 'awsm_job_openings', 'awsm_job_application', 'awsm_job_form' );" );
 		$wpdb->query( "DELETE meta FROM {$wpdb->postmeta} meta LEFT JOIN {$wpdb->posts} posts ON posts.ID = meta.post_id WHERE posts.ID IS NULL;" );
 	}
 
