@@ -46,7 +46,6 @@ class AWSM_Job_Openings_Filters {
 		$filters_attr          = isset( $shortcode_atts['filters'] ) ? $shortcode_atts['filters'] : '';
 		$enable_job_filters    = get_option( 'awsm_enable_job_filter_listing' );
 		$enable_search         = get_option( 'awsm_enable_job_search' );
-		$display_type          = get_option( 'awsm_jobs_listing_display_type', 'dropdown' );
 
 		/**
 		 * Enable search in the job listing or not.
@@ -58,7 +57,7 @@ class AWSM_Job_Openings_Filters {
 		 */
 		$enable_search = apply_filters( 'awsm_job_filters_enable_search', $enable_search, $shortcode_atts );
 
-		if ( ( $enable_job_filters !== 'enabled' && $filters_attr !== 'yes' ) && $enable_search !== 'enable' ) {
+		if ( $enable_job_filters !== 'enabled' && $filters_attr !== 'yes' && $enable_search !== 'enable' ) {
 			return;
 		}
 
@@ -68,7 +67,7 @@ class AWSM_Job_Openings_Filters {
 
 		$uid = isset( $shortcode_atts['uid'] ) ? '-' . $shortcode_atts['uid'] : '';
 
-		if ( $enable_search === 'enabled' ) {
+		if ( $enable_search === 'enable' ) {
 			$search_query = isset( $_GET['jq'] ) ? $_GET['jq'] : '';
 			/**
 			 * Filters the search field placeholder text.
@@ -121,27 +120,16 @@ class AWSM_Job_Openings_Filters {
 		if ( $display_filters && ! empty( $taxonomies ) ) {
 			$selected_filters = self::get_filters_query_args( $available_filters );
 
-			// NEW: Build query args based on shortcode attributes to filter available terms
 			$job_query_args = array(
 				'post_type'      => 'awsm_job_openings',
 				'posts_per_page' => -1,
 				'fields'         => 'ids',
 			);
 
-			// Add status parameter
-			if ( ! empty( $shortcode_atts['status'] ) ) {
-				$job_query_args['post_status'] = $shortcode_atts['status'];
-			}
-
-			// Add specs (taxonomy) parameters
 			if ( ! empty( $shortcode_atts['specs'] ) ) {
-				$tax_query = array();
+				$tax_query = array( 'relation' => 'AND' );
+				$specs_arr = explode( ' ', $shortcode_atts['specs'] );
 
-				// Split by space but handle multiple formats
-				$specs_raw = trim( $shortcode_atts['specs'] );
-				$specs_arr = preg_split( '/\s+/', $specs_raw );
-
-				// Group terms by taxonomy
 				$taxonomy_terms = array();
 				foreach ( $specs_arr as $spec ) {
 					$spec = trim( $spec );
@@ -157,9 +145,12 @@ class AWSM_Job_Openings_Filters {
 							$taxonomy_terms[ $taxonomy ] = array();
 						}
 
+						// Handle both comma-separated and space-separated term IDs
 						$term_ids                    = array_map( 'trim', explode( ',', $terms ) );
 						$taxonomy_terms[ $taxonomy ] = array_merge( $taxonomy_terms[ $taxonomy ], $term_ids );
 					} else {
+						// This might be a continuation of the previous taxonomy (space-separated IDs)
+						// Add to the last taxonomy in the array
 						if ( ! empty( $taxonomy_terms ) ) {
 							end( $taxonomy_terms );
 							$last_taxonomy                      = key( $taxonomy_terms );
@@ -185,18 +176,16 @@ class AWSM_Job_Openings_Filters {
 					$job_query_args['tax_query'] = $tax_query;
 				}
 
-				// DEBUG: Uncomment to see the final query
-				// error_log( 'Job query args: ' . print_r( $job_query_args, true ) );
+				// if ( count( $tax_query ) > 1 ) {
+				// 	$job_query_args['tax_query'] = $tax_query;
+				// }
 			}
 
-			// Add search query parameter
 			if ( ! empty( $shortcode_atts['query'] ) ) {
 				$job_query_args['s'] = $shortcode_atts['query'];
 			}
 
-			// Get matching job IDs
 			$matching_job_ids = get_posts( $job_query_args );
-
 			/**
 			 * Modifies the available or active filters to be displayed in the job listing.
 			 *
@@ -206,7 +195,6 @@ class AWSM_Job_Openings_Filters {
 			 * @param array $shortcode_atts The shortcode attributes.
 			 */
 			$available_filters = apply_filters( 'awsm_active_job_filters', $available_filters, $shortcode_atts );
-
 			foreach ( $taxonomies as $taxonomy => $tax_details ) {
 				if ( in_array( $taxonomy, $available_filters ) ) {
 					/**
@@ -241,13 +229,11 @@ class AWSM_Job_Openings_Filters {
 					if ( ! empty( $matching_job_ids ) ) {
 						$terms_args['object_ids'] = $matching_job_ids;
 					}
-
 					$terms = get_terms( $terms_args );
-
 					if ( ! empty( $terms ) ) {
-						$available_filters_arr[ $taxonomy ] = $tax_details->label;
+							$available_filters_arr[ $taxonomy ] = $tax_details->label;
 
-						$options_content = '';
+							$options_content = '';
 						foreach ( $terms as $term ) {
 							$selected = '';
 							if ( in_array( $taxonomy, array_keys( $selected_filters ) ) && $selected_filters[ $taxonomy ] === $term->slug ) {
@@ -268,38 +254,30 @@ class AWSM_Job_Openings_Filters {
 							$options_content .= $option_content;
 						}
 
-						$filter_key = str_replace( '-', '__', $taxonomy );
-						$spec_name  = apply_filters( 'wpml_translate_single_string', $tax_details->label, 'WordPress', sprintf( 'taxonomy general name: %s', $tax_details->label ) );
-						/**
-						 * Filters the default label for the job filter.
-						 *
-						 * @since 1.6.0
-						 *
-						 * @param string $filter_label The label for the filter.
-						 * @param string $taxonomy Taxonomy key.
-						 * @param WP_Taxonomy $tax_details Taxonomy details.
-						 */
-						$filter_label = apply_filters( 'awsm_filter_label', esc_html_x( 'All', 'job filter', 'wp-job-openings' ) . ' ' . $spec_name, $taxonomy, $tax_details );
+							$filter_key = str_replace( '-', '__', $taxonomy );
+							$spec_name  = apply_filters( 'wpml_translate_single_string', $tax_details->label, 'WordPress', sprintf( 'taxonomy general name: %s', $tax_details->label ) );
+							/**
+							 * Filters the default label for the job filter.
+							 *
+							 * @since 1.6.0
+							 *
+							 * @param string $filter_label The label for the filter.
+							 * @param string $taxonomy Taxonomy key.
+							 * @param WP_Taxonomy $tax_details Taxonomy details.
+							 */
+							$filter_label = apply_filters( 'awsm_filter_label', esc_html_x( 'All', 'job filter', 'wp-job-openings' ) . ' ' . $spec_name, $taxonomy, $tax_details );
 
-						$spec_multiple_class = '';
-						$multiple_for_spec   = '';
+							$dropdown_content = sprintf( '<div class="awsm-filter-item" data-filter="%2$s"><label for="awsm-%1$s-filter-option%5$s" class="awsm-sr-only">%3$s</label><select name="awsm_job_spec[%1$s]" class="awsm-filter-option awsm-%1$s-filter-option" id="awsm-%1$s-filter-option%5$s" aria-label="%3$s"><option value="">%3$s</option>%4$s</select></div>', esc_attr( $taxonomy ), esc_attr( $filter_key . self::$filter_suffix ), esc_html( $filter_label ), $options_content, esc_attr( $uid ) );
+							/**
+							 * Filter the job filter dropdown content.
+							 *
+							 * @since 3.3.0
+							 *
+							 * @param string $dropdown_content Filter dropdown content.
+							 */
+							$dropdown_content = apply_filters( 'awsm_job_filter_dropdown_content', $dropdown_content );
 
-						if ( isset( $display_type[ $taxonomy ] ) && $display_type[ $taxonomy ] === 'checkbox' ) {
-							$spec_multiple_class = 'awsm-spec-multiple';
-							$multiple_for_spec   = 'multiple';
-						}
-
-						$dropdown_content = sprintf( '<div class="awsm-filter-item" data-filter="%2$s"><label for="awsm-%1$s-filter-option%5$s" class="awsm-sr-only">%3$s</label><select name="awsm_job_spec[%1$s][]" class="awsm-filter-option ' . $spec_multiple_class . ' awsm-%1$s-filter-option" id="awsm-%1$s-filter-option%5$s" aria-label="%3$s" ' . $multiple_for_spec . '><option value="">%3$s</option>%4$s</select></div>', esc_attr( $taxonomy ), esc_attr( $filter_key . self::$filter_suffix ), esc_html( $filter_label ), $options_content, esc_attr( $uid ) );
-						/**
-						 * Filter the job filter dropdown content.
-						 *
-						 * @since 3.3.0
-						 *
-						 * @param string $dropdown_content Filter dropdown content.
-						 */
-						$dropdown_content = apply_filters( 'awsm_job_filter_dropdown_content', $dropdown_content );
-
-						$specs_filter_content .= $dropdown_content;
+							$specs_filter_content .= $dropdown_content;
 					}
 				}
 			}
