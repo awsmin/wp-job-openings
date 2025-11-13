@@ -34,7 +34,7 @@
   "devDependencies": {
     "browser-sync": "^3.0.4",
     "cross-env": "^5.2.1",
-    "eslint": "^5.16.0",
+    "eslint": "^9.39.1",
     "eslint-config-wordpress": "^2.0.0",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^5.0.0",
