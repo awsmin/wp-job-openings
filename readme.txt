@@ -2,7 +2,7 @@
 Contributors: awsmin, aravindajith, anantajitjg, sarathar, adhun, nithi22
 Tags: jobs, job listing, job openings, job board, careers page, jobs page, wp job opening, jobs plugin
 Requires at least: 4.8
-Tested up to: 6.4.3
+Tested up to: 6.8.1
 Requires PHP: 5.6
 Stable tag: trunk
 License: GPLv2 or later
@@ -102,6 +102,26 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 13. Notifications Template Settings
 
 == Changelog ==
+
+= V 3.5.3 - 2025-06-10 =
+* Improved: Removed `load_plugin_textdomain()` usage for compatibility with WordPress 6.8+ just-in-time translation loading.
+* Minor bug fixes and code improvements.
+
+= V 3.5.2 - 2025-04-25 =
+* Security fixes and code improvements.
+
+= V 3.5.1 - 2025-04-23 =
+* Fixed: Corrected load_plugin_textdomain() for compatibility with WP 6.8+.
+* Minor bug fixes and code improvements.
+
+= V 3.5.0 - 2024-11-07 =
+* Added: Job listing block.
+* Fixed: Translation issue in email digest.
+* Minor bug fixes and code improvements.
+
+= V 3.4.7 - 2024-09-24 =
+* Fixed: Recaptcha won't reset after submitting the application form.
+* Minor bug fixes and code improvements.
 
 = V 3.4.6 - 2024-04-02 =
 * Fixed: Author email template tag is not working properly in job expiry notification.

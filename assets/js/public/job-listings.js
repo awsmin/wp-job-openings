@@ -2,7 +2,7 @@
 
 'use strict';
 
-jQuery(function($) {
+jQuery(function($) {  
 	var rootWrapperSelector = '.awsm-job-wrap';
 	var wrapperSelector = '.awsm-job-listings';
 
@@ -12,11 +12,11 @@ jQuery(function($) {
 	var currentUrl = window.location.protocol + '//' + window.location.host + window.location.pathname;
 	var triggerFilter = true;
 
-	function getListingsData($wrapper) {
+	function getListingsData($wrapper) {  
 		var data = [];
 		var parsedListingsAttrs = [ 'listings', 'specs', 'search', 'lang', 'taxonomy', 'termId' ];
 		var dataAttrs = $wrapper.data();
-		$.each(dataAttrs, function(dataAttr, value) {
+		$.each(dataAttrs, function(dataAttr, value) { 
 			if ($.inArray(dataAttr, parsedListingsAttrs) === -1) {
 				data.push({
 					name: dataAttr,
@@ -27,12 +27,13 @@ jQuery(function($) {
 		return data;
 	}
 
-	function awsmJobFilters($rootWrapper) {
+	function awsmJobFilters($rootWrapper) { 
 		var $wrapper = $rootWrapper.find(wrapperSelector);
 		var $filterForm = $rootWrapper.find(filterSelector + ' form');
 		var formData = $filterForm.serializeArray();
 		var listings = $wrapper.data('listings');
 		var specs = $wrapper.data('specs');
+		
 		formData.push({
 			name: 'listings_per_page',
 			value: listings
@@ -43,6 +44,7 @@ jQuery(function($) {
 				value: specs
 			});
 		}
+
 		var listingsData = getListingsData($wrapper);
 		if (listingsData.length > 0) {
 			formData = formData.concat(listingsData);
@@ -159,7 +161,7 @@ jQuery(function($) {
 		}
 	};
 
-	$(filterSelector + ' .awsm-filter-option').on('change', function(e) {
+	$(filterSelector + ' .awsm-filter-option').on('change', function(e) { 
 		e.preventDefault();
 		var $elem = $(this);
 		var $selected = $elem.find('option:selected');
@@ -195,7 +197,7 @@ jQuery(function($) {
 	/* ========== Job Listings Load More ========== */
 
 	$(wrapperSelector).on('click', '.awsm-jobs-pagination .awsm-load-more-btn, .awsm-jobs-pagination a.page-numbers', function(e) {
-		e.preventDefault();
+		e.preventDefault(); 
 		var $triggerElem = $(this);
 		var isDefaultPagination = $triggerElem.hasClass('awsm-load-more-btn');
 		var paged = 1;
@@ -278,6 +280,7 @@ jQuery(function($) {
 				value: specs
 			});
 		}
+
 		if (typeof lang !== 'undefined') {
 			wpData.push({
 				name: 'lang',
@@ -339,10 +342,12 @@ jQuery(function($) {
 		if ('selectric' in awsmJobsPublic.vendors && awsmJobsPublic.vendors.selectric) {
 			$elem.selectric({
 				onInit: function(select, selectric) {
-					var id = select.id;
-					var $input = $(selectric.elements.input);
-					$(select).attr('id', 'selectric-' + id);
-					$input.attr('id', id);
+					var id = select.id; 
+					if (selectric && selectric.elements && selectric.elements.input) {
+						var $input = $(selectric.elements.input);
+						$(select).attr('id', 'selectric-' + id);
+						$input.attr('id', id);
+					}
 				},
 				arrowButtonMarkup: '<span class="awsm-selectric-arrow-drop">&#x25be;</span>',
 				customClass: {

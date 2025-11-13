@@ -1,6 +1,6 @@
 {
   "name": "wp-job-openings",
-  "version": "3.4.6",
+  "version": "3.5.3",
   "description": "Super simple Job Listing plugin to manage Job Openings and Applicants on your WordPress site.",
   "main": "gulpfile.js",
   "scripts": {
@@ -32,7 +32,7 @@
   "license": "GPL-2.0",
   "homepage": "https://awsm.in",
   "devDependencies": {
-    "browser-sync": "^3.0.2",
+    "browser-sync": "^3.0.4",
     "cross-env": "^5.2.1",
     "eslint": "^5.16.0",
     "eslint-config-wordpress": "^2.0.0",
@@ -42,12 +42,13 @@
     "gulp-concat": "^2.6.1",
     "gulp-line-ending-corrector": "^1.0.3",
     "gulp-rename": "^1.4.0",
+    "gulp-sass": "^5.1.0",
     "gulp-sort": "^2.0.0",
     "gulp-strip-debug": "^3.0.0",
     "gulp-uglify": "^3.0.2",
     "gulp-wp-pot": "^2.5.0",
-    "postcss": "^8.4.38",
-    "prettier": "^1.19.1"
+    "prettier": "^1.19.1",
+    "sass": "^1.77.6"
   },
   "browserslist": [
     "last 2 version",
@@ -63,6 +64,6 @@
     "bb >= 10"
   ],
   "dependencies": {
-    "axios": "^1.6.8"
+    "axios": "^1.13.2"
   }
 }
