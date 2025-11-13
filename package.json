@@ -32,7 +32,7 @@
   "license": "GPL-2.0",
   "homepage": "https://awsm.in",
   "devDependencies": {
-    "browser-sync": "^2.27.5",
+    "browser-sync": "^3.0.4",
     "cross-env": "^5.2.1",
     "eslint": "^5.16.0",
     "eslint-config-wordpress": "^2.0.0",
@@ -64,6 +64,6 @@
     "bb >= 10"
   ],
   "dependencies": {
-    "axios": "^1.6.8"
+    "axios": "^1.13.2"
   }
 }
