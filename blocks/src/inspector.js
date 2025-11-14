@@ -624,11 +624,14 @@ const WidgetInspectorControls = (props) => {
 											isCompact={true}
 											value={hz_sf_border}
 											onChange={(newBorder) => {
-												var width = newBorder?.width;
+
+												const width = newBorder?.width ?? hz_sf_border?.width;
+
 												setAttributes({
 													hz_sf_border: {
-														...newBorder,
-														width: width,
+														...hz_sf_border, 
+														...newBorder,    
+														width: width,    
 													},
 												});
 											}}
@@ -674,12 +677,13 @@ const WidgetInspectorControls = (props) => {
 										value={hz_ls_border}
 										__experimentalIsRenderedInSidebar
 										onChange={(newBorder) => {
-											var width = newBorder?.width;
 
+											const width = newBorder?.width ?? hz_ls_border?.width;
 											setAttributes({
 												hz_ls_border: {
-													...newBorder,
-													width: width,
+													...hz_ls_border, 
+													...newBorder,   
+													width: width,   
 												},
 											});
 
@@ -687,6 +691,7 @@ const WidgetInspectorControls = (props) => {
 												setTimeout(() => {
 													setAttributes({
 														hz_ls_border: {
+															...hz_ls_border,
 															...newBorder,
 															width: '1px',
 														},
@@ -696,7 +701,6 @@ const WidgetInspectorControls = (props) => {
 										}}
 										enableStyle={false}
 									/>
-
 									<Spacer />
 
 									<BorderRadiusControl
@@ -723,26 +727,29 @@ const WidgetInspectorControls = (props) => {
 							<BorderControl
 								label={__('Border', 'wp-job-openings')}
 								withSlider
-								isCompact={true} 
-								value={hz_jl_border} // Use a valid default object
+								isCompact={true}
+								value={hz_jl_border}
 								__experimentalIsRenderedInSidebar
 								onChange={(newBorder) => {
-									var width = newBorder?.width;
+									const width = newBorder?.width ?? hz_jl_border?.width;
+
 									setAttributes({
 										hz_jl_border: {
-											...newBorder,
-											width: width,
+											...hz_jl_border, 
+											...newBorder,    
+											width: width,    
 										},
 									});
 
-									if( width === '0px' ){
+									if (width === '0px') {
 										setTimeout(() => {
 											setAttributes({
 												hz_jl_border: {
+													...hz_jl_border,
 													...newBorder,
 													width: '1px',
 												},
-											}); 
+											});
 										}, 100);
 									}
 								}}
