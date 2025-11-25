@@ -89,7 +89,7 @@ class AWSM_Job_Openings_Settings {
 						'label' => __( 'General', 'wp-job-openings' ),
 					),
 					'recaptcha' => array(
-						'label' => __( 'reCAPTCHA', 'wp-job-openings' ),
+						'label' => __( 'CAPTCHA', 'wp-job-openings' ),
 					),
 				);
 				break;
@@ -552,25 +552,25 @@ class AWSM_Job_Openings_Settings {
 		return $slug;
 	}
 
-	public function sanitize_site_key( $input ) {
-		$old_value = get_option( 'awsm_jobs_recaptcha_site_key' );
-		$enable    = get_option( 'awsm_jobs_enable_recaptcha' );
-		if ( empty( $input ) && $enable === 'enable' ) {
-			add_settings_error( 'awsm_jobs_recaptcha_site_key', 'awsm-recaptcha-site-key', esc_html__( 'Invalid site key provided.', 'wp-job-openings' ) );
-			$input = $old_value;
-		}
-		return $input;
-	}
+	// public function sanitize_site_key( $input ) {
+	// 	$old_value = get_option( 'awsm_jobs_recaptcha_site_key' );
+	// 	$enable    = get_option( 'awsm_jobs_enable_recaptcha' );
+	// 	if ( empty( $input ) && $enable === 'enable' ) {
+	// 		add_settings_error( 'awsm_jobs_recaptcha_site_key', 'awsm-recaptcha-site-key', esc_html__( 'Invalid site key provided.', 'wp-job-openings' ) );
+	// 		$input = $old_value;
+	// 	}
+	// 	return $input;
+	// }
 
-	public function sanitize_secret_key( $input ) {
-		$old_value = get_option( 'awsm_jobs_recaptcha_secret_key' );
-		$enable    = get_option( 'awsm_jobs_enable_recaptcha' );
-		if ( empty( $input ) && $enable === 'enable' ) {
-			add_settings_error( 'awsm_jobs_recaptcha_secret_key', 'awsm-recaptcha-secret-key', esc_html__( 'Invalid secret key provided.', 'wp-job-openings' ) );
-			$input = $old_value;
-		}
-		return $input;
-	}
+	// public function sanitize_secret_key( $input ) {
+	// 	$old_value = get_option( 'awsm_jobs_recaptcha_secret_key' );
+	// 	$enable    = get_option( 'awsm_jobs_enable_recaptcha' );
+	// 	if ( empty( $input ) && $enable === 'enable' ) {
+	// 		add_settings_error( 'awsm_jobs_recaptcha_secret_key', 'awsm-recaptcha-secret-key', esc_html__( 'Invalid secret key provided.', 'wp-job-openings' ) );
+	// 		$input = $old_value;
+	// 	}
+	// 	return $input;
+	// }
 
 	public function is_localhost() {
 		$server_name = strtolower( $_SERVER['SERVER_NAME'] );
@@ -1463,5 +1463,109 @@ class AWSM_Job_Openings_Settings {
 		return $from_email;
 	}
 
+	   public static function get_captcha_choices() {
+        $labels = self::set_captcha_labels();
+        
+        $choices = array();
+        foreach ( $labels as $value => $text ) {
+            $choices[] = array(
+                'value' => $value,
+                'text'  => $text,
+            );
+        }
+        
+        return $choices;
+    }
+    
+    public static function set_captcha_labels() {
+        $labels = array(
+            'recaptcha' => __( 'reCAPTCHA', 'wp-job-openings' ),
+            'turnstile' => __( 'Turnstile', 'wp-job-openings' ),
+            'hcaptcha'  => __( 'hCaptcha', 'wp-job-openings' ),
+            'none'      => __( 'None', 'wp-job-openings' ),
+        );
+        
+        return apply_filters( 'awsm_jobs_captcha_labels', $labels );
+    }
+	
+	/**
+	 * Generic CAPTCHA key validator.
+	 *
+	 * @param string $input         Raw input value.
+	 * @param string $option_name   Option name for get_option/add_settings_error.
+	 * @param string $error_code    Unique error code identifier.
+	 * @param string $label_key     'site' or 'secret' to customize error text.
+	 * @param int    $min_len       Minimum length to consider "looks valid".
+	 *
+	 * @return string Sanitized value, old value on error, or empty string if CAPTCHA disabled and input empty.
+	 */
+	private function validate_captcha_key( $input, $option_name, $error_code, $label_key = 'site', $min_len = 20 ) {
+		$old_value   = get_option( $option_name );
+		error_log( 'Validating CAPTCHA key for option: ' . $option_name );
+		$captcha_type = get_option( 'awsm_jobs_enable_recaptcha' );
+		$labels = self::set_captcha_labels();
+		// If CAPTCHA disabled, just sanitize (or empty string) and return
+		if ( empty( $captcha_type ) || $captcha_type === 'none' ) {
+			return ! empty( $input ) ? sanitize_text_field( trim( $input ) ) : '';
+		}
+
+		// Resolve readable service name
+		$service_name = isset( $labels[ $captcha_type ] ) ? $labels[ $captcha_type ] : __( 'CAPTCHA', 'wp-job-openings' );
+
+		// Must be a non-empty string
+		if ( empty( $input ) || ! is_string( $input ) ) {
+			add_settings_error(
+				$option_name,
+				"{$error_code}-invalid",
+				sprintf(
+					/* translators: %1$s: CAPTCHA service name, %2$s: key label ('site' or 'secret') */
+					esc_html__( 'Please provide a valid %1$s %2$s key.', 'wp-job-openings' ),
+					esc_html( $service_name ),
+					esc_html( $label_key )
+				),
+				'error'
+			);
+			return $old_value;
+		}
+
+		// Sanitize and basic format check
+		$value = sanitize_text_field( trim( $input ) );
+
+		if ( strlen( $value ) < $min_len ) {
+			add_settings_error(
+				$option_name,
+				"{$error_code}-format",
+				sprintf(
+					/* translators: %1$s: 'site' or 'secret' */
+					esc_html__( 'The %1$s key appears to be invalid. Please check and try again.', 'wp-job-openings' ),
+					esc_html( $label_key )
+				),
+				'error'
+			);
+			return $old_value;
+		}
+
+		return $value;
+	}
+
+	public function sanitize_site_key( $input ) {
+		return $this->validate_captcha_key(
+			$input,
+			'awsm_jobs_recaptcha_site_key',
+			'awsm-captcha-site-key',
+			'site',
+			20 
+		);
+	}
+
+	public function sanitize_secret_key( $input ) {
+		return $this->validate_captcha_key(
+			$input,
+			'awsm_jobs_recaptcha_secret_key',
+			'awsm-captcha-secret-key',
+			'secret',
+			20
+		);
+	}
 
 }

@@ -1,19 +1,20 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+	if ( ! defined( 'ABSPATH' ) ) {
+		exit;
+	}
 
 	$upload_file_extns = $this->file_upload_extensions();
 	$extns_choices     = array();
-if ( ! empty( $upload_file_extns ) ) {
-	foreach ( $upload_file_extns as $extension ) {
-		$extns_choices[] = array(
-			'value' => $extension,
-			'text'  => $extension,
-		);
+	if ( ! empty( $upload_file_extns ) ) {
+		foreach ( $upload_file_extns as $extension ) {
+			$extns_choices[] = array(
+				'value' => $extension,
+				'text'  => $extension,
+			);
+		}
 	}
-}
-
+	// $enable_recaptcha = get_option( 'awsm_jobs_enable_recaptcha' );
+	// error_log( 'Enable Recaptcha Option: ' . $enable_recaptcha );
 	/**
 	 * Filters the form settings fields.
 	 *
@@ -100,25 +101,22 @@ if ( ! empty( $upload_file_extns ) ) {
 			'recaptcha' => array(
 				array(
 					'id'    => 'awsm-form-recaptcha-options-title',
-					'label' => __( 'reCAPTCHA v2 options', 'wp-job-openings' ),
+					'label' => __( 'CAPTCHA Options', 'wp-job-openings' ),
 					'type'  => 'title',
 				),
 				array(
 					'name'        => 'awsm_jobs_enable_recaptcha',
-					'label'       => __( 'Enable reCAPTCHA', 'wp-job-openings' ),
-					'type'        => 'checkbox',
-					'choices'     => array(
-						array(
-							'value' => 'enable',
-							'text'  => __( 'Enable reCAPTCHA v2 on the form', 'wp-job-openings' ),
-						),
-					),
+					'label'       => __( 'Enable CAPTCHA', 'wp-job-openings' ),
+					'type'        => 'radio',
+					'choices'     => AWSM_Job_Openings_Settings::get_captcha_choices(),
+					
+					'default_value' => 'none',
 					'help_button' => array(
 						'url'         => 'https://www.google.com/recaptcha/intro/index.html',
 						'class'       => 'awsm-view-captcha-btn',
 						'text'        => __( 'Get reCAPTCHA v2 keys', 'wp-job-openings' ),
 						'other_attrs' => array(
-							'target' => '_blank',
+						'target' => '_blank',
 						),
 					),
 				),
@@ -130,7 +128,9 @@ if ( ! empty( $upload_file_extns ) ) {
 					'name'  => 'awsm_jobs_recaptcha_secret_key',
 					'label' => __( 'Secret key', 'wp-job-openings' ),
 				),
+
 			),
+
 		)
 	);
 	?>
