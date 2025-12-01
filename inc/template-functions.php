@@ -234,7 +234,7 @@ if ( ! function_exists( 'awsm_jobs_load_more' ) ) {
 					echo apply_filters( 'awsm_jobs_load_more_content', $load_more_content, $query, $shortcode_atts ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				}
 			} else {
-				echo awsm_jobs_paginate_links( $query );
+				echo wp_kses_post( awsm_jobs_paginate_links( $query ) );
 			}
 		}
 	}
