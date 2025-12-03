@@ -1,5 +1,8 @@
 ## Changelog
 
+### V 3.5.5 - 2025-12-03
+* Code improvements.
+
 ### V 3.5.4 - 2025-07-02
 * Security fixes and code improvements.
 

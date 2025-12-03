@@ -2,7 +2,7 @@
 Contributors: awsmin, aravindajith, anantajitjg, sarathar, adhun, nithi22
 Tags: jobs, job listing, job openings, job board, careers page, jobs page, wp job opening, jobs plugin
 Requires at least: 4.8
-Tested up to: 6.8.1
+Tested up to: 6.9
 Requires PHP: 5.6
 Stable tag: trunk
 License: GPLv2 or later
@@ -102,6 +102,9 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 13. Notifications Template Settings
 
 == Changelog ==
+
+= V 3.5.5 - 2025-12-03 =
+* Code improvements.
 
 = V 3.5.4 - 2025-07-02 =
 * Security fixes and code improvements.
