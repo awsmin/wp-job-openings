@@ -35,10 +35,12 @@ class Awsm_Job_Guten_Blocks {
 
 	public function block_render_callback( $atts, $content ) {
 		if ( isset( $atts['filter_options'] ) && is_array( $atts['filter_options'] ) ) {
+			$atts['filter_options'] = (array) $atts['filter_options'];
 			$atts['filter_options'] = implode( ',', $atts['filter_options'] );
 		}
 
 		if ( isset( $atts['other_options'] ) && is_array( $atts['other_options'] ) ) {
+			$atts['other_options'] = (array) $atts['other_options'];
 			$atts['other_options'] = implode( ',', $atts['other_options'] );
 		}
 
