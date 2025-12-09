@@ -1309,54 +1309,7 @@ class AWSM_Job_Openings_Form {
 		</div>
 		<?php
 	}
-	private function render_captcha( $captcha_type, $site_key ) {
-		/**
-		 * Allows custom rendering for captcha types.
-		 * 
-		 * If a custom renderer returns true, the default rendering will be skipped.
-		 *
-		 * @since 3.0.0
-		 *
-		 * @param bool   $rendered     Whether custom rendering was performed.
-		 * @param string $captcha_type The type of captcha being rendered.
-		 * @param string $site_key     The site key for the captcha.
-		 */
-		$custom_rendered = apply_filters( 'awsm_jobs_render_captcha', false, $captcha_type, $site_key );
-		
-		if ( $custom_rendered ) {
-			return;
-		}
-		
-		// Get captcha configuration
-		$config = $this::get_captcha_frontend_config();;
-		
-		if ( ! isset( $config[ $captcha_type ] ) || empty( $config[ $captcha_type ]['render'] ) ) {
-			error_log( 'No render configuration found for captcha type: ' . $captcha_type );
-			return;
-		}
-		
-		$render_config = $config[ $captcha_type ]['render'];
-		
-		// Render the captcha div with data attributes
-		echo '<div class="' . esc_attr( $render_config['class'] ) . '" data-sitekey="' . esc_attr( $site_key ) . '"';
-		
-		// Add any additional data attributes
-		if ( ! empty( $render_config['data_attrs'] ) ) {
-			foreach ( $render_config['data_attrs'] as $attr => $value ) {
-				echo ' data-' . esc_attr( $attr ) . '="' . esc_attr( $value ) . '"';
-			}
-		}
-		
-		echo '></div>';
-		
-		// Render noscript fallback if configured
-		if ( ! empty( $render_config['noscript'] ) ) {
-			$noscript_method = $render_config['noscript'];
-			if ( method_exists( $this, $noscript_method ) ) {
-				call_user_func( array( $this, $noscript_method ), $site_key );
-			}
-		}
-	}
+
 
 	private function render_captcha( $captcha_type, $site_key ) {
 		/**
@@ -1364,7 +1317,7 @@ class AWSM_Job_Openings_Form {
 		 * 
 		 * If a custom renderer returns true, the default rendering will be skipped.
 		 *
-		 * @since 3.0.0
+		 * @since 4.0.0
 		 *
 		 * @param bool   $rendered     Whether custom rendering was performed.
 		 * @param string $captcha_type The type of captcha being rendered.
