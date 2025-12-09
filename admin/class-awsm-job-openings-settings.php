@@ -304,6 +304,15 @@ class AWSM_Job_Openings_Settings {
 					/** @since 1.1.0 */
 					'option_name' => 'awsm_jobs_enable_recaptcha',
 					'callback'    => array( $this, 'sanitize_captcha_provider' ),
+<<<<<<< HEAD
+=======
+				),
+		
+				array(
+					/** @since 4.0.0 */
+					'option_name' => 'awsm_jobs_captcha_fail_messages',
+					'callback'    => array( $this, 'sanitize_captcha_fail_messages' ),
+>>>>>>> d75c9b7 (Update: Captcha options style and functionality update.)
 				),
 				// array(
 				// 	/** @since 1.1.0 */
@@ -317,6 +326,7 @@ class AWSM_Job_Openings_Settings {
 				// ),
 				// reCAPTCHA
 				array(
+<<<<<<< HEAD
 					'option_name' => 'awsm_jobs_recaptcha_site_key',
 					'callback'    => array( $this, 'sanitize_recaptcha_site_key' ),
 				),
@@ -350,6 +360,13 @@ class AWSM_Job_Openings_Settings {
 					'callback'    => array( $this, 'sanitize_captcha_fail_messages' ),
 				),
 
+=======
+					/** @since 4.0.0 */
+					'option_name' => 'awsm_jobs_captcha_no_conflict_scripts',
+					'callback'    => array( $this, 'sanitize_captcha_no_conflict_scripts' ),
+				),
+
+>>>>>>> d75c9b7 (Update: Captcha options style and functionality update.)
 			),
 
 			'notification'   => array(
@@ -455,6 +472,13 @@ class AWSM_Job_Openings_Settings {
 				),
 			),
 		);
+
+		//CAPTCHA settings addition
+		$settings['form'] = array_merge(
+			$settings['form'],
+			$this->get_captcha_settings_options()
+		);
+
 		/**
 		 * Filters the settings before registration.
 		 *
@@ -1480,6 +1504,7 @@ class AWSM_Job_Openings_Settings {
 	}
 
 	//New captcha options functions
+<<<<<<< HEAD
 	public static function get_captcha_config() {
 		$config = array(
 			'recaptcha' => array(
@@ -1512,13 +1537,106 @@ class AWSM_Job_Openings_Settings {
 				'requires_ip' => false,
 				'signup_url'  => null,
 				'fail_message' => __( 'CAPTCHA verification failed. Please try again.', 'wp-job-openings' ),
+=======
+
+	public static function get_captcha_config() {
+		$config = array(
+			'recaptcha' => array(
+				'label'         => __( 'reCAPTCHA', 'wp-job-openings' ),
+				'logo'          => 'data:image/png;base64,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',
+				'verify_url'    => 'https://www.google.com/recaptcha/api/siteverify',
+				'requires_ip'   => true,
+				'signup_url'    => 'https://www.google.com/recaptcha/admin/create',
+				'fail_message'  => __( 'reCAPTCHA verification failed. Please try again.', 'wp-job-openings' ),
+				'requires_keys' => true,
+			),
+			'hcaptcha' => array(
+				'label'         => __( 'hCaptcha', 'wp-job-openings' ),
+				'logo'          => 'data:image/png;base64,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',
+				'verify_url'    => 'https://hcaptcha.com/siteverify',
+				'requires_ip'   => true,
+				'signup_url'    => 'https://dashboard.hcaptcha.com/signup',
+				'fail_message'  => __( 'hCaptcha verification failed. Please try again.', 'wp-job-openings' ),
+				'requires_keys' => true,
+			),
+			'turnstile' => array(
+				'label'         => __( 'Turnstile', 'wp-job-openings' ),
+				'logo'          => 'data:image/png;base64,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',
+				'verify_url'    => 'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+				'requires_ip'   => false,
+				'signup_url'    => 'https://dash.cloudflare.com/sign-up/turnstile',
+				'fail_message'  => __( 'Turnstile verification failed. Please try again.', 'wp-job-openings' ),
+				'requires_keys' => true,
+			),
+			'none' => array(
+				'label'         => __( 'None', 'wp-job-openings' ),
+				'logo'          => null,
+				'verify_url'    => null,
+				'requires_ip'   => false,
+				'signup_url'    => null,
+				'fail_message'  => __( 'CAPTCHA verification failed. Please try again.', 'wp-job-openings' ),
+>>>>>>> d75c9b7 (Update: Captcha options style and functionality update.)
 				'requires_keys' => false,
 			),
 		);
 		
 		return apply_filters( 'awsm_jobs_captcha_config', $config );
 	}
+<<<<<<< HEAD
 	
+=======
+	/**
+	 * Build dynamic CAPTCHA option definitions for the 'form' settings group.
+	 *
+	 * It auto-creates option entries for each provider found in get_captcha_config():
+	 * - Site Key
+	 * - Secret Key
+	 * - Fail Message (per-provider; or switch to unified if you prefer)
+	 *
+	 * @return array Array of option definition arrays, ready to merge into $settings['form'].
+	 */
+	private function get_captcha_settings_options() {
+		$options = array();
+
+		// Fetch providers (already filterable via 'awsm_jobs_captcha_config').
+		$config = self::get_captcha_config(); 
+		// Loop providers to add keys and fail message.
+		foreach ( $config as $provider => $provider_config ) {
+			if ( $provider === 'none' ) {
+				continue; // "none" doesn't have keys or provider-specific fail message.
+			}
+
+			// Site Key option (closure routes to generic validator).
+			$site_key_option = self::get_captcha_data( 'field_name', $provider, 'site_key' );
+			$options[] = array(
+				'option_name' => $site_key_option,
+				'callback'    => function( $input ) use ( $provider ) {
+					return $this->validate_captcha_key( $input, $provider, 'site_key' );
+				},
+			);
+
+			// Secret Key option (closure routes to generic validator).
+			$secret_key_option = self::get_captcha_data( 'field_name', $provider, 'secret_key' );
+			$options[] = array(
+				'option_name' => $secret_key_option,
+				'callback'    => function( $input ) use ( $provider ) {
+					return $this->validate_captcha_key( $input, $provider, 'secret_key' );
+				},
+			);
+
+		}
+
+		/**
+		 * Allow addons to inject extra CAPTCHA settings options (e.g., score threshold, theme).
+		 * @param array $options The current dynamic options.
+		 * @param array $config  The provider config array.
+		 */
+		$options = apply_filters( 'awsm_jobs_captcha_settings_options', $options, $config );
+
+		return $options;
+	}
+
+>>>>>>> d75c9b7 (Update: Captcha options style and functionality update.)
 	public static function get_captcha_data( $type = 'config', $provider = null, $key_type = null ) {
 		$config = self::get_captcha_config();
 		
@@ -1652,7 +1770,7 @@ class AWSM_Job_Openings_Settings {
 		
 		// Common fields
 		$fields[] = array(
-			'name'      => 'awsm_jobs_captcha_no_conflict',
+			'name'      => 'awsm_jobs_captcha_no_conflict_scripts',
 			'label'     => __( 'No-Conflict Mode', 'wp-job-openings' ),
 			'type'      => 'checkbox',
 			'choices'   => array(
@@ -1706,6 +1824,7 @@ class AWSM_Job_Openings_Settings {
 		$config = self::get_captcha_config();
 		return isset( $config[ $provider ] ) ? $config[ $provider ] : null;
 	}
+<<<<<<< HEAD
 	/**
 	 * Verify CAPTCHA keys with provider's API
 	 * 
@@ -1718,10 +1837,27 @@ class AWSM_Job_Openings_Settings {
 		$provider_config = $this->get_provider_config( $provider );
 		
 		if ( ! $provider_config || ! isset( $provider_config['verify_url'] ) ) {
+=======
+
+
+	/**
+	 * Verify CAPTCHA keys by making a test API call.
+	 *
+	 * @param string $site_key    
+	 * @param string $secret_key  
+	 * @param string $provider    
+	 * @return array { 'valid' => bool, 'message' => string }
+	 */
+	private function verify_keys_with_api( $site_key, $secret_key, $provider ) {
+		$provider_config = $this->get_provider_config( $provider );
+
+		if ( ! $provider_config || empty( $provider_config['verify_url'] ) ) {
+>>>>>>> d75c9b7 (Update: Captcha options style and functionality update.)
 			return array(
 				'valid'   => false,
 				'message' => __( 'Provider configuration error.', 'wp-job-openings' ),
 			);
+<<<<<<< HEAD
 		}
 
 		// Create a test response token (empty or test value)
@@ -1939,12 +2075,255 @@ class AWSM_Job_Openings_Settings {
 					esc_html__( '%1$s is enabled. Please provide a valid %2$s.', 'wp-job-openings' ),
 					esc_html( $service_name ),
 					esc_html( $key_label )
+=======
+		}
+
+		$verify_url = $provider_config['verify_url'];
+
+		$body = array(
+			'secret'   => $secret_key,
+			'response' => 'test_validation_' . wp_generate_password( 20, false ),
+		);
+
+		// hCaptcha requires sitekey in verification request.
+		if ( 'hcaptcha' === $provider ) {
+			$body['sitekey'] = $site_key;
+		}
+
+		$args = array(
+			'body'    => $body,
+			'timeout' => 10,
+			'headers' => array(
+				'Content-Type' => 'application/x-www-form-urlencoded',
+			),
+		);
+
+		/**
+		 * Filter HTTP request args for CAPTCHA verification.
+		 *
+		 * Keep this minimal—useful for adjusting timeouts, headers, proxies, etc.
+		 *
+		 * @param array  $args            
+		 * @param string $verify_url      
+		 * @param string $provider        
+		 * @param array  $provider_config 
+		 */
+		$args = apply_filters( 'awsm_jobs_captcha_verify_request_args', $args, $verify_url, $provider, $provider_config );
+
+		/**
+		 * Action: fired just before making the verification HTTP request.
+		 *
+		 * @param string $verify_url      
+		 * @param array  $args            
+		 * @param string $provider        
+		 * @param array  $provider_config 
+		 */
+		do_action( 'awsm_jobs_captcha_verify_request', $verify_url, $args, $provider, $provider_config );
+
+		$response = wp_remote_post( $verify_url, $args );
+
+		if ( is_wp_error( $response ) ) {
+			/**
+			 * Action: fired when the HTTP request fails.
+			 *
+			 * @param WP_Error $response        
+			 * @param string   $provider        
+			 * @param array    $provider_config 
+			 */
+			do_action( 'awsm_jobs_captcha_verify_http_error', $response, $provider, $provider_config );
+			return array(
+				'valid'   => false,
+				'message' => sprintf(
+					/* translators: %s: error message */
+					__( 'Connection error: %s', 'wp-job-openings' ),
+					$response->get_error_message()
+>>>>>>> d75c9b7 (Update: Captcha options style and functionality update.)
 				),
-				'error'
 			);
+		}
+
+		$raw_body = wp_remote_retrieve_body( $response );
+
+		// Defensive decode.
+		$data = json_decode( $raw_body, true );
+
+		if ( ! is_array( $data ) ) {
+			return array(
+				'valid'   => false,
+				'message' => __( 'Invalid API response.', 'wp-job-openings' ),
+			);
+		}
+
+		$result = $this->analyze_api_response( $data, $provider_config );
+
+		/**
+		 * Filter the final verification result.
+		 *
+		 * Use this to change the message or force valid/invalid.
+		 *
+		 * @param array  $result          
+		 * @param array  $data            
+		 * @param string $provider        
+		 * @param array  $provider_config 
+		 */
+		$result = apply_filters( 'awsm_jobs_captcha_verify_result', $result, $data, $provider, $provider_config );
+		/**
+		 * Action: fired after verification finishes (success or failure).
+		 *
+		 * @param array  $result          
+		 * @param array  $data            
+		 * @param string $provider        
+		 * @param array  $provider_config 
+		 */
+		do_action( 'awsm_jobs_captcha_verify_completed', $result, $data, $provider, $provider_config );
+
+		return $result;
+	}
+
+
+
+	/**
+	 * Analyze API response to determine key validity.
+	 *
+	 * @param array $data            
+	 * @param array $provider_config 
+	 * @return array Array with 'valid' boolean and 'message' string.
+	 */
+	private function analyze_api_response( $data, $provider_config ) {
+		$provider_name = ! empty( $provider_config['label'] )
+			? $provider_config['label']
+			: __( 'CAPTCHA', 'wp-job-openings' );
+
+		// Known error patterns.
+		$error_patterns = array(
+			'invalid-input-secret'    => __( 'Invalid Secret Key. Please verify your %s Secret Key.', 'wp-job-openings' ),
+			'missing-input-secret'    => __( 'Secret Key is missing.', 'wp-job-openings' ),
+			'sitekey-secret-mismatch' => __( 'Site Key and Secret Key do not match. Please verify both keys belong to the same account.', 'wp-job-openings' ),
+		);
+
+		/**
+		 * Filter error patterns map.
+		 *
+		 * @param array $error_patterns 
+		 * @param array $provider_config 
+		 * @param array $data            
+		 */
+		$error_patterns = apply_filters( 'awsm_jobs_captcha_error_patterns', $error_patterns, $provider_config, $data );
+
+		if ( isset( $data['error-codes'] ) && is_array( $data['error-codes'] ) ) {
+			$error_codes = $data['error-codes'];
+
+			foreach ( $error_patterns as $error_code => $message_template ) {
+				if ( in_array( $error_code, $error_codes, true ) ) {
+					return array(
+						'valid'   => false,
+						'message' => sprintf( $message_template, $provider_name ),
+					);
+				}
+			}
+
+			// Expected errors for test flow indicate keys are valid.
+			$expected_test_errors = array(
+				'missing-input-response',
+				'invalid-input-response',
+				'timeout-or-duplicate',
+			);
+
+			foreach ( $expected_test_errors as $test_error ) {
+				if ( in_array( $test_error, $error_codes, true ) ) {
+					return array(
+						'valid'   => true,
+						'message' => __( 'Keys verified successfully.', 'wp-job-openings' ),
+					);
+				}
+			}
+
+			return array(
+				'valid'   => false,
+				'message' => sprintf(
+					/* translators: %s: error codes */
+					__( 'API returned error: %s', 'wp-job-openings' ),
+					implode( ', ', $error_codes )
+				),
+			);
+		}
+
+		if ( isset( $data['success'] ) && true === $data['success'] ) {
+			return array(
+				'valid'   => true,
+				'message' => __( 'Keys verified successfully.', 'wp-job-openings' ),
+			);
+		}
+
+		return array(
+			'valid'   => false,
+			'message' => __( 'Unable to verify keys. Please check your configuration.', 'wp-job-openings' ),
+		);
+	}
+
+	/**
+	 * Basic format validation (lightweight check before API call)
+	 * 
+	 * @param string $key      The key to validate
+	 * @param int    $min_len  Minimum length
+	 * @return bool
+	 */
+	private function basic_format_check( $key ) {
+		// Check if key contains only valid characters (alphanumeric, hyphens, underscores)
+		if ( ! preg_match( '/^[a-zA-Z0-9_-]+$/', $key ) ) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Validate CAPTCHA key - generic for all providers.
+	 *
+	 * Handles active provider validation, format checks, and optional API verification for secret keys.
+	 * Emits minimal hooks for short-circuiting, error observability, and final value filtering.
+	 *
+	 * @param mixed  $input    
+	 * @param string $provider 
+	 * @param string $key_type 
+	 * @return string 
+	 */
+	private function validate_captcha_key( $input, $provider, $key_type ) {
+		$option_name      = self::get_captcha_data( 'field_name', $provider, $key_type );
+		$old_value        = get_option( $option_name, '' );
+		$current_provider = $this->get_current_captcha_provider();
+
+		// Non-active provider: just sanitize and save (no validation).
+		if ( $provider !== $current_provider ) {
+			$value = ! empty( $input ) ? sanitize_text_field( trim( (string) $input ) ) : '';
+			return apply_filters( 'awsm_jobs_captcha_validated_value', $value, $provider, $key_type, $option_name );
+		}
+
+		$provider_config = $this->get_provider_config( $provider );
+		$service_name    = ! empty( $provider_config['label'] ) ? $provider_config['label'] : __( 'CAPTCHA', 'wp-job-openings' );
+		$key_label       = ( 'site_key' === $key_type ) ? __( 'Site Key', 'wp-job-openings' ) : __( 'Secret Key', 'wp-job-openings' );
+
+		// Provider doesn't require keys: sanitize and save.
+		if ( empty( $provider_config['requires_keys'] ) ) {
+			$value = ! empty( $input ) ? sanitize_text_field( trim( (string) $input ) ) : '';
+			return apply_filters( 'awsm_jobs_captcha_validated_value', $value, $provider, $key_type, $option_name );
+		}
+
+		// Empty or invalid type input.
+		if ( empty( $input ) || ! is_string( $input ) ) {
+			$message = sprintf(
+				/* translators: 1: service name, 2: key label */
+				esc_html__( '%1$s is enabled. Please provide a valid %2$s.', 'wp-job-openings' ),
+				esc_html( $service_name ),
+				esc_html( $key_label )
+			);
+
+			do_action( 'awsm_jobs_captcha_validate_error', 'empty', $message, $option_name, $provider, $key_type );
+
+			add_settings_error( $option_name, "{$option_name}-empty", $message, 'error' );
 			return $old_value;
 		}
 
+<<<<<<< HEAD
 		// Sanitize
 		$value = sanitize_text_field( trim( $input ) );
 
@@ -1963,11 +2342,184 @@ class AWSM_Job_Openings_Settings {
 					esc_html__( 'The %1$s format is invalid. Keys should be alphanumeric with hyphens or underscores.', 'wp-job-openings' ),
 					esc_html( $key_label )
 				),
+=======
+		$value = sanitize_text_field( trim( $input ) );
+
+		/**
+		 * Filter: short-circuit validation flow.
+		 * Return a non-null string to bypass the default validation steps and save that value.
+		 *
+		 * @param string|null $bypass_value 
+		 * @param string      $value        
+		 * @param string      $provider     
+		 * @param string      $key_type     
+		 * @param string      $option_name  
+		 */
+		$bypass = apply_filters( 'awsm_jobs_captcha_validate_short_circuit', null, $value, $provider, $key_type, $option_name );
+		if ( null !== $bypass ) {
+			return apply_filters( 'awsm_jobs_captcha_validated_value', (string) $bypass, $provider, $key_type, $option_name );
+		}
+
+		// Skip validation if unchanged.
+		if ( $value === $old_value && '' !== $old_value ) {
+			return apply_filters( 'awsm_jobs_captcha_validated_value', $value, $provider, $key_type, $option_name );
+		}
+
+		// Basic format check.
+		if ( ! $this->basic_format_check( $value ) ) {
+			$message = sprintf(
+				/* translators: 1: key label */
+				esc_html__( 'The %1$s format is invalid. Keys should be alphanumeric with hyphens or underscores.', 'wp-job-openings' ),
+				esc_html( $key_label )
+			);
+
+			do_action( 'awsm_jobs_captcha_validate_error', 'format', $message, $option_name, $provider, $key_type );
+
+			add_settings_error( $option_name, "{$option_name}-format", $message, 'error' );
+			return $old_value;
+		}
+
+		// API verification only for secret key (if a site key exists).
+		if ( 'secret_key' === $key_type ) {
+			$site_key_field = self::get_captcha_data( 'field_name', $provider, 'site_key' );
+			$site_key       = isset( $_POST[ $site_key_field ] )
+				? sanitize_text_field( (string) $_POST[ $site_key_field ] )
+				: get_option( $site_key_field, '' );
+
+			if ( '' !== $site_key ) {
+				$verification = $this->verify_keys_with_api( $site_key, $value, $provider );
+
+				if ( empty( $verification['valid'] ) ) {
+					$err_msg = esc_html( isset( $verification['message'] ) ? $verification['message'] : __( 'Unknown error', 'wp-job-openings' ) );
+
+					do_action(
+						'awsm_jobs_captcha_validate_error',
+						'api',
+						sprintf( esc_html__( 'API Verification Failed: %s', 'wp-job-openings' ), $err_msg ),
+						$option_name,
+						$provider,
+						$key_type
+					);
+
+					add_settings_error(
+						$option_name,
+						"{$option_name}-api",
+						sprintf(
+							/* translators: %s: error message */
+							esc_html__( 'API Verification Failed: %s', 'wp-job-openings' ),
+							$err_msg
+						),
+						'error'
+					);
+					return $old_value;
+				}
+
+				// Success notice (optional UI feedback).
+				add_settings_error(
+					$option_name,
+					"{$option_name}-verified",
+					sprintf(
+						/* translators: %s: service name */
+						esc_html__( '%s keys verified successfully!', 'wp-job-openings' ),
+						esc_html( $service_name )
+					),
+					'success'
+				);
+			}
+		}
+
+		// Final chance to adjust the persisted value.
+		return apply_filters( 'awsm_jobs_captcha_validated_value', $value, $provider, $key_type, $option_name );
+	}
+
+	/**
+	 * Sanitize fail message - works for all providers with one option
+	 */
+	public function sanitize_captcha_fail_messages( $input ) {
+		$captcha_provider = $this->get_current_captcha_provider();
+		
+		// Get existing messages for all providers
+		$all_messages = get_option( 'awsm_jobs_captcha_fail_messages', array() );
+		
+		// If not array, initialize it
+		if ( ! is_array( $all_messages ) ) {
+			$all_messages = array();
+		}
+		
+		// Sanitize the input for current provider
+		if ( empty( $input ) ) {
+			// Remove the provider's message if empty (will use default)
+			unset( $all_messages[ $captcha_provider ] );
+		} else {
+			$value = wp_kses_post( trim( $input ) );
+			
+			// Check minimum length
+			if ( strlen( $value ) < 5 ) {
+				add_settings_error(
+					'awsm_jobs_captcha_fail_messages',
+					'awsm-captcha-fail-message-short',
+					esc_html__( 'The fail message is too short. Please provide at least 5 characters.', 'wp-job-openings' ),
+					'error'
+				);
+				// Return current provider's old value
+				return $all_messages;
+			}
+			
+			// Save message for current provider
+			$all_messages[ $captcha_provider ] = $value;
+		}
+		
+		return $all_messages;
+	}
+
+	/**
+	 * Get fail message for a provider
+	 */
+	public function get_captcha_fail_message( $provider = null ) {
+		if ( $provider === null ) {
+			$provider = $this->get_current_captcha_provider();
+		}
+		
+		// Get all messages
+		$all_messages = get_option( 'awsm_jobs_captcha_fail_messages', array() );
+		
+		// Check if custom message exists for this provider
+		if ( ! empty( $all_messages[ $provider ] ) ) {
+			return $all_messages[ $provider ];
+		}
+		
+		// Fall back to default from config
+		$provider_config = $this->get_provider_config( $provider );
+		if ( $provider_config && ! empty( $provider_config['fail_message'] ) ) {
+			return $provider_config['fail_message'];
+		}
+		
+		return __( 'CAPTCHA verification failed. Please try again.', 'wp-job-openings' );
+	}
+
+	/**
+	 * Sanitize CAPTCHA provider selection
+	 *
+	 * @param string $input The selected provider
+	 * @return string
+	 */
+	public function sanitize_captcha_provider( $input ) {
+		$old_value = get_option( 'awsm_jobs_enable_recaptcha', 'none' );
+		$config    = self::get_captcha_config();
+
+		// Validate provider exists
+		if ( ! isset( $config[ $input ] ) ) {
+			add_settings_error(
+				'awsm_jobs_enable_recaptcha',
+				'awsm-captcha-provider-invalid',
+				esc_html__( 'Invalid CAPTCHA provider selected.', 'wp-job-openings' ),
+>>>>>>> d75c9b7 (Update: Captcha options style and functionality update.)
 				'error'
 			);
 			return $old_value;
 		}
 
+<<<<<<< HEAD
 		// API verification (only for secret key of ACTIVE provider)
 		if ( $key_type === 'secret_key' ) {
 			$site_key_field = self::get_captcha_data( 'field_name', $provider, 'site_key' );
@@ -2002,10 +2554,31 @@ class AWSM_Job_Openings_Settings {
 						esc_html( $service_name )
 					),
 					'success'
+=======
+		$new_provider = sanitize_text_field( $input );
+		$provider_config = $config[ $new_provider ];
+
+		// If switching to a provider that requires keys, check if keys exist
+		if ( $provider_config['requires_keys'] && $new_provider !== $old_value ) {
+			$site_key   = get_option( 'awsm_jobs_recaptcha_site_key', '' );
+			$secret_key = get_option( 'awsm_jobs_recaptcha_secret_key', '' );
+
+			if ( empty( $site_key ) || empty( $secret_key ) ) {
+				add_settings_error(
+					'awsm_jobs_enable_recaptcha',
+					'awsm-captcha-keys-required',
+					sprintf(
+						/* translators: %s: CAPTCHA service name */
+						esc_html__( 'You have selected %s. Please configure the Site Key and Secret Key below.', 'wp-job-openings' ),
+						esc_html( $provider_config['label'] )
+					),
+					'warning'
+>>>>>>> d75c9b7 (Update: Captcha options style and functionality update.)
 				);
 			}
 		}
 
+<<<<<<< HEAD
 		return $value;
 	}
 	/**
@@ -2124,6 +2697,17 @@ class AWSM_Job_Openings_Settings {
 	 *
 	 * @param array $fields The settings array, e.g. $settings_fields['recaptcha'].
 	 */
+=======
+		return $new_provider;
+	}
+
+	/**
+	 * Render only the CAPTCHA settings fields with proper <tr> row_class support.
+	 *
+	 * @param array $fields The settings array, e.g. $settings_fields['recaptcha'].
+	 */
+
+>>>>>>> d75c9b7 (Update: Captcha options style and functionality update.)
 	public function display_captcha_settings_fields( array $fields ) {
 		foreach ( $fields as $field ) {
 			// Title rows
@@ -2134,6 +2718,7 @@ class AWSM_Job_Openings_Settings {
 				echo '</tr>';
 				continue;
 			}
+<<<<<<< HEAD
 
 			// Defaults
 			$name        = isset( $field['name'] ) ? esc_attr( $field['name'] ) : '';
@@ -2228,5 +2813,143 @@ class AWSM_Job_Openings_Settings {
 			echo '</tr>';
 		}
 	}
+=======
+>>>>>>> d75c9b7 (Update: Captcha options style and functionality update.)
 
+			// Defaults
+			$name        = isset( $field['name'] ) ? esc_attr( $field['name'] ) : '';
+			$label       = isset( $field['label'] ) ? esc_html( $field['label'] ) : '';
+			$type        = isset( $field['type'] ) ? $field['type'] : 'text';
+			$class       = isset( $field['class'] ) ? esc_attr( $field['class'] ) : '';
+			$row_class   = isset( $field['row_class'] ) ? esc_attr( $field['row_class'] ) : '';
+			$description = isset( $field['description'] ) ? esc_html( $field['description'] ) : '';
+			$default     = isset( $field['default_value'] ) ? $field['default_value'] : '';
+			$help_button = isset( $field['help_button'] ) ? $field['help_button'] : false;
+
+			// Current value from DB
+			$value = get_option( $name, $default );
+			$row_classes = trim( 'awsm-settings-row ' . $row_class );
+
+			echo '<tr class="' . $row_classes . '">';
+			echo '<th scope="row">';
+			if ( $label ) {
+				echo '<label for="' . esc_attr( $name ) . '">' . $label . '</label>';
+			}
+			echo '</th>';
+			echo '<td>';
+
+			switch ( $type ) {
+				case 'radio':
+					$choices = isset( $field['choices'] ) ? (array) $field['choices'] : [];
+					$captcha_config = self::get_captcha_config();
+					
+					// Check if this is a CAPTCHA type radio (has logo support)
+					$is_captcha_radio = isset( $field['is_captcha_type'] ) && $field['is_captcha_type'];
+					
+					if ( $is_captcha_radio ) {
+						echo '<div class="captcha-wrapper">';
+						foreach ( $choices as $choice ) {
+							$val  = isset( $choice['value'] ) ? esc_attr( $choice['value'] ) : '';
+							$text = isset( $choice['text'] ) ? esc_html( $choice['text'] ) : $val;
+							
+							// Get logo from config if available
+							$logo = '';
+							if ( isset( $captcha_config[ $val ]['logo'] ) && $captcha_config[ $val ]['logo'] ) {
+								$logo = '<img src="' . esc_attr( $captcha_config[ $val ]['logo'] ) . '" alt="' . esc_attr( $text ) . '">';
+							}
+							
+							echo '<div class="captcha-item">';
+							echo '<label>';
+							printf(
+								'<input type="radio" name="%1$s" value="%2$s" %3$s>',
+								esc_attr( $name ),
+								$val,
+								checked( $value, $val, false )
+							);
+							echo '<span>';
+							if ( $logo ) {
+								echo $logo;
+							}
+							echo esc_html( $text );
+							echo '</span>';
+							echo '</label>';
+							echo '</div>';
+						}
+						echo '</div>';
+					} else {
+						// Standard radio buttons (inline)
+						foreach ( $choices as $choice ) {
+							$val  = isset( $choice['value'] ) ? esc_attr( $choice['value'] ) : '';
+							$text = isset( $choice['text'] ) ? esc_html( $choice['text'] ) : $val;
+							echo '<label style="margin-right: 18px;">';
+							printf(
+								'<input type="radio" name="%1$s" id="%1$s-%2$s" value="%2$s" %3$s class="%4$s" /> %5$s',
+								esc_attr( $name ),
+								$val,
+								checked( $value, $val, false ),
+								$class,
+								$text
+							);
+							echo '</label>';
+						}
+					}
+					break;
+
+				case 'checkbox':
+					$choices = isset( $field['choices'] ) ? (array) $field['choices'] : [];
+					foreach ( $choices as $choice ) {
+						$val  = isset( $choice['value'] ) ? esc_attr( $choice['value'] ) : 'on';
+						$text = isset( $choice['text'] ) ? esc_html( $choice['text'] ) : '';
+						printf(
+							'<label><input type="checkbox" name="%1$s" id="%1$s" value="%2$s" %3$s class="%4$s" /> %5$s</label>',
+							esc_attr( $name ),
+							$val,
+							checked( $value, $val, false ),
+							$class,
+							$text
+						);
+					}
+					break;
+
+				case 'text':
+				default:
+					printf(
+						'<input type="text" class="%1$s" id="%2$s" name="%2$s" value="%3$s" />',
+						$class ? esc_attr( $class ) : 'regular-text',
+						esc_attr( $name ),
+						esc_attr( $value )
+					);
+					break;
+			}
+
+			if ( $help_button && isset( $help_button['url'], $help_button['text'] ) ) {
+				$hb_url   = esc_url( $help_button['url'] );
+				$hb_class = isset( $help_button['class'] ) ? esc_attr( $help_button['class'] ) : 'button button-secondary';
+				$hb_text  = esc_html( $help_button['text'] );
+
+				$other   = '';
+				if ( isset( $help_button['other_attrs'] ) && is_array( $help_button['other_attrs'] ) ) {
+					foreach ( $help_button['other_attrs'] as $k => $v ) {
+						$other .= ' ' . esc_attr( $k ) . '="' . esc_attr( $v ) . '"';
+					}
+				}
+
+				echo ' <a href="' . $hb_url . '" class="' . $hb_class . '"' . $other . '>' . $hb_text . '</a>';
+			}
+
+			if ( $description ) {
+				echo '<p class="description">' . $description . '</p>';
+			}
+
+			echo '</td>';
+			echo '</tr>';
+		}
+	}
+	public function sanitize_captcha_no_conflict_scripts( $input ) {
+		// Sanitize and validate the input
+		$sanitized = ! empty( $input ) ? sanitize_text_field( $input ) : '';
+		
+		// Only return 'on' if that's the value, otherwise return empty string
+		return ( 'on' === $sanitized ) ? 'on' : '';
+	}
 }

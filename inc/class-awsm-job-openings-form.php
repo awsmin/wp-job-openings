@@ -35,6 +35,8 @@ class AWSM_Job_Openings_Form {
 		add_filter( 'wp_check_filetype_and_ext', array( $this, 'check_filetype_and_ext' ), 10, 5 );
 		add_action( 'add_attachment', array( $this, 'add_index_php_to_folders' ) );
 
+		$this->init_no_conflict_mode();
+
 
 	}
 
@@ -946,6 +948,7 @@ class AWSM_Job_Openings_Form {
 	public static function get_captcha_frontend_config() {
 		$config = array(
 			'recaptcha' => array(
+				'token_field' => 'g-recaptcha-response', 
 				'render' => array(
 					'class'      => 'g-recaptcha',
 					'data_attrs' => array(),
@@ -959,8 +962,13 @@ class AWSM_Job_Openings_Form {
 					'in_footer' => false,
 					'strategy'  => 'defer',
 				),
+				'conflict' => array(
+					'handles' => array( 'recaptcha', 'google-recaptcha', 'g-recaptcha', 'grecaptcha', 'google_recaptcha' ),
+					'urls'    => array( 'google.com/recaptcha', 'www.google.com/recaptcha', 'gstatic.com/recaptcha' ),
+				),
 			),
 			'hcaptcha' => array(
+				'token_field' => 'h-captcha-response', 
 				'render' => array(
 					'class'      => 'h-captcha',
 					'data_attrs' => array(),
@@ -974,8 +982,13 @@ class AWSM_Job_Openings_Form {
 					'in_footer' => false,
 					'strategy'  => 'defer',
 				),
+				'conflict' => array(
+					'handles' => array( 'hcaptcha', 'h-captcha', 'hcaptcha-api', 'hcaptcha_api' ),
+					'urls'    => array( 'hcaptcha.com', 'js.hcaptcha.com' ),
+				),
 			),
 			'turnstile' => array(
+				'token_field' => 'cf-turnstile-response', 
 				'render' => array(
 					'class'      => 'cf-turnstile',
 					'data_attrs' => array(),
@@ -989,22 +1002,23 @@ class AWSM_Job_Openings_Form {
 					'in_footer' => false,
 					'strategy'  => 'defer',
 				),
+				'conflict' => array(
+					'handles' => array( 'turnstile', 'cf-turnstile', 'cloudflare-turnstile', 'cloudflare_turnstile' ),
+					'urls'    => array( 'challenges.cloudflare.com/turnstile' ),
+				),
 			),
 			'none' => array(
-				'render' => null,
-				'script' => null,
+				'token_field' => null,
+				'render'      => null,
+				'script'      => null,
+				'conflict'    => null,
 			),
 		);
-		
-		/**
-		 * Filters the captcha frontend configuration (render + script).
-		 *
-		 * @since 3.0.0
-		 *
-		 * @param array $config The frontend configuration array.
-		 */
+
 		return apply_filters( 'awsm_jobs_captcha_frontend_config', $config );
 	}
+
+
 	public function get_captcha_type() {
 		return get_option( 'awsm_jobs_enable_recaptcha', 'none' );
 	}
@@ -1070,6 +1084,11 @@ class AWSM_Job_Openings_Form {
 	public function enqueue_captcha_scripts() {
 		if ( ! $this->is_captcha_set() ) {
 			return;
+		}
+		
+		// Dequeue conflicting scripts first if no-conflict mode is enabled
+		if ( $this->is_no_conflict_mode_enabled() ) {
+			$this->dequeue_conflicting_captcha_scripts();
 		}
 		
 		$captcha_type = $this->get_captcha_type();
@@ -1339,6 +1358,55 @@ class AWSM_Job_Openings_Form {
 		}
 	}
 
+	private function render_captcha( $captcha_type, $site_key ) {
+		/**
+		 * Allows custom rendering for captcha types.
+		 * 
+		 * If a custom renderer returns true, the default rendering will be skipped.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param bool   $rendered     Whether custom rendering was performed.
+		 * @param string $captcha_type The type of captcha being rendered.
+		 * @param string $site_key     The site key for the captcha.
+		 */
+		$custom_rendered = apply_filters( 'awsm_jobs_render_captcha', false, $captcha_type, $site_key );
+		
+		if ( $custom_rendered ) {
+			return;
+		}
+		
+		// Get captcha configuration
+		$config = $this::get_captcha_frontend_config();;
+		
+		if ( ! isset( $config[ $captcha_type ] ) || empty( $config[ $captcha_type ]['render'] ) ) {
+			error_log( 'No render configuration found for captcha type: ' . $captcha_type );
+			return;
+		}
+		
+		$render_config = $config[ $captcha_type ]['render'];
+		
+		// Render the captcha div with data attributes
+		echo '<div class="' . esc_attr( $render_config['class'] ) . '" data-sitekey="' . esc_attr( $site_key ) . '"';
+		
+		// Add any additional data attributes
+		if ( ! empty( $render_config['data_attrs'] ) ) {
+			foreach ( $render_config['data_attrs'] as $attr => $value ) {
+				echo ' data-' . esc_attr( $attr ) . '="' . esc_attr( $value ) . '"';
+			}
+		}
+		
+		echo '></div>';
+		
+		// Render noscript fallback if configured
+		if ( ! empty( $render_config['noscript'] ) ) {
+			$noscript_method = $render_config['noscript'];
+			if ( method_exists( $this, $noscript_method ) ) {
+				call_user_func( array( $this, $noscript_method ), $site_key );
+			}
+		}
+	}
+
 	/**
 	 * Render reCAPTCHA noscript fallback
 	 *
@@ -1360,53 +1428,7 @@ class AWSM_Job_Openings_Form {
 		</noscript>
 		<?php
 	}
-	/**
-	 * Render reCAPTCHA field
-	 *
-	 * @param string $site_key The site key for reCAPTCHA
-	 * @return void
-	 */
-	private function render_recaptcha( $site_key ) {
-		$fallback_url = add_query_arg( 'k', $site_key, 'https://www.google.com/recaptcha/api/fallback' );
-		?>
-		<div class="g-recaptcha" data-sitekey="<?php echo esc_attr( $site_key ); ?>"></div>
-		<noscript>
-			<div style="width: 302px; height: 422px; position: relative;">
-				<div style="width: 302px; height: 422px; position: absolute;">
-					<iframe src="<?php echo esc_url( $fallback_url ); ?>" frameborder="0" scrolling="no" style="width: 302px; height:422px; border-style: none;"></iframe>
-				</div>
-				<div style="width: 300px; height: 60px; border-style: none; bottom: 12px; left: 25px; margin: 0px; padding: 0px; right: 25px; background: #f9f9f9; border: 1px solid #c1c1c1; border-radius: 3px;">
-					<textarea id="g-recaptcha-response" name="g-recaptcha-response" class="g-recaptcha-response" style="width: 250px; height: 40px; border: 1px solid #c1c1c1; margin: 10px 25px; padding: 0px; resize: none;"></textarea>
-				</div>
-			</div>
-		</noscript>
-		<?php
-	}
-
-	/**
-	 * Render Turnstile field
-	 *
-	 * @param string $site_key The site key for Turnstile
-	 * @return void
-	 */
-	private function render_turnstile( $site_key ) {
-		?>
-		<div class="cf-turnstile" data-sitekey="<?php echo esc_attr( $site_key ); ?>"></div>
-		<?php
-	}
-
-	/**
-	 * Render hCaptcha field
-	 *
-	 * @param string $site_key The site key for hCaptcha
-	 * @return void
-	 */
-	private function render_hcaptcha( $site_key ) {
-		?>
-		<div class="h-captcha" data-sitekey="<?php echo esc_attr( $site_key ); ?>"></div>
-		<?php
-	}
-
+	
 	/**
 	 * Get CAPTCHA response token from POST data
 	 *
@@ -1414,23 +1436,25 @@ class AWSM_Job_Openings_Form {
 	 */
 	public function get_captcha_token_from_post() {
 		$captcha_type = $this->get_captcha_type();
-		error_log( 'Retrieving CAPTCHA token for type: ' . $captcha_type );
-		$token        = '';
-		
-		switch ( $captcha_type ) {
-			case 'recaptcha':
-				$token = isset( $_POST['g-recaptcha-response'] ) ? sanitize_text_field( wp_unslash( $_POST['g-recaptcha-response'] ) ) : '';
-				break;
-			case 'turnstile':
-				$token = isset( $_POST['cf-turnstile-response'] ) ? sanitize_text_field( wp_unslash( $_POST['cf-turnstile-response'] ) ) : '';
-				break;
-			case 'hcaptcha':
-				$token = isset( $_POST['h-captcha-response'] ) ? sanitize_text_field( wp_unslash( $_POST['h-captcha-response'] ) ) : '';
-				break;
+		$config       = self::get_captcha_frontend_config();
+
+		$token_field = isset( $config[ $captcha_type ]['token_field'] )
+			? $config[ $captcha_type ]['token_field']
+			: '';
+
+		/**
+		 * Filter: Allow overriding token field dynamically (future-proof).
+		 */
+		$token_field = apply_filters( 'awsm_jobs_captcha_token_field', $token_field, $captcha_type, $config );
+
+		$token = '';
+		if ( $token_field && isset( $_POST[ $token_field ] ) ) {
+			$token = sanitize_text_field( wp_unslash( $_POST[ $token_field ] ) );
 		}
-		error_log( 'CAPTCHA token retrieved: ' . $token );
+
 		return $token;
 	}
+
 
 	/**
 	 * Validate CAPTCHA in application form submission
@@ -1456,5 +1480,147 @@ class AWSM_Job_Openings_Form {
 		return $awsm_response;
 	}
 	
+	/**
+	 * Check if no-conflict mode is enabled
+	 *
+	 * @return bool True if no-conflict mode is enabled
+	 */
+	private function is_no_conflict_mode_enabled() {
+		$no_conflict = get_option( 'awsm_jobs_captcha_no_conflict_scripts', '' );
+		return 'on' === $no_conflict;
+	}
+
+	/**
+	 * Get list of known CAPTCHA script handles/URLs to block
+	 *
+	 * @return array Array of patterns to match against script handles and sources
+	 */
+	private function get_conflicting_captcha_patterns() {
+		$config = $this::get_captcha_frontend_config();
+		$patterns = array();
+		
+		// Build patterns from frontend config
+		foreach ( $config as $captcha_type => $captcha_config ) {
+			if ( $captcha_type == 'none' || empty( $captcha_config['conflict'] ) ) {
+				continue;
+			}
+			
+			$patterns[ $captcha_type ] = $captcha_config['conflict'];
+		}
+		
+		/**
+		 * Filters the list of conflicting CAPTCHA patterns.
+		 *
+		 * @since 4.0.0
+		 *
+		 * @param array $patterns Array of CAPTCHA patterns to detect conflicts.
+		 */
+		return apply_filters( 'awsm_jobs_conflicting_captcha_patterns', $patterns );
+	}
+
+	/**
+	 * Check if a script handle or source matches conflicting patterns
+	 *
+	 * @param string $handle Script handle
+	 * @param string $src    Script source URL
+	 * @return bool True if script conflicts with our CAPTCHA
+	 */
+	private function is_conflicting_captcha_script( $handle, $src ) {
+		$current_captcha = $this->get_captcha_type();
+		
+		// Don't block if no CAPTCHA is enabled
+		if ( empty( $current_captcha ) || 'none' == $current_captcha ) {
+			return false;
+		}
+		
+		$patterns = $this->get_conflicting_captcha_patterns();
+		
+		foreach ( $patterns as $captcha_type => $pattern ) {
+			// Skip checking patterns for our own CAPTCHA type
+			if ( $captcha_type == $current_captcha ) {
+				continue;
+			}
+			
+			// Check handle patterns
+			if ( ! empty( $pattern['handles'] ) ) {
+				foreach ( $pattern['handles'] as $pattern_handle ) {
+					if ( false !== stripos( $handle, $pattern_handle ) ) {
+						return true;
+					}
+				}
+			}
+			
+			// Check URL patterns
+			if ( ! empty( $pattern['urls'] ) && ! empty( $src ) ) {
+				foreach ( $pattern['urls'] as $pattern_url ) {
+					if ( false !== stripos( $src, $pattern_url ) ) {
+						return true;
+					}
+				}
+			}
+		}
+		
+		return false;
+	}
+
+	/**
+	 * Dequeue conflicting CAPTCHA scripts
+	 *
+	 * @return void
+	 */
+	public function dequeue_conflicting_captcha_scripts() {
+		if ( ! $this->is_no_conflict_mode_enabled() ) {
+			return;
+		}
+		
+		global $wp_scripts;
+		
+		if ( empty( $wp_scripts->registered ) ) {
+			return;
+		}
+		
+		$dequeued_scripts = array();
+		
+		foreach ( $wp_scripts->registered as $handle => $script ) {
+			$src = isset( $script->src ) ? $script->src : '';
+			
+			if ( $this->is_conflicting_captcha_script( $handle, $src ) ) {
+				wp_dequeue_script( $handle );
+				wp_deregister_script( $handle );
+				$dequeued_scripts[] = $handle;
+				
+				error_log( sprintf( 
+					'[AWSM Jobs] Dequeued conflicting CAPTCHA script: %s (src: %s)', 
+					$handle, 
+					$src 
+				) );
+			}
+		}
+		
+		/**
+		 * Fires after conflicting CAPTCHA scripts are dequeued.
+		 *
+		 * @since 4.0.0
+		 *
+		 * @param array $dequeued_scripts Array of dequeued script handles.
+		 */
+		do_action( 'awsm_jobs_dequeued_conflicting_scripts', $dequeued_scripts );
+	}
+	/**
+	 * Initialize no-conflict mode hooks
+	 * Call this method in your class constructor or initialization
+	 *
+	 * @return void
+	 */
+	public function init_no_conflict_mode() {
+		if ( ! $this->is_no_conflict_mode_enabled() ) {
+			return;
+		}
+		
+		// Hook into script enqueue with high priority to catch other plugins
+		add_action( 'wp_enqueue_scripts', array( $this, 'dequeue_conflicting_captcha_scripts' ), 999 );
+		add_action( 'wp_print_scripts', array( $this, 'dequeue_conflicting_captcha_scripts' ), 999 );
+
+	}
 
 }
