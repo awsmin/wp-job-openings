@@ -1461,7 +1461,7 @@ class AWSM_Job_Openings_Settings {
 		$config = array(
 			'recaptcha' => array(
 				'label'         => __( 'reCAPTCHA', 'wp-job-openings' ),
-				'logo'          => 'data:image/png;base64,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',
+				'logo' => 'data:image/png;base64,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',
 				'verify_url'    => 'https://www.google.com/recaptcha/api/siteverify',
 				'requires_ip'   => true,
 				'signup_url'    => 'https://www.google.com/recaptcha/admin/create',
@@ -1470,7 +1470,7 @@ class AWSM_Job_Openings_Settings {
 			),
 			'hcaptcha' => array(
 				'label'         => __( 'hCaptcha', 'wp-job-openings' ),
-				'logo'          => 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFcAAABSCAYAAAAhBUjfAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAWNSURBVHgB7ZtPbxtFFMDf7nqDVFJkJC4IgrafoOkNhQN22wMShyZSEog41BU3LsFC4gCNshaqcmz6CZKcIpxIbQ+RONB4kSDiFsMNLqxauHDBIqlabO8M78VxMMF/d2a8YzM/yVqvM/6zv337dubNBMBgMBgMBoPBYDAYDAaDIT4WSOL6F0cZZnMPFPLT3ldgO7zCuV3hjFfcCTcMg7kKaEoKJFGP6mXHdu9ygGlQhAUceETP2ElU1KtVmJr5MsTvLNucfxNZdvDbwWIZNEFa5BIZ/4+047olVYJ/3tvr2QYPCGXbm6mJ+lYYLIWQIFLlEioF9yO3FcuyNh03KiQl2QbJBP7LlahWy+JZS/zy5Jzn6lX7l6m3ihteZtuDISNdLqGTYIIkR1W7NDVTzA3yvtdndlZFTooSuYR2ggE8vB1uNKL4frpXexKLN04fBFAmlyDBoIncJo0orh52i0gZYgllcmd9nr525/gQIyYHmkFRTGmineDXZoobMsQSSuSS2CP3aUlln1cUEow3u39FMInFvnQOJCFtENHK0cTxBueWtmJbSJ9GcLZWdVZliiWky7269nQVh6azMCI0UoRziGJ73uQGRWpauHrnOAeM+zBicAViCWly31l75uF4bxUMZ0hLCzUWkVgPDGdIkXt9DcuNbAhdLptl7ciaZhaeRMu+jJ3WDGiMFLmcWXdhCPz67VKAm6C577257UU2ZND6KtfwqhHOuRS10vqzFoSDNA+/XwqfHCxtPjl475Jt8bwFllaFc2G5nMMyyIBDfv+zyUsWZ1sQg8ffvb/usOgK1XNBE4TkUg8BBwuCfVpesRnP7t+eXKe9R7dfysUVTJHsMJbVRbCQ3CqLMiCIxexbX69cDFpfGxfBQnItC26CCIwXHq28+KDdn0QFgwN5SBghuZhvMxCfcH/lot+tQVzBVK/lLPkBTWy51EsAMQr9NBpUMImt16olvEEmXjiKLZeJVb3C/c8nN/tt3K9gncQS8dMCF1oAEsCAkOBuf9dNLBFbLk5bX4aY4HsfgkR0FEsonUPrRJTiIUhCV7GEQFqA2DXQ4NNJKZOWOoslYhdurr36Y5pxGBjXiiof7e5u9NG0PD8/f69ri+fP03gEefnrhv5BZLVObLlvXPgdXnBqEIM09o9zPdqUU6lUz0HAyWBBo1rCeWKnBRQbghq2UGx2bk7fpaH9omT2V4CthYWFHIwJifQWOjBWYgld5I6dWEIHuWMplkhULo7UHqgUu7u7ex/xICESlcuxPoEHr2RBBopdxs+fjaKolJTgpNPCNB689JnjYrE4jWJPpo3oBCYlOPGcS+tld3Z2pBW2Saxt26Vz35GIYF16Cz4KFj54SgWYxw9R5n9STRKCdernZujgMfJyMCAkjE5OMxV0YtiCY5c86GBwkwEFYPSFuAlQBnXTgnZt6EZYr9ense1NSi0wAPT5juPQEDsEhWgptw1lFBhiLq0wxtIox6NHu8u/X4YhWKe00A2K0FmKUNrSvohYYhgpYlTkKkG14P+1XKIpGBQgXS4NaWHEoBsnKEC23AJOzcz9Wb3Q14IPHUCx97BH4oMCZMotNH/khx+8S9tRELy1uLj4MShCltzC+bN/uq+t4NOIzYFCZMgtdLqs6PXHx6/k/4pc3ebD8iojtomo3EKvfPXJrey6w59doUEAJMzpb8jib16HISAyQst0Gpp2eY+PvYll0QFAHCgNuK7rD3NWWeFyivZsb297OHXu41OxhdP9E0DjCgtgyAxdbpMWyTfwoSKSA0hIapPE5Dah6latVpvFoswN3finPRHRAT4e4knb1GFRSeJyz0O5HBqFmrcpN9PwFJ+T8DPpdGPC1yr4oGrZD9BY/lQeh1U6BoPBYDAYDAaDwWAwGAxN/gb43bpCdwHAVQAAAABJRU5ErkJggg==',
+				'logo'          => 'data:image/png;base64,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',
 				'verify_url'    => 'https://hcaptcha.com/siteverify',
 				'requires_ip'   => true,
 				'signup_url'    => 'https://dashboard.hcaptcha.com/signup',
@@ -1479,7 +1479,7 @@ class AWSM_Job_Openings_Settings {
 			),
 			'turnstile' => array(
 				'label'         => __( 'Turnstile', 'wp-job-openings' ),
-				'logo'          => 'data:image/png;base64,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',
+				'logo' 			=> 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFcAAABSCAYAAAAhBUjfAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAPnSURBVHgB7dlRchtFEADQ7l4LyvCBuABMThBzAtYBvrGL/GNOIP/yESxjKD5zBDnf4FL4p/DmBDgn8MIJlCpiGXu3m55VnEqcKJldrVbjSr8q2VvSuCS3Znp7egCMMcYYY4wxxhhjjDHGGGOMMcYYY4wx4RAiJ0PXf0qwRcC3ATEVAacful+9BjBBhFxQToTp0YcMD3GYTyAS0QZ3OnROiAcCuHMVzBBCckgJ7a9/n+ewYlEGd3rwyR4L7tYJ6nWIMly/988+rFBUwa1mayJjXe8b0I4ce7i5qlkcTXBnaUCO9dJBu1YW4CiCu8TAXllJgAkioKlgBMsLrOekqN6jUysP7vmBG2iOTWHZ9D3OfnS70KGVpoUO0sF1k3XGW13VwmuwZNMDp4U/f41EfWGeMNDjpAeZz38lQUrdBdbrnyH72TuEDixt5s6COj+X+jpUBHeg2+B6kw9++Ptj6MBSgnvxk/u2YDmESCFq5XAvz2DJWr+h+Twac2A9aW+T8kbt59wERr6jErM1hqz47Yst37uonhD0N7jHQJT1tv/IoCWtpoVnd/9TiFuuOfdWcXRnJCA711/UgOQMuP/eN38ewoJaTQucdLPcFoEaOP9b25Rbr3tdF522NGVUHG2eyjh1sIBWg6u5rHEXqzNaBl7+mqbwls/qg1wwnp4f3Wm88Yhi+9sVJDys+gtEaejfJCD3mwZ44RvayycFWrPGezPLNVKN+rs+wJfjL0/q3uwaB9cH9TzhwZnILlVNbazyQqRe6oqh8IlgvXs5cjnSHPwZbmfBW+dGaeHfn93GlOQv3WENFzkt6ARidr3duHY3e6hz4QRqmOVgqpUeas9cH1gsq2ZLdEGtDiz14a81v2b6xIN5O7ECZTthnRwEt3Wcg6D/R3xdPIRAtdZGG10sXY7b9CwA2riZJARBy6yLRrcuex/g/qU+sKQdzR+DVwZRshmae2vNXCbe0zrRwQK0hhz4zKz7+zzxF+X8sb6LJkJP/PXTfTd/HFZf0PMvKdHj9pDewcX4qw3g0tfmfZ/eCoaPdCb3CebXwcCc6s8MAgTP3Buy+3rR3KOdi3E6QE0J0CC1scDv79893goZGzxzS4TdG1YUXx3tbF494Zd9ITgGbn7yoTH4tMbYMEjyOdw0erQz/cW56tIHtsTjRY+UtIILnu3hk1E6b2q3IvlvFoyS6b4mwYV7H5rf89Cx4TM39np2jp7m3qk2YF7XAWuCGZ6Ejg0OrkBYyRQVhMwfRvaY9qAlWuVkoWPDSzHE7/gmdL1eRLNdmJZ0D4ToEbSgR5yBMcYYY4wxxhhjjDHGGGOMMcYYY4x5d/0P8gSEIITUIeUAAAAASUVORK5CYII=',
 				'verify_url'    => 'https://challenges.cloudflare.com/turnstile/v0/siteverify',
 				'requires_ip'   => false,
 				'signup_url'    => 'https://dash.cloudflare.com/sign-up/turnstile',
@@ -1488,7 +1488,7 @@ class AWSM_Job_Openings_Settings {
 			),
 			'none' => array(
 				'label'         => __( 'None', 'wp-job-openings' ),
-				'logo'          => null,
+				'logo' => 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFcAAABSCAYAAAAhBUjfAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAM+SURBVHgB7ZyNcdpAEIVfOkgJ14HpICrBHaAO4lRgpQLTAXRgd6CkgjgViA5wB7beSDeWj5MAcb9iv5kdxmOEpM97ewvcGRAEQRAEQRAEQRAEQRAEQRBy4BvSRLVRtHHXP34fhGbfx2sb//vHVwhWKO6xjaaN95nBY5/Q/XEEdJlZY77QsdjihiUzUyng3XNEkxyr5q7b2OBrDTV5a+MFXT3d9z/v+9+p/lg+/mhjhWmBPO53GzssHNbEsSw7oJNe4HIoeIfpmv2EhcJMqzEutcJ0Jl9CiXHJ/xyeJwl4M7wp282eKg9zUegyefGCbWKZrSX8U/bnsgnOHluN5ZBdIQyPWGgNLmEXqxCGKbE6HpAhCseTygFpiQ19Tc7Y4vhGSoRhTGwF+2h6RkYo2N8phWBKrGZj+X2BTDCztkGYoXeOWMI2zOwgamSAQpxJ41yxmsry3FAdzGzMIces9d2wXyoWsGdvhcShzJC1do5YTYXjREgWhbBD7RqxpLAcq5AoJcJlwrViNWZpSPZNhVlvX+AHV2LJDmHL2Gxq+M8Cl2LJg/E6yX6gwzIwvNB7uMW1WHKPTCY186YLuMOHWFIYr3dAoviaeX2JJcryukniQ65PsUQhE7lmW1PgOnyLJQUykdvA3YQWQizJZkIzvyub24qFEkvMVqxGouxwfUMeUix5Ns6zQaKYWXBpWxNaLGmMc5VIFIX5vW4MsSv4ax+9YGZCdcYxMcSSLTKZzDQVjkvD1IflscTymsxESLbeamxDrRp5biyx5CcyKwmaGqezN6ZYhfDfmDijwLG04dKhmGLJFplmrcbsHxlrxBdbWs6dTdZqFOyrC2OKVZZrapDp3gnzTUVssY3l/CUyxrZ0KLRYdjA2scm3XucQc/HzGgte/Eymlu1v4afm8Zxjm1tual8Eh2wJN+idmGOTaY2FiR0yVYMpmZk8Z5VOgS5TpzqUoDU21ia/El12qYnn7NFtlP6L6U1+d+i+TTi1YfAXbmCTn0ZhfCuTy+BIWGwZOIWCH8k1Mlot7huFriY2mC+Ux1ZIJFNT/WcWq0Gwpip8rc9vg2BNZm3+g8+aLAiCIAiCIAiCIAiCIAiCIAhn8wGf0+Wm0s2UeAAAAABJRU5ErkJggg==',
 				'verify_url'    => null,
 				'requires_ip'   => false,
 				'signup_url'    => null,
@@ -1672,7 +1672,7 @@ class AWSM_Job_Openings_Settings {
 				'label'     => __( 'Fail Message', 'wp-job-openings' ),
 				'class'     => 'regular-text awsm-captcha-panel awsm-captcha-panel-' . $provider,
 				'row_class' => 'awsm-hide awsm-captcha-row awsm-captcha-row-' . $provider,
-				'description' => __( 'Shown when CAPTCHA verification fails. Leave empty to use default provider message.', 'wp-job-openings' ),
+				'description' => __( 'Displays to users who fail the verification process.', 'wp-job-openings' ),
 				'default_value' => ! empty( $provider_config['label'] )
 					? sprintf( __( '%s verification failed. Please try again.', 'wp-job-openings' ), $provider_config['label'] )
 					: __( 'CAPTCHA verification failed. Please try again.', 'wp-job-openings' ),
@@ -2224,7 +2224,7 @@ class AWSM_Job_Openings_Settings {
 			$type        = isset( $field['type'] ) ? $field['type'] : 'text';
 			$class       = isset( $field['class'] ) ? esc_attr( $field['class'] ) : '';
 			$row_class   = isset( $field['row_class'] ) ? esc_attr( $field['row_class'] ) : '';
-			$description = isset( $field['description'] ) ? esc_html( $field['description'] ) : '';
+			$description = isset( $field['description'] ) ? wp_kses_post( $field['description'] ) : '';
 			$default     = isset( $field['default_value'] ) ? $field['default_value'] : '';
 			$help_button = isset( $field['help_button'] ) ? $field['help_button'] : false;
 
@@ -2245,10 +2245,10 @@ class AWSM_Job_Openings_Settings {
 					$choices = isset( $field['choices'] ) ? (array) $field['choices'] : [];
 					$captcha_config = self::get_captcha_config();
 					
-					// Check if this is a CAPTCHA type radio (has logo support)
-					$is_captcha_radio = isset( $field['is_captcha_type'] ) && $field['is_captcha_type'];
+					// Check if this is the CAPTCHA provider selection field
+					$is_captcha_provider = ( $name === 'awsm_jobs_enable_recaptcha' );
 					
-					if ( $is_captcha_radio ) {
+					if ( $is_captcha_provider ) {
 						echo '<div class="captcha-wrapper">';
 						foreach ( $choices as $choice ) {
 							$val  = isset( $choice['value'] ) ? esc_attr( $choice['value'] ) : '';
@@ -2257,17 +2257,15 @@ class AWSM_Job_Openings_Settings {
 							// Get logo from config if available
 							$logo = '';
 							if ( isset( $captcha_config[ $val ]['logo'] ) && $captcha_config[ $val ]['logo'] ) {
-								$logo = '<img src="' . esc_attr( $captcha_config[ $val ]['logo'] ) . '" alt="' . esc_attr( $text ) . '">';
+								$logo_src = esc_attr( $captcha_config[ $val ]['logo'] );
+								$logo = '<img src="' . $logo_src . '" alt="' . esc_attr( $text ) . '">';
 							}
+							
+							$checked = checked( $value, $val, false );
 							
 							echo '<div class="captcha-item">';
 							echo '<label>';
-							printf(
-								'<input type="radio" name="%1$s" value="%2$s" %3$s>',
-								esc_attr( $name ),
-								$val,
-								checked( $value, $val, false )
-							);
+							echo '<input type="radio" name="' . esc_attr( $name ) . '" value="' . $val . '" ' . $checked . ' class="' . $class . '">';
 							echo '<span>';
 							if ( $logo ) {
 								echo $logo;
@@ -2279,17 +2277,25 @@ class AWSM_Job_Openings_Settings {
 						}
 						echo '</div>';
 					} else {
-						// Standard radio buttons (inline)
+						// Standard radio buttons (inline) for other radio fields
 						foreach ( $choices as $choice ) {
 							$val  = isset( $choice['value'] ) ? esc_attr( $choice['value'] ) : '';
 							$text = isset( $choice['text'] ) ? esc_html( $choice['text'] ) : $val;
+							
+							// Check for disabled attribute
+							$disabled = '';
+							if ( isset( $field['attributes']['disabled'] ) ) {
+								$disabled = ' disabled';
+							}
+							
 							echo '<label style="margin-right: 18px;">';
 							printf(
-								'<input type="radio" name="%1$s" id="%1$s-%2$s" value="%2$s" %3$s class="%4$s" /> %5$s',
+								'<input type="radio" name="%1$s" id="%1$s-%2$s" value="%2$s" %3$s class="%4$s"%5$s /> %6$s',
 								esc_attr( $name ),
 								$val,
 								checked( $value, $val, false ),
 								$class,
+								$disabled,
 								$text
 							);
 							echo '</label>';
@@ -2298,20 +2304,55 @@ class AWSM_Job_Openings_Settings {
 					break;
 
 				case 'checkbox':
+					// If this field is meant to be a single ON/OFF toggle.
 					$choices = isset( $field['choices'] ) ? (array) $field['choices'] : [];
-					foreach ( $choices as $choice ) {
-						$val  = isset( $choice['value'] ) ? esc_attr( $choice['value'] ) : 'on';
-						$text = isset( $choice['text'] ) ? esc_html( $choice['text'] ) : '';
+					$is_toggle = ! empty( $field['toggle'] ) || count( $choices ) === 1; // flag to switch rendering
+
+					if ( $is_toggle ) {
+						$choice = reset( $choices ); // single choice
+						$val    = isset( $choice['value'] ) ? esc_attr( $choice['value'] ) : 'on';
+						$text   = isset( $choice['text'] ) ? esc_html( $choice['text'] ) : '';
+						$checked = checked( $value, $val, false );
+
+						
 						printf(
-							'<label><input type="checkbox" name="%1$s" id="%1$s" value="%2$s" %3$s class="%4$s" /> %5$s</label>',
+							'<span class="awsm-setting-field">
+								<span class="awsm-toggle-control">
+									<input type="checkbox" role="switch" aria-checked="%8$s"
+										name="%1$s" id="%1$s" value="%2$s" %3$s class="%4$s" />
+									<label class="awsm-toggle-control-icon" for="%1$s">
+										<span class="awsm-captcha-toggle-slider" aria-hidden="true"></span>
+									</label>
+									<label for="%1$s" class="awsm-toggle-control-status" data-on="%6$s" data-off="%7$s">%7$s</label>
+								</span>
+								<p class="awsm-captcha-toggle-label">%5$s</p>
+							</span>',
 							esc_attr( $name ),
 							$val,
-							checked( $value, $val, false ),
-							$class,
-							$text
+							$checked,
+							esc_attr( $class ),
+							$text,
+							esc_html__( 'On', 'wp-job-openings' ),
+							esc_html__( 'Off', 'wp-job-openings' ),
+							$checked ? 'true' : 'false'
 						);
+
+					} else {
+						// Fallback: render classic list of checkboxes (see section 2)
+						foreach ( $choices as $choice ) {
+							$val  = isset( $choice['value'] ) ? esc_attr( $choice['value'] ) : 'on';
+							$text = isset( $choice['text'] ) ? esc_html( $choice['text'] ) : '';
+							printf(
+								'<label><input type="checkbox" name="%1$s[]" value="%2$s" %3$s class="%4$s" /> %5$s</label>',
+								esc_attr( $name ),
+								$val,
+								checked( is_array( $value ) ? in_array( $val, (array) $value, true ) : $value === $val, true, false ),
+								esc_attr( $class ),
+								$text
+							);
+						}
 					}
-					break;
+				break;
 
 				case 'text':
 				default:
@@ -2347,6 +2388,7 @@ class AWSM_Job_Openings_Settings {
 			echo '</tr>';
 		}
 	}
+	
 	public function sanitize_captcha_no_conflict_scripts( $input ) {
 		// Sanitize and validate the input
 		$sanitized = ! empty( $input ) ? sanitize_text_field( $input ) : '';

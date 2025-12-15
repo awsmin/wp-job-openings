@@ -2443,3 +2443,123 @@ input.awsm-button:disabled {
   border: 2px solid #3FE0C7;
   opacity: 1;
 }
+
+/* Container layout */
+.awsm-setting-field .awsm-toggle-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+/* Hide native checkbox, keep it accessible */
+.awsm-toggle-control input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+/* Icon label wrapper - make it clickable */
+.awsm-toggle-control-icon {
+  display: inline-block;
+  cursor: pointer;
+}
+
+/* Switch body (slider track) */
+.awsm-captcha-toggle-slider {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+  background-color: #ccc;
+  border-radius: 12px;
+  transition: background-color 0.2s ease;
+}
+
+/* Switch knob/handle */
+.awsm-captcha-toggle-slider::before {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  left: 3px;
+  top: 3px;
+  background-color: #fff;
+  border-radius: 50%;
+  transition: transform 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Checked state - slider background */
+.awsm-toggle-control input:checked + .awsm-toggle-control-icon .awsm-captcha-toggle-slider {
+  background-color: #2271b1; /* WordPress blue */
+}
+
+/* Checked state - move knob */
+.awsm-toggle-control input:checked + .awsm-toggle-control-icon .awsm-captcha-toggle-slider::before {
+  transform: translateX(20px);
+}
+
+/* On/Off text label - hide the default text content */
+.awsm-toggle-control-status {
+  font-size: 13px;
+  color: #646970;
+  min-width: 32px;
+  font-weight: 500;
+  position: relative;
+}
+
+/* Hide the actual text inside the label */
+.awsm-toggle-control-status {
+  font-size: 0; /* Hide default text */
+}
+
+/* Show "Off" by default using data-off attribute */
+.awsm-toggle-control-status::before {
+  content: attr(data-off);
+  font-size: 13px;
+  color: #646970;
+}
+
+/* Show "On" when checked using data-on attribute */
+.awsm-toggle-control input:checked ~ .awsm-toggle-control-status::before {
+  content: attr(data-on);
+  color: #2271b1;
+}
+
+/* Description below the control */
+.awsm-captcha-toggle-label {
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: #646970;
+  line-height: 1.5;
+}
+
+/* Keyboard focus ring */
+.awsm-toggle-control input:focus + .awsm-toggle-control-icon .awsm-captcha-toggle-slider {
+  outline: 2px solid #2271b1;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 1px #fff;
+}
+
+/* Hover effect */
+.awsm-toggle-control:hover .awsm-captcha-toggle-slider {
+  background-color: #b8b8b8;
+}
+
+.awsm-toggle-control input:checked + .awsm-toggle-control-icon:hover .awsm-captcha-toggle-slider {
+  background-color: #135e96;
+}
+
+/* Disabled state (optional) */
+.awsm-toggle-control input:disabled + .awsm-toggle-control-icon .awsm-captcha-toggle-slider {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.awsm-toggle-control input:disabled + .awsm-toggle-control-icon {
+  cursor: not-allowed;
+}
+
