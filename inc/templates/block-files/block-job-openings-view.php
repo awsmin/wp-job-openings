@@ -14,7 +14,7 @@ $block_id   = ( isset( $attributes['block_id'] ) && trim( $attributes['block_id'
 
 $show_filter             = false;
 $placement_sidebar_class = '';
-$styles                  = hz_get_ui_styles( $attributes ); 
+$styles                  = hz_get_ui_styles( $attributes );
 ?>
 
 <!-- Styles for css variables -->
@@ -141,7 +141,7 @@ if ( $query->have_posts() ) {
 					?>
 				</div> 
 				<?php } ?>
-				<?php 
+				<?php
 					/**
 					 * awsm_block_filter_form_extra hook
 					 *

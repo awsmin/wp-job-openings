@@ -1,18 +1,18 @@
 <?php
-	if ( ! defined( 'ABSPATH' ) ) {
-		exit;
-	}
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 	$upload_file_extns = $this->file_upload_extensions();
 	$extns_choices     = array();
-	if ( ! empty( $upload_file_extns ) ) {
-		foreach ( $upload_file_extns as $extension ) {
-			$extns_choices[] = array(
-				'value' => $extension,
-				'text'  => $extension,
-			);
-		}
+if ( ! empty( $upload_file_extns ) ) {
+	foreach ( $upload_file_extns as $extension ) {
+		$extns_choices[] = array(
+			'value' => $extension,
+			'text'  => $extension,
+		);
 	}
+}
 	/**
 	 * Filters the form settings fields.
 	 *

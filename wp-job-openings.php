@@ -268,7 +268,7 @@ class AWSM_Job_Openings {
 
 	public function check_downgrade() {
 		$stored_version  = get_option( 'awsm_jobs_plugin_version' );
-		$current_version = defined( 'AWSM_JOBS_PLUGIN_VERSION' ) ? AWSM_JOBS_PLUGIN_VERSION : null; 
+		$current_version = defined( 'AWSM_JOBS_PLUGIN_VERSION' ) ? AWSM_JOBS_PLUGIN_VERSION : null;
 
 		if ( $stored_version && $current_version && version_compare( $current_version, $stored_version, '<' ) ) {
 			add_action( 'admin_notices', array( $this, 'show_downgrade_notice' ) );
@@ -276,14 +276,14 @@ class AWSM_Job_Openings {
 	}
 
 	public function show_downgrade_notice() {
-	?>
+		?>
 		<div class="notice notice-warning is-dismissible">
 			<p>
 				<strong><?php esc_html_e( 'Warning:', 'wp-job-openings' ); ?></strong>
 				<?php esc_html_e( 'You have activated an older version of WP Job Openings than previously installed. This may cause data conflicts or unexpected behaviour.', 'wp-job-openings' ); ?>
 			</p>
 		</div>
-	<?php
+		<?php
 	}
 
 	public function index_to_upload_dir( $dir ) {
@@ -1160,10 +1160,9 @@ class AWSM_Job_Openings {
 		wp_enqueue_style( 'awsm-jobs-general' );
 		wp_enqueue_style( 'awsm-jobs-style', AWSM_JOBS_PLUGIN_URL . '/assets/css/style.min.css', array( 'awsm-jobs-general' ), AWSM_JOBS_PLUGIN_VERSION, 'all' );
 
-
 		if ( is_singular( 'awsm_job_openings' ) && $this->awsm_form->is_captcha_set() ) {
-        	$this->awsm_form->enqueue_captcha_scripts();
-    	}
+			$this->awsm_form->enqueue_captcha_scripts();
+		}
 		wp_enqueue_script( 'awsm-job-scripts', AWSM_JOBS_PLUGIN_URL . '/assets/js/script.min.js', array( 'jquery' ), AWSM_JOBS_PLUGIN_VERSION, true );
 
 		$enable_search = get_option( 'awsm_enable_job_search' ) === 'enable' && isset( $_GET['jq'] );

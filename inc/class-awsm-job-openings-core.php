@@ -249,10 +249,10 @@ class AWSM_Job_Openings_Core {
 	}
 
 	private function add_custom_role() {
-		$caps                    = $this->get_caps();
-		$hr_caps                 = array_merge( $caps['level_1'], $caps['level_2'], $caps['level_3'], $caps['level_4'] );
-		$hr_caps['read']         = true;
-		$hr_caps['upload_files'] = true;
+		$caps                      = $this->get_caps();
+		$hr_caps                   = array_merge( $caps['level_1'], $caps['level_2'], $caps['level_3'], $caps['level_4'] );
+		$hr_caps['read']           = true;
+		$hr_caps['upload_files']   = true;
 		$hr_caps['manage_options'] = true;
 		add_role( 'hr', __( 'HR', 'wp-job-openings' ), $hr_caps );
 	}

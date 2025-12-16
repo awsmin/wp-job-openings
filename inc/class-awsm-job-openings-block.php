@@ -598,7 +598,7 @@ class AWSM_Job_Openings_Block {
 		 * @param array $block_atts The shortcode attributes.
 		 */
 		$uid = isset( $block_atts['uid'] ) ? '-' . $block_atts['uid'] : '';
-		
+
 		if ( $enable_search === 'enable' ) {
 			$search_query = isset( $_GET['jq'] ) ? sanitize_text_field( $_GET['jq'] ) : '';
 			/**
@@ -645,7 +645,7 @@ class AWSM_Job_Openings_Block {
 			$display_filters = true;
 		} */
 
-		$available_filters = get_option( 'awsm_jobs_listing_available_filters' ); 
+		$available_filters = get_option( 'awsm_jobs_listing_available_filters' );
 
 		if ( isset( $block_atts['filter_options'] ) && is_array( $block_atts['filter_options'] ) && ! empty( $block_atts['filter_options'] ) ) {
 			$spec_keys = array();
@@ -891,7 +891,7 @@ class AWSM_Job_Openings_Block {
 		echo apply_filters( 'awsm_filter_block_content', $filter_content, $available_filters_arr ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
-	public function display_block_filter_form_slide( $block_atts ) { 
+	public function display_block_filter_form_slide( $block_atts ) {
 		$uid                   = isset( $block_atts['uid'] ) ? '-' . $block_atts['uid'] : '';
 		$enable_search         = isset( $block_atts['search'] ) ? $block_atts['search'] : '';
 		$placeholder_search    = isset( $block_atts['search_placeholder'] ) ? $block_atts['search_placeholder'] : '';
