@@ -1512,15 +1512,12 @@ class AWSM_Job_Openings_Settings {
 	private function get_captcha_settings_options() {
 		$options = array();
 
-		// Fetch providers (already filterable via 'awsm_jobs_captcha_config').
 		$config = self::get_captcha_config(); 
-		// Loop providers to add keys and fail message.
 		foreach ( $config as $provider => $provider_config ) {
 			if ( $provider === 'none' ) {
-				continue; // "none" doesn't have keys or provider-specific fail message.
+				continue; 
 			}
 
-			// Site Key option (closure routes to generic validator).
 			$site_key_option = self::get_captcha_data( 'field_name', $provider, 'site_key' );
 			$options[] = array(
 				'option_name' => $site_key_option,
@@ -1529,7 +1526,6 @@ class AWSM_Job_Openings_Settings {
 				},
 			);
 
-			// Secret Key option (closure routes to generic validator).
 			$secret_key_option = self::get_captcha_data( 'field_name', $provider, 'secret_key' );
 			$options[] = array(
 				'option_name' => $secret_key_option,
@@ -1616,14 +1612,12 @@ class AWSM_Job_Openings_Settings {
 		$config = self::get_captcha_config();
 		$fields = array();
 		
-		// Title
 		$fields[] = array(
 			'id'    => 'awsm-form-recaptcha-options-title',
 			'label' => __( 'CAPTCHA Options', 'wp-job-openings' ),
 			'type'  => 'title',
 		);
 		
-		// Provider selector
 		$fields[] = array(
 			'name'          => 'awsm_jobs_enable_recaptcha',
 			'label'         => __( 'Enable CAPTCHA', 'wp-job-openings' ),
@@ -1638,7 +1632,6 @@ class AWSM_Job_Openings_Settings {
 				continue;
 			}
 			
-			// Site key field
 			$site_key_field = array(
 				'name'      => self::get_captcha_data( 'field_name', $provider, 'site_key' ),
 				'label'     => __( 'Site key', 'wp-job-openings' ),
@@ -1646,7 +1639,6 @@ class AWSM_Job_Openings_Settings {
 				'row_class' => 'awsm-hide awsm-captcha-row awsm-captcha-row-' . $provider,
 			);
 			
-			// Add help button if signup URL exists
 			if ( ! empty( $provider_config['signup_url'] ) ) {
 				$site_key_field['help_button'] = array(
 					'url'         => $provider_config['signup_url'],
@@ -1658,7 +1650,6 @@ class AWSM_Job_Openings_Settings {
 			
 			$fields[] = $site_key_field;
 			
-			// Secret key field
 			$fields[] = array(
 				'name'      => self::get_captcha_data( 'field_name', $provider, 'secret_key' ),
 				'label'     => __( 'Secret key', 'wp-job-openings' ),
@@ -1666,7 +1657,6 @@ class AWSM_Job_Openings_Settings {
 				'row_class' => 'awsm-hide awsm-captcha-row awsm-captcha-row-' . $provider,
 			);
 
-			// Fail message field (provider-specific)
 			$fields[] = array(
 				'name'      => "awsm_jobs_{$provider}_fail_message",
 				'label'     => __( 'Fail Message', 'wp-job-openings' ),
@@ -1681,7 +1671,6 @@ class AWSM_Job_Openings_Settings {
 			
 		}
 		
-		// Common fields
 		$fields[] = array(
 			'name'      => 'awsm_jobs_captcha_no_conflict_scripts',
 			'label'     => __( 'No-Conflict Mode', 'wp-job-openings' ),
@@ -1764,7 +1753,6 @@ class AWSM_Job_Openings_Settings {
 			'response' => 'test_validation_' . wp_generate_password( 20, false ),
 		);
 
-		// hCaptcha requires sitekey in verification request.
 		if ( 'hcaptcha' === $provider ) {
 			$body['sitekey'] = $site_key;
 		}
@@ -1822,7 +1810,6 @@ class AWSM_Job_Openings_Settings {
 
 		$raw_body = wp_remote_retrieve_body( $response );
 
-		// Defensive decode.
 		$data = json_decode( $raw_body, true );
 
 		if ( ! is_array( $data ) ) {
@@ -1872,7 +1859,6 @@ class AWSM_Job_Openings_Settings {
 			? $provider_config['label']
 			: __( 'CAPTCHA', 'wp-job-openings' );
 
-		// Known error patterns.
 		$error_patterns = array(
 			'invalid-input-secret'    => __( 'Invalid Secret Key. Please verify your %s Secret Key.', 'wp-job-openings' ),
 			'missing-input-secret'    => __( 'Secret Key is missing.', 'wp-job-openings' ),
@@ -1900,7 +1886,6 @@ class AWSM_Job_Openings_Settings {
 				}
 			}
 
-			// Expected errors for test flow indicate keys are valid.
 			$expected_test_errors = array(
 				'missing-input-response',
 				'invalid-input-response',
@@ -1947,7 +1932,6 @@ class AWSM_Job_Openings_Settings {
 	 * @return bool
 	 */
 	private function basic_format_check( $key ) {
-		// Check if key contains only valid characters (alphanumeric, hyphens, underscores)
 		if ( ! preg_match( '/^[a-zA-Z0-9_-]+$/', $key ) ) {
 			return false;
 		}
@@ -1970,7 +1954,6 @@ class AWSM_Job_Openings_Settings {
 		$old_value        = get_option( $option_name, '' );
 		$current_provider = $this->get_current_captcha_provider();
 
-		// Non-active provider: just sanitize and save (no validation).
 		if ( $provider !== $current_provider ) {
 			$value = ! empty( $input ) ? sanitize_text_field( trim( (string) $input ) ) : '';
 			return apply_filters( 'awsm_jobs_captcha_validated_value', $value, $provider, $key_type, $option_name );
@@ -1980,13 +1963,11 @@ class AWSM_Job_Openings_Settings {
 		$service_name    = ! empty( $provider_config['label'] ) ? $provider_config['label'] : __( 'CAPTCHA', 'wp-job-openings' );
 		$key_label       = ( 'site_key' === $key_type ) ? __( 'Site Key', 'wp-job-openings' ) : __( 'Secret Key', 'wp-job-openings' );
 
-		// Provider doesn't require keys: sanitize and save.
 		if ( empty( $provider_config['requires_keys'] ) ) {
 			$value = ! empty( $input ) ? sanitize_text_field( trim( (string) $input ) ) : '';
 			return apply_filters( 'awsm_jobs_captcha_validated_value', $value, $provider, $key_type, $option_name );
 		}
 
-		// Empty or invalid type input.
 		if ( empty( $input ) || ! is_string( $input ) ) {
 			$message = sprintf(
 				/* translators: 1: service name, 2: key label */
@@ -2018,12 +1999,10 @@ class AWSM_Job_Openings_Settings {
 			return apply_filters( 'awsm_jobs_captcha_validated_value', (string) $bypass, $provider, $key_type, $option_name );
 		}
 
-		// Skip validation if unchanged.
 		if ( $value === $old_value && '' !== $old_value ) {
 			return apply_filters( 'awsm_jobs_captcha_validated_value', $value, $provider, $key_type, $option_name );
 		}
 
-		// Basic format check.
 		if ( ! $this->basic_format_check( $value ) ) {
 			$message = sprintf(
 				/* translators: 1: key label */
@@ -2037,7 +2016,6 @@ class AWSM_Job_Openings_Settings {
 			return $old_value;
 		}
 
-		// API verification only for secret key (if a site key exists).
 		if ( 'secret_key' === $key_type ) {
 			$site_key_field = self::get_captcha_data( 'field_name', $provider, 'site_key' );
 			$site_key       = isset( $_POST[ $site_key_field ] )
@@ -2072,7 +2050,6 @@ class AWSM_Job_Openings_Settings {
 					return $old_value;
 				}
 
-				// Success notice (optional UI feedback).
 				add_settings_error(
 					$option_name,
 					"{$option_name}-verified",
@@ -2086,7 +2063,6 @@ class AWSM_Job_Openings_Settings {
 			}
 		}
 
-		// Final chance to adjust the persisted value.
 		return apply_filters( 'awsm_jobs_captcha_validated_value', $value, $provider, $key_type, $option_name );
 	}
 
@@ -2096,22 +2072,17 @@ class AWSM_Job_Openings_Settings {
 	public function sanitize_captcha_fail_messages( $input ) {
 		$captcha_provider = $this->get_current_captcha_provider();
 		
-		// Get existing messages for all providers
 		$all_messages = get_option( 'awsm_jobs_captcha_fail_messages', array() );
 		
-		// If not array, initialize it
 		if ( ! is_array( $all_messages ) ) {
 			$all_messages = array();
 		}
 		
-		// Sanitize the input for current provider
 		if ( empty( $input ) ) {
-			// Remove the provider's message if empty (will use default)
 			unset( $all_messages[ $captcha_provider ] );
 		} else {
 			$value = wp_kses_post( trim( $input ) );
 			
-			// Check minimum length
 			if ( strlen( $value ) < 5 ) {
 				add_settings_error(
 					'awsm_jobs_captcha_fail_messages',
@@ -2119,11 +2090,9 @@ class AWSM_Job_Openings_Settings {
 					esc_html__( 'The fail message is too short. Please provide at least 5 characters.', 'wp-job-openings' ),
 					'error'
 				);
-				// Return current provider's old value
 				return $all_messages;
 			}
 			
-			// Save message for current provider
 			$all_messages[ $captcha_provider ] = $value;
 		}
 		
@@ -2165,7 +2134,6 @@ class AWSM_Job_Openings_Settings {
 		$old_value = get_option( 'awsm_jobs_enable_recaptcha', 'none' );
 		$config    = self::get_captcha_config();
 
-		// Validate provider exists
 		if ( ! isset( $config[ $input ] ) ) {
 			add_settings_error(
 				'awsm_jobs_enable_recaptcha',
@@ -2179,7 +2147,6 @@ class AWSM_Job_Openings_Settings {
 		$new_provider = sanitize_text_field( $input );
 		$provider_config = $config[ $new_provider ];
 
-		// If switching to a provider that requires keys, check if keys exist
 		if ( $provider_config['requires_keys'] && $new_provider !== $old_value ) {
 			$site_key   = get_option( 'awsm_jobs_recaptcha_site_key', '' );
 			$secret_key = get_option( 'awsm_jobs_recaptcha_secret_key', '' );
@@ -2209,7 +2176,6 @@ class AWSM_Job_Openings_Settings {
 
 	public function display_captcha_settings_fields( array $fields ) {
 		foreach ( $fields as $field ) {
-			// Title rows
 			if ( isset( $field['type'] ) && $field['type'] === 'title' ) {
 				$label = isset( $field['label'] ) ? esc_html( $field['label'] ) : '';
 				echo '<tr class="awsm-settings-row awsm-captcha-title-row">';
@@ -2218,7 +2184,6 @@ class AWSM_Job_Openings_Settings {
 				continue;
 			}
 
-			// Defaults
 			$name        = isset( $field['name'] ) ? esc_attr( $field['name'] ) : '';
 			$label       = isset( $field['label'] ) ? esc_html( $field['label'] ) : '';
 			$type        = isset( $field['type'] ) ? $field['type'] : 'text';
@@ -2228,7 +2193,6 @@ class AWSM_Job_Openings_Settings {
 			$default     = isset( $field['default_value'] ) ? $field['default_value'] : '';
 			$help_button = isset( $field['help_button'] ) ? $field['help_button'] : false;
 
-			// Current value from DB
 			$value = get_option( $name, $default );
 			$row_classes = trim( 'awsm-settings-row ' . $row_class );
 
@@ -2277,7 +2241,6 @@ class AWSM_Job_Openings_Settings {
 						}
 						echo '</div>';
 					} else {
-						// Standard radio buttons (inline) for other radio fields
 						foreach ( $choices as $choice ) {
 							$val  = isset( $choice['value'] ) ? esc_attr( $choice['value'] ) : '';
 							$text = isset( $choice['text'] ) ? esc_html( $choice['text'] ) : $val;
@@ -2297,12 +2260,11 @@ class AWSM_Job_Openings_Settings {
 					break;
 
 				case 'checkbox':
-					// If this field is meant to be a single ON/OFF toggle.
 					$choices = isset( $field['choices'] ) ? (array) $field['choices'] : [];
-					$is_toggle = ! empty( $field['toggle'] ) || count( $choices ) === 1; // flag to switch rendering
+					$is_toggle = ! empty( $field['toggle'] ) || count( $choices ) === 1; 
 
 					if ( $is_toggle ) {
-						$choice = reset( $choices ); // single choice
+						$choice = reset( $choices ); 
 						$val    = isset( $choice['value'] ) ? esc_attr( $choice['value'] ) : 'on';
 						$text   = isset( $choice['text'] ) ? esc_html( $choice['text'] ) : '';
 						$checked = checked( $value, $val, false );
@@ -2331,7 +2293,6 @@ class AWSM_Job_Openings_Settings {
 						);
 
 					} else {
-						// Fallback: render classic list of checkboxes (see section 2)
 						foreach ( $choices as $choice ) {
 							$val  = isset( $choice['value'] ) ? esc_attr( $choice['value'] ) : 'on';
 							$text = isset( $choice['text'] ) ? esc_html( $choice['text'] ) : '';
@@ -2383,10 +2344,8 @@ class AWSM_Job_Openings_Settings {
 	}
 	
 	public function sanitize_captcha_no_conflict_scripts( $input ) {
-		// Sanitize and validate the input
 		$sanitized = ! empty( $input ) ? sanitize_text_field( $input ) : '';
 		
-		// Only return 'on' if that's the value, otherwise return empty string
 		return ( 'on' === $sanitized ) ? 'on' : '';
 	}
 }

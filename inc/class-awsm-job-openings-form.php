@@ -1043,34 +1043,26 @@ class AWSM_Job_Openings_Form {
 
 	public function is_captcha_set() {
 		$captcha_type = $this->get_captcha_type();		
-		// If no CAPTCHA is selected, return false
 		if ( empty( $captcha_type ) || 'none' === $captcha_type ) {
 			return false;
 		}
 
-		// Get the captcha configuration
 		$config = $this::get_captcha_frontend_config();
-		// In AWSM_Job_Openings_Form class
 
-		// Check if the selected captcha type exists in config
 		if ( ! isset( $config[ $captcha_type ] ) ) {
 			error_log( 'Invalid CAPTCHA type: ' . $captcha_type );
 			return false;
 		}
 		
-		// Check if this captcha type requires keys
 		if ( empty( $config[ $captcha_type ]['requires_keys'] ) || ! $config[ $captcha_type ]['requires_keys'] ) {
 			return true;
 		}
 
-		// Dynamically construct option names based on captcha type
 		
 		$site_key   = $this->get_captcha_site_key( $captcha_type );
 		$secret_key = $this->get_captcha_secret_key( $captcha_type );
 
-		error_log( 'Checking keys for ' . $captcha_type . ': site_key=' . ( ! empty( $site_key ) ? 'set' : 'empty' ) . ', secret_key=' . ( ! empty( $secret_key ) ? 'set' : 'empty' ) );
 
-		// Check if both keys are set
 		if ( empty( $site_key ) || empty( $secret_key ) ) {
 			return false;
 		}
@@ -1086,7 +1078,6 @@ class AWSM_Job_Openings_Form {
 			return;
 		}
 		
-		// Dequeue conflicting scripts first if no-conflict mode is enabled
 		if ( $this->is_no_conflict_mode_enabled() ) {
 			$this->dequeue_conflicting_captcha_scripts();
 		}
@@ -1094,7 +1085,6 @@ class AWSM_Job_Openings_Form {
 		$captcha_type = $this->get_captcha_type();
 		$config       = $this::get_captcha_frontend_config();
 		
-		// Check if captcha type exists and has script configuration
 		if ( ! isset( $config[ $captcha_type ] ) || empty( $config[ $captcha_type ]['script'] ) ) {
 			return;
 		}
@@ -1126,7 +1116,6 @@ class AWSM_Job_Openings_Form {
 	public function get_captcha_response( $token, $captcha_type = '' ) {
 		$result = array();
 		
-		// Get captcha type if not provided
 		if ( empty( $captcha_type ) ) {
 			$captcha_type = $this->get_captcha_type();
 		}
@@ -1136,13 +1125,11 @@ class AWSM_Job_Openings_Form {
 		
 		// Validate captcha type exists in config
 		if ( ! isset( $config[ $captcha_type ] ) ) {
-			error_log( sprintf( 'Invalid CAPTCHA type: %s. Available types: %s', $captcha_type, implode( ', ', array_keys( $config ) ) ) );
 			return $result;
 		}
 		
 		// Validate captcha type has a verify URL (exclude 'none')
 		if ( empty( $config[ $captcha_type ]['verify_url'] ) ) {
-			error_log( sprintf( 'CAPTCHA type "%s" does not have a verification URL configured.', $captcha_type ) );
 			return $result;
 		}
 		
@@ -1150,7 +1137,6 @@ class AWSM_Job_Openings_Form {
 		$secret_key     = get_option( 'awsm_jobs_recaptcha_secret_key' );
 		
 		if ( empty( $secret_key ) ) {
-			error_log( sprintf( 'CAPTCHA secret key is missing for type: %s', $captcha_type ) );
 			return $result;
 		}
 		
@@ -1177,9 +1163,7 @@ class AWSM_Job_Openings_Form {
 			)
 		);
 		
-		// Handle response
 		if ( is_wp_error( $response ) ) {
-			error_log( sprintf( 'CAPTCHA verification error for %s: %s', $captcha_type, $response->get_error_message() ) );
 			return $result;
 		}
 		
@@ -1206,34 +1190,22 @@ class AWSM_Job_Openings_Form {
 	 * @return bool True if validation passes, false otherwise
 	 */
 	public function validate_captcha_field( $token ) {
-		error_log( 'Validating CAPTCHA with token: ' . $token );
-		// Check if CAPTCHA is enabled
 		if ( ! $this->is_captcha_set() ) {
-			error_log( 'CAPTCHA is not configured. Skipping validation.' );
-			return true; // If CAPTCHA is not configured, skip validation
+			return true; 
 		}
 		
-		// Token is required when CAPTCHA is enabled
 		if ( empty( $token ) ) {
-			error_log( 'CAPTCHA token is missing.' );
 			return false;
 		}
 		
 		$captcha_type = $this->get_captcha_type();
 		$result       = $this->get_captcha_response( $token, $captcha_type );
-		// Check if we got a valid response
 		if ( empty( $result ) ) {
-			error_log( 'CAPTCHA verification response is empty or invalid.' );
 			return false;
 		}
 		
-		// All three services use 'success' field
 		$is_valid = isset( $result['success'] ) && true === $result['success'];
 		
-		// Log error codes if validation fails
-		if ( ! $is_valid && isset( $result['error-codes'] ) ) {
-			error_log( 'CAPTCHA validation failed with errors: ' . wp_json_encode( $result['error-codes'] ) );
-		}
 		return $is_valid;
 	}
 
@@ -1244,7 +1216,7 @@ class AWSM_Job_Openings_Form {
 	 */
 	private function get_client_ip() {
 		$ip_keys = array(
-			'HTTP_CF_CONNECTING_IP', // Cloudflare
+			'HTTP_CF_CONNECTING_IP', 
 			'HTTP_X_FORWARDED_FOR',
 			'HTTP_X_REAL_IP',
 			'REMOTE_ADDR',
@@ -1254,13 +1226,11 @@ class AWSM_Job_Openings_Form {
 			if ( ! empty( $_SERVER[ $key ] ) ) {
 				$ip = sanitize_text_field( wp_unslash( $_SERVER[ $key ] ) );
 				
-				// Handle comma-separated IPs (proxy chains)
 				if ( strpos( $ip, ',' ) !== false ) {
 					$ips = explode( ',', $ip );
 					$ip  = trim( $ips[0] );
 				}
 				
-				// Validate IP
 				if ( filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE ) ) {
 					return $ip;
 				}
@@ -1329,7 +1299,6 @@ class AWSM_Job_Openings_Form {
 			return;
 		}
 		
-		// Get captcha configuration
 		$config = $this::get_captcha_frontend_config();;
 		
 		if ( ! isset( $config[ $captcha_type ] ) || empty( $config[ $captcha_type ]['render'] ) ) {
@@ -1339,10 +1308,8 @@ class AWSM_Job_Openings_Form {
 		
 		$render_config = $config[ $captcha_type ]['render'];
 		
-		// Render the captcha div with data attributes
 		echo '<div class="' . esc_attr( $render_config['class'] ) . '" data-sitekey="' . esc_attr( $site_key ) . '"';
 		
-		// Add any additional data attributes
 		if ( ! empty( $render_config['data_attrs'] ) ) {
 			foreach ( $render_config['data_attrs'] as $attr => $value ) {
 				echo ' data-' . esc_attr( $attr ) . '="' . esc_attr( $value ) . '"';
@@ -1351,7 +1318,6 @@ class AWSM_Job_Openings_Form {
 		
 		echo '></div>';
 		
-		// Render noscript fallback if configured
 		if ( ! empty( $render_config['noscript'] ) ) {
 			$noscript_method = $render_config['noscript'];
 			if ( method_exists( $this, $noscript_method ) ) {
@@ -1452,7 +1418,6 @@ class AWSM_Job_Openings_Form {
 		$config = $this::get_captcha_frontend_config();
 		$patterns = array();
 		
-		// Build patterns from frontend config
 		foreach ( $config as $captcha_type => $captcha_config ) {
 			if ( $captcha_type == 'none' || empty( $captcha_config['conflict'] ) ) {
 				continue;
@@ -1481,7 +1446,6 @@ class AWSM_Job_Openings_Form {
 	private function is_conflicting_captcha_script( $handle, $src ) {
 		$current_captcha = $this->get_captcha_type();
 		
-		// Don't block if no CAPTCHA is enabled
 		if ( empty( $current_captcha ) || 'none' == $current_captcha ) {
 			return false;
 		}
@@ -1489,12 +1453,10 @@ class AWSM_Job_Openings_Form {
 		$patterns = $this->get_conflicting_captcha_patterns();
 		
 		foreach ( $patterns as $captcha_type => $pattern ) {
-			// Skip checking patterns for our own CAPTCHA type
 			if ( $captcha_type == $current_captcha ) {
 				continue;
 			}
 			
-			// Check handle patterns
 			if ( ! empty( $pattern['handles'] ) ) {
 				foreach ( $pattern['handles'] as $pattern_handle ) {
 					if ( false !== stripos( $handle, $pattern_handle ) ) {
@@ -1503,7 +1465,6 @@ class AWSM_Job_Openings_Form {
 				}
 			}
 			
-			// Check URL patterns
 			if ( ! empty( $pattern['urls'] ) && ! empty( $src ) ) {
 				foreach ( $pattern['urls'] as $pattern_url ) {
 					if ( false !== stripos( $src, $pattern_url ) ) {
@@ -1541,12 +1502,6 @@ class AWSM_Job_Openings_Form {
 				wp_dequeue_script( $handle );
 				wp_deregister_script( $handle );
 				$dequeued_scripts[] = $handle;
-				
-				error_log( sprintf( 
-					'[AWSM Jobs] Dequeued conflicting CAPTCHA script: %s (src: %s)', 
-					$handle, 
-					$src 
-				) );
 			}
 		}
 		
@@ -1570,7 +1525,6 @@ class AWSM_Job_Openings_Form {
 			return;
 		}
 		
-		// Hook into script enqueue with high priority to catch other plugins
 		add_action( 'wp_enqueue_scripts', array( $this, 'dequeue_conflicting_captcha_scripts' ), 999 );
 		add_action( 'wp_print_scripts', array( $this, 'dequeue_conflicting_captcha_scripts' ), 999 );
 
