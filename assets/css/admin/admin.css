@@ -2450,6 +2450,8 @@ input.awsm-button:disabled {
   align-items: center;
   gap: 10px;
   cursor: pointer;
+  line-height: 1;
+  margin-bottom: 8px;
 }
 
 /* Hide native checkbox, keep it accessible */
@@ -2562,4 +2564,20 @@ input.awsm-button:disabled {
 .awsm-toggle-control input:disabled + .awsm-toggle-control-icon {
   cursor: not-allowed;
 }
-
+.awsm-recaptcha-type {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px 50px;
+    margin-bottom: 30px;
+	margin-top: 5px;
+}
+.awsm-recaptcha-type label {
+    font-weight: 600;
+}
+.awsm-captcha-key-gen{ 
+	display: flex; 
+	align-items: center; 
+	gap: 20px; 
+	flex-wrap:wrap;
+}
+.awsm-captcha-key-gen .awsm-view-captcha-btn{ margin-left: 0 !important;}
