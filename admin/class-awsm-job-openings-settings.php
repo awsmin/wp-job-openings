@@ -2282,21 +2282,14 @@ class AWSM_Job_Openings_Settings {
 							$val  = isset( $choice['value'] ) ? esc_attr( $choice['value'] ) : '';
 							$text = isset( $choice['text'] ) ? esc_html( $choice['text'] ) : $val;
 							
-							// Check for disabled attribute
-							$disabled = '';
-							if ( isset( $field['attributes']['disabled'] ) ) {
-								$disabled = ' disabled';
-							}
-							
 							echo '<label style="margin-right: 18px;">';
 							printf(
-								'<input type="radio" name="%1$s" id="%1$s-%2$s" value="%2$s" %3$s class="%4$s"%5$s /> %6$s',
+								'<input type="radio" name="%1$s" id="%1$s-%2$s" value="%2$s" %3$s class="%4$s" /> %5$s',
 								esc_attr( $name ),
 								$val,
 								checked( $value, $val, false ),
-								$class,
-								$disabled,
-								$text
+								esc_attr( $class ),
+								esc_html( $text )
 							);
 							echo '</label>';
 						}
