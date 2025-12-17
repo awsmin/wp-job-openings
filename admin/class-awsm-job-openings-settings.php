@@ -306,12 +306,6 @@ class AWSM_Job_Openings_Settings {
 					'callback'    => array( $this, 'sanitize_captcha_provider' ),
 				),
 
-				array(
-					/** @since 4.0.0 */
-					'option_name' => 'awsm_jobs_captcha_fail_messages',
-					'callback'    => array( $this, 'sanitize_captcha_fail_messages' ),
-				),
-
 				// reCAPTCHA
 				array(
 					/** @since 4.0.0 */
@@ -1509,6 +1503,7 @@ class AWSM_Job_Openings_Settings {
 	 *
 	 * @return array Array of option definition arrays, ready to merge into $settings['form'].
 	 */
+
 	private function get_captcha_settings_options() {
 		$options = array();
 
@@ -1518,6 +1513,7 @@ class AWSM_Job_Openings_Settings {
 				continue;
 			}
 
+			// Site Key
 			$site_key_option = self::get_captcha_data( 'field_name', $provider, 'site_key' );
 			$options[]       = array(
 				'option_name' => $site_key_option,
@@ -1526,6 +1522,7 @@ class AWSM_Job_Openings_Settings {
 				},
 			);
 
+			// Secret Key
 			$secret_key_option = self::get_captcha_data( 'field_name', $provider, 'secret_key' );
 			$options[]         = array(
 				'option_name' => $secret_key_option,
@@ -1534,7 +1531,21 @@ class AWSM_Job_Openings_Settings {
 				},
 			);
 
+			// Fail Message (per-provider option)
+			$fail_message_option = "awsm_jobs_{$provider}_fail_message";
+			$options[]           = array(
+				'option_name' => $fail_message_option,
+				'callback'    => function( $input ) use ( $provider ) {
+					return $this->sanitize_captcha_fail_message( $input, $provider );
+				},
+			);
 		}
+
+		// No-Conflict Mode (common option)
+		$options[] = array(
+			'option_name' => 'awsm_jobs_captcha_no_conflict_scripts',
+			'callback'    => array( $this, 'sanitize_captcha_no_conflict_scripts' ),
+		);
 
 		/**
 		 * Allow addons to inject extra CAPTCHA settings options (e.g., score threshold, theme).
@@ -1544,6 +1555,38 @@ class AWSM_Job_Openings_Settings {
 		$options = apply_filters( 'awsm_jobs_captcha_settings_options', $options, $config );
 
 		return $options;
+	}
+	public function sanitize_captcha_fail_message( $input, $provider ) {
+		$option_name      = "awsm_jobs_{$provider}_fail_message";
+		$current_provider = $this->get_current_captcha_provider();
+		
+		// Get old value
+		$old_value = get_option( $option_name, '' );
+		
+		// If empty, return empty string (will use default)
+		if ( empty( $input ) ) {
+			return '';
+		}
+		
+		// Sanitize the input
+		$value = wp_kses_post( trim( $input ) );
+		
+		// Validate only if this is the active provider
+		if ( $provider === $current_provider && strlen( $value ) < 5 ) {
+			add_settings_error(
+				$option_name,
+				'awsm-captcha-fail-message-short',
+				sprintf(
+					/* translators: %s: provider label */
+					esc_html__( 'The %s fail message is too short. Please provide at least 5 characters.', 'wp-job-openings' ),
+					esc_html( self::get_captcha_data( 'config', $provider )['label'] )
+				),
+				'error'
+			);
+			return $old_value;
+		}
+		
+		return $value;
 	}
 
 	public static function get_captcha_data( $type = 'config', $provider = null, $key_type = null ) {
@@ -2067,52 +2110,21 @@ class AWSM_Job_Openings_Settings {
 	}
 
 	/**
-	 * Sanitize fail message - works for all providers with one option
-	 */
-	public function sanitize_captcha_fail_messages( $input ) {
-		$captcha_provider = $this->get_current_captcha_provider();
-
-		$all_messages = get_option( 'awsm_jobs_captcha_fail_messages', array() );
-
-		if ( ! is_array( $all_messages ) ) {
-			$all_messages = array();
-		}
-
-		if ( empty( $input ) ) {
-			unset( $all_messages[ $captcha_provider ] );
-		} else {
-			$value = wp_kses_post( trim( $input ) );
-
-			if ( strlen( $value ) < 5 ) {
-				add_settings_error(
-					'awsm_jobs_captcha_fail_messages',
-					'awsm-captcha-fail-message-short',
-					esc_html__( 'The fail message is too short. Please provide at least 5 characters.', 'wp-job-openings' ),
-					'error'
-				);
-				return $all_messages;
-			}
-
-			$all_messages[ $captcha_provider ] = $value;
-		}
-
-		return $all_messages;
-	}
-
-	/**
 	 * Get fail message for a provider
 	 */
+
 	public function get_captcha_fail_message( $provider = null ) {
 		if ( $provider === null ) {
 			$provider = $this->get_current_captcha_provider();
 		}
 
-		// Get all messages
-		$all_messages = get_option( 'awsm_jobs_captcha_fail_messages', array() );
-
-		// Check if custom message exists for this provider
-		if ( ! empty( $all_messages[ $provider ] ) ) {
-			return $all_messages[ $provider ];
+		// Get the custom message for this provider
+		$option_name    = "awsm_jobs_{$provider}_fail_message";
+		$custom_message = get_option( $option_name, '' );
+		
+		// Return custom message if exists
+		if ( ! empty( $custom_message ) ) {
+			return $custom_message;
 		}
 
 		// Fall back to default from config
@@ -2123,7 +2135,6 @@ class AWSM_Job_Openings_Settings {
 
 		return __( 'CAPTCHA verification failed. Please try again.', 'wp-job-openings' );
 	}
-
 	/**
 	 * Sanitize CAPTCHA provider selection
 	 *
@@ -2174,185 +2185,6 @@ class AWSM_Job_Openings_Settings {
 	 * @param array $fields The settings array, e.g. $settings_fields['recaptcha'].
 	 */
 
-	// public function display_captcha_settings_fields( array $fields ) {
-	// 	foreach ( $fields as $field ) {
-	// 		if ( isset( $field['type'] ) && $field['type'] === 'title' ) {
-	// 			$label = isset( $field['label'] ) ? esc_html( $field['label'] ) : '';
-	// 			echo '<tr class="awsm-settings-row awsm-captcha-title-row">';
-	// 			echo '<th scope="row" colspan="2"><h2>' . $label . '</h2></th>';
-	// 			echo '</tr>';
-	// 			continue;
-	// 		}
-
-	// 		$name        = isset( $field['name'] ) ? esc_attr( $field['name'] ) : '';
-	// 		$label       = isset( $field['label'] ) ? esc_html( $field['label'] ) : '';
-	// 		$type        = isset( $field['type'] ) ? $field['type'] : 'text';
-	// 		$class       = isset( $field['class'] ) ? esc_attr( $field['class'] ) : '';
-	// 		$row_class   = isset( $field['row_class'] ) ? esc_attr( $field['row_class'] ) : '';
-	// 		$description = isset( $field['description'] ) ? wp_kses_post( $field['description'] ) : '';
-	// 		$default     = isset( $field['default_value'] ) ? $field['default_value'] : '';
-	// 		$help_button = isset( $field['help_button'] ) ? $field['help_button'] : false;
-
-	// 		$value = get_option( $name, $default );
-	// 		$row_classes = trim( 'awsm-settings-row ' . $row_class );
-
-	// 		echo '<tr class="' . $row_classes . '">';
-	// 		echo '<th scope="row">';
-	// 		if ( $label ) {
-	// 			echo '<label for="' . esc_attr( $name ) . '">' . $label . '</label>';
-	// 		}
-	// 		echo '</th>';
-	// 		echo '<td>';
-
-	// 		switch ( $type ) {
-	// 			case 'radio':
-	// 				$choices = isset( $field['choices'] ) ? (array) $field['choices'] : [];
-	// 				$captcha_config = self::get_captcha_config();
-					
-	// 				// Check if this is the CAPTCHA provider selection field
-	// 				$is_captcha_provider = ( $name === 'awsm_jobs_enable_recaptcha' );
-					
-	// 				if ( $is_captcha_provider ) {
-	// 					echo '<div class="captcha-wrapper">';
-	// 					foreach ( $choices as $choice ) {
-	// 						$val  = isset( $choice['value'] ) ? esc_attr( $choice['value'] ) : '';
-	// 						$text = isset( $choice['text'] ) ? esc_html( $choice['text'] ) : $val;
-							
-	// 						// Get logo from config if available
-	// 						$logo = '';
-	// 						if ( isset( $captcha_config[ $val ]['logo'] ) && $captcha_config[ $val ]['logo'] ) {
-	// 							$logo_src = esc_attr( $captcha_config[ $val ]['logo'] );
-	// 							$logo = '<img src="' . $logo_src . '" alt="' . esc_attr( $text ) . '">';
-	// 						}
-							
-	// 						$checked = checked( $value, $val, false );
-							
-	// 						echo '<div class="captcha-item">';
-	// 						echo '<label>';
-	// 						echo '<input type="radio" name="' . esc_attr( $name ) . '" value="' . $val . '" ' . $checked . ' class="' . $class . '">';
-	// 						echo '<span>';
-	// 						if ( $logo ) {
-	// 							echo $logo;
-	// 						}
-	// 						echo esc_html( $text );
-	// 						echo '</span>';
-	// 						echo '</label>';
-	// 						echo '</div>';
-	// 					}
-	// 					echo '</div>';
-	// 				} else {
-	// 					// Check if this is the CAPTCHA type selection field
-	// 					$is_captcha_type = ( $name === 'awsm_jobs_recaptcha_type' );
-						
-	// 					if ( $is_captcha_type ) {
-	// 						echo '<div class="awsm-recaptcha-type">';
-	// 					}
-						
-	// 					foreach ( $choices as $choice ) {
-	// 						$val  = isset( $choice['value'] ) ? esc_attr( $choice['value'] ) : '';
-	// 						$text = isset( $choice['text'] ) ? esc_html( $choice['text'] ) : $val;
-							
-	// 						echo '<label>';
-	// 						printf(
-	// 							'<input type="radio" name="%1$s" id="%1$s-%2$s" value="%2$s" %3$s class="%4$s" /> %5$s',
-	// 							esc_attr( $name ),
-	// 							$val,
-	// 							checked( $value, $val, false ),
-	// 							esc_attr( $class ),
-	// 							esc_html( $text )
-	// 						);
-	// 						echo '</label>';
-	// 					}
-						
-	// 					if ( $is_captcha_type ) {
-	// 						echo '</div>';
-	// 					}
-	// 				}
-	// 				break;
-
-	// 			case 'checkbox':
-	// 				$choices = isset( $field['choices'] ) ? (array) $field['choices'] : [];
-	// 				$is_toggle = ! empty( $field['toggle'] ) || count( $choices ) === 1; 
-
-	// 				if ( $is_toggle ) {
-	// 					$choice = reset( $choices ); 
-	// 					$val    = isset( $choice['value'] ) ? esc_attr( $choice['value'] ) : 'on';
-	// 					$text   = isset( $choice['text'] ) ? esc_html( $choice['text'] ) : '';
-	// 					$checked = checked( $value, $val, false );
-
-						
-	// 					printf(
-	// 						'<span class="awsm-setting-field">
-	// 							<span class="awsm-toggle-control">
-	// 								<input type="checkbox" role="switch" aria-checked="%8$s"
-	// 									name="%1$s" id="%1$s" value="%2$s" %3$s class="%4$s" />
-	// 								<label class="awsm-toggle-control-icon" for="%1$s">
-	// 									<span class="awsm-captcha-toggle-slider" aria-hidden="true"></span>
-	// 								</label>
-	// 								<label for="%1$s" class="awsm-toggle-control-status" data-on="%6$s" data-off="%7$s">%7$s</label>
-	// 							</span>
-	// 							<p class="awsm-captcha-toggle-label">%5$s</p>
-	// 						</span>',
-	// 						esc_attr( $name ),
-	// 						$val,
-	// 						$checked,
-	// 						esc_attr( $class ),
-	// 						$text,
-	// 						esc_html__( 'On', 'wp-job-openings' ),
-	// 						esc_html__( 'Off', 'wp-job-openings' ),
-	// 						$checked ? 'true' : 'false'
-	// 					);
-
-	// 				} else {
-	// 					foreach ( $choices as $choice ) {
-	// 						$val  = isset( $choice['value'] ) ? esc_attr( $choice['value'] ) : 'on';
-	// 						$text = isset( $choice['text'] ) ? esc_html( $choice['text'] ) : '';
-	// 						printf(
-	// 							'<label><input type="checkbox" name="%1$s[]" value="%2$s" %3$s class="%4$s" /> %5$s</label>',
-	// 							esc_attr( $name ),
-	// 							$val,
-	// 							checked( is_array( $value ) ? in_array( $val, (array) $value, true ) : $value === $val, true, false ),
-	// 							esc_attr( $class ),
-	// 							$text
-	// 						);
-	// 					}
-	// 				}
-	// 			break;
-
-	// 			case 'text':
-	// 			default:
-	// 				printf(
-	// 					'<input type="text" class="%1$s" id="%2$s" name="%2$s" value="%3$s" />',
-	// 					$class ? esc_attr( $class ) : 'regular-text',
-	// 					esc_attr( $name ),
-	// 					esc_attr( $value )
-	// 				);
-	// 				break;
-	// 		}
-
-	// 		if ( $help_button && isset( $help_button['url'], $help_button['text'] ) ) {
-	// 			$hb_url   = esc_url( $help_button['url'] );
-	// 			$hb_class = isset( $help_button['class'] ) ? esc_attr( $help_button['class'] ) : 'button button-secondary';
-	// 			$hb_text  = esc_html( $help_button['text'] );
-
-	// 			$other   = '';
-	// 			if ( isset( $help_button['other_attrs'] ) && is_array( $help_button['other_attrs'] ) ) {
-	// 				foreach ( $help_button['other_attrs'] as $k => $v ) {
-	// 					$other .= ' ' . esc_attr( $k ) . '="' . esc_attr( $v ) . '"';
-	// 				}
-	// 			}
-
-	// 			echo ' <a href="' . $hb_url . '" class="' . $hb_class . '"' . $other . '>' . $hb_text . '</a>';
-	// 		}
-
-	// 		if ( $description ) {
-	// 			echo '<p class="description">' . $description . '</p>';
-	// 		}
-
-	// 		echo '</td>';
-	// 		echo '</tr>';
-	// 	}
-	// }
 	public function display_captcha_settings_fields( array $fields ) {
 		foreach ( $fields as $field ) {
 			if ( isset( $field['type'] ) && $field['type'] === 'title' ) {
@@ -2560,9 +2392,28 @@ class AWSM_Job_Openings_Settings {
 			echo '</tr>';
 		}
 	}
-	public function sanitize_captcha_no_conflict_scripts( $input ) {
-		$sanitized = ! empty( $input ) ? sanitize_text_field( $input ) : '';
 
-		return ( 'on' === $sanitized ) ? 'on' : '';
+	public function sanitize_captcha_no_conflict_scripts( $input ) {
+		$old_value  = get_option( 'awsm_jobs_captcha_no_conflict_scripts', '' );
+		$new_value  = ! empty( $input ) && 'on' == $input ? 'on' : '';
+		
+		// Add success message if value changed
+		if ( $old_value !== $new_value ) {
+			$status_text = ( 'on' == $new_value ) 
+				? __( 'No-Conflict Mode enabled.', 'wp-job-openings' )
+				: __( 'No-Conflict Mode disabled.', 'wp-job-openings' );
+				
+			add_settings_error(
+				'awsm_jobs_captcha_no_conflict_scripts',
+				'awsm-captcha-no-conflict-updated',
+				$status_text,
+				'success'
+			);
+		}
+		
+		return $new_value;
+	}
+	public function is_no_conflict_mode_enabled() {
+		return 'on' === get_option( 'awsm_jobs_captcha_no_conflict_scripts', '' );
 	}
 }
