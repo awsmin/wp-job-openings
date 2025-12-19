@@ -956,10 +956,9 @@ class AWSM_Job_Openings_Form {
 					'noscript'   => 'render_recaptcha_noscript',
 				),
 				'script'      => array(
-					'handle'    => 'g-recaptcha',
+					'handle'    => 'awsm-jobs-g-recaptcha',
 					'src'       => 'https://www.google.com/recaptcha/api.js',
 					'version'   => '2.0',
-					'deps'      => array(),
 					'in_footer' => false,
 					'strategy'  => 'defer',
 				),
@@ -979,10 +978,9 @@ class AWSM_Job_Openings_Form {
 					'noscript'   => null,
 				),
 				'script'      => array(
-					'handle'    => 'h-captcha',
+					'handle'    => 'awsm-jobs-h-captcha',
 					'src'       => 'https://js.hcaptcha.com/1/api.js',
 					'version'   => null,
-					'deps'      => array(),
 					'in_footer' => false,
 					'strategy'  => 'defer',
 				),
@@ -1002,10 +1000,10 @@ class AWSM_Job_Openings_Form {
 					'noscript'   => null,
 				),
 				'script'      => array(
-					'handle'    => 'cf-turnstile',
+					'handle'    => 'awsm-jobs-cf-turnstile',
 					'src'       => 'https://challenges.cloudflare.com/turnstile/v0/api.js',
 					'version'   => null,
-					'deps'      => array(),
+
 					'in_footer' => false,
 					'strategy'  => 'defer',
 				),
@@ -1097,13 +1095,13 @@ class AWSM_Job_Openings_Form {
 		}
 
 		$script = $config[ $captcha_type ]['script'];
-				$script = apply_filters( 'awsm_jobs_captcha_script_config', $script, $captcha_type );
+			$script = apply_filters( 'awsm_jobs_captcha_script_config', $script, $captcha_type );
 
 		// Enqueue the script with configuration
 		wp_enqueue_script(
 			$script['handle'],
 			$script['src'],
-			$script['deps'],
+			isset( $script['deps'] ) ? $script['deps'] : array(),
 			$script['version'],
 			array(
 				'in_footer' => $script['in_footer'],
@@ -1121,6 +1119,7 @@ class AWSM_Job_Openings_Form {
 		 */
 		do_action( 'awsm_jobs_captcha_scripts_enqueued', $captcha_type, $script );
 	}
+
 	public function get_captcha_response( $token, $captcha_type = '' ) {
 		if ( empty( $captcha_type ) ) {
 			$captcha_type = $this->get_captcha_type();
@@ -1489,114 +1488,79 @@ class AWSM_Job_Openings_Form {
 		return 'on' === $no_conflict;
 	}
 
-	/**
-	 * Get list of known CAPTCHA script handles/URLs to block
-	 *
-	 * @return array Array of patterns to match against script handles and sources
-	 */
-	private function get_conflicting_captcha_patterns() {
-		$config   = $this::get_captcha_frontend_config();
-		$patterns = array();
-
-		foreach ( $config as $captcha_type => $captcha_config ) {
-			if ( $captcha_type == 'none' || empty( $captcha_config['conflict'] ) ) {
-				continue;
-			}
-
-			$patterns[ $captcha_type ] = $captcha_config['conflict'];
-		}
-
-		/**
-		 * Filters the list of conflicting CAPTCHA patterns.
-		 *
-		 * @since 4.0.0
-		 *
-		 * @param array $patterns Array of CAPTCHA patterns to detect conflicts.
-		 */
-		return apply_filters( 'awsm_jobs_conflicting_captcha_patterns', $patterns );
-	}
-
-	/**
-	 * Check if a script handle or source matches conflicting patterns
-	 *
-	 * @param string $handle Script handle
-	 * @param string $src    Script source URL
-	 * @return bool True if script conflicts with our CAPTCHA
-	 */
-	private function is_conflicting_captcha_script( $handle, $src ) {
-		$current_captcha = $this->get_captcha_type();
-
-		if ( empty( $current_captcha ) || 'none' == $current_captcha ) {
-			return false;
-		}
-
-		$patterns = $this->get_conflicting_captcha_patterns();
-
-		foreach ( $patterns as $captcha_type => $pattern ) {
-			if ( $captcha_type == $current_captcha ) {
-				continue;
-			}
-
-			if ( ! empty( $pattern['handles'] ) ) {
-				foreach ( $pattern['handles'] as $pattern_handle ) {
-					if ( false !== stripos( $handle, $pattern_handle ) ) {
-						return true;
-					}
-				}
-			}
-
-			if ( ! empty( $pattern['urls'] ) && ! empty( $src ) ) {
-				foreach ( $pattern['urls'] as $pattern_url ) {
-					if ( false !== stripos( $src, $pattern_url ) ) {
-						return true;
-					}
-				}
-			}
-		}
-
-		return false;
-	}
-
-	/**
-	 * Dequeue conflicting CAPTCHA scripts
-	 *
-	 * @return void
-	 */
 	public function dequeue_conflicting_captcha_scripts() {
-		if ( ! $this->is_no_conflict_mode_enabled() ) {
+		$current_type = $this->get_captcha_type();
+		if (empty($current_type) || $current_type === 'none') {
 			return;
 		}
 
-		global $wp_scripts;
-
-		if ( empty( $wp_scripts->registered ) ) {
+		$config = self::get_captcha_frontend_config();
+		if (empty($config) || !is_array($config)) {
 			return;
 		}
 
-		$dequeued_scripts = array();
+		$conflict_urls = array();
+		foreach ($config as $type => $provider) {
+			if ($type === 'none' || empty($provider['conflict'])) {
+				continue;
+			}
+			if ($type === $current_type) {
+				continue;
+			}
+			if (!empty($provider['conflict']['urls']) && is_array($provider['conflict']['urls'])) {
+				$conflict_urls = array_merge($conflict_urls, $provider['conflict']['urls']);
+			}
+		}
+		$conflict_urls = array_values(array_unique($conflict_urls));
 
-		foreach ( $wp_scripts->registered as $handle => $script ) {
-			$src = isset( $script->src ) ? $script->src : '';
+		$own_handle = !empty($config[$current_type]['script']['handle'])
+			? (string) $config[$current_type]['script']['handle']
+			: null;
 
-			if ( $this->is_conflicting_captcha_script( $handle, $src ) ) {
-				wp_dequeue_script( $handle );
-				wp_deregister_script( $handle );
-				$dequeued_scripts[] = $handle;
+		$own_prefix = 'awsm-jobs'; 
+
+		$scripts = wp_scripts();
+		if (empty($scripts) || empty($scripts->queue)) {
+			return;
+		}
+
+		$dequeued = array();
+
+		foreach ($scripts->queue as $handle) {
+			if (!isset($scripts->registered[$handle])) {
+				continue;
+			}
+
+			$reg = $scripts->registered[$handle];
+
+			if ($own_handle && $handle === $own_handle) {
+				continue;
+			}
+			
+			if (false !== strpos($reg->handle, $own_prefix)) {
+				continue;
+			}
+
+			$src = isset($reg->src) ? (string) $reg->src : '';
+			if ($src === '') {
+				continue;
+			}
+
+			foreach ($conflict_urls as $url) {
+				if ($url !== '' && strpos($src, $url) !== false) {
+					wp_dequeue_script($handle);
+					wp_deregister_script($handle);
+					$dequeued[] = $handle;
+					break;
+				}
 			}
 		}
 
-		/**
-		 * Fires after conflicting CAPTCHA scripts are dequeued.
-		 *
-		 * @since 4.0.0
-		 *
-		 * @param array $dequeued_scripts Array of dequeued script handles.
-		 */
-		do_action( 'awsm_jobs_dequeued_conflicting_scripts', $dequeued_scripts );
+		do_action('awsm_jobs_dequeued_conflicting_scripts', $dequeued);
 	}
+
 	/**
-	 * Initialize no-conflict mode hooks
-	 * Call this method in your class constructor or initialization
+	 * Initialize no-conflict mode hooks (late priority like WPForms).
 	 *
 	 * @return void
 	 */
@@ -1604,10 +1568,9 @@ class AWSM_Job_Openings_Form {
 		if ( ! $this->is_no_conflict_mode_enabled() ) {
 			return;
 		}
-
-		add_action( 'wp_enqueue_scripts', array( $this, 'dequeue_conflicting_captcha_scripts' ), 999 );
-		add_action( 'wp_print_scripts', array( $this, 'dequeue_conflicting_captcha_scripts' ), 999 );
-
+		// Very late priority, so most scripts are already enqueued/queued.
+		add_action('wp_enqueue_scripts', array($this, 'dequeue_conflicting_captcha_scripts'), 9999);
+		add_action('wp_print_scripts', array($this, 'dequeue_conflicting_captcha_scripts'), 9999);
 	}
 
 }

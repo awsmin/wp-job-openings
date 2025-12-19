@@ -1513,7 +1513,6 @@ class AWSM_Job_Openings_Settings {
 				continue;
 			}
 
-			// Site Key
 			$site_key_option = self::get_captcha_data( 'field_name', $provider, 'site_key' );
 			$options[]       = array(
 				'option_name' => $site_key_option,
@@ -1522,7 +1521,6 @@ class AWSM_Job_Openings_Settings {
 				},
 			);
 
-			// Secret Key
 			$secret_key_option = self::get_captcha_data( 'field_name', $provider, 'secret_key' );
 			$options[]         = array(
 				'option_name' => $secret_key_option,
@@ -1531,7 +1529,6 @@ class AWSM_Job_Openings_Settings {
 				},
 			);
 
-			// Fail Message (per-provider option)
 			$fail_message_option = "awsm_jobs_{$provider}_fail_message";
 			$options[]           = array(
 				'option_name' => $fail_message_option,
@@ -1541,7 +1538,6 @@ class AWSM_Job_Openings_Settings {
 			);
 		}
 
-		// No-Conflict Mode (common option)
 		$options[] = array(
 			'option_name' => 'awsm_jobs_captcha_no_conflict_scripts',
 			'callback'    => array( $this, 'sanitize_captcha_no_conflict_scripts' ),
@@ -1560,18 +1556,14 @@ class AWSM_Job_Openings_Settings {
 		$option_name      = "awsm_jobs_{$provider}_fail_message";
 		$current_provider = $this->get_current_captcha_provider();
 		
-		// Get old value
 		$old_value = get_option( $option_name, '' );
 		
-		// If empty, return empty string (will use default)
 		if ( empty( $input ) ) {
 			return '';
 		}
 		
-		// Sanitize the input
 		$value = wp_kses_post( trim( $input ) );
 		
-		// Validate only if this is the active provider
 		if ( $provider === $current_provider && strlen( $value ) < 5 ) {
 			add_settings_error(
 				$option_name,
@@ -1887,8 +1879,6 @@ class AWSM_Job_Openings_Settings {
 
 		return $result;
 	}
-
-
 
 	/**
 	 * Analyze API response to determine key validity.
