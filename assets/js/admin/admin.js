@@ -528,4 +528,22 @@ jQuery(document).ready(function($) {
 			$('#awsm-jobs-setup-btn').prop('disabled', false);
 		});
 	});
+
+	//Captcha type change handler
+	var $container = $('#awsm-recaptcha-form-options-container');
+    var $providerRadios = $container.find('input[name="awsm_jobs_enable_recaptcha"]');
+
+    function refresh() {
+        var selected = $providerRadios.filter(':checked').val() || 'none';
+
+        $container.find('.awsm-captcha-row').addClass('awsm-hide');
+
+        if (selected !== 'none') {
+            $container.find('.awsm-captcha-row-' + selected).removeClass('awsm-hide');
+            $container.find('.awsm-captcha-row-common').removeClass('awsm-hide');
+        }
+    }
+
+    refresh();
+    $providerRadios.on('change', refresh);
 });

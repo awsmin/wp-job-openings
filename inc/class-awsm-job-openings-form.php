@@ -288,41 +288,6 @@ class AWSM_Job_Openings_Form {
 		}
 	}
 
-	public function display_recaptcha_field( $form_attrs ) {
-		if ( $this->is_recaptcha_set() ) :
-			/**
-			 * Filters the reCAPTCHA visibility in the application form.
-			 *
-			 * @since 2.2.0
-			 * @since 2.2.1 The `$form_attrs` parameter was added.
-			 *
-			 * @param bool $is_visible Whether the reCAPTCHA is visible or not in the form.
-			 * @param array $form_attrs Attributes array for the form.
-			 */
-			$is_visible = apply_filters( 'awsm_application_form_is_recaptcha_visible', true, $form_attrs );
-
-			if ( $is_visible ) :
-				$site_key     = get_option( 'awsm_jobs_recaptcha_site_key' );
-				$fallback_url = add_query_arg( 'k', $site_key, 'https://www.google.com/recaptcha/api/fallback' );
-				?>
-				<div class="awsm-job-form-group awsm-job-g-recaptcha-group">
-					<div class="g-recaptcha" data-sitekey="<?php echo esc_attr( $site_key ); ?>"></div>
-					<noscript>
-						<div style="width: 302px; height: 422px; position: relative;">
-							<div style="width: 302px; height: 422px; position: absolute;">
-								<iframe src="<?php echo esc_url( $fallback_url ); ?>" frameborder="0" scrolling="no" style="width: 302px; height:422px; border-style: none;"></iframe>
-							</div>
-							<div style="width: 300px; height: 60px; border-style: none; bottom: 12px; left: 25px; margin: 0px; padding: 0px; right: 25px; background: #f9f9f9; border: 1px solid #c1c1c1; border-radius: 3px;">
-								<textarea id="g-recaptcha-response" name="g-recaptcha-response" class="g-recaptcha-response" style="width: 250px; height: 40px; border: 1px solid #c1c1c1; margin: 10px 25px; padding: 0px; resize: none;" ></textarea>
-							</div>
-						</div>
-					</noscript>
-				</div>
-				<?php
-			endif;
-		endif;
-	}
-
 	public function application_form() {
 		$form_attrs = array(
 			'single_form' => true,
@@ -334,7 +299,7 @@ class AWSM_Job_Openings_Form {
 	public function form_field_init( $form_attrs ) {
 		$this->display_dynamic_fields( $form_attrs );
 		$this->display_gdpr_field( $form_attrs );
-		$this->display_recaptcha_field( $form_attrs );
+		$this->display_captcha_field( $form_attrs );
 	}
 
 	public function check_filetype_and_ext( $wp_filetype, $file, $filename, $mimes, $real_mime = '' ) {
@@ -428,15 +393,8 @@ class AWSM_Job_Openings_Form {
 			$attachment           = isset( $_FILES['awsm_file'] ) ? $_FILES['awsm_file'] : '';
 			$agree_privacy_policy = false;
 			$generic_err_msg      = esc_html__( 'Error in submitting your application. Please refresh the page and retry.', 'wp-job-openings' );
-			if ( $this->is_recaptcha_set() ) {
-				$is_human = false;
-				if ( isset( $_POST['g-recaptcha-response'] ) ) {
-					$is_human = $this->validate_captcha_field( $_POST['g-recaptcha-response'] );
-				}
-				if ( ! $is_human ) {
-					$awsm_response['error'][] = esc_html__( 'Please verify that you are not a robot.', 'wp-job-openings' );
-				}
-			}
+			$awsm_response = $this->validate_captcha_submission( $awsm_response );
+
 			if ( $this->get_gdpr_field_label() !== false ) {
 				if ( ! isset( $_POST['awsm_form_privacy_policy'] ) || $_POST['awsm_form_privacy_policy'] !== 'yes' ) {
 					$awsm_response['error'][] = esc_html__( 'Please agree to our privacy policy.', 'wp-job-openings' );
@@ -584,52 +542,6 @@ class AWSM_Job_Openings_Form {
 		}
 		return $awsm_response;
 		// phpcs:enable
-	}
-
-	public function is_recaptcha_set() {
-		$is_set           = false;
-		$enable_recaptcha = get_option( 'awsm_jobs_enable_recaptcha' );
-		$site_key         = get_option( 'awsm_jobs_recaptcha_site_key' );
-		$secret_key       = get_option( 'awsm_jobs_recaptcha_secret_key' );
-		if ( $enable_recaptcha === 'enable' && ! empty( $site_key ) && ! empty( $secret_key ) ) {
-			$is_set = true;
-		}
-		return $is_set;
-	}
-
-	public function get_recaptcha_response( $token ) {
-		$result     = array();
-		$secret_key = get_option( 'awsm_jobs_recaptcha_secret_key' );
-		$response   = wp_safe_remote_post(
-			'https://www.google.com/recaptcha/api/siteverify',
-			array(
-				'body' => array(
-					'secret'   => $secret_key,
-					'response' => $token,
-					'remoteip' => $_SERVER['REMOTE_ADDR'],
-				),
-			)
-		);
-		if ( ! is_wp_error( $response ) ) {
-			$response_body = wp_remote_retrieve_body( $response );
-			if ( '' !== $response_body ) {
-				if ( wp_remote_retrieve_response_code( $response ) === 200 ) {
-					$result = json_decode( $response_body, true );
-				}
-			}
-		}
-		return $result;
-	}
-
-	public function validate_captcha_field( $token ) {
-		$is_valid = false;
-		if ( ! empty( $token ) ) {
-			$result = $this->get_recaptcha_response( $token );
-			if ( ! empty( $result ) ) {
-				$is_valid = isset( $result['success'] ) && $result['success'] === true;
-			}
-		}
-		return $is_valid;
 	}
 
 	public function ajax_handle() {
@@ -987,5 +899,638 @@ class AWSM_Job_Openings_Form {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Get captcha frontend configuration (render + script)
+	 *
+	 * @return array Captcha frontend configuration array
+	 */
+	public static function get_captcha_frontend_config() {
+		$config = array(
+			'recaptcha' => array(
+				'token_field' => 'g-recaptcha-response',
+				'verify_url'    => 'https://www.google.com/recaptcha/api/siteverify',
+            	'requires_ip'   => true,
+            	'requires_keys' => true,
+				'render'      => array(
+					'class'      => 'g-recaptcha',
+					'data_attrs' => array(),
+					'noscript'   => 'render_recaptcha_noscript',
+				),
+				'script'      => array(
+					'handle'    => 'awsm-jobs-g-recaptcha',
+					'src'       => 'https://www.google.com/recaptcha/api.js',
+					'version'   => '2.0',
+					'in_footer' => false,
+					'strategy'  => 'defer',
+				),
+				'conflict'    => array(
+					'handles' => array( 'recaptcha', 'google-recaptcha', 'g-recaptcha', 'grecaptcha', 'google_recaptcha' ),
+					'urls'    => array( 'google.com/recaptcha', 'www.google.com/recaptcha', 'gstatic.com/recaptcha' ),
+				),
+			),
+			'hcaptcha'  => array(
+				'token_field' => 'h-captcha-response',
+				'verify_url'    => 'https://hcaptcha.com/siteverify',
+            	'requires_ip'   => true,
+            	'requires_keys' => true,
+				'render'      => array(
+					'class'      => 'h-captcha',
+					'data_attrs' => array(),
+					'noscript'   => null,
+				),
+				'script'      => array(
+					'handle'    => 'awsm-jobs-h-captcha',
+					'src'       => 'https://js.hcaptcha.com/1/api.js',
+					'version'   => null,
+					'in_footer' => false,
+					'strategy'  => 'defer',
+				),
+				'conflict'    => array(
+					'handles' => array( 'hcaptcha', 'h-captcha', 'hcaptcha-api', 'hcaptcha_api' ),
+					'urls'    => array( 'hcaptcha.com', 'js.hcaptcha.com' ),
+				),
+			),
+			'turnstile' => array(
+				'token_field' => 'cf-turnstile-response',
+				'verify_url'    => 'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+            	'requires_ip'   => false,
+            	'requires_keys' => true,
+				'render'      => array(
+					'class'      => 'cf-turnstile',
+					'data_attrs' => array(),
+					'noscript'   => null,
+				),
+				'script'      => array(
+					'handle'    => 'awsm-jobs-cf-turnstile',
+					'src'       => 'https://challenges.cloudflare.com/turnstile/v0/api.js',
+					'version'   => null,
+
+					'in_footer' => false,
+					'strategy'  => 'defer',
+				),
+				'conflict'    => array(
+					'handles' => array( 'turnstile', 'cf-turnstile', 'cloudflare-turnstile', 'cloudflare_turnstile' ),
+					'urls'    => array( 'challenges.cloudflare.com/turnstile' ),
+				),
+			),
+			'none'      => array(
+				'token_field' => null,
+				'verify_url'    => null,
+            	'requires_ip'   => false,
+            	'requires_keys' => false,
+				'render'      => null,
+				'script'      => null,
+				'conflict'    => null,
+			),
+		);
+
+		return apply_filters( 'awsm_jobs_captcha_frontend_config', $config );
+	}
+
+	public function get_captcha_type() {
+		return get_option( 'awsm_jobs_enable_recaptcha', 'none' );
+	}
+
+	private function get_captcha_site_key( $captcha_type ) {
+		if ( empty( $captcha_type ) || 'none' === $captcha_type ) {
+			return null;
+		}
+
+		$site_key_option = 'awsm_jobs_' . $captcha_type . '_site_key';
+		return get_option( $site_key_option );
+	}
+
+	private function get_captcha_secret_key( $captcha_type ) {
+		if ( empty( $captcha_type ) || 'none' === $captcha_type ) {
+			return null;
+		}
+
+		$secret_key_option = 'awsm_jobs_' . $captcha_type . '_secret_key';
+		return get_option( $secret_key_option );
+	}
+
+	public function is_captcha_set() {
+		$captcha_type = $this->get_captcha_type();
+		if ( empty( $captcha_type ) || 'none' === $captcha_type ) {
+			return false;
+		}
+
+		$config = $this::get_captcha_frontend_config();
+
+		if ( ! isset( $config[ $captcha_type ] ) ) {
+			return false;
+		}
+
+		if ( empty( $config[ $captcha_type ]['requires_keys'] ) || ! $config[ $captcha_type ]['requires_keys'] ) {
+			return true;
+		}
+
+		$site_key   = $this->get_captcha_site_key( $captcha_type );
+		$secret_key = $this->get_captcha_secret_key( $captcha_type );
+
+		if ( empty( $site_key ) || empty( $secret_key ) ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Enqueue CAPTCHA scripts
+	 */
+	public function enqueue_captcha_scripts() {
+		if ( ! $this->is_captcha_set() ) {
+			return;
+		}
+
+		if ( $this->is_no_conflict_mode_enabled() ) {
+			$this->dequeue_conflicting_captcha_scripts();
+		}
+
+		$captcha_type = $this->get_captcha_type();
+		$config       = $this::get_captcha_frontend_config();
+
+		if ( ! isset( $config[ $captcha_type ] ) || empty( $config[ $captcha_type ]['script'] ) ) {
+			return;
+		}
+
+		$script = $config[ $captcha_type ]['script'];
+			$script = apply_filters( 'awsm_jobs_captcha_script_config', $script, $captcha_type );
+
+		// Enqueue the script with configuration
+		wp_enqueue_script(
+			$script['handle'],
+			$script['src'],
+			isset( $script['deps'] ) ? $script['deps'] : array(),
+			$script['version'],
+			array(
+				'in_footer' => $script['in_footer'],
+				'strategy'  => $script['strategy'],
+			)
+		);
+
+		/**
+		 * Fires after CAPTCHA scripts are enqueued
+		 *
+		 * @since 4.0.0
+		 *
+		 * @param string $captcha_type The type of CAPTCHA being used
+		 * @param array  $script       The script configuration
+		 */
+		do_action( 'awsm_jobs_captcha_scripts_enqueued', $captcha_type, $script );
+	}
+
+	public function get_captcha_response( $token, $captcha_type = '' ) {
+		if ( empty( $captcha_type ) ) {
+			$captcha_type = $this->get_captcha_type();
+		}
+
+		$config = self::get_captcha_frontend_config();
+
+		if ( ! isset( $config[ $captcha_type ] ) ) {
+			return array();
+		}
+
+		if ( empty( $config[ $captcha_type ]['verify_url'] ) ) {
+			return array();
+		}
+
+		$captcha_config = $config[ $captcha_type ];
+		$secret_key     = $this->get_captcha_secret_key( $captcha_type );
+		
+		if ( empty( $secret_key ) ) {
+			return array();
+		}
+
+		$body = array(
+			'secret'   => $secret_key,
+			'response' => $token,
+		);
+
+		if ( ! empty( $captcha_config['requires_ip'] ) ) {
+			$remote_ip = $this->get_client_ip();
+			if ( ! empty( $remote_ip ) ) {
+				$body['remoteip'] = $remote_ip;
+			}
+		}
+
+		/**
+		 * Filter CAPTCHA verification request body.
+		 * 
+		 * Allows adding custom parameters for verification (e.g., custom data).
+		 * 
+		 * @since 4.0.0
+		 * 
+		 * @param array  $body         Request body array.
+		 * @param string $captcha_type CAPTCHA type being verified.
+		 * @param string $token        The response token.
+		 */
+		$body = apply_filters( 'awsm_jobs_captcha_verify_request_body', $body, $captcha_type, $token );
+
+		// Make the verification request
+		$response = wp_safe_remote_post(
+			$captcha_config['verify_url'],
+			array(
+				'body'    => $body,
+				'timeout' => 30,
+			)
+		);
+
+		if ( is_wp_error( $response ) ) {
+			/**
+			 * Fires when CAPTCHA verification request fails.
+			 * 
+			 * @since 4.0.0
+			 * 
+			 * @param WP_Error $response      The error object.
+			 * @param string   $captcha_type  CAPTCHA type.
+			 * @param string   $token         The response token.
+			 */
+			do_action( 'awsm_jobs_captcha_verify_request_error', $response, $captcha_type, $token );
+			return array();
+		}
+
+		$response_code = wp_remote_retrieve_response_code( $response );
+		$response_body = wp_remote_retrieve_body( $response );
+
+		$result = array();
+
+		if ( 200 === $response_code && ! empty( $response_body ) ) {
+			$result = json_decode( $response_body, true );
+
+			if ( json_last_error() !== JSON_ERROR_NONE ) {
+				return array();
+			}
+		}
+
+		/**
+		 * Filter raw CAPTCHA verification response.
+		 * 
+		 * This is the primary hook for custom CAPTCHA validation logic.
+		 * Allows complete control over how responses are processed.
+		 * 
+		 * @since 4.0.0
+		 * 
+		 * @param array  $result       Decoded response array from provider.
+		 * @param string $captcha_type CAPTCHA type being verified.
+		 * @param string $token        The response token.
+		 * @param array  $body         Request body sent to provider.
+		 */
+		return apply_filters( 'awsm_jobs_captcha_verify_response', $result, $captcha_type, $token, $body );
+	}
+	/**
+	 * Validate CAPTCHA token
+	 *
+	 * @param string $token The CAPTCHA response token
+	 * @return bool True if validation passes, false otherwise
+	 */
+	public function validate_captcha_field( $token ) {
+		if ( ! $this->is_captcha_set() ) {
+			return true;
+		}
+
+		if ( empty( $token ) ) {
+			return false;
+		}
+
+		$captcha_type = $this->get_captcha_type();
+		$result       = $this->get_captcha_response( $token, $captcha_type );
+		if ( empty( $result ) ) {
+			return false;
+		}
+
+		$is_valid = isset( $result['success'] ) && true === $result['success'];
+
+		return apply_filters( 'awsm_jobs_captcha_validation_result', $is_valid, $result, $token, $captcha_type );
+	}
+
+	/**
+	 * Get client IP address
+	 *
+	 * @return string The client IP address
+	 */
+	private function get_client_ip() {
+		$ip_keys = array(
+			'HTTP_CF_CONNECTING_IP', 
+			'HTTP_X_FORWARDED_FOR',  
+			'HTTP_X_REAL_IP',        
+			'REMOTE_ADDR',           
+		);
+
+		/**
+		 * Filter IP header priority order.
+		 * 
+		 * @since 3.5.5
+		 * 
+		 * @param array $ip_keys Array of $_SERVER keys to check for IP.
+		 */
+		$ip_keys = apply_filters( 'awsm_jobs_captcha_ip_headers', $ip_keys );
+
+		foreach ( $ip_keys as $key ) {
+			if ( ! empty( $_SERVER[ $key ] ) ) {
+				$ip = sanitize_text_field( wp_unslash( $_SERVER[ $key ] ) );
+
+				if ( strpos( $ip, ',' ) !== false ) {
+					$ips = explode( ',', $ip );
+					$ip  = trim( $ips[0] ); 
+				}
+
+				if ( filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE ) ) {
+					return $ip;
+				}
+			}
+		}
+
+		$fallback_ip = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
+
+		/**
+		 * Filter the detected client IP.
+		 * 
+		 * @since 3.5.5
+		 * 
+		 * @param string $fallback_ip The detected IP address.
+		 */
+		return apply_filters( 'awsm_jobs_captcha_client_ip', $fallback_ip );
+	}
+
+	/**
+	 * Display CAPTCHA field in the application form
+	 *
+	 * @param array $form_attrs Attributes array for the form
+	 * @return void
+	 */
+	public function display_captcha_field( $form_attrs ) {
+		if ( ! $this->is_captcha_set() ) {
+			return;
+		}
+
+		/**
+		 * Filters the CAPTCHA visibility in the application form.
+		 *
+		 * @since 2.2.0
+		 * @since 2.2.1 The `$form_attrs` parameter was added.
+		 *
+		 * @param bool  $is_visible Whether the CAPTCHA is visible or not in the form.
+		 * @param array $form_attrs Attributes array for the form.
+		 */
+		$is_visible = apply_filters( 'awsm_application_form_is_recaptcha_visible', true, $form_attrs );
+
+		if ( ! $is_visible ) {
+			return;
+		}
+
+		$captcha_type = $this->get_captcha_type();
+		$site_key     = $this->get_captcha_site_key( $captcha_type );
+
+		if ( empty( $site_key ) ) {
+			return;
+		}
+
+		?>
+		<div class="awsm-job-form-group awsm-job-captcha-group awsm-job-<?php echo esc_attr( $captcha_type ); ?>-group">
+			<?php $this->render_captcha( $captcha_type, $site_key ); ?>
+		</div>
+		<?php
+	}
+
+
+	private function render_captcha( $captcha_type, $site_key ) {
+		/**
+		 * Allows custom rendering for captcha types.
+		 *
+		 * If a custom renderer returns true, the default rendering will be skipped.
+		 *
+		 * @since 3.5.5
+		 *
+		 * @param bool   $rendered     Whether custom rendering was performed.
+		 * @param string $captcha_type The type of captcha being rendered.
+		 * @param string $site_key     The site key for the captcha.
+		 */
+		$custom_rendered = apply_filters( 'awsm_jobs_render_captcha', false, $captcha_type, $site_key );
+
+		if ( $custom_rendered ) {
+			return;
+		}
+
+		$config = $this::get_captcha_frontend_config();
+
+		if ( ! isset( $config[ $captcha_type ] ) || empty( $config[ $captcha_type ]['render'] ) ) {
+			return;
+		}
+
+		$render_config = $config[ $captcha_type ]['render'];
+
+		echo '<div class="' . esc_attr( $render_config['class'] ) . '" data-sitekey="' . esc_attr( $site_key ) . '"';
+
+		if ( ! empty( $render_config['data_attrs'] ) ) {
+			foreach ( $render_config['data_attrs'] as $attr => $value ) {
+				echo ' data-' . esc_attr( $attr ) . '="' . esc_attr( $value ) . '"';
+			}
+		}
+
+		echo '></div>';
+
+		if ( ! empty( $render_config['noscript'] ) ) {
+			$noscript_method = $render_config['noscript'];
+			if ( method_exists( $this, $noscript_method ) ) {
+				call_user_func( array( $this, $noscript_method ), $site_key );
+			}
+		}
+	}
+
+	/**
+	 * Render reCAPTCHA noscript fallback
+	 *
+	 * @param string $site_key The site key for reCAPTCHA
+	 * @return void
+	 */
+	private function render_recaptcha_noscript( $site_key ) {
+		$fallback_url = add_query_arg( 'k', $site_key, 'https://www.google.com/recaptcha/api/fallback' );
+		?>
+		<noscript>
+			<div style="width: 302px; height: 422px; position: relative;">
+				<div style="width: 302px; height: 422px; position: absolute;">
+					<iframe src="<?php echo esc_url( $fallback_url ); ?>" frameborder="0" scrolling="no" style="width: 302px; height:422px; border-style: none;"></iframe>
+				</div>
+				<div style="width: 300px; height: 60px; border-style: none; bottom: 12px; left: 25px; margin: 0px; padding: 0px; right: 25px; background: #f9f9f9; border: 1px solid #c1c1c1; border-radius: 3px;">
+					<textarea id="g-recaptcha-response" name="g-recaptcha-response" class="g-recaptcha-response" style="width: 250px; height: 40px; border: 1px solid #c1c1c1; margin: 10px 25px; padding: 0px; resize: none;"></textarea>
+				</div>
+			</div>
+		</noscript>
+		<?php
+	}
+
+	/**
+	 * Get CAPTCHA response token from POST data
+	 *
+	 * @return string The CAPTCHA response token
+	 */
+	public function get_captcha_token_from_post() {
+		$captcha_type = $this->get_captcha_type();
+		$config       = self::get_captcha_frontend_config();
+
+		$token_field = isset( $config[ $captcha_type ]['token_field'] )
+			? $config[ $captcha_type ]['token_field']
+			: '';
+
+		$token = '';
+		if ( $token_field && isset( $_POST[ $token_field ] ) ) {
+			$token = sanitize_text_field( wp_unslash( $_POST[ $token_field ] ) );
+		}
+
+		return $token;
+	}
+
+	/**
+	 * Validate CAPTCHA in application form submission
+	 *
+	 * @param array $awsm_response Response array to add errors to
+	 * @return array Modified response array
+	 */
+	public function validate_captcha_submission( $awsm_response ) {
+		if ( ! $this->is_captcha_set() ) {
+			return $awsm_response;
+		}
+
+		$is_human     = false;
+		$captcha_type = $this->get_captcha_type();
+		$token        = $this->get_captcha_token_from_post();
+		$result = array();
+		if ( ! empty( $token ) ) {
+			$result   = $this->get_captcha_response( $token, $captcha_type );
+			$is_human = ( ! empty( $result ) && ! empty( $result['success'] ) );
+		}
+
+		if ( ! $is_human ) {
+			$option_name    = "awsm_jobs_{$captcha_type}_fail_message";
+			$saved_message  = get_option( $option_name, '' );
+
+			$default_message = __( 'CAPTCHA verification failed. Please try again.', 'wp-job-openings' );
+
+			$message = ! empty( $saved_message ) ? $saved_message : $default_message ;
+
+			$error_codes = isset( $result['error-codes'] ) ? (array) $result['error-codes'] : array();
+
+			/**
+			 * Allow final customization of the fail message shown to applicants.
+			 *
+			 * @param string $message      The message that will be displayed.
+			 * @param string $captcha_type Current provider key (recaptcha|hcaptcha|turnstile|...).
+			 * @param array  $error_codes  Provider-specific error codes (if any).
+			 * @param array  $result       Raw verification response array.
+			 */
+			$message = apply_filters( 'awsm_jobs_captcha_fail_message', $message, $captcha_type, $error_codes, $result );
+
+			$awsm_response['error'][] = wp_kses_post( $message );
+
+			/**
+			 * Action: fired when CAPTCHA verification fails.
+			 *
+			 * @param string $captcha_type
+			 * @param array  $error_codes
+			 * @param string $token
+			 * @param array  $result
+			 */
+			do_action( 'awsm_jobs_captcha_failed', $captcha_type, $error_codes, $token, $result );
+		}
+
+		return $awsm_response;
+	}
+
+
+	/**
+	 * Check if no-conflict mode is enabled
+	 *
+	 * @return bool True if no-conflict mode is enabled
+	 */
+	private function is_no_conflict_mode_enabled() {
+		$no_conflict = get_option( 'awsm_jobs_captcha_no_conflict_scripts', '' );
+		return 'on' === $no_conflict;
+	}
+
+	public function dequeue_conflicting_captcha_scripts() {
+		$current_type = $this->get_captcha_type();
+		if (empty($current_type) || $current_type === 'none') {
+			return;
+		}
+
+		$config = self::get_captcha_frontend_config();
+		if (empty($config) || !is_array($config)) {
+			return;
+		}
+
+		$conflict_urls = array();
+		foreach ($config as $type => $provider) {
+			if ($type === 'none' || empty($provider['conflict'])) {
+				continue;
+			}
+			if ($type === $current_type) {
+				continue;
+			}
+			if (!empty($provider['conflict']['urls']) && is_array($provider['conflict']['urls'])) {
+				$conflict_urls = array_merge($conflict_urls, $provider['conflict']['urls']);
+			}
+		}
+		$conflict_urls = array_values(array_unique($conflict_urls));
+
+		$own_handle = !empty($config[$current_type]['script']['handle'])
+			? (string) $config[$current_type]['script']['handle']
+			: null;
+
+		$own_prefix = 'awsm-jobs'; 
+
+		$scripts = wp_scripts();
+		if (empty($scripts) || empty($scripts->queue)) {
+			return;
+		}
+
+		$dequeued = array();
+
+		foreach ($scripts->queue as $handle) {
+			if (!isset($scripts->registered[$handle])) {
+				continue;
+			}
+
+			$reg = $scripts->registered[$handle];
+
+			if ($own_handle && $handle === $own_handle) {
+				continue;
+			}
+			
+			if (false !== strpos($reg->handle, $own_prefix)) {
+				continue;
+			}
+
+			$src = isset($reg->src) ? (string) $reg->src : '';
+			if ($src === '') {
+				continue;
+			}
+
+			foreach ($conflict_urls as $url) {
+				if ($url !== '' && strpos($src, $url) !== false) {
+					wp_dequeue_script($handle);
+					wp_deregister_script($handle);
+					$dequeued[] = $handle;
+					break;
+				}
+			}
+		}
+
+		do_action('awsm_jobs_dequeued_conflicting_scripts', $dequeued);
+	}
+
+	/**
+	 * Initialize no-conflict mode hooks (late priority like WPForms).
+	 *
+	 * @return void
+	 */
+	public function init_no_conflict_mode() {
+		if ( ! $this->is_no_conflict_mode_enabled() ) {
+			return;
+		}
+		add_action('wp_enqueue_scripts', array($this, 'dequeue_conflicting_captcha_scripts'), 9999);
+		add_action('wp_print_scripts', array($this, 'dequeue_conflicting_captcha_scripts'), 9999);
 	}
 }
