@@ -1467,6 +1467,9 @@ class AWSM_Job_Openings_Settings {
 				if ( empty( $provider_config['label'] ) ) {
 					return '';
 				}
+				if ( $provider === 'recaptcha' && ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) {
+                	return __( 'Get reCAPTCHA v2 keys', 'wp-job-openings' );
+            	}
 				return sprintf( __( 'Get %s keys', 'wp-job-openings' ), $provider_config['label'] );
 
 			case 'fail_message':
@@ -1853,7 +1856,6 @@ class AWSM_Job_Openings_Settings {
 
 		if ( empty( $input ) || ! is_string( $input ) ) {
 			$message = sprintf(
-				/* translators: 1: service name, 2: key label */
 				esc_html__( '%1$s is enabled. Please provide a valid %2$s.', 'wp-job-openings' ),
 				esc_html( $service_name ),
 				esc_html( $key_label )
@@ -1861,7 +1863,21 @@ class AWSM_Job_Openings_Settings {
 
 			do_action( 'awsm_jobs_captcha_validate_error', 'empty', $message, $option_name, $provider, $key_type );
 
-			add_settings_error( $option_name, "{$option_name}-empty", $message, 'error' );
+			$error_code = "{$option_name}-empty-{$key_type}";
+			
+			$existing_errors = get_settings_errors( $option_name );
+			$error_exists = false;
+			foreach ( $existing_errors as $error ) {
+				if ( $error['code'] === $error_code ) {
+					$error_exists = true;
+					break;
+				}
+			}
+			
+			if ( ! $error_exists ) {
+				add_settings_error( $option_name, $error_code, $message, 'error' );
+			}
+			
 			return $old_value;
 		}
 
@@ -1996,26 +2012,41 @@ class AWSM_Job_Openings_Settings {
 		$provider_config = $config[ $new_provider ];
 
 		if ( $provider_config['requires_keys'] && $new_provider !== $old_value ) {
-			$site_key   = get_option( 'awsm_jobs_recaptcha_site_key', '' );
-			$secret_key = get_option( 'awsm_jobs_recaptcha_secret_key', '' );
+			// Get the field names for this provider
+			$site_key_field   = self::get_captcha_data( 'field_name', $new_provider, 'site_key' );
+			$secret_key_field = self::get_captcha_data( 'field_name', $new_provider, 'secret_key' );
+			
+			// Check if keys are being submitted in the current POST request
+			$site_key   = isset( $_POST[ $site_key_field ] ) 
+				? sanitize_text_field( $_POST[ $site_key_field ] )
+				: get_option( $site_key_field, '' );
+				
+			$secret_key = isset( $_POST[ $secret_key_field ] )
+				? sanitize_text_field( $_POST[ $secret_key_field ] )
+				: get_option( $secret_key_field, '' );
 
 			if ( empty( $site_key ) || empty( $secret_key ) ) {
-				add_settings_error(
-					'awsm_jobs_enable_recaptcha',
-					'awsm-captcha-keys-required',
-					sprintf(
-						/* translators: %s: CAPTCHA service name */
-						esc_html__( 'You have selected %s. Please configure the Site Key and Secret Key below.', 'wp-job-openings' ),
-						esc_html( $provider_config['label'] )
-					),
-					'warning'
-				);
+				$transient_key = 'awsm_captcha_keys_warning_shown_' . get_current_user_id();
+				
+				if ( false === get_transient( $transient_key ) ) {
+					add_settings_error(
+						'awsm_jobs_enable_recaptcha',
+						'awsm-captcha-keys-required',
+						sprintf(
+							/* translators: %s: CAPTCHA service name */
+							esc_html__( 'You have selected %s. Please configure the Site Key and Secret Key below.', 'wp-job-openings' ),
+							esc_html( $provider_config['label'] )
+						),
+						'warning'
+					);
+					
+					set_transient( $transient_key, true, 10 );
+				}
 			}
 		}
 
 		return $new_provider;
 	}
-
 	/**
 	 * Render only the CAPTCHA settings fields with proper <tr> row_class support.
 	 *
@@ -2201,9 +2232,9 @@ class AWSM_Job_Openings_Settings {
 			}
 
 			if ( $help_button && isset( $help_button['url'], $help_button['text'] ) ) {
-				$hb_url   = esc_url( $help_button['url'] );
-				$hb_class = isset( $help_button['class'] ) ? esc_attr( $help_button['class'] ) : 'button button-secondary';
-				$hb_text  = esc_html( $help_button['text'] );
+				$awsm_help_button_url   = esc_url( $help_button['url'] );
+				$awsm_help_button_class = isset( $help_button['class'] ) ? esc_attr( $help_button['class'] ) : 'button button-secondary';
+				$awsm_help_button_text  = esc_html( $help_button['text'] );
 
 				$other = '';
 				if ( isset( $help_button['other_attrs'] ) && is_array( $help_button['other_attrs'] ) ) {
@@ -2212,7 +2243,7 @@ class AWSM_Job_Openings_Settings {
 					}
 				}
 
-				echo ' <a href="' . $hb_url . '" class="' . $hb_class . '"' . $other . '>' . $hb_text . '</a>';
+				echo ' <a href="' . $awsm_help_button_url . '" class="' . $awsm_help_button_class . '"' . $other . '>' . $awsm_help_button_text . '</a>';
 			}
 
 			if ( $description ) {

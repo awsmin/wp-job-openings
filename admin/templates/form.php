@@ -97,6 +97,7 @@ if ( ! empty( $upload_file_extns ) ) {
 					'class' => 'medium-text',
 				),
 			),
+			
 			'recaptcha' => AWSM_Job_Openings_Settings::get_captcha_settings_fields(),
 		)
 	);
