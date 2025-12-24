@@ -1948,17 +1948,36 @@ class AWSM_Job_Openings_Settings {
 					);
 					return $old_value;
 				}
-
-				add_settings_error(
-					$option_name,
-					"{$option_name}-verified",
-					sprintf(
-						/* translators: %s: service name */
-						esc_html__( '%s keys verified successfully!', 'wp-job-openings' ),
-						esc_html( $service_name )
-					),
-					'success'
-				);
+				
+				if ( $value !== $old_value || '' === $old_value ) {
+					$success_code = "{$option_name}-verified";
+					$existing_messages = get_settings_errors( $option_name );
+					$success_exists = false;
+					
+					foreach ( $existing_messages as $message ) {
+						if ( $message['code'] === $success_code ) {
+							$success_exists = true;
+							break;
+						}
+					}
+					
+					$transient_key = 'awsm_captcha_success_' . md5( $option_name . $value );
+					$already_shown = get_transient( $transient_key );
+					
+					if ( ! $success_exists && ! $already_shown ) {
+						add_settings_error(
+							$option_name,
+							$success_code,
+							sprintf(
+								esc_html__( '%s keys verified successfully!', 'wp-job-openings' ),
+								esc_html( $service_name )
+							),
+							'success'
+						);
+						
+						set_transient( $transient_key, true, 5 );
+					}
+				}
 			}
 		}
 
@@ -2012,11 +2031,9 @@ class AWSM_Job_Openings_Settings {
 		$provider_config = $config[ $new_provider ];
 
 		if ( $provider_config['requires_keys'] && $new_provider !== $old_value ) {
-			// Get the field names for this provider
 			$site_key_field   = self::get_captcha_data( 'field_name', $new_provider, 'site_key' );
 			$secret_key_field = self::get_captcha_data( 'field_name', $new_provider, 'secret_key' );
 
-			// Check if keys are being submitted in the current POST request
 			$site_key = isset( $_POST[ $site_key_field ] )
 				? sanitize_text_field( $_POST[ $site_key_field ] )
 				: get_option( $site_key_field, '' );
@@ -2026,8 +2043,9 @@ class AWSM_Job_Openings_Settings {
 				: get_option( $secret_key_field, '' );
 
 			if ( empty( $site_key ) || empty( $secret_key ) ) {
-				$transient_key = 'awsm_captcha_keys_warning_shown_' . get_current_user_id();
+				$transient_key = 'awsm_captcha_keys_warning_' . md5( $new_provider );
 
+				// FIX: Check if we've already shown this in the current request
 				if ( false === get_transient( $transient_key ) ) {
 					add_settings_error(
 						'awsm_jobs_enable_recaptcha',
@@ -2040,7 +2058,8 @@ class AWSM_Job_Openings_Settings {
 						'warning'
 					);
 
-					set_transient( $transient_key, true, 10 );
+					// FIX: Reduced expiration to 5 seconds
+					set_transient( $transient_key, true, 5 );
 				}
 			}
 		}
