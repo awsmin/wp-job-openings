@@ -1412,7 +1412,22 @@ class AWSM_Job_Openings_Settings {
 		$option_name      = "awsm_jobs_{$provider}_fail_message";
 		$current_provider = $this->get_current_captcha_provider();
 
-		$old_value = get_option( $option_name, '' );
+		if ( empty( $input ) && $provider === $current_provider ) {
+			$default_message = self::get_captcha_data( 'fail_message', $provider );
+			
+			add_settings_error(
+				$option_name,
+				'awsm-captcha-fail-message-empty',
+				sprintf(
+					/* translators: %s: provider label */
+					esc_html__( 'The %s fail message cannot be empty. Default message has been restored.', 'wp-job-openings' ),
+					esc_html( self::get_captcha_data( 'config', $provider )['label'] )
+				),
+				'warning'
+			);
+			
+			return $default_message;
+		}
 
 		if ( empty( $input ) ) {
 			return '';
@@ -1421,6 +1436,8 @@ class AWSM_Job_Openings_Settings {
 		$value = wp_kses_post( trim( $input ) );
 
 		if ( $provider === $current_provider && strlen( $value ) < 5 ) {
+			$old_value = get_option( $option_name, '' );
+			
 			add_settings_error(
 				$option_name,
 				'awsm-captcha-fail-message-short',
@@ -1431,7 +1448,8 @@ class AWSM_Job_Openings_Settings {
 				),
 				'error'
 			);
-			return $old_value;
+			
+			return ! empty( $old_value ) ? $old_value : self::get_captcha_data( 'fail_message', $provider );
 		}
 
 		return $value;
