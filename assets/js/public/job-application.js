@@ -14,7 +14,8 @@ jQuery(document).ready(function($) {
 		});
 	}
 
-	// ========== Job Application Form ==========
+	// // ========== Job Application Form ==========
+
 	var $applicationForm = $('.awsm-application-form');
 
 	awsmJobs.submitApplication = function($form, data) {
@@ -26,13 +27,13 @@ jQuery(document).ready(function($) {
 		var successClass = 'awsm-success-message';
 		var errorClass = 'awsm-error-message';
 
-		// Hide all the form submission messages.
 		$('.awsm-application-message').hide();
 
 		var form = $form[0];
 		var fileCheck = true;
 		var $fileControl = $form.find('.awsm-form-file-control');
 		var maxSize = awsmJobsPublic.wp_max_upload_size;
+		
 		if ($fileControl.length > 0) {
 			$fileControl.each(function() {
 				var $fileField = $(this);
@@ -42,77 +43,118 @@ jQuery(document).ready(function($) {
 				}
 			});
 		}
+		
 		if (fileCheck === false) {
 			$applicationMessage
 				.addClass(errorClass)
 				.html(awsmJobsPublic.i18n.form_error_msg.file_validation)
 				.fadeIn();
-		} else {
-			$applicationMessage
-				.removeClass(successClass + ' ' + errorClass)
-				.hide();
-			$submitBtn.prop('disabled', true).val(submitBtnResText).addClass('awsm-application-submit-btn-disabled');
-
-			var formData = new FormData(form);
-			if ('fields' in data && Array.isArray(data.fields)) {
-				$.each(data.fields, function(index, field) {
-					if ('name' in field && 'value' in field) {
-						formData.append(field.name, field.value);
-					}
-				});
-			}
-
-			$.ajax({
-					url: awsmJobsPublic.ajaxurl,
-					cache: false,
-					contentType: false,
-					processData: false,
-					data: formData,
-					dataType: 'json',
-					type: 'POST'
-				})
-				.done(function(response) {
-					if (response) {
-						var className = 'awsm-default-message';
-						var msg = '';
-						var msgArray = [];
-						if (response.error.length > 0) {
-							className = errorClass;
-							msgArray = response.error;
-							$form.trigger('awsmjobs_application_failed', [ response ]);
-						} else {
-							if (response.success.length > 0) {
-								$form[0].reset();
-								$form.find('select.awsm-job-form-field').selectric('refresh');
-								className = successClass;
-								msgArray = response.success;
-								$form.trigger('awsmjobs_application_submitted', [ response ]);
-							}
-						}
-						$(msgArray).each(function(index, value) {
-							msg += '<p>' + value + '</p>';
-						});
-						$applicationMessage
-							.addClass(className)
-							.html(msg)
-							.fadeIn();
-					}
-				})
-				.fail(function(xhr) {
-					$applicationMessage
-						.addClass(errorClass)
-						.html(awsmJobsPublic.i18n.form_error_msg.general)
-						.fadeIn();
-					// eslint-disable-next-line no-console
-					console.log(xhr);
-				})
-				.always(function() {
-					$submitBtn.prop('disabled', false).val(submitBtnText).removeClass('awsm-application-submit-btn-disabled');
-					if (typeof grecaptcha !== 'undefined') {
-						grecaptcha.reset();
-					}
-				});
+			return;
 		}
+
+		$applicationMessage
+			.removeClass(successClass + ' ' + errorClass)
+			.hide();
+		$submitBtn.prop('disabled', true).val(submitBtnResText).addClass('awsm-application-submit-btn-disabled');
+
+		var formData = new FormData(form);
+		if ('fields' in data && Array.isArray(data.fields)) {
+			$.each(data.fields, function(index, field) {
+				if ('name' in field && 'value' in field) {
+					formData.append(field.name, field.value);
+				}
+			});
+		}
+
+		$.ajax({
+			url: awsmJobsPublic.ajaxurl,
+			cache: false,
+			contentType: false,
+			processData: false,
+			data: formData,
+			dataType: 'json',
+			type: 'POST'
+		})
+		.done(function(response) {
+			if (response) {
+				var className = 'awsm-default-message';
+				var msg = '';
+				var msgArray = [];
+				if (response.error.length > 0) {
+					className = errorClass;
+					msgArray = response.error;
+					$form.trigger('awsmjobs_application_failed', [ response ]);
+				} else {
+					if (response.success.length > 0) {
+						$form[0].reset();
+						$form.find('select.awsm-job-form-field').selectric('refresh');
+						className = successClass;
+						msgArray = response.success;
+						$form.trigger('awsmjobs_application_submitted', [ response ]);
+					}
+				}
+				$(msgArray).each(function(index, value) {
+					msg += '<p>' + value + '</p>';
+				});
+				$applicationMessage
+					.addClass(className)
+					.html(msg)
+					.fadeIn();
+			}
+		})
+		.fail(function(xhr) {
+			$applicationMessage
+				.addClass(errorClass)
+				.html(awsmJobsPublic.i18n.form_error_msg.general)
+				.fadeIn();
+			console.log(xhr);
+		})
+		.always(function() {
+			$submitBtn.prop('disabled', false).val(submitBtnText).removeClass('awsm-application-submit-btn-disabled');
+			if (typeof grecaptcha !== 'undefined' && typeof grecaptcha.reset === 'function') {
+				try {
+					grecaptcha.reset();
+				} catch(e) {
+					
+				}
+			}
+		});
+	};
+
+	awsmJobs.executeRecaptcha = function($form) {
+		var $applicationMessage = $form.parents('.awsm-job-form-inner').find('.awsm-application-message');
+		
+		if (typeof awsmJobsRecaptcha === 'undefined' || typeof grecaptcha === 'undefined') {
+			awsmJobs.submitApplication($form);
+			return;
+		}
+
+		var siteKey = awsmJobsRecaptcha.site_key;
+		var action = awsmJobsRecaptcha.action;
+
+		grecaptcha.ready(function() {
+			grecaptcha.execute(siteKey, { action: action }).then(function(token) {
+				var $tokenField = $form.find('input[name="g-recaptcha-response"]');
+				if ($tokenField.length === 0) {
+					$form.append('<input type="hidden" name="g-recaptcha-response" value="">');
+					$tokenField = $form.find('input[name="g-recaptcha-response"]');
+				}
+				$tokenField.val(token);
+				
+				awsmJobs.submitApplication($form);
+			}).catch(function(error) {
+				console.error('reCAPTCHA error:', error);
+				$applicationMessage
+					.addClass('awsm-error-message')
+					.html('<p>reCAPTCHA verification failed. Please refresh the page and try again.</p>')
+					.fadeIn();
+				
+				// Re-enable submit button
+				var $submitBtn = $form.find('.awsm-application-submit-btn');
+				var submitBtnText = $submitBtn.data('originalText') || $submitBtn.val();
+				$submitBtn.prop('disabled', false).val(submitBtnText).removeClass('awsm-application-submit-btn-disabled');
+			});
+		});
 	};
 
 	var enableValidation = 'jquery_validation' in awsmJobsPublic.vendors && awsmJobsPublic.vendors.jquery_validation;
@@ -134,13 +176,20 @@ jQuery(document).ready(function($) {
 		event.preventDefault();
 		var $form = $(this);
 		var proceed = true;
+		
 		if (enableValidation) {
 			proceed = $form.valid();
 		}
+		
 		if (proceed) {
-			awsmJobs.submitApplication($form);
+			if (typeof awsmJobsRecaptcha !== 'undefined') {
+				awsmJobs.executeRecaptcha($form);
+			} else {
+				awsmJobs.submitApplication($form);
+			}
 		}
 	});
+
 
 	// Job Application Form - In-App Browsers support.
 	if ($('.awsm-application-form .awsm-form-file-control').length  > 0) {

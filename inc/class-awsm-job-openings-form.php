@@ -1036,7 +1036,6 @@ class AWSM_Job_Openings_Form {
 
 		return true;
 	}
-
 	/**
 	 * Enqueue CAPTCHA scripts
 	 */
@@ -1056,10 +1055,52 @@ class AWSM_Job_Openings_Form {
 			return;
 		}
 
-		$script     = $config[ $captcha_type ]['script'];
-			$script = apply_filters( 'awsm_jobs_captcha_script_config', $script, $captcha_type );
+		$script = $config[ $captcha_type ]['script'];
 
-		// Enqueue the script with configuration
+		if ( 'recaptcha' === $captcha_type ) {
+			$recaptcha_type = $this->get_recaptcha_type();
+
+			if ( 'v3' === $recaptcha_type || 'v2_invisible' === $recaptcha_type ) {
+				$site_key = $this->get_captcha_site_key( $captcha_type );
+
+				if ( ! empty( $site_key ) ) {
+					$recaptcha_api_url = "https://www.google.com/recaptcha/api.js?render={$site_key}";
+
+					wp_dequeue_script( 'awsm-jobs-g-recaptcha' );
+					wp_deregister_script( 'awsm-jobs-g-recaptcha' );
+
+					wp_enqueue_script(
+						'awsm-jobs-g-recaptcha',
+						esc_url( $recaptcha_api_url ),
+						array(),
+						'3.0',
+						array(
+							'in_footer' => false,
+							'strategy'  => 'defer',
+						)
+					);
+
+					$inline_script = sprintf(
+						'var awsmJobsRecaptcha = %s;',
+						wp_json_encode(
+							array(
+								'site_key' => $site_key,
+								'action'   => 'applicationform',
+								'type'     => $recaptcha_type,
+							)
+						)
+					);
+					wp_add_inline_script( 'awsm-jobs-g-recaptcha', $inline_script, 'after' );
+
+					do_action( 'awsm_jobs_captcha_scripts_enqueued', $captcha_type, $script );
+
+					return;
+				}
+			}
+		}
+
+		$script = apply_filters( 'awsm_jobs_captcha_script_config', $script, $captcha_type );
+
 		wp_enqueue_script(
 			$script['handle'],
 			$script['src'],
@@ -1071,16 +1112,9 @@ class AWSM_Job_Openings_Form {
 			)
 		);
 
-		/**
-		 * Fires after CAPTCHA scripts are enqueued
-		 *
-		 * @since 4.0.0
-		 *
-		 * @param string $captcha_type The type of CAPTCHA being used
-		 * @param array  $script       The script configuration
-		 */
 		do_action( 'awsm_jobs_captcha_scripts_enqueued', $captcha_type, $script );
 	}
+
 
 	public function get_captcha_response( $token, $captcha_type = '' ) {
 		if ( empty( $captcha_type ) ) {
@@ -1261,10 +1295,27 @@ class AWSM_Job_Openings_Form {
 	 * @param array $form_attrs Attributes array for the form
 	 * @return void
 	 */
+	public function get_recaptcha_type() {
+		$type = get_option( 'awsm_jobs_recaptcha_type', 'v2' );
+		if ( empty( $type ) ) {
+			$type = 'v2';
+		}
+		return $type;
+	}
+
+	public function is_recaptcha_visible( $is_visible ) {
+		if ( $this->get_recaptcha_type() === 'v3' || $this->get_recaptcha_type() === 'v2_invisible' ) {
+			$is_visible = false;
+		}
+		return $is_visible;
+	}
+
 	public function display_captcha_field( $form_attrs ) {
 		if ( ! $this->is_captcha_set() ) {
 			return;
 		}
+
+		$is_visible = $this->is_recaptcha_visible( true );
 
 		/**
 		 * Filters the CAPTCHA visibility in the application form.
@@ -1275,7 +1326,7 @@ class AWSM_Job_Openings_Form {
 		 * @param bool  $is_visible Whether the CAPTCHA is visible or not in the form.
 		 * @param array $form_attrs Attributes array for the form.
 		 */
-		$is_visible = apply_filters( 'awsm_application_form_is_recaptcha_visible', true, $form_attrs );
+		$is_visible = apply_filters( 'awsm_application_form_is_recaptcha_visible', $is_visible, $form_attrs );
 
 		if ( ! $is_visible ) {
 			return;
@@ -1361,6 +1412,7 @@ class AWSM_Job_Openings_Form {
 		</noscript>
 		<?php
 	}
+
 
 	/**
 	 * Get CAPTCHA response token from POST data

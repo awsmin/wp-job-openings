@@ -1389,6 +1389,11 @@ class AWSM_Job_Openings_Settings {
 		}
 
 		$options[] = array(
+			'option_name' => 'awsm_jobs_recaptcha_type',
+			'callback'    => array( $this, 'sanitize_recaptcha_type' ),
+		);
+
+		$options[] = array(
 			'option_name' => 'awsm_jobs_captcha_no_conflict_scripts',
 			'callback'    => array( $this, 'sanitize_captcha_no_conflict_scripts' ),
 		);
@@ -1402,6 +1407,7 @@ class AWSM_Job_Openings_Settings {
 
 		return $options;
 	}
+
 	public function sanitize_captcha_fail_message( $input, $provider ) {
 		$option_name      = "awsm_jobs_{$provider}_fail_message";
 		$current_provider = $this->get_current_captcha_provider();
@@ -1467,9 +1473,6 @@ class AWSM_Job_Openings_Settings {
 				if ( empty( $provider_config['label'] ) ) {
 					return '';
 				}
-				if ( $provider === 'recaptcha' && ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) {
-					return __( 'Get reCAPTCHA v2 keys', 'wp-job-openings' );
-				}
 				return sprintf( __( 'Get %s keys', 'wp-job-openings' ), $provider_config['label'] );
 
 			case 'fail_message':
@@ -1516,6 +1519,45 @@ class AWSM_Job_Openings_Settings {
 		foreach ( $config as $provider => $provider_config ) {
 			if ( $provider === 'none' ) {
 				continue;
+			}
+
+			// Add reCAPTCHA type selection field (only for reCAPTCHA provider)
+			if ( $provider === 'recaptcha' ) {
+				$recaptcha_enable_opt = get_option( 'awsm_jobs_enable_recaptcha', 'none' );
+				$recaptcha_type       = get_option( 'awsm_jobs_recaptcha_type', 'v2' );
+
+				$field_attributes = array();
+				if ( $recaptcha_enable_opt !== 'recaptcha' ) {
+					$field_attributes = array( 'disabled' => 'disabled' );
+				}
+
+				$fields[] = array(
+					'name'          => 'awsm_jobs_recaptcha_type',
+					'label'         => __( 'reCAPTCHA type', 'wp-job-openings' ),
+					'type'          => 'radio',
+					'choices'       => array(
+						array(
+							'value' => 'v2',
+							'text'  => __( 'reCAPTCHA v2', 'wp-job-openings' ),
+						),
+						array(
+							'value' => 'v2_invisible',
+							'text'  => __( 'reCAPTCHA v2 Invisible', 'wp-job-openings' ),
+						),
+						array(
+							'value' => 'v3',
+							'text'  => __( 'reCAPTCHA v3', 'wp-job-openings' ),
+						),
+					),
+					'default_value' => $recaptcha_type,
+					'attributes'    => $field_attributes,
+					'class'         => 'awsm-captcha-panel awsm-captcha-panel-recaptcha',
+					'row_class'     => 'awsm-hide awsm-captcha-row awsm-captcha-row-recaptcha',
+					'description'   => __(
+						'<strong>IMPORTANT NOTE:</strong><br>reCAPTCHA v2 and v3 Site key and Secret key are different. Using invalid keys will cause a reCAPTCHA error leading to issues with the job application form. Please verify the keys before updating the settings.',
+						'wp-job-openings'
+					),
+				);
 			}
 
 			$site_key_field = array(
@@ -1948,22 +1990,22 @@ class AWSM_Job_Openings_Settings {
 					);
 					return $old_value;
 				}
-				
+
 				if ( $value !== $old_value || '' === $old_value ) {
-					$success_code = "{$option_name}-verified";
+					$success_code      = "{$option_name}-verified";
 					$existing_messages = get_settings_errors( $option_name );
-					$success_exists = false;
-					
+					$success_exists    = false;
+
 					foreach ( $existing_messages as $message ) {
 						if ( $message['code'] === $success_code ) {
 							$success_exists = true;
 							break;
 						}
 					}
-					
+
 					$transient_key = 'awsm_captcha_success_' . md5( $option_name . $value );
 					$already_shown = get_transient( $transient_key );
-					
+
 					if ( ! $success_exists && ! $already_shown ) {
 						add_settings_error(
 							$option_name,
@@ -1974,7 +2016,7 @@ class AWSM_Job_Openings_Settings {
 							),
 							'success'
 						);
-						
+
 						set_transient( $transient_key, true, 5 );
 					}
 				}
@@ -2296,5 +2338,11 @@ class AWSM_Job_Openings_Settings {
 
 	public function is_no_conflict_mode_enabled() {
 		return 'on' === get_option( 'awsm_jobs_captcha_no_conflict_scripts', '' );
+	}
+
+	public function sanitize_recaptcha_type( $input ) {
+		$allowed_types = array( 'v2', 'v2_invisible', 'v3' );
+		$sanitized     = sanitize_text_field( $input );
+		return in_array( $sanitized, $allowed_types, true ) ? $sanitized : 'v2';
 	}
 }
