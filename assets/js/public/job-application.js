@@ -146,7 +146,7 @@ jQuery(document).ready(function($) {
 				console.error('reCAPTCHA error:', error);
 				$applicationMessage
 					.addClass('awsm-error-message')
-					.html('<p>reCAPTCHA verification failed. Please refresh the page and try again.</p>')
+                	.html('<p>' + awsmJobsPublic.i18n.form_error_msg.recaptcha_failed + '</p>') 
 					.fadeIn();
 				
 				// Re-enable submit button

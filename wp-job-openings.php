@@ -1039,6 +1039,17 @@ class AWSM_Job_Openings {
 		wp_enqueue_script( 'awsm-job-scripts', AWSM_JOBS_PLUGIN_URL . '/assets/js/script.min.js', array( 'jquery' ), AWSM_JOBS_PLUGIN_VERSION, true );
 
 		$enable_search = get_option( 'awsm_enable_job_search' ) === 'enable' && isset( $_GET['jq'] );
+		$ $captcha_type = get_option( 'awsm_jobs_enable_recaptcha', 'none' );
+		$option_name    = "awsm_jobs_{$captcha_type}_fail_message";
+		
+		$recaptcha_fail_message = '';
+		if( $captcha_type === 'recaptcha' ) {
+			$recaptcha_fail_message = get_option( $option_name, '' );
+		}
+		
+		if ( empty( $recaptcha_fail_message ) ) {
+			$recaptcha_fail_message = esc_html__( 'reCAPTCHA verification failed. Please refresh the page and try again.', 'wp-job-openings' );
+		}
 		global $post;
 
 		$localized_script_data = array(
@@ -1057,6 +1068,7 @@ class AWSM_Job_Openings {
 				'form_error_msg' => array(
 					'general'         => esc_html__( 'Error in submitting your application. Please try again later!', 'wp-job-openings' ),
 					'file_validation' => esc_html__( 'The file you have selected is too large.', 'wp-job-openings' ),
+					'captcha_failed'   => $recaptcha_fail_message,
 				),
 			),
 			'vendors'            => array(
