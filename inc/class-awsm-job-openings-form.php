@@ -1315,7 +1315,13 @@ class AWSM_Job_Openings_Form {
 			return;
 		}
 
-		$is_visible = $this->is_recaptcha_visible( true );
+		$captcha_type = $this->get_captcha_type();
+		$is_visible   = true;
+
+		// Only apply visibility logic for reCAPTCHA
+		if ( $captcha_type === 'recaptcha' ) {
+			$is_visible = $this->is_recaptcha_visible( true );
+		}
 
 		/**
 		 * Filters the CAPTCHA visibility in the application form.
@@ -1332,8 +1338,7 @@ class AWSM_Job_Openings_Form {
 			return;
 		}
 
-		$captcha_type = $this->get_captcha_type();
-		$site_key     = $this->get_captcha_site_key( $captcha_type );
+		$site_key = $this->get_captcha_site_key( $captcha_type );
 
 		if ( empty( $site_key ) ) {
 			return;
