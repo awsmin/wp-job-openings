@@ -58,6 +58,9 @@ jQuery(document).ready(function($) {
 		$submitBtn.prop('disabled', true).val(submitBtnResText).addClass('awsm-application-submit-btn-disabled');
 
 		var formData = new FormData(form);
+		if (formData.has('h-captcha-response')) {
+			formData.delete('g-recaptcha-response');
+		}
 		if ('fields' in data && Array.isArray(data.fields)) {
 			$.each(data.fields, function(index, field) {
 				if ('name' in field && 'value' in field) {
