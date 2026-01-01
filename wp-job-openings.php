@@ -1042,19 +1042,21 @@ class AWSM_Job_Openings {
 		$captcha_type = get_option( 'awsm_jobs_enable_recaptcha', 'none' );
 
 		$captcha_config = AWSM_Job_Openings_Form::get_captcha_frontend_config();
-		$active_captcha = isset( $captcha_config[ $captcha_type ] ) ? $captcha_config[ $captcha_type ] : $captcha_config['none'];
 
-		if ( $active_captcha !== 'none' && ! empty( $captcha_config ) ) {
-			$option_name = "awsm_jobs_{$active_captcha}_fail_message";
-		}
 		$recaptcha_fail_message = '';
-		if( $captcha_type === 'recaptcha' ) {
+
+		if ( ! empty( $captcha_config ) && $captcha_type === 'recaptcha' ) {
+			$option_name = "awsm_jobs_{$captcha_type}_fail_message";
 			$recaptcha_fail_message = get_option( $option_name, '' );
 		}
-		
+
 		if ( empty( $recaptcha_fail_message ) ) {
-			$recaptcha_fail_message = esc_html__( 'reCAPTCHA verification failed. Please refresh the page and try again.', 'wp-job-openings' );
+			$recaptcha_fail_message = esc_html__(
+				'reCAPTCHA verification failed. Please refresh the page and try again.',
+				'wp-job-openings'
+			);
 		}
+
 		global $post;
 
 		$localized_script_data = array(
