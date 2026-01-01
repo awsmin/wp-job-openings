@@ -924,6 +924,7 @@ class AWSM_Job_Openings_Form {
 					'version'   => '2.0',
 					'in_footer' => false,
 					'strategy'  => 'defer',
+					'async'     => true,
 				),
 				'conflict'      => array(
 					'handles' => array( 'recaptcha', 'google-recaptcha', 'g-recaptcha', 'grecaptcha', 'google_recaptcha' ),
@@ -946,6 +947,7 @@ class AWSM_Job_Openings_Form {
 					'version'   => null,
 					'in_footer' => false,
 					'strategy'  => 'defer',
+					'async'     => true,
 				),
 				'conflict'      => array(
 					'handles' => array( 'hcaptcha', 'h-captcha', 'hcaptcha-api', 'hcaptcha_api' ),
@@ -969,6 +971,7 @@ class AWSM_Job_Openings_Form {
 
 					'in_footer' => false,
 					'strategy'  => 'defer',
+					'async'     => true,
 				),
 				'conflict'      => array(
 					'handles' => array( 'turnstile', 'cf-turnstile', 'cloudflare-turnstile', 'cloudflare_turnstile' ),
@@ -1111,6 +1114,23 @@ class AWSM_Job_Openings_Form {
 				'strategy'  => $script['strategy'],
 			)
 		);
+		if ( ! empty( $script['async'] ) ) {
+			add_filter( 'script_loader_tag', function( $tag, $handle, $src ) use ( $config ) {
+				$captcha_handles = array();
+				
+				foreach ( $config as $captcha_type => $captcha_config ) {
+					if ( isset( $captcha_config['script']['handle'] ) && ! empty( $captcha_config['script']['async'] ) ) {
+						$captcha_handles[] = $captcha_config['script']['handle'];
+					}
+				}
+
+				if ( in_array( $handle, $captcha_handles, true ) && strpos( $tag, ' async' ) === false ) {
+					$tag = str_replace( ' defer', ' async defer', $tag );
+				}
+
+				return $tag;
+			}, 10, 3 );
+		}
 
 		do_action( 'awsm_jobs_captcha_scripts_enqueued', $captcha_type, $script );
 	}

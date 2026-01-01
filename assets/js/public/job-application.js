@@ -114,11 +114,44 @@ jQuery(document).ready(function($) {
 		})
 		.always(function() {
 			$submitBtn.prop('disabled', false).val(submitBtnText).removeClass('awsm-application-submit-btn-disabled');
+			
 			if (typeof grecaptcha !== 'undefined' && typeof grecaptcha.reset === 'function') {
 				try {
 					grecaptcha.reset();
 				} catch(e) {
-					
+					console.log('reCAPTCHA reset error:', e);
+				}
+			}
+			
+			if (typeof turnstile !== 'undefined' && typeof turnstile.reset === 'function') {
+				try {
+					var $turnstileWidget = $form.find('.cf-turnstile');
+					if ($turnstileWidget.length > 0) {
+						var widgetId = $turnstileWidget.data('widgetid');
+						if (typeof widgetId !== 'undefined') {
+							turnstile.reset(widgetId);
+						} else {
+							turnstile.reset();
+						}
+					}
+				} catch(e) {
+					console.log('Turnstile reset error:', e);
+				}
+			}
+			
+			if (typeof hcaptcha !== 'undefined' && typeof hcaptcha.reset === 'function') {
+				try {
+					var $hcaptchaWidget = $form.find('.h-captcha');
+					if ($hcaptchaWidget.length > 0) {
+						var widgetId = $hcaptchaWidget.data('widgetid');
+						if (typeof widgetId !== 'undefined') {
+							hcaptcha.reset(widgetId);
+						} else {
+							hcaptcha.reset();
+						}
+					}
+				} catch(e) {
+					console.log('hCaptcha reset error:', e);
 				}
 			}
 		});
@@ -146,10 +179,9 @@ jQuery(document).ready(function($) {
 				
 				awsmJobs.submitApplication($form);
 			}).catch(function(error) {
-				console.error('reCAPTCHA error:', error);
 				$applicationMessage
 					.addClass('awsm-error-message')
-                	.html('<p>' + awsmJobsPublic.i18n.form_error_msg.recaptcha_failed + '</p>') 
+					.html('<p>' + awsmJobsPublic.i18n.form_error_msg.recaptcha_failed + '</p>') 
 					.fadeIn();
 				
 				// Re-enable submit button
@@ -192,7 +224,6 @@ jQuery(document).ready(function($) {
 			}
 		}
 	});
-
 
 	// Job Application Form - In-App Browsers support.
 	if ($('.awsm-application-form .awsm-form-file-control').length  > 0) {

@@ -1899,7 +1899,6 @@ class AWSM_Job_Openings_Settings {
 		$option_name      = self::get_captcha_data( 'field_name', $provider, $key_type );
 		$old_value        = get_option( $option_name, '' );
 		$current_provider = $this->get_current_captcha_provider();
-
 		if ( $provider !== $current_provider ) {
 			$value = ! empty( $input ) ? sanitize_text_field( trim( (string) $input ) ) : '';
 			return apply_filters( 'awsm_jobs_captcha_validated_value', $value, $provider, $key_type, $option_name );
