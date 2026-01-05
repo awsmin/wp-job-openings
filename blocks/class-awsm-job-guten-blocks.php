@@ -97,7 +97,7 @@ class Awsm_Job_Guten_Blocks {
 
 		if (wp_style_is( 'awsm-jobs-style', 'registered' ) && ! wp_style_is( 'awsm-jobs-style', 'enqueued' )) {
 			wp_enqueue_style( 'awsm-jobs-style' );
-		}
+		} 
 	}
 }
 Awsm_Job_Guten_Blocks::get_instance();
