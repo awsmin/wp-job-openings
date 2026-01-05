@@ -1411,7 +1411,7 @@ class AWSM_Job_Openings_Form {
 		if ( ! empty( $render_config['noscript'] ) ) {
 			$noscript_method = $render_config['noscript'];
 			if ( method_exists( $this, $noscript_method ) ) {
-				call_user_func( array( $this, $noscript_method ), $site_key );
+				$this->{$noscript_method}( $site_key );
 			}
 		}
 	}
