@@ -1033,7 +1033,7 @@ class AWSM_Job_Openings {
 		wp_enqueue_style( 'awsm-jobs-general' );
 		wp_enqueue_style( 'awsm-jobs-style', AWSM_JOBS_PLUGIN_URL . '/assets/css/style.min.css', array( 'awsm-jobs-general' ), AWSM_JOBS_PLUGIN_VERSION, 'all' );
 
-		if ( is_singular( 'awsm_job_openings' ) && $this->awsm_form->is_captcha_set() ) {
+		if ( is_singular( 'awsm_job_openings' ) && $this->awsm_form->is_recaptcha_set() ) {
 			$this->awsm_form->enqueue_captcha_scripts();
 		}
 		wp_enqueue_script( 'awsm-job-scripts', AWSM_JOBS_PLUGIN_URL . '/assets/js/script.min.js', array( 'jquery' ), AWSM_JOBS_PLUGIN_VERSION, true );

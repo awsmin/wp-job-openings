@@ -1014,7 +1014,7 @@ class AWSM_Job_Openings_Form {
 		return get_option( $secret_key_option );
 	}
 
-	public function is_captcha_set() {
+	public function is_recaptcha_set() {
 		$captcha_type = $this->get_captcha_type();
 		if ( empty( $captcha_type ) || 'none' === $captcha_type ) {
 			return false;
@@ -1043,7 +1043,7 @@ class AWSM_Job_Openings_Form {
 	 * Enqueue CAPTCHA scripts
 	 */
 	public function enqueue_captcha_scripts() {
-		if ( ! $this->is_captcha_set() ) {
+		if ( ! $this->is_recaptcha_set() ) {
 			return;
 		}
 
@@ -1241,7 +1241,7 @@ class AWSM_Job_Openings_Form {
 	 * @return bool True if validation passes, false otherwise
 	 */
 	public function validate_captcha_field( $token ) {
-		if ( ! $this->is_captcha_set() ) {
+		if ( ! $this->is_recaptcha_set() ) {
 			return true;
 		}
 
@@ -1331,7 +1331,7 @@ class AWSM_Job_Openings_Form {
 	}
 
 	public function display_captcha_field( $form_attrs ) {
-		if ( ! $this->is_captcha_set() ) {
+		if ( ! $this->is_recaptcha_set() ) {
 			return;
 		}
 
@@ -1467,7 +1467,7 @@ class AWSM_Job_Openings_Form {
 	 * @return array Modified response array
 	 */
 	public function validate_captcha_submission( $awsm_response ) {
-		if ( ! $this->is_captcha_set() ) {
+		if ( ! $this->is_recaptcha_set() ) {
 			return $awsm_response;
 		}
 
@@ -1515,8 +1515,6 @@ class AWSM_Job_Openings_Form {
 
 		return $awsm_response;
 	}
-
-
 	/**
 	 * Check if no-conflict mode is enabled
 	 *

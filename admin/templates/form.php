@@ -101,6 +101,9 @@ if ( ! empty( $upload_file_extns ) ) {
 			'recaptcha' => AWSM_Job_Openings_Settings::get_captcha_settings_fields(),
 		)
 	);
+	if ( defined( 'AWSM_JOBS_PLUGIN_VERSION' ) && version_compare( AWSM_JOBS_PLUGIN_VERSION, '3.5.4', '>=' ) ) {
+		$settings_fields['recaptcha'] = AWSM_Job_Openings_Settings::get_captcha_settings_fields();
+	}
 	?>
 
 <!-- Upload File Extensions -->
