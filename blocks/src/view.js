@@ -96,7 +96,7 @@ jQuery(function($) {
 			// now, make the request.
 			$.ajax({
 				url: $filterForm.attr('action'),
-				beforeSend: function() {
+				beforeSend: function() { 
 					$wrapper.addClass('awsm-b-jobs-loading');
 				},
 				data: formData,
@@ -116,7 +116,7 @@ jQuery(function($) {
 			}).fail(function(xhr) {
 				// eslint-disable-next-line no-console
 				console.log(xhr);
-			}).always(function() {
+			}).always(function() { 
 				$wrapper.removeClass('awsm-b-jobs-loading');
 				triggerFilter = true;
 			});

@@ -57,7 +57,7 @@ jQuery(function($) {
 			// now, make the request.
 			$.ajax({
 				url: $filterForm.attr('action'),
-				beforeSend: function() {
+				beforeSend: function() { 
 					$wrapper.addClass('awsm-jobs-loading');
 				},
 				data: formData,
