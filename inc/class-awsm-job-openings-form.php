@@ -988,4 +988,141 @@ class AWSM_Job_Openings_Form {
 			}
 		}
 	}
+
+	/**
+	 * Get captcha frontend configuration (render + script)
+	 *
+	 * @return array Captcha frontend configuration array
+	 */
+	public static function get_captcha_frontend_config() {
+		$config = array(
+			'recaptcha' => array(
+				'token_field'   => 'g-recaptcha-response',
+				'verify_url'    => 'https://www.google.com/recaptcha/api/siteverify',
+				'requires_ip'   => true,
+				'requires_keys' => true,
+				'render'        => array(
+					'class'      => 'g-recaptcha',
+					'data_attrs' => array(),
+					'noscript'   => 'render_recaptcha_noscript',
+				),
+				'script'        => array(
+					'handle'    => 'awsm-jobs-g-recaptcha',
+					'src'       => 'https://www.google.com/recaptcha/api.js',
+					'version'   => '2.0',
+					'in_footer' => false,
+					'strategy'  => 'defer',
+					'async'     => true,
+				),
+				'conflict'      => array(
+					'handles' => array( 'recaptcha', 'google-recaptcha', 'g-recaptcha', 'grecaptcha', 'google_recaptcha' ),
+					'urls'    => array( 'google.com/recaptcha', 'www.google.com/recaptcha', 'gstatic.com/recaptcha' ),
+				),
+			),
+			'hcaptcha'  => array(
+				'token_field'   => 'h-captcha-response',
+				'verify_url'    => 'https://hcaptcha.com/siteverify',
+				'requires_ip'   => true,
+				'requires_keys' => true,
+				'render'        => array(
+					'class'      => 'h-captcha',
+					'data_attrs' => array(),
+					'noscript'   => null,
+				),
+				'script'        => array(
+					'handle'    => 'awsm-jobs-h-captcha',
+					'src'       => 'https://js.hcaptcha.com/1/api.js',
+					'version'   => null,
+					'in_footer' => false,
+					'strategy'  => 'defer',
+					'async'     => true,
+				),
+				'conflict'      => array(
+					'handles' => array( 'hcaptcha', 'h-captcha', 'hcaptcha-api', 'hcaptcha_api' ),
+					'urls'    => array( 'hcaptcha.com', 'js.hcaptcha.com' ),
+				),
+			),
+			'turnstile' => array(
+				'token_field'   => 'cf-turnstile-response',
+				'verify_url'    => 'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+				'requires_ip'   => false,
+				'requires_keys' => true,
+				'render'        => array(
+					'class'      => 'cf-turnstile',
+					'data_attrs' => array(),
+					'noscript'   => null,
+				),
+				'script'        => array(
+					'handle'    => 'awsm-jobs-cf-turnstile',
+					'src'       => 'https://challenges.cloudflare.com/turnstile/v0/api.js',
+					'version'   => null,
+
+					'in_footer' => false,
+					'strategy'  => 'defer',
+					'async'     => true,
+				),
+				'conflict'      => array(
+					'handles' => array( 'turnstile', 'cf-turnstile', 'cloudflare-turnstile', 'cloudflare_turnstile' ),
+					'urls'    => array( 'challenges.cloudflare.com/turnstile' ),
+				),
+			),
+			'none'      => array(
+				'token_field'   => null,
+				'verify_url'    => null,
+				'requires_ip'   => false,
+				'requires_keys' => false,
+				'render'        => null,
+				'script'        => null,
+				'conflict'      => null,
+			),
+		);
+
+		return apply_filters( 'awsm_jobs_captcha_frontend_config', $config );
+	}
+	public function get_captcha_type() {
+		return get_option( 'awsm_jobs_enable_captcha', 'none' );
+	}
+
+	private function get_captcha_site_key( $captcha_type ) {
+		if ( empty( $captcha_type ) || 'none' === $captcha_type ) {
+			return null;
+		}
+
+		$site_key_option = 'awsm_jobs_' . $captcha_type . '_site_key';
+		return get_option( $site_key_option );
+	}
+
+	private function get_captcha_secret_key( $captcha_type ) {
+		if ( empty( $captcha_type ) || 'none' === $captcha_type ) {
+			return null;
+		}
+
+		$secret_key_option = 'awsm_jobs_' . $captcha_type . '_secret_key';
+		return get_option( $secret_key_option );
+	}
+	public function is_captcha_set() {
+		$captcha_type = $this->get_captcha_type();
+		if ( empty( $captcha_type ) || 'none' === $captcha_type ) {
+			return false;
+		}
+
+		$config = $this::get_captcha_frontend_config();
+
+		if ( ! isset( $config[ $captcha_type ] ) ) {
+			return false;
+		}
+
+		if ( empty( $config[ $captcha_type ]['requires_keys'] ) || ! $config[ $captcha_type ]['requires_keys'] ) {
+			return true;
+		}
+
+		$site_key   = $this->get_captcha_site_key( $captcha_type );
+		$secret_key = $this->get_captcha_secret_key( $captcha_type );
+
+		if ( empty( $site_key ) || empty( $secret_key ) ) {
+			return false;
+		}
+
+		return true;
+	}
 }

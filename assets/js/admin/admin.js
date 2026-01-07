@@ -530,7 +530,7 @@ jQuery(document).ready(function($) {
 	});
 	//Captcha type change handler
 	var $container = $('#awsm-recaptcha-form-options-container');
-    var $providerRadios = $container.find('input[name="awsm_jobs_enable_recaptcha"]');
+    var $providerRadios = $container.find('input[name="awsm_jobs_enable_captcha"]');
 
     function refresh() {
         var selected = $providerRadios.filter(':checked').val() || 'none';

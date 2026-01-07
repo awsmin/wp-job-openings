@@ -156,16 +156,31 @@ if ( ! function_exists( 'awsm_jobs_mail_content_type' ) ) {
 
 if ( ! function_exists( 'awsm_jobs_is_new_captcha_enabled' ) ) {
 	/**
-	 * Check if new captcha version is enabled.
+	 * Determines if the new CAPTCHA structure is enabled.
 	 *
-	 * New captcha is enabled when:
-	 * - Free plugin only and version > 3.5.5, OR
-	 * 
+	 * The new CAPTCHA is enabled when both version requirements are met:
+	 * - Free plugin version is 3.6 or higher
+	 * - Pro plugin version is 3.5 or higher (if Pro plugin is active)
 	 *
-	 * @return bool True if new captcha is enabled, false otherwise.
+	 * @since 3.6.0
+	 *
+	 * @return int 1 if new CAPTCHA is enabled, 0 otherwise.
 	 */
 	function awsm_jobs_is_new_captcha_enabled() {
-		$captcha_version = get_option( 'awsm_jobs_captcha_version', 0 );
-		return intval( $captcha_version ) === 1;
+		$free_version = defined( 'AWSM_JOBS_PLUGIN_VERSION' ) ? AWSM_JOBS_PLUGIN_VERSION : '0.0.0';
+		$pro_version  = defined( 'AWSM_JOBS_PRO_PLUGIN_VERSION' ) ? AWSM_JOBS_PRO_PLUGIN_VERSION : '0.0.0';
+
+		// Minimum version requirements for new CAPTCHA structure.
+		$min_free_version = '3.6';
+		$min_pro_version  = '3.5';
+
+		// Check if free plugin meets minimum version requirement.
+		$is_free_compatible = version_compare( $free_version, $min_free_version, '>=' );
+
+		// Check if Pro plugin meets minimum version requirement or is not active.
+		$is_pro_compatible = ! class_exists( 'AWSM_Job_Openings_Pro_Form' ) || version_compare( $pro_version, $min_pro_version, '>=' );
+
+		// Return 1 if both conditions are met, 0 otherwise.
+		return ( $is_free_compatible && $is_pro_compatible ) ? 1 : 0;
 	}
 }
