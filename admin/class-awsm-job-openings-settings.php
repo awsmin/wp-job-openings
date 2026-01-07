@@ -1318,3 +1318,66 @@ class AWSM_Job_Openings_Settings {
 		return $from_email;
 	}
 }
+
+add_filter('awsm_jobs_form_settings_fields', function($fields) {
+
+    if ( ! awsm_jobs_is_new_captcha_enabled() ) {
+        // Older versions, return default fields
+        return $fields;
+    }
+
+    // Remove old reCAPTCHA checkbox if exists
+    if ( isset($fields['recaptcha']) && is_array($fields['recaptcha']) ) {
+        foreach ( $fields['recaptcha'] as $i => $field ) {
+            if ( isset($field['name']) && $field['name'] === 'awsm_jobs_enable_recaptcha' ) {
+                unset($fields['recaptcha'][$i]);
+            }
+        }
+        $fields['recaptcha'] = array_values($fields['recaptcha']);
+    }
+
+    // Default type
+    $captcha_type = 'recaptcha_v2';
+
+    // If Pro is active, get previously set recaptcha type
+    if ( class_exists('AWSM_Job_Openings_Pro_Form') ) {
+        $awsm_jobs_form = AWSM_Job_Openings_Pro_Form::init();
+        if ( method_exists($awsm_jobs_form, 'get_recaptcha_type') ) {
+            $captcha_type = $awsm_jobs_form->get_recaptcha_type();
+        }
+    }
+
+    // Add the new CAPTCHA choices
+    $fields['recaptcha'][] = array(
+        'id'    => 'awsm-form-captcha-options-title',
+        'label' => __('CAPTCHA Options', 'wp-job-openings'),
+        'type'  => 'title',
+    );
+
+    $fields['recaptcha'][] = array(
+        'name'        => 'awsm_jobs_captcha_type',
+        'label'       => __('Choose CAPTCHA', 'wp-job-openings'),
+        'type'        => 'radio',
+        'choices'     => array(
+            array('value' => 'recaptcha_v2', 'text' => __('reCAPTCHA v2', 'wp-job-openings')),
+            array('value' => 'recaptcha_v3', 'text' => __('reCAPTCHA v3', 'wp-job-openings')),
+            array('value' => 'hcaptcha', 'text' => __('hCaptcha', 'wp-job-openings')),
+            array('value' => 'turnstile', 'text' => __('Cloudflare Turnstile', 'wp-job-openings')),
+        ),
+        'value'       => $captcha_type,
+        'description' => __('Select which CAPTCHA service to use. Site and secret keys are required.', 'wp-job-openings'),
+    );
+
+    $fields['recaptcha'][] = array(
+        'name'  => 'awsm_jobs_recaptcha_site_key',
+        'label' => __('Site Key', 'wp-job-openings'),
+    );
+
+    $fields['recaptcha'][] = array(
+        'name'  => 'awsm_jobs_recaptcha_secret_key',
+        'label' => __('Secret Key', 'wp-job-openings'),
+    );
+
+    return $fields;
+
+});

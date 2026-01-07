@@ -153,3 +153,14 @@ if ( ! function_exists( 'awsm_jobs_mail_content_type' ) ) {
 		return 'text/html';
 	}
 }
+
+function awsm_jobs_is_new_captcha_enabled() {
+    $free_version = defined('AWSM_JOBS_PLUGIN_VERSION') ? AWSM_JOBS_PLUGIN_VERSION : '0';
+    $pro_version  = defined('AWSM_JOBS_PRO_PLUGIN_VERSION') ? AWSM_JOBS_PRO_PLUGIN_VERSION : '0';
+
+    // Only enable new CAPTCHA structure if both conditions meet
+    $free_ok = version_compare($free_version, '3.6', '>=');
+    $pro_ok  = !class_exists('AWSM_Job_Openings_Pro_Form') || version_compare($pro_version, '3.5', '>=');
+
+    return $free_ok && $pro_ok;
+}
