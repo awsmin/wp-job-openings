@@ -5,7 +5,7 @@
  * Description: Super simple Job Listing plugin to manage Job Openings and Applicants on your WordPress site.
  * Author: AWSM Innovations
  * Author URI: https://awsm.in/
- * Version: 3.5.5
+ * Version: 3.5.6
  * Requires at least: 4.8
  * Requires PHP: 5.6
  * License: GPLv2
@@ -37,7 +37,7 @@ if ( ! defined( 'AWSM_JOBS_PLUGIN_URL' ) ) {
 	define( 'AWSM_JOBS_PLUGIN_URL', untrailingslashit( plugin_dir_url( __FILE__ ) ) );
 }
 if ( ! defined( 'AWSM_JOBS_PLUGIN_VERSION' ) ) {
-	define( 'AWSM_JOBS_PLUGIN_VERSION', '3.5.5' );
+	define( 'AWSM_JOBS_PLUGIN_VERSION', '3.5.6' );
 }
 if ( ! defined( 'AWSM_JOBS_UPLOAD_DIR_NAME' ) ) {
 	define( 'AWSM_JOBS_UPLOAD_DIR_NAME', 'awsm-job-openings' );
@@ -199,6 +199,15 @@ class AWSM_Job_Openings {
 			$upload_dir = $base_dir . AWSM_JOBS_UPLOAD_DIR_NAME;
 			$this->index_to_upload_dir( $upload_dir );
 			update_option( 'awsm_jobs_upgrade_count', 1 );
+		}
+		if ( get_option( 'awsm_jobs_captcha_version' ) === false ) {
+			$captcha_version = 0;
+			
+			if ( ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) && version_compare( AWSM_JOBS_PLUGIN_VERSION, '3.5.5', '>' ) ) {
+				$captcha_version = 1;
+			}
+			
+			update_option( 'awsm_jobs_captcha_version', $captcha_version );
 		}
 	}
 

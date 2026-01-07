@@ -153,3 +153,19 @@ if ( ! function_exists( 'awsm_jobs_mail_content_type' ) ) {
 		return 'text/html';
 	}
 }
+
+if ( ! function_exists( 'awsm_jobs_is_new_captcha_enabled' ) ) {
+	/**
+	 * Check if new captcha version is enabled.
+	 *
+	 * New captcha is enabled when:
+	 * - Free plugin only and version > 3.5.5, OR
+	 * 
+	 *
+	 * @return bool True if new captcha is enabled, false otherwise.
+	 */
+	function awsm_jobs_is_new_captcha_enabled() {
+		$captcha_version = get_option( 'awsm_jobs_captcha_version', 0 );
+		return intval( $captcha_version ) === 1;
+	}
+}
