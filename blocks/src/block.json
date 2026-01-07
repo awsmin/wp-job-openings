@@ -38,7 +38,7 @@
 		},
 		"layout": {
 			"type": "string",
-			"default": "stack"
+			"default": "grid"
 		},
 		"selected_terms_main": {
 			"type": "array",
