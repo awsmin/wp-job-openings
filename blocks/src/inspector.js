@@ -1,20 +1,23 @@
 import { __ } from '@wordpress/i18n';
 import { useEffect, Fragment, useState } from '@wordpress/element';
-import { InspectorControls,PanelColorSettings,BorderControl, __experimentalBorderRadiusControl as BorderRadiusControl} from '@wordpress/block-editor';
+import { InspectorControls,BlockEdit,useBlockProps,PanelColorSettings, __experimentalBorderRadiusControl as BorderRadiusControl} from '@wordpress/block-editor';
 import { addFilter } from '@wordpress/hooks';
 
 import {
     PanelBody,
+	TabPanel,
     RangeControl,
     ToggleControl,
 	TextControl,
 	SelectControl,
 	Button,
 	FormTokenField,
+	__experimentalInputControl as InputControl,
 	__experimentalToggleGroupControl as ToggleGroupControl,
 	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
 	BoxControl,
 	__experimentalSpacer as Spacer,
+	BorderControl,
 	PanelRow
 } from '@wordpress/components';
 
