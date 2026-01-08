@@ -15,6 +15,7 @@ jQuery(document).ready(function($) {
 	}
 
 	// ========== Job Application Form ==========
+	
 	var $applicationForm = $('.awsm-application-form');
 
 	awsmJobs.submitApplication = function($form, data) {
@@ -57,9 +58,14 @@ jQuery(document).ready(function($) {
 		$submitBtn.prop('disabled', true).val(submitBtnResText).addClass('awsm-application-submit-btn-disabled');
 
 		var formData = new FormData(form);
-		if (formData.has('h-captcha-response')) {
-			formData.delete('g-recaptcha-response');
-		}
+		
+		
+		// CRITICAL FIX: Don't send empty g-recaptcha-response tokens
+		// var recaptchaToken = formData.get('g-recaptcha-response');
+		// if (recaptchaToken === '' || recaptchaToken === null) {
+		// 	formData.delete('g-recaptcha-response');
+		// }
+		
 		if ('fields' in data && Array.isArray(data.fields)) {
 			$.each(data.fields, function(index, field) {
 				if ('name' in field && 'value' in field) {
@@ -114,14 +120,22 @@ jQuery(document).ready(function($) {
 		.always(function() {
 			$submitBtn.prop('disabled', false).val(submitBtnText).removeClass('awsm-application-submit-btn-disabled');
 			
+			// Only reset visible reCAPTCHA (v2 checkbox), NOT v3 or v2 invisible
 			if (typeof grecaptcha !== 'undefined' && typeof grecaptcha.reset === 'function') {
-				try {
-					grecaptcha.reset();
-				} catch(e) {
-					console.log('reCAPTCHA reset error:', e);
+				var $recaptchaWidget = $form.find('.g-recaptcha');
+				if ($recaptchaWidget.length > 0 && $recaptchaWidget.is(':visible')) {
+					if (typeof awsmJobsRecaptcha === 'undefined' || 
+						(awsmJobsRecaptcha.type !== 'v3' && awsmJobsRecaptcha.type !== 'v2_invisible')) {
+						try {
+							grecaptcha.reset();
+						} catch(e) {
+							console.log('reCAPTCHA reset error:', e);
+						}
+					}
 				}
 			}
 			
+			// Reset Turnstile
 			if (typeof turnstile !== 'undefined' && typeof turnstile.reset === 'function') {
 				try {
 					var $turnstileWidget = $form.find('.cf-turnstile');
@@ -138,6 +152,7 @@ jQuery(document).ready(function($) {
 				}
 			}
 			
+			// Reset hCaptcha
 			if (typeof hcaptcha !== 'undefined' && typeof hcaptcha.reset === 'function') {
 				try {
 					var $hcaptchaWidget = $form.find('.h-captcha');
@@ -151,6 +166,14 @@ jQuery(document).ready(function($) {
 					}
 				} catch(e) {
 					console.log('hCaptcha reset error:', e);
+				}
+			}
+			
+			if (typeof awsmJobsRecaptcha !== 'undefined' && 
+				(awsmJobsRecaptcha.type === 'v3' || awsmJobsRecaptcha.type === 'v2_invisible')) {
+				var $tokenField = $form.find('input[name="g-recaptcha-response"]');
+				if ($tokenField.length > 0) {
+					$tokenField.remove(); 
 				}
 			}
 		});
@@ -169,21 +192,39 @@ jQuery(document).ready(function($) {
 
 		grecaptcha.ready(function() {
 			grecaptcha.execute(siteKey, { action: action }).then(function(token) {
-				var $tokenField = $form.find('input[name="g-recaptcha-response"]');
-				if ($tokenField.length === 0) {
-					$form.append('<input type="hidden" name="g-recaptcha-response" value="">');
-					$tokenField = $form.find('input[name="g-recaptcha-response"]');
+				var $existingToken = $form.find('input[name="g-recaptcha-response"]');
+				if ($existingToken.length > 0) {
+					$existingToken.remove();
 				}
-				$tokenField.val(token);
+				
+				$form.append('<input type="hidden" name="g-recaptcha-response" value="' + token + '">');
+				
+				var $tokenField = $form.find('input[name="g-recaptcha-response"]');
+				var tokenValue = $tokenField.val();
+				
+				if (!tokenValue || tokenValue === '') {
+					$applicationMessage
+						.addClass('awsm-error-message')
+						.html('<p>' + awsmJobsPublic.i18n.form_error_msg.recaptcha_failed + '</p>') 
+						.fadeIn();
+					
+					var $submitBtn = $form.find('.awsm-application-submit-btn');
+					var submitBtnText = $submitBtn.data('originalText') || $submitBtn.val();
+					$submitBtn.prop('disabled', false).val(submitBtnText).removeClass('awsm-application-submit-btn-disabled');
+					return;
+				}
 				
 				awsmJobs.submitApplication($form);
 			}).catch(function(error) {
+				console.error('reCAPTCHA execution error:', error);
+				
+				var errorMsg = awsmJobsPublic.i18n.form_error_msg.recaptcha_failed || 'reCAPTCHA verification failed. Please try again.';
+				
 				$applicationMessage
 					.addClass('awsm-error-message')
-					.html('<p>' + awsmJobsPublic.i18n.form_error_msg.recaptcha_failed + '</p>') 
+					.html('<p>' + errorMsg + '</p>') 
 					.fadeIn();
 				
-				// Re-enable submit button
 				var $submitBtn = $form.find('.awsm-application-submit-btn');
 				var submitBtnText = $submitBtn.data('originalText') || $submitBtn.val();
 				$submitBtn.prop('disabled', false).val(submitBtnText).removeClass('awsm-application-submit-btn-disabled');

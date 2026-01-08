@@ -1348,33 +1348,6 @@ class AWSM_Job_Openings_Form {
 	}
 
 	/**
-	 * Validate CAPTCHA token
-	 *
-	 * @param string $token The CAPTCHA response token
-	 * @return bool True if validation passes, false otherwise
-	 */
-
-	public function validate_newcaptcha_field( $token ) {
-		if ( ! $this->is_captcha_set() ) {
-			return true;
-		}
-
-		if ( empty( $token ) ) {
-			return false;
-		}
-
-		$captcha_type = $this->get_captcha_type();
-		$result       = $this->get_captcha_response( $token, $captcha_type );
-		if ( empty( $result ) ) {
-			return false;
-		}
-
-		$is_valid = isset( $result['success'] ) && true === $result['success'];
-
-		return apply_filters( 'awsm_jobs_captcha_validation_result', $is_valid, $result, $token, $captcha_type );
-	}
-
-	/**
 	 * Get client IP address
 	 *
 	 * @return string The client IP address
@@ -1483,7 +1456,7 @@ class AWSM_Job_Openings_Form {
 		</div>
 		<?php
 	}
-
+	
 	private function render_captcha( $captcha_type, $site_key ) {
 		/**
 		 * Allows custom rendering for captcha types.
@@ -1567,7 +1540,7 @@ class AWSM_Job_Openings_Form {
 		if ( $token_field && isset( $_POST[ $token_field ] ) ) {
 			$token = sanitize_text_field( wp_unslash( $_POST[ $token_field ] ) );
 		}
-
+		error_log( 'CAPTCHA Token: ' . $token );
 		return $token;
 	}
 
