@@ -39,13 +39,28 @@ jQuery(function($) {
 		var formData = $filterForm.serializeArray();
 		var listings = $wrapper.data('listings');
 		var specs = $wrapper.data('specs');
-		
 
 		/* added for block */
 		var layout 				= $wrapper.data('awsm-layout');
 		var hide_expired_jobs   = $wrapper.data('awsm-hide-expired-jobs'); 
 		var other_options 		= $wrapper.data('awsm-other-options'); 
 		/* end */
+
+		$rootWrapper.find('.awsm-b-filter-item').each(function() {
+			var currentLoopSpec = $(this).data('filter');
+			var searchParams = new URLSearchParams(document.location.search);
+			var currentSpecQueryVal = searchParams.get(currentLoopSpec); 
+			var $currentOption = $(this).find('.awsm-b-filter-option');
+			
+			if ($currentOption.val().length === 0 && currentSpecQueryVal && currentSpecQueryVal.length > 0) {
+				formData.forEach(function(item) {
+					if (item.name === $currentOption.attr('name')) {
+						item.value = '-1';
+					}
+				});
+			}
+		});
+
 		formData.push({
 			name: 'listings_per_page',
 			value: listings
@@ -207,6 +222,7 @@ jQuery(function($) {
 
 	$(filterSelector + ' .awsm-b-filter-option').on('change', function(e) { 
 		e.preventDefault();
+		$('.awsm-b-job-listings').show();
 		var $elem = $(this);
 		var $selected = $elem.find('option:selected');
 		var $rootWrapper = $elem.parents(rootWrapperSelector);
