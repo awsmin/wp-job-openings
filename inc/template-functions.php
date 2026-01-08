@@ -37,11 +37,6 @@ if ( ! function_exists( 'awsm_jobs_get_footer' ) ) {
 }
 
 if ( ! function_exists( 'awsm_jobs_query' ) ) {
-	// function awsm_jobs_query( $shortcode_atts = array() ) {
-	// 	$args  = AWSM_Job_Openings::awsm_job_query_args( array(), $shortcode_atts );
-	// 	$query = new WP_Query( $args );
-	// 	return $query;
-	// }
 	function awsm_jobs_query( $shortcode_atts = array() ) {
 		$query_args      = array();
 		$is_term_or_slug = array();
@@ -53,19 +48,15 @@ if ( ! function_exists( 'awsm_jobs_query' ) ) {
 		if ( ! empty( $filters ) ) {
 			foreach ( $filters as $filter ) {
 				$current_filter_key = str_replace( '-', '__', $filter ) . $filter_suffix;
-
-				// Check if filter exists in URL ($_GET), else use stored option
 				if ( isset( $_GET[ $current_filter_key ] ) && ! empty( $_GET[ $current_filter_key ] ) ) {
 					$term_slugs = explode( ',', sanitize_text_field( $_GET[ $current_filter_key ] ) );
 				} else {
-					// Fallback to stored option if URL parameter is missing
 					$saved_terms = get_option( 'awsm_jobs_default_' . $filter, '' ); // Modify key accordingly
 					$term_slugs  = ! empty( $saved_terms ) ? explode( ',', $saved_terms ) : array();
 				}
 
 				if ( ! empty( $term_slugs ) ) {
 					$query_args[ $filter ] = array();
-
 					foreach ( $term_slugs as $term_slug ) {
 						$term = get_term_by( 'slug', sanitize_title( $term_slug ), $filter );
 
@@ -97,11 +88,9 @@ if ( ! function_exists( 'get_filtered_job_terms' ) ) {
 		if ( ! empty( $filters ) ) {
 			foreach ( $filters as $filter ) {
 				$current_filter_key = str_replace( '-', '__', $filter ) . $filter_suffix;
-
 				if ( isset( $_GET[ $current_filter_key ] ) ) {
 					$term_slug = sanitize_title( $_GET[ $current_filter_key ] );
 					$term      = get_term_by( 'slug', $term_slug, $filter );
-
 					if ( $term && ! is_wp_error( $term ) ) {
 						$filtered_terms[ $filter ] = $term;
 					} else {
@@ -110,7 +99,6 @@ if ( ! function_exists( 'get_filtered_job_terms' ) ) {
 				}
 			}
 		}
-
 		return $filtered_terms;
 	}
 }
