@@ -112,16 +112,16 @@ jQuery(function($) {
 		awsmJobFilters($rootWrapper);
 	}
 
-	if ($(rootWrapperSelector).length > 0) {
-		$(rootWrapperSelector).each(function() {
-			var $currentWrapper = $(this);
-			var $filterForm = $currentWrapper.find(filterSelector + ' form');
-			if (awsmJobsPublic.is_search.length > 0 || filterCheck($filterForm)) {
-				triggerFilter = true;
-				awsmJobFilters($currentWrapper);
-			}
-		});
-	}
+	// if ($(rootWrapperSelector).length > 0) {
+	// 	$(rootWrapperSelector).each(function() {
+	// 		var $currentWrapper = $(this);
+	// 		var $filterForm = $currentWrapper.find(filterSelector + ' form');
+	// 		if (awsmJobsPublic.is_search.length > 0 || filterCheck($filterForm)) {
+	// 			triggerFilter = true;
+	// 			awsmJobFilters($currentWrapper);
+	// 		}
+	// 	});
+	// }
 
 	var updateQuery = function(key, value, url) {
 		url = typeof url !== 'undefined' ? url : currentUrl;
@@ -161,6 +161,11 @@ jQuery(function($) {
 		}
 	};
 
+	if ($('.awsm-job-no-more-jobs-get').length > 0) {
+		$('.awsm-job-listings').hide();
+		$('.awsm-job-no-more-jobs-get').slice(1).hide();
+	}
+
 	$(filterSelector + ' .awsm-filter-option').on('change', function(e) { 
 		e.preventDefault();
 		var $elem = $(this);
@@ -169,6 +174,9 @@ jQuery(function($) {
 		var currentSpec = $elem.parents('.awsm-filter-item').data('filter');
 		var slug = $selected.data('slug');
 		slug = typeof slug !== 'undefined' ? slug : '';
+		if ($('.awsm-job-listings').length > 0) {
+			$rootWrapper.find('.awsm-job-no-more-jobs-get').hide();
+		}
 		setPaginationBase($rootWrapper, currentSpec, slug);
 		if (awsmJobsPublic.deep_linking.spec) {
 			var $paginationBase = $rootWrapper.find('input[name="awsm_pagination_base"]');
