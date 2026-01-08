@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $attributes = isset( $block_atts_set ) ? $block_atts_set : array();
-$query      = awsm_block_jobs_query( $attributes );
+$query      = awsm_block_jobs_query( $attributes );  
 
 if ( $query->have_posts() ) : ?>
 	<div class="awsm-b-job-wrap<?php awsm_jobs_wrapper_class(); ?>">
@@ -39,7 +39,7 @@ if ( $query->have_posts() ) : ?>
 	<?php
 else :
 	$filter_suffix = '_spec';
-	$job_spec = array();
+	$job_spec = array(); 
 
 	if ( ! empty( $_GET ) ) {
 		foreach ( $_GET as $key => $value ) {
@@ -53,25 +53,25 @@ else :
 		?>
 			<div class="awsm-b-job-wrap<?php awsm_jobs_wrapper_class(); ?>">
 				<?php
-					do_action( 'awsm_block_filter_form', $shortcode_atts );
+					do_action( 'awsm_block_filter_form', $attributes );
 					do_action( 'awsm_filter_after_form' );
 				?>
 				<?php
-				get_filtered_job_terms();
+				get_block_filtered_job_terms($attributes);
 				$no_jobs_content = sprintf(
 					'<div class="awsm-b-jobs-pagination awsm-b-load-more-main awsm-b-no-more-jobs-container awsm-b-job-no-more-jobs-get"><p>%s</p></div>',
 					esc_html__('Sorry! No more jobs to show.', 'wp-job-openings')
 				);
 				echo $no_jobs_content;
 				?>
-				<div <?php awsm_jobs_view_class( '', $shortcode_atts ); ?><?php awsm_jobs_data_attrs( array(), $shortcode_atts ); ?>>
+				<div <?php awsm_block_jobs_view_class( '', $attributes ); ?><?php awsm_block_jobs_data_attrs( array(), $attributes ); ?>>
 					<?php include get_awsm_jobs_template_path( 'block-main', 'block-files' ); ?>
 				</div>
 			</div>
 		<?php
 	} else {
 		?>
-		<div class="jobs-none-container">
+		<div class="awsm-b-jobs-none-container">
 			<p><?php awsm_no_jobs_msg(); ?></p>
 		</div>
 		<?php

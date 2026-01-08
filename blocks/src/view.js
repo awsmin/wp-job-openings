@@ -151,7 +151,7 @@ jQuery(function($) {
 		awsmJobFilters($rootWrapper);
 	}
 
-	if ($(rootWrapperSelector).length > 0) {
+	/* if ($(rootWrapperSelector).length > 0) {
 		$(rootWrapperSelector).each(function() {
 			var $currentWrapper = $(this);
 			var $filterForm = $currentWrapper.find(filterSelector + ' form');
@@ -160,7 +160,7 @@ jQuery(function($) {
 				awsmJobFilters($currentWrapper);
 			}
 		});
-	}
+	} */
 
 	var updateQuery = function(key, value, url) {
 		url = typeof url !== 'undefined' ? url : currentUrl;
@@ -200,6 +200,11 @@ jQuery(function($) {
 		}
 	};
 
+	if ( $( '.awsm-b-job-no-more-jobs-get' ).length > 0 ) {
+		$( '.awsm-b-job-listings' ).hide();
+		$( '.awsm-b-job-no-more-jobs-get' ).slice( 1 ).hide();
+	}
+
 	$(filterSelector + ' .awsm-b-filter-option').on('change', function(e) { 
 		e.preventDefault();
 		var $elem = $(this);
@@ -208,6 +213,11 @@ jQuery(function($) {
 		var currentSpec = $elem.parents('.awsm-b-filter-item').data('filter');
 		var slug = $selected.data('slug');
 		slug = typeof slug !== 'undefined' ? slug : '';
+
+		if ($('.awsm-b-job-listings').length > 0) {
+			$rootWrapper.find('.awsm-b-job-no-more-jobs-get').hide();
+		}
+
 		setPaginationBase($rootWrapper, currentSpec, slug);
 		if (awsmJobsPublic.deep_linking.spec) {
 			var $paginationBase = $rootWrapper.find('input[name="awsm_pagination_base"]');
