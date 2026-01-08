@@ -101,7 +101,7 @@ if ( ! function_exists( 'awsm_block_jobs_query' ) ) {
 			}
 		}
 
-		$args  = AWSM_Job_Openings_Block::awsm_block_job_query_args( $query_args, $attributes, $is_term_or_slug = array() );
+		$args  = AWSM_Job_Openings_Block::awsm_block_job_query_args( $query_args, $attributes, $is_term_or_slug );
 		$query = new WP_Query( $args );
 		return $query;
 	}
