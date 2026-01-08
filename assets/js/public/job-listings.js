@@ -182,6 +182,7 @@ jQuery(function($) {
 
 	$(filterSelector + ' .awsm-filter-option').on('change', function(e) { 
 		e.preventDefault();
+		$('.awsm-job-listings').show();
 		var $elem = $(this);
 		var $selected = $elem.find('option:selected');
 		var $rootWrapper = $elem.parents(rootWrapperSelector);
