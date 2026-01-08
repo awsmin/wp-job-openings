@@ -33,7 +33,34 @@ if ( ! function_exists( 'awsm_block_job_filters_explode' ) ) {
 
 if ( ! function_exists( 'awsm_block_jobs_query' ) ) {
 	function awsm_block_jobs_query( $attributes = array() ) {
-		$args  = AWSM_Job_Openings_Block::awsm_block_job_query_args( array(), $attributes );
+		$query_args     	  = array();
+		$is_term_or_slug 	  = array();
+		$filter_suffix  	  = '_spec';
+		$filter_options_array = $attributes['filter_options'];
+
+		if ( ! empty( $filter_options_array ) ) {
+			foreach ( $filter_options_array as $filter ) {
+				if ( ! empty( $filter['specKey'] ) ) {
+					$taxonomy           = $filter['specKey'];
+					$current_filter_key = str_replace( '-', '__', $taxonomy ) . $filter_suffix;
+
+					if ( isset( $_GET[ $current_filter_key ] ) ) {
+						$term_slug = sanitize_title( $_GET[ $current_filter_key ] );
+						$term      = get_term_by( 'slug', $term_slug, $taxonomy );
+
+						if ( $term && ! is_wp_error( $term ) ) {
+							$query_args[ $taxonomy ]      = $term->term_id;
+							$is_term_or_slug[ $taxonomy ] = 'term_id';
+						} else {
+							$query_args[ $taxonomy ]      = $term_slug;
+							$is_term_or_slug[ $taxonomy ] = 'slug';
+						}
+					}
+				}
+			}
+		}
+
+		$args  = AWSM_Job_Openings_Block::awsm_block_job_query_args( $query_args, $attributes, $is_term_or_slug = array() );
 		$query = new WP_Query( $args );
 		return $query;
 	}

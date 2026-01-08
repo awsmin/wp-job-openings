@@ -38,9 +38,43 @@ if ( $query->have_posts() ) : ?>
 	</div>
 	<?php
 else :
-	?>
-	<div class="jobs-none-container">
-		<p><?php awsm_no_jobs_msg(); ?></p>
-	</div>
-	<?php
+	$filter_suffix = '_spec';
+	$job_spec = array();
+
+	if ( ! empty( $_GET ) ) {
+		foreach ( $_GET as $key => $value ) {
+			if ( substr( $key, -strlen( $filter_suffix ) ) === $filter_suffix ) {
+				$job_spec[ $key ] = sanitize_text_field( $value );
+			}
+		}
+	}
+
+	if ( ! empty( $job_spec ) ) {
+		?>
+			<div class="awsm-b-job-wrap<?php awsm_jobs_wrapper_class(); ?>">
+				<?php
+					do_action( 'awsm_block_filter_form', $shortcode_atts );
+					do_action( 'awsm_filter_after_form' );
+				?>
+				<?php
+				get_filtered_job_terms();
+				$no_jobs_content = sprintf(
+					'<div class="awsm-b-jobs-pagination awsm-b-load-more-main awsm-b-no-more-jobs-container awsm-b-job-no-more-jobs-get"><p>%s</p></div>',
+					esc_html__('Sorry! No more jobs to show.', 'wp-job-openings')
+				);
+				echo $no_jobs_content;
+				?>
+				<div <?php awsm_jobs_view_class( '', $shortcode_atts ); ?><?php awsm_jobs_data_attrs( array(), $shortcode_atts ); ?>>
+					<?php include get_awsm_jobs_template_path( 'block-main', 'block-files' ); ?>
+				</div>
+			</div>
+		<?php
+	} else {
+		?>
+		<div class="jobs-none-container">
+			<p><?php awsm_no_jobs_msg(); ?></p>
+		</div>
+		<?php
+	}
 endif;
+
