@@ -1716,6 +1716,16 @@ class AWSM_Job_Openings_Settings {
 					$is_captcha_provider = ( $name === 'awsm_jobs_enable_captcha' );
 
 					if ( $is_captcha_provider ) {
+						if ( $value === 'none' || empty( $value ) ) {
+							$enable_recaptcha = get_option( 'awsm_jobs_enable_recaptcha' );
+							$site_key         = get_option( 'awsm_jobs_recaptcha_site_key' );
+							$secret_key       = get_option( 'awsm_jobs_recaptcha_secret_key' );
+							
+							if ( $enable_recaptcha === 'enable' && ! empty( $site_key ) && ! empty( $secret_key ) ) {
+								$value = 'recaptcha';
+								update_option( $name, 'recaptcha' );
+							}
+						}
 						echo '<div class="captcha-wrapper">';
 						foreach ( $choices as $choice ) {
 							$val  = isset( $choice['value'] ) ? esc_attr( $choice['value'] ) : '';
@@ -2239,19 +2249,6 @@ class AWSM_Job_Openings_Settings {
 			return apply_filters( 'awsm_jobs_captcha_validated_value', $value, $provider, $key_type, $option_name );
 		}
 
-		// if ( ! $this->basic_format_check( $value ) ) {
-		// 	$message = sprintf(
-		// 		/* translators: 1: key label */
-		// 		esc_html__( 'The %1$s format is invalid. Keys should be alphanumeric with hyphens or underscores.', 'wp-job-openings' ),
-		// 		esc_html( $key_label )
-		// 	);
-
-		// 	do_action( 'awsm_jobs_captcha_validate_error', 'format', $message, $option_name, $provider, $key_type );
-
-		// 	add_settings_error( $option_name, "{$option_name}-format", $message, 'error' );
-		// 	return $old_value;
-		// }
-
 		if ( 'secret_key' === $key_type ) {
 			$site_key_field = self::get_captcha_data( 'field_name', $provider, 'site_key' );
 			$site_key       = isset( $_POST[ $site_key_field ] )
@@ -2330,11 +2327,9 @@ class AWSM_Job_Openings_Settings {
 	 * @return string The sanitized value.
 	 */
 	public function sanitize_captcha_enable( $input ) {
-		// Get valid values from config
 		$config       = self::get_captcha_config();
 		$valid_values = array_keys( $config );
 		
-		// Sanitize input
 		$value = in_array( $input, $valid_values, true ) ? $input : 'none';
 
 		/**
@@ -2350,7 +2345,7 @@ class AWSM_Job_Openings_Settings {
 		/**
 		 * Fire action after CAPTCHA provider change.
 		 *
-		 * @since 3.5.5
+		 * @since 3.6.0
 		 *
 		 * @param string $value     The new CAPTCHA provider.
 		 * @param mixed  $input     The original input.
@@ -2364,7 +2359,7 @@ class AWSM_Job_Openings_Settings {
 		/**
 		 * Filter the validated CAPTCHA enable value.
 		 *
-		 * @since 3.5.5
+		 * @since 3.6.0
 		 *
 		 * @param string $value The sanitized value.
 		 * @param mixed  $input The original input.
