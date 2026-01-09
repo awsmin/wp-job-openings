@@ -31,9 +31,77 @@ if ( ! function_exists( 'awsm_block_job_filters_explode' ) ) {
 	}
 }
 
+
+if ( ! function_exists( 'get_block_filtered_job_terms' ) ) {
+	function get_block_filtered_job_terms( $attributes ) {
+		$filter_suffix  = '_spec';
+		$filters        = $attributes['filter_options'];
+		$filtered_terms = array();
+
+		if ( ! empty( $filters ) && is_array( $filters ) ) {
+			foreach ( $filters as $filter ) {
+				if ( ! empty( $filter['specKey'] ) ) {
+					$taxonomy           = $filter['specKey'];
+					$current_filter_key = str_replace( '-', '__', $taxonomy ) . $filter_suffix;
+
+					if ( isset( $_GET[ $current_filter_key ] ) ) {
+						$term_slug = sanitize_title( $_GET[ $current_filter_key ] );
+						$term      = get_term_by( 'slug', $term_slug, $taxonomy );
+
+						if ( $term && ! is_wp_error( $term ) ) {
+							$filtered_terms[ $taxonomy ] = $term;
+						} else {
+							$filtered_terms[ $taxonomy ] = null;
+						}
+					}
+				}
+			}
+		}
+
+		return $filtered_terms;
+	}
+}
+
 if ( ! function_exists( 'awsm_block_jobs_query' ) ) {
 	function awsm_block_jobs_query( $attributes = array() ) {
-		$args  = AWSM_Job_Openings_Block::awsm_block_job_query_args( array(), $attributes );
+		$query_args      = array();
+		$is_term_or_slug = array();
+		$filter_suffix   = '_spec';
+
+		$filters = get_option( 'awsm_jobs_listing_available_filters' );
+
+		if ( ! empty( $filters ) ) {
+			foreach ( $filters as $filter ) {
+				$current_filter_key = str_replace( '-', '__', $filter ) . $filter_suffix;
+
+				// Check if filter exists in URL ($_GET), else use stored option
+				if ( isset( $_GET[ $current_filter_key ] ) && ! empty( $_GET[ $current_filter_key ] ) ) {
+					$term_slugs = explode( ',', sanitize_text_field( $_GET[ $current_filter_key ] ) );
+				} else {
+					// Fallback to stored option if URL parameter is missing
+					$saved_terms = get_option( 'awsm_jobs_default_' . $filter, '' ); // Modify key accordingly
+					$term_slugs  = ! empty( $saved_terms ) ? explode( ',', $saved_terms ) : array();
+				}
+
+				if ( ! empty( $term_slugs ) ) {
+					$query_args[ $filter ] = array();
+
+					foreach ( $term_slugs as $term_slug ) {
+						$term = get_term_by( 'slug', sanitize_title( $term_slug ), $filter );
+
+						if ( $term && ! is_wp_error( $term ) ) {
+							$query_args[ $filter ][]    = $term->term_id;
+							$is_term_or_slug[ $filter ] = 'term_id';
+						} else {
+							$query_args[ $filter ][]    = $term_slug;
+							$is_term_or_slug[ $filter ] = 'slug';
+						}
+					}
+				}
+			}
+		}
+
+		$args  = AWSM_Job_Openings_Block::awsm_block_job_query_args( $query_args, $attributes, $is_term_or_slug );
 		$query = new WP_Query( $args );
 		return $query;
 	}

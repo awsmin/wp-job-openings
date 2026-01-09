@@ -39,13 +39,28 @@ jQuery(function($) {
 		var formData = $filterForm.serializeArray();
 		var listings = $wrapper.data('listings');
 		var specs = $wrapper.data('specs');
-		
 
 		/* added for block */
 		var layout 				= $wrapper.data('awsm-layout');
 		var hide_expired_jobs   = $wrapper.data('awsm-hide-expired-jobs'); 
 		var other_options 		= $wrapper.data('awsm-other-options'); 
 		/* end */
+
+		$rootWrapper.find('.awsm-b-filter-item').each(function() {
+			var currentLoopSpec = $(this).data('filter');
+			var searchParams = new URLSearchParams(document.location.search);
+			var currentSpecQueryVal = searchParams.get(currentLoopSpec); 
+			var $currentOption = $(this).find('.awsm-b-filter-option');
+			
+			if ($currentOption.val().length === 0 && currentSpecQueryVal && currentSpecQueryVal.length > 0) {
+				formData.forEach(function(item) {
+					if (item.name === $currentOption.attr('name')) {
+						item.value = '-1';
+					}
+				});
+			}
+		});
+
 		formData.push({
 			name: 'listings_per_page',
 			value: listings
@@ -96,7 +111,7 @@ jQuery(function($) {
 			// now, make the request.
 			$.ajax({
 				url: $filterForm.attr('action'),
-				beforeSend: function() {
+				beforeSend: function() { 
 					$wrapper.addClass('awsm-b-jobs-loading');
 				},
 				data: formData,
@@ -116,7 +131,7 @@ jQuery(function($) {
 			}).fail(function(xhr) {
 				// eslint-disable-next-line no-console
 				console.log(xhr);
-			}).always(function() {
+			}).always(function() { 
 				$wrapper.removeClass('awsm-b-jobs-loading');
 				triggerFilter = true;
 			});
@@ -151,7 +166,7 @@ jQuery(function($) {
 		awsmJobFilters($rootWrapper);
 	}
 
-	if ($(rootWrapperSelector).length > 0) {
+	/* if ($(rootWrapperSelector).length > 0) {
 		$(rootWrapperSelector).each(function() {
 			var $currentWrapper = $(this);
 			var $filterForm = $currentWrapper.find(filterSelector + ' form');
@@ -160,7 +175,7 @@ jQuery(function($) {
 				awsmJobFilters($currentWrapper);
 			}
 		});
-	}
+	} */
 
 	var updateQuery = function(key, value, url) {
 		url = typeof url !== 'undefined' ? url : currentUrl;
@@ -200,14 +215,25 @@ jQuery(function($) {
 		}
 	};
 
+	if ( $( '.awsm-b-job-no-more-jobs-get' ).length > 0 ) {
+		$( '.awsm-b-job-listings' ).hide();
+		$( '.awsm-b-job-no-more-jobs-get' ).slice( 1 ).hide();
+	}
+
 	$(filterSelector + ' .awsm-b-filter-option').on('change', function(e) { 
 		e.preventDefault();
+		$('.awsm-b-job-listings').show();
 		var $elem = $(this);
 		var $selected = $elem.find('option:selected');
 		var $rootWrapper = $elem.parents(rootWrapperSelector);
 		var currentSpec = $elem.parents('.awsm-b-filter-item').data('filter');
 		var slug = $selected.data('slug');
 		slug = typeof slug !== 'undefined' ? slug : '';
+
+		if ($('.awsm-b-job-listings').length > 0) {
+			$rootWrapper.find('.awsm-b-job-no-more-jobs-get').hide();
+		}
+
 		setPaginationBase($rootWrapper, currentSpec, slug);
 		if (awsmJobsPublic.deep_linking.spec) {
 			var $paginationBase = $rootWrapper.find('input[name="awsm_pagination_base"]');

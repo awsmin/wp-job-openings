@@ -11,7 +11,7 @@ class Awsm_Job_Guten_Blocks {
 	 */
 	public function __construct() {
 		add_action( 'init', array( $this, 'register_dynamic_block' ) );
-		add_action( 'enqueue_block_assets', array( $this, 'block_assets' ) );
+		add_action( 'enqueue_block_assets', array( $this, 'block_assets' ), 20 );
 	}
 
 	public static function get_instance() {
@@ -35,10 +35,12 @@ class Awsm_Job_Guten_Blocks {
 
 	public function block_render_callback( $atts, $content ) {
 		if ( isset( $atts['filter_options'] ) && is_array( $atts['filter_options'] ) ) {
+			$atts['filter_options'] = (array) $atts['filter_options'];
 			$atts['filter_options'] = implode( ',', $atts['filter_options'] );
 		}
 
 		if ( isset( $atts['other_options'] ) && is_array( $atts['other_options'] ) ) {
+			$atts['other_options'] = (array) $atts['other_options'];
 			$atts['other_options'] = implode( ',', $atts['other_options'] );
 		}
 
@@ -88,9 +90,14 @@ class Awsm_Job_Guten_Blocks {
 
 	public function block_assets() {
 		wp_enqueue_script( 'awsm-job-admin' );
-		if ( ! wp_style_is( 'awsm-jobs-style' ) || ! wp_script_is( 'awsm-job-scripts' ) ) {
-			$awsm_job_openings = AWSM_Job_Openings::init();
-			$awsm_job_openings->awsm_enqueue_scripts();
+		wp_enqueue_style( 'awsm-jobs-general' );
+
+		if ( wp_script_is( 'awsm-job-scripts', 'registered' ) && ! wp_script_is( 'awsm-job-scripts', 'enqueued' ) ) {
+			wp_enqueue_script( 'awsm-job-scripts' );
+		}
+
+		if ( wp_style_is( 'awsm-jobs-style', 'registered' ) && ! wp_style_is( 'awsm-jobs-style', 'enqueued' ) ) {
+			wp_enqueue_style( 'awsm-jobs-style' );
 		}
 	}
 }
