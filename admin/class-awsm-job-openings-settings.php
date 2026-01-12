@@ -2334,12 +2334,19 @@ class AWSM_Job_Openings_Settings {
 
 		/**
 		 * Sync with legacy checkbox option for backward compatibility.
-		 * Only set to true if specifically using reCAPTCHA.
+		 * Set to true if using reCAPTCHA OR if reCAPTCHA keys exist.
 		 */
 		if ( $value === 'recaptcha' ) {
 			update_option( 'awsm_jobs_enable_recaptcha', 'enable' );
 		} else {
-			update_option( 'awsm_jobs_enable_recaptcha', false );
+			$site_key   = get_option( 'awsm_jobs_recaptcha_site_key' );
+			$secret_key = get_option( 'awsm_jobs_recaptcha_secret_key' );
+			
+			if ( ! empty( $site_key ) && ! empty( $secret_key ) ) {
+				update_option( 'awsm_jobs_enable_recaptcha', 'enable' );
+			} else {
+				update_option( 'awsm_jobs_enable_recaptcha', false );
+			}
 		}
 
 		/**
