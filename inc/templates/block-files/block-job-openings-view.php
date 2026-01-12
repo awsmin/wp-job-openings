@@ -8,9 +8,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$attributes = isset( $block_atts_set ) ? $block_atts_set : array();
+$attributes = isset( $block_atts_set ) && is_array( $block_atts_set ) ? $block_atts_set : array();
+$placement  = isset( $attributes['placement'] ) ? $attributes['placement'] : '';
 $query      = awsm_block_jobs_query( $attributes );
-$block_id   = ( isset( $attributes['block_id'] ) && trim( $attributes['block_id'] ) !== '' ) ? $attributes['block_id'] : 'default-block-id';
+$block_id   = ( isset( $attributes['block_id'] ) && trim( $attributes['block_id'] ) !== '' ) ? $attributes['block_id'] : 'awsm-block-' . wp_unique_id();
 
 $show_filter             = false;
 $placement_sidebar_class = '';
@@ -92,8 +93,8 @@ if ( isset( $attributes['search'] ) && $attributes['search'] == 'enable' ) {
 	$placement_sidebar_class = 'awsm-job-2-col';
 }
 
-if ( $query->have_posts() ) {
-	if ( $attributes['placement'] == 'top' ) {
+if ( $query instanceof WP_Query && $query->have_posts() ) {
+	if ( $placement == 'top' ) {
 		?>
 			<div class="awsm-b-job-wrap<?php awsm_jobs_wrapper_class(); ?>" id="<?php echo esc_attr( $block_id ); ?>">
 				<?php
@@ -170,14 +171,16 @@ if ( $query->have_posts() ) {
 	$filter_suffix = '_spec';
 	$job_spec      = array();
 
-	foreach ( $_GET as $key => $value ) {
-		if ( substr( $key, -strlen( $filter_suffix ) ) === $filter_suffix ) {
-			$job_spec[ $key ] = sanitize_text_field( $value );
+	if ( ! empty( $_GET ) && is_array( $_GET ) ) {
+		foreach ( $_GET as $key => $value ) {
+			if ( substr( $key, -strlen( $filter_suffix ) ) === $filter_suffix ) {
+				$job_spec[ $key ] = sanitize_text_field( $value );
+			}
 		}
 	}
 
 	if ( ! empty( $job_spec ) ) {
-		if ( $attributes['placement'] === 'top' ) {
+		if ( $placement === 'top' ) {
 			?>
 			<div class="awsm-b-job-wrap <?php echo esc_attr( awsm_jobs_wrapper_class( false ) ); ?>" id="<?php echo esc_attr( $block_id ); ?>">
 				<?php
