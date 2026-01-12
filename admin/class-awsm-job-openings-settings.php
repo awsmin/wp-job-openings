@@ -1720,10 +1720,11 @@ class AWSM_Job_Openings_Settings {
 							$enable_recaptcha = get_option( 'awsm_jobs_enable_recaptcha' );
 							$site_key         = get_option( 'awsm_jobs_recaptcha_site_key' );
 							$secret_key       = get_option( 'awsm_jobs_recaptcha_secret_key' );
-							
-							if ( $enable_recaptcha === 'enable' && ! empty( $site_key ) && ! empty( $secret_key ) ) {
-								$value = 'recaptcha';
-								update_option( $name, 'recaptcha' );
+							if(function_exists('awsm_jobs_is_new_captcha_enabled') && !awsm_jobs_is_new_captcha_enabled()){
+								if ( $enable_recaptcha === 'enable' && ! empty( $site_key ) && ! empty( $secret_key ) ) {
+									$value = 'recaptcha';
+									update_option( $name, 'recaptcha' );
+								}
 							}
 						}
 						echo '<div class="captcha-wrapper">';
@@ -2338,6 +2339,8 @@ class AWSM_Job_Openings_Settings {
 		 */
 		if ( $value === 'recaptcha' ) {
 			update_option( 'awsm_jobs_enable_recaptcha', 'enable' );
+		} elseif ( $value === 'none' ) {
+			update_option( 'awsm_jobs_enable_recaptcha', false );
 		} else {
 			$site_key   = get_option( 'awsm_jobs_recaptcha_site_key' );
 			$secret_key = get_option( 'awsm_jobs_recaptcha_secret_key' );
