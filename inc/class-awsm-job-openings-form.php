@@ -1450,6 +1450,12 @@ class AWSM_Job_Openings_Form {
 			return;
 		}
 
+		if ( $captcha_type === 'recaptcha' &&
+			$this->get_recaptcha_type() === 'v2_invisible'
+		) {
+			return;
+		}
+
 		?>
 		<div class="awsm-job-form-group awsm-job-captcha-group awsm-job-<?php echo esc_attr( $captcha_type ); ?>-group">
 			<?php $this->render_captcha( $captcha_type, $site_key ); ?>
@@ -1540,7 +1546,7 @@ class AWSM_Job_Openings_Form {
 		if ( $token_field && isset( $_POST[ $token_field ] ) ) {
 			$token = sanitize_text_field( wp_unslash( $_POST[ $token_field ] ) );
 		}
-		error_log( 'CAPTCHA Token: ' . $token );
+		// error_log( 'CAPTCHA Token: ' . $token );
 		return $token;
 	}
 
@@ -1561,7 +1567,21 @@ class AWSM_Job_Openings_Form {
 		$result       = array();
 		if ( ! empty( $token ) ) {
 			$result   = $this->get_captcha_response( $token, $captcha_type );
-			$is_human = ( ! empty( $result ) && ! empty( $result['success'] ) );
+			$is_human = false;
+
+			if ( ! empty( $result ) && ! empty( $result['success'] ) ) {
+				if ( $captcha_type === 'recaptcha' && $this->get_recaptcha_type() === 'v3' ) {
+				$score_threshold = 0.5; 
+					$score = isset( $result['score'] ) ? (float) $result['score'] : 0;
+					$expected_action = 'applicationform';
+					$action_valid = ! empty( $result['action'] ) && $result['action'] === $expected_action;
+						if ( $score >= $score_threshold && $action_valid ) {
+							$is_human = true;
+						}
+					} else {
+						$is_human = true;
+					}
+				}
 		}
 
 		if ( ! $is_human ) {
