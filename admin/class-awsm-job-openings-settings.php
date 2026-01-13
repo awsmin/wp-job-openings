@@ -1725,6 +1725,18 @@ class AWSM_Job_Openings_Settings {
 									$value = 'recaptcha';
 									update_option( $name, 'recaptcha' );
 								}
+								else{
+									$value = 'none';
+									update_option( $name, 'none' );
+								}
+							}
+						}
+						elseif ( $value === 'recaptcha' ) {
+							$enable_recaptcha = get_option( 'awsm_jobs_enable_recaptcha' );
+							
+							if ( $enable_recaptcha !== 'enable' ) {
+								$value = 'none';
+								update_option( $name, 'none' );
 							}
 						}
 						echo '<div class="captcha-wrapper">';
