@@ -1861,7 +1861,7 @@ class AWSM_Job_Openings_Settings {
 			}
 
 			if ( $description ) {
-				echo '<p class="description">' . esc_html( $description ) . '</p>';
+				echo '<p class="description">' . wp_kses_post( $description ) . '</p>';	
 			}
 
 			echo '</td>';
