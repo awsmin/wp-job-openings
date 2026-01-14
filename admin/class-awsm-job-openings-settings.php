@@ -1812,7 +1812,7 @@ class AWSM_Job_Openings_Settings {
 						foreach ( $choices as $choice ) {
 							$val  = isset( $choice['value'] ) ? esc_attr( $choice['value'] ) : 'on';
 							$text = isset( $choice['text'] ) ? esc_html( $choice['text'] ) : '';
-							printf( '<label><input type="checkbox" name="%1$s[]" value="%2$s" %3$s class="%4$s" /> %5$s</label>', esc_attr( $name ), esc_attr( $val ), checked( is_array( $value ) ? in_array( $val, (array) $value, true ) : $value === $val, true, false ), esc_attr( $class ), esc_html( $text ) );
+							printf( '<label><input type="checkbox" name="%1$s[]" value="%2$s" %3$s class="%4$s" /> %5$s</label>', esc_attr( $name ), esc_attr( $val ), checked( is_array( (array) $value ) && in_array( esc_attr( $val ), (array) $value, true ) || $value === $val, true, false ), esc_attr( $class ), esc_html( $text ) );
 						}
 					}
 					break;
@@ -1825,21 +1825,19 @@ class AWSM_Job_Openings_Settings {
 						echo '<div class="awsm-captcha-key-gen">';
 					}
 
-					printf( '<input type="text" class="%1$s" id="%2$s" name="%2$s" value="%3$s" />', $class ? esc_attr( $class ) : 'regular-text', esc_attr( $name ), esc_attr( $value ) );
+					printf( '<input type="text" class="%1$s" id="%2$s" name="%2$s" value="%3$s" />', esc_attr( $class ? $class : 'regular-text' ), esc_attr( $name ), esc_attr( $value ) );
 
 					if ( $is_captcha_key && $help_button && isset( $help_button['url'], $help_button['text'] ) ) {
 						$hb_url   = esc_url( $help_button['url'] );
 						$hb_class = isset( $help_button['class'] ) ? esc_attr( $help_button['class'] ) : 'button button-secondary';
 						$hb_text  = esc_html( $help_button['text'] );
-
-						$other = '';
+						$other    = '';
 						if ( isset( $help_button['other_attrs'] ) && is_array( $help_button['other_attrs'] ) ) {
 							foreach ( $help_button['other_attrs'] as $k => $v ) {
 								$other .= ' ' . esc_attr( $k ) . '="' . esc_attr( $v ) . '"';
 							}
 						}
-
-						echo ' <a href="' . $hb_url . '" class="' . $hb_class . '"' . $other . '>' . $hb_text . '</a>';
+						echo '<a href="' . esc_url( $hb_url ) . '" class="' . esc_attr( $hb_class ) . '" ' . $other . '>' . esc_html( $hb_text ) . '</a>';
 						echo '</div>';
 
 						$help_button = false;
@@ -1859,11 +1857,11 @@ class AWSM_Job_Openings_Settings {
 						$other .= ' ' . esc_attr( $k ) . '="' . esc_attr( $v ) . '"';
 					}
 				}
-				echo ' <a href="' . $awsm_help_button_url . '" class="' . $awsm_help_button_class . '"' . $other . '>' . $awsm_help_button_text . '</a>';
+				echo '<a href="' . esc_url( $awsm_help_button_url ) . '" class="' . esc_attr( $awsm_help_button_class ) . '"' . esc_attr( $other ) . '>' . esc_html( $awsm_help_button_text ) . '</a>';
 			}
 
 			if ( $description ) {
-				echo '<p class="description">' . $description . '</p>';
+				echo '<p class="description">' . esc_html( $description ) . '</p>';
 			}
 
 			echo '</td>';
