@@ -46,6 +46,7 @@ if ( $query->have_posts() ) : ?>
 			 */
 			do_action( 'awsm_filter_form', $shortcode_atts );
 			do_action( 'awsm_filter_after_form' );
+			error_log( json_encode( awsm_jobs_view_class( '', $shortcode_atts ), JSON_PRETTY_PRINT ) );
 		?>
 
 		<div <?php awsm_jobs_view_class( '', $shortcode_atts ); ?><?php awsm_jobs_data_attrs( array(), $shortcode_atts ); ?>>
@@ -75,11 +76,10 @@ else :
 				?>
 				<?php
 				get_filtered_job_terms();
-				$no_jobs_content = sprintf(
-					'<div class="awsm-jobs-pagination awsm-load-more-main awsm-no-more-jobs-container awsm-job-no-more-jobs-get"><p>%s</p></div>',
+				printf(
+					'<div class="awsm-jobs-pagination awsm-load-more-jobs awsm-no-more-jobs-container awsm-job-no-more-jobs-get awsm-jobs-none-container awsm-lists"><p>%s</p></div>',
 					esc_html__( 'Sorry! No jobs to show.', 'wp-job-openings' )
 				);
-				echo $no_jobs_content;
 				?>
 				<div <?php awsm_jobs_view_class( '', $shortcode_atts ); ?><?php awsm_jobs_data_attrs( array(), $shortcode_atts ); ?>>
 					<?php include get_awsm_jobs_template_path( 'main', 'job-openings' ); ?>

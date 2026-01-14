@@ -1034,7 +1034,7 @@ class AWSM_Job_Openings {
 		wp_enqueue_style( 'awsm-jobs-style', AWSM_JOBS_PLUGIN_URL . '/assets/css/style.min.css', array( 'awsm-jobs-general' ), AWSM_JOBS_PLUGIN_VERSION, 'all' );
 
 		$is_recaptcha_set = $this->awsm_form->is_recaptcha_set();
-		$is_captcha_set = $this->awsm_form->is_captcha_set();
+		$is_captcha_set   = $this->awsm_form->is_captcha_set();
 		if ( is_singular( 'awsm_job_openings' ) ) {
 
 			if ( awsm_jobs_is_new_captcha_enabled() && $is_captcha_set ) {
@@ -1062,8 +1062,8 @@ class AWSM_Job_Openings {
 			$captcha_type = get_option( 'awsm_jobs_enable_captcha', 'none' );
 
 			if ( ! empty( $captcha_config ) && 'recaptcha' === $captcha_type ) {
-				$option_name             = "awsm_jobs_{$captcha_type}_fail_message";
-				$recaptcha_fail_message  = get_option( $option_name, '' );
+				$option_name            = "awsm_jobs_{$captcha_type}_fail_message";
+				$recaptcha_fail_message = get_option( $option_name, '' );
 			}
 
 			if ( empty( $recaptcha_fail_message ) ) {
@@ -1076,7 +1076,6 @@ class AWSM_Job_Openings {
 			$recaptcha_fail_message = esc_html__( 'reCAPTCHA verification failed. Please refresh the page and try again.', 'wp-job-openings' );
 		}
 
-		
 		global $post;
 
 		$localized_script_data = array(
@@ -1095,7 +1094,7 @@ class AWSM_Job_Openings {
 				'form_error_msg' => array(
 					'general'         => esc_html__( 'Error in submitting your application. Please try again later!', 'wp-job-openings' ),
 					'file_validation' => esc_html__( 'The file you have selected is too large.', 'wp-job-openings' ),
-					'captcha_failed'   => $recaptcha_fail_message,
+					'captcha_failed'  => $recaptcha_fail_message,
 				),
 			),
 			'vendors'            => array(

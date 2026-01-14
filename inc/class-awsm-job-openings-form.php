@@ -334,13 +334,12 @@ class AWSM_Job_Openings_Form {
 	public function form_field_init( $form_attrs ) {
 		$this->display_dynamic_fields( $form_attrs );
 		$this->display_gdpr_field( $form_attrs );
-		if(awsm_jobs_is_new_captcha_enabled()) {
+		if ( awsm_jobs_is_new_captcha_enabled() ) {
 			$this->display_captcha_field( $form_attrs );
-		}
-		else {
+		} else {
 			$this->display_recaptcha_field( $form_attrs );
 		}
-		
+
 	}
 
 	public function check_filetype_and_ext( $wp_filetype, $file, $filename, $mimes, $real_mime = '' ) {
@@ -434,7 +433,7 @@ class AWSM_Job_Openings_Form {
 			$attachment           = isset( $_FILES['awsm_file'] ) ? $_FILES['awsm_file'] : '';
 			$agree_privacy_policy = false;
 			$generic_err_msg      = esc_html__( 'Error in submitting your application. Please refresh the page and retry.', 'wp-job-openings' );
-			
+
 			// Handle CAPTCHA validation.
 			if ( awsm_jobs_is_new_captcha_enabled() && $this->is_captcha_set() ) {
 
@@ -1222,21 +1221,26 @@ class AWSM_Job_Openings_Form {
 			)
 		);
 		if ( ! empty( $script['async'] ) ) {
-			add_filter( 'script_loader_tag', function( $tag, $handle, $src ) use ( $config ) {
-				$captcha_handles = array();
-				
-				foreach ( $config as $captcha_type => $captcha_config ) {
-					if ( isset( $captcha_config['script']['handle'] ) && ! empty( $captcha_config['script']['async'] ) ) {
-						$captcha_handles[] = $captcha_config['script']['handle'];
+			add_filter(
+				'script_loader_tag',
+				function( $tag, $handle, $src ) use ( $config ) {
+					$captcha_handles = array();
+
+					foreach ( $config as $captcha_type => $captcha_config ) {
+						if ( isset( $captcha_config['script']['handle'] ) && ! empty( $captcha_config['script']['async'] ) ) {
+							$captcha_handles[] = $captcha_config['script']['handle'];
+						}
 					}
-				}
 
-				if ( in_array( $handle, $captcha_handles, true ) && strpos( $tag, ' async' ) === false ) {
-					$tag = str_replace( ' defer', ' async defer', $tag );
-				}
+					if ( in_array( $handle, $captcha_handles, true ) && strpos( $tag, ' async' ) === false ) {
+						$tag = str_replace( ' defer', ' async defer', $tag );
+					}
 
-				return $tag;
-			}, 10, 3 );
+					return $tag;
+				},
+				10,
+				3
+			);
 		}
 
 		do_action( 'awsm_jobs_captcha_scripts_enqueued', $captcha_type, $script );
@@ -1462,7 +1466,7 @@ class AWSM_Job_Openings_Form {
 		</div>
 		<?php
 	}
-	
+
 	private function render_captcha( $captcha_type, $site_key ) {
 		/**
 		 * Allows custom rendering for captcha types.
@@ -1543,10 +1547,9 @@ class AWSM_Job_Openings_Form {
 			: '';
 
 		$token = '';
-		if ( $token_field && isset( $_POST[ $token_field ] ) ) {
+		if ( $token_field && isset( $_POST[ $token_field ] ) ) { // phpcs:disable WordPress.Security.NonceVerification.Missing
 			$token = sanitize_text_field( wp_unslash( $_POST[ $token_field ] ) );
 		}
-		// error_log( 'CAPTCHA Token: ' . $token );
 		return $token;
 	}
 
@@ -1571,17 +1574,17 @@ class AWSM_Job_Openings_Form {
 
 			if ( ! empty( $result ) && ! empty( $result['success'] ) ) {
 				if ( $captcha_type === 'recaptcha' && $this->get_recaptcha_type() === 'v3' ) {
-				$score_threshold = 0.5; 
-					$score = isset( $result['score'] ) ? (float) $result['score'] : 0;
+					$score_threshold = 0.5;
+					$score           = isset( $result['score'] ) ? (float) $result['score'] : 0;
 					$expected_action = 'applicationform';
-					$action_valid = ! empty( $result['action'] ) && $result['action'] === $expected_action;
-						if ( $score >= $score_threshold && $action_valid ) {
-							$is_human = true;
-						}
-					} else {
+					$action_valid    = ! empty( $result['action'] ) && $result['action'] === $expected_action;
+					if ( $score >= $score_threshold && $action_valid ) {
 						$is_human = true;
 					}
+				} else {
+					$is_human = true;
 				}
+			}
 		}
 
 		if ( ! $is_human ) {
