@@ -307,7 +307,7 @@ jQuery(function ($) {
       $.ajax({
         url: actionUrl,
         beforeSend: function beforeSend() {
-          $wrapper.addClass('awsm-jobs-loading');
+          $wrapper.addClass('awsm-b-jobs-loading');
         },
         data: formData,
         type: formMethod
@@ -333,7 +333,7 @@ jQuery(function ($) {
       }).fail(function (xhr) {
         console.log(xhr);
       }).always(function () {
-        $wrapper.removeClass('awsm-jobs-loading');
+        $wrapper.removeClass('awsm-b-jobs-loading');
         triggerFilter = true;
       });
     }
@@ -899,17 +899,18 @@ jQuery(function ($) {
         if (isDefaultPagination) {
           $triggerElem.text(awsmJobsPublic.i18n.loading_text);
         } else {
-          $listingsContainer.addClass('awsm-jobs-loading');
+          $listingsContainer.addClass('awsm-b-jobs-loading');
         }
       }
     }).done(function (response) {
       if (response.data.html) {
         var effectDuration = $paginationWrapper.data('effectDuration');
+        $paginationWrapper.remove();
         if (isDefaultPagination) {
           $listingsrowContainer.append(response.data.html);
         } else {
           $listingsrowContainer.html(response.data.html);
-          $listingsContainer.removeClass('awsm-jobs-loading');
+          $listingsContainer.removeClass('awsm-b-jobs-loading');
           if (typeof effectDuration !== 'undefined') {
             effectDuration = isNaN(effectDuration) ? effectDuration : Number(effectDuration);
             $('html, body').animate({
@@ -917,7 +918,6 @@ jQuery(function ($) {
             }, effectDuration);
           }
         }
-        $paginationWrapper.remove();
       } else {
         $triggerElem.remove();
       }
