@@ -1792,14 +1792,24 @@ class AWSM_Job_Openings_Settings {
 							$enable_recaptcha = get_option( 'awsm_jobs_enable_recaptcha' );
 							$site_key         = get_option( 'awsm_jobs_recaptcha_site_key' );
 							$secret_key       = get_option( 'awsm_jobs_recaptcha_secret_key' );
-							if ( function_exists( 'awsm_jobs_is_new_captcha_enabled' ) && ! awsm_jobs_is_new_captcha_enabled() ) {
-								if ( $enable_recaptcha === 'enable' && ! empty( $site_key ) && ! empty( $secret_key ) ) {
+							$recaptcha_type   = get_option( 'awsm_jobs_recaptcha_type' ); // Get the old reCAPTCHA type
+
+							if ( $enable_recaptcha === 'enable' && ! empty( $site_key ) && ! empty( $secret_key ) ) {
+								// Check if it was v3 in the old system
+								if ( $recaptcha_type === 'v3' ) {
+									// Migrate v3 keys to new v3-specific options
+									update_option( 'awsm_jobs_recaptcha_v3_site_key', $site_key );
+									update_option( 'awsm_jobs_recaptcha_v3_secret_key', $secret_key );
 									$value = 'recaptcha';
 									update_option( $name, 'recaptcha' );
 								} else {
-									$value = 'none';
-									update_option( $name, 'none' );
+									// Default to v2 or keep existing keys as is
+									$value = 'recaptcha';
+									update_option( $name, 'recaptcha' );
 								}
+							} else {
+								$value = 'none';
+								update_option( $name, 'none' );
 							}
 						} elseif ( $value === 'recaptcha' ) {
 							$enable_recaptcha = get_option( 'awsm_jobs_enable_recaptcha' );
