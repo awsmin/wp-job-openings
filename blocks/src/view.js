@@ -723,7 +723,7 @@ jQuery( function( $ ) {
 					const searchParams = new URLSearchParams(
 						splittedURL[ 1 ]
 					);
-					paged = searchParams.get( 'paged' );
+					paged = searchParams.get( 'paged' ); 
 					searchParams.delete( 'paged' );
 					if ( searchParams.toString().length > 0 ) {
 						queryString = '?' + searchParams.toString();
@@ -927,7 +927,6 @@ jQuery( function( $ ) {
 					if ( response.data.html ) {
 						let effectDuration =
 							$paginationWrapper.data( 'effectDuration' );
-						$paginationWrapper.remove();
 						if ( isDefaultPagination ) {
 							$listingsrowContainer.append( response.data.html );
 						} else {
@@ -948,6 +947,7 @@ jQuery( function( $ ) {
 								);
 							}
 						}
+						$paginationWrapper.remove();
 					} else {
 						$triggerElem.remove();
 					}
