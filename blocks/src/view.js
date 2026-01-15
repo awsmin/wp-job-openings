@@ -64,13 +64,14 @@ jQuery( function( $ ) {
 
 		const dataAttrs = $wrapper.data();
 		$.each( dataAttrs, function( dataAttr, value ) {
-			if ( $.inArray( dataAttr, parsedListingsAttrs ) === -1 ) {
-				data.push( {
+			if ( $.inArray( dataAttr, parsedListingsAttrs ) !== -1 ) {
+				data.push({
 					name: dataAttr,
 					value
-				} );
+				});
 			}
-		} );
+		});
+
 		return data;
 	}
 

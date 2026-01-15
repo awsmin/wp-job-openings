@@ -247,7 +247,7 @@ class AWSM_Job_Openings_Block {
 			} else {
 				$args['paged'] = absint( $_POST['paged'] ) + 1;
 			}
-		}
+		} 
 
 		$query = new WP_Query( $args );
 

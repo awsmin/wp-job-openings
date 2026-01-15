@@ -54,7 +54,7 @@ jQuery(function ($) {
     $(document).trigger('awsmJobBlockListingsData', [parsedListingsAttrs]);
     var dataAttrs = $wrapper.data();
     $.each(dataAttrs, function (dataAttr, value) {
-      if ($.inArray(dataAttr, parsedListingsAttrs) === -1) {
+      if ($.inArray(dataAttr, parsedListingsAttrs) !== -1) {
         data.push({
           name: dataAttr,
           value: value
