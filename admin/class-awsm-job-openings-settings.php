@@ -1827,7 +1827,7 @@ class AWSM_Job_Openings_Settings {
 							echo '<input type="radio" name="' . esc_attr( $name ) . '" value="' . esc_attr( $val ) . '" ' . esc_attr( $checked ) . ' class="' . esc_attr( $class ) . '">';
 							echo '<span>';
 							if ( $logo ) {
-								echo $logo;
+								echo $logo; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 							}
 							echo esc_html( $text );
 							echo '</span>';
@@ -1918,7 +1918,7 @@ class AWSM_Job_Openings_Settings {
 								$other .= ' ' . esc_attr( $k ) . '="' . esc_attr( $v ) . '"';
 							}
 						}
-						echo '<a href="' . esc_url( $hb_url ) . '" class="' . esc_attr( $hb_class ) . '" ' . $other . '>' . esc_html( $hb_text ) . '</a>';
+						echo '<a href="' . esc_url( $hb_url ) . '" class="' . esc_attr( $hb_class ) . '" ' . $other . '>' . esc_html( $hb_text ) . '</a>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 						echo '</div>';
 
 						$help_button = false;
@@ -1942,7 +1942,7 @@ class AWSM_Job_Openings_Settings {
 			}
 
 			if ( $description ) {
-				echo '<p class="description">' . wp_kses_post( $description ) . '</p>';	
+				echo '<p class="description">' . wp_kses_post( $description ) . '</p>';
 			}
 
 			echo '</td>';
@@ -2180,8 +2180,10 @@ class AWSM_Job_Openings_Settings {
 			: __( 'CAPTCHA', 'wp-job-openings' );
 
 		$error_patterns = array(
+			/* translators: %s: CAPTCHA service name (e.g., reCAPTCHA, hCaptcha, Turnstile) */
 			'invalid-input-secret'    => __( 'Invalid Secret Key. Please verify your %s Secret Key.', 'wp-job-openings' ),
 			'missing-input-secret'    => __( 'Secret Key is missing.', 'wp-job-openings' ),
+			/* translators: %s: CAPTCHA service name */
 			'sitekey-secret-mismatch' => __( 'Site Key and Secret Key do not match. Please verify both keys belong to the same account.', 'wp-job-openings' ),
 		);
 
