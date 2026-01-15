@@ -1101,23 +1101,35 @@ class AWSM_Job_Openings_Form {
 		return get_option( 'awsm_jobs_enable_captcha', 'none' );
 	}
 
+
 	private function get_captcha_site_key( $captcha_type ) {
-		if ( empty( $captcha_type ) || 'none' === $captcha_type ) {
+		if ( empty( $captcha_type ) || $captcha_type === 'none' ) {
 			return null;
 		}
 
-		$site_key_option = 'awsm_jobs_' . $captcha_type . '_site_key';
-		return get_option( $site_key_option );
+		// If recaptcha type is v3
+		if ( get_option( 'awsm_jobs_recaptcha_type' ) === 'v3' && $captcha_type === 'recaptcha' ) {
+			return get_option( 'awsm_jobs_recaptcha_v3_site_key' );
+		}
+
+		// Default
+		return get_option( 'awsm_jobs_' . $captcha_type . '_site_key' );
 	}
 
 	private function get_captcha_secret_key( $captcha_type ) {
-		if ( empty( $captcha_type ) || 'none' === $captcha_type ) {
+		if ( empty( $captcha_type ) || $captcha_type === 'none' ) {
 			return null;
 		}
 
-		$secret_key_option = 'awsm_jobs_' . $captcha_type . '_secret_key';
-		return get_option( $secret_key_option );
+		// If recaptcha type is v3
+		if ( get_option( 'awsm_jobs_recaptcha_type' ) === 'v3' && $captcha_type === 'recaptcha' ) {
+			return get_option( 'awsm_jobs_recaptcha_v3_secret_key' );
+		}
+
+		// Default
+		return get_option( 'awsm_jobs_' . $captcha_type . '_secret_key' );
 	}
+
 
 	public function is_captcha_set() {
 		$captcha_type = $this->get_captcha_type();
