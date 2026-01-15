@@ -1036,19 +1036,10 @@ class AWSM_Job_Openings {
 		$is_recaptcha_set = $this->awsm_form->is_recaptcha_set();
 		$is_captcha_set   = $this->awsm_form->is_captcha_set();
 		if ( is_singular( 'awsm_job_openings' ) ) {
-
 			if ( awsm_jobs_is_new_captcha_enabled() && $is_captcha_set ) {
 				$this->awsm_form->enqueue_captcha_scripts();
-
 			} elseif ( $is_recaptcha_set ) {
-
-				wp_enqueue_script(
-					'g-recaptcha',
-					'https://www.google.com/recaptcha/api.js',
-					array(),
-					'2.0',
-					false
-				);
+				wp_enqueue_script('g-recaptcha', 'https://www.google.com/recaptcha/api.js', array(), '2.0', false );
 			}
 		}
 
@@ -1060,17 +1051,12 @@ class AWSM_Job_Openings {
 
 		if ( awsm_jobs_is_new_captcha_enabled() ) {
 			$captcha_type = get_option( 'awsm_jobs_enable_captcha', 'none' );
-
 			if ( ! empty( $captcha_config ) && 'recaptcha' === $captcha_type ) {
 				$option_name            = "awsm_jobs_{$captcha_type}_fail_message";
 				$recaptcha_fail_message = get_option( $option_name, '' );
 			}
-
 			if ( empty( $recaptcha_fail_message ) ) {
-				$recaptcha_fail_message = esc_html__(
-					'reCAPTCHA verification failed. Please refresh the page and try again.',
-					'wp-job-openings'
-				);
+				$recaptcha_fail_message = esc_html__( 'reCAPTCHA verification failed. Please refresh the page and try again.', 'wp-job-openings' );
 			}
 		} else {
 			$recaptcha_fail_message = esc_html__( 'reCAPTCHA verification failed. Please refresh the page and try again.', 'wp-job-openings' );
@@ -1186,7 +1172,6 @@ class AWSM_Job_Openings {
 			)
 		);
 	}
-
 
 	public static function get_filter_specifications( $specs_keys = array() ) {
 		$awsm_filters = get_option( 'awsm_jobs_filter' );

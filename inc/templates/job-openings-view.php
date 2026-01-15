@@ -46,7 +46,6 @@ if ( $query->have_posts() ) : ?>
 			 */
 			do_action( 'awsm_filter_form', $shortcode_atts );
 			do_action( 'awsm_filter_after_form' );
-			error_log( json_encode( awsm_jobs_view_class( '', $shortcode_atts ), JSON_PRETTY_PRINT ) );
 		?>
 
 		<div <?php awsm_jobs_view_class( '', $shortcode_atts ); ?><?php awsm_jobs_data_attrs( array(), $shortcode_atts ); ?>>
