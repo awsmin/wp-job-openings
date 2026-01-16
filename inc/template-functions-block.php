@@ -24,7 +24,6 @@ if ( ! function_exists( 'awsm_block_jobs_view_class' ) ) {
 	}
 }
 
-
 if ( ! function_exists( 'awsm_block_job_filters_explode' ) ) {
 	function awsm_block_job_filters_explode( $filter_data ) {
 		if ( is_array( $filter_data ) ) {
@@ -38,7 +37,6 @@ if ( ! function_exists( 'awsm_block_job_filters_explode' ) ) {
 		return array();
 	}
 }
-
 
 if ( ! function_exists( 'get_block_filtered_job_terms' ) ) {
 	function get_block_filtered_job_terms( $attributes ) {
@@ -255,6 +253,12 @@ if ( ! function_exists( 'awsm_jobs_block_featured_image' ) ) {
 		} else {
 			return $content;
 		}
+	}
+}
+
+if ( ! function_exists( 'awsm_block_job_listing_spec_content' ) ) {
+	function awsm_block_job_listing_spec_content( $job_id, $awsm_filters, $listing_specs, $has_term_link = true, $show_icon = false) {
+		echo AWSM_Job_Openings_Block::get_specifications_content_block( $job_id, false, $awsm_filters, array( 'specs' => $listing_specs ), $has_term_link, $show_icon); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 }
 

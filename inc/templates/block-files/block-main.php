@@ -8,11 +8,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$attributes    = isset( $attributes ) && is_array( $attributes ) ? $attributes : array();
-$view          = isset( $attributes['layout'] ) ? $attributes['layout'] : get_option( 'awsm_jobs_listing_view' );
-$awsm_filters  = get_option( 'awsm_jobs_filter' );
-$listing_specs = isset( $attributes['other_options'] ) ? $attributes['other_options'] : '';
-$listing_specs = awsm_block_job_filters_explode( $listing_specs );
+$attributes     = isset( $attributes ) && is_array( $attributes ) ? $attributes : array();
+$view           = isset( $attributes['layout'] ) ? $attributes['layout'] : get_option( 'awsm_jobs_listing_view' );
+$awsm_filters   = get_option( 'awsm_jobs_filter' );
+$listing_specs  = isset( $attributes['other_options'] ) ? $attributes['other_options'] : '';
+$show_spec_icon = isset( $attributes['show_spec_icon'] ) ? $attributes['show_spec_icon'] : false;
+$listing_specs  = awsm_block_job_filters_explode( $listing_specs );
 /**
  * Fires before The Loop to query for jobs.
  *
@@ -59,7 +60,7 @@ if ( isset( $query ) && $query instanceof WP_Query && $query->have_posts() ) {
 
 					<?php
 					if ( $view === 'stack' ) {
-						awsm_job_listing_spec_content( $job_details['id'], $awsm_filters, $listing_specs, false );
+						awsm_block_job_listing_spec_content( $job_details['id'], $awsm_filters, $listing_specs, false,$show_spec_icon );
 					}
 					?>
 
@@ -94,7 +95,7 @@ if ( isset( $query ) && $query instanceof WP_Query && $query->have_posts() ) {
 						do_action_deprecated( 'before_awsm_block_jobs_listing_right_col_content', array( $job_details['id'], $attributes ), '3.0.0', 'before_awsm_block_jobs_listing_specs_content' );
 
 						if ( $view !== 'stack' ) {
-							awsm_job_listing_spec_content( $job_details['id'], $awsm_filters, $listing_specs, false );
+							awsm_block_job_listing_spec_content( $job_details['id'], $awsm_filters, $listing_specs, false,$show_spec_icon );
 						}
 
 						awsm_b_job_more_details( $job_details['permalink'], $view );

@@ -39,6 +39,7 @@ const WidgetInspectorControls = (props) => {
 			selected_terms_main,
 			number_of_columns,
 			other_options,
+			show_spec_icon,
 			hz_sf_border = {},
 			hz_sf_border_radius = {},
 			hz_sf_padding = {},
@@ -478,6 +479,13 @@ const WidgetInspectorControls = (props) => {
 								onChange={(toggleValue) => other_options_handler(toggleValue, spec.key)}
 							/>
 						))}
+
+						<h2>{__("Show Spec icon in the Listing", "wp-job-openings")}</h2>
+						<ToggleControl
+							label={ __( 'Show spec icon', 'wp-job-openings' ) }
+							checked={ show_spec_icon }
+							onChange={ ( show_spec_icon ) => setAttributes( { show_spec_icon } ) }
+						/>
 
 					</PanelBody>
 

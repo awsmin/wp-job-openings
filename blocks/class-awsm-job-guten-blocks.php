@@ -113,6 +113,10 @@ class Awsm_Job_Guten_Blocks {
 			$atts['pagination'] = $atts['pagination'];
 		}
 
+		if ( isset( $atts['show_spec_icon'] ) ) {
+			$atts['show_spec_icon'] = $atts['show_spec_icon'];
+		}
+
 		/** end */
 
 		/** Style Tab */

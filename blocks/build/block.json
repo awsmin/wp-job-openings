@@ -72,6 +72,10 @@
       "type": "array",
       "default": []
     },
+    "show_spec_icon": {
+      "type": "boolean",
+      "default": false
+    },
     "specsInitialized": {
       "type": "boolean",
       "default": false
