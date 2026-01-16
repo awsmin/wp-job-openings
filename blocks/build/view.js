@@ -118,7 +118,7 @@ jQuery(function ($) {
     parsedListingsAttrs.push('awsm-other-options');
     parsedListingsAttrs.push('awsm-listings-total');
     parsedListingsAttrs.push('awsm-selected-terms');
-
+    parsedListingsAttrs.push('awsm-spec-icons');
     /* end */
 
     /* added for block styles tab */
@@ -182,6 +182,7 @@ jQuery(function ($) {
     var selected_terms = $wrapper.data('awsm-selected-terms');
     var other_options = $wrapper.data('awsm-other-options');
     var listings_total = $wrapper.data('awsm-listings-total');
+    var spec_icons = $wrapper.data('awsm-spec-icons');
 
     /* ========================
     Style variables
@@ -273,6 +274,12 @@ jQuery(function ($) {
       formData.push({
         name: 'awsm-listings-total',
         value: listings_total
+      });
+    }
+    if (spec_icons !== undefined) {
+      formData.push({
+        name: 'awsm-spec-icons',
+        value: spec_icons
       });
     }
 
@@ -619,7 +626,7 @@ jQuery(function ($) {
     var hide_expired_jobs = $listingsContainer.data('awsm-hide-expired-jobs');
     var selected_terms = $listingsContainer.data('awsm-selected-terms');
     var other_options = $listingsContainer.data('awsm-other-options');
-
+    var spec_icons = $listingsContainer.data('awsm-spec-icons');
     /* style data */
     var hz_sf_border_color = $listingsContainer.data('hz_sf_border_color');
     var hz_sf_border_width = $listingsContainer.data('hz_sf_border_width');
@@ -723,6 +730,7 @@ jQuery(function ($) {
     addToRequest(wpData, 'awsm-other-options', other_options);
     addToRequest(wpData, 'block_id', block_id);
     addToRequest(wpData, 'awsm-selected-terms', selected_terms, true);
+    addToRequest(wpData, 'awsm-spec-icons', spec_icons);
     addToRequest(wpData, 'hz_sf_border_color', hz_sf_border_color);
     addToRequest(wpData, 'hz_sf_border_width', hz_sf_border_width);
     addToRequest(wpData, 'hz_sf_padding', hz_sf_padding, true);

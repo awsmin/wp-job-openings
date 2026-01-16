@@ -12,7 +12,7 @@ $attributes     = isset( $attributes ) && is_array( $attributes ) ? $attributes 
 $view           = isset( $attributes['layout'] ) ? $attributes['layout'] : get_option( 'awsm_jobs_listing_view' );
 $awsm_filters   = get_option( 'awsm_jobs_filter' );
 $listing_specs  = isset( $attributes['other_options'] ) ? $attributes['other_options'] : '';
-$show_spec_icon = isset( $attributes['show_spec_icon'] ) ? $attributes['show_spec_icon'] : false;
+$show_spec_icon = isset( $attributes['show_spec_icon'] ) ? $attributes['show_spec_icon'] : false; 
 $listing_specs  = awsm_block_job_filters_explode( $listing_specs );
 /**
  * Fires before The Loop to query for jobs.

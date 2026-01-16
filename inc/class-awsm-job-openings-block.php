@@ -219,6 +219,10 @@ class AWSM_Job_Openings_Block {
 			$attributes['other_options'] = $_POST['awsm-other-options'];
 		}
 
+		if ( isset( $_POST['awsm-spec-icons'] ) ) {
+			$attributes['show_spec_icon'] = $_POST['awsm-spec-icons'];
+		}
+
 		if ( isset( $_POST['lang'] ) ) {
 			AWSM_Job_Openings::set_current_language( $_POST['lang'] );
 		}
@@ -422,7 +426,7 @@ class AWSM_Job_Openings_Block {
 		return apply_filters( 'awsm_job_block_query_args', $args, $filters, $attributes );
 	}
 
-	public static function get_block_job_listing_data_attrs( $block_atts = array() ) {
+	public static function get_block_job_listing_data_attrs( $block_atts = array() ) { 
 		$attrs                           = array();
 		$attrs['listings']               = AWSM_Job_Openings::get_listings_per_page( $block_atts );
 		$attrs['awsm-layout']            = isset( $block_atts['layout'] ) ? $block_atts['layout'] : '';
@@ -430,6 +434,7 @@ class AWSM_Job_Openings_Block {
 		$attrs['awsm-other-options']     = isset( $block_atts['other_options'] ) && is_array( $block_atts['other_options'] )
 		? implode( ',', $block_atts['other_options'] )
 		: '';
+		$attrs['awsm-spec-icons'] = isset( $block_atts['show_spec_icon'] ) ? $block_atts['show_spec_icon'] : '';
 
 		// Variables for style
 		$style_fields = array(
@@ -1095,7 +1100,7 @@ class AWSM_Job_Openings_Block {
 	public static function get_specifications_content_block( $post_id, $display_label, $filter_data = array(), $listing_specs = array(), $has_term_link = true, $show_icon = false ) { 
 		$spec_content = '';
 		$filter_data  = ! empty( $filter_data ) ? $filter_data : get_option( 'awsm_jobs_filter' );
-		if ( ! empty( $filter_data ) ) {
+		if ( ! empty( $filter_data ) ) { 
 			$spec_keys          = wp_list_pluck( $filter_data, 'taxonomy' );
 			$taxonomies         = get_object_taxonomies( 'awsm_job_openings', 'objects' );
 			$is_specs_clickable = get_option( 'awsm_jobs_make_specs_clickable' );
@@ -1113,7 +1118,7 @@ class AWSM_Job_Openings_Block {
 					}
 				}
 
-				if ( $display ) {
+				if ( $display ) { 
 					$terms = get_the_terms( $post_id, $taxonomy );
 
 					/** Filter the job specification terms. */
@@ -1130,10 +1135,10 @@ class AWSM_Job_Openings_Block {
 						// Get icon and filter data
 						$current_filter = null;
 						foreach ( $filter_data as $filter ) {
-							if ( $taxonomy === $filter['taxonomy'] ) {
+							if ( $taxonomy === $filter['taxonomy'] ) {  
 								$current_filter = $filter;
-								if ( ! empty( $filter['icon'] ) ) {
-									if ( ! is_singular( 'awsm_job_openings' ) && $show_icon === true ) {
+								if ( ! empty( $filter['icon'] ) ) {  
+									if ( ! is_singular( 'awsm_job_openings' ) && $show_icon == true ) { 
 										$spec_icon = sprintf( '<i class="awsm-job-icon-%1$s"></i>', esc_attr( $filter['icon'] ) );
 									}
 								}
