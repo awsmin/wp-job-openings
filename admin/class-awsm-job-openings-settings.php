@@ -1560,7 +1560,6 @@ class AWSM_Job_Openings_Settings {
 				continue;
 			}
 
-			// Add reCAPTCHA type selection field (only for reCAPTCHA provider)
 			if ( $provider === 'recaptcha' ) {
 				$recaptcha_enable_opt = self::get_current_captcha_provider();
 				$recaptcha_type       = get_option( 'awsm_jobs_recaptcha_type', 'v2' );
@@ -1626,7 +1625,7 @@ class AWSM_Job_Openings_Settings {
 				// v3 Site Key
 				$fields[] = array(
 					'name'        => 'awsm_jobs_recaptcha_v3_site_key',
-					'label'       => __( 'Site key (v3)', 'wp-job-openings' ),
+					'label'       => __( 'Site key', 'wp-job-openings' ),
 					'class'       => 'regular-text awsm-captcha-panel awsm-captcha-panel-recaptcha',
 					'row_class'   => 'awsm-hide awsm-captcha-row awsm-captcha-row-recaptcha awsm-recaptcha-key-v3',
 					'help_button' => array(
@@ -1643,7 +1642,7 @@ class AWSM_Job_Openings_Settings {
 				// v3 Secret Key
 				$fields[] = array(
 					'name'      => 'awsm_jobs_recaptcha_v3_secret_key',
-					'label'     => __( 'Secret key (v3)', 'wp-job-openings' ),
+					'label'     => __( 'Secret key ', 'wp-job-openings' ),
 					'class'     => 'regular-text awsm-captcha-panel awsm-captcha-panel-recaptcha',
 					'row_class' => 'awsm-hide awsm-captcha-row awsm-captcha-row-recaptcha awsm-recaptcha-key-v3',
 				);
