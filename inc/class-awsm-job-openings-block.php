@@ -486,7 +486,11 @@ class AWSM_Job_Openings_Block {
 		// phpcs:ignore WordPress.Security.NonceVerification.Missing
 		if ( ! AWSM_Job_Openings::is_default_pagination( $attributes ) && ! isset( $_POST['awsm_pagination_base'] ) ) {
 			// Handle classic pagination on page load.
-			$paged         = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ) : 1;
+			if ( is_front_page() || is_home() ) {
+				$paged = get_query_var( 'page' ) ? absint( get_query_var( 'page' ) ) : 1;
+			} else {
+				$paged = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ) : 1;
+			}
 			$args['paged'] = $paged;
 		}
 

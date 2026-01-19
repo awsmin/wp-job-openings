@@ -175,13 +175,14 @@ jQuery(function ($) {
     url = typeof url !== 'undefined' ? url : currentUrl;
     url = url.split('?')[0];
     var searchParams = new URLSearchParams(document.location.search);
-    if (searchParams.has('paged')) {
-      searchParams.delete('paged');
-    }
-    if (value.length > 0) {
+
+    // ALWAYS remove both 'page' and 'paged' parameters to prevent duplicates
+    searchParams.delete('page');
+    searchParams.delete('paged');
+
+    // Add back the correct one with the new value
+    if (value && value !== '' && value !== null) {
       searchParams.set(key, value);
-    } else {
-      searchParams.delete(key);
     }
     var modQueryString = searchParams.toString();
     if (modQueryString.length > 0) {
@@ -271,7 +272,8 @@ jQuery(function ($) {
       paged = $triggerElem.data('page');
       paged = typeof paged == 'undefined' ? 1 : paged;
     } else {
-      $triggerElem.parents('.page-numbers').find('.page-numbers').removeClass('current').removeAttr('aria-current');
+      //$triggerElem.parents('.page-numbers').find('.page-numbers').removeClass('current').removeAttr('aria-current');
+      $paginationWrapper.find('.page-numbers').removeClass('current').removeAttr('aria-current');
       $triggerElem.addClass('current').attr('aria-current', 'page');
     }
     $paginationWrapper.addClass('awsm-b-jobs-pagination-loading');
@@ -286,12 +288,25 @@ jQuery(function ($) {
       var paginationBaseURL = $triggerElem.attr('href');
       var splittedURL = paginationBaseURL.split('?');
       var queryString = '';
+      var isHomepage = window.awsmJobsPublic && awsmJobsPublic.is_homepage;
+      var pageKey = isHomepage ? 'page' : 'paged';
       if (splittedURL.length > 1) {
         var searchParams = new URLSearchParams(splittedURL[1]);
-        paged = searchParams.get('paged');
+        paged = searchParams.get(pageKey) || searchParams.get(pageKey === 'page' ? 'paged' : 'page');
+        if (!paged) {
+          paged = 1;
+        }
+        searchParams.delete('page');
         searchParams.delete('paged');
         if (searchParams.toString().length > 0) {
           queryString = '?' + searchParams.toString();
+        }
+      } else {
+        var pageMatch = paginationBaseURL.match(/\/page\/(\d+)\/?/);
+        if (pageMatch) {
+          paged = pageMatch[1];
+        } else {
+          paged = 1;
         }
       }
       paginationBaseURL = splittedURL[0] + queryString;
@@ -300,7 +315,7 @@ jQuery(function ($) {
         value: splittedURL[0] + queryString
       });
       if (awsmJobsPublic.deep_linking.pagination) {
-        updateQuery('paged', paged, paginationBaseURL);
+        updateQuery(pageKey, paged, paginationBaseURL);
       }
     }
 

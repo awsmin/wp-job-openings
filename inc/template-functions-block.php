@@ -151,10 +151,22 @@ if ( ! function_exists( 'awsm_block_jobs_load_more' ) ) {
 
 if ( ! function_exists( 'awsm_block_jobs_paginate_links' ) ) {
 	function awsm_block_jobs_paginate_links( $query, $shortcode_atts = array() ) {
-		$current       = ( $query->query_vars['paged'] ) ? (int) $query->query_vars['paged'] : 1;
-		$max_num_pages = isset( $query->max_num_pages ) ? $query->max_num_pages : 1;
+		$is_homepage = is_front_page() || is_home();
 
-		$base_url = get_pagenum_link();
+		if ( isset( $_POST['paged'] ) ) {
+			$current = absint( $_POST['paged'] );
+		} else {
+			if ( $is_homepage ) {
+				$current = get_query_var( 'page' ) ? absint( get_query_var( 'page' ) ) : 1;
+			} else {
+				$current = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ) : 1;
+			}
+		}
+
+		$page_var      = ( is_front_page() || is_home() ) ? 'page' : 'paged';
+		$max_num_pages = isset( $query->max_num_pages ) ? $query->max_num_pages : 1;
+		$base_url      = get_pagenum_link();
+
 		// phpcs:disable WordPress.Security.NonceVerification.Missing
 		if ( isset( $_POST['awsm_pagination_base'] ) ) {
 			$base_url = $_POST['awsm_pagination_base'];
@@ -162,7 +174,7 @@ if ( ! function_exists( 'awsm_block_jobs_paginate_links' ) ) {
 		// phpcs:enable
 
 		$args               = array(
-			'base'    => esc_url_raw( add_query_arg( 'paged', '%#%', $base_url ) ),
+			'base'    => esc_url_raw( add_query_arg( $page_var, '%#%', $base_url ) ),
 			'format'  => '',
 			'type'    => 'list',
 			'current' => max( 1, $current ),
