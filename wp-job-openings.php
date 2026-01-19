@@ -1039,7 +1039,7 @@ class AWSM_Job_Openings {
 			if ( awsm_jobs_is_new_captcha_enabled() && $is_captcha_set ) {
 				$this->awsm_form->enqueue_captcha_scripts();
 			} elseif ( $is_recaptcha_set ) {
-				wp_enqueue_script('g-recaptcha', 'https://www.google.com/recaptcha/api.js', array(), '2.0', false );
+				wp_enqueue_script( 'g-recaptcha', 'https://www.google.com/recaptcha/api.js', array(), '2.0', false );
 			}
 		}
 

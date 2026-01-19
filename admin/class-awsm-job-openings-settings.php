@@ -2256,145 +2256,282 @@ class AWSM_Job_Openings_Settings {
 	}
 
 
+	/**
+	 * Validates and sanitizes CAPTCHA API keys.
+	 *
+	 * @param mixed  $input               The input value to validate.
+	 * @param string $provider            The CAPTCHA provider (e.g., 'recaptcha', 'hcaptcha').
+	 * @param string $key_type            Type of key ('site_key' or 'secret_key').
+	 * @param string $actual_option_name  Optional. The actual option name being validated.
+	 * @return string The validated and sanitized value.
+	 */
 	private function validate_captcha_key( $input, $provider, $key_type, $actual_option_name = null ) {
-		// If actual option name is not provided, get it from current settings
-		if ( null === $actual_option_name ) {
-			$option_name = self::get_captcha_data( 'field_name', $provider, $key_type );
-		} else {
-			$option_name = $actual_option_name;
-		}
-
+		$option_name      = ( null !== $actual_option_name ) ? $actual_option_name : self::get_captcha_data( 'field_name', $provider, $key_type );
 		$old_value        = get_option( $option_name, '' );
 		$current_provider = $this->get_current_captcha_provider();
 
-		// Handle reCAPTCHA version-specific fields
-		if ( 'recaptcha' === $provider && null !== $actual_option_name ) {
-			// phpcs:disable WordPress.Security.NonceVerification.Missing
-			$submitted_type = isset( $_POST['awsm_jobs_recaptcha_type'] ) ? sanitize_text_field( $_POST['awsm_jobs_recaptcha_type'] ) : get_option( 'awsm_jobs_recaptcha_type', 'v2' );
-			// phpcs:enable WordPress.Security.NonceVerification.Missing
-
-			// Determine which version should be active based on submitted type
-			$active_option_name = ( 'v3' === $submitted_type )
-				? "awsm_jobs_recaptcha_v3_{$key_type}"
-				: ( 'site_key' === $key_type ? 'awsm_jobs_recaptcha_site_key' : 'awsm_jobs_recaptcha_secret_key' );
-
-			// If this option is not the one that should be active for the submitted type, just sanitize and save
-			if ( $actual_option_name !== $active_option_name ) {
-				$value = ! empty( $input ) ? sanitize_text_field( trim( (string) $input ) ) : '';
-				return apply_filters( 'awsm_jobs_captcha_validated_value', $value, $provider, $key_type, $option_name );
-			}
+		if ( ! $this->is_active_recaptcha_option( $provider, $key_type, $actual_option_name ) ) {
+			return $this->sanitize_and_filter( $input, $provider, $key_type, $option_name );
 		}
 
 		if ( $provider !== $current_provider ) {
-			$value = ! empty( $input ) ? sanitize_text_field( trim( (string) $input ) ) : '';
-			return apply_filters( 'awsm_jobs_captcha_validated_value', $value, $provider, $key_type, $option_name );
+			return $this->sanitize_and_filter( $input, $provider, $key_type, $option_name );
 		}
 
-		$provider_config = $this->get_provider_config( $provider );
-		$service_name    = ! empty( $provider_config['label'] ) ? $provider_config['label'] : __( 'CAPTCHA', 'wp-job-openings' );
-		$key_label       = ( 'site_key' === $key_type ) ? __( 'Site Key', 'wp-job-openings' ) : __( 'Secret Key', 'wp-job-openings' );
-
-		if ( empty( $provider_config['requires_keys'] ) ) {
-			$value = ! empty( $input ) ? sanitize_text_field( trim( (string) $input ) ) : '';
-			return apply_filters( 'awsm_jobs_captcha_validated_value', $value, $provider, $key_type, $option_name );
+		if ( ! $this->provider_requires_keys( $provider ) ) {
+			return $this->sanitize_and_filter( $input, $provider, $key_type, $option_name );
 		}
 
 		if ( empty( $input ) || ! is_string( $input ) ) {
-			/* translators: 1: Service name (e.g. hCaptcha, reCAPTCHA), 2: Key label (e.g. Site Key, Secret Key) */
-			$message = sprintf( esc_html__( '%1$s is enabled. Please provide a valid %2$s.', 'wp-job-openings' ), esc_html( $service_name ), esc_html( $key_label ) );
-
-			do_action( 'awsm_jobs_captcha_validate_error', 'empty', $message, $option_name, $provider, $key_type );
-
-			$error_code      = "{$option_name}-empty-{$key_type}";
-			$existing_errors = get_settings_errors( $option_name );
-			$error_exists    = false;
-			foreach ( $existing_errors as $error ) {
-				if ( $error['code'] === $error_code ) {
-					$error_exists = true;
-					break;
-				}
-			}
-
-			if ( ! $error_exists ) {
-				add_settings_error( $option_name, $error_code, $message, 'error' );
-			}
-
+			$this->add_empty_key_error( $provider, $key_type, $option_name );
 			return $old_value;
 		}
 
 		$value = sanitize_text_field( trim( $input ) );
 
-		/**
-		 * Filter: short-circuit validation flow.
-		 * Return a non-null string to bypass the default validation steps and save that value.
-		 *
-		 * @param string|null $bypass_value
-		 * @param string      $value
-		 * @param string      $provider
-		 * @param string      $key_type
-		 * @param string      $option_name
-		 */
 		$bypass = apply_filters( 'awsm_jobs_captcha_validate_short_circuit', null, $value, $provider, $key_type, $option_name );
 		if ( null !== $bypass ) {
-			return apply_filters( 'awsm_jobs_captcha_validated_value', (string) $bypass, $provider, $key_type, $option_name );
+			return $this->sanitize_and_filter( (string) $bypass, $provider, $key_type, $option_name );
 		}
 
 		if ( $value === $old_value && '' !== $old_value ) {
-			return apply_filters( 'awsm_jobs_captcha_validated_value', $value, $provider, $key_type, $option_name );
+			return $this->sanitize_and_filter( $value, $provider, $key_type, $option_name );
 		}
 
 		if ( 'secret_key' === $key_type ) {
-			// Get the appropriate site key field based on the option being validated
-			$site_key_field = ( 'recaptcha' === $provider && null !== $actual_option_name )
-				? str_replace( 'secret_key', 'site_key', $actual_option_name )
-				: self::get_captcha_data( 'field_name', $provider, 'site_key' );
+			$this->verify_secret_key( $value, $old_value, $provider, $key_type, $option_name, $actual_option_name );
+		}
 
-			// phpcs:disable WordPress.Security.NonceVerification.Missing
-			$site_key = isset( $_POST[ $site_key_field ] ) ? sanitize_text_field( (string) $_POST[ $site_key_field ] ) : get_option( $site_key_field, '' );
+		return $this->sanitize_and_filter( $value, $provider, $key_type, $option_name );
+	}
 
-			if ( '' !== $site_key ) {
-				$verification = $this->verify_keys_with_api( $site_key, $value, $provider );
-				if ( empty( $verification['valid'] ) ) {
-					$err_msg = esc_html( isset( $verification['message'] ) ? $verification['message'] : __( 'Unknown error', 'wp-job-openings' ) );
-					/* translators: %s: Detailed error message returned by the CAPTCHA API */
-					do_action( 'awsm_jobs_captcha_validate_error', 'api', sprintf( esc_html__( 'API Verification Failed: %s', 'wp-job-openings' ), $err_msg ), $option_name, $provider, $key_type );
-					add_settings_error(
-						$option_name,
-						"{$option_name}-api",
-						sprintf(
-							/* translators: %s: error message */
-							esc_html__( 'API Verification Failed: %s', 'wp-job-openings' ),
-							$err_msg
-						),
-						'error'
-					);
-					return $old_value;
-				}
+	/**
+	 * Checks if the current option is the active reCAPTCHA version option.
+	 *
+	 * @param string      $provider            The CAPTCHA provider.
+	 * @param string      $key_type            Type of key ('site_key' or 'secret_key').
+	 * @param string|null $actual_option_name  The actual option name being validated.
+	 * @return bool True if this is the active option or not a reCAPTCHA option.
+	 */
+	private function is_active_recaptcha_option( $provider, $key_type, $actual_option_name ) {
+		if ( 'recaptcha' !== $provider || null === $actual_option_name ) {
+			return true;
+		}
 
-				if ( $value !== $old_value || '' === $old_value ) {
-					$success_code      = "{$option_name}-verified";
-					$existing_messages = get_settings_errors( $option_name );
-					$success_exists    = false;
+		// phpcs:disable WordPress.Security.NonceVerification.Missing
+		$submitted_type = isset( $_POST['awsm_jobs_recaptcha_type'] )
+			? sanitize_text_field( $_POST['awsm_jobs_recaptcha_type'] )
+			: get_option( 'awsm_jobs_recaptcha_type', 'v2' );
+		// phpcs:enable WordPress.Security.NonceVerification.Missing
 
-					foreach ( $existing_messages as $message ) {
-						if ( $message['code'] === $success_code ) {
-							$success_exists = true;
-							break;
-						}
-					}
+		$active_option_name = $this->get_active_recaptcha_option_name( $submitted_type, $key_type );
 
-					$transient_key = 'awsm_captcha_success_' . md5( $option_name . $value );
-					$already_shown = get_transient( $transient_key );
+		return $actual_option_name === $active_option_name;
+	}
 
-					if ( ! $success_exists && ! $already_shown ) {
-						/* translators: %s: Name of the captcha service (e.g. hCaptcha, reCAPTCHA) */
-						add_settings_error( $option_name, $success_code, sprintf( esc_html__( '%s keys verified successfully! and settings saved.', 'wp-job-openings' ), esc_html( $service_name ) ), 'success' );
-						set_transient( $transient_key, true, 5 );
-					}
-				}
+	/**
+	 * Gets the active reCAPTCHA option name based on version and key type.
+	 *
+	 * @param string $version  The reCAPTCHA version ('v2' or 'v3').
+	 * @param string $key_type Type of key ('site_key' or 'secret_key').
+	 * @return string The option name.
+	 */
+	private function get_active_recaptcha_option_name( $version, $key_type ) {
+		if ( 'v3' === $version ) {
+			return "awsm_jobs_recaptcha_v3_{$key_type}";
+		}
+
+		return 'site_key' === $key_type
+			? 'awsm_jobs_recaptcha_site_key'
+			: 'awsm_jobs_recaptcha_secret_key';
+	}
+
+	/**
+	 * Checks if the provider requires API keys.
+	 *
+	 * @param string $provider The CAPTCHA provider.
+	 * @return bool True if provider requires keys.
+	 */
+	private function provider_requires_keys( $provider ) {
+		$provider_config = $this->get_provider_config( $provider );
+		return ! empty( $provider_config['requires_keys'] );
+	}
+
+	/**
+	 * Adds a settings error for empty CAPTCHA keys.
+	 *
+	 * @param string $provider    The CAPTCHA provider.
+	 * @param string $key_type    Type of key.
+	 * @param string $option_name The option name.
+	 */
+	private function add_empty_key_error( $provider, $key_type, $option_name ) {
+		$provider_config = $this->get_provider_config( $provider );
+		$service_name    = ! empty( $provider_config['label'] ) ? $provider_config['label'] : __( 'CAPTCHA', 'wp-job-openings' );
+		$key_label       = ( 'site_key' === $key_type )
+			? __( 'Site Key', 'wp-job-openings' )
+			: __( 'Secret Key', 'wp-job-openings' );
+
+		$message = sprintf(
+			/* translators: 1: Service name (e.g. hCaptcha, reCAPTCHA), 2: Key label (e.g. Site Key, Secret Key) */
+			esc_html__( '%1$s is enabled. Please provide a valid %2$s.', 'wp-job-openings' ),
+			esc_html( $service_name ),
+			esc_html( $key_label )
+		);
+
+		do_action( 'awsm_jobs_captcha_validate_error', 'empty', $message, $option_name, $provider, $key_type );
+
+		$error_code = "{$option_name}-empty-{$key_type}";
+
+		if ( ! $this->settings_error_exists( $option_name, $error_code ) ) {
+			add_settings_error( $option_name, $error_code, $message, 'error' );
+		}
+	}
+
+	/**
+	 * Verifies the secret key with the CAPTCHA provider's API.
+	 *
+	 * @param string      $value               The secret key value.
+	 * @param string      $old_value           The previous value.
+	 * @param string      $provider            The CAPTCHA provider.
+	 * @param string      $key_type            Type of key.
+	 * @param string      $option_name         The option name.
+	 * @param string|null $actual_option_name  The actual option name being validated.
+	 */
+	private function verify_secret_key( $value, $old_value, $provider, $key_type, $option_name, $actual_option_name ) {
+		$site_key = $this->get_site_key_for_verification( $provider, $actual_option_name );
+
+		if ( '' === $site_key ) {
+			return;
+		}
+
+		$verification = $this->verify_keys_with_api( $site_key, $value, $provider );
+
+		if ( empty( $verification['valid'] ) ) {
+			$this->add_api_verification_error( $verification, $option_name, $provider, $key_type );
+			return;
+		}
+
+		if ( $value !== $old_value || '' === $old_value ) {
+			$this->add_verification_success_message( $provider, $option_name, $value );
+		}
+	}
+
+	/**
+	 * Gets the site key for API verification.
+	 *
+	 * @param string      $provider            The CAPTCHA provider.
+	 * @param string|null $actual_option_name  The actual option name being validated.
+	 * @return string The site key value.
+	 */
+	private function get_site_key_for_verification( $provider, $actual_option_name ) {
+		$site_key_field = ( 'recaptcha' === $provider && null !== $actual_option_name )
+			? str_replace( 'secret_key', 'site_key', $actual_option_name )
+			: self::get_captcha_data( 'field_name', $provider, 'site_key' );
+
+		// phpcs:disable WordPress.Security.NonceVerification.Missing
+		return isset( $_POST[ $site_key_field ] )
+			? sanitize_text_field( (string) $_POST[ $site_key_field ] )
+			: get_option( $site_key_field, '' );
+		// phpcs:enable WordPress.Security.NonceVerification.Missing
+	}
+
+	/**
+	 * Adds API verification error message.
+	 *
+	 * @param array  $verification The verification result.
+	 * @param string $option_name  The option name.
+	 * @param string $provider     The CAPTCHA provider.
+	 * @param string $key_type     Type of key.
+	 */
+	private function add_api_verification_error( $verification, $option_name, $provider, $key_type ) {
+		$error_message = isset( $verification['message'] )
+			? esc_html( $verification['message'] )
+			: __( 'Unknown error', 'wp-job-openings' );
+
+		$full_message = sprintf(
+			/* translators: %s: Detailed error message returned by the CAPTCHA API */
+			esc_html__( 'API Verification Failed: %s', 'wp-job-openings' ),
+			$error_message
+		);
+
+		do_action( 'awsm_jobs_captcha_validate_error', 'api', $full_message, $option_name, $provider, $key_type );
+
+		add_settings_error( $option_name, "{$option_name}-api", $full_message, 'error' );
+	}
+
+	/**
+	 * Adds verification success message.
+	 *
+	 * @param string $provider    The CAPTCHA provider.
+	 * @param string $option_name The option name.
+	 * @param string $value       The validated value.
+	 */
+	private function add_verification_success_message( $provider, $option_name, $value ) {
+		$provider_config = $this->get_provider_config( $provider );
+		if ( ! empty( $provider_config['label'] ) ) {
+			$service_name = $provider_config['label'];
+		} else {
+			$service_name = __( 'CAPTCHA', 'wp-job-openings' );
+		}
+		$success_code  = "{$option_name}-verified";
+		$transient_key = 'awsm_captcha_success_' . md5( $option_name . $value );
+
+		// Avoid duplicate success messages
+		if ( $this->settings_error_exists( $option_name, $success_code ) || get_transient( $transient_key ) ) {
+			return;
+		}
+
+		$message = sprintf(
+			/* translators: %s: Service name (e.g. hCaptcha, reCAPTCHA) */
+			esc_html__( '%s keys verified successfully! and settings saved.', 'wp-job-openings' ),
+			esc_html( $service_name )
+		);
+
+		add_settings_error( $option_name, $success_code, $message, 'success' );
+		set_transient( $transient_key, true, 5 );
+	}
+
+	/**
+	 * Checks if a settings error already exists.
+	 *
+	 * @param string $option_name The option name.
+	 * @param string $error_code  The error code to check.
+	 * @return bool True if error exists.
+	 */
+	private function settings_error_exists( $option_name, $error_code ) {
+		$existing_errors = get_settings_errors( $option_name );
+
+		foreach ( $existing_errors as $error ) {
+			if ( $error['code'] === $error_code ) {
+				return true;
 			}
 		}
 
+		return false;
+	}
+
+	/**
+	 * Sanitizes input and applies the validated value filter.
+	 *
+	 * This centralizes the final sanitization and filtering step.
+	 *
+	 * @param mixed  $input       The input to sanitize.
+	 * @param string $provider    The CAPTCHA provider.
+	 * @param string $key_type    Type of key.
+	 * @param string $option_name The option name.
+	 * @return string The sanitized and filtered value.
+	 */
+	private function sanitize_and_filter( $input, $provider, $key_type, $option_name ) {
+		$value = ! empty( $input ) ? sanitize_text_field( trim( (string) $input ) ) : '';
+
+		/**
+		 * Filters the validated CAPTCHA key value before saving.
+		 *
+		 * @param string $value       The sanitized value.
+		 * @param string $provider    The CAPTCHA provider.
+		 * @param string $key_type    Type of key ('site_key' or 'secret_key').
+		 * @param string $option_name The option name.
+		 */
 		return apply_filters( 'awsm_jobs_captcha_validated_value', $value, $provider, $key_type, $option_name );
 	}
 
