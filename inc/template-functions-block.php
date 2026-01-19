@@ -430,7 +430,7 @@ if ( ! function_exists( 'do_dynamic_filter_form_action' ) ) {
 
 		$action_name = ( $placement === 'top' )
 			? 'awsm_block_filter_form'
-			: 'awsm_block_filter_form_slide';
+			: 'awsm_block_filter_form_side';
 
 		do_action( $action_name, $attributes );
 	}

@@ -128,7 +128,7 @@ if ( $query instanceof WP_Query && $query->have_posts() ) {
 				<div class="awsm-b-filter-wrap awsm-jobs-alerts-on" >
 					<?php
 						/**
-						 * awsm_block_filter_form_slide hook
+						 * awsm_block_filter_form_side hook
 						 *
 						 * Display filter form  in placement slide for job listings
 						 *
