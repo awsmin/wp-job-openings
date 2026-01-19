@@ -1799,6 +1799,8 @@ class AWSM_Job_Openings_Settings {
 									// Migrate v3 keys to new v3-specific options
 									update_option( 'awsm_jobs_recaptcha_v3_site_key', $site_key );
 									update_option( 'awsm_jobs_recaptcha_v3_secret_key', $secret_key );
+									update_option( 'awsm_jobs_recaptcha_site_key', '' );
+                					update_option( 'awsm_jobs_recaptcha_secret_key', '' );
 									$value = 'recaptcha';
 									update_option( $name, 'recaptcha' );
 								} else {
