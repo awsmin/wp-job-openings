@@ -80,7 +80,7 @@ if ( $query->have_posts() ) {
 				 *
 				 * Display filter form  in placement slide for job listings
 				 *
-				 * @hooked AWSM_Job_Openings_Block::display_block_filter_form_slide()
+				 * @hooked AWSM_Job_Openings_Block::display_block_filter_form_side()
 				 *
 				 * @since 3.5.0
 				 *

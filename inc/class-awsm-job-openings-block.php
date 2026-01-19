@@ -14,7 +14,7 @@ class AWSM_Job_Openings_Block {
 		add_action( 'wp_ajax_nopriv_block_jobfilter', array( $this, 'awsm_block_posts_filters' ) );
 		add_action( 'wp_ajax_block_loadmore', array( $this, 'awsm_block_posts_filters' ) );
 		add_action( 'wp_ajax_nopriv_block_loadmore', array( $this, 'awsm_block_posts_filters' ) );
-		add_action( 'awsm_block_filter_form_slide', array( $this, 'display_block_filter_form_slide' ) );
+		add_action( 'awsm_block_filter_form_slide', array( $this, 'display_block_filter_form_side' ) );
 	}
 
 	public static function init() {
@@ -772,7 +772,8 @@ class AWSM_Job_Openings_Block {
 						 * @param string $taxonomy Taxonomy key.
 						 * @param WP_Taxonomy $tax_details Taxonomy details.
 						 */
-						$filter_label                      = apply_filters( 'awsm_filter_block_label', esc_html_x( '', 'job filter', 'wp-job-openings' ) . ' ' . $spec_name, $taxonomy, $tax_details );
+						$filter_label   = apply_filters( 'awsm_filter_block_label', esc_html_x( '', 'job filter', 'wp-job-openings' ) . 'All ' . $spec_name, $taxonomy, $tax_details );
+
 						$filter_class_admin_select_control = '';
 						if ( ! self::is_edit_or_add_page() ) {
 							$filter_class_admin_select_control = ' awsm-job-select-control';
@@ -897,7 +898,7 @@ class AWSM_Job_Openings_Block {
 		echo apply_filters( 'awsm_filter_block_content', $filter_content, $available_filters_arr ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
-	public function display_block_filter_form_slide( $block_atts ) {
+	public function display_block_filter_form_side( $block_atts ) {
 		$uid                   = isset( $block_atts['uid'] ) ? '-' . $block_atts['uid'] : '';
 		$enable_search         = isset( $block_atts['search'] ) ? $block_atts['search'] : '';
 		$placeholder_search    = isset( $block_atts['search_placeholder'] ) ? $block_atts['search_placeholder'] : '';
@@ -923,7 +924,7 @@ class AWSM_Job_Openings_Block {
 
 			$search_content = sprintf( '<div class="awsm-b-filter-item-search"><div class="awsm-b-filter-item-search-in"><label for="awsm-jq-1" class="awsm-b-sr-only">%1$s</label><input type="text" id="awsm-jq%4$s" name="jq" value="%2$s" placeholder="%1$s" class="awsm-b-job-search awsm-b-job-form-control">%3$s</div></div>', esc_attr( $placeholder_text ), esc_attr( $search_query ), $search_icon, esc_attr( $uid ) );
 
-			$search_content = apply_filters( 'awsm_jobs_block_search_field_content_placement_slide', $search_content );
+			$search_content = apply_filters( 'awsm_jobs_block_search_field_content_placement_side', $search_content );
 
 			$taxonomies = get_object_taxonomies( 'awsm_job_openings', 'objects' );
 
@@ -993,9 +994,9 @@ class AWSM_Job_Openings_Block {
 								 */
 								$main_spec_label = apply_filters( 'awsm_filter_block_label', esc_html_x( $spec_name, 'job filter', 'wp-job-openings' ), $taxonomy, $tax_details );
 
-								$filter_label = apply_filters(
+								$filter_label =  apply_filters(
 									'awsm_filter_block_label',
-									esc_html_x( $spec_name, 'job filter', 'wp-job-openings' ),
+									esc_html_x( 'All ' .$spec_name, 'job filter', 'wp-job-openings' ),
 									$taxonomy,
 									$tax_details
 								);
