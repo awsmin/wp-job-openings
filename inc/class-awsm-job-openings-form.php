@@ -435,7 +435,7 @@ class AWSM_Job_Openings_Form {
 			$generic_err_msg      = esc_html__( 'Error in submitting your application. Please refresh the page and retry.', 'wp-job-openings' );
 
 			// Handle CAPTCHA validation.
-			if ( awsm_jobs_is_new_captcha_enabled() && $this->is_captcha_set() ) {
+			if ( awsm_jobs_is_new_captcha_enabled() || $this->is_captcha_set() ) {
 
 				$awsm_response = $this->validate_captcha_submission( $awsm_response );
 
@@ -1143,8 +1143,9 @@ class AWSM_Job_Openings_Form {
 			return false;
 		}
 
+		// If the captcha type doesn't require keys, we still need to verify it's configured
 		if ( empty( $config[ $captcha_type ]['requires_keys'] ) || ! $config[ $captcha_type ]['requires_keys'] ) {
-			return true;
+			return false; // Changed from true to false
 		}
 
 		$site_key   = $this->get_captcha_site_key( $captcha_type );
