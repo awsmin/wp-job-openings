@@ -285,8 +285,8 @@ if ( ! function_exists( 'awsm_jobs_block_listing_item_class' ) ) {
 	}
 }
 
-if ( ! function_exists( 'hz_get_ui_styles' ) ) {
-    function hz_get_ui_styles( $attributes ) {
+if ( ! function_exists( 'hz_get_ui_styles' ) ) { 
+    function hz_get_ui_styles( $attributes ) { 
 
         $styles = array(
             'block_id' => ! empty( trim( $attributes['block_id'] ?? '' ) )
