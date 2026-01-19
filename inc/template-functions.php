@@ -242,25 +242,23 @@ if ( ! function_exists( 'awsm_jobs_paginate_links' ) ) {
 	function awsm_jobs_paginate_links( $query, $shortcode_atts = array() ) {
 		$is_homepage = is_front_page() || is_home();
 
-		if ( $is_homepage ) {
-			$current = get_query_var( 'page' ) ? absint( get_query_var( 'page' ) ) : 1;
-			$page_var = 'page';
+		if ( isset( $_POST['paged'] ) ) {
+			$current = absint( $_POST['paged'] );
 		} else {
-			error_log( json_encode( 'enter', JSON_PRETTY_PRINT ) );
-			$current = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ) : 1;
-			$current = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ) : 1;
-			$page_var = 'paged';
+			if ( $is_homepage ) {
+				$current = get_query_var( 'page' ) ? absint( get_query_var( 'page' ) ) : 1;
+			} else {
+				$current = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ) : 1;
+			}
 		}
 
+		$page_var      = ( is_front_page() || is_home() ) ? 'page' : 'paged';
 		$max_num_pages = isset( $query->max_num_pages ) ? $query->max_num_pages : 1;
+		$base_url      = get_pagenum_link();
 
-		$base_url = get_pagenum_link();
-		// phpcs:disable WordPress.Security.NonceVerification.Missing
 		if ( isset( $_POST['awsm_pagination_base'] ) ) {
 			$base_url = $_POST['awsm_pagination_base'];
 		}
-		$page_var = ( is_front_page() || is_home() ) ? 'page' : 'paged';
-		
 		// phpcs:enable
 		$args               = array(
 			'base'    => esc_url_raw( add_query_arg( $page_var, '%#%', $base_url ) ),

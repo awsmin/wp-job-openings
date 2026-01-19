@@ -1087,6 +1087,7 @@ class AWSM_Job_Openings {
 				'selectric'         => true,
 				'jquery_validation' => true,
 			),
+			'is_homepage'        => ( is_front_page() || is_home() ),
 		);
 		/**
 		 * Filters the public script localized data.
