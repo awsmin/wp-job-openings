@@ -240,7 +240,18 @@ if ( ! function_exists( 'awsm_job_more_details' ) ) {
 
 if ( ! function_exists( 'awsm_jobs_paginate_links' ) ) {
 	function awsm_jobs_paginate_links( $query, $shortcode_atts = array() ) {
-		$current       = ( $query->query_vars['paged'] ) ? (int) $query->query_vars['paged'] : 1;
+		$is_homepage = is_front_page() || is_home();
+
+		if ( $is_homepage ) {
+			$current = get_query_var( 'page' ) ? absint( get_query_var( 'page' ) ) : 1;
+			$page_var = 'page';
+		} else {
+			error_log( json_encode( 'enter', JSON_PRETTY_PRINT ) );
+			$current = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ) : 1;
+			$current = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ) : 1;
+			$page_var = 'paged';
+		}
+
 		$max_num_pages = isset( $query->max_num_pages ) ? $query->max_num_pages : 1;
 
 		$base_url = get_pagenum_link();
@@ -248,10 +259,11 @@ if ( ! function_exists( 'awsm_jobs_paginate_links' ) ) {
 		if ( isset( $_POST['awsm_pagination_base'] ) ) {
 			$base_url = $_POST['awsm_pagination_base'];
 		}
+		$page_var = ( is_front_page() || is_home() ) ? 'page' : 'paged';
+		
 		// phpcs:enable
-
 		$args               = array(
-			'base'    => esc_url_raw( add_query_arg( 'paged', '%#%', $base_url ) ),
+			'base'    => esc_url_raw( add_query_arg( $page_var, '%#%', $base_url ) ),
 			'format'  => '',
 			'type'    => 'list',
 			'current' => max( 1, $current ),
