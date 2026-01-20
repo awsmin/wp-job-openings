@@ -332,6 +332,7 @@ jQuery( function( $ ) {
 		} );
 	}
  */
+	
 	var updateQuery = function( key, value, url ) {
 		url = typeof url !== 'undefined' ? url : currentUrl;
 		url = url.split( '?' )[ 0 ];
@@ -475,7 +476,7 @@ jQuery( function( $ ) {
 
 	$( filterSelector + ' .awsm-filter-checkbox' ).on(
 		'change',
-		function( e ) {
+		function( e ) { 
 			const selectedFilters = {};
 			const slugs = []; // Initialize an array to collect slugs
 			const $elem = $( this );
