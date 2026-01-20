@@ -526,29 +526,25 @@ jQuery(function($) {
 					prefix: 'awsm-selectric',
 					camelCase: false
 				},
-				labelBuilder: function (item) {
-					var select = item.element.closest('select');
-					var allOptions = select.find('option');
-					var selectedOptions = select.find('option:selected');
+				labelBuilder: function(item) {
+               		var $select = $(item.element).closest('select');
+					var $allOptions = $select.find('option');
+					var $selectedOptions = $select.find('option:selected');
 
-					// If "All Job Category" (index 0) is selected
-					if (selectedOptions.length && selectedOptions.first()[0].index === 0) {
+					// Only apply "All selected" logic for multiple select
+					if ($select.prop('multiple') && $allOptions.first().is(':selected')) {
 						var labels = [];
-
-						allOptions.each(function () {
-							// Skip "All Job Category" itself (value is empty)
-							if (this.index !== 0 && this.value !== '') {
+						$allOptions.each(function(index) {
+							if (index !== 0 && this.value !== '') {
 								labels.push(this.text);
 							}
 						});
-
 						return labels.join(', ');
 					}
 
-					// Default behavior
+					// Default: show selected option text
 					return item.text;
-				}
-
+                }
 				/* multiple: {
 					separator: '... ',      // Items separator updated.
 					keepMenuOpen: true,     // Keep the menu open after selection.

@@ -380,7 +380,7 @@ jQuery( function( $ ) {
 		$( '.awsm-b-job-no-more-jobs-get' ).slice( 1 ).hide();
 	}
 
-	$(filterSelector + ' .awsm-b-filter-option').on('change', function(e) {
+	$(filterSelector + ' .awsm-b-filter-option').on('change', function (e) {
 		e.preventDefault();
 		$('.awsm-b-job-listings').show();
 
@@ -388,86 +388,87 @@ jQuery( function( $ ) {
 		const $rootWrapper = $elem.closest(rootWrapperSelector);
 		const currentSpec = $elem.closest('.awsm-b-filter-item').data('filter');
 
-		const isMultiple = $elem.prop('multiple'); // Check if it's a multiple select
+		const isMultiple = $elem.prop('multiple');
 		const allOptions = $elem.find('option');
-		const firstOption = allOptions.eq(0); // "All Job Type"
-		const selectedOptions = $elem.find('option:selected');
-		const isAllSelected = firstOption.prop('selected');
+		const firstOption = allOptions.eq(0); // "All"
+		const selectedOptions = allOptions.filter(':selected');
 
-		// **Fix: Restrict list item selection to current dropdown only**
-		const allLiItems = $elem.closest('.awsm-b-filter-item').find('ul li');
-		const firstLiItem = allLiItems.eq(0); // "All Job Type" in <ul>
-		const selectedLiItems = allLiItems.filter('.selected');
+		const allLiItems = $elem
+			.closest('.awsm-b-filter-item')
+			.find('ul li');
 
-		const isCheckboxFilter = $elem.closest('.awsm-b-filter-item').find('input[type="checkbox"]').length > 0;
 		let slugs = [];
 
-		if (isMultiple) {
-			if (isAllSelected) {
+		/* ----------------------------------------------------
+		Track previous "All" state
+		---------------------------------------------------- */
+		const wasAllSelected = $elem.data('was-all-selected') === true;
+		const isAllSelected = firstOption.is(':selected');
 
-				// **Select all options within this dropdown only**
+		// Store current state for next change
+		$elem.data('was-all-selected', isAllSelected);
+
+		/* ----------------------------------------------------
+		MULTI SELECT LOGIC
+		---------------------------------------------------- */
+		if (isMultiple) {
+
+			/* CASE 1: "All" was JUST UNCHECKED */
+			if (wasAllSelected && !isAllSelected) {
+
+				// HARD RESET — clears everything
+				allOptions.prop('selected', false).removeClass('selected');
+				allLiItems.removeClass('selected');
+
+				slugs = [];
+
+			/* CASE 2: "All" is checked */
+			} else if (isAllSelected) {
+
 				allOptions.prop('selected', true).addClass('selected');
-				allLiItems.addClass('selected'); // **Fix: Only apply to current dropdown**
-				slugs = allOptions.slice(1).map(function() {
+				allLiItems.addClass('selected');
+
+				slugs = allOptions.slice(1).map(function () {
 					return $(this).data('slug');
 				}).get().filter(Boolean);
-			} else if (selectedOptions.length === 0) {
 
-				// **Deselect all in the current dropdown only**
-				allOptions.prop('selected', false).removeClass('selected');
-				allLiItems.removeClass('selected'); // **Fix: Only affect current dropdown**
-				slugs = [];
+			/* CASE 3: Individual selection */
 			} else {
 
-				// **Handle individual selection within the current dropdown**
-				selectedOptions.each(function() {
-					$(this).prop('selected', true).addClass('selected');
+				allLiItems.removeClass('selected');
+
+				selectedOptions.each(function () {
 					const index = $(this).index();
-					allLiItems.eq(index).addClass('selected'); // **Fix: Apply changes to corresponding <li>**
+					allLiItems.eq(index).addClass('selected');
 				});
 
-				slugs = selectedOptions.map(function() {
+				slugs = selectedOptions.map(function () {
 					return $(this).data('slug');
 				}).get().filter(Boolean);
 			}
-		} else if (isCheckboxFilter) {
 
-			// **Handle checkboxes**
-			const $checkboxes = $elem.closest('.awsm-b-filter-item').find('input[type="checkbox"]');
-			const $allCheckbox = $checkboxes.eq(0); // First checkbox is "All"
-
-			if ($allCheckbox.prop('checked')) {
-
-				// **Select all checkboxes in this filter group only**
-				$checkboxes.prop('checked', true).addClass('selected').trigger('change');
-				slugs = $checkboxes.slice(1).map(function() {
-					return $(this).data('slug');
-				}).get().filter(Boolean);
-			} else {
-
-				// **Handle individual checkbox selection**
-				slugs = $checkboxes.filter(':checked').map(function() {
-					return $(this).data('slug');
-				}).get().filter(Boolean);
-			}
 		} else {
-
-			// **Single select logic**
-			slugs = selectedOptions.data('slug') ? [ selectedOptions.data('slug') ] : [];
+			// SINGLE SELECT
+			slugs = selectedOptions.data('slug')
+				? [selectedOptions.data('slug')]
+				: [];
 		}
 
-		const slugString = slugs.length > 0 ? slugs.join(',') : '';
+		const slugString = slugs.length ? slugs.join(',') : '';
 
-		// **Update pagination and filters only for the affected dropdown**
+		/* ----------------------------------------------------
+		Pagination + Filters
+		---------------------------------------------------- */
 		if ($('.awsm-job-listings').length > 0) {
 			$rootWrapper.find('.awsm-b-job-no-more-jobs-get').hide();
 		}
 
 		setPaginationBase($rootWrapper, currentSpec, slugString);
 
-		// **Update the URL without affecting other dropdowns**
 		if (awsmJobsPublic.deep_linking.spec) {
-			const $paginationBase = $rootWrapper.find('input[name="awsm_pagination_base"]');
+			const $paginationBase = $rootWrapper.find(
+				'input[name="awsm_pagination_base"]'
+			);
 			updateQuery(currentSpec, slugString, $paginationBase.val());
 		}
 
