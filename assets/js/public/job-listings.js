@@ -137,17 +137,16 @@ jQuery(function($) {
 	// 	});
 	// }
 
+	// Updated updateQuery function
 	var updateQuery = function(key, value, url) {
 		url = typeof url !== 'undefined' ? url : currentUrl;
 		url = url.split('?')[0];
 		var searchParams = new URLSearchParams(document.location.search);
 		
-		// ALWAYS remove both 'page' and 'paged' parameters to prevent duplicates
 		searchParams.delete('page');
 		searchParams.delete('paged');
 		
-		// Add back the correct one with the new value
-		if (value && value !== '' && value !== null) {
+		if (value && value !== '' && value !== null && value !== 'null') {
 			searchParams.set(key, value);
 		}
 		
@@ -381,26 +380,6 @@ jQuery(function($) {
 			console.log(xhr);
 		});
 	});
-
-	// Updated updateQuery function
-	var updateQuery = function(key, value, url) {
-		url = typeof url !== 'undefined' ? url : currentUrl;
-		url = url.split('?')[0];
-		var searchParams = new URLSearchParams(document.location.search);
-		
-		searchParams.delete('page');
-		searchParams.delete('paged');
-		
-		if (value && value !== '' && value !== null && value !== 'null') {
-			searchParams.set(key, value);
-		}
-		
-		var modQueryString = searchParams.toString();
-		if (modQueryString.length > 0) {
-			modQueryString = '?' + modQueryString;
-		}
-		window.history.replaceState({}, '', url + modQueryString);
-	};
 
 	/* ========== Custom select box - selectric ========== */
 
