@@ -93,7 +93,7 @@ if ( isset( $attributes['search'] ) && $attributes['search'] == 'enable' ) {
 	$placement_sidebar_class = 'awsm-job-2-col';
 }
 
-if ( $query instanceof WP_Query && $query->have_posts() ) {
+if ( $query->have_posts() ) {
 	if ( $placement == 'top' ) {
 		?>
 			<div class="awsm-b-job-wrap<?php awsm_jobs_wrapper_class(); ?>" id="<?php echo esc_attr( $block_id ); ?>">
@@ -167,9 +167,9 @@ if ( $query instanceof WP_Query && $query->have_posts() ) {
 		<?php
 	}
 } else {
-		// When no jobs are found, check for filters in URL
+	// When no jobs are found, check for filters in URL
 	$filter_suffix = '_spec';
-	$job_spec      = array();
+	$job_spec      = array();  
 
 	if ( ! empty( $_GET ) && is_array( $_GET ) ) {
 		foreach ( $_GET as $key => $value ) {

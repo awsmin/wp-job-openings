@@ -40,49 +40,40 @@ if ( ! function_exists( 'awsm_block_job_filters_explode' ) ) {
 
 if ( ! function_exists( 'get_block_filtered_job_terms' ) ) {
 	function get_block_filtered_job_terms( $attributes ) {
-		/* $filter_suffix  = '_spec';
-		$filters        = explode( ',', $attributes['filter_options'] );
-		$filtered_terms = array();
 
-		if ( ! empty( $filters ) ) {
-			foreach ( $filters as $filter ) {
-				$current_filter_key = str_replace( '-', '__', $filter ) . $filter_suffix;
-				if ( isset( $_GET[ $current_filter_key ] ) ) {
-					$term_slug = sanitize_title( $_GET[ $current_filter_key ] );
-					$term      = get_term_by( 'slug', $term_slug, $filter );
-
-					if ( $term && ! is_wp_error( $term ) ) {
-						$filtered_terms[ $filter ] = $term;
-					} else {
-						$filtered_terms[ $filter ] = null;
-					}
-				}
-			}
-		}
-
-		return $filtered_terms; */
 		$filter_suffix  = '_spec';
 		$filters        = $attributes['filter_options'];
 		$filtered_terms = array();
 
-		error_log( json_encode( 'enters get_block_filtered_job_terms', JSON_PRETTY_PRINT ) );
-
 		if ( ! empty( $filters ) && is_array( $filters ) ) {
 			foreach ( $filters as $filter ) {
-				if ( ! empty( $filter['specKey'] ) ) {
-					$taxonomy           = $filter['specKey'];
-					$current_filter_key = str_replace( '-', '__', $taxonomy ) . $filter_suffix;
 
-					if ( isset( $_GET[ $current_filter_key ] ) ) {
-						$term_slug = sanitize_title( $_GET[ $current_filter_key ] );
-						$term      = get_term_by( 'slug', $term_slug, $taxonomy );
+				if ( empty( $filter['specKey'] ) ) {
+					continue;
+				}
 
-						if ( $term && ! is_wp_error( $term ) ) {
-							$filtered_terms[ $taxonomy ] = $term;
-						} else {
-							$filtered_terms[ $taxonomy ] = null;
-						}
+				$taxonomy           = $filter['specKey'];
+				$current_filter_key = str_replace( '-', '__', $taxonomy ) . $filter_suffix;
+
+				if ( empty( $_GET[ $current_filter_key ] ) ) {
+					continue;
+				}
+
+				$raw_value = wp_unslash( $_GET[ $current_filter_key ] );
+				$slugs     = explode( ',', $raw_value );
+
+				foreach ( $slugs as $slug ) {
+					$slug = sanitize_title( $slug );
+					$term = get_term_by( 'slug', $slug, $taxonomy );
+
+					if ( $term && ! is_wp_error( $term ) ) {
+						$filtered_terms[ $taxonomy ][] = $term;
 					}
+				}
+
+				// Always define taxonomy key
+				if ( empty( $filtered_terms[ $taxonomy ] ) ) {
+					$filtered_terms[ $taxonomy ] = array();
 				}
 			}
 		}
@@ -93,62 +84,47 @@ if ( ! function_exists( 'get_block_filtered_job_terms' ) ) {
 
 if ( ! function_exists( 'awsm_block_jobs_query' ) ) {
 	function awsm_block_jobs_query( $attributes = array() ) {
-		$query_args      = array();
+
+		$query_args    = array();
 		$is_term_or_slug = array();
-		$filter_suffix   = '_spec';
+		$filter_suffix = '_spec';
 
 		$filter_options_array = $attributes['filter_options'];
 
-		//$filter_options_array = explode( ',', $attributes['filter_options'] );
-
-		/* if ( is_string( $attributes['filter_options'] ) ) {
-			$filter_options_array = explode( ',', $attributes['filter_options'] );
-		} else {
-			$filter_options_array = array(); // Or handle the case as per your requirement
-		}
-		*/
-		/* if ( ! empty( $filter_options_array ) ) {
-			foreach ( $filter_options_array as $filter ) {
-				$current_filter_key = str_replace( '-', '__', $filter ) . $filter_suffix;
-				if ( isset( $_GET[ $current_filter_key ] ) ) {
-					$term_slug = sanitize_title( $_GET[ $current_filter_key ] );
-					$term      = get_term_by( 'slug', $term_slug, $filter );
-					if ( $term && ! is_wp_error( $term ) ) {
-						$query_args[ $filter ]      = $term->term_id;
-						$is_term_or_slug[ $filter ] = 'term_id';
-					} else {
-						$query_args[ $filter ]      = $term_slug;
-						$is_term_or_slug[ $filter ] = 'slug';
-					}
-				}
-			}
-		} */
-
 		if ( ! empty( $filter_options_array ) ) {
 			foreach ( $filter_options_array as $filter ) {
-				if ( ! empty( $filter['specKey'] ) ) {
-					$taxonomy           = $filter['specKey'];
-					$current_filter_key = str_replace( '-', '__', $taxonomy ) . $filter_suffix;
 
-					if ( isset( $_GET[ $current_filter_key ] ) ) {
-						$term_slug = sanitize_title( $_GET[ $current_filter_key ] );
-						$term      = get_term_by( 'slug', $term_slug, $taxonomy );
-
-						if ( $term && ! is_wp_error( $term ) ) {
-							$query_args[ $taxonomy ]      = $term->term_id;
-							$is_term_or_slug[ $taxonomy ] = 'term_id';
-						} else {
-							$query_args[ $taxonomy ]      = $term_slug;
-							$is_term_or_slug[ $taxonomy ] = 'slug';
-						}
-					}
+				if ( empty( $filter['specKey'] ) ) {
+					continue;
 				}
+
+				$taxonomy           = $filter['specKey'];
+				$current_filter_key = str_replace( '-', '__', $taxonomy ) . $filter_suffix;
+
+				if ( empty( $_GET[ $current_filter_key ] ) ) {
+					continue;
+				}
+
+				$raw_value = wp_unslash( $_GET[ $current_filter_key ] );
+				$slugs     = explode( ',', $raw_value );
+
+				$clean_slugs = array();
+				foreach ( $slugs as $slug ) {
+					$clean_slugs[] = sanitize_title( $slug );
+				}
+
+				$query_args[ $taxonomy ]      = $clean_slugs;
+				$is_term_or_slug[ $taxonomy ] = 'slug';
 			}
 		}
 
-		$args  = AWSM_Job_Openings_Block::awsm_block_job_query_args( $query_args, $attributes, $is_term_or_slug = array() );
-		$query = new WP_Query( $args );
-		return $query;
+		$args  = AWSM_Job_Openings_Block::awsm_block_job_query_args(
+			$query_args,
+			$attributes,
+			$is_term_or_slug
+		);
+
+		return new WP_Query( $args );
 	}
 }
 
