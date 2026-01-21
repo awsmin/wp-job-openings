@@ -59,13 +59,6 @@ jQuery(document).ready(function($) {
 
 		var formData = new FormData(form);
 		
-		
-		// CRITICAL FIX: Don't send empty g-recaptcha-response tokens
-		// var recaptchaToken = formData.get('g-recaptcha-response');
-		// if (recaptchaToken === '' || recaptchaToken === null) {
-		// 	formData.delete('g-recaptcha-response');
-		// }
-		
 		if ('fields' in data && Array.isArray(data.fields)) {
 			$.each(data.fields, function(index, field) {
 				if ('name' in field && 'value' in field) {
