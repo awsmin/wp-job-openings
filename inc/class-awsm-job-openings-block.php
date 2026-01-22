@@ -898,7 +898,7 @@ class AWSM_Job_Openings_Block {
 		echo apply_filters( 'awsm_filter_block_content', $filter_content, $available_filters_arr ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
-	public function display_block_filter_form_side( $block_atts ) {
+	public function display_block_filter_form_side( $block_atts ) { 
 		$uid                   = isset( $block_atts['uid'] ) ? '-' . $block_atts['uid'] : '';
 		$enable_search         = isset( $block_atts['search'] ) ? $block_atts['search'] : '';
 		$placeholder_search    = isset( $block_atts['search_placeholder'] ) ? $block_atts['search_placeholder'] : '';
@@ -983,20 +983,35 @@ class AWSM_Job_Openings_Block {
 
 								$filter_key = str_replace( '-', '__', $taxonomy );
 								$spec_name  = apply_filters( 'wpml_translate_single_string', $tax_details->label, 'WordPress', sprintf( 'taxonomy general name: %s', $tax_details->label ) );
+								
 								/**
 								 * Filters the default label for the job filter.
 								 *
 								 * @since 3.5.0
 								 *
-								 * @param string $filter_label The label for the filter.
+								 * @param string $main_spec_label The label for the filter.
 								 * @param string $taxonomy Taxonomy key.
 								 * @param WP_Taxonomy $tax_details Taxonomy details.
 								 */
-								$main_spec_label = apply_filters( 'awsm_filter_block_label', esc_html_x( $spec_name, 'job filter', 'wp-job-openings' ), $taxonomy, $tax_details );
-
-								$filter_label =  apply_filters(
+								$main_spec_label = apply_filters(
 									'awsm_filter_block_label',
-									esc_html_x( 'All ' .$spec_name, 'job filter', 'wp-job-openings' ),
+									esc_html_x( $spec_name, 'job filter', 'wp-job-openings' ),
+									$taxonomy,
+									$tax_details
+								);
+
+								/**
+								 * Filters the default label for the dropdown job filter.
+								 *
+								 * @since 3.5.0
+								 *
+								 * @param string $all_spec_label The label for the all filter.
+								 * @param string $taxonomy Taxonomy key.
+								 * @param WP_Taxonomy $tax_details Taxonomy details.
+								 */
+								$all_spec_label = apply_filters(
+									'awsm_filter_block_dropdown_label',
+									esc_html_x( 'All ' . $spec_name, 'job filter', 'wp-job-openings' ),
 									$taxonomy,
 									$tax_details
 								);
@@ -1020,20 +1035,35 @@ class AWSM_Job_Openings_Block {
 									$label_class_name = 'awsm-b-sr-only';
 								}
 
+								$label_text = self::is_edit_or_add_page()
+								? $all_spec_label   // Block editor preview
+								: $main_spec_label; // Frontend
+
 								$dropdown_content = sprintf(
-									'<div class="awsm-b-filter-item" data-filter="%2$s">'
-									. ( self::is_edit_or_add_page() ? '<div>%3$s</div>' : '' ) .
-									'<label for="awsm-%1$s-filter-option%5$s" class="' . $label_class_name . '">%3$s</label>
-									<select name="awsm_job_spec[%1$s][]" class="awsm-b-filter-option ' . $spec_multiple_class . ' awsm-%1$s-filter-option ' . $filter_class_admin_select_control . '" id="awsm-%1$s-filter-option%5$s" aria-label="%3$s" ' . $multiple_for_spec . '>
-									<option value="">%3$s</option>%4$s
-									</select>
+									'<div class="awsm-b-filter-item" data-filter="%2$s">
+										%11$s
+										<label for="awsm-%1$s-filter-option%6$s" class="%7$s">%3$s</label>
+										<select name="awsm_job_spec[%1$s][]" 
+											class="awsm-b-filter-option %8$s awsm-%1$s-filter-option %9$s" 
+											id="awsm-%1$s-filter-option%6$s" 
+											aria-label="%3$s" %10$s>
+											<option value="">%4$s</option>
+											%5$s
+										</select>
 									</div>',
 									esc_attr( $taxonomy ),
 									esc_attr( $filter_key . '_spec' ),
-									esc_html( $filter_label ),
+									esc_html( $label_text ),        
+									esc_html( $all_spec_label ),   
 									$options_content,
-									esc_attr( $uid )
+									esc_attr( $uid ),
+									esc_attr( $label_class_name ),
+									esc_attr( $spec_multiple_class ),
+									esc_attr( $filter_class_admin_select_control ),
+									esc_attr( $multiple_for_spec ),
+									self::is_edit_or_add_page() ? '<div>' . esc_html( $main_spec_label ) . '</div>' : ''
 								);
+
 								/**
 								 * Filter the job filter dropdown content.
 								 *
