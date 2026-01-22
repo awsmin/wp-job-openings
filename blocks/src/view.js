@@ -181,23 +181,24 @@ jQuery(function($) {
 		url = typeof url !== 'undefined' ? url : currentUrl;
 		url = url.split('?')[0];
 		var searchParams = new URLSearchParams(document.location.search);
-		
-		// ALWAYS remove both 'page' and 'paged' parameters to prevent duplicates
-		searchParams.delete('page');
-		searchParams.delete('paged');
-		
-		// Add back the correct one with the new value
-		if (value && value !== '' && value !== null) {
-			searchParams.set(key, value);
+		if (searchParams.has('paged')) {
+			searchParams.delete('paged');
 		}
-		
+		if (searchParams.has('page')) {
+			searchParams.delete('page');
+		}
+		if (value.length > 0) {
+			searchParams.set(key, value);
+		} else {
+			searchParams.delete(key);
+		}
 		var modQueryString = searchParams.toString();
 		if (modQueryString.length > 0) {
 			modQueryString = '?' + modQueryString;
 		}
 		window.history.replaceState({}, '', url + modQueryString);
 	};
-
+	
 	var setPaginationBase = function($rootWrapper, key, value) {
 		var $paginationBase = $rootWrapper.find('input[name="awsm_pagination_base"]');
 		if ($paginationBase.length > 0) {
