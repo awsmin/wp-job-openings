@@ -142,14 +142,17 @@ jQuery(function($) {
 		url = typeof url !== 'undefined' ? url : currentUrl;
 		url = url.split('?')[0];
 		var searchParams = new URLSearchParams(document.location.search);
-		
-		searchParams.delete('page');
-		searchParams.delete('paged');
-		
-		if (value && value !== '' && value !== null && value !== 'null') {
-			searchParams.set(key, value);
+		if (searchParams.has('paged')) {
+			searchParams.delete('paged');
 		}
-		
+		if (searchParams.has('page')) {
+			searchParams.delete('page');
+		}
+		if (value.length > 0) {
+			searchParams.set(key, value);
+		} else {
+			searchParams.delete(key);
+		}
 		var modQueryString = searchParams.toString();
 		if (modQueryString.length > 0) {
 			modQueryString = '?' + modQueryString;
