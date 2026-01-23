@@ -436,17 +436,13 @@ class AWSM_Job_Openings_Form {
 
 			// Handle CAPTCHA validation.
 			if ( awsm_jobs_is_new_captcha_enabled() || $this->is_captcha_set() ) {
-
 				$awsm_response = $this->validate_captcha_submission( $awsm_response );
-
 			} elseif ( $this->is_recaptcha_set() ) {
-
 				$is_human = false;
 
 				if ( ! empty( $_POST['g-recaptcha-response'] ) ) {
 					$is_human = $this->validate_captcha_field( wp_unslash( $_POST['g-recaptcha-response'] ) );
 				}
-
 				if ( ! $is_human ) {
 					$awsm_response['error'][] = esc_html__(
 						'Please verify that you are not a robot.',
@@ -454,7 +450,6 @@ class AWSM_Job_Openings_Form {
 					);
 				}
 			}
-
 			if ( $this->get_gdpr_field_label() !== false ) {
 				if ( ! isset( $_POST['awsm_form_privacy_policy'] ) || $_POST['awsm_form_privacy_policy'] !== 'yes' ) {
 					$awsm_response['error'][] = esc_html__( 'Please agree to our privacy policy.', 'wp-job-openings' );
