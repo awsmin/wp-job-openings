@@ -1274,23 +1274,23 @@ a.awsm-plugin-item p {
 	opacity: 0.5;
 }
 /* CAPTCHA OPTIONS */
-.captcha-wrapper{
+.awsm-captcha-wrapper{
   display: flex;
   flex-wrap: wrap;
   gap: 30px;
 }
-.captcha-item{
+.awsm-captcha-item{
   min-width: 120px;
   width: 120px;
 }
-.captcha-item label{
+.awsm-captcha-item label{
   position: relative;
 }
-.captcha-item input{
+.awsm-captcha-item input{
   position: absolute;
   opacity: 0;
 }
-.captcha-item span{
+.awsm-captcha-item span{
   border-radius: 8px;
   border: 2px solid #EBEBEB;
   background: #FFF;
@@ -1303,7 +1303,7 @@ a.awsm-plugin-item p {
   transition: all 0.3s ease;
   cursor: pointer;
 }
-.captcha-item input:checked + span{
+.awsm-captcha-item input:checked + span{
   border: 2px solid #3FE0C7;
   opacity: 1;
 }

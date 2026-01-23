@@ -171,11 +171,11 @@ if ( ! empty( $upload_file_extns ) ) {
 					<?php
 						do_action( 'before_awsm_form_recaptcha_settings' );
 
-					if ( awsm_jobs_is_new_captcha_enabled() ) {
-						$this->display_captcha_settings_fields( $settings_fields['recaptcha'] );
-					} else {
-						$this->display_settings_fields( $settings_fields['recaptcha'] );
-					}
+						if ( awsm_jobs_is_new_captcha_enabled() ) {
+							$this->display_captcha_settings_fields( $settings_fields['recaptcha'] );
+						} else {
+							$this->display_settings_fields( $settings_fields['recaptcha'] );
+						}
 
 						do_action( 'after_awsm_form_recaptcha_settings' );
 					?>

@@ -1825,7 +1825,7 @@ class AWSM_Job_Openings_Settings {
 								update_option( $name, 'none' );
 							}
 						}
-						echo '<div class="captcha-wrapper">';
+						echo '<div class="awsm-captcha-wrapper">';
 						foreach ( $choices as $choice ) {
 							$val  = isset( $choice['value'] ) ? esc_attr( $choice['value'] ) : '';
 							$text = isset( $choice['text'] ) ? esc_html( $choice['text'] ) : $val;
@@ -1838,7 +1838,7 @@ class AWSM_Job_Openings_Settings {
 
 							$checked = checked( $value, $val, false );
 
-							echo '<div class="captcha-item">';
+							echo '<div class="awsm-captcha-item">';
 							echo '<label>';
 							echo '<input type="radio" name="' . esc_attr( $name ) . '" value="' . esc_attr( $val ) . '" ' . esc_attr( $checked ) . ' class="' . esc_attr( $class ) . '">';
 							echo '<span>';
