@@ -515,7 +515,7 @@ jQuery(function($) {
 			$elem.selectric({
 				onInit: function(select, selectric) {
 					var id = select.id; 
-					if (selectric && selectric.elements && selectric.elements.input) {
+					if (selectric && selectric.elements && selectric.elements.input) { console.log('test');
 						var $input = $(selectric.elements.input);
 						$(select).attr('id', 'selectric-' + id);
 						$input.attr('id', id);
@@ -526,25 +526,7 @@ jQuery(function($) {
 					prefix: 'awsm-selectric',
 					camelCase: false
 				},
-				labelBuilder: function(item) {
-               		var $select = $(item.element).closest('select');
-					var $allOptions = $select.find('option');
-					var $selectedOptions = $select.find('option:selected');
-
-					// Only apply "All selected" logic for multiple select
-					if ($select.prop('multiple') && $allOptions.first().is(':selected')) {
-						var labels = [];
-						$allOptions.each(function(index) {
-							if (index !== 0 && this.value !== '') {
-								labels.push(this.text);
-							}
-						});
-						return labels.join(', ');
-					}
-
-					// Default: show selected option text
-					return item.text;
-                }
+				
 				/* multiple: {
 					separator: '... ',      // Items separator updated.
 					keepMenuOpen: true,     // Keep the menu open after selection.

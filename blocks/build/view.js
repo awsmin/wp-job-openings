@@ -440,83 +440,124 @@ jQuery(function ($) {
     $('.awsm-b-job-listings').hide();
     $('.awsm-b-job-no-more-jobs-get').slice(1).hide();
   }
-  $(filterSelector + ' .awsm-b-filter-option').on('change', function (e) {
-    e.preventDefault();
-    $('.awsm-b-job-listings').show();
-    var $select = $(this);
-    var $rootWrapper = $select.closest(rootWrapperSelector);
+  $(filterSelector + ' .awsm-b-filter-option').selectric({
+    multiple: {
+      keepMenuOpen: true
+    },
+    onInit: function onInit(select, selectric) {
+      var id = select.id;
+      if (selectric && selectric.elements && selectric.elements.input) {
+        var $input = $(selectric.elements.input);
+        $(select).attr('id', 'selectric-' + id);
+        $input.attr('id', id);
+      }
+    },
+    arrowButtonMarkup: '<span class="awsm-selectric-arrow-drop">&#x25be;</span>',
+    customClass: {
+      prefix: 'awsm-selectric',
+      camelCase: false
+    },
+    onChange: function onChange(element) {
+      var $select = $(element);
+      handleAwsmMultiFilter($select);
+
+      // Ensure menu stays open after refresh
+      if ($select.prop('multiple')) {
+        $select.selectric('open');
+      }
+    },
+    labelBuilder: function labelBuilder(item) {
+      var $select = $(item.element).closest('select');
+      var $allOptions = $select.find('option');
+      var $selectedOptions = $select.find('option:selected');
+
+      // Only apply "All selected" logic for multiple select
+      if ($select.prop('multiple') && $allOptions.first().is(':selected')) {
+        var labels = [];
+        $allOptions.each(function (index) {
+          if (index !== 0 && this.value !== '') {
+            labels.push(this.text);
+          }
+        });
+        return labels.join(', ');
+      }
+
+      // Default: show selected option text
+      return item.text;
+    }
+  });
+  function handleAwsmMultiFilter($select) {
+    var $options = $select.find('option');
+    var $all = $options.eq(0); // "All"
+    var $others = $options.slice(1); // Individual options
+
+    var $rootWrapper = $select.closest('.awsm-b-root');
     var $filterItem = $select.closest('.awsm-b-filter-item');
     var currentSpec = $filterItem.data('filter');
-    var $options = $select.find('option');
-    var $allOption = $options.eq(0);
-    var $liItems = $filterItem.find('ul li');
-    var $allLi = $liItems.eq(0);
-
-    // 🔑 Detect clicked LI (Selectric sync trick)
-    var $clickedLi = $filterItem.find('ul li:hover');
-    var clickedIndex = $clickedLi.length ? $clickedLi.index() : null;
     var slugs = [];
+    var isAllSelected = $all.is(':selected');
+    var selectedOthersCount = $others.filter(':selected').length;
+    var totalOthersCount = $others.length;
 
-    /* =========================
-    HARD RESET ONLY WHEN "ALL" UNCHECKED BY CLICK
-    ========================= */
-    if (clickedIndex === 0 &&
-    // User clicked "All"
-    !$allOption.prop('selected') // And it is now unchecked
-    ) {
-      $options.prop('selected', false).removeClass('selected');
-      $liItems.removeClass('selected');
+    /* =====================
+    All unchecked + all individuals checked → RESET
+    ====================== */
+    if (!isAllSelected && selectedOthersCount === totalOthersCount) {
+      $options.prop('selected', false);
+      $select.selectric('refresh');
       setPaginationBase($rootWrapper, currentSpec, '');
-      if (awsmJobsPublic.deep_linking.spec) {
-        var $paginationBase = $rootWrapper.find('input[name="awsm_pagination_base"]');
-        updateQuery(currentSpec, '', $paginationBase.val());
-      }
+      updateAwsmQuery($rootWrapper, currentSpec, '');
       awsmJobFilters($rootWrapper);
       return;
     }
 
-    /* =========================
-    ALL SELECTED
-    ========================= */
-    if (clickedIndex === 0 && $allOption.prop('selected')) {
-      $options.prop('selected', true).addClass('selected');
-      $liItems.addClass('selected');
-      slugs = $options.slice(1).map(function () {
+    /* =====================
+    ALL CHECKED
+    (even if individuals were selected before)
+    ====================== */
+    if (isAllSelected) {
+      $options.prop('selected', true);
+      slugs = $others.map(function () {
         return $(this).data('slug');
-      }).get().filter(Boolean);
+      }).get();
     }
 
-    /* =========================
-    SINGLE SELECTION
-    ========================= */else {
-      // Clear previous state
-      $options.prop('selected', false).removeClass('selected');
-      $liItems.removeClass('selected');
-
-      // Apply clicked option
-      if (clickedIndex !== null) {
-        var $option = $options.eq(clickedIndex);
-        var slug = $option.data('slug');
-        $option.prop('selected', true).addClass('selected');
-        $liItems.eq(clickedIndex).addClass('selected');
-        if (slug) slugs.push(slug);
-      }
+    /* =====================
+    ONLY INDIVIDUAL(S)
+    ====================== */else if (selectedOthersCount > 0) {
+      $all.prop('selected', false);
+      slugs = $others.filter(':selected').map(function () {
+        return $(this).data('slug');
+      }).get();
     }
 
-    /* =========================
-    APPLY FILTER
-    ========================= */
-    var slugString = slugs.length ? slugs.join(',') : '';
-    if ($('.awsm-job-listings').length > 0) {
-      $rootWrapper.find('.awsm-b-job-no-more-jobs-get').hide();
+    /* =====================
+    NOTHING SELECTED → RESET
+    ====================== */else {
+      $options.prop('selected', false);
+      $select.selectric('refresh');
+      setPaginationBase($rootWrapper, currentSpec, '');
+      updateAwsmQuery($rootWrapper, currentSpec, '');
+      awsmJobFilters($rootWrapper);
+      return;
     }
+
+    // Sync UI
+    $select.selectric('refresh');
+    var slugString = slugs.join(',');
     setPaginationBase($rootWrapper, currentSpec, slugString);
-    if (awsmJobsPublic.deep_linking.spec) {
-      var _$paginationBase = $rootWrapper.find('input[name="awsm_pagination_base"]');
-      updateQuery(currentSpec, slugString, _$paginationBase.val());
-    }
+    updateAwsmQuery($rootWrapper, currentSpec, slugString);
     awsmJobFilters($rootWrapper);
-  });
+  }
+
+  /* =========================
+  Helper: Update URL if deep linking
+  ========================= */
+  function updateAwsmQuery($rootWrapper, spec, value) {
+    if (!awsmJobsPublic.deep_linking.spec) return;
+    var $paginationBase = $rootWrapper.find('input[name="awsm_pagination_base"]');
+    updateQuery(spec, value, $paginationBase.val());
+  }
 
   /* $( filterSelector + ' .awsm-filter-checkbox' ).on(
   	'change',

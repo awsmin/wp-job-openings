@@ -1018,7 +1018,7 @@ class AWSM_Job_Openings_Block {
 
 								$filter_class_admin_select_control = '';
 								if ( ! self::is_edit_or_add_page() ) {
-									$filter_class_admin_select_control = ' awsm-job-select-control';
+									$filter_class_admin_select_control = ' awsm-b-filter-option';
 								}
 
 								//$block_atts['filter_options']
@@ -1047,7 +1047,7 @@ class AWSM_Job_Openings_Block {
 											class="awsm-b-filter-option %8$s awsm-%1$s-filter-option %9$s" 
 											id="awsm-%1$s-filter-option%6$s" 
 											aria-label="%3$s" %10$s>
-											<option value="">%4$s</option>
+											<option value="All">%4$s</option>
 											%5$s
 										</select>
 									</div>',
