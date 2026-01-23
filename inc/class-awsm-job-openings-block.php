@@ -776,7 +776,7 @@ class AWSM_Job_Openings_Block {
 
 						$filter_class_admin_select_control = '';
 						if ( ! self::is_edit_or_add_page() ) {
-							$filter_class_admin_select_control = ' awsm-job-select-control';
+							$filter_class_admin_select_control = ' awsm-b-filter-option';
 						}
 
 						$spec_multiple_class = $multiple_for_spec = '';

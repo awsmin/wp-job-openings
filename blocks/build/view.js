@@ -465,26 +465,24 @@ jQuery(function ($) {
       if ($select.prop('multiple')) {
         $select.selectric('open');
       }
-    },
-    labelBuilder: function labelBuilder(item) {
-      var $select = $(item.element).closest('select');
-      var $allOptions = $select.find('option');
-      var $selectedOptions = $select.find('option:selected');
-
-      // Only apply "All selected" logic for multiple select
-      if ($select.prop('multiple') && $allOptions.first().is(':selected')) {
-        var labels = [];
-        $allOptions.each(function (index) {
-          if (index !== 0 && this.value !== '') {
-            labels.push(this.text);
-          }
-        });
-        return labels.join(', ');
-      }
-
-      // Default: show selected option text
-      return item.text;
     }
+    /* labelBuilder: function(item) {
+    	var $select = $(item.element).closest('select');
+    	var $allOptions = $select.find('option');
+    	var $selectedOptions = $select.find('option:selected');
+    		// Only apply "All selected" logic for multiple select
+    	if ($select.prop('multiple') && $allOptions.first().is(':selected')) {
+    		var labels = [];
+    		$allOptions.each(function(index) {
+    			if (index !== 0 && this.value !== '') {
+    				labels.push(this.text);
+    			}
+    		});
+    		return labels.join(', ');
+    	}
+    		// Default: show selected option text
+    	return item.text;
+    } */
   });
   function handleAwsmMultiFilter($select) {
     var $options = $select.find('option');

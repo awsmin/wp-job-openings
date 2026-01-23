@@ -467,28 +467,28 @@ jQuery( function( $ ) {
 				$select.selectric('open');
 			}
 		},
-		labelBuilder: function(item) {
-               		var $select = $(item.element).closest('select');
-					var $allOptions = $select.find('option');
-					var $selectedOptions = $select.find('option:selected');
+		/* labelBuilder: function(item) {
+			var $select = $(item.element).closest('select');
+			var $allOptions = $select.find('option');
+			var $selectedOptions = $select.find('option:selected');
 
-					// Only apply "All selected" logic for multiple select
-					if ($select.prop('multiple') && $allOptions.first().is(':selected')) {
-						var labels = [];
-						$allOptions.each(function(index) {
-							if (index !== 0 && this.value !== '') {
-								labels.push(this.text);
-							}
-						});
-						return labels.join(', ');
+			// Only apply "All selected" logic for multiple select
+			if ($select.prop('multiple') && $allOptions.first().is(':selected')) {
+				var labels = [];
+				$allOptions.each(function(index) {
+					if (index !== 0 && this.value !== '') {
+						labels.push(this.text);
 					}
+				});
+				return labels.join(', ');
+			}
 
-					// Default: show selected option text
-					return item.text;
-                }
+			// Default: show selected option text
+			return item.text;
+		} */
 	});
 
-	 function handleAwsmMultiFilter($select) {
+	function handleAwsmMultiFilter($select) {
 		const $options = $select.find('option');
 		const $all     = $options.eq(0);        // "All"
 		const $others  = $options.slice(1);     // Individuals
