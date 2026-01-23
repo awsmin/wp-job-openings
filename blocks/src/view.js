@@ -493,9 +493,8 @@ jQuery( function( $ ) {
 		const $all     = $options.eq(0);        // "All"
 		const $others  = $options.slice(1);     // Individual options
 
-		const $rootWrapper = $select.closest('.awsm-b-root');
-		const $filterItem  = $select.closest('.awsm-b-filter-item');
-		const currentSpec  = $filterItem.data('filter');
+		const $rootWrapper = $select.closest(rootWrapperSelector);
+		const currentSpec = $select.closest('.awsm-b-filter-item').data('filter');
 
 		let slugs = [];
 

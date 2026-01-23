@@ -491,9 +491,8 @@ jQuery(function ($) {
     var $all = $options.eq(0); // "All"
     var $others = $options.slice(1); // Individual options
 
-    var $rootWrapper = $select.closest('.awsm-b-root');
-    var $filterItem = $select.closest('.awsm-b-filter-item');
-    var currentSpec = $filterItem.data('filter');
+    var $rootWrapper = $select.closest(rootWrapperSelector);
+    var currentSpec = $select.closest('.awsm-b-filter-item').data('filter');
     var slugs = [];
     var isAllSelected = $all.is(':selected');
     var selectedOthersCount = $others.filter(':selected').length;
