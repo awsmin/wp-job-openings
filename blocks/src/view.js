@@ -459,33 +459,24 @@ jQuery( function( $ ) {
 
 		onChange: function (element) {
 			const $select = $(element);
+			const selectric = $select.data('selectric');
+    		const $allOption = $select.find('option').first();
 
 			handleAwsmMultiFilter($select);
+
+			//wait for Selectric to update label
+			setTimeout(function () {
+				if ($allOption.is(':selected')) {
+					selectric.elements.label.text($allOption.text());
+				}
+			}, 0);
 
 			// Ensure menu stays open after refresh
 			if ($select.prop('multiple')) {
 				$select.selectric('open');
 			}
 		},
-		/* labelBuilder: function(item) {
-			var $select = $(item.element).closest('select');
-			var $allOptions = $select.find('option');
-			var $selectedOptions = $select.find('option:selected');
 
-			// Only apply "All selected" logic for multiple select
-			if ($select.prop('multiple') && $allOptions.first().is(':selected')) {
-				var labels = [];
-				$allOptions.each(function(index) {
-					if (index !== 0 && this.value !== '') {
-						labels.push(this.text);
-					}
-				});
-				return labels.join(', ');
-			}
-
-			// Default: show selected option text
-			return item.text;
-		} */
 	});
 
 	function handleAwsmMultiFilter($select) {
