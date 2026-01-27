@@ -444,11 +444,19 @@ jQuery( function( $ ) {
 		},
   		onInit: function(select, selectric) { 
 			var id = select.id;  
+
 			if (selectric && selectric.elements && selectric.elements.input) { 
 				var $input = $(selectric.elements.input);
 				$(select).attr('id', 'selectric-' + id);
 				$input.attr('id', id);
 			}
+
+			const $select = $(select);
+
+			setTimeout(function () {
+				syncAllOptionFromUrl($select);
+				forceAllLabel($select);   
+			}, 0);
 		},
 
 		arrowButtonMarkup: '<span class="awsm-selectric-arrow-drop">&#x25be;</span>',
@@ -466,9 +474,7 @@ jQuery( function( $ ) {
 
 			//wait for Selectric to update label
 			setTimeout(function () {
-				if ($allOption.is(':selected')) {
-					selectric.elements.label.text($allOption.text());
-				}
+				forceAllLabel($select);  
 			}, 0);
 
 			// Ensure menu stays open after refresh
@@ -498,9 +504,38 @@ jQuery( function( $ ) {
 		const wasAllSelected = $select.data('wasAllSelected') === true;
 
 		/* =================================================
-		CASE 1: User UNCHECKED "All"
-		→ Clear everything
+		SINGLE SELECT DROPDOWN
 		================================================= */
+		if (!$select.prop('multiple')) {
+
+			if (isAllSelected) {
+				$options.prop('selected', false);
+				$all.prop('selected', true);
+
+				setPaginationBase($rootWrapper, currentSpec, '');
+				updateAwsmQuery($rootWrapper, currentSpec, '');
+				awsmJobFilters($rootWrapper);
+
+				$select.data('wasAllSelected', true);
+				$select.selectric('refresh');
+				return;
+			}
+
+			// Single selection (not All)
+			const selectedSlug = $options.filter(':selected').data('slug') || '';
+			setPaginationBase($rootWrapper, currentSpec, selectedSlug);
+			updateAwsmQuery($rootWrapper, currentSpec, selectedSlug);
+			awsmJobFilters($rootWrapper);
+
+			$select.data('wasAllSelected', false);
+			$select.selectric('refresh');
+			return;
+		}
+
+		/* =================================================
+		MULTI SELECT DROPDOWN
+		================================================= */
+		// CASE 1: User UNCHECKED "All" → Clear everything
 		if (wasAllSelected && !isAllSelected) {
 			$options.prop('selected', false);
 			$select.selectric('refresh');
@@ -513,44 +548,31 @@ jQuery( function( $ ) {
 			return;
 		}
 
-		/* =================================================
-		CASE 2: User CLICKED "All"
-		→ Select everything
-		================================================= */
+		// CASE 2: User CLICKED "All" → Select everything
 		if (isAllSelected && !wasAllSelected) {
 			$options.prop('selected', true);
-
 			slugs = $others.map(function () {
 				return $(this).data('slug');
 			}).get();
 		}
 
-		/* =================================================
-		CASE 3: User selected ALL individuals manually
-		→ Auto-check "All"
-		================================================= */
+		// CASE 3: User selected all individuals manually → Auto-check All
 		else if (!isAllSelected && selectedOthersCount === totalOthersCount) {
 			$all.prop('selected', true);
-
 			slugs = $others.map(function () {
 				return $(this).data('slug');
 			}).get();
 		}
 
-		/* =================================================
-		CASE 4: Normal individual selection
-		================================================= */
+		// CASE 4: Normal individual selection
 		else if (selectedOthersCount > 0) {
 			$all.prop('selected', false);
-
 			slugs = $others.filter(':selected').map(function () {
 				return $(this).data('slug');
 			}).get();
 		}
 
-		/* =================================================
-		CASE 5: Nothing selected → Reset
-		================================================= */
+		// CASE 5: Nothing selected → Reset
 		else {
 			$options.prop('selected', false);
 			$select.selectric('refresh');
@@ -563,7 +585,7 @@ jQuery( function( $ ) {
 			return;
 		}
 
-		// Save state for next change
+		// Save state
 		$select.data('wasAllSelected', $all.is(':selected'));
 
 		// Sync Selectric UI
@@ -574,6 +596,33 @@ jQuery( function( $ ) {
 		setPaginationBase($rootWrapper, currentSpec, slugString);
 		updateAwsmQuery($rootWrapper, currentSpec, slugString);
 		awsmJobFilters($rootWrapper);
+	}
+
+	function syncAllOptionFromUrl($select) {
+		const $options = $select.find('option');
+		const $all     = $options.eq(0);
+		const $others  = $options.slice(1);
+
+		const totalOthers = $others.length;
+		const selectedOthers = $others.filter(':selected').length;
+
+		if (totalOthers > 0 && selectedOthers === totalOthers) {
+			$all.prop('selected', true);
+		} else {
+			$all.prop('selected', false);
+		}
+
+		$select.selectric('refresh');
+		$select.data('wasAllSelected', $all.is(':selected'));
+	}
+
+	function forceAllLabel($select) {
+		const selectric = $select.data('selectric');
+		const $allOption = $select.find('option').first();
+
+		if (selectric && $allOption.is(':selected')) {
+			selectric.elements.label.text($allOption.text());
+		}
 	}
 
 	/* =========================
