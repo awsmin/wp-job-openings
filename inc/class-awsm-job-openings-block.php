@@ -35,7 +35,7 @@ class AWSM_Job_Openings_Block {
 			'filter_options'             => isset( $blockatts['filter_options'] ) ? $blockatts['filter_options'] : '',
 			'layout'                     => isset( $blockatts['layout'] ) ? $blockatts['layout'] : '',
 			'hide_expired_jobs'          => isset( $blockatts['hide_expired_jobs'] ) ? $blockatts['hide_expired_jobs'] : '',
-			'placement'                  => isset( $blockatts['placement'] ) ? $blockatts['placement'] : 'slide',
+			'placement'                  => isset( $blockatts['placement'] ) ? $blockatts['placement'] : 'side',
 			'search_placeholder'         => isset( $blockatts['search_placeholder'] ) ? $blockatts['search_placeholder'] : '',
 			'number_of_columns'          => isset( $blockatts['number_of_columns'] ) ? $blockatts['number_of_columns'] : 3,
 			//'block_loadmore'     => 'no',

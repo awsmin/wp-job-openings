@@ -32,7 +32,7 @@ jQuery( function( $ ) {
 		parsedListingsAttrs.push( 'awsm-other-options' );
 		parsedListingsAttrs.push( 'awsm-listings-total' );
 		parsedListingsAttrs.push( 'awsm-selected-terms' );
-
+		parsedListingsAttrs.push( 'awsm-spec-icons' );
 		/* end */
 
 		/* added for block styles tab */
@@ -55,7 +55,6 @@ jQuery( function( $ ) {
 		parsedListingsAttrs.push('hz_bs_padding');
 		parsedListingsAttrs.push('hz_button_background_color');
 		parsedListingsAttrs.push('hz_button_text_color');
-
 		/* end */
 
 		$( document ).trigger( 'awsmJobBlockListingsData', [
@@ -94,41 +93,40 @@ jQuery( function( $ ) {
 			var formMethod = 'POST';
 		}
 
-		const listings = $wrapper.data( 'listings' );
-		const specs = $wrapper.data( 'specs' );
-		const layout = $wrapper.data( 'awsm-layout' );
+		const listings 			= $wrapper.data( 'listings' );
+		const specs 			= $wrapper.data( 'specs' );
+		const layout 			= $wrapper.data( 'awsm-layout' );
 		const hide_expired_jobs = $wrapper.data( 'awsm-hide-expired-jobs' );
-		let selected_terms = $wrapper.data( 'awsm-selected-terms' );
-		const other_options = $wrapper.data( 'awsm-other-options' );
-		const listings_total = $wrapper.data( 'awsm-listings-total' );
+		let selected_terms 		= $wrapper.data( 'awsm-selected-terms' );
+		const other_options 	= $wrapper.data( 'awsm-other-options' );
+		const listings_total 	= $wrapper.data( 'awsm-listings-total' );
+		const show_spec_icon 	= $wrapper.data( 'awsm-spec-icons' ); 
 
 		/* variables for style tabs */
-		const hz_sf_border_color = $wrapper.data('hz_sf_border_color');
-		const hz_sf_border_width = $wrapper.data('hz_sf_border_width');
-		const hz_sf_padding = $wrapper.data('hz_sf_padding');
+		const hz_sf_border_color  = $wrapper.data('hz_sf_border_color');
+		const hz_sf_border_width  = $wrapper.data('hz_sf_border_width');
+		const hz_sf_padding		  = $wrapper.data('hz_sf_padding');
 		const hz_sf_border_radius = $wrapper.data('hz_sf_border_radius');
-		const hz_sidebar_width = $wrapper.data('hz_sidebar_width');
-		const block_id = $wrapper.data('block_id');
-		const hz_ls_border_color = $wrapper.data('hz_ls_border_color');
-		const hz_ls_border_width = $wrapper.data('hz_ls_border_width');
+		const hz_sidebar_width 	  = $wrapper.data('hz_sidebar_width');
+		const block_id 			  = $wrapper.data('block_id');
+		const hz_ls_border_color  = $wrapper.data('hz_ls_border_color');
+		const hz_ls_border_width  = $wrapper.data('hz_ls_border_width');
 		const hz_ls_border_radius = $wrapper.data('hz_ls_border_radius');
-		const hz_jl_border_color = $wrapper.data('hz_jl_border_color');
-		const hz_jl_border_width = $wrapper.data('hz_jl_border_width');
+		const hz_jl_border_color  = $wrapper.data('hz_jl_border_color');
+		const hz_jl_border_width  = $wrapper.data('hz_jl_border_width');
 		const hz_jl_border_radius = $wrapper.data('hz_jl_border_radius');
-		const hz_jl_padding = $wrapper.data('hz_jl_padding');
-		const hz_bs_border_color = $wrapper.data('hz_bs_border_color');
-		const hz_bs_border_width = $wrapper.data('hz_bs_border_width');
+		const hz_jl_padding 	  = $wrapper.data('hz_jl_padding');
+		const hz_bs_border_color  = $wrapper.data('hz_bs_border_color');
+		const hz_bs_border_width  = $wrapper.data('hz_bs_border_width');
 		const hz_bs_border_radius = $wrapper.data('hz_bs_border_radius');
-		const hz_bs_padding = $wrapper.data('hz_bs_padding');
+		const hz_bs_padding       = $wrapper.data('hz_bs_padding');
 		const hz_button_background_color = $wrapper.data('hz_button_background_color');
-		const hz_button_text_color = $wrapper.data('hz_button_text_color');
+		const hz_button_text_color       = $wrapper.data('hz_button_text_color');
 
 		/* End */
 
 		$rootWrapper.find('.awsm-b-filter-item').each(function() {
 			var currentLoopSpec = $(this).data('filter');
-			console.log($(this).data('filter'));
-
 			var searchParams = new URLSearchParams(document.location.search);
 			var currentSpecQueryVal = searchParams.get(currentLoopSpec);
 			var $currentOption = $(this).find('.awsm-b-filter-option');
@@ -188,6 +186,13 @@ jQuery( function( $ ) {
 			formData.push( {
 				name: 'awsm-listings-total',
 				value: listings_total
+			} );
+		} 
+
+		if ( typeof show_spec_icon !== 'undefined' ) {
+			formData.push( {
+				name: 'awsm-spec-icons',
+				value: show_spec_icon
 			} );
 		}
 
@@ -254,7 +259,7 @@ jQuery( function( $ ) {
 
 		const listingsData = getListingsData( $wrapper );
 		if ( listingsData.length > 0 ) {
-			formData = formData.concat( listingsData );
+			//formData = formData.concat( listingsData );
 		}
 
 		// Trigger custom event to provide formData
@@ -282,7 +287,8 @@ jQuery( function( $ ) {
 			} )
 				.done( function( response ) {
 					$rowWrapper.html( response.data.html );
-/* 
+
+/*
 					if (response.data.style) {
 						// Append new style tag
 						jQuery('head').append(response.data.style);
@@ -391,6 +397,7 @@ jQuery( function( $ ) {
 		} );
 	}
  */
+	
 	var updateQuery = function( key, value, url ) {
 		url = typeof url !== 'undefined' ? url : currentUrl;
 		url = url.split( '?' )[ 0 ];
@@ -437,15 +444,15 @@ jQuery( function( $ ) {
 		$( '.awsm-b-job-listings' ).hide();
 		$( '.awsm-b-job-no-more-jobs-get' ).slice( 1 ).hide();
 	}
-    
-	$(filterSelector + ' .awsm-b-filter-option').selectric({ 
+
+	$(filterSelector + ' .awsm-b-filter-option').selectric({
 		multiple: {
 			keepMenuOpen: true
 		},
-  		onInit: function(select, selectric) { 
-			var id = select.id;  
+  		onInit: function(select, selectric) {
+			var id = select.id;
 
-			if (selectric && selectric.elements && selectric.elements.input) { 
+			if (selectric && selectric.elements && selectric.elements.input) {
 				var $input = $(selectric.elements.input);
 				$(select).attr('id', 'selectric-' + id);
 				$input.attr('id', id);
@@ -453,9 +460,9 @@ jQuery( function( $ ) {
 
 			const $select = $(select);
 
-			setTimeout(function () {
+			setTimeout(function() {
 				syncAllOptionFromUrl($select);
-				forceAllLabel($select);   
+				forceAllLabel($select);
 			}, 0);
 		},
 
@@ -465,7 +472,7 @@ jQuery( function( $ ) {
 			camelCase: false
 		},
 
-		onChange: function (element) {
+		onChange: function(element) {
 			const $select = $(element);
 			const selectric = $select.data('selectric');
     		const $allOption = $select.find('option').first();
@@ -473,15 +480,15 @@ jQuery( function( $ ) {
 			handleAwsmMultiFilter($select);
 
 			//wait for Selectric to update label
-			setTimeout(function () {
-				forceAllLabel($select);  
+			setTimeout(function() {
+				forceAllLabel($select);
 			}, 0);
 
 			// Ensure menu stays open after refresh
 			if ($select.prop('multiple')) {
 				$select.selectric('open');
 			}
-		},
+		}
 
 	});
 
@@ -506,7 +513,7 @@ jQuery( function( $ ) {
 		/* =================================================
 		SINGLE SELECT DROPDOWN
 		================================================= */
-		if (!$select.prop('multiple')) {
+		if (! $select.prop('multiple')) {
 
 			if (isAllSelected) {
 				$options.prop('selected', false);
@@ -536,7 +543,7 @@ jQuery( function( $ ) {
 		MULTI SELECT DROPDOWN
 		================================================= */
 		// CASE 1: User UNCHECKED "All" → Clear everything
-		if (wasAllSelected && !isAllSelected) {
+		if (wasAllSelected && ! isAllSelected) {
 			$options.prop('selected', false);
 			$select.selectric('refresh');
 
@@ -549,17 +556,17 @@ jQuery( function( $ ) {
 		}
 
 		// CASE 2: User CLICKED "All" → Select everything
-		if (isAllSelected && !wasAllSelected) {
+		if (isAllSelected && ! wasAllSelected) {
 			$options.prop('selected', true);
-			slugs = $others.map(function () {
+			slugs = $others.map(function() {
 				return $(this).data('slug');
 			}).get();
 		}
 
 		// CASE 3: User selected all individuals manually → Auto-check All
-		else if (!isAllSelected && selectedOthersCount === totalOthersCount) {
+		else if (! isAllSelected && selectedOthersCount === totalOthersCount) {
 			$all.prop('selected', true);
-			slugs = $others.map(function () {
+			slugs = $others.map(function() {
 				return $(this).data('slug');
 			}).get();
 		}
@@ -567,7 +574,7 @@ jQuery( function( $ ) {
 		// CASE 4: Normal individual selection
 		else if (selectedOthersCount > 0) {
 			$all.prop('selected', false);
-			slugs = $others.filter(':selected').map(function () {
+			slugs = $others.filter(':selected').map(function() {
 				return $(this).data('slug');
 			}).get();
 		}
@@ -625,59 +632,13 @@ jQuery( function( $ ) {
 		}
 	}
 
-	/* =========================
-	Helper: Update URL if deep linking
-	========================= */
 	function updateAwsmQuery($rootWrapper, spec, value) {
-		if (!awsmJobsPublic.deep_linking.spec) return;
+		if (! awsmJobsPublic.deep_linking.spec) {
+			return;
+		}
 		const $paginationBase = $rootWrapper.find('input[name="awsm_pagination_base"]');
 		updateQuery(spec, value, $paginationBase.val());
 	}
-
-	/* $( filterSelector + ' .awsm-filter-checkbox' ).on(
-		'change',
-		function( e ) {
-			const selectedFilters = {};
-			const slugs = []; // Initialize an array to collect slugs
-			const $elem = $( this );
-			const $rootWrapper = $elem.parents( rootWrapperSelector );
-			const currentSpec = $elem
-				.parents( '.awsm-filter-list-item' )
-				.data( 'filter' );
-
-			// Loop through checked checkboxes and build selectedFilters and slugs array
-			$( '.awsm-filter-checkbox:checked' ).each( function() {
-				const taxonomy = $( this ).data( 'taxonomy' );
-				const termId = $( this ).data( 'term-id' );
-				const slug = $( this ).data( 'slug' ); // Get the slug from the checkbox
-
-				// Add the slug to the slugs array if it exists
-				if ( slug ) {
-					slugs.push( slug );
-				}
-
-				// Populate the selectedFilters object
-				if ( ! selectedFilters[ taxonomy ] ) {
-					selectedFilters[ taxonomy ] = [];
-				}
-				selectedFilters[ taxonomy ].push( termId );
-			} );
-
-			// Convert slugs array to a comma-separated string
-			const slugString = slugs.length > 0 ? slugs.join( ',' ) : '';
-
-			// Handle deep linking
-			if ( awsmJobsPublic.deep_linking.spec ) {
-				const $paginationBase = $rootWrapper.find(
-					'input[name="awsm_pagination_base"]'
-				);
-				updateQuery( currentSpec, slugString, $paginationBase.val() ); // Use the comma-separated slugString
-			}
-
-			// Apply the job filters
-			awsmJobFilters( $rootWrapper );
-		}
-	); */
 
 	$( filterSelector + ' .awsm-b-job-search-btn' ).on( 'click', function() {
 		searchJobs( $( this ) );
@@ -762,6 +723,7 @@ jQuery( function( $ ) {
 			const hz_bs_padding = $listingsContainer.data('hz_bs_padding');
 			const hz_button_background_color = $listingsContainer.data('hz_button_background_color');
 			const hz_button_text_color = $listingsContainer.data('hz_button_text_color');
+			const show_spec_icon 	= $listingsContainer.data( 'awsm-spec-icons' );
 
 			/* End */
 
@@ -928,6 +890,13 @@ jQuery( function( $ ) {
 				} );
 			}
 
+			if ( typeof show_spec_icon !== 'undefined' ) {
+				wpData.push( {
+					name: 'awsm-spec-icons',
+					value: show_spec_icon
+				} );
+			}
+
 			if ( typeof lang !== 'undefined' ) {
 				wpData.push( {
 					name: 'lang',
@@ -1009,7 +978,7 @@ jQuery( function( $ ) {
 			] );
 			const listingsData = getListingsData( $listingsContainer );
 			if ( listingsData.length > 0 ) {
-				wpData = wpData.concat( listingsData );
+				//wpData = wpData.concat( listingsData );
 			}
 
 			// now, handle ajax
