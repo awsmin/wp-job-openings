@@ -1883,27 +1883,7 @@ class AWSM_Job_Openings_Settings {
 						$text    = isset( $choice['text'] ) ? esc_html( $choice['text'] ) : '';
 						$checked = checked( $value, $val, false );
 
-						printf(
-							'<span class="awsm-setting-field">
-								<span class="awsm-toggle-control">
-									<input type="checkbox" role="switch" aria-checked="%8$s"
-										name="%1$s" id="%1$s" value="%2$s" %3$s class="%4$s" />
-									<label class="awsm-toggle-control-icon" for="%1$s">
-										<span class="awsm-captcha-toggle-slider" aria-hidden="true"></span>
-									</label>
-									<label for="%1$s" class="awsm-toggle-control-status" data-on="%6$s" data-off="%7$s">%7$s</label>
-								</span>
-								<p class="awsm-captcha-toggle-label">%5$s</p>
-							</span>',
-							esc_attr( $name ),
-							$val,
-							$checked,
-							esc_attr( $class ),
-							$text,
-							esc_html__( 'On', 'wp-job-openings' ),
-							esc_html__( 'Off', 'wp-job-openings' ),
-							$checked ? 'true' : 'false'
-						);
+						printf( '<span class="awsm-setting-field"><span class="awsm-toggle-control"><input type="checkbox" role="switch" aria-checked="%8$s" name="%1$s" id="%1$s" value="%2$s" %3$s class="%4$s" /><label class="awsm-toggle-control-icon" for="%1$s"><span class="awsm-captcha-toggle-slider" aria-hidden="true"></span></label><label for="%1$s" class="awsm-toggle-control-status" data-on="%6$s" data-off="%7$s">%7$s</label></span><p class="awsm-captcha-toggle-label">%5$s</p></span>', esc_attr( $name ), esc_attr( $val ), esc_attr( $checked ), esc_attr( $class ), esc_html( $text ), esc_html__( 'On', 'wp-job-openings' ), esc_html__( 'Off', 'wp-job-openings' ), $checked ? 'true' : 'false' );
 
 					} else {
 						foreach ( $choices as $choice ) {
