@@ -482,7 +482,7 @@ jQuery( function( $ ) {
 	function handleAwsmMultiFilter($select) {
 		const $options = $select.find('option');
 		const $all     = $options.eq(0);        // "All"
-		const $others  = $options.slice(1);     // Individuals
+		const $others  = $options.slice(1);     // Individual options
 
 		const $rootWrapper = $select.closest(rootWrapperSelector);
 		const currentSpec  = $select.closest('.awsm-b-filter-item').data('filter');
@@ -494,14 +494,14 @@ jQuery( function( $ ) {
 		const selectedOthersCount = $others.filter(':selected').length;
 		const totalOthersCount    = $others.length;
 
-		// PREVIOUS state (stored on select)
+		// PREVIOUS state
 		const wasAllSelected = $select.data('wasAllSelected') === true;
 
-		/* =====================
-		ALL UNCHECKED → CLEAR EVERYTHING
-		===================== */
-		if (!isAllSelected && selectedOthersCount === totalOthersCount) {
-			// User unchecked "All" → clear all
+		/* =================================================
+		CASE 1: User UNCHECKED "All"
+		→ Clear everything
+		================================================= */
+		if (wasAllSelected && !isAllSelected) {
 			$options.prop('selected', false);
 			$select.selectric('refresh');
 
@@ -509,16 +509,15 @@ jQuery( function( $ ) {
 			updateAwsmQuery($rootWrapper, currentSpec, '');
 			awsmJobFilters($rootWrapper);
 
-			// Save state
 			$select.data('wasAllSelected', false);
 			return;
 		}
 
-		/* =====================
-		ALL CLICKED
-		===================== */
+		/* =================================================
+		CASE 2: User CLICKED "All"
+		→ Select everything
+		================================================= */
 		if (isAllSelected && !wasAllSelected) {
-			// User clicked All → select everything
 			$options.prop('selected', true);
 
 			slugs = $others.map(function () {
@@ -526,21 +525,21 @@ jQuery( function( $ ) {
 			}).get();
 		}
 
-		/* =====================
-		ALL ACTIVE → ONE UNCHECKED
-		===================== */
-		else if (!isAllSelected && wasAllSelected && selectedOthersCount < totalOthersCount) {
-			// Only uncheck the one user clicked
-			$all.prop('selected', false);
+		/* =================================================
+		CASE 3: User selected ALL individuals manually
+		→ Auto-check "All"
+		================================================= */
+		else if (!isAllSelected && selectedOthersCount === totalOthersCount) {
+			$all.prop('selected', true);
 
-			slugs = $others.filter(':selected').map(function () {
+			slugs = $others.map(function () {
 				return $(this).data('slug');
 			}).get();
 		}
 
-		/* =====================
-		INDIVIDUAL SELECTION
-		===================== */
+		/* =================================================
+		CASE 4: Normal individual selection
+		================================================= */
 		else if (selectedOthersCount > 0) {
 			$all.prop('selected', false);
 
@@ -549,9 +548,9 @@ jQuery( function( $ ) {
 			}).get();
 		}
 
-		/* =====================
-		NOTHING SELECTED → RESET
-		===================== */
+		/* =================================================
+		CASE 5: Nothing selected → Reset
+		================================================= */
 		else {
 			$options.prop('selected', false);
 			$select.selectric('refresh');
@@ -560,20 +559,18 @@ jQuery( function( $ ) {
 			updateAwsmQuery($rootWrapper, currentSpec, '');
 			awsmJobFilters($rootWrapper);
 
-			// Save state
 			$select.data('wasAllSelected', false);
 			return;
 		}
 
-		// Save current All state for next change
+		// Save state for next change
 		$select.data('wasAllSelected', $all.is(':selected'));
 
-		// Sync UI
+		// Sync Selectric UI
 		$select.selectric('refresh');
 
-		// Apply filter
+		// Apply filters
 		const slugString = slugs.join(',');
-
 		setPaginationBase($rootWrapper, currentSpec, slugString);
 		updateAwsmQuery($rootWrapper, currentSpec, slugString);
 		awsmJobFilters($rootWrapper);
