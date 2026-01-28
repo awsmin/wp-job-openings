@@ -133,26 +133,25 @@ jQuery(document).ready(function($) {
 				try {
 					var $turnstileWidget = $form.find('.cf-turnstile');
 					if ($turnstileWidget.length > 0) {
-						var widgetId = $turnstileWidget.data('widgetid');
-						if (typeof widgetId !== 'undefined') {
-							turnstile.reset(widgetId);
-						} else {
-							turnstile.reset();
-						}
+						turnstile.reset($turnstileWidget[0]);
+					}
+					else{
+						turnstile.reset();
 					}
 				} catch(e) {
 					console.log('Turnstile reset error:', e);
 				}
 			}
-			
 			// Reset hCaptcha
 			if (typeof hcaptcha !== 'undefined' && typeof hcaptcha.reset === 'function') {
 				try {
 					var $hcaptchaWidget = $form.find('.h-captcha');
 					if ($hcaptchaWidget.length > 0) {
-						var widgetId = $hcaptchaWidget.data('widgetid');
-						if (typeof widgetId !== 'undefined') {
-							hcaptcha.reset(widgetId);
+						var $iframe = $hcaptchaWidget.find('iframe[data-hcaptcha-widget-id]');
+            			var hcaptchaWidgetId = $iframe.attr('data-hcaptcha-widget-id');
+						console.log('hCaptcha widgetId:', hcaptchaWidgetId);
+						if (typeof hcaptchaWidgetId !== 'undefined') {
+							hcaptcha.reset(hcaptchaWidgetId);
 						} else {
 							hcaptcha.reset();
 						}
@@ -161,7 +160,6 @@ jQuery(document).ready(function($) {
 					console.log('hCaptcha reset error:', e);
 				}
 			}
-			
 			if (typeof awsmJobsRecaptcha !== 'undefined' && 
 				(awsmJobsRecaptcha.type === 'v3' || awsmJobsRecaptcha.type === 'v2_invisible')) {
 				var $tokenField = $form.find('input[name="g-recaptcha-response"]');
