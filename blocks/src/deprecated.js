@@ -1,5 +1,5 @@
 import { createBlock } from '@wordpress/blocks';
-console.log('entered deprecated');
+
 export default [
 	{
 		attributes: {
@@ -17,18 +17,20 @@ export default [
 		},
 
 		save() {
+			console.log('🟡 Deprecated save() called');
 			return null;
 		},
 
 		// Migration for existing blocks
 		migrate: ( attributes ) => {
-			const placement = ( typeof attributes.placement === 'undefined' || attributes.placement === null )
-				? 'top'
-				: attributes.placement;
+			console.log('🔥 DEPRECATED MIGRATE ENTERED', attributes);
 
-				
-			return {
-				// direct carry over / safe defaults
+			const placement =
+				typeof attributes.placement === 'undefined' || attributes.placement === null
+					? 'top'
+					: attributes.placement;
+
+			const migratedAttributes = {
 				filter_options: attributes.filter_options || [],
 				other_options: attributes.other_options || [],
 				number_of_columns: attributes.number_of_columns || 3,
@@ -36,17 +38,13 @@ export default [
 				hide_expired_jobs: attributes.hide_expired_jobs || false,
 				search_placeholder: attributes.search_placeholder || '',
 
-				// layout migration
 				layout: attributes.layout === 'list' ? 'stack' : attributes.layout,
 
-				// keep search toggle
 				search: attributes.search !== undefined ? attributes.search : true,
 
-				// defaults for new ones
 				listType: attributes.listType || 'all',
 				orderBy: attributes.orderBy || 'new',
 
-				// Important: preserve placement if present; otherwise set to top for migrated blocks
 				placement,
 
 				selected_terms_main: attributes.selected_terms_main || [],
@@ -54,21 +52,26 @@ export default [
 				filtersInitialized: attributes.filtersInitialized || false,
 				specsInitialized: attributes.specsInitialized || false,
 			};
+
+			console.log('✅ MIGRATED ATTRIBUTES', migratedAttributes);
+
+			return migratedAttributes;
 		},
 
-
-		// Transform old blocks into the new schema (extra safety for copy/paste, import, etc.)
+		// Transform old blocks into the new schema (copy/paste, recovery, etc.)
 		transforms: {
 			from: [
 				{
 					type: 'block',
-					blocks: ['wp-job-openings/blocks'],
-					transform: (attributes) => {
+					blocks: [ 'wp-job-openings/blocks' ],
+					transform: ( attributes ) => {
+						console.log('🟣 DEPRECATED TRANSFORM ENTERED', attributes);
+
 						return createBlock('wp-job-openings/blocks', {
 							...attributes,
-							jobsPerPage: attributes.listing_per_page || 5,
+							listing_per_page: attributes.listing_per_page || 10,
 							layout: attributes.layout === 'list' ? 'stack' : attributes.layout,
-							placement: attributes.placement ? attributes.placement : 'top',
+							placement: attributes.placement || 'top',
 							listType: 'all',
 							orderBy: 'new',
 							selected_terms_main: [],
