@@ -59,7 +59,7 @@ else :
 				<?php
 				get_block_filtered_job_terms( $attributes );
 				printf(
-					'<div class="awsm-b-jobs-pagination awsm-b-load-more-main awsm-b-no-more-jobs-container awsm-b-job-no-more-jobs-get"><p>%s</p></div>',
+					'<div class="awsm-b-jobs-pagination awsm-b-load-more-main awsm-b-no-more-jobs-container awsm-b-job-no-more-jobs-get awsm-b-jobs-none-container awsm-b-lists"><p>%s</p></div>',
 					esc_html__( 'Sorry! No jobs to show.', 'wp-job-openings' )
 				);
 				?>
