@@ -18,7 +18,7 @@
     },
     "placement": {
       "type": "string",
-      "default": "top"
+      "default": "slide"
     },
     "search_placeholder": {
       "type": "string",

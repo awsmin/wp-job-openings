@@ -2,6 +2,12 @@ import { createBlock } from '@wordpress/blocks';
 
 export default [
 	{
+		// 🔑 Force Gutenberg to use this deprecated version
+		// Old blocks NEVER had placement
+		isEligible( attributes ) {
+			return typeof attributes.placement === 'undefined';
+		},
+
 		attributes: {
 			filter_options: { type: 'array', default: [] },
 			select_filter_full: { type: 'boolean', default: false },
@@ -17,20 +23,15 @@ export default [
 		},
 
 		save() {
-			console.log('🟡 Deprecated save() called');
 			return null;
 		},
 
-		// Migration for existing blocks
-		migrate: ( attributes ) => {
-			console.log('🔥 DEPRECATED MIGRATE ENTERED', attributes);
+		// ✅ MIGRATION: old blocks → placement = top
+		migrate( attributes ) {
+			console.log('🔥 MIGRATING OLD BLOCK → placement = top');
 
-			const placement =
-				typeof attributes.placement === 'undefined' || attributes.placement === null
-					? 'top'
-					: attributes.placement;
-
-			const migratedAttributes = {
+			return {
+				// carry over old values
 				filter_options: attributes.filter_options || [],
 				other_options: attributes.other_options || [],
 				number_of_columns: attributes.number_of_columns || 3,
@@ -40,45 +41,50 @@ export default [
 
 				layout: attributes.layout === 'list' ? 'stack' : attributes.layout,
 
-				search: attributes.search !== undefined ? attributes.search : true,
+				search:
+					attributes.search !== undefined
+						? attributes.search
+						: true,
 
-				listType: attributes.listType || 'all',
-				orderBy: attributes.orderBy || 'new',
+				listing_per_page: attributes.listing_per_page || 10,
 
-				placement,
+				// 🔑 OLD BLOCKS ALWAYS GET TOP
+				placement: 'top',
 
-				selected_terms_main: attributes.selected_terms_main || [],
-				selectedTerms: attributes.selectedTerms || {},
-				filtersInitialized: attributes.filtersInitialized || false,
-				specsInitialized: attributes.specsInitialized || false,
+				// new schema defaults
+				listType: 'all',
+				orderBy: 'new',
+
+				selected_terms_main: [],
+				selectedTerms: {},
+				filtersInitialized: false,
+				specsInitialized: false,
 			};
-
-			console.log('✅ MIGRATED ATTRIBUTES', migratedAttributes);
-
-			return migratedAttributes;
 		},
 
-		// Transform old blocks into the new schema (copy/paste, recovery, etc.)
+		// Safety net (copy/paste, recovery)
 		transforms: {
 			from: [
 				{
 					type: 'block',
 					blocks: [ 'wp-job-openings/blocks' ],
-					transform: ( attributes ) => {
-						console.log('🟣 DEPRECATED TRANSFORM ENTERED', attributes);
-
-						return createBlock('wp-job-openings/blocks', {
+					transform( attributes ) {
+						return createBlock( 'wp-job-openings/blocks', {
 							...attributes,
-							listing_per_page: attributes.listing_per_page || 10,
-							layout: attributes.layout === 'list' ? 'stack' : attributes.layout,
-							placement: attributes.placement || 'top',
+							layout:
+								attributes.layout === 'list'
+									? 'stack'
+									: attributes.layout,
+
+							placement: 'top',
+
 							listType: 'all',
 							orderBy: 'new',
 							selected_terms_main: [],
 							selectedTerms: {},
 							filtersInitialized: false,
 							specsInitialized: false,
-						});
+						} );
 					},
 				},
 			],
