@@ -112,22 +112,39 @@ jQuery(document).ready(function($) {
 		})
 		.always(function() {
 			$submitBtn.prop('disabled', false).val(submitBtnText).removeClass('awsm-application-submit-btn-disabled');
-			
+			function getRecaptchaWidgetId($widget) {
+				var $textarea = $widget.find('textarea.g-recaptcha-response');
+				if ($textarea.length > 0) {
+					var textareaId = $textarea.attr('id');
+					if (textareaId) {
+						var widgetId = textareaId.replace('g-recaptcha-response-', '');
+						if (!isNaN(widgetId) && widgetId !== '') {
+							return parseInt(widgetId);
+						}
+					}
+				}
+				return null;
+			}
 			// Only reset visible reCAPTCHA (v2 checkbox), NOT v3 or v2 invisible
+
 			if (typeof grecaptcha !== 'undefined' && typeof grecaptcha.reset === 'function') {
 				var $recaptchaWidget = $form.find('.g-recaptcha');
 				if ($recaptchaWidget.length > 0 && $recaptchaWidget.is(':visible')) {
 					if (typeof awsmJobsRecaptcha === 'undefined' || 
 						(awsmJobsRecaptcha.type !== 'v3' && awsmJobsRecaptcha.type !== 'v2_invisible')) {
 						try {
-							grecaptcha.reset();
+							var widgetId = getRecaptchaWidgetId($recaptchaWidget);
+							if (widgetId !== null) {
+								grecaptcha.reset(widgetId);
+							} else {
+								grecaptcha.reset();
+							}
 						} catch(e) {
 							console.log('reCAPTCHA reset error:', e);
 						}
 					}
 				}
 			}
-			
 			// Reset Turnstile
 			if (typeof turnstile !== 'undefined' && typeof turnstile.reset === 'function') {
 				try {
@@ -149,7 +166,6 @@ jQuery(document).ready(function($) {
 					if ($hcaptchaWidget.length > 0) {
 						var $iframe = $hcaptchaWidget.find('iframe[data-hcaptcha-widget-id]');
             			var hcaptchaWidgetId = $iframe.attr('data-hcaptcha-widget-id');
-						console.log('hCaptcha widgetId:', hcaptchaWidgetId);
 						if (typeof hcaptchaWidgetId !== 'undefined') {
 							hcaptcha.reset(hcaptchaWidgetId);
 						} else {
@@ -207,7 +223,6 @@ jQuery(document).ready(function($) {
 				
 				awsmJobs.submitApplication($form);
 			}).catch(function(error) {
-				console.error('reCAPTCHA execution error:', error);
 				
 				var errorMsg = awsmJobsPublic.i18n.form_error_msg.recaptcha_failed || 'reCAPTCHA verification failed. Please try again.';
 				
