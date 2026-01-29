@@ -228,7 +228,7 @@ class AWSM_Job_Openings {
 			add_action( 'restrict_manage_posts', array( $this, 'awsm_admin_filtering_posts' ) );
 			add_action( 'before_awsm_job_settings_init', array( $this, 'no_script_msg' ) );
 			add_action( 'wp_ajax_awsm_plugin_rating', array( $this, 'plugin_rating' ) );
-			add_action( 'admin_notices', array( $this, 'plugin_rating_notice_handler' ) );
+			add_action( 'admin_notices', array( $this, 'awsm_job_plugin_notices' ) );
 			// Add custom status to status dropdown under post submit meta box (existing and new) for job openings.
 			add_action( 'admin_footer-post.php', array( $this, 'job_submit_meta_box_custom_status' ) );
 			add_action( 'admin_footer-post-new.php', array( $this, 'job_submit_meta_box_custom_status' ) );
@@ -900,7 +900,11 @@ class AWSM_Job_Openings {
 		</noscript>
 		<?php
 	}
-
+	
+	public function awsm_job_plugin_notices(){
+		$this->plugin_rating_notice_handler();
+		$this->awsm_job_version_compatibility_notices();
+	}
 	public static function plugin_rating_notice( $rating_url, $rating_env, $context = 'job' ) {
 		if ( ! self::$rating_notice_active ) :
 			$posts_count = get_option( "awsm_plugin_rating_{$context}_count" );
@@ -931,7 +935,7 @@ class AWSM_Job_Openings {
 			endif;
 		endif;
 	}
-
+	
 	public function plugin_rating_notice_handler() {
 		$rating_env = apply_filters( 'awsm_jobs_plugin_rating_env', 'WordPress' );
 		$rating_url = apply_filters( 'awsm_jobs_plugin_rating_url', 'https://wordpress.org/support/plugin/wp-job-openings/reviews/?filter=5' );
@@ -2105,6 +2109,30 @@ class AWSM_Job_Openings {
 			$post_states['awsm-jobs-expired'] = sprintf( '<span class="awsm-jobs-expired-post-state">%s</span>', esc_html__( 'Expired', 'wp-job-openings' ) );
 		}
 		return $post_states;
+	}
+
+	public function awsm_job_version_compatibility_notices() {
+		if ( ! class_exists( 'AWSM_Job_Openings_Pro_Form' ) ) {
+			return;
+		}
+
+		if ( ! current_user_can( 'update_plugins' ) ) {
+			return;
+		}
+		$update_buttons_pro = '';
+		if ( ! function_exists( 'awsm_jobs_is_new_captcha_enabled' ) || ! awsm_jobs_is_new_captcha_enabled() ) {
+			$link_action_free_update    = esc_html__( 'Update Now', 'wp-job-openings' );
+			$action_url_free_update     = wp_nonce_url( self_admin_url( 'update.php?action=upgrade-plugin&plugin=' . AWSM_JOBS_PRO_PLUGIN_BASENAME ), 'upgrade-plugin_' . AWSM_JOBS_PRO_PLUGIN_BASENAME );
+			$update_buttons_pro .= sprintf( '<a href="%2$s" class="button update-now">%1$s</a>', esc_html( $link_action_free_update ), esc_url( $action_url_free_update ) );
+			?>
+			<div class="notice notice-warning is-dismissible">
+				<p><strong><?php esc_html_e( 'WP Job Openings Pro - Update Required', 'wp-job-openings' ); ?></strong></p>
+				<p><?php esc_html_e( 'Please update WP Job Openings Pro Pack to the latest versions to get new features and improvements.', 'wp-job-openings' ); ?>
+				<?php if ( ! empty( $update_buttons_pro ) ) : echo $update_buttons_pro; endif; ?>
+				</p>
+			</div>
+			<?php
+		}
 	}
 }
 
