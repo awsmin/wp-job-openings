@@ -470,7 +470,7 @@ jQuery(function($) {
 	 * Handle the responsive styles for filters in the job listing when search is enabled.
 	 */
 	function filtersResponsiveStylesHandler() {
-		var $filtersWrap = $('.awsm-b-filter-wrap').not('.awsm-b-no-search-filter-wrap');
+		/* var $filtersWrap = $('.awsm-b-filter-wrap').not('.awsm-b-no-search-filter-wrap');
 		$filtersWrap.each(function() {
 			var $wrapper = $(this); 
 			var filterFirstTop = $wrapper.find('.awsm-b-filter-item').first().offset().top;
@@ -482,8 +482,23 @@ jQuery(function($) {
 			if (filterLastTop > filterFirstTop) {
 				$wrapper.addClass('awsm-b-full-width-search-filter-wrap');
 			}
-		});
+		}); */
+		$('.awsm-b-filter-wrap').not('.awsm-b-no-search-filter-wrap').each(function () { 
+			const $wrapper = $(this);
+			const items = $wrapper.find('.awsm-b-filter-item');
+
+			if (!items.length) return;
+
+			const firstTop = items[0].getBoundingClientRect().top;
+			const lastTop  = items[items.length - 1].getBoundingClientRect().top;
+
+			$wrapper.toggleClass(
+				'awsm-b-full-width-search-filter-wrap',
+				lastTop > firstTop
+			);
+    	});
 	}
+
 	if ($('.awsm-b-filter-wrap').not('.awsm-b-no-search-filter-wrap').length > 0) {
 		filtersResponsiveStylesHandler();
 		$(window).on('resize', filtersResponsiveStylesHandler);
