@@ -447,26 +447,18 @@ jQuery(function ($) {
    * Handle the responsive styles for filters in the job listing when search is enabled.
    */
   function filtersResponsiveStylesHandler() {
-    /* var $filtersWrap = $('.awsm-b-filter-wrap').not('.awsm-b-no-search-filter-wrap');
-    $filtersWrap.each(function() {
-    	var $wrapper = $(this); 
-    	var filterFirstTop = $wrapper.find('.awsm-b-filter-item').first().offset().top;
-    	var filterLastTop = $wrapper.find('.awsm-b-filter-item').last().offset().top;
-    	if(window.innerWidth < 768) {
-    		$wrapper.removeClass('awsm-b-full-width-search-filter-wrap');
-    		return;
-    	}
-    	if (filterLastTop > filterFirstTop) {
-    		$wrapper.addClass('awsm-b-full-width-search-filter-wrap');
-    	}
-    }); */
-    $('.awsm-b-filter-wrap').not('.awsm-b-no-search-filter-wrap').each(function () {
+    var $filtersWrap = $('.awsm-b-filter-wrap').not('.awsm-b-no-search-filter-wrap');
+    $filtersWrap.each(function () {
       var $wrapper = $(this);
-      var items = $wrapper.find('.awsm-b-filter-item');
-      if (!items.length) return;
-      var firstTop = items[0].getBoundingClientRect().top;
-      var lastTop = items[items.length - 1].getBoundingClientRect().top;
-      $wrapper.toggleClass('awsm-b-full-width-search-filter-wrap', lastTop > firstTop);
+      var filterFirstTop = $wrapper.find('.awsm-b-filter-item').first().offset().top;
+      var filterLastTop = $wrapper.find('.awsm-b-filter-item').last().offset().top;
+      if (window.innerWidth < 768) {
+        $wrapper.removeClass('awsm-b-full-width-search-filter-wrap');
+        return;
+      }
+      if (filterLastTop > filterFirstTop) {
+        $wrapper.addClass('awsm-b-full-width-search-filter-wrap');
+      }
     });
   }
   if ($('.awsm-b-filter-wrap').not('.awsm-b-no-search-filter-wrap').length > 0) {
