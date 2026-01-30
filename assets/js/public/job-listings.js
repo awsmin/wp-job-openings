@@ -126,16 +126,16 @@ jQuery(function($) {
 		awsmJobFilters($rootWrapper);
 	}
 
-	// if ($(rootWrapperSelector).length > 0) {
-	// 	$(rootWrapperSelector).each(function() {
-	// 		var $currentWrapper = $(this);
-	// 		var $filterForm = $currentWrapper.find(filterSelector + ' form');
-	// 		if (awsmJobsPublic.is_search.length > 0 || filterCheck($filterForm)) {
-	// 			triggerFilter = true;
-	// 			awsmJobFilters($currentWrapper);
-	// 		}
-	// 	});
-	// }
+	if ($(rootWrapperSelector).length > 0) {
+		$(rootWrapperSelector).each(function() {
+			var $currentWrapper = $(this);
+			// var $filterForm = $currentWrapper.find(filterSelector + ' form');
+			if (awsmJobsPublic.is_search.length > 0 ) {
+				triggerFilter = true;
+				awsmJobFilters($currentWrapper);
+			}
+		});
+	}
 
 	// Updated updateQuery function
 	var updateQuery = function(key, value, url) {
@@ -148,7 +148,9 @@ jQuery(function($) {
 		if (searchParams.has('page')) {
 			searchParams.delete('page');
 		}
-		if (value.length > 0) {
+		value = value !== undefined && value !== null ? String(value) : '';
+
+		if (value !== '') {
 			searchParams.set(key, value);
 		} else {
 			searchParams.delete(key);
