@@ -177,6 +177,17 @@ jQuery(function($) {
 		});
 	} */
 
+	if ($(rootWrapperSelector).length > 0) {
+		$(rootWrapperSelector).each(function() {
+			var $currentWrapper = $(this);
+			// var $filterForm = $currentWrapper.find(filterSelector + ' form');
+			if (awsmJobsPublic.is_search.length > 0 ) {
+				triggerFilter = true;
+				awsmJobFilters($currentWrapper);
+			}
+		});
+	}
+
 	var updateQuery = function(key, value, url) {
 		url = typeof url !== 'undefined' ? url : currentUrl;
 		url = url.split('?')[0];
@@ -187,7 +198,9 @@ jQuery(function($) {
 		if (searchParams.has('page')) {
 			searchParams.delete('page');
 		}
-		if (value.length > 0) {
+		value = value !== undefined && value !== null ? String(value) : '';
+
+		if (value !== '') {
 			searchParams.set(key, value);
 		} else {
 			searchParams.delete(key);
