@@ -26,8 +26,11 @@ class Awsm_Job_Guten_Blocks {
 			return;
 		}
 
+		wp_register_script( 'wp-job-openings-blocks-view', plugins_url('blocks/build/view.js', __FILE__), array('jquery'),AWSM_JOBS_PLUGIN_VERSION, true );
+
 		$args = array(
 			'render_callback' => array( $this, 'block_render_callback' ),
+			'script' => 'wp-job-openings-blocks-view',
 		);
 
 		register_block_type( __DIR__ . '/build', $args );
@@ -89,8 +92,11 @@ class Awsm_Job_Guten_Blocks {
 	}
 
 	public function block_assets() { 
-		wp_enqueue_script( 'awsm-job-admin' );
-		wp_enqueue_style( 'awsm-jobs-general' );
+
+		if ( is_admin() ) {
+			wp_enqueue_script( 'awsm-job-admin' );
+			wp_enqueue_style( 'awsm-jobs-general' );
+		}
 
 		if ( ! wp_script_is( 'awsm-job-scripts' ) ) {
 			wp_enqueue_script( 'awsm-job-scripts' );
