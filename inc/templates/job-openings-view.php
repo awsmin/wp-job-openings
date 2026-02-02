@@ -60,7 +60,7 @@ else :
 
 	if ( ! empty( $_GET ) ) {
 		foreach ( $_GET as $key => $value ) {
-			if ( substr( $key, -strlen( $filter_suffix ) ) === $filter_suffix ) {
+			if ( substr( $key, -strlen( $filter_suffix ) ) === $filter_suffix && $value !== '' ) {
 				$job_spec[ $key ] = sanitize_text_field( $value );
 			}
 		}

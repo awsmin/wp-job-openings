@@ -1581,22 +1581,24 @@ class AWSM_Job_Openings {
 		return ( isset( $shortcode_atts['listings'] ) && is_numeric( $shortcode_atts['listings'] ) && $shortcode_atts['listings'] > 0 ) ? intval( $shortcode_atts['listings'] ) : get_option( 'awsm_jobs_list_per_page' );
 	}
 
-	public static function awsm_job_query_args( $filters = array(), $shortcode_atts = array() ) {
+	public static function awsm_job_query_args( $filters = array(), $shortcode_atts = array(), $is_term_or_slug = array() ) {
 		$args = array();
 		if ( is_tax() ) {
 			$q_obj    = get_queried_object();
 			$taxonomy = $q_obj->taxonomy;
 			$term_id  = $q_obj->term_id;
 			$filters  = array( $taxonomy => $term_id );
+			$is_term_or_slug = array( $taxonomy => 'term_id' );
 		}
 
 		if ( ! empty( $filters ) ) {
-			foreach ( $filters as $taxonomy => $term_id ) {
-				if ( ! empty( $term_id ) ) {
-					$spec                = array(
+			foreach ( $filters as $taxonomy => $term_ids ) {
+				if ( ! empty( $term_ids ) ) {
+					$field = isset( $is_term_or_slug[ $taxonomy ] ) ? $is_term_or_slug[ $taxonomy ] : 'term_id';
+					$spec  = array(
 						'taxonomy' => $taxonomy,
-						'field'    => 'term_id',
-						'terms'    => $term_id,
+						'field'    => $field,
+						'terms'    => $term_ids,
 					);
 					$args['tax_query'][] = $spec;
 				}
