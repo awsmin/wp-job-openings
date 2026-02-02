@@ -94,7 +94,7 @@ class Awsm_Job_Guten_Blocks {
 			wp_enqueue_script( 'awsm-job-admin' );
 			wp_enqueue_style( 'awsm-jobs-general' );
 		}
-
+		
 		if ( ! wp_script_is( 'awsm-job-scripts' ) ) {
 			wp_enqueue_script( 'awsm-job-scripts' );
 		}
