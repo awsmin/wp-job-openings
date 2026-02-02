@@ -126,16 +126,16 @@ jQuery(function($) {
 		awsmJobFilters($rootWrapper);
 	}
 
-	if ($(rootWrapperSelector).length > 0) {
-		$(rootWrapperSelector).each(function() {
-			var $currentWrapper = $(this);
+	// if ($(rootWrapperSelector).length > 0) {
+		// $(rootWrapperSelector).each(function() {
+			// var $currentWrapper = $(this);
 			// var $filterForm = $currentWrapper.find(filterSelector + ' form');
-			if (awsmJobsPublic.is_search.length > 0 ) {
-				triggerFilter = true;
-				awsmJobFilters($currentWrapper);
-			}
-		});
-	}
+			// if (awsmJobsPublic.is_search.length > 0 ) {
+				// triggerFilter = true;
+				// awsmJobFilters($currentWrapper);
+			// }
+		// });
+	// }
 
 	// Updated updateQuery function
 	var updateQuery = function(key, value, url) {
