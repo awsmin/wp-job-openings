@@ -47,9 +47,12 @@ else :
 				$job_spec[ $key ] = sanitize_text_field( $value );
 			}
 		}
+		if ( isset( $_GET['jq'] ) && $_GET['jq'] !== '' ) {
+			$search_job = sanitize_text_field( wp_unslash( $_GET['jq'] ) );
+		}
 	}
 
-	if ( ! empty( $job_spec ) ) {
+	if ( ! empty( $job_spec ) || ! empty( $search_job ) ) {
 		?>
 			<div class="awsm-b-job-wrap<?php awsm_jobs_wrapper_class(); ?>">
 				<?php

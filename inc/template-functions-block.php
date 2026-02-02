@@ -70,6 +70,10 @@ if ( ! function_exists( 'awsm_block_jobs_query' ) ) {
 
 		$filters = get_option( 'awsm_jobs_listing_available_filters' );
 
+		if ( isset( $_GET['jq'] ) && $_GET['jq'] !== '' ) {
+			$search_job = sanitize_text_field( wp_unslash( $_GET['jq'] ) );
+		}
+
 		if ( ! empty( $filters ) ) {
 			foreach ( $filters as $filter ) {
 				$current_filter_key = str_replace( '-', '__', $filter ) . $filter_suffix;
@@ -102,6 +106,11 @@ if ( ! function_exists( 'awsm_block_jobs_query' ) ) {
 		}
 
 		$args  = AWSM_Job_Openings_Block::awsm_block_job_query_args( $query_args, $attributes, $is_term_or_slug );
+
+		if ( ! empty( $search_job ) ) {
+			$args['s'] = $search_job;
+		}
+		
 		$query = new WP_Query( $args );
 		return $query;
 	}
