@@ -176,11 +176,28 @@ jQuery(document).ready(function($) {
 					console.log('hCaptcha reset error:', e);
 				}
 			}
-			if (typeof awsmJobsRecaptcha !== 'undefined' && 
-				(awsmJobsRecaptcha.type === 'v3' || awsmJobsRecaptcha.type === 'v2_invisible')) {
-				var $tokenField = $form.find('input[name="g-recaptcha-response"]');
-				if ($tokenField.length > 0) {
-					$tokenField.remove(); 
+			// Reset recaptcha v2 invisible
+			if (typeof awsmJobsRecaptcha !== 'undefined' && awsmJobsRecaptcha.type === 'v2_invisible') {
+				if (typeof grecaptcha !== 'undefined' && typeof grecaptcha.reset === 'function') {
+					try {
+						// Find the recaptcha badge which contains the widget
+						var $recaptchaBadge = $('.grecaptcha-badge');
+						if ($recaptchaBadge.length > 0) {
+							// Get widget ID from the textarea outside the form
+							var $textarea = $('textarea[name="g-recaptcha-response"]');
+							if ($textarea.length > 0) {
+								var textareaId = $textarea.attr('id');
+								if (textareaId) {
+									var widgetId = textareaId.replace('g-recaptcha-response-', '');
+									if (!isNaN(widgetId) && widgetId !== '') {
+										grecaptcha.reset(parseInt(widgetId));
+									}
+								}
+							}
+						}
+					} catch(e) {
+						console.log('reCAPTCHA v2 invisible reset error:', e);
+					}
 				}
 			}
 		});
