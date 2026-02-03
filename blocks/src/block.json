@@ -57,7 +57,8 @@
 	},
 
 	"supports": {
-		"html": false
+		"html": false,
+		"customClassName": true
 	},
 
 	"editorScript": "file:./index.js",
