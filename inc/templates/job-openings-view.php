@@ -28,7 +28,7 @@ do_action( 'before_awsm_jobs_listing', $shortcode_atts );
 
 $query = awsm_jobs_query( $shortcode_atts );
 
-if ( $query->have_posts() ) : ?>
+?>
 	<div class="awsm-job-wrap<?php awsm_jobs_wrapper_class(); ?>">
 
 		<?php
@@ -49,52 +49,18 @@ if ( $query->have_posts() ) : ?>
 		?>
 
 		<div <?php awsm_jobs_view_class( '', $shortcode_atts ); ?><?php awsm_jobs_data_attrs( array(), $shortcode_atts ); ?>>
+		<?php if ( $query->have_posts() ) : ?>
 			<?php include get_awsm_jobs_template_path( 'main', 'job-openings' ); ?>
 		</div>
 
 	</div>
 	<?php
 else :
-	$filter_suffix = '_spec';
-	$job_spec      = array();
-
-	if ( ! empty( $_GET ) ) {
-		foreach ( $_GET as $key => $value ) {
-			if ( substr( $key, -strlen( $filter_suffix ) ) === $filter_suffix && $value !== '' ) {
-				$job_spec[ $key ] = sanitize_text_field( $value );
-			}
-		}
-		if ( isset( $_GET['jq'] ) && $_GET['jq'] !== '' ) {
-			$search_job = sanitize_text_field( wp_unslash( $_GET['jq'] ) );
-		}
-	}
-
-	if ( ! empty( $job_spec ) || ! empty( $search_job ) ) {
-		?>
-			<div class="awsm-job-wrap<?php awsm_jobs_wrapper_class(); ?>">
-				<?php
-					do_action( 'awsm_filter_form', $shortcode_atts );
-					do_action( 'awsm_filter_after_form' );
-				?>
-				<?php
-				get_filtered_job_terms();
-				printf(
-					'<div class="awsm-jobs-pagination awsm-load-more-jobs awsm-no-more-jobs-container awsm-job-no-more-jobs-get"><p>%s</p></div>',
-					esc_html__( 'Sorry! No jobs to show.', 'wp-job-openings' )
-				);
-				?>
-				<div <?php awsm_jobs_view_class( '', $shortcode_atts ); ?><?php awsm_jobs_data_attrs( array(), $shortcode_atts ); ?>>
-					<?php include get_awsm_jobs_template_path( 'main', 'job-openings' ); ?>
-				</div>
-			</div>
-		<?php
-	} else {
-		?>
-		<div class="jobs-none-container">
-			<p><?php awsm_no_jobs_msg(); ?></p>
-		</div>
-		<?php
-	}
+	?>
+	<div class="awsm-jobs-none-container">
+		<p><?php awsm_no_jobs_msg(); ?></p>
+	</div>
+	<?php
 endif;
 
 /**
