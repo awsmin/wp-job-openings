@@ -79,7 +79,7 @@ else :
 				<?php
 				get_filtered_job_terms();
 				printf(
-					'<div class="awsm-jobs-pagination awsm-load-more-jobs awsm-no-more-jobs-container awsm-job-no-more-jobs-get awsm-jobs-none-container awsm-lists"><p>%s</p></div>',
+					'<div class="awsm-jobs-pagination awsm-load-more-jobs awsm-no-more-jobs-container awsm-job-no-more-jobs-get"><p>%s</p></div>',
 					esc_html__( 'Sorry! No jobs to show.', 'wp-job-openings' )
 				);
 				?>
