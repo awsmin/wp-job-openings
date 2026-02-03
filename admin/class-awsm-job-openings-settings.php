@@ -1798,11 +1798,20 @@ class AWSM_Job_Openings_Settings {
 							$secret_key       = get_option( 'awsm_jobs_recaptcha_secret_key' );
 							$recaptcha_type   = get_option( 'awsm_jobs_recaptcha_type' );
 
-							// Check if v3 keys exist (regardless of enable status)
-							if ( $recaptcha_type === 'v3' && ! empty( $site_key ) && ! empty( $secret_key ) ) {
-								// Migrate v3 keys to new v3-specific options
+							// Migration: only when type is v3, shared fields have keys, AND v3-specific fields are empty.
+							// If v3 fields already have values, shared fields belong to v2 — don't touch them.
+							if (
+								$recaptcha_type === 'v3'
+								&& ! empty( $site_key )
+								&& ! empty( $secret_key )
+								&& empty( get_option( 'awsm_jobs_recaptcha_v3_site_key' ) )
+								&& empty( get_option( 'awsm_jobs_recaptcha_v3_secret_key' ) )
+							) {
+								// Move to v3 fields — these are old version leftovers
 								update_option( 'awsm_jobs_recaptcha_v3_site_key', $site_key );
 								update_option( 'awsm_jobs_recaptcha_v3_secret_key', $secret_key );
+
+								// Now safe to clear — confirmed these were v3 keys from old version
 								update_option( 'awsm_jobs_recaptcha_site_key', '' );
 								update_option( 'awsm_jobs_recaptcha_secret_key', '' );
 
@@ -1815,7 +1824,7 @@ class AWSM_Job_Openings_Settings {
 									update_option( $name, 'none' );
 								}
 							} elseif ( $enable_recaptcha === 'enable' && ! empty( $site_key ) && ! empty( $secret_key ) ) {
-								// Default to v2 or keep existing keys as is
+								// v2 / v2 invisible — shared fields are the correct home, use as-is
 								$value = 'recaptcha';
 								update_option( $name, 'recaptcha' );
 							} else {
@@ -1877,7 +1886,6 @@ class AWSM_Job_Openings_Settings {
 						}
 					}
 					break;
-
 				case 'checkbox':
 					$choices   = isset( $field['choices'] ) ? (array) $field['choices'] : array();
 					$is_toggle = ! empty( $field['toggle'] ) || count( $choices ) === 1;

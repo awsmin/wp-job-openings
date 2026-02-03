@@ -202,59 +202,57 @@ jQuery(document).ready(function($) {
 			}
 		});
 	};
-
+	
 	awsmJobs.executeRecaptcha = function($form) {
 		var $applicationMessage = $form.parents('.awsm-job-form-inner').find('.awsm-application-message');
-		
-		if (typeof awsmJobsRecaptcha === 'undefined' || typeof grecaptcha === 'undefined') {
+		var $submitBtn = $form.find('.awsm-application-submit-btn');
+		var submitBtnText = $submitBtn.data('originalText') || $submitBtn.val();
+
+		function showCaptchaError(msg) {
+			var errorMsg = msg || awsmJobsPublic.i18n.form_error_msg.recaptcha_failed || 'reCAPTCHA verification failed. Please try again.';
+			$applicationMessage
+				.removeClass('awsm-success-message')
+				.addClass('awsm-error-message')
+				.html('<p>' + errorMsg + '</p>')
+				.fadeIn();
+			$submitBtn.prop('disabled', false).val(submitBtnText).removeClass('awsm-application-submit-btn-disabled');
+		}
+
+		// If grecaptcha object doesn't exist at all, the script likely failed to load (bad key or network)
+		if (typeof grecaptcha === 'undefined') {
+			showCaptchaError();
+			return;
+		}
+
+		if (typeof awsmJobsRecaptcha === 'undefined') {
 			awsmJobs.submitApplication($form);
 			return;
 		}
 
 		var siteKey = awsmJobsRecaptcha.site_key;
-		var action = awsmJobsRecaptcha.action;
+		var action  = awsmJobsRecaptcha.action;
 
 		grecaptcha.ready(function() {
-			grecaptcha.execute(siteKey, { action: action }).then(function(token) {
-				var $existingToken = $form.find('input[name="g-recaptcha-response"]');
-				if ($existingToken.length > 0) {
-					$existingToken.remove();
-				}
-				
-				$form.append('<input type="hidden" name="g-recaptcha-response" value="' + token + '">');
-				
-				var $tokenField = $form.find('input[name="g-recaptcha-response"]');
-				var tokenValue = $tokenField.val();
-				
-				if (!tokenValue || tokenValue === '') {
-					$applicationMessage
-						.addClass('awsm-error-message')
-						.html('<p>' + awsmJobsPublic.i18n.form_error_msg.recaptcha_failed + '</p>') 
-						.fadeIn();
-					
-					var $submitBtn = $form.find('.awsm-application-submit-btn');
-					var submitBtnText = $submitBtn.data('originalText') || $submitBtn.val();
-					$submitBtn.prop('disabled', false).val(submitBtnText).removeClass('awsm-application-submit-btn-disabled');
+			grecaptcha.execute(siteKey, { action: action })
+			.then(function(token) {
+				// Token empty or undefined — invalid key usually causes this
+				if (!token || token === '') {
+					showCaptchaError();
 					return;
 				}
-				
+
+				// Remove any stale token field
+				$form.find('input[name="g-recaptcha-response"]').remove();
+				$form.append('<input type="hidden" name="g-recaptcha-response" value="' + token + '">');;
+
 				awsmJobs.submitApplication($form);
-			}).catch(function(error) {
-				
-				var errorMsg = awsmJobsPublic.i18n.form_error_msg.recaptcha_failed || 'reCAPTCHA verification failed. Please try again.';
-				
-				$applicationMessage
-					.addClass('awsm-error-message')
-					.html('<p>' + errorMsg + '</p>') 
-					.fadeIn();
-				
-				var $submitBtn = $form.find('.awsm-application-submit-btn');
-				var submitBtnText = $submitBtn.data('originalText') || $submitBtn.val();
-				$submitBtn.prop('disabled', false).val(submitBtnText).removeClass('awsm-application-submit-btn-disabled');
+			})
+			.catch(function(error) {
+				console.log('reCAPTCHA execute error:', error);
+				showCaptchaError();
 			});
 		});
 	};
-
 	var enableValidation = 'jquery_validation' in awsmJobsPublic.vendors && awsmJobsPublic.vendors.jquery_validation;
 
 	if (enableValidation) {
