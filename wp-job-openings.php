@@ -900,8 +900,8 @@ class AWSM_Job_Openings {
 		</noscript>
 		<?php
 	}
-	
-	public function awsm_job_plugin_notices(){
+
+	public function awsm_job_plugin_notices() {
 		$this->plugin_rating_notice_handler();
 		$this->awsm_job_version_compatibility_notices();
 	}
@@ -935,7 +935,7 @@ class AWSM_Job_Openings {
 			endif;
 		endif;
 	}
-	
+
 	public function plugin_rating_notice_handler() {
 		$rating_env = apply_filters( 'awsm_jobs_plugin_rating_env', 'WordPress' );
 		$rating_url = apply_filters( 'awsm_jobs_plugin_rating_url', 'https://wordpress.org/support/plugin/wp-job-openings/reviews/?filter=5' );
@@ -1584,18 +1584,18 @@ class AWSM_Job_Openings {
 	public static function awsm_job_query_args( $filters = array(), $shortcode_atts = array(), $is_term_or_slug = array() ) {
 		$args = array();
 		if ( is_tax() ) {
-			$q_obj    = get_queried_object();
-			$taxonomy = $q_obj->taxonomy;
-			$term_id  = $q_obj->term_id;
-			$filters  = array( $taxonomy => $term_id );
+			$q_obj           = get_queried_object();
+			$taxonomy        = $q_obj->taxonomy;
+			$term_id         = $q_obj->term_id;
+			$filters         = array( $taxonomy => $term_id );
 			$is_term_or_slug = array( $taxonomy => 'term_id' );
 		}
 
 		if ( ! empty( $filters ) ) {
 			foreach ( $filters as $taxonomy => $term_ids ) {
 				if ( ! empty( $term_ids ) ) {
-					$field = isset( $is_term_or_slug[ $taxonomy ] ) ? $is_term_or_slug[ $taxonomy ] : 'term_id';
-					$spec  = array(
+					$field               = isset( $is_term_or_slug[ $taxonomy ] ) ? $is_term_or_slug[ $taxonomy ] : 'term_id';
+					$spec                = array(
 						'taxonomy' => $taxonomy,
 						'field'    => $field,
 						'terms'    => $term_ids,
@@ -2123,14 +2123,18 @@ class AWSM_Job_Openings {
 		}
 		$update_buttons_pro = '';
 		if ( ! function_exists( 'awsm_jobs_is_new_captcha_enabled' ) || ! awsm_jobs_is_new_captcha_enabled() ) {
-			$link_action_free_update    = esc_html__( 'Update Now', 'wp-job-openings' );
-			$action_url_free_update     = wp_nonce_url( self_admin_url( 'update.php?action=upgrade-plugin&plugin=' . AWSM_JOBS_PRO_PLUGIN_BASENAME ), 'upgrade-plugin_' . AWSM_JOBS_PRO_PLUGIN_BASENAME );
-			$update_buttons_pro .= sprintf( '<a href="%2$s" class="button update-now">%1$s</a>', esc_html( $link_action_free_update ), esc_url( $action_url_free_update ) );
+			$link_action_free_update = esc_html__( 'Update Now', 'wp-job-openings' );
+			$action_url_free_update  = wp_nonce_url( self_admin_url( 'update.php?action=upgrade-plugin&plugin=' . AWSM_JOBS_PRO_PLUGIN_BASENAME ), 'upgrade-plugin_' . AWSM_JOBS_PRO_PLUGIN_BASENAME );
+			$update_buttons_pro     .= sprintf( '<a href="%2$s" class="button update-now">%1$s</a>', esc_html( $link_action_free_update ), esc_url( $action_url_free_update ) );
 			?>
 			<div class="notice notice-warning is-dismissible">
 				<p><strong><?php esc_html_e( 'WP Job Openings Pro - Update Required', 'wp-job-openings' ); ?></strong></p>
 				<p><?php esc_html_e( 'Please update WP Job Openings Pro Pack to the latest versions to get new features and improvements.', 'wp-job-openings' ); ?>
-				<?php if ( ! empty( $update_buttons_pro ) ) : echo $update_buttons_pro; endif; ?>
+				<?php
+				if ( ! empty( $update_buttons_pro ) ) :
+					echo wp_kses_post( $update_buttons_pro );
+				endif;
+				?>
 				</p>
 			</div>
 			<?php

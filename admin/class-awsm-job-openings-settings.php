@@ -1774,7 +1774,7 @@ class AWSM_Job_Openings_Settings {
 			$description = isset( $field['description'] ) ? wp_kses_post( $field['description'] ) : '';
 			$default     = isset( $field['default_value'] ) ? $field['default_value'] : '';
 			$help_button = isset( $field['help_button'] ) ? $field['help_button'] : false;
-			$required = isset( $field['required'] ) && $field['required'] === true;
+			$required    = isset( $field['required'] ) && $field['required'] === true;
 
 			$value       = get_option( $name, $default );
 			$row_classes = trim( 'awsm-settings-row ' . $row_class );
@@ -1910,11 +1910,13 @@ class AWSM_Job_Openings_Settings {
 					}
 
 					$required_attr = $required ? ' required' : '';
-					printf( '<input type="text" class="%1$s" id="%2$s" name="%2$s" value="%3$s"%4$s />', 
-							esc_attr( $class ? $class : 'regular-text' ), 
-							esc_attr( $name ), 
-							esc_attr( $value ), 
-							$required_attr );
+					printf(
+						'<input type="text" class="%1$s" id="%2$s" name="%2$s" value="%3$s"%4$s />',
+						esc_attr( $class ? $class : 'regular-text' ),
+						esc_attr( $name ),
+						esc_attr( $value ),
+						esc_attr( $required_attr )
+					);
 
 					if ( $is_captcha_key && $help_button && isset( $help_button['url'], $help_button['text'] ) ) {
 						$hb_url   = esc_url( $help_button['url'] );
@@ -1932,7 +1934,7 @@ class AWSM_Job_Openings_Settings {
 						$help_button = false;
 					}
 
-				break;
+					break;
 			}
 
 			if ( $help_button && isset( $help_button['url'], $help_button['text'] ) ) {

@@ -14,9 +14,11 @@ $query      = awsm_block_jobs_query( $attributes );
 $wrapper_class = 'awsm-b-job-wrap' . awsm_jobs_wrapper_class( false );
 
 if ( function_exists( 'get_block_wrapper_attributes' ) ) {
-	$wrapper_attrs = get_block_wrapper_attributes( [
-		'class' => $wrapper_class,
-	] );
+	$wrapper_attrs = get_block_wrapper_attributes(
+		array(
+			'class' => $wrapper_class,
+		)
+	);
 } else {
 	$wrapper_attrs = 'class="' . esc_attr( $wrapper_class ) . '"';
 }

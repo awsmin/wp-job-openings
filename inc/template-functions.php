@@ -77,7 +77,7 @@ if ( ! function_exists( 'awsm_jobs_query' ) ) {
 			}
 		}
 
-		$args  = AWSM_Job_Openings::awsm_job_query_args( $query_args, $shortcode_atts, $is_term_or_slug );
+		$args = AWSM_Job_Openings::awsm_job_query_args( $query_args, $shortcode_atts, $is_term_or_slug );
 
 		if ( ! empty( $search_job ) ) {
 			$args['s'] = $search_job;

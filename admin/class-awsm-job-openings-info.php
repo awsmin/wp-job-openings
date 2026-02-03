@@ -137,9 +137,9 @@ class AWSM_Job_Openings_Info {
 		include_once $this->cpath . '/templates/info/add-ons.php';
 	}
 
-	public function empty_posts( ) {
+	public function empty_posts() {
 		global $post_type, $pagenow;
-    
+
 		if ( $pagenow === 'edit.php' && $post_type === 'awsm_job_openings' ) {
 			$overview_data = AWSM_Job_Openings::get_overview_data();
 			if ( $overview_data['total_jobs'] === 0 ) {

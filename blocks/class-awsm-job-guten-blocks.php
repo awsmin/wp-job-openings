@@ -88,13 +88,13 @@ class Awsm_Job_Guten_Blocks {
 		return $block_content;
 	}
 
-	public function block_assets() { 
+	public function block_assets() {
 
 		if ( is_admin() ) {
 			wp_enqueue_script( 'awsm-job-admin' );
 			wp_enqueue_style( 'awsm-jobs-general' );
 		}
-		
+
 		if ( ! wp_script_is( 'awsm-job-scripts' ) ) {
 			wp_enqueue_script( 'awsm-job-scripts' );
 		}
