@@ -1603,6 +1603,7 @@ class AWSM_Job_Openings_Settings {
 					'label'       => __( 'Site key', 'wp-job-openings' ),
 					'class'       => 'regular-text awsm-captcha-panel awsm-captcha-panel-recaptcha',
 					'row_class'   => 'awsm-hide awsm-captcha-row awsm-captcha-row-recaptcha awsm-recaptcha-key-v2',
+					'required'    => true,
 					'help_button' => array(
 						'url'         => $provider_config['signup_url'],
 						'class'       => 'button button-secondary awsm-view-captcha-btn',
@@ -1620,6 +1621,7 @@ class AWSM_Job_Openings_Settings {
 					'label'     => __( 'Secret key', 'wp-job-openings' ),
 					'class'     => 'regular-text awsm-captcha-panel awsm-captcha-panel-recaptcha',
 					'row_class' => 'awsm-hide awsm-captcha-row awsm-captcha-row-recaptcha awsm-recaptcha-key-v2',
+					'required'  => true,
 				);
 
 				// v3 Site Key
@@ -1628,6 +1630,7 @@ class AWSM_Job_Openings_Settings {
 					'label'       => __( 'Site key', 'wp-job-openings' ),
 					'class'       => 'regular-text awsm-captcha-panel awsm-captcha-panel-recaptcha',
 					'row_class'   => 'awsm-hide awsm-captcha-row awsm-captcha-row-recaptcha awsm-recaptcha-key-v3',
+					'required'    => true,
 					'help_button' => array(
 						'url'         => $provider_config['signup_url'],
 						'class'       => 'button button-secondary awsm-view-captcha-btn',
@@ -1645,6 +1648,7 @@ class AWSM_Job_Openings_Settings {
 					'label'     => __( 'Secret key ', 'wp-job-openings' ),
 					'class'     => 'regular-text awsm-captcha-panel awsm-captcha-panel-recaptcha',
 					'row_class' => 'awsm-hide awsm-captcha-row awsm-captcha-row-recaptcha awsm-recaptcha-key-v3',
+					'required'  => true,
 				);
 			} else {
 				// Non-reCAPTCHA providers
@@ -1653,6 +1657,7 @@ class AWSM_Job_Openings_Settings {
 					'label'     => __( 'Site key', 'wp-job-openings' ),
 					'class'     => 'regular-text awsm-captcha-panel awsm-captcha-panel-' . $provider,
 					'row_class' => 'awsm-hide awsm-captcha-row awsm-captcha-row-' . $provider,
+					'required'  => true,
 				);
 
 				if ( ! empty( $provider_config['signup_url'] ) ) {
@@ -1674,6 +1679,7 @@ class AWSM_Job_Openings_Settings {
 					'label'     => __( 'Secret key', 'wp-job-openings' ),
 					'class'     => 'regular-text awsm-captcha-panel awsm-captcha-panel-' . $provider,
 					'row_class' => 'awsm-hide awsm-captcha-row awsm-captcha-row-' . $provider,
+					'required'  => true,
 				);
 			}
 
@@ -1768,6 +1774,7 @@ class AWSM_Job_Openings_Settings {
 			$description = isset( $field['description'] ) ? wp_kses_post( $field['description'] ) : '';
 			$default     = isset( $field['default_value'] ) ? $field['default_value'] : '';
 			$help_button = isset( $field['help_button'] ) ? $field['help_button'] : false;
+			$required = isset( $field['required'] ) && $field['required'] === true;
 
 			$value       = get_option( $name, $default );
 			$row_classes = trim( 'awsm-settings-row ' . $row_class );
@@ -1902,7 +1909,12 @@ class AWSM_Job_Openings_Settings {
 						echo '<div class="awsm-captcha-key-gen">';
 					}
 
-					printf( '<input type="text" class="%1$s" id="%2$s" name="%2$s" value="%3$s" />', esc_attr( $class ? $class : 'regular-text' ), esc_attr( $name ), esc_attr( $value ) );
+					$required_attr = $required ? ' required' : '';
+					printf( '<input type="text" class="%1$s" id="%2$s" name="%2$s" value="%3$s"%4$s />', 
+							esc_attr( $class ? $class : 'regular-text' ), 
+							esc_attr( $name ), 
+							esc_attr( $value ), 
+							$required_attr );
 
 					if ( $is_captcha_key && $help_button && isset( $help_button['url'], $help_button['text'] ) ) {
 						$hb_url   = esc_url( $help_button['url'] );
@@ -1920,7 +1932,7 @@ class AWSM_Job_Openings_Settings {
 						$help_button = false;
 					}
 
-					break;
+				break;
 			}
 
 			if ( $help_button && isset( $help_button['url'], $help_button['text'] ) ) {
