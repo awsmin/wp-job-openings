@@ -51,18 +51,14 @@ $query = awsm_jobs_query( $shortcode_atts );
 		<div <?php awsm_jobs_view_class( '', $shortcode_atts ); ?><?php awsm_jobs_data_attrs( array(), $shortcode_atts ); ?>>
 		<?php if ( $query->have_posts() ) : ?>
 			<?php include get_awsm_jobs_template_path( 'main', 'job-openings' ); ?>
+		<?php else : ?>
+			<div class="awsm-jobs-none-container">
+				<p><?php awsm_no_jobs_msg(); ?></p>
+			</div>
+	<?php endif; ?>
 		</div>
-
 	</div>
-	<?php
-else :
-	?>
-	<div class="awsm-jobs-none-container">
-		<p><?php awsm_no_jobs_msg(); ?></p>
-	</div>
-	<?php
-endif;
-
+<?php
 /**
  * Fires after the job listing content.
  *

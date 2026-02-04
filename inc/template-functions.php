@@ -321,10 +321,10 @@ if ( ! function_exists( 'awsm_jobs_load_more' ) ) {
 
 if ( ! function_exists( 'awsm_no_jobs_msg' ) ) {
 	function awsm_no_jobs_msg() {
-		$msg = get_option( 'awsm_default_msg', __( 'We currently have no job openings', 'wp-job-openings' ) );
+		$msg           = get_option( 'awsm_default_msg', __( 'We currently have no job openings', 'wp-job-openings' ) );
 		$filter_suffix = '_spec';
 		$job_spec      = array();
-		$search_job	= '';
+		$search_job    = '';
 
 		if ( ! empty( $_GET ) ) {
 			foreach ( $_GET as $key => $value ) {
@@ -338,7 +338,7 @@ if ( ! function_exists( 'awsm_no_jobs_msg' ) ) {
 		}
 
 		if ( ! empty( $job_spec ) || ! empty( $search_job ) ) {
-			echo esc_html__('Sorry! No jobs to show.', 'wp-job-openings');
+			echo esc_html__( 'Sorry! No jobs to show.', 'wp-job-openings' );
 		} else {
 			echo wp_kses( $msg, AWSM_Job_Openings_Form::get_allowed_html() );
 		}
