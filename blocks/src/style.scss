@@ -329,6 +329,11 @@ a.awsm-b-job-item {
     height: 50px;
 }
 
+.awsm-job-featured-image img {
+	max-width: 100%;
+	height: auto;
+}
+
 .awsm-b-list-item .awsm-b-job-item {
 	border-bottom: 1px solid rgba(0, 0, 0, 0.13);
 }
