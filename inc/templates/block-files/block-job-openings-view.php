@@ -44,7 +44,7 @@ if ( function_exists( 'get_block_wrapper_attributes' ) ) {
 		<?php if ( $query->have_posts() ) : ?>
 			<?php include get_awsm_jobs_template_path( 'block-main', 'block-files' ); ?>
 		<?php else : ?>
-			<div class="awsm-jobs-none-container">
+			<div class="awsm-jobs-none-container awsm-b-jobs-none-container">
 				<p><?php awsm_no_jobs_msg(); ?></p>
 			</div>
 		<?php endif; ?>
