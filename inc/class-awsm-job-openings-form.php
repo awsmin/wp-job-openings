@@ -1528,7 +1528,8 @@ class AWSM_Job_Openings_Form {
 
 		$extra_attrs = '';
 		if ( 'recaptcha' === $captcha_type && $this->get_recaptcha_type() === 'v2_invisible' ) {
-			$extra_attrs = ' data-size="invisible"';
+			// Add callback and explicit rendering
+			$extra_attrs = ' data-size="invisible" data-callback="awsmJobsOnRecaptchaSuccess"';
 		}
 
 		echo '<div class="' . esc_attr( $render_config['class'] ) . '" data-sitekey="' . esc_attr( $site_key ) . '"' . $extra_attrs;
