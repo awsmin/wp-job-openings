@@ -105,6 +105,8 @@ class AWSM_Job_Openings {
 		add_shortcode( 'awsmjobs', array( $this, 'awsm_jobs_shortcode' ) );
 		add_action( 'transition_post_status', array( $this, 'expiry_notification_handler' ), 10, 3 );
 		add_filter( 'display_post_states', array( $this, 'display_job_post_states' ), 10, 2 );
+
+		add_filter('option_posts_per_page', array( $this, 'archive_page_post_per_page' ), 10, 2 );
 	}
 
 	public static function init() {
@@ -2124,6 +2126,32 @@ class AWSM_Job_Openings {
 			</div>
 			<?php
 		}
+	}
+	
+	public function archive_page_post_per_page( $value, $option = null ) {
+
+		if ( is_admin() ) {
+			return $value;
+		}
+
+		$specs = self::get_filter_specifications();
+
+		if ( empty( $specs ) || ! is_array( $specs ) ) {
+			return $value;
+		}
+
+		foreach ( $specs as $spec ) {
+			if ( empty( $spec['key'] ) ) {
+				continue;
+			}
+
+			if ( is_tax( $spec['key'] ) ) {
+				$per_page = absint( get_option( 'awsm_jobs_list_per_page', $value ) );
+				return $per_page > 0 ? $per_page : $value;
+			}
+		}
+
+		return $value;
 	}
 }
 
