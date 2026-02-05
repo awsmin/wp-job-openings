@@ -1174,76 +1174,49 @@ class AWSM_Job_Openings_Form {
 		$script = $config[ $captcha_type ]['script'];
 
 		if ( 'recaptcha' === $captcha_type ) {
-			$recaptcha_type = $this->get_recaptcha_type();
-			$site_key       = $this->get_captcha_site_key( $captcha_type );
+			$recaptcha_type  = $this->get_recaptcha_type();
+			$option          = get_option( 'awsm_jobs_recaptcha_fail_message' );
+			$recaptcha_error = ! empty( $option )
+				? $option
+				: esc_html__( 'reCAPTCHA verification failed. Please try again.', 'wp-job-openings' );
 
-			if ( empty( $site_key ) ) {
-				return;
-			}
+			if ( 'v3' === $recaptcha_type || 'v2_invisible' === $recaptcha_type ) {
+				$site_key = $this->get_captcha_site_key( $captcha_type );
 
-			$recaptcha_error_message = get_option( 'awsm_jobs_recaptcha_fail_message', __( 'reCAPTCHA verification failed. Please try again.', 'wp-job-openings' ) );
+				if ( ! empty( $site_key ) ) {
+					$recaptcha_api_url = "https://www.google.com/recaptcha/api.js?render={$site_key}";
 
-			if ( 'v3' === $recaptcha_type ) {
-				$recaptcha_api_url = add_query_arg( 'render', $site_key, $script['src'] );
+					wp_dequeue_script( 'awsm-jobs-g-recaptcha' );
+					wp_deregister_script( 'awsm-jobs-g-recaptcha' );
 
-				wp_dequeue_script( $script['handle'] );
-				wp_deregister_script( $script['handle'] );
-
-				wp_enqueue_script(
-					$script['handle'],
-					esc_url( $recaptcha_api_url ),
-					isset( $script['deps'] ) ? $script['deps'] : array(),
-					'3.0',
-					array(
-						'in_footer' => $script['in_footer'],
-						'strategy'  => $script['strategy'],
-					)
-				);
-
-				$inline_script = sprintf(
-					'var awsmJobsRecaptcha = %s;',
-					wp_json_encode(
+					wp_enqueue_script(
+						'awsm-jobs-g-recaptcha',
+						esc_url( $recaptcha_api_url ),
+						array(),
+						'3.0',
 						array(
-							'site_key'      => $site_key,
-							'action'        => 'applicationform',
-							'type'          => $recaptcha_type,
-							'error_message' => $recaptcha_error_message,
+							'in_footer' => false,
+							'strategy'  => 'defer',
 						)
-					)
-				);
-				wp_add_inline_script( $script['handle'], $inline_script, 'after' );
+					);
 
-				do_action( 'awsm_jobs_captcha_scripts_enqueued', $captcha_type, $script );
-
-				return;
-			} elseif ( 'v2_invisible' === $recaptcha_type ) {
-				wp_enqueue_script(
-					$script['handle'],
-					$script['src'],
-					isset( $script['deps'] ) ? $script['deps'] : array(),
-					$script['version'],
-					array(
-						'in_footer' => $script['in_footer'],
-						'strategy'  => $script['strategy'],
-					)
-				);
-
-				$inline_script = sprintf(
-					'var awsmJobsRecaptcha = %s;',
-					wp_json_encode(
-						array(
-							'site_key'      => $site_key,
-							'action'        => 'applicationform',
-							'type'          => $recaptcha_type,
-							'error_message' => $recaptcha_error_message,
+					$inline_script = sprintf(
+						'var awsmJobsRecaptcha = %s;',
+						wp_json_encode(
+							array(
+								'site_key'  => $site_key,
+								'action'    => 'applicationform',
+								'type'      => $recaptcha_type,
+								'error_msg' => $recaptcha_error,
+							)
 						)
-					)
-				);
-				wp_add_inline_script( $script['handle'], $inline_script, 'after' );
+					);
+					wp_add_inline_script( 'awsm-jobs-g-recaptcha', $inline_script, 'after' );
 
-				do_action( 'awsm_jobs_captcha_scripts_enqueued', $captcha_type, $script );
+					do_action( 'awsm_jobs_captcha_scripts_enqueued', $captcha_type, $script );
 
-				return;
+					return;
+				}
 			}
 		}
 
@@ -1259,7 +1232,6 @@ class AWSM_Job_Openings_Form {
 				'strategy'  => $script['strategy'],
 			)
 		);
-
 		if ( ! empty( $script['async'] ) ) {
 			add_filter(
 				'script_loader_tag',
@@ -1460,7 +1432,6 @@ class AWSM_Job_Openings_Form {
 		return $is_visible;
 	}
 
-
 	public function display_captcha_field( $form_attrs ) {
 		if ( ! $this->is_captcha_set() ) {
 			return;
@@ -1471,18 +1442,17 @@ class AWSM_Job_Openings_Form {
 
 		// Only apply visibility logic for reCAPTCHA
 		if ( $captcha_type === 'recaptcha' ) {
-			$recaptcha_type = $this->get_recaptcha_type();
-
-			// *** CHANGE THIS: Only v3 should be invisible, v2_invisible needs the widget ***
-			if ( $recaptcha_type === 'v3' ) {
-				$is_visible = false;
-			}
-			// v2_invisible SHOULD render the widget (with data-size="invisible")
-			// So we keep $is_visible = true for v2_invisible
+			$is_visible = $this->is_recaptcha_visible( true );
 		}
 
 		/**
 		 * Filters the CAPTCHA visibility in the application form.
+		 *
+		 * @since 2.2.0
+		 * @since 2.2.1 The `$form_attrs` parameter was added.
+		 *
+		 * @param bool  $is_visible Whether the CAPTCHA is visible or not in the form.
+		 * @param array $form_attrs Attributes array for the form.
 		 */
 		$is_visible = apply_filters( 'awsm_application_form_is_recaptcha_visible', $is_visible, $form_attrs );
 
@@ -1496,12 +1466,11 @@ class AWSM_Job_Openings_Form {
 			return;
 		}
 
-		// *** REMOVE THIS BLOCK - v2_invisible NEEDS to render ***
-		// if ( $captcha_type === 'recaptcha' &&
-		//     $this->get_recaptcha_type() === 'v2_invisible'
-		// ) {
-		//     return;
-		// }
+		if ( $captcha_type === 'recaptcha' &&
+			$this->get_recaptcha_type() === 'v2_invisible'
+		) {
+			return;
+		}
 
 		?>
 		<div class="awsm-job-form-group awsm-job-captcha-group awsm-job-<?php echo esc_attr( $captcha_type ); ?>-group">
@@ -1510,8 +1479,18 @@ class AWSM_Job_Openings_Form {
 		<?php
 	}
 
-
 	private function render_captcha( $captcha_type, $site_key ) {
+		/**
+		 * Allows custom rendering for captcha types.
+		 *
+		 * If a custom renderer returns true, the default rendering will be skipped.
+		 *
+		 * @since 3.5.5
+		 *
+		 * @param bool   $rendered     Whether custom rendering was performed.
+		 * @param string $captcha_type The type of captcha being rendered.
+		 * @param string $site_key     The site key for the captcha.
+		 */
 		$custom_rendered = apply_filters( 'awsm_jobs_render_captcha', false, $captcha_type, $site_key );
 
 		if ( $custom_rendered ) {
@@ -1526,13 +1505,7 @@ class AWSM_Job_Openings_Form {
 
 		$render_config = $config[ $captcha_type ]['render'];
 
-		$extra_attrs = '';
-		if ( 'recaptcha' === $captcha_type && $this->get_recaptcha_type() === 'v2_invisible' ) {
-			// Add callback and explicit rendering
-			$extra_attrs = ' data-size="invisible" data-callback="awsmJobsOnRecaptchaSuccess"';
-		}
-
-		echo '<div class="' . esc_attr( $render_config['class'] ) . '" data-sitekey="' . esc_attr( $site_key ) . '"' . $extra_attrs;
+		echo '<div class="' . esc_attr( $render_config['class'] ) . '" data-sitekey="' . esc_attr( $site_key ) . '"';
 
 		if ( ! empty( $render_config['data_attrs'] ) ) {
 			foreach ( $render_config['data_attrs'] as $attr => $value ) {
