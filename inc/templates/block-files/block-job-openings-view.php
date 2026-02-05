@@ -58,5 +58,3 @@ if ( function_exists( 'get_block_wrapper_attributes' ) ) {
  */
 do_action( 'after_awsm_block_jobs_listing', $attributes );
 ?>
-
-

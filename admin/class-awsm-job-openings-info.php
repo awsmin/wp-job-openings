@@ -139,13 +139,13 @@ class AWSM_Job_Openings_Info {
 
 	public function empty_posts() {
 		global $post_type;
-		
+
 		if ( $post_type !== 'awsm_job_openings' ) {
 			return;
 		}
-		
+
 		$overview_data = AWSM_Job_Openings::get_overview_data();
-		
+
 		if ( $overview_data['total_jobs'] === 0 ) {
 			ob_start();
 			$this->empty_jobs();

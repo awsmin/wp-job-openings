@@ -1044,21 +1044,6 @@ class AWSM_Job_Openings {
 
 		$enable_search = get_option( 'awsm_enable_job_search' ) === 'enable' && isset( $_GET['jq'] );
 
-		$recaptcha_fail_message = '';
-
-		if ( awsm_jobs_is_new_captcha_enabled() ) {
-			$captcha_type = get_option( 'awsm_jobs_enable_captcha', 'none' );
-			if ( ! empty( $captcha_config ) && 'recaptcha' === $captcha_type ) {
-				$option_name            = "awsm_jobs_{$captcha_type}_fail_message";
-				$recaptcha_fail_message = get_option( $option_name, '' );
-			}
-			if ( empty( $recaptcha_fail_message ) ) {
-				$recaptcha_fail_message = esc_html__( 'reCAPTCHA verification failed. Please refresh the page and try again.', 'wp-job-openings' );
-			}
-		} else {
-			$recaptcha_fail_message = esc_html__( 'reCAPTCHA verification failed. Please refresh the page and try again.', 'wp-job-openings' );
-		}
-
 		global $post;
 
 		$localized_script_data = array(
@@ -1077,7 +1062,7 @@ class AWSM_Job_Openings {
 				'form_error_msg' => array(
 					'general'         => esc_html__( 'Error in submitting your application. Please try again later!', 'wp-job-openings' ),
 					'file_validation' => esc_html__( 'The file you have selected is too large.', 'wp-job-openings' ),
-					'captcha_failed'  => $recaptcha_fail_message,
+					'captcha_failed'  => esc_html__( 'reCAPTCHA failed to load. Please check your configuration.' ),
 				),
 			),
 			'vendors'            => array(
