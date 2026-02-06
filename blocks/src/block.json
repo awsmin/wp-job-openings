@@ -7,6 +7,8 @@
 	"category": "",
 	"icon": "",
 	"description": "",
+	"textdomain": "wp-job-openings",
+
 	"attributes": {
 		"filter_options": {
 			"type": "array",
@@ -20,9 +22,9 @@
 			"type": "array",
 			"default": []
 		},
-		"layout" : {
+		"layout": {
 			"type": "string",
-			"default" : "list"
+			"default": "list"
 		},
 		"listing_per_page": {
 			"type": "number",
@@ -34,30 +36,31 @@
 		},
 		"pagination": {
 			"type": "string",
-			"default" : "modern"
+			"default": "modern"
 		},
-		"hide_expired_jobs" : {
+		"hide_expired_jobs": {
 			"type": "boolean",
-			"default" : false
+			"default": false
 		},
-		"search" : {
+		"search": {
 			"type": "boolean",
-			"default" : false
+			"default": false
 		},
 		"search_placeholder": {
 			"type": "string",
 			"default": ""
 		},
-		"enable_job_filter" : {
+		"enable_job_filter": {
 			"type": "boolean",
-			"default" : true
+			"default": true
 		}
 	},
-	"example": {},
+
 	"supports": {
-		"html": false
+		"html": false,
+		"customClassName": true
 	},
-	"textdomain": "wp-job-openings",
+
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",

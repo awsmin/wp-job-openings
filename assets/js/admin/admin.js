@@ -528,4 +528,43 @@ jQuery(document).ready(function($) {
 			$('#awsm-jobs-setup-btn').prop('disabled', false);
 		});
 	});
+	//Captcha type change handler
+var $container = $('#awsm-recaptcha-form-options-container');
+    var $providerRadios = $container.find('input[name="awsm_jobs_enable_captcha"]');
+    var $recaptchaTypeRadios = $container.find('input[name="awsm_jobs_recaptcha_type"]');
+
+    function refresh() {
+        var selected = $providerRadios.filter(':checked').val() || 'none';
+
+        // Hide all captcha rows
+        $container.find('.awsm-captcha-row').addClass('awsm-hide');
+
+        if (selected !== 'none') {
+            $container.find('.awsm-captcha-row-' + selected).removeClass('awsm-hide');
+            $container.find('.awsm-captcha-row-common').removeClass('awsm-hide');
+        }
+
+        // Show/hide reCAPTCHA key fields based on type
+        if (selected === 'recaptcha') {
+            refreshRecaptchaKeys();
+        }
+    }
+
+    function refreshRecaptchaKeys() {
+        var recaptchaType = $recaptchaTypeRadios.filter(':checked').val() || 'v2';
+
+        // Hide all key fields first
+        $container.find('.awsm-recaptcha-key-v2, .awsm-recaptcha-key-v3').addClass('awsm-hide');
+
+        // Show appropriate key fields
+        if (recaptchaType === 'v3') {
+            $container.find('.awsm-recaptcha-key-v3').removeClass('awsm-hide');
+        } else {
+            $container.find('.awsm-recaptcha-key-v2').removeClass('awsm-hide');
+        }
+    }
+
+    refresh();
+    $providerRadios.on('change', refresh);
+    $recaptchaTypeRadios.on('change', refreshRecaptchaKeys);
 });

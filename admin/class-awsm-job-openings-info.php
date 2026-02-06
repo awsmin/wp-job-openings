@@ -16,7 +16,7 @@ class AWSM_Job_Openings_Info {
 		add_action( 'in_admin_header', array( $this, 'nav_header' ) );
 		add_action( 'admin_menu', array( $this, 'custom_admin_menu' ) );
 		add_action( 'admin_footer', array( $this, 'admin_add_js' ) );
-		add_action( 'manage_posts_extra_tablenav', array( $this, 'empty_posts' ) );
+		add_action( 'admin_footer-edit.php', array( $this, 'empty_posts' ) );
 		add_action( 'wp_ajax_awsm_jobs_setup', array( $this, 'handle_setup' ) );
 
 		add_filter( 'admin_body_class', array( $this, 'admin_body_class' ) );
@@ -137,14 +137,27 @@ class AWSM_Job_Openings_Info {
 		include_once $this->cpath . '/templates/info/add-ons.php';
 	}
 
-	public function empty_posts( $which ) {
+	public function empty_posts() {
 		global $post_type;
 
-		if ( $post_type === 'awsm_job_openings' && $which === 'bottom' ) {
-			$overview_data = AWSM_Job_Openings::get_overview_data();
-			if ( $overview_data['total_jobs'] === 0 ) {
-				$this->empty_jobs();
-			}
+		if ( $post_type !== 'awsm_job_openings' ) {
+			return;
+		}
+
+		$overview_data = AWSM_Job_Openings::get_overview_data();
+
+		if ( $overview_data['total_jobs'] === 0 ) {
+			ob_start();
+			$this->empty_jobs();
+			$empty_content = ob_get_clean();
+			?>
+			<script>
+			jQuery(document).ready(function($) {
+				var emptyContent = <?php echo json_encode( $empty_content ); ?>;
+				$('.wrap').html(emptyContent);
+			});
+			</script>
+			<?php
 		}
 	}
 
