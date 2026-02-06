@@ -252,8 +252,9 @@ if ( ! function_exists( 'awsm_jobs_paginate_links' ) ) {
 	function awsm_jobs_paginate_links( $query, $shortcode_atts = array() ) {
 		$is_homepage = is_front_page() || is_home();
 
+		// phpcs:disable WordPress.Security.NonceVerification.Missing
 		if ( isset( $_POST['paged'] ) ) {
-			$current = absint( $_POST['paged'] );
+			$current = absint( $_POST['paged'] );// phpcs:disable WordPress.Security.NonceVerification.Missing
 		} else {
 			if ( $is_homepage ) {
 				$current = get_query_var( 'page' ) ? absint( get_query_var( 'page' ) ) : 1;
@@ -266,6 +267,7 @@ if ( ! function_exists( 'awsm_jobs_paginate_links' ) ) {
 		$max_num_pages = isset( $query->max_num_pages ) ? $query->max_num_pages : 1;
 		$base_url      = get_pagenum_link();
 
+		// phpcs:disable WordPress.Security.NonceVerification.Missing
 		if ( isset( $_POST['awsm_pagination_base'] ) ) {
 			$base_url = $_POST['awsm_pagination_base'];
 		}

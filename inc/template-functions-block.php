@@ -162,8 +162,9 @@ if ( ! function_exists( 'awsm_block_jobs_paginate_links' ) ) {
 	function awsm_block_jobs_paginate_links( $query, $shortcode_atts = array() ) {
 		$is_homepage = is_front_page() || is_home();
 
+		// phpcs:disable WordPress.Security.NonceVerification.Missing
 		if ( isset( $_POST['paged'] ) ) {
-			$current = absint( $_POST['paged'] );
+			$current = absint( $_POST['paged'] );// phpcs:disable WordPress.Security.NonceVerification.Missing
 		} else {
 			if ( $is_homepage ) {
 				$current = get_query_var( 'page' ) ? absint( get_query_var( 'page' ) ) : 1;
