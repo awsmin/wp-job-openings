@@ -89,30 +89,6 @@ if ( ! function_exists( 'awsm_jobs_query' ) ) {
 	}
 }
 
-if ( ! function_exists( 'get_filtered_job_terms' ) ) {
-	function get_filtered_job_terms() {
-		$filter_suffix  = '_spec';
-		$filters        = get_option( 'awsm_jobs_listing_available_filters' );
-		$filtered_terms = array();
-
-		if ( ! empty( $filters ) ) {
-			foreach ( $filters as $filter ) {
-				$current_filter_key = str_replace( '-', '__', $filter ) . $filter_suffix;
-				if ( isset( $_GET[ $current_filter_key ] ) ) {
-					$term_slug = sanitize_title( $_GET[ $current_filter_key ] );
-					$term      = get_term_by( 'slug', $term_slug, $filter );
-					if ( $term && ! is_wp_error( $term ) ) {
-						$filtered_terms[ $filter ] = $term;
-					} else {
-						$filtered_terms[ $filter ] = null;
-					}
-				}
-			}
-		}
-		return $filtered_terms;
-	}
-}
-
 if ( ! function_exists( 'awsm_jobs_view' ) ) {
 	function awsm_jobs_view( $shortcode_atts = array() ) {
 		return AWSM_Job_Openings::get_job_listing_view( $shortcode_atts );
