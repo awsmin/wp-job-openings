@@ -407,7 +407,7 @@ class AWSM_Job_Openings_Settings {
 		);
 		if ( awsm_jobs_is_new_captcha_enabled() ) {
 			/**
-			 * @since 3.5.5 - New CAPTCHA system
+			 * @since 3.6.0 - New CAPTCHA system
 			 */
 			$settings['form'] = array_merge(
 				$settings['form'],
@@ -2544,7 +2544,7 @@ class AWSM_Job_Openings_Settings {
 	/**
 	 * Sanitize the new CAPTCHA enable field and sync with legacy option.
 	 *
-	 * @since 3.5.5
+	 * @since 3.6.0
 	 *
 	 * @param mixed $input The input value.
 	 * @return string The sanitized value.

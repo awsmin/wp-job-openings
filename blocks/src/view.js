@@ -168,17 +168,6 @@ jQuery(function($) {
 		awsmJobFilters($rootWrapper);
 	}
 
-	/* if ($(rootWrapperSelector).length > 0) {
-		$(rootWrapperSelector).each(function() {
-			var $currentWrapper = $(this);
-			var $filterForm = $currentWrapper.find(filterSelector + ' form');
-			if (awsmJobsPublic.is_search.length > 0 || filterCheck($filterForm)) {
-				triggerFilter = true;
-				awsmJobFilters($currentWrapper);
-			}
-		});
-	} */
-
 	var updateQuery = function(key, value, url) {
 		url = typeof url !== 'undefined' ? url : currentUrl;
 		url = url.split('?')[0];

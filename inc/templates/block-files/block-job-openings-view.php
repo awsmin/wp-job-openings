@@ -23,7 +23,7 @@ if ( function_exists( 'get_block_wrapper_attributes' ) ) {
 	$wrapper_attrs = 'class="' . esc_attr( $wrapper_class ) . '"';
 }
 ?>
-<div <?php echo $wrapper_attrs; ?>>
+<div <?php echo $wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- get_block_wrapper_attributes() returns escaped HTML attributes ?>>
 	<?php
 		/**
 		 * awsm_block_filter_form hook

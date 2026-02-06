@@ -1379,7 +1379,7 @@ class AWSM_Job_Openings_Form {
 		/**
 		 * Filter IP header priority order.
 		 *
-		 * @since 3.5.5
+		 * @since 3.6.0
 		 *
 		 * @param array $ip_keys Array of $_SERVER keys to check for IP.
 		 */
@@ -1405,7 +1405,7 @@ class AWSM_Job_Openings_Form {
 		/**
 		 * Filter the detected client IP.
 		 *
-		 * @since 3.5.5
+		 * @since 3.6.0
 		 *
 		 * @param string $fallback_ip The detected IP address.
 		 */
@@ -1485,7 +1485,7 @@ class AWSM_Job_Openings_Form {
 		 *
 		 * If a custom renderer returns true, the default rendering will be skipped.
 		 *
-		 * @since 3.5.5
+		 * @since 3.6.0
 		 *
 		 * @param bool   $rendered     Whether custom rendering was performed.
 		 * @param string $captcha_type The type of captcha being rendered.
