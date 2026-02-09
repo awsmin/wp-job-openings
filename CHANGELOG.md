@@ -1,7 +1,8 @@
 ## Changelog
 
-### V 3.5.5 - 2025-12-03
-* Code improvements.
+### V 3.6.0 - 2026-02-09
+* Added: New CAPTCHA options, reCAPTCHA v2 (Invisible), hCaptcha, and Cloudflare Turnstile.
+* Minor bug fixes and code improvements.
 
 ### V 3.5.4 - 2025-07-02
 * Security fixes and code improvements.
