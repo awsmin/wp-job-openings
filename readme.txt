@@ -103,7 +103,7 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 
 == Changelog ==
 
-= v3.6.0 – 2026-02-09 =
+= V 3.6.0 – 2026-02-09 =
 * Added: New CAPTCHA options, reCAPTCHA v2 (Invisible), hCaptcha, and Cloudflare Turnstile.
 * Minor bug fixes and code improvements.
 
