@@ -160,7 +160,7 @@ if ( ! function_exists( 'awsm_jobs_is_new_captcha_enabled' ) ) {
 	 *
 	 * The new CAPTCHA is enabled when both version requirements are met:
 	 * - Free plugin version is 3.6 or higher
-	 * - Pro plugin version is 3.5 or higher (if Pro plugin is active)
+	 * - Pro plugin version is 3.4.4 or higher (if Pro plugin is active)
 	 *
 	 * @since 3.6.0
 	 *
@@ -170,8 +170,8 @@ if ( ! function_exists( 'awsm_jobs_is_new_captcha_enabled' ) ) {
 		$free_version = defined( 'AWSM_JOBS_PLUGIN_VERSION' ) ? AWSM_JOBS_PLUGIN_VERSION : '0.0.0';
 		$pro_version  = defined( 'AWSM_JOBS_PRO_PLUGIN_VERSION' ) ? AWSM_JOBS_PRO_PLUGIN_VERSION : '0.0.0';
 
-		$min_free_version   = '3.6';
-		$min_pro_version    = '3.5';
+		$min_free_version   = '3.6.0';
+		$min_pro_version    = '3.4.4';
 		$is_free_compatible = version_compare( $free_version, $min_free_version, '>=' );
 		$is_pro_compatible  = ! class_exists( 'AWSM_Job_Openings_Pro_Form' ) || version_compare( $pro_version, $min_pro_version, '>=' );
 

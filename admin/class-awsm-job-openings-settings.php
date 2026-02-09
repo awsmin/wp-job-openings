@@ -420,9 +420,6 @@ class AWSM_Job_Openings_Settings {
 				$this->get_captcha_settings_options()
 			);
 		} else {
-			/**
-			 * Legacy CAPTCHA settings (pre-3.5.5)
-			 */
 			$settings['form'] = array_merge(
 				$settings['form'],
 				array(
