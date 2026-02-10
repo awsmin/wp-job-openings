@@ -29,7 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				),
 				array(
 					'id'        => 'feedback',
-					'url'       => 'https://roadmap.wpjobopenings.com/boards/feedback',
+					'url'       => 'https://roadmap.wpjobopenings.com/boards/feature-requests',
 					'link_text' => __( 'Feedback', 'wp-job-openings' ),
 				),
 				array(
