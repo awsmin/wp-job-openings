@@ -62,10 +62,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'value'       => wp_dropdown_pages( $args ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					'description' => __( 'The job listing shortcode will be added to  the page you select', 'wp-job-openings' ),
 					'help_button' => array(
-						'visible' => $page_exists,
-						'url'     => $page_exists ? get_page_link( $selected_listing_page_id ) : '',
-						'class'   => 'awsm-view-page-btn',
-						'text'    => __( 'View Page', 'wp-job-openings' ),
+						'visible'     => $page_exists,
+						'url'         => $page_exists ? get_page_link( $selected_listing_page_id ) : '',
+						'class'       => 'awsm-view-page-btn',
+						'text'        => __( 'View Page', 'wp-job-openings' ),
+						'other_attrs' => array(
+							'target' => '_blank',
+						),
 					),
 				),
 				array(

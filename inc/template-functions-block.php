@@ -31,9 +31,86 @@ if ( ! function_exists( 'awsm_block_job_filters_explode' ) ) {
 	}
 }
 
+
+if ( ! function_exists( 'get_block_filtered_job_terms' ) ) {
+	function get_block_filtered_job_terms( $attributes ) {
+		$filter_suffix  = '_spec';
+		$filters        = $attributes['filter_options'];
+		$filtered_terms = array();
+
+		if ( ! empty( $filters ) && is_array( $filters ) ) {
+			foreach ( $filters as $filter ) {
+				if ( ! empty( $filter['specKey'] ) ) {
+					$taxonomy           = $filter['specKey'];
+					$current_filter_key = str_replace( '-', '__', $taxonomy ) . $filter_suffix;
+
+					if ( isset( $_GET[ $current_filter_key ] ) ) {
+						$term_slug = sanitize_title( $_GET[ $current_filter_key ] );
+						$term      = get_term_by( 'slug', $term_slug, $taxonomy );
+
+						if ( $term && ! is_wp_error( $term ) ) {
+							$filtered_terms[ $taxonomy ] = $term;
+						} else {
+							$filtered_terms[ $taxonomy ] = null;
+						}
+					}
+				}
+			}
+		}
+
+		return $filtered_terms;
+	}
+}
+
 if ( ! function_exists( 'awsm_block_jobs_query' ) ) {
 	function awsm_block_jobs_query( $attributes = array() ) {
-		$args  = AWSM_Job_Openings_Block::awsm_block_job_query_args( array(), $attributes );
+		$query_args      = array();
+		$is_term_or_slug = array();
+		$filter_suffix   = '_spec';
+
+		$filters = get_option( 'awsm_jobs_listing_available_filters' );
+
+		if ( isset( $_GET['jq'] ) && $_GET['jq'] !== '' ) {
+			$search_job = sanitize_text_field( wp_unslash( $_GET['jq'] ) );
+		}
+
+		if ( ! empty( $filters ) ) {
+			foreach ( $filters as $filter ) {
+				$current_filter_key = str_replace( '-', '__', $filter ) . $filter_suffix;
+
+				// Check if filter exists in URL ($_GET), else use stored option
+				if ( isset( $_GET[ $current_filter_key ] ) && ! empty( $_GET[ $current_filter_key ] ) ) {
+					$term_slugs = explode( ',', sanitize_text_field( $_GET[ $current_filter_key ] ) );
+				} else {
+					// Fallback to stored option if URL parameter is missing
+					$saved_terms = get_option( 'awsm_jobs_default_' . $filter, '' ); // Modify key accordingly
+					$term_slugs  = ! empty( $saved_terms ) ? explode( ',', $saved_terms ) : array();
+				}
+
+				if ( ! empty( $term_slugs ) ) {
+					$query_args[ $filter ] = array();
+
+					foreach ( $term_slugs as $term_slug ) {
+						$term = get_term_by( 'slug', sanitize_title( $term_slug ), $filter );
+
+						if ( $term && ! is_wp_error( $term ) ) {
+							$query_args[ $filter ][]    = $term->term_id;
+							$is_term_or_slug[ $filter ] = 'term_id';
+						} else {
+							$query_args[ $filter ][]    = $term_slug;
+							$is_term_or_slug[ $filter ] = 'slug';
+						}
+					}
+				}
+			}
+		}
+
+		$args = AWSM_Job_Openings_Block::awsm_block_job_query_args( $query_args, $attributes, $is_term_or_slug );
+
+		if ( ! empty( $search_job ) ) {
+			$args['s'] = $search_job;
+		}
+
 		$query = new WP_Query( $args );
 		return $query;
 	}
@@ -83,10 +160,23 @@ if ( ! function_exists( 'awsm_block_jobs_load_more' ) ) {
 
 if ( ! function_exists( 'awsm_block_jobs_paginate_links' ) ) {
 	function awsm_block_jobs_paginate_links( $query, $shortcode_atts = array() ) {
-		$current       = ( $query->query_vars['paged'] ) ? (int) $query->query_vars['paged'] : 1;
-		$max_num_pages = isset( $query->max_num_pages ) ? $query->max_num_pages : 1;
+		$is_homepage = is_front_page() || is_home();
 
-		$base_url = get_pagenum_link();
+		// phpcs:disable WordPress.Security.NonceVerification.Missing
+		if ( isset( $_POST['paged'] ) ) {
+			$current = absint( $_POST['paged'] );// phpcs:disable WordPress.Security.NonceVerification.Missing
+		} else {
+			if ( $is_homepage ) {
+				$current = get_query_var( 'page' ) ? absint( get_query_var( 'page' ) ) : 1;
+			} else {
+				$current = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ) : 1;
+			}
+		}
+
+		$page_var      = ( is_front_page() || is_home() ) ? 'page' : 'paged';
+		$max_num_pages = isset( $query->max_num_pages ) ? $query->max_num_pages : 1;
+		$base_url      = get_pagenum_link();
+
 		// phpcs:disable WordPress.Security.NonceVerification.Missing
 		if ( isset( $_POST['awsm_pagination_base'] ) ) {
 			$base_url = $_POST['awsm_pagination_base'];
@@ -94,7 +184,7 @@ if ( ! function_exists( 'awsm_block_jobs_paginate_links' ) ) {
 		// phpcs:enable
 
 		$args               = array(
-			'base'    => esc_url_raw( add_query_arg( 'paged', '%#%', $base_url ) ),
+			'base'    => esc_url_raw( add_query_arg( $page_var, '%#%', $base_url ) ),
 			'format'  => '',
 			'type'    => 'list',
 			'current' => max( 1, $current ),

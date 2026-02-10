@@ -114,6 +114,10 @@ class AWSM_Job_Openings_Dashboard_Widget {
 	}
 
 	public static function get_active_jobs( $numberjobs = 5 ) {
+
+		if ( ! class_exists( 'AWSM_Job_Openings_Overview' ) ) {
+			return array();
+		}
 		$results = AWSM_Job_Openings_Overview::get_jobs(
 			array(
 				'numberjobs' => $numberjobs,

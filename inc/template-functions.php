@@ -38,8 +38,53 @@ if ( ! function_exists( 'awsm_jobs_get_footer' ) ) {
 
 if ( ! function_exists( 'awsm_jobs_query' ) ) {
 	function awsm_jobs_query( $shortcode_atts = array() ) {
-		$args  = AWSM_Job_Openings::awsm_job_query_args( array(), $shortcode_atts );
+		$query_args      = array();
+		$is_term_or_slug = array();
+		$filter_suffix   = '_spec';
+		// Get the available filters from stored options
+		$filters = get_option( 'awsm_jobs_listing_available_filters' );
+
+		$search_job = '';
+
+		if ( isset( $_GET['jq'] ) && $_GET['jq'] !== '' ) {
+			$search_job = sanitize_text_field( wp_unslash( $_GET['jq'] ) );
+		}
+
+		if ( ! empty( $filters ) ) {
+			foreach ( $filters as $filter ) {
+				$current_filter_key = str_replace( '-', '__', $filter ) . $filter_suffix;
+				if ( isset( $_GET[ $current_filter_key ] ) && ! empty( $_GET[ $current_filter_key ] ) ) {
+					$term_slugs = explode( ',', sanitize_text_field( $_GET[ $current_filter_key ] ) );
+				} else {
+					$saved_terms = get_option( 'awsm_jobs_default_' . $filter, '' ); // Modify key accordingly
+					$term_slugs  = ! empty( $saved_terms ) ? explode( ',', $saved_terms ) : array();
+				}
+
+				if ( ! empty( $term_slugs ) ) {
+					$query_args[ $filter ] = array();
+					foreach ( $term_slugs as $term_slug ) {
+						$term = get_term_by( 'slug', sanitize_title( $term_slug ), $filter );
+
+						if ( $term && ! is_wp_error( $term ) ) {
+							$query_args[ $filter ][]    = $term->term_id;
+							$is_term_or_slug[ $filter ] = 'term_id';
+						} else {
+							$query_args[ $filter ][]    = $term_slug;
+							$is_term_or_slug[ $filter ] = 'slug';
+						}
+					}
+				}
+			}
+		}
+
+		$args = AWSM_Job_Openings::awsm_job_query_args( $query_args, $shortcode_atts, $is_term_or_slug );
+
+		if ( ! empty( $search_job ) ) {
+			$args['s'] = $search_job;
+		}
+
 		$query = new WP_Query( $args );
+
 		return $query;
 	}
 }
@@ -181,18 +226,30 @@ if ( ! function_exists( 'awsm_job_more_details' ) ) {
 
 if ( ! function_exists( 'awsm_jobs_paginate_links' ) ) {
 	function awsm_jobs_paginate_links( $query, $shortcode_atts = array() ) {
-		$current       = ( $query->query_vars['paged'] ) ? (int) $query->query_vars['paged'] : 1;
-		$max_num_pages = isset( $query->max_num_pages ) ? $query->max_num_pages : 1;
+		$is_homepage = is_front_page() || is_home();
 
-		$base_url = get_pagenum_link();
+		// phpcs:disable WordPress.Security.NonceVerification.Missing
+		if ( isset( $_POST['paged'] ) ) {
+			$current = absint( $_POST['paged'] );// phpcs:disable WordPress.Security.NonceVerification.Missing
+		} else {
+			if ( $is_homepage ) {
+				$current = get_query_var( 'page' ) ? absint( get_query_var( 'page' ) ) : 1;
+			} else {
+				$current = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ) : 1;
+			}
+		}
+
+		$page_var      = ( is_front_page() || is_home() ) ? 'page' : 'paged';
+		$max_num_pages = isset( $query->max_num_pages ) ? $query->max_num_pages : 1;
+		$base_url      = get_pagenum_link();
+
 		// phpcs:disable WordPress.Security.NonceVerification.Missing
 		if ( isset( $_POST['awsm_pagination_base'] ) ) {
 			$base_url = $_POST['awsm_pagination_base'];
 		}
 		// phpcs:enable
-
 		$args               = array(
-			'base'    => esc_url_raw( add_query_arg( 'paged', '%#%', $base_url ) ),
+			'base'    => esc_url_raw( add_query_arg( $page_var, '%#%', $base_url ) ),
 			'format'  => '',
 			'type'    => 'list',
 			'current' => max( 1, $current ),
@@ -234,7 +291,7 @@ if ( ! function_exists( 'awsm_jobs_load_more' ) ) {
 					echo apply_filters( 'awsm_jobs_load_more_content', $load_more_content, $query, $shortcode_atts ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				}
 			} else {
-				echo awsm_jobs_paginate_links( $query );
+				echo wp_kses_post( awsm_jobs_paginate_links( $query ) );
 			}
 		}
 	}
@@ -242,8 +299,27 @@ if ( ! function_exists( 'awsm_jobs_load_more' ) ) {
 
 if ( ! function_exists( 'awsm_no_jobs_msg' ) ) {
 	function awsm_no_jobs_msg() {
-		$msg = get_option( 'awsm_default_msg', __( 'We currently have no job openings', 'wp-job-openings' ) );
-		echo wp_kses( $msg, AWSM_Job_Openings_Form::get_allowed_html() );
+		$msg           = get_option( 'awsm_default_msg', __( 'We currently have no job openings', 'wp-job-openings' ) );
+		$filter_suffix = '_spec';
+		$job_spec      = array();
+		$search_job    = '';
+
+		if ( ! empty( $_GET ) ) {
+			foreach ( $_GET as $key => $value ) {
+				if ( substr( $key, -strlen( $filter_suffix ) ) === $filter_suffix && $value !== '' ) {
+					$job_spec[ $key ] = sanitize_text_field( $value );
+				}
+			}
+			if ( isset( $_GET['jq'] ) && $_GET['jq'] !== '' ) {
+				$search_job = sanitize_text_field( wp_unslash( $_GET['jq'] ) );
+			}
+		}
+
+		if ( ! empty( $job_spec ) || ! empty( $search_job ) ) {
+			echo esc_html__( 'Sorry! No jobs to show.', 'wp-job-openings' );
+		} else {
+			echo wp_kses( $msg, AWSM_Job_Openings_Form::get_allowed_html() );
+		}
 	}
 }
 

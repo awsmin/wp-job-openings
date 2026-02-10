@@ -28,7 +28,7 @@ do_action( 'before_awsm_jobs_listing', $shortcode_atts );
 
 $query = awsm_jobs_query( $shortcode_atts );
 
-if ( $query->have_posts() ) : ?>
+?>
 	<div class="awsm-job-wrap<?php awsm_jobs_wrapper_class(); ?>">
 
 		<?php
@@ -49,19 +49,16 @@ if ( $query->have_posts() ) : ?>
 		?>
 
 		<div <?php awsm_jobs_view_class( '', $shortcode_atts ); ?><?php awsm_jobs_data_attrs( array(), $shortcode_atts ); ?>>
+		<?php if ( $query->have_posts() ) : ?>
 			<?php include get_awsm_jobs_template_path( 'main', 'job-openings' ); ?>
+		<?php else : ?>
+			<div class="awsm-jobs-none-container">
+				<p><?php awsm_no_jobs_msg(); ?></p>
+			</div>
+	<?php endif; ?>
 		</div>
-
 	</div>
-	<?php
-else :
-	?>
-	<div class="jobs-none-container">
-		<p><?php awsm_no_jobs_msg(); ?></p>
-	</div>
-	<?php
-endif;
-
+<?php
 /**
  * Fires after the job listing content.
  *
