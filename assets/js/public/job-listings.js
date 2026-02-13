@@ -2,10 +2,9 @@
 
 'use strict';
 
-jQuery(function($) {  
+jQuery(function($) { 
 	var rootWrapperSelector = '.awsm-job-wrap';
-	var wrapperSelector 	= '.awsm-job-listings';
-	var sectionSelector 	= '.awsm-job-listing-items'; 
+	var wrapperSelector = '.awsm-job-listings'; 
 
 	/* ========== Job Search and Filtering ========== */
 
@@ -16,9 +15,6 @@ jQuery(function($) {
 	function getListingsData($wrapper) {  
 		var data = [];
 		var parsedListingsAttrs = [ 'listings', 'specs', 'search', 'lang', 'taxonomy', 'termId' ];
-
-		parsedListingsAttrs.push('awsm-selected-terms');
-
 		var dataAttrs = $wrapper.data();
 		$.each(dataAttrs, function(dataAttr, value) { 
 			if ($.inArray(dataAttr, parsedListingsAttrs) === -1) {
@@ -33,31 +29,16 @@ jQuery(function($) {
 
 	function awsmJobFilters($rootWrapper) { 
 		var $wrapper = $rootWrapper.find(wrapperSelector);
-		var $rowWrapper = $wrapper.find(sectionSelector);
-		var $filterForm = $rootWrapper.find(filterSelector + ' form'); 
-		var formData = [];
-	
-		if ($filterForm.length > 0) {
-			// Form exists → Serialize form data
-			formData = $filterForm.serializeArray();
-			var formMethod = $filterForm.attr('method') ? $filterForm.attr('method').toUpperCase() : 'POST';
-		} else {
-			// Form is missing → Manually construct data
-			formData.push({ name: 'action', value: 'jobfilter' }); // Ensure action is included
-			var formMethod = 'POST';
-		}
-	
-		// Get additional data (if available)
+		var $filterForm = $rootWrapper.find(filterSelector + ' form');
+		var formData = $filterForm.serializeArray();
 		var listings = $wrapper.data('listings');
 		var specs = $wrapper.data('specs');
-		var selected_terms = $wrapper.data('awsm-selected-terms');
 
 		$rootWrapper.find('.awsm-filter-item').each(function() {
 			var currentLoopSpec = $(this).data('filter');
 			var searchParams = new URLSearchParams(document.location.search);
 			var currentSpecQueryVal = searchParams.get(currentLoopSpec); 
 			var $currentOption = $(this).find('.awsm-filter-option');
-			
 			if ($currentOption.val().length === 0 && currentSpecQueryVal && currentSpecQueryVal.length > 0) {
 				formData.forEach(function(item) {
 					if (item.name === $currentOption.attr('name')) {
@@ -66,31 +47,49 @@ jQuery(function($) {
 				});
 			}
 		});
-	
-		if (listings) {
-			formData.push({ name: 'listings_per_page', value: listings });
+		
+		formData.push({
+			name: 'listings_per_page',
+			value: listings
+		});
+		if (typeof specs !== 'undefined') {
+			formData.push({
+				name: 'shortcode_specs',
+				value: specs
+			});
 		}
-		if (specs) {
-			formData.push({ name: 'shortcode_specs', value: specs });
+
+		var listingsData = getListingsData($wrapper);
+		if (listingsData.length > 0) {
+			formData = formData.concat(listingsData);
 		}
-		if (selected_terms) {
-			formData.push({ name: 'awsm-selected-terms', value: JSON.stringify(selected_terms) });
-		}
-	
-		// Perform AJAX call only if triggerFilter is true
 		if (triggerFilter) {
+
+			// stop the duplicate requests.
 			triggerFilter = false;
+
+			// now, make the request.
 			$.ajax({
-				url: $filterForm.length > 0 ? $filterForm.attr('action') : awsmJobsPublic.ajaxurl, // Use AJAX URL if form is missing
-				type: formMethod,
-				data: formData,
-				beforeSend: function() {
+				url: $filterForm.attr('action'),
+				beforeSend: function() { 
 					$wrapper.addClass('awsm-jobs-loading');
-				}
+				},
+				data: formData,
+				type: $filterForm.attr('method')
 			}).done(function(data) {
-				$rowWrapper.html(data);
-				$(document).trigger('awsmjobs_filtered_listings', [$rootWrapper, data]);
+				$wrapper.html(data);
+				var $searchControl = $rootWrapper.find('.awsm-job-search');
+				if ($searchControl.length > 0) {
+					if ($searchControl.val().length > 0) {
+						$rootWrapper.find('.awsm-job-search-btn').addClass('awsm-job-hide');
+						$rootWrapper.find('.awsm-job-search-close-btn').removeClass('awsm-job-hide');
+					} else {
+						$rootWrapper.find('.awsm-job-search-btn').removeClass('awsm-job-hide');
+					}
+				}
+				$(document).trigger('awsmjobs_filtered_listings', [ $rootWrapper, data ]);
 			}).fail(function(xhr) {
+				// eslint-disable-next-line no-console
 				console.log(xhr);
 			}).always(function() {
 				$wrapper.removeClass('awsm-jobs-loading');
@@ -98,7 +97,6 @@ jQuery(function($) {
 			});
 		}
 	}
-	
 
 	function filterCheck($filterForm) {
 		var check = false;
@@ -128,17 +126,7 @@ jQuery(function($) {
 		awsmJobFilters($rootWrapper);
 	}
 
-/* 	if ($(rootWrapperSelector).length > 0) { 
-		$(rootWrapperSelector).each(function() { 
-			var $currentWrapper = $(this);
-			var $filterForm = $currentWrapper.find(filterSelector + ' form');
-			if (awsmJobsPublic.is_search.length > 0 || filterCheck($filterForm)) {
-				triggerFilter = true;
-				awsmJobFilters($currentWrapper);
-			}
-		});
-	} */
-
+	// Updated updateQuery function
 	var updateQuery = function(key, value, url) {
 		url = typeof url !== 'undefined' ? url : currentUrl;
 		url = url.split('?')[0];
@@ -146,7 +134,12 @@ jQuery(function($) {
 		if (searchParams.has('paged')) {
 			searchParams.delete('paged');
 		}
-		if (value.length > 0) {
+		if (searchParams.has('page')) {
+			searchParams.delete('page');
+		}
+		value = value !== undefined && value !== null ? String(value) : '';
+
+		if (value !== '') {
 			searchParams.set(key, value);
 		} else {
 			searchParams.delete(key);
@@ -182,86 +175,26 @@ jQuery(function($) {
 		$('.awsm-job-no-more-jobs-get').slice(1).hide();
 	}
 
-	$(filterSelector + ' .awsm-filter-option').on('change', function (e) {
+	$(filterSelector + ' .awsm-filter-option').on('change', function(e) { 
 		e.preventDefault();
 		$('.awsm-job-listings').show();
-	
-		var $elem = $(this); // The original <select> element
-		var $rootWrapper = $elem.closest(rootWrapperSelector);
-		var currentSpec = $elem.closest('.awsm-filter-item').data('filter');
-	
-		var isMultiple = $elem.prop('multiple'); // Check if it's a multiple select
-		var allOptions = $elem.find('option');
-		var firstOption = allOptions.eq(0); // "All Job Type"
-		var selectedOptions = $elem.find('option:selected');
-		var isAllSelected = firstOption.prop('selected');
-	
-		var allLiItems = $rootWrapper.find('ul li');
-		var firstLiItem = allLiItems.eq(0); // "All Job Type" in <ul>
-		var selectedLiItems = allLiItems.filter('.selected');
-	
-		var slugs = [];
-	
-		if (isMultiple) {
-			if (isAllSelected) {
-				// **"All" is selected → Select all**
-				allOptions.prop('selected', true).addClass('selected');
-				allLiItems.addClass('selected');
-	
-				slugs = allOptions.slice(1).map(function () {
-					return $(this).data('slug');
-				}).get().filter(Boolean);
-			} else if (selectedOptions.length === 0) {
-				// **Nothing is selected → Deselect everything**
-				allOptions.prop('selected', false).removeClass('selected');
-				allLiItems.removeClass('selected');
-				slugs = [];
-			} else { 
-				// **Handle individual selection**
-				//allOptions.prop('selected', false).removeClass('selected');
-				//allLiItems.removeClass('selected');
-	
-				selectedOptions.each(function () {
-					$(this).prop('selected', true).addClass('selected');
-					var index = $(this).index();
-					allLiItems.eq(index).addClass('selected');
-				});
-	
-				slugs = selectedOptions.map(function () {
-					return $(this).data('slug');
-				}).get().filter(Boolean);
-			}
-		} else {
-			// **Single select logic**
-			slugs = selectedOptions.data('slug') ? [selectedOptions.data('slug')] : [];
-		}
-	
-		var slugString = slugs.length > 0 ? slugs.join(',') : '';
-	
-		// **Force unselect checkboxes visually**
-		/* allOptions.each(function () {
-			var $option = $(this);
-			if (!$option.prop('selected')) {
-				$option.removeClass('selected');
-			}
-		}); */
-	
-		// **Update pagination and filters**
+		var $elem = $(this);
+		var $selected = $elem.find('option:selected');
+		var $rootWrapper = $elem.parents(rootWrapperSelector);
+		var currentSpec = $elem.parents('.awsm-filter-item').data('filter');
+		var slug = $selected.data('slug');
+		slug = typeof slug !== 'undefined' ? slug : '';
 		if ($('.awsm-job-listings').length > 0) {
 			$rootWrapper.find('.awsm-job-no-more-jobs-get').hide();
 		}
-	
-		setPaginationBase($rootWrapper, currentSpec, slugString);
-	
-		// **Update the URL**
+		setPaginationBase($rootWrapper, currentSpec, slug);
 		if (awsmJobsPublic.deep_linking.spec) {
 			var $paginationBase = $rootWrapper.find('input[name="awsm_pagination_base"]');
-			updateQuery(currentSpec, slugString, $paginationBase.val());
+			updateQuery(currentSpec, slug, $paginationBase.val());
 		}
-	
 		awsmJobFilters($rootWrapper);
 	});
-	
+
 	$(filterSelector + ' .awsm-job-search-btn').on('click', function() {
 		searchJobs($(this));
 	});
@@ -279,70 +212,30 @@ jQuery(function($) {
 		}
 	});
 
-	$(filterSelector + ' .awsm-filter-checkbox').on('change', function(e) { 
-		var selectedFilters = {};
-		var slugs = [];  // Initialize an array to collect slugs
-		var $elem = $(this);
-		var $rootWrapper = $elem.parents(rootWrapperSelector);
-		var currentSpec = $elem.parents('.awsm-filter-list-item').data('filter'); 
-	
-		// Loop through checked checkboxes and build selectedFilters and slugs array
-		$('.awsm-filter-checkbox:checked').each(function() {
-			var taxonomy = $(this).data('taxonomy');
-			var termId = $(this).data('term-id');
-			var slug = $(this).data('slug'); // Get the slug from the checkbox
-	
-			// Add the slug to the slugs array if it exists
-			if (slug) {
-				slugs.push(slug);
-			}
-	
-			// Populate the selectedFilters object
-			if (!selectedFilters[taxonomy]) {
-				selectedFilters[taxonomy] = [];
-			}
-			selectedFilters[taxonomy].push(termId);
-		});
-	
-		// Convert slugs array to a comma-separated string
-		var slugString = slugs.length > 0 ? slugs.join(',') : '';
-	
-		// Handle deep linking
-		if (awsmJobsPublic.deep_linking.spec) {
-			var $paginationBase = $rootWrapper.find('input[name="awsm_pagination_base"]');
-			updateQuery(currentSpec, slugString, $paginationBase.val()); // Use the comma-separated slugString
-		}
-		
-		// Apply the job filters
-		awsmJobFilters($rootWrapper);
-	});
-	
 	/* ========== Job Listings Load More ========== */
 
 	$(wrapperSelector).on('click', '.awsm-jobs-pagination .awsm-load-more-btn, .awsm-jobs-pagination a.page-numbers', function(e) {
 		e.preventDefault(); 
-		var $triggerElem = $(this); 
+		var $triggerElem = $(this);
 		var isDefaultPagination = $triggerElem.hasClass('awsm-load-more-btn');
 		var paged = 1;
 		var wpData = [];
-
-		var $mainContainer 		  = $triggerElem.parents(rootWrapperSelector);
-		var $listingsContainer 	  = $mainContainer.find(wrapperSelector);
-		var $listingsrowContainer = $listingsContainer.find(sectionSelector); 
-
-		var $paginationWrapper   = $triggerElem.parents('.awsm-jobs-pagination');
-		var listings 			 = $listingsContainer.data('listings');
-		var specs				 = $listingsContainer.data('specs');
-		var lang 				 = $listingsContainer.data('lang');
-		var searchQuery 		 = $listingsContainer.data('search');
-		var selected_terms 		 = $listingsContainer.data('awsm-selected-terms'); 
+		var $mainContainer = $triggerElem.parents(rootWrapperSelector);
+		var $listingsContainer = $mainContainer.find(wrapperSelector);
+		var $paginationWrapper = $triggerElem.parents('.awsm-jobs-pagination');
+		var listings = $listingsContainer.data('listings');
+		var specs = $listingsContainer.data('specs');
+		var lang = $listingsContainer.data('lang');
+		var searchQuery = $listingsContainer.data('search');
 
 		if (isDefaultPagination) {
 			$triggerElem.prop('disabled', true);
 			paged = $triggerElem.data('page');
 			paged = (typeof paged == 'undefined') ? 1 : paged;
 		} else {
-			$triggerElem.parents('.page-numbers').find('.page-numbers').removeClass('current').removeAttr('aria-current');
+			// This visual update is optional since HTML gets replaced, but good for immediate feedback
+			// Just remove it if it causes issues - the server should handle the current state
+			$paginationWrapper.find('.page-numbers').removeClass('current').removeAttr('aria-current');
 			$triggerElem.addClass('current').attr('aria-current', 'page');
 		}
 		$paginationWrapper.addClass('awsm-jobs-pagination-loading');
@@ -358,21 +251,40 @@ jQuery(function($) {
 			var paginationBaseURL = $triggerElem.attr('href');
 			var splittedURL = paginationBaseURL.split('?');
 			var queryString = '';
+			var isHomepage = window.awsmJobsPublic && awsmJobsPublic.is_homepage;
+			var pageKey = isHomepage ? 'page' : 'paged';
+			
 			if (splittedURL.length > 1) {
 				var searchParams = new URLSearchParams(splittedURL[1]);
-				paged = searchParams.get('paged');
+				paged = searchParams.get(pageKey) || searchParams.get(pageKey === 'page' ? 'paged' : 'page');
+				
+				if (!paged) {
+					paged = 1;
+				}
+				
+				searchParams.delete('page');
 				searchParams.delete('paged');
+				
 				if (searchParams.toString().length > 0) {
 					queryString = '?' + searchParams.toString();
 				}
+			} else {
+				var pageMatch = paginationBaseURL.match(/\/page\/(\d+)\/?/);
+				if (pageMatch) {
+					paged = pageMatch[1];
+				} else {
+					paged = 1;
+				}
 			}
+			
 			paginationBaseURL = splittedURL[0] + queryString;
 			wpData.push({
 				name: 'awsm_pagination_base',
 				value: splittedURL[0] + queryString
 			});
+			
 			if (awsmJobsPublic.deep_linking.pagination) {
-				updateQuery('paged', paged, paginationBaseURL);
+				updateQuery(pageKey, paged, paginationBaseURL);
 			}
 		}
 
@@ -384,31 +296,6 @@ jQuery(function($) {
 				wpData.push({
 					name: 'awsm_job_spec[' + taxonomy + ']',
 					value: termId
-				});
-			}
-		}
-
-		var specsList = {}; 
-		$filterForm.find('.awsm-filter-checkbox:checked').each(function () { 
-			var $checkbox = $(this);
-			var taxonomy = $checkbox.data('taxonomy'); // Get taxonomy from data attribute
-			var termId = $checkbox.data('term-id'); // Get term ID from data attribute
-	
-			if (taxonomy && termId) {
-				if (!specsList[taxonomy]) {
-					specsList[taxonomy] = []; // Initialize array for this taxonomy
-				}
-				specsList[taxonomy].push(termId); // Add term ID to the array
-			}
-		});
-
-		for (var taxonomy in specsList) {
-			if (specsList.hasOwnProperty(taxonomy)) {
-				specsList[taxonomy].forEach(function (termId) {
-					wpData.push({
-						name: `awsm_job_specs_list[${taxonomy}][]`, // Add taxonomy as part of the key
-						value: termId
-					});
 				});
 			}
 		}
@@ -445,25 +332,6 @@ jQuery(function($) {
 				value: searchQuery
 			});
 		}
-		
-		if (selected_terms) {
-			if (typeof selected_terms === 'string') {
-				try {
-					// Parse the JSON string into an object
-					selected_terms = JSON.parse(selected_terms);
-				} catch (error) {
-					console.error("Failed to parse selected_terms JSON:", error);
-					selected_terms = {}; // Fallback to an empty object
-				}
-			}
-		
-			// Push to wpData
-			wpData.push({
-				name: 'awsm-selected-terms',
-				value: JSON.stringify(selected_terms) // Send as JSON string
-			});
-		}
-		
 		var listingsData = getListingsData($listingsContainer);
 		if (listingsData.length > 0) {
 			wpData = wpData.concat(listingsData);
@@ -486,10 +354,9 @@ jQuery(function($) {
 				var effectDuration = $paginationWrapper.data('effectDuration');
 				$paginationWrapper.remove();
 				if (isDefaultPagination) {
-					$listingsrowContainer.append(data);
+					$listingsContainer.append(data);
 				} else {
-					/* $listingsContainer.html(data); */
-					$listingsrowContainer.html(data);
+					$listingsContainer.html(data);
 					$listingsContainer.removeClass('awsm-jobs-loading');
 					if (typeof effectDuration !== 'undefined') {
 						effectDuration = isNaN(effectDuration) ? effectDuration : Number(effectDuration);
@@ -515,7 +382,7 @@ jQuery(function($) {
 			$elem.selectric({
 				onInit: function(select, selectric) {
 					var id = select.id; 
-					if (selectric && selectric.elements && selectric.elements.input) { console.log('test');
+					if (selectric && selectric.elements && selectric.elements.input) {
 						var $input = $(selectric.elements.input);
 						$(select).attr('id', 'selectric-' + id);
 						$input.attr('id', id);
@@ -525,17 +392,10 @@ jQuery(function($) {
 				customClass: {
 					prefix: 'awsm-selectric',
 					camelCase: false
-				},
-				
-				/* multiple: {
-					separator: '... ',      // Items separator updated.
-					keepMenuOpen: true,     // Keep the menu open after selection.
-					maxLabelEntries: 1      // Limit the number of selected items to 1.
-				} */
+				}
 			});
 		}
 	}
-	
 	awsmDropDown($('.awsm-job-select-control'));
 	awsmDropDown($('.awsm-filter-item select'));
 

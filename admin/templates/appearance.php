@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			'above_content' => 'Above job description',
 		)
 	);
-	$enable_search       = get_option( 'awsm_enable_job_search' );
+
 	if ( ! empty( $no_columns_options ) ) {
 		foreach ( $no_columns_options as $column ) {
 			/* translators: %d: number of columns in grid view layout */
@@ -39,24 +39,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			$available_filters_choices[] = array_merge(
 				$general_choice,
 				array(
-					'id'   => "awsm_jobs_listing_available_filters-{$spec_key}",
-					'html' => array(
-						'choices' => array(
-							array(
-								'value'    => 'dropdown',
-								'text'     => __( 'Dropdown', 'wp-job-openings' ),
-								'name'     => "awsm_jobs_listing_display_type[$spec_key]",
-								'id'       => "awsm_jobs_listing_display_type-{$spec_key}",
-								'selected' => true,
-							),
-							array(
-								'value' => 'checkbox',
-								'text'  => __( 'Checkbox', 'wp-job-openings' ),
-								'name'  => "awsm_jobs_listing_display_type[$spec_key]",
-								'id'    => "awsm_jobs_listing_display_type-{$spec_key}",
-							),
-						),
-					),
+					'id' => "awsm_jobs_listing_available_filters-{$spec_key}",
 				)
 			);
 			$listing_specs_choices[]     = array_merge(
@@ -107,7 +90,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							'text'  => __( 'Plugin Template', 'wp-job-openings' ),
 						),
 					),
-					'default_value' => 'theme',
+					'default_value' => 'plugin',
 				),
 				array(
 					'name'    => 'awsm_jobs_listing_view',
@@ -139,18 +122,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 								),
 							),
 						),
-						array(
-							'value'      => 'stack-view',
-							'text'       => __( 'Stack view ', 'wp-job-openings' ),
-							'data_attrs' => array(
-								array(
-									'attr'  => 'toggle-target',
-									'value' => '#awsm_jobs_number_of_columns_row',
-								),
-							),
-						),
 					),
-
 					'value'   => $listing_view,
 				),
 				array(
@@ -158,7 +130,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'label'           => __( 'Number of columns ', 'wp-job-openings' ),
 					'type'            => 'select',
 					'container_id'    => 'awsm_jobs_number_of_columns_row',
-					'container_class' => in_array( $listing_view, array( 'list-view', 'stack-view' ) ) ? $hidden_class : '',
+					'container_class' => $listing_view === 'list-view' ? $hidden_class : '',
 					'class'           => 'awsm-select-control regular-text',
 					'choices'         => $no_columns_choices,
 				),
@@ -193,34 +165,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'type'    => 'title',
 				),
 				array(
-					'name'          => 'awsm_enable_job_search',
-					'label'         => __( 'Job Search ', 'wp-job-openings' ),
-					'type'          => 'checkbox',
-					'value'         => $enable_search,
-					'choices'       => array(
+					'name'        => 'awsm_enable_job_search',
+					'label'       => __( 'Job Search ', 'wp-job-openings' ),
+					'type'        => 'checkbox',
+					'choices'     => array(
 						array(
 							'value' => 'enable',
 							'text'  => __( 'Enable job search field in job listing', 'wp-job-openings' ),
 						),
 					),
-					'default_value' => 'enable',
-					'description'   => __( 'Check this option to show job search field in the job listing page', 'wp-job-openings' ),
-				),
-				array(
-					'name'          => 'awsm_jobs_placement_type',
-					'label'         => __( 'Placement', 'wp-job-openings' ),
-					'type'          => 'radio',
-					'choices'       => array(
-						array(
-							'value' => 'top',
-							'text'  => __( 'Top', 'wp-job-openings' ),
-						),
-						array(
-							'value' => 'side',
-							'text'  => __( 'Side', 'wp-job-openings' ),
-						),
-					),
-					'default_value' => 'top',
+					'description' => __( 'Check this option to show job search field in the job listing page', 'wp-job-openings' ),
 				),
 				array(
 					'name'        => 'awsm_enable_job_filter_listing',
@@ -250,12 +204,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 				array(
 					'name'            => 'awsm_jobs_listing_available_filters',
 					'visible'         => ! empty( $specifications ),
-					'label'           => __( 'Filters display type', 'wp-job-openings' ),
+					'label'           => __( 'Available filters', 'wp-job-openings' ),
 					'type'            => 'checkbox',
 					'multiple'        => true,
+					'container_id'    => 'awsm_jobs_available_filters_row',
+					'container_class' => $enable_filters !== 'enabled' ? $hidden_class : '',
 					'choices'         => $available_filters_choices,
-					'description'     => __( 'Check the job specs you want to enable as filters. Then choose to display them as a Dropdown or Checkbox.', 'wp-job-openings' ),
-					'container_class' => ( $enable_filters === 'enabled' ) ? '' : 'awsm-hide', // Show filters only if enabled
+					'description'     => __( 'Check the job specs you want to enable as filters', 'wp-job-openings' ),
 				),
 				array(
 					'id'    => 'awsm-appearance-listing-other-options-title',

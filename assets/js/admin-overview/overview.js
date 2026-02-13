@@ -44,27 +44,21 @@ jQuery(document).ready(function($) {
 
 	// Applications analytics chart
 	var ctx = $('#awsm-jobs-overview-applications-analytics-chart');
-	 if (ctx.length > 0) {
-        ctx[0].height = 250;
-    } 
 	var data = {
 		labels: awsmJobsAdminOverview.analytics_data.labels,
 		datasets: [ {
 			label: awsmJobsAdminOverview.i18n.chart_label,
 			data: awsmJobsAdminOverview.analytics_data.data,
-			fill: true,
-			borderColor: '#6CFAE4',
-			backgroundColor: 'rgba(108, 250, 228, 0.15)', 
-			pointBackgroundColor: '#6CFAE4',
-			pointHoverBackgroundColor: '#6CFAE4',
-			pointHoverBorderColor: '#6CFAE4',
+			fill: false,
+			borderColor: '#149efe',
+			backgroundColor: '#149efe',
+			pointBackgroundColor: '#0091ff',
+			pointBorderColor: '#e9f5fe',
 			borderWidth: 4,
 			pointBorderWidth: 2,
-			pointRadius: 1,
+			pointRadius: 4,
 			pointHoverRadius: 5,
-			tension: 0.4,
-			pointHitRadius: 10,
-            
+			tension: 0.1
 		} ]
 	};
 	var options = {
@@ -73,13 +67,11 @@ jQuery(document).ready(function($) {
 				grid: {
 					borderWidth: 1.5,
 					drawOnChartArea: false,
-					tickWidth: 1.5,
-					display: false, // Remove vertical grid lines
-					drawBorder: false
+					tickWidth: 1.5
 				},
 				ticks: {
 					font: {
-						weight: 'normal'
+						weight: 'bold'
 					}
 				}
 			},
@@ -87,39 +79,25 @@ jQuery(document).ready(function($) {
 				grid: {
 					drawBorder: false,
 					tickLength: 10,
-					tickWidth: 0,
-					color: '#F2F2F2', // Set grid line color
-                    borderDash: [5, 5],
-					drawBorder: false // Set grid lines as dotted
+					tickWidth: 0
 				},
 				ticks: {
 					font: {
-						weight: 'normal'
+						weight: 'bold'
 					},
-					precision: 0,
-					stepSize: 5,
-					
+					precision: 0
 				}
 			}
 		},
-		elements: {
-            line: {
-                borderColor: '#6CFAE4',
-                borderWidth: 4
-            },
-            point: {
-                radius: 1 // Hide the points
-            }
-        },
-		layout: {
-            padding: {
-                right: 20, // Padding to the right for y-axis
-                bottom: 20 // Padding to the bottom for x-axis
-            }
-        },
 		plugins: {
 			legend: {
 				display: false
+			},
+			chartAreaCustomizer: {
+				chartArea: {
+					primaryBgColor: '#fafafa',
+					secondaryBgColor: '#fff'
+				}
 			}
 		}
 	};
@@ -169,5 +147,4 @@ jQuery(document).ready(function($) {
 			awsmJobsOverview.renderAnalyticsChart(true);
 		});
 	}
-	
 });
