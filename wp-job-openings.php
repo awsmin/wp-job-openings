@@ -1779,7 +1779,7 @@ class AWSM_Job_Openings {
 					$args['tax_query'][] = $spec;
 				}
 			}
-		} */
+		} 
 
 		if ( ! empty( $filters ) || ! empty( $filters_list ) ) {
 			$filters      = is_array( $filters ) ? $filters : array();

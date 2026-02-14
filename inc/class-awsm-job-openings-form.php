@@ -584,6 +584,53 @@ class AWSM_Job_Openings_Form {
 		// phpcs:enable
 	}
 
+	public function is_recaptcha_set() {
+		$is_set           = false;
+		$enable_recaptcha = get_option( 'awsm_jobs_enable_recaptcha' );
+		$site_key         = get_option( 'awsm_jobs_recaptcha_site_key' );
+		$secret_key       = get_option( 'awsm_jobs_recaptcha_secret_key' );
+		if ( $enable_recaptcha === 'enable' && ! empty( $site_key ) && ! empty( $secret_key ) ) {
+			$is_set = true;
+		}
+		return $is_set;
+	}
+
+	public function get_recaptcha_response( $token ) {
+		$result     = array();
+		$secret_key = get_option( 'awsm_jobs_recaptcha_secret_key' );
+		$response   = wp_safe_remote_post(
+			'https://www.google.com/recaptcha/api/siteverify',
+			array(
+				'body' => array(
+					'secret'   => $secret_key,
+					'response' => $token,
+					'remoteip' => $_SERVER['REMOTE_ADDR'],
+				),
+			)
+		);
+		if ( ! is_wp_error( $response ) ) {
+			$response_body = wp_remote_retrieve_body( $response );
+			if ( '' !== $response_body ) {
+				if ( wp_remote_retrieve_response_code( $response ) === 200 ) {
+					$result = json_decode( $response_body, true );
+				}
+			}
+		}
+		return $result;
+	}
+
+	public function validate_captcha_field( $token ) {
+		$is_valid = false;
+		if ( ! empty( $token ) ) {
+			$result = $this->get_recaptcha_response( $token );
+			if ( ! empty( $result ) ) {
+				$is_valid = isset( $result['success'] ) && $result['success'] === true;
+			}
+		}
+		return $is_valid;
+	}
+
+
 	public function ajax_handle() {
 		$response = $this->insert_application();
 		wp_send_json( $response );
