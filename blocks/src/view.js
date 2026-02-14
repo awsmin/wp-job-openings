@@ -1,6 +1,6 @@
 'use strict';
 
-jQuery( function( $ ) {
+jQuery( function( $ ) { 
 	const rootWrapperSelector = '.awsm-b-job-wrap';
 	const wrapperSelector = '.awsm-b-job-listings';
 	const sectionSelector = '.awsm-b-job-listing-items';
@@ -422,26 +422,22 @@ jQuery( function( $ ) {
 		window.history.replaceState({}, '', url + modQueryString);
 	};
 
-	var setPaginationBase = function( $rootWrapper, key, value ) {
-		const $paginationBase = $rootWrapper.find(
-			'input[name="awsm_pagination_base"]'
-		);
-		if ( $paginationBase.length > 0 ) {
-			const splittedURL = $paginationBase.val().split( '?' );
-			let queryString = '';
-			if ( splittedURL.length > 1 ) {
-				queryString = splittedURL[ 1 ];
+	var setPaginationBase = function($rootWrapper, key, value) {
+		var $paginationBase = $rootWrapper.find('input[name="awsm_pagination_base"]');
+		if ($paginationBase.length > 0) {
+			var splittedURL = $paginationBase.val().split('?');
+			var queryString = '';
+			if (splittedURL.length > 1) {
+				queryString = splittedURL[1];
 			}
-			const searchParams = new URLSearchParams( queryString );
-			if ( value.length > 0 ) {
-				searchParams.set( key, value );
+			var searchParams = new URLSearchParams(queryString);
+			if (value.length > 0) {
+				searchParams.set(key, value);
 			} else {
-				searchParams.delete( key );
+				searchParams.delete(key);
 			}
-			$paginationBase.val(
-				splittedURL[ 0 ] + '?' + searchParams.toString()
-			);
-			$rootWrapper.find( 'input[name="paged"]' ).val( 1 );
+			$paginationBase.val(splittedURL[0] + '?' + searchParams.toString());
+			$rootWrapper.find('input[name="paged"]').val(1);
 		}
 	};
 
@@ -784,27 +780,43 @@ jQuery( function( $ ) {
 				}
 			}
 
-			if ( ! isDefaultPagination ) {
-				let paginationBaseURL = $triggerElem.attr( 'href' );
-				const splittedURL = paginationBaseURL.split( '?' );
-				let queryString = '';
-				if ( splittedURL.length > 1 ) {
-					const searchParams = new URLSearchParams(
-						splittedURL[ 1 ]
-					);
-					paged = searchParams.get( 'paged' );
-					searchParams.delete( 'paged' );
-					if ( searchParams.toString().length > 0 ) {
+			if (! isDefaultPagination) {
+				var paginationBaseURL = $triggerElem.attr('href');
+				var splittedURL = paginationBaseURL.split('?');
+				var queryString = '';
+				var isHomepage = window.awsmJobsPublic && awsmJobsPublic.is_homepage;
+				var pageKey = isHomepage ? 'page' : 'paged';
+
+				if (splittedURL.length > 1) {
+					var searchParams = new URLSearchParams(splittedURL[1]);
+					paged = searchParams.get(pageKey) || searchParams.get(pageKey === 'page' ? 'paged' : 'page');
+
+					if (!paged) {
+						paged = 1;
+					}
+					
+					searchParams.delete('page');
+					searchParams.delete('paged');
+					
+					if (searchParams.toString().length > 0) {
 						queryString = '?' + searchParams.toString();
 					}
+				}else {
+					var pageMatch = paginationBaseURL.match(/\/page\/(\d+)\/?/);
+					if (pageMatch) {
+						paged = pageMatch[1];
+					} else {
+						paged = 1;
+					}
 				}
-				paginationBaseURL = splittedURL[ 0 ] + queryString;
-				wpData.push( {
+
+				paginationBaseURL = splittedURL[0] + queryString;
+				wpData.push({
 					name: 'awsm_pagination_base',
-					value: splittedURL[ 0 ] + queryString
-				} );
-				if ( awsmJobsPublic.deep_linking.pagination ) {
-					updateQuery( 'paged', paged, paginationBaseURL );
+					value: splittedURL[0] + queryString
+				});
+				if (awsmJobsPublic.deep_linking.pagination) {
+					updateQuery(pageKey, paged, paginationBaseURL);
 				}
 			}
 
