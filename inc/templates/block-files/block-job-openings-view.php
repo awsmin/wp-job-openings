@@ -93,10 +93,33 @@ if ( isset( $attributes['search'] ) && $attributes['search'] == 'enable' ) {
 	$placement_sidebar_class = 'awsm-job-2-col';
 }
 
+/**
+ * Build wrapper class with additional class support
+ */
+$wrapper_class = 'awsm-b-job-wrap' . awsm_jobs_wrapper_class( false );
+
+// ADD YOUR ADDITIONAL CLASS HERE
+$wrapper_class .= ' awsm-job-form-plugin-style';
+
+if ( ! empty( $placement_sidebar_class ) ) {
+	$wrapper_class .= ' ' . $placement_sidebar_class;
+}
+
+if ( function_exists( 'get_block_wrapper_attributes' ) ) {
+	$wrapper_attrs = get_block_wrapper_attributes(
+		array(
+			'class' => $wrapper_class,
+			'id'    => $block_id,
+		)
+	);
+} else {
+	$wrapper_attrs = 'id="' . esc_attr( $block_id ) . '" class="' . esc_attr( $wrapper_class ) . '"';
+}
+
 if ( $query->have_posts() ) {
 	if ( $placement == 'top' ) {
 		?>
-			<div class="awsm-b-job-wrap<?php awsm_jobs_wrapper_class(); ?>" id="<?php echo esc_attr( $block_id ); ?>">
+			<div <?php echo $wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 				<?php
 				/**
 				 * awsm_block_filter_form hook
@@ -123,7 +146,7 @@ if ( $query->have_posts() ) {
 		<?php
 	} else {
 		?>
-			<div class="awsm-b-job-wrap<?php awsm_jobs_wrapper_class(); ?> awsm-job-form-plugin-style <?php echo $placement_sidebar_class; ?>" id="<?php echo esc_attr( $block_id ); ?>"> 
+			<div <?php echo $wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 				<?php if ( $show_filter ) { ?>
 				<div class="awsm-b-filter-wrap awsm-jobs-alerts-on" >
 					<?php
@@ -182,7 +205,7 @@ if ( $query->have_posts() ) {
 	if ( ! empty( $job_spec ) ) {
 		if ( $placement === 'top' ) {
 			?>
-			<div class="awsm-b-job-wrap <?php echo esc_attr( awsm_jobs_wrapper_class( false ) ); ?>" id="<?php echo esc_attr( $block_id ); ?>">
+			<div <?php echo $wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 				<?php
 				do_dynamic_filter_form_action( $attributes );
 				do_action( 'awsm_block_form_outside', $attributes );
@@ -200,7 +223,7 @@ if ( $query->have_posts() ) {
 			<?php
 		} else {
 			?>
-			<div class="awsm-b-job-wrap <?php echo esc_attr( awsm_jobs_wrapper_class( false ) ); ?> awsm-job-form-plugin-style <?php echo esc_attr( $placement_sidebar_class ); ?>" id="<?php echo esc_attr( $block_id ); ?>">
+			<div <?php echo $wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 				<?php if ( $show_filter ) : ?>
 					<div class="awsm-b-filter-wrap awsm-jobs-alerts-on">
 						<?php

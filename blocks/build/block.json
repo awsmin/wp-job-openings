@@ -7,6 +7,7 @@
   "category": "",
   "icon": "",
   "description": "",
+  "textdomain": "wp-job-openings",
   "attributes": {
     "search": {
       "type": "boolean",
@@ -185,9 +186,10 @@
       "type": "string"
     }
   },
-  "example": {},
-  "supports": {},
-  "textdomain": "wp-job-openings",
+  "supports": {
+    "html": false,
+    "customClassName": true
+  },
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",
   "style": "file:./style-index.css",

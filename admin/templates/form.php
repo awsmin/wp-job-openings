@@ -96,9 +96,45 @@ if ( ! empty( $upload_file_extns ) ) {
 					'class' => 'medium-text',
 				),
 			),
-			'recaptcha' => AWSM_Job_Openings_Settings::get_captcha_settings_fields(),
+			'recaptcha' => array(
+				array(
+					'id'    => 'awsm-form-recaptcha-options-title',
+					'label' => __( 'reCAPTCHA v2 options', 'wp-job-openings' ),
+					'type'  => 'title',
+				),
+				array(
+					'name'        => 'awsm_jobs_enable_recaptcha',
+					'label'       => __( 'Enable reCAPTCHA', 'wp-job-openings' ),
+					'type'        => 'checkbox',
+					'choices'     => array(
+						array(
+							'value' => 'enable',
+							'text'  => __( 'Enable reCAPTCHA v2 on the form', 'wp-job-openings' ),
+						),
+					),
+					'help_button' => array(
+						'url'         => 'https://www.google.com/recaptcha/intro/index.html',
+						'class'       => 'awsm-view-captcha-btn',
+						'text'        => __( 'Get reCAPTCHA v2 keys', 'wp-job-openings' ),
+						'other_attrs' => array(
+							'target' => '_blank',
+						),
+					),
+				),
+				array(
+					'name'  => 'awsm_jobs_recaptcha_site_key',
+					'label' => __( 'Site key', 'wp-job-openings' ),
+				),
+				array(
+					'name'  => 'awsm_jobs_recaptcha_secret_key',
+					'label' => __( 'Secret key', 'wp-job-openings' ),
+				),
+			),
 		)
 	);
+	if ( awsm_jobs_is_new_captcha_enabled() ) {
+		$settings_fields['recaptcha'] = AWSM_Job_Openings_Settings::get_captcha_settings_fields();
+	}
 	?>
 
 <!-- Upload File Extensions -->
@@ -134,7 +170,11 @@ if ( ! empty( $upload_file_extns ) ) {
 					<?php
 						do_action( 'before_awsm_form_recaptcha_settings' );
 
+					if ( awsm_jobs_is_new_captcha_enabled() ) {
 						$this->display_captcha_settings_fields( $settings_fields['recaptcha'] );
+					} else {
+						$this->display_settings_fields( $settings_fields['recaptcha'] );
+					}
 
 						do_action( 'after_awsm_form_recaptcha_settings' );
 					?>

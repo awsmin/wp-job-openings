@@ -80,8 +80,7 @@ class AWSM_Job_Openings {
 			AWSM_Job_Openings_Info::init();
 		}
 
-		// add_action( 'init', array( $this, 'load_textdomain' ), 5 );
-		add_action( 'plugins_loaded', array( $this, 'handle_upgrade_process' ) );
+		add_action( 'plugins_loaded', array( $this, 'upgrade' ) );
 		add_action( 'after_setup_theme', array( $this, 'template_functions' ) );
 		add_action( 'init', array( $this, 'init_actions' ) );
 		add_action( 'wp_head', array( $this, 'awsm_wp_head' ) );
@@ -221,17 +220,6 @@ class AWSM_Job_Openings {
 		delete_transient( '_awsm_add_ons_data' );
 	}
 
-	public function load_textdomain() {
-		if ( version_compare( get_bloginfo( 'version' ), '6.8', '<' ) ) {
-			load_plugin_textdomain( 'wp-job-openings', false, basename( dirname( __FILE__ ) ) . '/languages' );
-		}
-	}
-
-	public function handle_upgrade_process() {
-		$this->check_downgrade();
-		$this->upgrade();
-	}
-
 	public function upgrade() {
 
 		if ( intval( get_option( 'awsm_jobs_upgrade_count' ) ) !== 1 ) {
@@ -319,7 +307,7 @@ class AWSM_Job_Openings {
 			add_action( 'restrict_manage_posts', array( $this, 'awsm_admin_filtering_posts' ) );
 			add_action( 'before_awsm_job_settings_init', array( $this, 'no_script_msg' ) );
 			add_action( 'wp_ajax_awsm_plugin_rating', array( $this, 'plugin_rating' ) );
-			add_action( 'admin_notices', array( $this, 'plugin_rating_notice_handler' ) );
+			add_action( 'admin_notices', array( $this, 'awsm_job_plugin_notices' ) );
 			// Add custom status to status dropdown under post submit meta box (existing and new) for job openings.
 			add_action( 'admin_footer-post.php', array( $this, 'job_submit_meta_box_custom_status' ) );
 			add_action( 'admin_footer-post-new.php', array( $this, 'job_submit_meta_box_custom_status' ) );
@@ -1035,6 +1023,10 @@ class AWSM_Job_Openings {
 		<?php
 	}
 
+	public function awsm_job_plugin_notices() {
+		$this->plugin_rating_notice_handler();
+		$this->awsm_job_version_compatibility_notices();
+	}
 	public static function plugin_rating_notice( $rating_url, $rating_env, $context = 'job' ) {
 		if ( ! self::$rating_notice_active ) :
 			$posts_count = get_option( "awsm_plugin_rating_{$context}_count" );
@@ -1160,12 +1152,20 @@ class AWSM_Job_Openings {
 		wp_enqueue_style( 'awsm-jobs-general' );
 		wp_enqueue_style( 'awsm-jobs-style', AWSM_JOBS_PLUGIN_URL . '/assets/css/style.min.css', array( 'awsm-jobs-general' ), AWSM_JOBS_PLUGIN_VERSION, 'all' );
 
-		if ( is_singular( 'awsm_job_openings' ) && $this->awsm_form->is_captcha_set() ) {
-			$this->awsm_form->enqueue_captcha_scripts();
+		$is_recaptcha_set = $this->awsm_form->is_recaptcha_set();
+		$is_captcha_set   = $this->awsm_form->is_captcha_set();
+		if ( is_singular( 'awsm_job_openings' ) ) {
+			if ( awsm_jobs_is_new_captcha_enabled() && $is_captcha_set ) {
+				$this->awsm_form->enqueue_captcha_scripts();
+			} elseif ( $is_recaptcha_set ) {
+				wp_enqueue_script( 'g-recaptcha', 'https://www.google.com/recaptcha/api.js', array(), '2.0', false );
+			}
 		}
+
 		wp_enqueue_script( 'awsm-job-scripts', AWSM_JOBS_PLUGIN_URL . '/assets/js/script.min.js', array( 'jquery' ), AWSM_JOBS_PLUGIN_VERSION, true );
 
 		$enable_search = get_option( 'awsm_enable_job_search' ) === 'enable' && isset( $_GET['jq'] );
+
 		global $post;
 
 		$localized_script_data = array(
@@ -1184,12 +1184,14 @@ class AWSM_Job_Openings {
 				'form_error_msg' => array(
 					'general'         => esc_html__( 'Error in submitting your application. Please try again later!', 'wp-job-openings' ),
 					'file_validation' => esc_html__( 'The file you have selected is too large.', 'wp-job-openings' ),
+					'captcha_failed'  => esc_html__( 'reCAPTCHA failed to load. Please check your configuration.' ),
 				),
 			),
 			'vendors'            => array(
 				'selectric'         => true,
 				'jquery_validation' => true,
 			),
+			'is_homepage'        => ( is_front_page() || is_home() ),
 		);
 		/**
 		 * Filters the public script localized data.
@@ -1276,7 +1278,6 @@ class AWSM_Job_Openings {
 			)
 		);
 	}
-
 
 	public static function get_filter_specifications( $specs_keys = array() ) {
 		$awsm_filters = get_option( 'awsm_jobs_filter' );
@@ -1755,25 +1756,25 @@ class AWSM_Job_Openings {
 		return ( isset( $shortcode_atts['listings'] ) && is_numeric( $shortcode_atts['listings'] ) && $shortcode_atts['listings'] > 0 ) ? intval( $shortcode_atts['listings'] ) : get_option( 'awsm_jobs_list_per_page' );
 	}
 
-	public static function awsm_job_query_args( $filters = array(), $shortcode_atts = array(), $is_term_or_slug = array(), $filters_list = array() ) {
+	public static function awsm_job_query_args( $filters = array(), $shortcode_atts = array(), $is_term_or_slug = array() ) {
 		$args = array();
 
 		if ( is_tax() ) {
-			$q_obj                        = get_queried_object();
-			$taxonomy                     = $q_obj->taxonomy;
-			$term_id                      = $q_obj->term_id;
-			$filters                      = array( $taxonomy => $term_id );
-			$is_term_or_slug[ $taxonomy ] = 'term_id';
+			$q_obj           = get_queried_object();
+			$taxonomy        = $q_obj->taxonomy;
+			$term_id         = $q_obj->term_id;
+			$filters         = array( $taxonomy => $term_id );
+			$is_term_or_slug = array( $taxonomy => 'term_id' );
 		}
 
-		/* if ( ! empty( $filters ) ) {
-			foreach ( $filters as $taxonomy => $value ) {
-				if ( ! empty( $value ) ) {
-					$field_type          = isset( $is_term_or_slug[ $taxonomy ] ) ? $is_term_or_slug[ $taxonomy ] : 'term_id';
+		if ( ! empty( $filters ) ) {
+			foreach ( $filters as $taxonomy => $term_ids ) {
+				if ( ! empty( $term_ids ) ) {
+					$field               = isset( $is_term_or_slug[ $taxonomy ] ) ? $is_term_or_slug[ $taxonomy ] : 'term_id';
 					$spec                = array(
 						'taxonomy' => $taxonomy,
-						'field'    => $field_type,
-						'terms'    => (array) $value,
+						'field'    => $field,
+						'terms'    => $term_ids,
 					);
 					$args['tax_query'][] = $spec;
 				}
@@ -1855,6 +1856,35 @@ class AWSM_Job_Openings {
 				break;
 		}
 
+		if ( $hide_expired_jobs === 'expired' ) {
+			if ( $list_per_page > 0 ) {
+				$args['post_status'] = array( 'publish' );
+			} else {
+				$args['numberposts'] = -1;
+			}
+		} else {
+			$args['post_status'] = array( 'publish', 'expired' );
+		}
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing
+		if ( ! self::is_default_pagination( $shortcode_atts ) && ! isset( $_POST['awsm_pagination_base'] ) ) {
+			if ( is_front_page() || is_home() ) {
+				$paged = get_query_var( 'page' ) ? absint( get_query_var( 'page' ) ) : 1;
+			} else {
+				$paged = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ) : 1;
+			}
+			$args['paged'] = $paged;
+		}
+
+		/**
+		 * Filters the arguments for the jobs query.
+		 *
+		 * @since 1.4
+		 *
+		 * @param array $args arguments.
+		 * @param array $filters Applicable filters.
+		 * @param array $shortcode_atts Shortcode attributes.
+		 */
 		return apply_filters( 'awsm_job_query_args', $args, $filters, $shortcode_atts );
 	}
 
@@ -2350,6 +2380,34 @@ class AWSM_Job_Openings {
 			$post_states['awsm-jobs-expired'] = sprintf( '<span class="awsm-jobs-expired-post-state">%s</span>', esc_html__( 'Expired', 'wp-job-openings' ) );
 		}
 		return $post_states;
+	}
+
+	public function awsm_job_version_compatibility_notices() {
+		if ( ! class_exists( 'AWSM_Job_Openings_Pro_Form' ) ) {
+			return;
+		}
+
+		if ( ! current_user_can( 'update_plugins' ) ) {
+			return;
+		}
+		$update_buttons_pro = '';
+		if ( ! function_exists( 'awsm_jobs_is_new_captcha_enabled' ) || ! awsm_jobs_is_new_captcha_enabled() ) {
+			$link_action_free_update = esc_html__( 'Update Now', 'wp-job-openings' );
+			$action_url_free_update  = wp_nonce_url( self_admin_url( 'update.php?action=upgrade-plugin&plugin=' . AWSM_JOBS_PRO_PLUGIN_BASENAME ), 'upgrade-plugin_' . AWSM_JOBS_PRO_PLUGIN_BASENAME );
+			$update_buttons_pro     .= sprintf( '<a href="%2$s" class="button update-now">%1$s</a>', esc_html( $link_action_free_update ), esc_url( $action_url_free_update ) );
+			?>
+			<div class="notice notice-warning is-dismissible">
+				<p><strong><?php esc_html_e( 'WP Job Openings Pro - Update Required', 'wp-job-openings' ); ?></strong></p>
+				<p><?php esc_html_e( 'Please update WP Job Openings Pro Pack to the latest versions to get new features and improvements.', 'wp-job-openings' ); ?>
+				<?php
+				if ( ! empty( $update_buttons_pro ) ) :
+					echo wp_kses_post( $update_buttons_pro );
+				endif;
+				?>
+				</p>
+			</div>
+			<?php
+		}
 	}
 }
 

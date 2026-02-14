@@ -7,6 +7,8 @@
 	"category": "",
 	"icon": "",
 	"description": "",
+	"textdomain": "wp-job-openings",
+
 	"attributes": {
 		"search": {
 			"type": "boolean",
@@ -75,9 +77,11 @@
 		"show_spec_icon": {
 			"type": "boolean",
 			"default": false
+			"default": false
 		},
 		"specsInitialized": {
 			"type": "boolean",
+			"default": false
 			"default": false
 		},
 		"hz_sf_border": {
@@ -185,10 +189,12 @@
 			"type": "string"
 		}
 	},
-	"example": {},
+
 	"supports": {
-},
-	"textdomain": "wp-job-openings",
+		"html": false,
+		"customClassName": true
+	},
+
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",
