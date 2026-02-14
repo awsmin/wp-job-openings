@@ -398,23 +398,28 @@ jQuery( function( $ ) {
 	}
  */
 	
-	var updateQuery = function( key, value, url ) {
+	var updateQuery = function(key, value, url) {
 		url = typeof url !== 'undefined' ? url : currentUrl;
-		url = url.split( '?' )[ 0 ];
-		const searchParams = new URLSearchParams( document.location.search );
-		if ( searchParams.has( 'paged' ) ) {
-			searchParams.delete( 'paged' );
+		url = url.split('?')[0];
+		var searchParams = new URLSearchParams(document.location.search);
+		if (searchParams.has('paged')) {
+			searchParams.delete('paged');
 		}
-		if ( value.length > 0 ) {
-			searchParams.set( key, value );
+		if (searchParams.has('page')) {
+			searchParams.delete('page');
+		}
+		value = value !== undefined && value !== null ? String(value) : '';
+
+		if (value !== '') {
+			searchParams.set(key, value);
 		} else {
-			searchParams.delete( key );
+			searchParams.delete(key);
 		}
-		let modQueryString = searchParams.toString();
-		if ( modQueryString.length > 0 ) {
+		var modQueryString = searchParams.toString();
+		if (modQueryString.length > 0) {
 			modQueryString = '?' + modQueryString;
 		}
-		window.history.replaceState( {}, '', url + modQueryString );
+		window.history.replaceState({}, '', url + modQueryString);
 	};
 
 	var setPaginationBase = function( $rootWrapper, key, value ) {

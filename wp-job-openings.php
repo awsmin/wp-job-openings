@@ -1758,7 +1758,6 @@ class AWSM_Job_Openings {
 
 	public static function awsm_job_query_args( $filters = array(), $shortcode_atts = array(), $is_term_or_slug = array() ) {
 		$args = array();
-
 		if ( is_tax() ) {
 			$q_obj           = get_queried_object();
 			$taxonomy        = $q_obj->taxonomy;
@@ -1779,83 +1778,12 @@ class AWSM_Job_Openings {
 					$args['tax_query'][] = $spec;
 				}
 			}
-		} 
-
-		if ( ! empty( $filters ) || ! empty( $filters_list ) ) {
-			$filters      = is_array( $filters ) ? $filters : array();
-			$filters_list = is_array( $filters_list ) ? $filters_list : array();
-			$all_filters  = array_merge_recursive( $filters, $filters_list );
-
-			foreach ( $all_filters as $taxonomy => $terms ) {
-				if ( ! empty( $terms ) ) {
-					// Ensure terms are always an array and cleaned.
-					$terms = is_array( $terms ) ? array_values( array_filter( $terms ) ) : array( $terms );
-
-					if ( ! empty( $terms ) ) {
-						$field_type  = isset( $is_term_or_slug[ $taxonomy ] ) ? $is_term_or_slug[ $taxonomy ] : 'term_id';
-						$tax_query[] = array(
-							'taxonomy' => $taxonomy,
-							'field'    => $field_type,
-							'terms'    => $terms,
-							'operator' => 'IN',
-						);
-					}
-				}
-			}
-		}
-
-		if ( ! empty( $tax_query ) ) {
-			$args['tax_query'] = $tax_query;
 		}
 
 		$list_per_page          = self::get_listings_per_page( $shortcode_atts );
 		$hide_expired_jobs      = get_option( 'awsm_jobs_expired_jobs_listings' );
 		$args['post_type']      = 'awsm_job_openings';
 		$args['posts_per_page'] = $list_per_page;
-		$args['post_status']    = ( $hide_expired_jobs === 'expired' ) ? array( 'publish' ) : array( 'publish', 'expired' );
-
-		/* $sort = isset( $shortcode_atts['filter_sort'] ) ? sanitize_text_field( $shortcode_atts['filter_sort'] ) : ( isset( $shortcode_atts['orderBy'] ) ? sanitize_text_field( $shortcode_atts['orderBy'] ) : 'new_to_old' ); */
-		$sort = isset( $_GET['sort'] ) ? sanitize_text_field( $_GET['sort'] ) :
-		( isset( $shortcode_atts['filter_sort'] ) ? sanitize_text_field( $shortcode_atts['filter_sort'] ) :
-		( isset( $shortcode_atts['orderBy'] ) ? sanitize_text_field( $shortcode_atts['orderBy'] ) : 'new_to_old' ) );
-
-		switch ( $sort ) {
-			case 'new_to_old':
-				$args['orderby'] = 'date';
-				$args['order']   = 'DESC';
-				break;
-
-			case 'old_to_new':
-				$args['orderby'] = 'date';
-				$args['order']   = 'ASC';
-				break;
-
-			case 'random':
-				$args['orderby'] = 'rand';
-				break;
-
-			case 'relevance':
-				$args['meta_query'] = array(
-					array(
-						'key'     => 'awsm_views_count',
-						'compare' => 'EXISTS',
-					),
-				);
-
-				$args['orderby'] = array(
-					'meta_value_num' => 'DESC',
-					'date'           => 'DESC',
-				);
-
-				$args['meta_key'] = 'awsm_views_count';
-				break;
-
-			default:
-				$args['orderby'] = 'date';
-				$args['order']   = 'DESC';
-				break;
-		}
-
 		if ( $hide_expired_jobs === 'expired' ) {
 			if ( $list_per_page > 0 ) {
 				$args['post_status'] = array( 'publish' );
