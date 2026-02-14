@@ -115,47 +115,55 @@ if ( ! function_exists( 'get_block_filtered_job_terms' ) ) {
 
 if ( ! function_exists( 'awsm_block_jobs_query' ) ) {
 	function awsm_block_jobs_query( $attributes = array() ) {
-
-		$query_args    = array();
+		$query_args      = array();
 		$is_term_or_slug = array();
-		$filter_suffix = '_spec';
+		$filter_suffix   = '_spec';
 
-		$filter_options_array = $attributes['filter_options'];
+		$filters = get_option( 'awsm_jobs_listing_available_filters' );
 
-		if ( ! empty( $filter_options_array ) ) {
-			foreach ( $filter_options_array as $filter ) {
+		if ( isset( $_GET['jq'] ) && $_GET['jq'] !== '' ) {
+			$search_job = sanitize_text_field( wp_unslash( $_GET['jq'] ) );
+		}
 
-				if ( empty( $filter['specKey'] ) ) {
-					continue;
+		if ( ! empty( $filters ) ) {
+			foreach ( $filters as $filter ) {
+				$current_filter_key = str_replace( '-', '__', $filter ) . $filter_suffix;
+
+				// Check if filter exists in URL ($_GET), else use stored option
+				if ( isset( $_GET[ $current_filter_key ] ) && ! empty( $_GET[ $current_filter_key ] ) ) {
+					$term_slugs = explode( ',', sanitize_text_field( $_GET[ $current_filter_key ] ) );
+				} else {
+					// Fallback to stored option if URL parameter is missing
+					$saved_terms = get_option( 'awsm_jobs_default_' . $filter, '' ); // Modify key accordingly
+					$term_slugs  = ! empty( $saved_terms ) ? explode( ',', $saved_terms ) : array();
 				}
 
-				$taxonomy           = $filter['specKey'];
-				$current_filter_key = str_replace( '-', '__', $taxonomy ) . $filter_suffix;
+				if ( ! empty( $term_slugs ) ) {
+					$query_args[ $filter ] = array();
 
-				if ( empty( $_GET[ $current_filter_key ] ) ) {
-					continue;
+					foreach ( $term_slugs as $term_slug ) {
+						$term = get_term_by( 'slug', sanitize_title( $term_slug ), $filter );
+
+						if ( $term && ! is_wp_error( $term ) ) {
+							$query_args[ $filter ][]    = $term->term_id;
+							$is_term_or_slug[ $filter ] = 'term_id';
+						} else {
+							$query_args[ $filter ][]    = $term_slug;
+							$is_term_or_slug[ $filter ] = 'slug';
+						}
+					}
 				}
-
-				$raw_value = wp_unslash( $_GET[ $current_filter_key ] );
-				$slugs     = explode( ',', $raw_value );
-
-				$clean_slugs = array();
-				foreach ( $slugs as $slug ) {
-					$clean_slugs[] = sanitize_title( $slug );
-				}
-
-				$query_args[ $taxonomy ]      = $clean_slugs;
-				$is_term_or_slug[ $taxonomy ] = 'slug';
 			}
 		}
 
-		$args  = AWSM_Job_Openings_Block::awsm_block_job_query_args(
-			$query_args,
-			$attributes,
-			$is_term_or_slug
-		);
+		$args = AWSM_Job_Openings_Block::awsm_block_job_query_args( $query_args, $attributes, $is_term_or_slug );
 
-		return new WP_Query( $args );
+		if ( ! empty( $search_job ) ) {
+			$args['s'] = $search_job;
+		}
+
+		$query = new WP_Query( $args );
+		return $query;
 	}
 }
 
