@@ -374,6 +374,11 @@ a.awsm-b-job-item {
   height: 50px;
 }
 
+.awsm-job-featured-image img {
+  max-width: 100%;
+  height: auto;
+}
+
 .awsm-b-list-item .awsm-b-job-item {
   border-bottom: var(--hz-jl-border-width, 1px) solid var(--hz-jl-border-color, #d5d5d5);
 }
@@ -600,7 +605,7 @@ ul.awsm-error-message li {
   padding: 50px 0;
 }
 
-.awsm-jobs-loading {
+.awsm-b-jobs-loading {
   position: relative;
 }
 
@@ -618,7 +623,7 @@ ul.awsm-error-message li {
   transition: all 0.3s ease;
 }
 
-.awsm-b-job-listings.awsm-jobs-loading::after {
+.awsm-b-job-listings.awsm-b-jobs-loading::after {
   opacity: 1;
   visibility: visible;
 }

@@ -73,7 +73,7 @@ jQuery( function( $ ) {
 		return data;
 	}
 
-	function awsmJobFilters( $rootWrapper ) {
+	function awsmJobFilters( $rootWrapper ) { 
 		const $wrapper = $rootWrapper.find( wrapperSelector );
 		const $rowWrapper = $wrapper.find( sectionSelector );
 		const $filterForm = $rootWrapper.find( filterSelector + ' form' );
@@ -275,11 +275,11 @@ jQuery( function( $ ) {
 			const actionUrl =
 				$filterForm.length > 0 ?
 					$filterForm.attr( 'action' ) :
-					awsmJobsPublic.ajaxurl;
+					awsmJobsPublic.ajaxurl; 
 
 			$.ajax( {
 				url: actionUrl,
-				beforeSend() {
+				beforeSend() { 
 					$wrapper.addClass( 'awsm-b-jobs-loading' );
 				},
 				data: formData,
@@ -287,27 +287,20 @@ jQuery( function( $ ) {
 			} )
 				.done( function( response ) {
 					$rowWrapper.html( response.data.html );
-
-/*
-					if (response.data.style) {
-						// Append new style tag
-						jQuery('head').append(response.data.style);
-					}
- */
 					const $searchControl =
 						$rootWrapper.find( '.awsm-b-job-search' );
 					if ( $searchControl.length > 0 ) {
 						if ( $searchControl.val().length > 0 ) {
 							$rootWrapper
 								.find( '.awsm-b-job-search-btn' )
-								.addClass( 'awsm-job-hide' );
+								.addClass( 'awsm-b-job-hide' );
 							$rootWrapper
 								.find( '.awsm-b-job-search-close-btn' )
-								.removeClass( 'awsm-job-hide' );
+								.removeClass( 'awsm-b-job-hide' );
 						} else {
 							$rootWrapper
 								.find( '.awsm-b-job-search-btn' )
-								.removeClass( 'awsm-job-hide' );
+								.removeClass( 'awsm-b-job-hide' );
 							$rootWrapper
 								.find( '.awsm-b-job-search-close-btn' )
 								.addClass( 'awsm-job-hide' );
