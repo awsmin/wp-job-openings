@@ -399,40 +399,6 @@ class AWSM_Job_Openings_Block {
 			: '';
 		$attrs['awsm-spec-icons']        = isset( $block_atts['show_spec_icon'] ) ? $block_atts['show_spec_icon'] : '';
 
-		$style_fields = array(
-			'hz_sf_border_width',
-			'hz_sf_border_color',
-			'hz_sf_padding',
-			'hz_sf_border_radius',
-			'hz_sidebar_width',
-			'hz_ls_border_color',
-			'hz_ls_border_width',
-			'hz_ls_border_radius',
-			'hz_jl_border_color',
-			'hz_jl_border_width',
-			'hz_jl_border_radius',
-			'hz_jl_padding',
-			'hz_bs_border_color',
-			'hz_bs_border_width',
-			'hz_bs_border_radius',
-			'hz_bs_padding',
-			'hz_button_background_color',
-			'hz_button_text_color',
-			'block_id',
-		);
-
-		$style_settings = array();
-
-		foreach ( $style_fields as $field ) {
-			if ( ! empty( $block_atts[ $field ] ) ) {
-				$style_settings[ $field ] = $block_atts[ $field ];
-			}
-		}
-
-		if ( ! empty( $style_settings ) ) {
-   			$attrs['settings'] = wp_json_encode( $style_settings );
-		}
-
 		// Selected terms
 		$attrs['awsm-selected-terms'] = isset( $block_atts['selectedTerms'] )
 			? htmlspecialchars( json_encode( $block_atts['selectedTerms'], JSON_UNESCAPED_SLASHES ) )
