@@ -35,29 +35,6 @@ jQuery( function( $ ) {
 		parsedListingsAttrs.push( 'awsm-spec-icons' );
 		/* end */
 
-		/* added for block styles tab */
-		/* parsedListingsAttrs.push('hz_sf_border_color');
-		parsedListingsAttrs.push('hz_sf_border_width');
-		parsedListingsAttrs.push('hz_sf_padding');
-		parsedListingsAttrs.push('hz_sf_border_radius');
-		parsedListingsAttrs.push('hz_sidebar_width');
-		parsedListingsAttrs.push('block_id');
-		parsedListingsAttrs.push('hz_ls_border_color');
-		parsedListingsAttrs.push('hz_ls_border_width');
-		parsedListingsAttrs.push('hz_ls_border_radius');
-		parsedListingsAttrs.push('hz_jl_border_color');
-		parsedListingsAttrs.push('hz_jl_border_width');
-		parsedListingsAttrs.push('hz_jl_border_radius');
-		parsedListingsAttrs.push('hz_jl_padding');
-		parsedListingsAttrs.push('hz_bs_border_color');
-		parsedListingsAttrs.push('hz_bs_border_width');
-		parsedListingsAttrs.push('hz_bs_border_radius');
-		parsedListingsAttrs.push('hz_bs_padding');
-		parsedListingsAttrs.push('hz_button_background_color');
-		parsedListingsAttrs.push('hz_button_text_color'); */
-		parsedListingsAttrs.push('settings');
-		/* end */
-
 		$( document ).trigger( 'awsmJobBlockListingsData', [
 			parsedListingsAttrs
 		] );
@@ -266,44 +243,6 @@ jQuery( function( $ ) {
 		awsmJobFilters( $rootWrapper );
 	}
 
-	/* if ( $( rootWrapperSelector ).length > 0 ) {
-		$( rootWrapperSelector ).each( function () {
-			const $currentWrapper = $( this );
-			const $filterForm = $currentWrapper.find(
-				filterSelector + ' form'
-			);
-			if (
-				awsmJobsPublic.is_search.length > 0 ||
-				filterCheck( $filterForm )
-			) {
-				triggerFilter = true;
-				awsmJobFilters( $currentWrapper );
-			}
-		} );
-	} */
-
-	/* if ( $( rootWrapperSelector ).length > 0 ) {
-		$( rootWrapperSelector ).each( function () {
-			const $currentWrapper = $( this );
-			const $filterForm = $currentWrapper.find(
-				filterSelector + ' form'
-			);
-
-			const searchParams = new URLSearchParams( window.location.search );
-			let hasFiltersInURL = false;
-
-			if ( searchParams.toString().length > 0 ) {
-				hasFiltersInURL = true;
-			}
-
-			if ( hasFiltersInURL || filterCheck( $filterForm ) ) {
-				triggerFilter = true;
-				awsmJobFilters( $currentWrapper );
-			}
-		} );
-	}
- */
-	
 	var updateQuery = function(key, value, url) {
 		url = typeof url !== 'undefined' ? url : currentUrl;
 		url = url.split('?')[0];
