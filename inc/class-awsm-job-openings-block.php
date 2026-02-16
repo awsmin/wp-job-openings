@@ -386,7 +386,7 @@ class AWSM_Job_Openings_Block {
 		return apply_filters( 'awsm_job_block_query_args', $args, $filters, $attributes );
 	}
 
-	public static function get_block_job_listing_data_attrs( $block_atts = array() ) {
+	public static function get_block_job_listing_data_attrs( $block_atts = array() ) { 
 
 		$attrs = array();
 
@@ -402,7 +402,7 @@ class AWSM_Job_Openings_Block {
 		// Selected terms
 		$attrs['awsm-selected-terms'] = isset( $block_atts['selectedTerms'] )
 			? htmlspecialchars( json_encode( $block_atts['selectedTerms'], JSON_UNESCAPED_SLASHES ) )
-			: '{}';
+			: '{}'; 
 
 		$attrs['orderby'] = isset( $block_atts['orderBy'] ) ? $block_atts['orderBy'] : '';
 
@@ -971,7 +971,7 @@ class AWSM_Job_Openings_Block {
 										<select name="awsm_job_spec[%1$s][]" 
 											class="awsm-b-filter-option %8$s awsm-%1$s-filter-option %9$s" 
 											id="awsm-%1$s-filter-option%6$s" 
-											aria-label="%3$s" %10$s>
+											aria-label="%3$s" data-spec="%1$s" %10$s>
 											<option value="All">%4$s</option>
 											%5$s
 										</select>

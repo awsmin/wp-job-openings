@@ -309,6 +309,7 @@ jQuery( function( $ ) {
 			setTimeout(function() {
 				syncAllOptionFromUrl($select);
 				forceAllLabel($select);
+				handleAwsmMultiFilter($select);
 			}, 0);
 		},
 
@@ -485,6 +486,27 @@ jQuery( function( $ ) {
 		const $paginationBase = $rootWrapper.find('input[name="awsm_pagination_base"]');
 		updateQuery(spec, value, $paginationBase.val());
 	}
+
+	$(document).ready(function() {
+		// PAGE LOAD: loop through all selects and sync URL
+		$('.awsm-b-filter-option').each(function() {
+			updateUrlFromSelect($(this));
+		});
+
+		// ONCHANGE: update URL when user selects a new value
+		$('.awsm-b-filter-option').on('change', function() {
+			updateUrlFromSelect($(this));
+		});
+	});
+
+	// On page load, run for all filter selects
+	$(document).ready(function() {
+		$('.awsm-b-filter-option').each(function() {
+			const $select = $(this);
+			updateUrlFromSelect($select);
+		});
+	});
+
 
 	$( filterSelector + ' .awsm-b-job-search-btn' ).on( 'click', function() {
 		searchJobs( $( this ) );
