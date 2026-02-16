@@ -29,7 +29,7 @@ jQuery(function ($) {
     /* end */
 
     /* added for block styles tab */
-    parsedListingsAttrs.push('hz_sf_border_color');
+    /* parsedListingsAttrs.push('hz_sf_border_color');
     parsedListingsAttrs.push('hz_sf_border_width');
     parsedListingsAttrs.push('hz_sf_padding');
     parsedListingsAttrs.push('hz_sf_border_radius');
@@ -47,7 +47,8 @@ jQuery(function ($) {
     parsedListingsAttrs.push('hz_bs_border_radius');
     parsedListingsAttrs.push('hz_bs_padding');
     parsedListingsAttrs.push('hz_button_background_color');
-    parsedListingsAttrs.push('hz_button_text_color');
+    parsedListingsAttrs.push('hz_button_text_color'); */
+    parsedListingsAttrs.push('settings');
     /* end */
 
     $(document).trigger('awsmJobBlockListingsData', [parsedListingsAttrs]);
@@ -68,15 +69,13 @@ jQuery(function ($) {
     var $filterForm = $rootWrapper.find(filterSelector + ' form');
     var formData = [];
     if ($filterForm.length > 0) {
-      // Form exists → Serialize form data
       formData = $filterForm.serializeArray();
       var formMethod = $filterForm.attr('method') ? $filterForm.attr('method').toUpperCase() : 'POST';
     } else {
-      // Form is missing → Manually construct data
       formData.push({
         name: 'action',
         value: 'block_jobfilter'
-      }); // Ensure action is included
+      });
       var formMethod = 'POST';
     }
     var listings = $wrapper.data('listings');
@@ -88,29 +87,7 @@ jQuery(function ($) {
     var listings_total = $wrapper.data('awsm-listings-total');
     var show_spec_icon = $wrapper.data('awsm-spec-icons');
 
-    /* variables for style tabs */
-    var hz_sf_border_color = $wrapper.data('hz_sf_border_color');
-    var hz_sf_border_width = $wrapper.data('hz_sf_border_width');
-    var hz_sf_padding = $wrapper.data('hz_sf_padding');
-    var hz_sf_border_radius = $wrapper.data('hz_sf_border_radius');
-    var hz_sidebar_width = $wrapper.data('hz_sidebar_width');
-    var block_id = $wrapper.data('block_id');
-    var hz_ls_border_color = $wrapper.data('hz_ls_border_color');
-    var hz_ls_border_width = $wrapper.data('hz_ls_border_width');
-    var hz_ls_border_radius = $wrapper.data('hz_ls_border_radius');
-    var hz_jl_border_color = $wrapper.data('hz_jl_border_color');
-    var hz_jl_border_width = $wrapper.data('hz_jl_border_width');
-    var hz_jl_border_radius = $wrapper.data('hz_jl_border_radius');
-    var hz_jl_padding = $wrapper.data('hz_jl_padding');
-    var hz_bs_border_color = $wrapper.data('hz_bs_border_color');
-    var hz_bs_border_width = $wrapper.data('hz_bs_border_width');
-    var hz_bs_border_radius = $wrapper.data('hz_bs_border_radius');
-    var hz_bs_padding = $wrapper.data('hz_bs_padding');
-    var hz_button_background_color = $wrapper.data('hz_button_background_color');
-    var hz_button_text_color = $wrapper.data('hz_button_text_color');
-
-    /* End */
-
+    /* Filter URL sync logic */
     $rootWrapper.find('.awsm-b-filter-item').each(function () {
       var currentLoopSpec = $(this).data('filter');
       var searchParams = new URLSearchParams(document.location.search);
@@ -124,6 +101,8 @@ jQuery(function ($) {
         });
       }
     });
+
+    /* Core parameters */
     formData.push({
       name: 'listings_per_page',
       value: listings
@@ -178,136 +157,13 @@ jQuery(function ($) {
         value: show_spec_icon
       });
     }
-
-    /* variables for style */
-    if (typeof hz_sf_border_color !== 'undefined') {
-      formData.push({
-        name: 'hz_sf_border_color',
-        value: hz_sf_border_color
-      });
-    }
-    if (typeof hz_sf_border_width !== 'undefined') {
-      formData.push({
-        name: 'hz_sf_border_width',
-        value: hz_sf_border_width
-      });
-    }
-    if (typeof hz_sf_padding !== 'undefined') {
-      formData.push({
-        name: 'hz_sf_padding',
-        value: JSON.stringify(hz_sf_padding)
-      });
-    }
-    if (typeof hz_sf_border_radius !== 'undefined') {
-      formData.push({
-        name: 'hz_sf_border_radius',
-        value: hz_sf_border_radius
-      });
-    }
-    if (typeof hz_sidebar_width !== 'undefined') {
-      formData.push({
-        name: 'hz_sidebar_width',
-        value: hz_sidebar_width
-      });
-    }
-    if (typeof block_id !== 'undefined') {
-      formData.push({
-        name: 'block_id',
-        value: block_id
-      });
-    }
-    if (typeof hz_ls_border_color !== 'undefined') {
-      formData.push({
-        name: 'hz_ls_border_color',
-        value: hz_ls_border_color
-      });
-    }
-    if (typeof hz_ls_border_width !== 'undefined') {
-      formData.push({
-        name: 'hz_ls_border_width',
-        value: hz_ls_border_width
-      });
-    }
-    if (typeof hz_ls_border_radius !== 'undefined') {
-      formData.push({
-        name: 'hz_ls_border_radius',
-        value: hz_ls_border_radius
-      });
-    }
-    if (typeof hz_jl_border_color !== 'undefined') {
-      formData.push({
-        name: 'hz_jl_border_color',
-        value: hz_jl_border_color
-      });
-    }
-    if (typeof hz_jl_border_width !== 'undefined') {
-      formData.push({
-        name: 'hz_jl_border_width',
-        value: hz_jl_border_width
-      });
-    }
-    if (typeof hz_jl_border_radius !== 'undefined') {
-      formData.push({
-        name: 'hz_jl_border_radius',
-        value: hz_jl_border_radius
-      });
-    }
-    if (typeof hz_jl_padding !== 'undefined') {
-      formData.push({
-        name: 'hz_jl_padding',
-        value: JSON.stringify(hz_jl_padding)
-      });
-    }
-    if (typeof hz_bs_border_color !== 'undefined') {
-      formData.push({
-        name: 'hz_bs_border_color',
-        value: hz_bs_border_color
-      });
-    }
-    if (typeof hz_bs_border_width !== 'undefined') {
-      formData.push({
-        name: 'hz_bs_border_width',
-        value: hz_bs_border_width
-      });
-    }
-    if (typeof hz_bs_border_radius !== 'undefined') {
-      formData.push({
-        name: 'hz_bs_border_radius',
-        value: hz_bs_border_radius
-      });
-    }
-    if (typeof hz_bs_padding !== 'undefined') {
-      formData.push({
-        name: 'hz_bs_padding',
-        value: JSON.stringify(hz_bs_padding)
-      });
-    }
-    if (typeof hz_button_background_color !== 'undefined') {
-      formData.push({
-        name: 'hz_button_background_color',
-        value: hz_button_background_color
-      });
-    }
-    if (typeof hz_button_text_color !== 'undefined') {
-      formData.push({
-        name: 'hz_button_text_color',
-        value: hz_button_text_color
-      });
-    }
-
-    /* End */
-
     var listingsData = getListingsData($wrapper);
     if (listingsData.length > 0) {
-      //formData = formData.concat( listingsData );
+      // optional merge
     }
-
-    // Trigger custom event to provide formData
     $(document).trigger('awsmJobBlockFiltersFormData', [$wrapper, formData]);
     if (triggerFilter) {
       triggerFilter = false;
-
-      // Determine action URL (fallback if form is missing)
       var actionUrl = $filterForm.length > 0 ? $filterForm.attr('action') : awsmJobsPublic.ajaxurl;
       $.ajax({
         url: actionUrl,
@@ -654,30 +510,6 @@ jQuery(function ($) {
 
     /* end */
 
-    /* variables for style tabs */
-    var hz_sf_border_color = $listingsContainer.data('hz_sf_border_color');
-    var hz_sf_border_width = $listingsContainer.data('hz_sf_border_width');
-    var hz_sf_padding = $listingsContainer.data('hz_sf_padding');
-    var hz_sf_border_radius = $listingsContainer.data('hz_sf_border_radius');
-    var hz_sidebar_width = $listingsContainer.data('hz_sidebar_width');
-    var block_id = $listingsContainer.data('block_id');
-    var hz_ls_border_color = $listingsContainer.data('hz_ls_border_color');
-    var hz_ls_border_width = $listingsContainer.data('hz_ls_border_width');
-    var hz_ls_border_radius = $listingsContainer.data('hz_ls_border_radius');
-    var hz_jl_border_color = $listingsContainer.data('hz_jl_border_color');
-    var hz_jl_border_width = $listingsContainer.data('hz_jl_border_width');
-    var hz_jl_border_radius = $listingsContainer.data('hz_jl_border_radius');
-    var hz_jl_padding = $listingsContainer.data('hz_jl_padding');
-    var hz_bs_border_color = $listingsContainer.data('hz_bs_border_color');
-    var hz_bs_border_width = $listingsContainer.data('hz_bs_border_width');
-    var hz_bs_border_radius = $listingsContainer.data('hz_bs_border_radius');
-    var hz_bs_padding = $listingsContainer.data('hz_bs_padding');
-    var hz_button_background_color = $listingsContainer.data('hz_button_background_color');
-    var hz_button_text_color = $listingsContainer.data('hz_button_text_color');
-    var show_spec_icon = $listingsContainer.data('awsm-spec-icons');
-
-    /* End */
-
     if (isDefaultPagination) {
       $triggerElem.prop('disabled', true);
       paged = $triggerElem.data('page');
@@ -844,125 +676,6 @@ jQuery(function ($) {
         value: searchQuery
       });
     }
-
-    /* variables for style */
-    if (typeof hz_sf_border_color !== 'undefined') {
-      wpData.push({
-        name: 'hz_sf_border_color',
-        value: hz_sf_border_color
-      });
-    }
-    if (typeof hz_sf_border_width !== 'undefined') {
-      wpData.push({
-        name: 'hz_sf_border_width',
-        value: hz_sf_border_width
-      });
-    }
-    if (typeof hz_sf_padding !== 'undefined') {
-      wpData.push({
-        name: 'hz_sf_padding',
-        value: JSON.stringify(hz_sf_padding)
-      });
-    }
-    if (typeof hz_sf_border_radius !== 'undefined') {
-      wpData.push({
-        name: 'hz_sf_border_radius',
-        value: hz_sf_border_radius
-      });
-    }
-    if (typeof hz_sidebar_width !== 'undefined') {
-      wpData.push({
-        name: 'hz_sidebar_width',
-        value: hz_sidebar_width
-      });
-    }
-    if (typeof block_id !== 'undefined') {
-      wpData.push({
-        name: 'block_id',
-        value: block_id
-      });
-    }
-    if (typeof hz_ls_border_color !== 'undefined') {
-      wpData.push({
-        name: 'hz_ls_border_color',
-        value: hz_ls_border_color
-      });
-    }
-    if (typeof hz_ls_border_width !== 'undefined') {
-      wpData.push({
-        name: 'hz_ls_border_width',
-        value: hz_ls_border_width
-      });
-    }
-    if (typeof hz_ls_border_radius !== 'undefined') {
-      wpData.push({
-        name: 'hz_ls_border_radius',
-        value: hz_ls_border_radius
-      });
-    }
-    if (typeof hz_jl_border_color !== 'undefined') {
-      wpData.push({
-        name: 'hz_jl_border_color',
-        value: hz_jl_border_color
-      });
-    }
-    if (typeof hz_jl_border_width !== 'undefined') {
-      wpData.push({
-        name: 'hz_jl_border_width',
-        value: hz_jl_border_width
-      });
-    }
-    if (typeof hz_jl_border_radius !== 'undefined') {
-      wpData.push({
-        name: 'hz_jl_border_radius',
-        value: hz_jl_border_radius
-      });
-    }
-    if (typeof hz_jl_padding !== 'undefined') {
-      wpData.push({
-        name: 'hz_jl_padding',
-        value: JSON.stringify(hz_jl_padding)
-      });
-    }
-    if (typeof hz_bs_border_color !== 'undefined') {
-      wpData.push({
-        name: 'hz_bs_border_color',
-        value: hz_bs_border_color
-      });
-    }
-    if (typeof hz_bs_border_width !== 'undefined') {
-      wpData.push({
-        name: 'hz_bs_border_width',
-        value: hz_bs_border_width
-      });
-    }
-    if (typeof hz_bs_border_radius !== 'undefined') {
-      wpData.push({
-        name: 'hz_bs_border_radius',
-        value: hz_bs_border_radius
-      });
-    }
-    if (typeof hz_bs_padding !== 'undefined') {
-      wpData.push({
-        name: 'hz_bs_padding',
-        value: JSON.stringify(hz_bs_padding)
-      });
-    }
-    if (typeof hz_button_background_color !== 'undefined') {
-      wpData.push({
-        name: 'hz_button_background_color',
-        value: hz_button_background_color
-      });
-    }
-    if (typeof hz_button_text_color !== 'undefined') {
-      wpData.push({
-        name: 'hz_button_text_color',
-        value: hz_button_text_color
-      });
-    }
-
-    /* End */
-
     $(document).trigger('awsmjobs_block_load_more', [$listingsContainer, wpData]);
     var listingsData = getListingsData($listingsContainer);
     if (listingsData.length > 0) {

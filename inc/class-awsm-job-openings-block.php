@@ -256,51 +256,6 @@ class AWSM_Job_Openings_Block {
 
 		$query = new WP_Query( $args );
 
-		// Define which fields are JSON (arrays as strings) and need decoding
-		$json_fields = array(
-			'hz_sf_padding',
-			'hz_jl_padding',
-			'hz_bs_padding',
-		);
-
-		// Handle style-related POST data
-		$style_fields = array(
-			'hz_sf_border_width',
-			'hz_sf_border_color',
-			'hz_sf_padding',
-			'hz_sf_border_radius',
-			'hz_sidebar_width',
-			'hz_ls_border_color',
-			'hz_ls_border_width',
-			'hz_ls_border_radius',
-			'hz_jl_border_color',
-			'hz_jl_border_width',
-			'hz_jl_border_radius',
-			'hz_jl_padding',
-			'hz_bs_border_color',
-			'hz_bs_border_width',
-			'hz_bs_border_radius',
-			'hz_bs_padding',
-			'hz_button_background_color',
-			'hz_button_text_color',
-			'block_id',
-		);
-
-		foreach ( $style_fields as $field ) {
-			if ( isset( $_POST[ $field ] ) ) {
-				// If the field is JSON, decode it into an array
-				if ( in_array( $field, $json_fields, true ) ) {
-					$decoded              = json_decode( stripslashes( $_POST[ $field ] ), true );
-					$attributes[ $field ] = is_array( $decoded ) ? $decoded : array();
-				} else {
-					$attributes[ $field ] = sanitize_text_field( wp_unslash( $_POST[ $field ] ) );
-				}
-			}
-		}
-
-		// Now call the style generator
-		$styles = hz_get_ui_styles( $attributes );
-
 		ob_start();
 
 		if ( $query->have_posts() ) {
@@ -431,17 +386,19 @@ class AWSM_Job_Openings_Block {
 		return apply_filters( 'awsm_job_block_query_args', $args, $filters, $attributes );
 	}
 
-	public static function get_block_job_listing_data_attrs( $block_atts = array() ) { 
-		$attrs                           = array();
+	public static function get_block_job_listing_data_attrs( $block_atts = array() ) {
+
+		$attrs = array();
+
+		// Basic attributes
 		$attrs['listings']               = AWSM_Job_Openings::get_listings_per_page( $block_atts );
 		$attrs['awsm-layout']            = isset( $block_atts['layout'] ) ? $block_atts['layout'] : '';
 		$attrs['awsm-hide-expired-jobs'] = isset( $block_atts['hide_expired_jobs'] ) ? $block_atts['hide_expired_jobs'] : '';
 		$attrs['awsm-other-options']     = isset( $block_atts['other_options'] ) && is_array( $block_atts['other_options'] )
-		? implode( ',', $block_atts['other_options'] )
-		: '';
-		$attrs['awsm-spec-icons'] = isset( $block_atts['show_spec_icon'] ) ? $block_atts['show_spec_icon'] : '';
+			? implode( ',', $block_atts['other_options'] )
+			: '';
+		$attrs['awsm-spec-icons']        = isset( $block_atts['show_spec_icon'] ) ? $block_atts['show_spec_icon'] : '';
 
-		// Variables for style
 		$style_fields = array(
 			'hz_sf_border_width',
 			'hz_sf_border_color',
@@ -464,15 +421,19 @@ class AWSM_Job_Openings_Block {
 			'block_id',
 		);
 
+		$style_settings = array();
+
 		foreach ( $style_fields as $field ) {
-			if ( array_key_exists( $field, $block_atts ) ) {
-				$value           = $block_atts[ $field ];
-				$attrs[ $field ] = is_array( $value ) ? json_encode( $value, JSON_UNESCAPED_SLASHES ) : $value;
-			} else {
-				$attrs[ $field ] = '';
+			if ( ! empty( $block_atts[ $field ] ) ) {
+				$style_settings[ $field ] = $block_atts[ $field ];
 			}
 		}
 
+		if ( ! empty( $style_settings ) ) {
+   			$attrs['settings'] = wp_json_encode( $style_settings );
+		}
+
+		// Selected terms
 		$attrs['awsm-selected-terms'] = isset( $block_atts['selectedTerms'] )
 			? htmlspecialchars( json_encode( $block_atts['selectedTerms'], JSON_UNESCAPED_SLASHES ) )
 			: '{}';
@@ -489,6 +450,7 @@ class AWSM_Job_Openings_Block {
 		}
 
 		foreach ( $_GET as $key => $value ) {
+
 			$sanitized_key = sanitize_key( $key );
 
 			if ( is_array( $value ) ) {
@@ -506,14 +468,6 @@ class AWSM_Job_Openings_Block {
 			$attrs['term-id']  = $q_obj->term_id;
 		}
 
-		/**
-		 * Filters the data attributes for the job listings div element.
-		 *
-		 * @since 3.5.0
-		 *
-		 * @param array $attrs The data attributes.
-		 * @param array $block_atts The block attributes.
-		 */
 		return apply_filters( 'awsm_block_job_listing_data_attrs', $attrs, $block_atts );
 	}
 
