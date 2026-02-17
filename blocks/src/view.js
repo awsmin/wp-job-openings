@@ -292,50 +292,59 @@ jQuery( function( $ ) {
 	}
 
 	$(filterSelector + ' .awsm-b-filter-option').selectric({
-		multiple: {
-			keepMenuOpen: true
-		},
-  		onInit: function(select, selectric) {
-			var id = select.id;
+		multiple: { keepMenuOpen: true },
+		onInit: function(select, selectric) { 
+			const $select = $(select);
+			const id = select.id;
 
 			if (selectric && selectric.elements && selectric.elements.input) {
-				var $input = $(selectric.elements.input);
+				const $input = $(selectric.elements.input);
 				$(select).attr('id', 'selectric-' + id);
 				$input.attr('id', id);
 			}
 
-			const $select = $(select);
+			const $rootWrapper = $select.closest(rootWrapperSelector);
+			const currentSpec  = $select.closest('.awsm-b-filter-item').data('filter');
 
 			setTimeout(function() {
+				// Sync "All" checkbox for UI only
 				syncAllOptionFromUrl($select);
 				forceAllLabel($select);
+
+				// Get page and existing URL filter
+				const urlParams = new URLSearchParams(window.location.search);
+				const currentPage = parseInt(urlParams.get('paged') || urlParams.get('page') || 1);
+				const existingFilter = urlParams.get(currentSpec);
+
+				const selectedValues = $select.val(); // array for multi-select, string for single
+				if (selectedValues && selectedValues.length > 0) {
+					let slugString = Array.isArray(selectedValues) ? selectedValues.join(',') : selectedValues;
+
+					// Only write to URL if we are on first page and no existing filter in URL
+					if (slugString !== 'All' && !existingFilter && currentPage <= 1) {
+						setPaginationBase($rootWrapper, currentSpec, slugString);
+						updateAwsmQuery($rootWrapper, currentSpec, slugString);
+					}
+				}
+
+				// Only trigger AJAX if not paged and no filter in URL
+				if (!existingFilter && currentPage <= 1) {
+					handleAwsmMultiFilter($select); // triggers AJAX
+				}
 			}, 0);
 		},
-
 		arrowButtonMarkup: '<span class="awsm-selectric-arrow-drop">&#x25be;</span>',
-		customClass: {
-			prefix: 'awsm-selectric',
-			camelCase: false
-		},
-
+		customClass: { prefix: 'awsm-selectric', camelCase: false },
 		onChange: function(element) {
 			const $select = $(element);
-			const selectric = $select.data('selectric');
-    		const $allOption = $select.find('option').first();
-
 			handleAwsmMultiFilter($select);
 
-			//wait for Selectric to update label
 			setTimeout(function() {
 				forceAllLabel($select);
 			}, 0);
 
-			// Ensure menu stays open after refresh
-			if ($select.prop('multiple')) {
-				$select.selectric('open');
-			}
+			if ($select.prop('multiple')) $select.selectric('open');
 		}
-
 	});
 
 	function handleAwsmMultiFilter($select) {

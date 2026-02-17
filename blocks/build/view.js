@@ -246,16 +246,39 @@ jQuery(function ($) {
       keepMenuOpen: true
     },
     onInit: function onInit(select, selectric) {
+      var $select = $(select);
       var id = select.id;
       if (selectric && selectric.elements && selectric.elements.input) {
         var $input = $(selectric.elements.input);
         $(select).attr('id', 'selectric-' + id);
         $input.attr('id', id);
       }
-      var $select = $(select);
+      var $rootWrapper = $select.closest(rootWrapperSelector);
+      var currentSpec = $select.closest('.awsm-b-filter-item').data('filter');
       setTimeout(function () {
+        // Sync "All" checkbox for UI only
         syncAllOptionFromUrl($select);
         forceAllLabel($select);
+
+        // Get page and existing URL filter
+        var urlParams = new URLSearchParams(window.location.search);
+        var currentPage = parseInt(urlParams.get('paged') || urlParams.get('page') || 1);
+        var existingFilter = urlParams.get(currentSpec);
+        var selectedValues = $select.val(); // array for multi-select, string for single
+        if (selectedValues && selectedValues.length > 0) {
+          var slugString = Array.isArray(selectedValues) ? selectedValues.join(',') : selectedValues;
+
+          // Only write to URL if we are on first page and no existing filter in URL
+          if (slugString !== 'All' && !existingFilter && currentPage <= 1) {
+            setPaginationBase($rootWrapper, currentSpec, slugString);
+            updateAwsmQuery($rootWrapper, currentSpec, slugString);
+          }
+        }
+
+        // Only trigger AJAX if not paged and no filter in URL
+        if (!existingFilter && currentPage <= 1) {
+          handleAwsmMultiFilter($select); // triggers AJAX
+        }
       }, 0);
     },
     arrowButtonMarkup: '<span class="awsm-selectric-arrow-drop">&#x25be;</span>',
@@ -265,19 +288,11 @@ jQuery(function ($) {
     },
     onChange: function onChange(element) {
       var $select = $(element);
-      var selectric = $select.data('selectric');
-      var $allOption = $select.find('option').first();
       handleAwsmMultiFilter($select);
-
-      //wait for Selectric to update label
       setTimeout(function () {
         forceAllLabel($select);
       }, 0);
-
-      // Ensure menu stays open after refresh
-      if ($select.prop('multiple')) {
-        $select.selectric('open');
-      }
+      if ($select.prop('multiple')) $select.selectric('open');
     }
   });
   function handleAwsmMultiFilter($select) {
