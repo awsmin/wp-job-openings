@@ -400,9 +400,9 @@ class AWSM_Job_Openings_Block {
 		$attrs['awsm-spec-icons']        = isset( $block_atts['show_spec_icon'] ) ? $block_atts['show_spec_icon'] : '';
 
 		// Selected terms
-		$attrs['awsm-selected-terms'] = isset( $block_atts['selectedTerms'] )
+		/* $attrs['awsm-selected-terms'] = isset( $block_atts['selectedTerms'] )
 			? htmlspecialchars( json_encode( $block_atts['selectedTerms'], JSON_UNESCAPED_SLASHES ) )
-			: '{}';
+			: '{}';  */
 
 		$attrs['orderby'] = isset( $block_atts['orderBy'] ) ? $block_atts['orderBy'] : '';
 
