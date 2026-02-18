@@ -1857,7 +1857,7 @@ class AWSM_Job_Openings {
 		$view_class = apply_filters( 'awsm_job_listing_view_class', $view_class, $shortcode_atts );
 		return sprintf( 'awsm-job-listings %s', $view_class );
 	}
-	
+
 
 	public static function get_current_language() {
 		$current_lang = null;

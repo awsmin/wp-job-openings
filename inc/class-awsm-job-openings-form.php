@@ -1713,7 +1713,7 @@ class AWSM_Job_Openings_Form {
 		add_action( 'wp_enqueue_scripts', array( $this, 'dequeue_conflicting_captcha_scripts' ), 9999 );
 		add_action( 'wp_print_scripts', array( $this, 'dequeue_conflicting_captcha_scripts' ), 9999 );
 	}
-	
+
 	public function get_attachment_label( $applicant_job_id = null ) {
 
 		if ( has_filter( 'awsm_jobs_application_attachment_label' ) ) {

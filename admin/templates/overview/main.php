@@ -188,7 +188,7 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 						),
 						array(
 							'id'        => 'feedback',
-							'url'       => 'https://roadmap.wpjobopenings.com/boards/feedback',
+							'url'       => 'https://roadmap.wpjobopenings.com/boards/feature-requests',
 							'link_text' => __( 'Feedback', 'wp-job-openings' ),
 						),
 						array(

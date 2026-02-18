@@ -137,9 +137,9 @@ if ( $placement == 'top' ) {
 			<div class="awsm-b-job-listings"<?php awsm_block_jobs_data_attrs( array(), $attributes ); ?>>
 				<div <?php awsm_block_jobs_view_class( '', $attributes ); ?>>
 					<?php if ( $query->have_posts() ) : ?>
-					<?php
+						<?php
 						include get_awsm_jobs_template_path( 'block-main', 'block-files' );
-					?>
+						?>
 					<?php else : ?>
 						<div class="awsm-jobs-none-container awsm-b-jobs-none-container">
 							<p><?php awsm_no_jobs_msg(); ?></p>
@@ -187,9 +187,9 @@ if ( $placement == 'top' ) {
 			<div class="awsm-b-job-listings"<?php awsm_block_jobs_data_attrs( array(), $attributes ); ?>>
 				<div <?php echo awsm_block_jobs_view_class( 'custom-class', $attributes ); ?>> 
 					<?php if ( $query->have_posts() ) : ?>
-					<?php
+						<?php
 						include get_awsm_jobs_template_path( 'block-main', 'block-files' );
-					?>
+						?>
 					<?php else : ?>
 						<div class="awsm-jobs-none-container awsm-b-jobs-none-container">
 							<p><?php awsm_no_jobs_msg(); ?></p>
