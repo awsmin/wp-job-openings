@@ -85,10 +85,6 @@ class Awsm_Job_Guten_Blocks {
 			$atts['hide_expired_jobs'] = 'expired';
 		}
 
-		if ( isset( $atts['placement'] ) ) {
-			$atts['placement'] = $atts['placement'];
-		}
-
 		if ( isset( $atts['search_placeholder'] ) && $atts['search_placeholder'] === true ) {
 			$atts['search_placeholder'] = $atts['search_placeholder'];
 		}
@@ -105,27 +101,9 @@ class Awsm_Job_Guten_Blocks {
 			$atts['orderBy'] = $atts['orderBy'];
 		}
 
-		if ( isset( $atts['listing_per_page'] ) ) {
-			$atts['listing_per_page'] = $atts['listing_per_page'];
-		}
-
-		if ( isset( $atts['pagination'] ) ) {
-			$atts['pagination'] = $atts['pagination'];
-		}
-
-		if ( isset( $atts['show_spec_icon'] ) ) {
-			$atts['show_spec_icon'] = $atts['show_spec_icon'];
-		}
-
-		/** end */
-
-		/** Style Tab */
-
 		if ( isset( $atts['blockId'] ) ) {
 			$atts['block_id'] = $atts['blockId'];
 		}
-
-		/** End */
 
 		 /**
 		 * Filters the block attributes.
