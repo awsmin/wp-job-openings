@@ -414,10 +414,10 @@ function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t =
 
 
 var WidgetInspectorControls = function WidgetInspectorControls(props) {
+  var _window$awsmJobsAdmin;
   var _props$attributes = props.attributes,
     search = _props$attributes.search,
     placement = _props$attributes.placement,
-    version = _props$attributes.version,
     filter_options = _props$attributes.filter_options,
     pagination = _props$attributes.pagination,
     search_placeholder = _props$attributes.search_placeholder,
@@ -457,66 +457,55 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
     hz_button_text_color = _props$attributes.hz_button_text_color,
     hz_sidebar_width = _props$attributes.hz_sidebar_width,
     blockId = _props$attributes.blockId,
-    filtersInitialized = _props$attributes.filtersInitialized,
-    specsInitialized = _props$attributes.specsInitialized,
     setAttributes = props.setAttributes,
     clientId = props.clientId;
 
   // Local state for block settings
-  var specifications = awsmJobsAdmin.awsm_filters_block;
-  var _useState = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_6__.useState)(false),
+  var filtersInitRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_6__.useRef)(false);
+  var specifications = ((_window$awsmJobsAdmin = window.awsmJobsAdmin) === null || _window$awsmJobsAdmin === void 0 ? void 0 : _window$awsmJobsAdmin.awsm_filters_block) || [];
+  var _useState = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_6__.useState)(selected_terms_main || {}),
     _useState2 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_3__["default"])(_useState, 2),
-    isProEnabled = _useState2[0],
-    setIsProEnabled = _useState2[1];
-  var _useState3 = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_6__.useState)(selected_terms_main || {}),
+    toggleState = _useState2[0],
+    setToggleState = _useState2[1];
+  var _useState3 = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_6__.useState)(selectedTerms || {}),
     _useState4 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_3__["default"])(_useState3, 2),
-    toggleState = _useState4[0],
-    setToggleState = _useState4[1];
-  var _useState5 = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_6__.useState)(selectedTerms || {}),
-    _useState6 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_3__["default"])(_useState5, 2),
-    selectedTermsState = _useState6[0],
-    setSelectedTermsState = _useState6[1];
+    selectedTermsState = _useState4[0],
+    setSelectedTermsState = _useState4[1];
   var block_appearance_list = [];
   var block_job_listing = [];
   var block_styles_panel = [];
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_6__.useEffect)(function () {
-    if (typeof awsmJobsAdmin !== 'undefined' && awsmJobsAdmin.isProEnabled) {
-      setIsProEnabled(true);
-    }
-
-    // Sync state with selectedTerms attribute
-    var initialSelectedTerms = specifications.reduce(function (acc, spec) {
-      acc[spec.key] = selectedTerms[spec.key] || [];
-      return acc;
-    }, {});
-    setSelectedTermsState(initialSelectedTerms);
-    setToggleState(function () {
-      var initialState = Array.isArray(selected_terms_main) ? selected_terms_main.reduce(function (acc, key) {
-        acc[key] = true;
-        return acc;
-      }, {}) : {};
-      return initialState;
-    });
     if (clientId && !blockId) {
       setAttributes({
         blockId: "job-block-".concat(clientId)
       });
     }
-    if (!filtersInitialized && specifications.length > 0) {
+  }, [clientId]);
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_6__.useEffect)(function () {
+    var initialSelectedTerms = specifications.reduce(function (acc, spec) {
+      acc[spec.key] = (selectedTerms === null || selectedTerms === void 0 ? void 0 : selectedTerms[spec.key]) || [];
+      return acc;
+    }, {});
+    setSelectedTermsState(initialSelectedTerms);
+  }, [selectedTerms, specifications]);
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_6__.useEffect)(function () {
+    var initialState = Array.isArray(selected_terms_main) ? selected_terms_main.reduce(function (acc, key) {
+      acc[key] = true;
+      return acc;
+    }, {}) : {};
+    setToggleState(initialState);
+  }, [selected_terms_main]);
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_6__.useEffect)(function () {
+    if (!filtersInitRef.current && specifications.length > 0) {
       var normalizedFilters = [];
-      if (filter_options && filter_options.length > 0) {
-        // Old block: normalize string format to { specKey, value }
+      if ((filter_options === null || filter_options === void 0 ? void 0 : filter_options.length) > 0) {
         normalizedFilters = filter_options.map(function (option) {
-          if ((0,_babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_2__["default"])(option) === 'object' && option.specKey) {
-            return option; // already in new format
-          }
-          return {
+          return (0,_babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_2__["default"])(option) === 'object' && option.specKey ? option : {
             specKey: option,
             value: 'dropdown'
-          }; // old string format
+          };
         });
       } else {
-        // Fresh block: create default filters
         normalizedFilters = specifications.map(function (spec) {
           return {
             specKey: spec.key,
@@ -524,14 +513,12 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
           };
         });
       }
-
-      // Update attributes once
       setAttributes({
-        filter_options: normalizedFilters,
-        filtersInitialized: true
+        filter_options: normalizedFilters
       });
+      filtersInitRef.current = true;
     }
-  }, [specifications, selectedTerms, selected_terms_main]);
+  }, [specifications]);
   var handleTermChange = function handleTermChange(newTokens, specKey, spec) {
     setSelectedTermsState(function (prevSelectedTerms) {
       var updatedSelectedTerms = _objectSpread({}, prevSelectedTerms);
@@ -542,12 +529,25 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
         return term ? term.term_id : null;
       }).filter(function (id) {
         return id !== null;
-      }); // Filter out invalid IDs
-
-      updatedSelectedTerms[specKey] = newTermIds;
-      setAttributes({
-        selectedTerms: updatedSelectedTerms
       });
+      updatedSelectedTerms[specKey] = newTermIds;
+
+      // Auto-switch to checkbox if multiple selected
+      if (newTermIds.length > 1) {
+        var updatedFilters = filter_options.map(function (option) {
+          return option.specKey === specKey ? _objectSpread(_objectSpread({}, option), {}, {
+            value: 'checkbox'
+          }) : option;
+        });
+        setAttributes({
+          selectedTerms: updatedSelectedTerms,
+          filter_options: updatedFilters
+        });
+      } else {
+        setAttributes({
+          selectedTerms: updatedSelectedTerms
+        });
+      }
       return updatedSelectedTerms;
     });
   };
@@ -655,18 +655,6 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
 
     // Check if there are multiple selected terms for the specKey
     var hasMultipleSelectedTerms = (selectedTermsState[spec.key] || []).length > 1;
-
-    // If multiple terms are selected for this specKey, update the filter option to "checkbox"
-    if (hasMultipleSelectedTerms && (filterOption === null || filterOption === void 0 ? void 0 : filterOption.value) !== 'checkbox') {
-      var updatedFilters = filter_options.map(function (option) {
-        return option.specKey === spec.key ? _objectSpread(_objectSpread({}, option), {}, {
-          value: 'checkbox'
-        }) : option;
-      });
-      setAttributes({
-        filter_options: updatedFilters
-      });
-    }
     return (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)("div", {
       key: spec.key
     }, (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_9__.ToggleControl, {
@@ -1605,7 +1593,7 @@ function _unsupportedIterableToArray(r, a) {
   \************************/
 /***/ (function(module) {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"wp-job-openings/blocks","version":"1.0.0","title":"Job Listings","category":"widgets","icon":"businessperson","description":"Display and filter job listings.","attributes":{"search":{"type":"boolean","default":true},"version":{"type":"number","default":2},"placement":{"type":"string","default":"top"},"search_placeholder":{"type":"string","default":""},"filter_options":{"type":"array","default":[]},"filtersInitialized":{"type":"boolean","default":false},"listType":{"type":"string","default":"all"},"layout":{"type":"string","default":"grid"},"selected_terms_main":{"type":"array","default":[]},"selectedTerms":{"type":"object","default":{}},"orderBy":{"type":"string","default":"new"},"hide_expired_jobs":{"type":"boolean","default":false},"listing_per_page":{"type":"number","default":9},"pagination":{"type":"string","default":"modern"},"number_of_columns":{"type":"number","default":3},"other_options":{"type":"array","default":[]},"show_spec_icon":{"type":"boolean","default":false},"specsInitialized":{"type":"boolean","default":false},"hz_sf_border":{"type":"object","default":{"width":"1px","color":"#cccccc"}},"hz_sf_border_radius":{"type":"object","default":{"topLeft":"5px","topRight":"5px","bottomLeft":"5px","bottomRight":"5px"}},"hz_sf_padding":{"type":"object","default":{"top":"15px","right":"15px","bottom":"15px","left":"15px"}},"blockId":{"type":"string"},"hz_sidebar_width":{"type":"number","default":33.3},"hz_ls_border":{"type":"object","default":{"width":"1px","color":"#cccccc"}},"hz_ls_border_radius":{"type":"object","default":{"topLeft":"5px","topRight":"5px","bottomLeft":"5px","bottomRight":"5px"}},"hz_jl_border":{"type":"object","default":{"width":"1px","color":"#CBCBCB"}},"hz_jl_border_radius":{"type":"object","default":{"topLeft":"5px","topRight":"5px","bottomLeft":"5px","bottomRight":"5px"}},"hz_jl_padding":{"type":"object","default":{"top":"15px","right":"15px","bottom":"15px","left":"15px"}},"hz_bs_border":{"type":"object","default":{"width":"1px","color":"#4E35DF"}},"hz_bs_border_radius":{"type":"object","default":{"topLeft":"5px","topRight":"5px","bottomLeft":"5px","bottomRight":"5px"}},"hz_bs_padding":{"type":"object","default":{"top":"13px","right":"13px","bottom":"13px","left":"13px"}},"hz_button_background_color":{"type":"string"},"hz_button_text_color":{"type":"string"}},"example":{},"supports":{"html":false,"customClassName":true},"textdomain":"wp-job-openings","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"wp-job-openings/blocks","version":"1.0.0","title":"Job Listings","category":"widgets","icon":"businessperson","description":"Display and filter job listings.","attributes":{"search":{"type":"boolean","default":true},"placement":{"type":"string","default":"top"},"search_placeholder":{"type":"string","default":""},"filter_options":{"type":"array","default":[]},"listType":{"type":"string","default":"all"},"layout":{"type":"string","default":"grid"},"selected_terms_main":{"type":"array","default":[]},"selectedTerms":{"type":"object","default":{}},"orderBy":{"type":"string","default":"new_to_old"},"hide_expired_jobs":{"type":"boolean","default":false},"listing_per_page":{"type":"number","default":9},"pagination":{"type":"string","default":"modern"},"number_of_columns":{"type":"number","default":3},"other_options":{"type":"array","default":[]},"show_spec_icon":{"type":"boolean","default":false},"hz_sf_border":{"type":"object","default":{"width":"1px","color":"#cccccc"}},"hz_sf_border_radius":{"type":"object","default":{"topLeft":"5px","topRight":"5px","bottomLeft":"5px","bottomRight":"5px"}},"hz_sf_padding":{"type":"object","default":{"top":"15px","right":"15px","bottom":"15px","left":"15px"}},"blockId":{"type":"string"},"hz_sidebar_width":{"type":"number","default":33.3},"hz_ls_border":{"type":"object","default":{"width":"1px","color":"#cccccc"}},"hz_ls_border_radius":{"type":"object","default":{"topLeft":"5px","topRight":"5px","bottomLeft":"5px","bottomRight":"5px"}},"hz_jl_border":{"type":"object","default":{"width":"1px","color":"#CBCBCB"}},"hz_jl_border_radius":{"type":"object","default":{"topLeft":"5px","topRight":"5px","bottomLeft":"5px","bottomRight":"5px"}},"hz_jl_padding":{"type":"object","default":{"top":"15px","right":"15px","bottom":"15px","left":"15px"}},"hz_bs_border":{"type":"object","default":{"width":"1px","color":"#4E35DF"}},"hz_bs_border_radius":{"type":"object","default":{"topLeft":"5px","topRight":"5px","bottomLeft":"5px","bottomRight":"5px"}},"hz_bs_padding":{"type":"object","default":{"top":"13px","right":"13px","bottom":"13px","left":"13px"}},"hz_button_background_color":{"type":"string"},"hz_button_text_color":{"type":"string"}},"example":{},"supports":{"html":false,"customClassName":true},"textdomain":"wp-job-openings","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ })
 
