@@ -650,11 +650,6 @@ class AWSM_Job_Openings_Block {
 
 						$options_content = '';
 						foreach ( $terms as $term ) {
-							/* $selected = '';
-							if ( in_array( $taxonomy, array_keys( $selected_filters ) ) && $selected_filters[ $taxonomy ] === $term->slug ) {
-								$selected = ' selected';
-							} */
-
 							$selected = '';
 							if ( isset( $block_atts['selectedTerms'][ $taxonomy ] ) && in_array( $term->term_id, $block_atts['selectedTerms'][ $taxonomy ] ) ) {
 								$selected = ' selected';

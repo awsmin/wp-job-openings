@@ -96,28 +96,28 @@ jQuery(function ($) {
         value: layout
       });
     }
-    if (selected_terms) {
-      if (typeof selected_terms === 'string') {
-        try {
-          selected_terms = JSON.parse(selected_terms);
-        } catch (error) {
-          console.error('Failed to parse selected_terms JSON:', error);
-          selected_terms = {};
-        }
-      }
+
+    /* if ( selected_terms ) {
+    	if ( typeof selected_terms === 'string' ) {
+    		try {
+    			selected_terms = JSON.parse( selected_terms );
+    		} catch ( error ) {
+    			console.error('Failed to parse selected_terms JSON:', error);
+    			selected_terms = {};
+    		}
+    	}
+    	formData.push( {
+    		name: 'awsm-selected-terms',
+    		value: JSON.stringify( selected_terms )
+    	} );
+    } */
+
+    if (typeof hide_expired_jobs !== 'undefined') {
       formData.push({
-        name: 'awsm-selected-terms',
-        value: JSON.stringify(selected_terms)
+        name: 'awsm-hide-expired-jobs',
+        value: hide_expired_jobs
       });
     }
-    /* 
-    		if ( typeof hide_expired_jobs !== 'undefined' ) {
-    			formData.push({
-    				name: 'awsm-hide-expired-jobs',
-    				value: hide_expired_jobs
-    			});
-    		} */
-
     if (typeof other_options !== 'undefined') {
       formData.push({
         name: 'awsm-other-options',
@@ -189,7 +189,6 @@ jQuery(function ($) {
     var searchQuery = $rootWrapper.find('.awsm-b-job-search').val();
     $rootWrapper.find(wrapperSelector).data('search', searchQuery);
     if (searchQuery.length === 0) {
-
       //$rootWrapper.find('.awsm-b-job-search-icon-wrapper').addClass('awsm-b-job-hide');
     }
     setPaginationBase($rootWrapper, 'jq', searchQuery);
@@ -449,7 +448,9 @@ jQuery(function ($) {
     /* added for block */
     var layout = $listingsContainer.data('awsm-layout');
     var hide_expired_jobs = $listingsContainer.data('awsm-hide-expired-jobs');
-    var selected_terms = $listingsContainer.data('awsm-selected-terms');
+    /* let selected_terms = $listingsContainer.data(
+    	'awsm-selected-terms'
+    ); */
     var other_options = $listingsContainer.data('awsm-other-options');
 
     /* end */
@@ -573,23 +574,27 @@ jQuery(function ($) {
         value: hide_expired_jobs
       });
     }
-    if (selected_terms) {
-      if (typeof selected_terms === 'string') {
-        try {
-          // Parse the JSON string into an object
-          selected_terms = JSON.parse(selected_terms);
-        } catch (error) {
-          console.error('Failed to parse selected_terms JSON:', error);
-          selected_terms = {}; // Fallback to an empty object
-        }
-      }
 
-      // Push to wpData
-      /* wpData.push( {
-      	name: 'awsm-selected-terms',
-      	value: JSON.stringify( selected_terms ) // Send as JSON string
-      } ); */
-    }
+    /* if ( selected_terms ) {
+    	if ( typeof selected_terms === 'string' ) {
+    		try {
+    				// Parse the JSON string into an object
+    			selected_terms = JSON.parse( selected_terms );
+    		} catch ( error ) {
+    			console.error(
+    				'Failed to parse selected_terms JSON:',
+    				error
+    			);
+    			selected_terms = {}; // Fallback to an empty object
+    		}
+    	}
+    		// Push to wpData
+    	wpData.push( {
+    		name: 'awsm-selected-terms',
+    		value: JSON.stringify( selected_terms ) // Send as JSON string
+    	} );
+    } */
+
     if (typeof other_options !== 'undefined') {
       wpData.push({
         name: 'awsm-other-options',
