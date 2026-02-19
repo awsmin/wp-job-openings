@@ -834,10 +834,10 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
     __next40pxDefaultSize: true
   }, (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_9__.__experimentalToggleGroupControlOption, {
     value: "all",
-    label: "{ __( 'All Jobs', 'wp-job-openings' ) }"
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('All Jobs', 'wp-job-openings')
   }), (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_9__.__experimentalToggleGroupControlOption, {
     value: "filtered",
-    label: "{ __( 'Filtered List', 'wp-job-openings' ) }"
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Filtered List', 'wp-job-openings')
   })), (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)(' Display all jobs or filtered by job specifications', 'wp-job-openings')), listType === 'filtered' && (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)("h2", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Filters', 'wp-job-openings')), specifications.map(function (spec) {
     return (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)("div", {
       key: spec.key,
