@@ -512,10 +512,10 @@ const WidgetInspectorControls = (props) => {
 							__nextHasNoMarginBottom
 							__next40pxDefaultSize
 						>
-							<ToggleGroupControlOption value="all" label="All Jobs" />
+							<ToggleGroupControlOption value="all" label="{ __( 'All Jobs', 'wp-job-openings' ) }" />
 							<ToggleGroupControlOption
 								value="filtered"
-								label="Filtered List"
+								label="{ __( 'Filtered List', 'wp-job-openings' ) }"
 							/>
 						</ToggleGroupControl>
 						<p>

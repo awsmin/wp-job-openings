@@ -110,12 +110,14 @@ jQuery(function ($) {
         value: JSON.stringify(selected_terms)
       });
     }
-    if (typeof hide_expired_jobs !== 'undefined') {
-      formData.push({
-        name: 'awsm-hide-expired-jobs',
-        value: hide_expired_jobs
-      });
-    }
+    /* 
+    		if ( typeof hide_expired_jobs !== 'undefined' ) {
+    			formData.push({
+    				name: 'awsm-hide-expired-jobs',
+    				value: hide_expired_jobs
+    			});
+    		} */
+
     if (typeof other_options !== 'undefined') {
       formData.push({
         name: 'awsm-other-options',
@@ -256,6 +258,7 @@ jQuery(function ($) {
       setTimeout(function () {
         syncAllOptionFromUrl($select);
         forceAllLabel($select);
+        //handleAwsmMultiFilter($select);
       }, 0);
     },
     arrowButtonMarkup: '<span class="awsm-selectric-arrow-drop">&#x25be;</span>',
@@ -582,10 +585,10 @@ jQuery(function ($) {
       }
 
       // Push to wpData
-      wpData.push({
-        name: 'awsm-selected-terms',
-        value: JSON.stringify(selected_terms) // Send as JSON string
-      });
+      /* wpData.push( {
+      	name: 'awsm-selected-terms',
+      	value: JSON.stringify( selected_terms ) // Send as JSON string
+      } ); */
     }
     if (typeof other_options !== 'undefined') {
       wpData.push({
