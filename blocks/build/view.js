@@ -26,6 +26,7 @@ jQuery(function ($) {
     parsedListingsAttrs.push('awsm-listings-total');
     parsedListingsAttrs.push('awsm-selected-terms');
     parsedListingsAttrs.push('awsm-spec-icons');
+    parsedListingsAttrs.push('awsm-order-by');
     /* end */
 
     $(document).trigger('awsmJobBlockListingsData', [parsedListingsAttrs]);
@@ -59,10 +60,11 @@ jQuery(function ($) {
     var specs = $wrapper.data('specs');
     var layout = $wrapper.data('awsm-layout');
     var hide_expired_jobs = $wrapper.data('awsm-hide-expired-jobs');
-    var selected_terms = $wrapper.data('awsm-selected-terms');
+    //	let selected_terms 		= $wrapper.data( 'awsm-selected-terms' );
     var other_options = $wrapper.data('awsm-other-options');
     var listings_total = $wrapper.data('awsm-listings-total');
     var show_spec_icon = $wrapper.data('awsm-spec-icons');
+    var order_by = $wrapper.data('awsm-order-by');
 
     /* Filter URL sync logic */
     $rootWrapper.find('.awsm-b-filter-item').each(function () {
@@ -136,9 +138,15 @@ jQuery(function ($) {
         value: show_spec_icon
       });
     }
+    if (typeof order_by !== 'undefined') {
+      formData.push({
+        name: 'awsm-order-by',
+        value: order_by
+      });
+    }
     var listingsData = getListingsData($wrapper);
     if (listingsData.length > 0) {
-      // optional merge
+      //formData = formData.concat( listingsData );
     }
     $(document).trigger('awsmJobBlockFiltersFormData', [$wrapper, formData]);
     if (triggerFilter) {
@@ -257,7 +265,35 @@ jQuery(function ($) {
       setTimeout(function () {
         syncAllOptionFromUrl($select);
         forceAllLabel($select);
-        //handleAwsmMultiFilter($select);
+
+        /* const $options = $select.find('option');
+        const $all     = $options.eq(0);
+        const $others  = $options.slice(1);
+        	const selectedOthers = $others.filter(':selected');
+        const totalOthers    = $others.length;
+        	let slugs = [];
+        if ($select.prop('multiple')) {
+            		    if (selectedOthers.length > 0) {
+        		const slugs = selectedOthers.map(function () {
+        			return $(this).data('slug');
+        		}).get();
+        			updateAwsmQuery(
+        			$select.closest(rootWrapperSelector),
+        			$select.closest('.awsm-b-filter-item').data('filter'),
+        			slugs.join(',')
+        		);
+        	}
+        } else {
+        	// Single select
+        	const selectedSlug = $options.filter(':selected').data('slug') || '';
+        		if (selectedSlug) {
+        		updateAwsmQuery(
+        			$select.closest(rootWrapperSelector),
+        			$select.closest('.awsm-b-filter-item').data('filter'),
+        			selectedSlug
+        		);
+        	}
+        }  */
       }, 0);
     },
     arrowButtonMarkup: '<span class="awsm-selectric-arrow-drop">&#x25be;</span>',
@@ -440,10 +476,10 @@ jQuery(function ($) {
     var $listingsrowContainer = $listingsContainer.find(sectionSelector);
     var $paginationWrapper = $triggerElem.parents('.awsm-b-jobs-pagination');
     var listings = $listingsContainer.data('listings');
-    var totalPosts = $listingsContainer.data('total-posts'); // Assuming this is passed via data
     var specs = $listingsContainer.data('specs');
     var lang = $listingsContainer.data('lang');
     var searchQuery = $listingsContainer.data('search');
+    var orderBy = $listingsContainer.data('awsm-order-by');
 
     /* added for block */
     var layout = $listingsContainer.data('awsm-layout');
@@ -611,6 +647,12 @@ jQuery(function ($) {
       wpData.push({
         name: 'awsm-spec-icons',
         value: show_spec_icon
+      });
+    }
+    if (typeof orderBy !== 'undefined') {
+      wpData.push({
+        name: 'awsm-order-by',
+        value: orderBy
       });
     }
     if (typeof lang !== 'undefined') {

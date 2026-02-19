@@ -234,8 +234,8 @@ class AWSM_Job_Openings_Block {
 			$attributes['pagination'] = 'modern';
 		}
 
-		if ( isset( $_POST['orderby'] ) ) {
-			$attributes['orderBy'] = $_POST['orderby'];
+		if ( isset( $_POST['awsm-order-by'] ) ) {
+			$attributes['orderBy'] = $_POST['awsm-order-by'];
 		}
 
 		$attributes = apply_filters( 'awsm_jobs_block_post_filters', $attributes, $_POST );
@@ -404,7 +404,7 @@ class AWSM_Job_Openings_Block {
 			? htmlspecialchars( json_encode( $block_atts['selectedTerms'], JSON_UNESCAPED_SLASHES ) )
 			: '{}'; */
 
-		$attrs['orderby'] = isset( $block_atts['orderBy'] ) ? $block_atts['orderBy'] : '';
+		$attrs['awsm-order-by'] = isset( $block_atts['orderBy'] ) ? $block_atts['orderBy'] : '';
 
 		$current_lang = AWSM_Job_Openings::get_current_language();
 		if ( ! empty( $current_lang ) ) {
