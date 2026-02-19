@@ -201,7 +201,7 @@ class AWSM_Job_Openings_Block {
 			$attributes['other_options'] = $_POST['awsm-other-options'];
 		}
 
-		if ( isset( $_POST['awsm-selected-terms'] ) ) {
+		/* if ( isset( $_POST['awsm-selected-terms'] ) ) {
 			$selectedTerms = json_decode( stripslashes( $_POST['awsm-selected-terms'] ), true );
 
 			if ( json_last_error() === JSON_ERROR_NONE ) {
@@ -213,7 +213,7 @@ class AWSM_Job_Openings_Block {
 					}
 				}
 			}
-		}
+		} */
 
 		if ( isset( $_POST['awsm-other-options'] ) ) {
 			$attributes['other_options'] = $_POST['awsm-other-options'];
@@ -400,9 +400,9 @@ class AWSM_Job_Openings_Block {
 		$attrs['awsm-spec-icons']        = isset( $block_atts['show_spec_icon'] ) ? $block_atts['show_spec_icon'] : '';
 
 		// Selected terms
-		$attrs['awsm-selected-terms'] = isset( $block_atts['selectedTerms'] )
+		/* $attrs['awsm-selected-terms'] = isset( $block_atts['selectedTerms'] )
 			? htmlspecialchars( json_encode( $block_atts['selectedTerms'], JSON_UNESCAPED_SLASHES ) )
-			: '{}';
+			: '{}'; */
 
 		$attrs['orderby'] = isset( $block_atts['orderBy'] ) ? $block_atts['orderBy'] : '';
 
@@ -560,21 +560,6 @@ class AWSM_Job_Openings_Block {
 		if ( $enable_search !== 'enable' || $enable_job_filters !== 'enable' || $filters_attr === '' ) {
 			$display_filters = false;
 		}
-
-		/* $available_filters = get_option( 'awsm_jobs_listing_available_filters' );
-
-		$spec_keys = array();
-		if ( ! empty( $block_atts['filter_options'] ) ) {
-			foreach ( $block_atts['filter_options'] as $option ) {
-				$spec_keys[] = $option['specKey'];
-			}
-		}
-
-		$available_filters = $spec_keys;
-		$available_filters = is_array( $available_filters ) ? $available_filters : array();
-		if ( ! empty( $available_filters ) && $enable_search == 'enable' ) {
-			$display_filters = true;
-		} */
 
 		$available_filters = get_option( 'awsm_jobs_listing_available_filters' );
 
