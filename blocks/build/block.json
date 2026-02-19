@@ -3,10 +3,10 @@
   "apiVersion": 3,
   "name": "wp-job-openings/blocks",
   "version": "1.0.0",
-  "title": "",
-  "category": "",
-  "icon": "",
-  "description": "",
+  "title": "Job Listings",
+  "category": "widgets",
+  "icon": "businessperson",
+  "description": "Display and filter job listings.",
   "attributes": {
     "search": {
       "type": "boolean",
@@ -110,7 +110,7 @@
     },
     "hz_sidebar_width": {
       "type": "number",
-      "default": "33.33"
+      "default": 33.3
     },
     "hz_ls_border": {
       "type": "object",
@@ -186,7 +186,10 @@
     }
   },
   "example": {},
-  "supports": {},
+  "supports": {
+    "html": false,
+    "customClassName": true
+  },
   "textdomain": "wp-job-openings",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",
