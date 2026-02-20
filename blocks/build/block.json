@@ -5,7 +5,6 @@
   "version": "1.0.1",
   "title": "Job Listings",
   "category": "widgets",
-  "icon": "businessperson",
   "description": "Display and filter job listings.",
   "attributes": {
     "search": {
