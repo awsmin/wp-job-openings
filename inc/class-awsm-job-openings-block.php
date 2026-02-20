@@ -252,7 +252,7 @@ class AWSM_Job_Openings_Block {
 			} else {
 				$args['paged'] = absint( $_POST['paged'] ) + 1;
 			}
-		}
+		} 
 
 		$query = new WP_Query( $args );
 
@@ -677,7 +677,7 @@ class AWSM_Job_Openings_Block {
 						 * @param string $taxonomy Taxonomy key.
 						 * @param WP_Taxonomy $tax_details Taxonomy details.
 						 */
-						$filter_label = apply_filters( 'awsm_filter_block_label', esc_html_x( '', 'job filter', 'wp-job-openings' ) . 'All ' . $spec_name, $taxonomy, $tax_details );
+						$filter_label   = apply_filters( 'awsm_filter_block_label', esc_html_x( '', 'job filter', 'wp-job-openings' ) . 'All ' . $spec_name, $taxonomy, $tax_details );
 
 						$filter_class_admin_select_control = '';
 						if ( ! self::is_edit_or_add_page() ) {
@@ -803,7 +803,7 @@ class AWSM_Job_Openings_Block {
 		echo apply_filters( 'awsm_filter_block_content', $filter_content, $available_filters_arr ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
-	public function display_block_filter_form_side( $block_atts ) {
+	public function display_block_filter_form_side( $block_atts ) { 
 		$uid                   = isset( $block_atts['uid'] ) ? '-' . $block_atts['uid'] : '';
 		$enable_search         = isset( $block_atts['search'] ) ? $block_atts['search'] : '';
 		$placeholder_search    = isset( $block_atts['search_placeholder'] ) ? $block_atts['search_placeholder'] : '';
@@ -888,7 +888,7 @@ class AWSM_Job_Openings_Block {
 
 								$filter_key = str_replace( '-', '__', $taxonomy );
 								$spec_name  = apply_filters( 'wpml_translate_single_string', $tax_details->label, 'WordPress', sprintf( 'taxonomy general name: %s', $tax_details->label ) );
-
+								
 								/**
 								 * Filters the default label for the job filter.
 								 *
@@ -951,15 +951,15 @@ class AWSM_Job_Openings_Block {
 										<select name="awsm_job_spec[%1$s][]" 
 											class="awsm-b-filter-option %8$s awsm-%1$s-filter-option %9$s" 
 											id="awsm-%1$s-filter-option%6$s" 
-											aria-label="%3$s" data-spec="%1$s" %10$s>
+											aria-label="%3$s" %10$s>
 											<option value="All">%4$s</option>
 											%5$s
 										</select>
 									</div>',
 									esc_attr( $taxonomy ),
 									esc_attr( $filter_key . '_spec' ),
-									esc_html( $label_text ),
-									esc_html( $all_spec_label ),
+									esc_html( $label_text ),        
+									esc_html( $all_spec_label ),   
 									$options_content,
 									esc_attr( $uid ),
 									esc_attr( $label_class_name ),
@@ -1033,10 +1033,10 @@ class AWSM_Job_Openings_Block {
 		echo apply_filters( 'awsm_filter_block_content_placement_slide', $filter_content ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
-	public static function get_specifications_content_block( $post_id, $display_label, $filter_data = array(), $listing_specs = array(), $has_term_link = true, $show_icon = false ) {
+	public static function get_specifications_content_block( $post_id, $display_label, $filter_data = array(), $listing_specs = array(), $has_term_link = true, $show_icon = false ) { 
 		$spec_content = '';
 		$filter_data  = ! empty( $filter_data ) ? $filter_data : get_option( 'awsm_jobs_filter' );
-		if ( ! empty( $filter_data ) ) {
+		if ( ! empty( $filter_data ) ) { 
 			$spec_keys          = wp_list_pluck( $filter_data, 'taxonomy' );
 			$taxonomies         = get_object_taxonomies( 'awsm_job_openings', 'objects' );
 			$is_specs_clickable = get_option( 'awsm_jobs_make_specs_clickable' );
@@ -1054,7 +1054,7 @@ class AWSM_Job_Openings_Block {
 					}
 				}
 
-				if ( $display ) {
+				if ( $display ) { 
 					$terms = get_the_terms( $post_id, $taxonomy );
 
 					/** Filter the job specification terms. */
@@ -1071,10 +1071,10 @@ class AWSM_Job_Openings_Block {
 						// Get icon and filter data
 						$current_filter = null;
 						foreach ( $filter_data as $filter ) {
-							if ( $taxonomy === $filter['taxonomy'] ) {
+							if ( $taxonomy === $filter['taxonomy'] ) {  
 								$current_filter = $filter;
-								if ( ! empty( $filter['icon'] ) ) {
-									if ( ! is_singular( 'awsm_job_openings' ) && $show_icon == true ) {
+								if ( ! empty( $filter['icon'] ) ) {  
+									if ( ! is_singular( 'awsm_job_openings' ) && $show_icon == true ) { 
 										$spec_icon = sprintf( '<i class="awsm-job-icon-%1$s"></i>', esc_attr( $filter['icon'] ) );
 									}
 								}

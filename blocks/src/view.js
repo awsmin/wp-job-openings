@@ -302,22 +302,21 @@ jQuery( function( $ ) {
 	}
 
 	$(filterSelector + ' .awsm-b-filter-option').selectric({
-		multiple: { keepMenuOpen: true },
-		onInit: function(select, selectric) { 
-			const $select = $(select);
-			const id = select.id;
+		multiple: {
+			keepMenuOpen: true
+		},
+  		onInit: function(select, selectric) {
+			var id = select.id;
 
 			if (selectric && selectric.elements && selectric.elements.input) {
-				const $input = $(selectric.elements.input);
+				var $input = $(selectric.elements.input);
 				$(select).attr('id', 'selectric-' + id);
 				$input.attr('id', id);
 			}
 
-			const $rootWrapper = $select.closest(rootWrapperSelector);
-			const currentSpec  = $select.closest('.awsm-b-filter-item').data('filter');
+			const $select = $(select);
 
 			setTimeout(function() {
-				// Sync "All" checkbox for UI only
 				syncAllOptionFromUrl($select);
 				forceAllLabel($select);
 
@@ -366,14 +365,22 @@ jQuery( function( $ ) {
 
 		onChange: function(element) {
 			const $select = $(element);
+			const selectric = $select.data('selectric');
+    		const $allOption = $select.find('option').first();
+
 			handleAwsmMultiFilter($select);
 
+			//wait for Selectric to update label
 			setTimeout(function() {
 				forceAllLabel($select);
 			}, 0);
 
-			if ($select.prop('multiple')) $select.selectric('open');
+			// Ensure menu stays open after refresh
+			if ($select.prop('multiple')) {
+				$select.selectric('open');
+			}
 		}
+
 	});
 
 	function handleAwsmMultiFilter($select) {
