@@ -24,7 +24,7 @@
 			"type": "array",
 			"default": []
 		},
-		"listType": {
+		"list_type": {
 			"type": "string",
 			"default": "all"
 		},
@@ -36,11 +36,11 @@
 			"type": "array",
 			"default": []
 		},
-		"selectedTerms": {
+		"selected_terms": {
 			"type": "object",
 			"default": {}
 		},
-		"orderBy": {
+		"order_by": {
 			"type": "string",
 			"default": "new_to_old"
 		},

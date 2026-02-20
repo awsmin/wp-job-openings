@@ -40,9 +40,9 @@ class AWSM_Job_Openings_Block {
 			'number_of_columns'          => isset( $blockatts['number_of_columns'] ) ? $blockatts['number_of_columns'] : 3,
 			'other_options'              => isset( $blockatts['other_options'] ) ? $blockatts['other_options'] : '',
 			'show_spec_icon'             => isset( $blockatts['show_spec_icon'] ) ? $blockatts['show_spec_icon'] : '',
-			'listType'                   => isset( $blockatts['listType'] ) ? $blockatts['listType'] : '',
-			'selectedTerms'              => isset( $blockatts['selectedTerms'] ) ? $blockatts['selectedTerms'] : '',
-			'orderBy'                    => isset( $blockatts['orderBy'] ) ? $blockatts['orderBy'] : '',
+			'list_type'                   => isset( $blockatts['list_type'] ) ? $blockatts['list_type'] : '',
+			'selected_terms'              => isset( $blockatts['selected_terms'] ) ? $blockatts['selected_terms'] : '',
+			'order_by'                    => isset( $blockatts['order_by'] ) ? $blockatts['order_by'] : '',
 			'listings'                   => isset( $blockatts['listing_per_page'] ) ? $blockatts['listing_per_page'] : '',
 			'pagination'                 => isset( $blockatts['pagination'] ) ? $blockatts['pagination'] : '',
 			'hz_sf_border_color'         => isset( $blockatts['hz_sf_border']['color'] ) ? $blockatts['hz_sf_border']['color'] : '',
@@ -201,10 +201,10 @@ class AWSM_Job_Openings_Block {
 		}
 
 		/* if ( isset( $_POST['awsm-selected-terms'] ) ) {
-			$selectedTerms = json_decode( stripslashes( $_POST['awsm-selected-terms'] ), true );
+			$selected_terms = json_decode( stripslashes( $_POST['awsm-selected-terms'] ), true );
 
 			if ( json_last_error() === JSON_ERROR_NONE ) {
-				foreach ( $selectedTerms as $key => $value ) {
+				foreach ( $selected_terms as $key => $value ) {
 					if ( isset( $filters_list[ $key ] ) ) {
 						$filters_list[ $key ] = array_values( array_unique( array_merge( (array) $filters_list[ $key ], (array) $value ) ) );
 					} else {
@@ -234,7 +234,7 @@ class AWSM_Job_Openings_Block {
 		}
 
 		if ( isset( $_POST['awsm-order-by'] ) ) {
-			$attributes['orderBy'] = $_POST['awsm-order-by'];
+			$attributes['order_by'] = $_POST['awsm-order-by'];
 		}
 
 		$attributes = apply_filters( 'awsm_jobs_block_post_filters', $attributes, $_POST );
@@ -300,9 +300,9 @@ class AWSM_Job_Openings_Block {
 			$is_term_or_slug[ $taxonomy ] = 'term_id';
 		}
 
-		// Combine taxonomy filters (filters + selectedTerms).
-		if ( isset( $attributes['selectedTerms'] ) && ! empty( $attributes['selectedTerms'] ) ) {
-			$filters_list = $attributes['selectedTerms'];
+		// Combine taxonomy filters (filters + selected_terms).
+		if ( isset( $attributes['selected_terms'] ) && ! empty( $attributes['selected_terms'] ) ) {
+			$filters_list = $attributes['selected_terms'];
 		}
 		// Process taxonomy filters.
 		if ( ! empty( $filters ) || ! empty( $filters_list ) ) {
@@ -343,7 +343,7 @@ class AWSM_Job_Openings_Block {
 			$args['post_status'] = array( 'publish', 'expired' );
 		}
 
-		$sort = isset( $attributes['orderBy'] ) ? sanitize_text_field( $attributes['orderBy'] ) : 'new_to_old';
+		$sort = isset( $attributes['order_by'] ) ? sanitize_text_field( $attributes['order_by'] ) : 'new_to_old';
 
 		switch ( $sort ) {
 			case 'new_to_old':
@@ -397,11 +397,11 @@ class AWSM_Job_Openings_Block {
 		$attrs['awsm-spec-icons']        = isset( $block_atts['show_spec_icon'] ) ? $block_atts['show_spec_icon'] : '';
 
 		// Selected terms
-		/* $attrs['awsm-selected-terms'] = isset( $block_atts['selectedTerms'] )
-			? htmlspecialchars( json_encode( $block_atts['selectedTerms'], JSON_UNESCAPED_SLASHES ) )
+		/* $attrs['awsm-selected-terms'] = isset( $block_atts['selected_terms'] )
+			? htmlspecialchars( json_encode( $block_atts['selected_terms'], JSON_UNESCAPED_SLASHES ) )
 			: '{}'; */
 
-		$attrs['awsm-order-by'] = isset( $block_atts['orderBy'] ) ? $block_atts['orderBy'] : '';
+		$attrs['awsm-order-by'] = isset( $block_atts['order_by'] ) ? $block_atts['order_by'] : '';
 
 		$current_lang = AWSM_Job_Openings::get_current_language();
 		if ( ! empty( $current_lang ) ) {
@@ -633,7 +633,7 @@ class AWSM_Job_Openings_Block {
 						$options_content = '';
 						foreach ( $terms as $term ) {
 							$selected = '';
-							if ( isset( $block_atts['selectedTerms'][ $taxonomy ] ) && in_array( $term->term_id, $block_atts['selectedTerms'][ $taxonomy ] ) ) {
+							if ( isset( $block_atts['selected_terms'][ $taxonomy ] ) && in_array( $term->term_id, $block_atts['selected_terms'][ $taxonomy ] ) ) {
 								$selected = ' selected';
 							} else {
 								foreach ( $_GET as $key => $value ) {
@@ -853,7 +853,7 @@ class AWSM_Job_Openings_Block {
 								$options_content = '';
 								foreach ( $terms as $term ) {
 									$selected = '';
-									if ( isset( $block_atts['selectedTerms'][ $taxonomy ] ) && in_array( $term->term_id, $block_atts['selectedTerms'][ $taxonomy ] ) ) {
+									if ( isset( $block_atts['selected_terms'][ $taxonomy ] ) && in_array( $term->term_id, $block_atts['selected_terms'][ $taxonomy ] ) ) {
 										$selected = ' selected';
 									} else {
 										foreach ( $_GET as $key => $value ) {

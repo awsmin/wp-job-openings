@@ -30,11 +30,11 @@ const WidgetInspectorControls = (props) => {
 			pagination,
 			search_placeholder,
 			hide_expired_jobs,
-			orderBy,
-			listType,
+			order_by,
+			list_type,
 			listing_per_page,
 			layout,
-			selectedTerms,
+			selected_terms,
 			selected_terms_main,
 			number_of_columns,
 			other_options,
@@ -67,7 +67,7 @@ const WidgetInspectorControls = (props) => {
 	);
 	
 	const [ selectedTermsState, setSelectedTermsState ] = useState(
-		selectedTerms || {}
+		selected_terms || {}
 	);
 
 	const block_appearance_list = [];
@@ -84,12 +84,12 @@ const WidgetInspectorControls = (props) => {
 		if (!specifications?.length) return;
 
 		const initialSelectedTerms = specifications.reduce((acc, spec) => {
-			acc[spec.key] = selectedTerms?.[spec.key] || [];
+			acc[spec.key] = selected_terms?.[spec.key] || [];
 			return acc;
 		}, {});
 
 		setSelectedTermsState(initialSelectedTerms);
-	}, [specifications, selectedTerms]);
+	}, [specifications, selected_terms]);
 
 	useEffect(() => {
 		const initialToggle = Array.isArray(selected_terms_main)
@@ -139,7 +139,7 @@ const WidgetInspectorControls = (props) => {
 
 		setSelectedTermsState(updatedSelectedTerms);
 		setAttributes({
-			selectedTerms: updatedSelectedTerms,
+			selected_terms: updatedSelectedTerms,
 			filter_options: updatedFilters,
 		});
 	};
@@ -158,7 +158,7 @@ const WidgetInspectorControls = (props) => {
 		setSelectedTermsState(updatedSelectedTerms);
 		setAttributes({
 			selected_terms_main: updatedTermsMain,
-			selectedTerms: updatedSelectedTerms,
+			selected_terms: updatedSelectedTerms,
 		});
 	};
 
@@ -446,19 +446,19 @@ const WidgetInspectorControls = (props) => {
 
 					<PanelBody title={ __( 'Job Listing', 'wp-job-openings' ) }>
 					<ToggleGroupControl
-							label="List Type"
-							value={ listType }
-							onChange={ ( newListType ) => {
-								setAttributes( { listType: newListType } );
+							label={ __( 'List Type', 'wp-job-openings' ) }
+							value={ list_type }
+							onChange={ ( newlist_type ) => {
+								setAttributes( { list_type: newlist_type } );
 
-								// Clear all items in selectedTerms if listType is set to "all"
-								if ( newListType === 'all' ) {
+								// Clear all items in selected_terms if list_type is set to "all"
+								if ( newlist_type === 'all' ) {
 									const clearedTerms = {};
 									specifications.forEach( ( spec ) => {
 										clearedTerms[ spec.key ] = [];
 									} );
 									setAttributes( {
-										selectedTerms: clearedTerms,
+										selected_terms: clearedTerms,
 										selected_terms_main: [],
 									} );
 								}
@@ -480,7 +480,7 @@ const WidgetInspectorControls = (props) => {
 							) }
 						</p>
 
-						{ listType === 'filtered' && (
+						{ list_type === 'filtered' && (
 							<>
 								<h2>{ __( 'Filters', 'wp-job-openings' ) }</h2>
 								{ specifications.map( ( spec ) => (
@@ -528,7 +528,7 @@ const WidgetInspectorControls = (props) => {
 
 						<SelectControl
 							label={ __( 'Order By', 'wp-job-openings' ) }
-							value={ orderBy }
+							value={ order_by }
 							options={ [
 								{
 									label: __( 'Newest to oldest', 'wp-job-openings' ),
@@ -539,7 +539,7 @@ const WidgetInspectorControls = (props) => {
 									value: 'old_to_new',
 								},
 							] }
-							onChange={ ( orderBy ) => setAttributes( { orderBy } ) }
+							onChange={ ( order_by ) => setAttributes( { order_by } ) }
 						/>
 
 						<ToggleControl

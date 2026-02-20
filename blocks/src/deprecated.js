@@ -17,13 +17,13 @@ export default [
 		},
 
 		save() {
-			console.log('🟡 Deprecated save() called');
+			console.log('Deprecated save() called');
 			return null;
 		},
 
 		// Migration for existing blocks
 		migrate: ( attributes ) => {
-			console.log('🔥 DEPRECATED MIGRATE ENTERED', attributes);
+			console.log('DEPRECATED MIGRATE ENTERED', attributes);
 
 			const placement =
 				typeof attributes.placement === 'undefined' || attributes.placement === null
@@ -42,18 +42,18 @@ export default [
 
 				search: attributes.search !== undefined ? attributes.search : true,
 
-				listType: attributes.listType || 'all',
-				orderBy: attributes.orderBy || 'new',
+				list_type: attributes.list_type || 'all',
+				order_by: attributes.order_by || 'new_to_old',
 
 				placement,
 
 				selected_terms_main: attributes.selected_terms_main || [],
-				selectedTerms: attributes.selectedTerms || {},
+				selected_terms: attributes.selected_terms || {},
 				filtersInitialized: attributes.filtersInitialized || false,
 				specsInitialized: attributes.specsInitialized || false,
 			};
 
-			console.log('✅ MIGRATED ATTRIBUTES', migratedAttributes);
+			console.log('MIGRATED ATTRIBUTES', migratedAttributes);
 
 			return migratedAttributes;
 		},
@@ -65,17 +65,17 @@ export default [
 					type: 'block',
 					blocks: [ 'wp-job-openings/blocks' ],
 					transform: ( attributes ) => {
-						console.log('🟣 DEPRECATED TRANSFORM ENTERED', attributes);
+						console.log('DEPRECATED TRANSFORM ENTERED', attributes);
 
 						return createBlock('wp-job-openings/blocks', {
 							...attributes,
 							listing_per_page: attributes.listing_per_page || 10,
 							layout: attributes.layout === 'list' ? 'stack' : attributes.layout,
 							placement: attributes.placement || 'top',
-							listType: 'all',
-							orderBy: 'new',
+							list_type: 'all',
+							order_by: 'new',
 							selected_terms_main: [],
-							selectedTerms: {},
+							selected_terms: {},
 							filtersInitialized: false,
 							specsInitialized: false,
 						});

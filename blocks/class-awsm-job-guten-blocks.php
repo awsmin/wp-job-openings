@@ -72,16 +72,16 @@ class Awsm_Job_Guten_Blocks {
 			$atts['search_placeholder'] = $atts['search_placeholder'];
 		}
 
-		if ( isset( $atts['listType'] ) && $atts['listType'] === true ) {
-			$atts['listType'] = $atts['listType'];
+		if ( isset( $atts['list_type'] ) && $atts['list_type'] === true ) {
+			$atts['list_type'] = $atts['list_type'];
 		}
 
-		if ( isset( $atts['selectedTerms'] ) && is_array( $atts['selectedTerms'] ) ) {
-			$atts['selectedTerms'] = $atts['selectedTerms'];
+		if ( isset( $atts['selected_terms'] ) && is_array( $atts['selected_terms'] ) ) {
+			$atts['selected_terms'] = $atts['selected_terms'];
 		}
 
-		if ( isset( $atts['orderBy'] ) && $atts['orderBy'] === true ) {
-			$atts['orderBy'] = $atts['orderBy'];
+		if ( isset( $atts['order_by'] ) && $atts['order_by'] === true ) {
+			$atts['order_by'] = $atts['order_by'];
 		}
 
 		if ( isset( $atts['blockId'] ) ) {
