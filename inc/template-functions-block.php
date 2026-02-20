@@ -82,7 +82,6 @@ if ( ! function_exists( 'get_block_filtered_job_terms' ) ) {
 	}
 }
 
-
 if ( ! function_exists( 'get_block_filtered_job_terms' ) ) {
 	function get_block_filtered_job_terms( $attributes ) {
 		$filter_suffix  = '_spec';

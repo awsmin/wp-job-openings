@@ -38,7 +38,6 @@ class AWSM_Job_Openings_Block {
 			'placement'                  => isset( $blockatts['placement'] ) ? $blockatts['placement'] : 'side',
 			'search_placeholder'         => isset( $blockatts['search_placeholder'] ) ? $blockatts['search_placeholder'] : '',
 			'number_of_columns'          => isset( $blockatts['number_of_columns'] ) ? $blockatts['number_of_columns'] : 3,
-			//'block_loadmore'     => 'no',
 			'other_options'              => isset( $blockatts['other_options'] ) ? $blockatts['other_options'] : '',
 			'show_spec_icon'             => isset( $blockatts['show_spec_icon'] ) ? $blockatts['show_spec_icon'] : '',
 			'listType'                   => isset( $blockatts['listType'] ) ? $blockatts['listType'] : '',
@@ -387,9 +386,7 @@ class AWSM_Job_Openings_Block {
 	}
 
 	public static function get_block_job_listing_data_attrs( $block_atts = array() ) {
-
 		$attrs = array();
-
 		// Basic attributes
 		$attrs['listings']               = AWSM_Job_Openings::get_listings_per_page( $block_atts );
 		$attrs['awsm-layout']            = isset( $block_atts['layout'] ) ? $block_atts['layout'] : '';
