@@ -1836,6 +1836,7 @@ a.awsm-plugin-item p {
 	padding: 12px 0;
 	gap: 10px;
 	align-items: center;
+	word-wrap: break-word;
 }
 
 .awsm-applicant-profile ul li:not(:last-child) {
