@@ -183,6 +183,7 @@ const WidgetInspectorControls = (props) => {
 	
     return (
 		<>
+		    {/* Control settings  */}
 			<InspectorControls group="settings">
  				<Fragment>
 					<PanelBody title={__('Search & Filters', 'wp-job-openings')} initialOpen={true}>
@@ -560,6 +561,9 @@ const WidgetInspectorControls = (props) => {
 					</PanelBody>
                 </Fragment>
 			</InspectorControls>
+			{/* End */}
+
+			{/* Control Styles  */}
 		    <InspectorControls group="styles">
 				<Fragment>
 					<div className="hz-inspector-controls">
@@ -587,9 +591,7 @@ const WidgetInspectorControls = (props) => {
 											isCompact={true}
 											value={hz_sf_border}
 											onChange={(newBorder) => {
-
 												const width = newBorder?.width ?? hz_sf_border?.width;
-
 												setAttributes({
 													hz_sf_border: {
 														...hz_sf_border, 
@@ -748,7 +750,7 @@ const WidgetInspectorControls = (props) => {
 
 							<PanelRow>
 								<strong>{__('Button', 'wp-job-openings')}</strong>
-									</PanelRow>
+							</PanelRow>
 								<BorderControl
 									label={__('Border', 'wp-job-openings')}
 									withSlider
@@ -824,6 +826,7 @@ const WidgetInspectorControls = (props) => {
 					</div>
 				</Fragment>
 			</InspectorControls>
+			{/* End */}
 	  	</>
     );
 };
