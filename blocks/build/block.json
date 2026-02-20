@@ -13,7 +13,7 @@
     },
     "placement": {
       "type": "string",
-      "default": "top"
+      "default": "side"
     },
     "search_placeholder": {
       "type": "string",

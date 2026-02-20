@@ -68,6 +68,17 @@ class Awsm_Job_Guten_Blocks {
 			}
 		}
 
+		// Placement fallback for backward compatibility
+		if ( ! isset( $atts['placement'] ) || empty( $atts['placement'] ) ) {
+			// Old blocks (no placement saved) should behave like old system
+			$atts['placement'] = 'top';
+		} else {
+			$allowed = array( 'top', 'side' );
+			if ( ! in_array( $atts['placement'], $allowed, true ) ) {
+				$atts['placement'] = 'top';
+			}
+		}
+
 		if ( isset( $atts['number_of_columns'] ) && is_array( $atts['number_of_columns'] ) ) {
 			$atts['number_of_columns'] = $atts['number_of_columns'];
 		}
