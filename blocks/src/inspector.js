@@ -78,127 +78,88 @@ const WidgetInspectorControls = (props) => {
 		if (clientId && !blockId) {
 			setAttributes({ blockId: `job-block-${clientId}` });
 		}
-	}, [clientId]);
+	}, [clientId, blockId]);
 
 	useEffect(() => {
+		if (!specifications?.length) return;
+
 		const initialSelectedTerms = specifications.reduce((acc, spec) => {
-				acc[spec.key] = selectedTerms?.[spec.key] || [];
-				return acc;
-			}, {});
+			acc[spec.key] = selectedTerms?.[spec.key] || [];
+			return acc;
+		}, {});
 
-			setSelectedTermsState(initialSelectedTerms);
-	}, [selectedTerms, specifications]);
+		setSelectedTermsState(initialSelectedTerms);
+	}, [specifications, selectedTerms]);
 
 	useEffect(() => {
-		const initialState = Array.isArray(selected_terms_main)
+		const initialToggle = Array.isArray(selected_terms_main)
 			? selected_terms_main.reduce((acc, key) => {
 				acc[key] = true;
 				return acc;
 			}, {})
 			: {};
 
-		setToggleState(initialState);
+		setToggleState(initialToggle);
 	}, [selected_terms_main]);
 
 	useEffect(() => {
-		if (!filtersInitRef.current && specifications.length > 0) {
-			let normalizedFilters = [];
-
-			if (filter_options?.length > 0) {
-				normalizedFilters = filter_options.map((option) =>
+		if (!filtersInitRef.current && specifications?.length > 0) {
+			const normalizedFilters = filter_options?.length
+				? filter_options.map(option =>
 					typeof option === 'object' && option.specKey
 						? option
 						: { specKey: option, value: 'dropdown' }
-				);
-			} else {
-				normalizedFilters = specifications.map((spec) => ({
-					specKey: spec.key,
-					value: 'dropdown',
-				}));
-			}
+				)
+				: specifications.map(spec => ({ specKey: spec.key, value: 'dropdown' }));
 
-			setAttributes({
-				filter_options: normalizedFilters,
-			});
-
+			setAttributes({ filter_options: normalizedFilters });
 			filtersInitRef.current = true;
 		}
-	}, [specifications]);
+	}, [specifications, filter_options]);
 
-	const handleTermChange = ( newTokens, specKey, spec ) => {
-		setSelectedTermsState((prevSelectedTerms) => {
-			const updatedSelectedTerms = { ...prevSelectedTerms };
+	const handleTermChange = (newTokens, specKey, spec) => {
+		const newTermIds = newTokens
+			.map((token) => {
+				const term = spec.terms.find((t) => t.name === token);
+				return term ? term.term_id : null;
+			})
+			.filter((id) => id !== null);
 
-			const newTermIds = newTokens
-				.map((token) => {
-					const term = spec.terms.find((t) => t.name === token);
-					return term ? term.term_id : null;
-				})
-				.filter((id) => id !== null);
+		const updatedSelectedTerms = {
+			...selectedTermsState,
+			[specKey]: newTermIds,
+		};
 
-			updatedSelectedTerms[specKey] = newTermIds;
+		// Update filter type if multiple terms selected
+		const updatedFilters = filter_options.map((option) =>
+			option.specKey === specKey
+				? { ...option, value: newTermIds.length > 1 ? 'checkbox' : 'dropdown' }
+				: option
+		);
 
-			// Auto-switch to checkbox if multiple selected
-			if (newTermIds.length > 1) {
-				const updatedFilters = filter_options.map((option) =>
-					option.specKey === specKey
-						? { ...option, value: 'checkbox' }
-						: option
-				);
-
-				setAttributes({
-					selectedTerms: updatedSelectedTerms,
-					filter_options: updatedFilters,
-				});
-			} else {
-				setAttributes({
-					selectedTerms: updatedSelectedTerms,
-				});
-			}
-
-			return updatedSelectedTerms;
+		setSelectedTermsState(updatedSelectedTerms);
+		setAttributes({
+			selectedTerms: updatedSelectedTerms,
+			filter_options: updatedFilters,
 		});
 	};
 
-	const handleToggleChange = ( specKey, isChecked ) => {
-		let updatedTermsMain = [ ...( selected_terms_main || [] ) ];
+	const handleToggleChange = (specKey, isChecked) => {
+		const updatedTermsMain = isChecked
+			? [...new Set([...(selected_terms_main || []), specKey])]
+			: (selected_terms_main || []).filter((key) => key !== specKey);
 
-		if ( isChecked ) {
-			// Add the specKey if it's not already in the array
-			if ( ! updatedTermsMain.includes( specKey ) ) {
-				updatedTermsMain.push( specKey );
-			}
-		} else {
-			// Remove the specKey if it exists
-			updatedTermsMain = updatedTermsMain.filter(
-				( key ) => key !== specKey
-			);
-
-			// Clear the selectedTerms for the specKey when toggled off
-			setSelectedTermsState( ( prevSelectedTerms ) => {
-				const updatedSelectedTerms = { ...prevSelectedTerms };
-				delete updatedSelectedTerms[ specKey ];
-
-				// Ensure attributes are updated and re-rendered
-				setAttributes( {
-					selectedTerms: updatedSelectedTerms,
-					selected_terms_main: updatedTermsMain, // Keep this consistent
-				} );
-
-				return updatedSelectedTerms;
-			} );
+		const updatedSelectedTerms = { ...selectedTermsState };
+		if (!isChecked) {
+			delete updatedSelectedTerms[specKey];
 		}
 
-		// Update the toggle state for the editor reactivity
-		setToggleState( ( prevState ) => ( {
-			...prevState,
-			[ specKey ]: isChecked,
-		} ) );
-
-		// Sync the selected_terms_main attribute with the editor
-		setAttributes( {
+		setToggleState((prev) => ({ ...prev, [specKey]: isChecked }));
+		setSelectedTermsState(updatedSelectedTerms);
+		setAttributes({
 			selected_terms_main: updatedTermsMain,
-		} );
+			selectedTerms: updatedSelectedTerms,
+		});
 	};
 
 	const onchange_number_of_columns = ( value ) => {
