@@ -33,7 +33,7 @@ class Awsm_Job_Guten_Blocks {
 		register_block_type( __DIR__ . '/build', $args );
 	}
 
-	public function block_render_callback( $atts, $content ) {
+	public function block_render_callback( $atts, $content ) { 
 		if ( ! isset( $atts['filter_options'] ) || ! is_array( $atts['filter_options'] ) || empty( $atts['filter_options'] ) ) {
 			$default_filters = array();
 			$specs = AWSM_Job_Openings::get_filter_specifications();
@@ -65,17 +65,6 @@ class Awsm_Job_Guten_Blocks {
 			$allowed_layouts = array( 'list', 'grid', 'stack' );
 			if ( ! in_array( $atts['layout'], $allowed_layouts, true ) ) {
 				$atts['layout'] = 'stack';
-			}
-		}
-
-		// Placement fallback for backward compatibility
-		if ( ! isset( $atts['placement'] ) || empty( $atts['placement'] ) ) {
-			// Old blocks (no placement saved) should behave like old system
-			$atts['placement'] = 'top';
-		} else {
-			$allowed = array( 'top', 'side' );
-			if ( ! in_array( $atts['placement'], $allowed, true ) ) {
-				$atts['placement'] = 'top';
 			}
 		}
 
