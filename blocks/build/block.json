@@ -29,7 +29,7 @@
     },
     "layout": {
       "type": "string",
-      "default": "list"
+      "default": "stack"
     },
     "selected_terms_main": {
       "type": "array",

@@ -56,8 +56,16 @@ class Awsm_Job_Guten_Blocks {
 			$atts['filter_options'] = $atts['filter_options'];
 		}
 
-		if ( isset( $atts['layout'] ) && is_array( $atts['layout'] ) ) {
-			$atts['layout'] = $atts['layout'];
+		// --- Important: layout fallback for old blocks ---
+		if ( ! isset( $atts['layout'] ) || empty( $atts['layout'] ) ) {
+			// Default new blocks to 'stack'
+			$atts['layout'] = 'stack';
+		} else {
+			// Keep old values like 'grid' or 'list' untouched
+			$allowed_layouts = array( 'list', 'grid', 'stack' );
+			if ( ! in_array( $atts['layout'], $allowed_layouts, true ) ) {
+				$atts['layout'] = 'stack';
+			}
 		}
 
 		if ( isset( $atts['number_of_columns'] ) && is_array( $atts['number_of_columns'] ) ) {
