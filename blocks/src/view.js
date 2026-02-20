@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 'use strict';
 
 jQuery( function( $ ) { 
@@ -33,6 +35,7 @@ jQuery( function( $ ) {
 		parsedListingsAttrs.push( 'awsm-listings-total' );
 		parsedListingsAttrs.push( 'awsm-selected-terms' );
 		parsedListingsAttrs.push( 'awsm-spec-icons' );
+		parsedListingsAttrs.push( 'awsm-order-by' );
 		/* end */
 
 		$( document ).trigger( 'awsmJobBlockListingsData', [
@@ -74,10 +77,11 @@ jQuery( function( $ ) {
 		const specs 			= $wrapper.data( 'specs' );
 		const layout 			= $wrapper.data( 'awsm-layout' );
 		const hide_expired_jobs = $wrapper.data( 'awsm-hide-expired-jobs' );
-		let selected_terms 		= $wrapper.data( 'awsm-selected-terms' );
+	//	let selected_terms 		= $wrapper.data( 'awsm-selected-terms' );
 		const other_options 	= $wrapper.data( 'awsm-other-options' );
 		const listings_total 	= $wrapper.data( 'awsm-listings-total' );
 		const show_spec_icon 	= $wrapper.data( 'awsm-spec-icons' );
+		const order_by	= $wrapper.data( 'awsm-order-by' );
 
 		/* Filter URL sync logic */
 		$rootWrapper.find('.awsm-b-filter-item').each(function() {
@@ -106,7 +110,7 @@ jQuery( function( $ ) {
 			formData.push( { name: 'awsm-layout', value: layout } );
 		}
 
-		if ( selected_terms ) {
+		/* if ( selected_terms ) {
 			if ( typeof selected_terms === 'string' ) {
 				try {
 					selected_terms = JSON.parse( selected_terms );
@@ -119,8 +123,8 @@ jQuery( function( $ ) {
 				name: 'awsm-selected-terms',
 				value: JSON.stringify( selected_terms )
 			} );
-		}
-
+		} */
+        
 		if ( typeof hide_expired_jobs !== 'undefined' ) {
 			formData.push({
 				name: 'awsm-hide-expired-jobs',
@@ -149,9 +153,16 @@ jQuery( function( $ ) {
 			});
 		}
 
+		if ( typeof order_by !== 'undefined' ) {
+			formData.push({
+				name: 'awsm-order-by',
+				value: order_by
+			});
+		}
+
 		const listingsData = getListingsData( $wrapper );
 		if ( listingsData.length > 0 ) {
-			// optional merge
+			//formData = formData.concat( listingsData );
 		}
 
 		$( document ).trigger( 'awsmJobBlockFiltersFormData', [
@@ -230,7 +241,6 @@ jQuery( function( $ ) {
 		const searchQuery = $rootWrapper.find( '.awsm-b-job-search' ).val();
 		$rootWrapper.find( wrapperSelector ).data( 'search', searchQuery );
 		if ( searchQuery.length === 0 ) {
-
 			//$rootWrapper.find('.awsm-b-job-search-icon-wrapper').addClass('awsm-b-job-hide');
 		}
 		setPaginationBase( $rootWrapper, 'jq', searchQuery );
@@ -311,30 +321,49 @@ jQuery( function( $ ) {
 				syncAllOptionFromUrl($select);
 				forceAllLabel($select);
 
-				// Get page and existing URL filter
-				const urlParams = new URLSearchParams(window.location.search);
-				const currentPage = parseInt(urlParams.get('paged') || urlParams.get('page') || 1);
-				const existingFilter = urlParams.get(currentSpec);
+				/* const $options = $select.find('option');
+				const $all     = $options.eq(0);
+				const $others  = $options.slice(1);
 
-				const selectedValues = $select.val(); // array for multi-select, string for single
-				if (selectedValues && selectedValues.length > 0) {
-					let slugString = Array.isArray(selectedValues) ? selectedValues.join(',') : selectedValues;
+				const selectedOthers = $others.filter(':selected');
+				const totalOthers    = $others.length;
 
-					// Only write to URL if we are on first page and no existing filter in URL
-					if (slugString !== 'All' && !existingFilter && currentPage <= 1) {
-						setPaginationBase($rootWrapper, currentSpec, slugString);
-						updateAwsmQuery($rootWrapper, currentSpec, slugString);
+				let slugs = [];
+				if ($select.prop('multiple')) {
+        		    if (selectedOthers.length > 0) {
+						const slugs = selectedOthers.map(function () {
+							return $(this).data('slug');
+						}).get();
+
+						updateAwsmQuery(
+							$select.closest(rootWrapperSelector),
+							$select.closest('.awsm-b-filter-item').data('filter'),
+							slugs.join(',')
+						);
 					}
-				}
+				} else {
+					// Single select
+					const selectedSlug = $options.filter(':selected').data('slug') || '';
 
-				// Only trigger AJAX if not paged and no filter in URL
-				if (!existingFilter && currentPage <= 1) {
-					handleAwsmMultiFilter($select); // triggers AJAX
-				}
+					if (selectedSlug) {
+						updateAwsmQuery(
+							$select.closest(rootWrapperSelector),
+							$select.closest('.awsm-b-filter-item').data('filter'),
+							selectedSlug
+						);
+					}
+				}  */
+
 			}, 0);
+
 		},
+
 		arrowButtonMarkup: '<span class="awsm-selectric-arrow-drop">&#x25be;</span>',
-		customClass: { prefix: 'awsm-selectric', camelCase: false },
+		customClass: {
+			prefix: 'awsm-selectric',
+			camelCase: false
+		},
+
 		onChange: function(element) {
 			const $select = $(element);
 			handleAwsmMultiFilter($select);
@@ -540,19 +569,19 @@ jQuery( function( $ ) {
 				'.awsm-b-jobs-pagination'
 			);
 			const listings = $listingsContainer.data( 'listings' );
-			const totalPosts = $listingsContainer.data( 'total-posts' ); // Assuming this is passed via data
 			const specs = $listingsContainer.data( 'specs' );
 			const lang = $listingsContainer.data( 'lang' );
 			const searchQuery = $listingsContainer.data( 'search' );
+			const orderBy = $listingsContainer.data( 'awsm-order-by' );
 
 			/* added for block */
 			const layout = $listingsContainer.data( 'awsm-layout' );
 			const hide_expired_jobs = $listingsContainer.data(
 				'awsm-hide-expired-jobs'
 			);
-			let selected_terms = $listingsContainer.data(
+			/* let selected_terms = $listingsContainer.data(
 				'awsm-selected-terms'
-			);
+			); */
 			const other_options =
 				$listingsContainer.data( 'awsm-other-options' );
 
@@ -702,7 +731,7 @@ jQuery( function( $ ) {
 				} );
 			}
 
-			if ( selected_terms ) {
+			/* if ( selected_terms ) {
 				if ( typeof selected_terms === 'string' ) {
 					try {
 
@@ -722,7 +751,7 @@ jQuery( function( $ ) {
 					name: 'awsm-selected-terms',
 					value: JSON.stringify( selected_terms ) // Send as JSON string
 				} );
-			}
+			} */
 
 			if ( typeof other_options !== 'undefined' ) {
 				wpData.push( {
@@ -741,6 +770,13 @@ jQuery( function( $ ) {
 				wpData.push( {
 					name: 'awsm-spec-icons',
 					value: show_spec_icon
+				} );
+			}
+
+			if ( typeof orderBy !== 'undefined' ) {
+				wpData.push( {
+					name: 'awsm-order-by',
+					value: orderBy
 				} );
 			}
 

@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import { useEffect, Fragment, useState } from '@wordpress/element';
+import { useEffect,useRef, Fragment, useState } from '@wordpress/element';
 import { InspectorControls,BlockEdit,useBlockProps,PanelColorSettings, __experimentalBorderRadiusControl as BorderRadiusControl} from '@wordpress/block-editor';
 import { addFilter } from '@wordpress/hooks';
 
@@ -26,7 +26,6 @@ const WidgetInspectorControls = (props) => {
 		attributes: {
 			search,
 			placement,
-			version,
 			filter_options,
 			pagination,
 			search_placeholder,
@@ -55,16 +54,14 @@ const WidgetInspectorControls = (props) => {
 			hz_button_text_color,
 			hz_sidebar_width,
 			blockId,
-			filtersInitialized,
-			specsInitialized
 		},
 		setAttributes,
 		clientId,
 	} = props;
 
 	// Local state for block settings
-	const specifications = awsmJobsAdmin.awsm_filters_block; 
-	const [ isProEnabled, setIsProEnabled ] = useState( false );
+	const filtersInitRef = useRef(false);
+	const specifications = window.awsmJobsAdmin?.awsm_filters_block || [];
 	const [ toggleState, setToggleState ] = useState(
 		selected_terms_main || {}
 	);
@@ -77,77 +74,90 @@ const WidgetInspectorControls = (props) => {
 	const block_job_listing = [];
 	const block_styles_panel = [];
 
-	useEffect(() => {  
-		if (typeof awsmJobsAdmin !== 'undefined' && awsmJobsAdmin.isProEnabled) {
-			setIsProEnabled(true);
-		}
-
-		// Sync state with selectedTerms attribute
-		const initialSelectedTerms = specifications.reduce((acc, spec) => {
-			acc[spec.key] = selectedTerms[spec.key] || [];
-			return acc;
-		}, {});
-
-		setSelectedTermsState(initialSelectedTerms);
-
-		setToggleState(() => {
-			const initialState = Array.isArray(selected_terms_main)
-				? selected_terms_main.reduce((acc, key) => {
-					acc[key] = true;
-					return acc;
-				}, {})
-				: {};
-			return initialState;
-		});
-
+	useEffect(() => {
 		if (clientId && !blockId) {
 			setAttributes({ blockId: `job-block-${clientId}` });
 		}
+	}, [clientId]);
 
-		if (!filtersInitialized && specifications.length > 0) {
+	useEffect(() => {
+		const initialSelectedTerms = specifications.reduce((acc, spec) => {
+				acc[spec.key] = selectedTerms?.[spec.key] || [];
+				return acc;
+			}, {});
+
+			setSelectedTermsState(initialSelectedTerms);
+	}, [selectedTerms, specifications]);
+
+	useEffect(() => {
+		const initialState = Array.isArray(selected_terms_main)
+			? selected_terms_main.reduce((acc, key) => {
+				acc[key] = true;
+				return acc;
+			}, {})
+			: {};
+
+		setToggleState(initialState);
+	}, [selected_terms_main]);
+
+	useEffect(() => {
+		if (!filtersInitRef.current && specifications.length > 0) {
 			let normalizedFilters = [];
 
-			if (filter_options && filter_options.length > 0) {
-				// Old block: normalize string format to { specKey, value }
-				normalizedFilters = filter_options.map((option) => {
-					if (typeof option === 'object' && option.specKey) {
-						return option; // already in new format
-					}
-					return { specKey: option, value: 'dropdown' }; // old string format
-				});
+			if (filter_options?.length > 0) {
+				normalizedFilters = filter_options.map((option) =>
+					typeof option === 'object' && option.specKey
+						? option
+						: { specKey: option, value: 'dropdown' }
+				);
 			} else {
-				// Fresh block: create default filters
 				normalizedFilters = specifications.map((spec) => ({
 					specKey: spec.key,
 					value: 'dropdown',
 				}));
 			}
 
-			// Update attributes once
 			setAttributes({
 				filter_options: normalizedFilters,
-				filtersInitialized: true,
 			});
-        }
 
-	}, [specifications, selectedTerms, selected_terms_main]);
-	
+			filtersInitRef.current = true;
+		}
+	}, [specifications]);
+
 	const handleTermChange = ( newTokens, specKey, spec ) => {
-		setSelectedTermsState( ( prevSelectedTerms ) => {
+		setSelectedTermsState((prevSelectedTerms) => {
 			const updatedSelectedTerms = { ...prevSelectedTerms };
 
 			const newTermIds = newTokens
-				.map( ( token ) => {
-					const term = spec.terms.find( ( t ) => t.name === token );
+				.map((token) => {
+					const term = spec.terms.find((t) => t.name === token);
 					return term ? term.term_id : null;
-				} )
-				.filter( ( id ) => id !== null ); // Filter out invalid IDs
+				})
+				.filter((id) => id !== null);
 
-			updatedSelectedTerms[ specKey ] = newTermIds;
-			setAttributes( { selectedTerms: updatedSelectedTerms } );
+			updatedSelectedTerms[specKey] = newTermIds;
+
+			// Auto-switch to checkbox if multiple selected
+			if (newTermIds.length > 1) {
+				const updatedFilters = filter_options.map((option) =>
+					option.specKey === specKey
+						? { ...option, value: 'checkbox' }
+						: option
+				);
+
+				setAttributes({
+					selectedTerms: updatedSelectedTerms,
+					filter_options: updatedFilters,
+				});
+			} else {
+				setAttributes({
+					selectedTerms: updatedSelectedTerms,
+				});
+			}
 
 			return updatedSelectedTerms;
-		} );
+		});
 	};
 
 	const handleToggleChange = ( specKey, isChecked ) => {
@@ -262,22 +272,6 @@ const WidgetInspectorControls = (props) => {
 									const hasMultipleSelectedTerms =
 										( selectedTermsState[ spec.key ] || [] )
 											.length > 1;
-
-									// If multiple terms are selected for this specKey, update the filter option to "checkbox"
-									if (
-										hasMultipleSelectedTerms &&
-										filterOption?.value !== 'checkbox'
-									) {
-										const updatedFilters = filter_options.map(
-											( option ) =>
-												option.specKey === spec.key
-													? { ...option, value: 'checkbox' }
-													: option
-										);
-										setAttributes( {
-											filter_options: updatedFilters,
-										} );
-									}
 
 									return (
 										<div key={ spec.key }> 
@@ -512,12 +506,12 @@ const WidgetInspectorControls = (props) => {
 							__nextHasNoMarginBottom
 							__next40pxDefaultSize
 						>
-							<ToggleGroupControlOption value="all" label={ __( 'All Jobs', 'wp-job-openings' ) }  />
+							<ToggleGroupControlOption value="all" label={ __( 'All Jobs', 'wp-job-openings' ) } />
 							<ToggleGroupControlOption
 								value="filtered"
 								label={ __( 'Filtered List', 'wp-job-openings' ) }
 							/>
-						</ToggleGroupControl>
+					</ToggleGroupControl>
 						<p>
 							{ __(
 								' Display all jobs or filtered by job specifications',

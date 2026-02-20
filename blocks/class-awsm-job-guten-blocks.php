@@ -34,12 +34,9 @@ class Awsm_Job_Guten_Blocks {
 	}
 
 	public function block_render_callback( $atts, $content ) {
-		if (
-			( ! isset( $atts['filter_options'] ) || ! is_array( $atts['filter_options'] ) || empty( $atts['filter_options'] ) )
-			&& ( ! isset( $atts['filtersInitialized'] ) || ! $atts['filtersInitialized'] )
-		) {
+		if ( ! isset( $atts['filter_options'] ) || ! is_array( $atts['filter_options'] ) || empty( $atts['filter_options'] ) ) {
 			$default_filters = array();
-			$specs           = AWSM_Job_Openings::get_filter_specifications();
+			$specs = AWSM_Job_Openings::get_filter_specifications();
 
 			foreach ( $specs as $spec ) {
 				$default_filters[] = array(
@@ -49,20 +46,6 @@ class Awsm_Job_Guten_Blocks {
 			}
 
 			$atts['filter_options'] = $default_filters;
-		}
-
-		if (
-		( ! isset( $atts['other_options'] ) || ! is_array( $atts['other_options'] ) || empty( $atts['other_options'] ) )
-		&& ( ! isset( $atts['specsInitialized'] ) || ! $atts['specsInitialized'] )
-		) {
-			$specs           = AWSM_Job_Openings::get_filter_specifications(); // Your internal specs provider
-			$default_options = array();
-
-			foreach ( array_slice( $specs, 0, 2 ) as $spec ) {
-				$default_options[] = $spec['key'];
-			}
-
-			//$atts['other_options'] = $default_options; error_log( print_r($atts['other_options'],1) );
 		}
 
 		if ( isset( $atts['search'] ) && $atts['search'] === true ) {
@@ -85,10 +68,6 @@ class Awsm_Job_Guten_Blocks {
 			$atts['hide_expired_jobs'] = 'expired';
 		}
 
-		if ( isset( $atts['placement'] ) ) {
-			$atts['placement'] = $atts['placement'];
-		}
-
 		if ( isset( $atts['search_placeholder'] ) && $atts['search_placeholder'] === true ) {
 			$atts['search_placeholder'] = $atts['search_placeholder'];
 		}
@@ -105,27 +84,9 @@ class Awsm_Job_Guten_Blocks {
 			$atts['orderBy'] = $atts['orderBy'];
 		}
 
-		if ( isset( $atts['listing_per_page'] ) ) {
-			$atts['listing_per_page'] = $atts['listing_per_page'];
-		}
-
-		if ( isset( $atts['pagination'] ) ) {
-			$atts['pagination'] = $atts['pagination'];
-		}
-
-		if ( isset( $atts['show_spec_icon'] ) ) {
-			$atts['show_spec_icon'] = $atts['show_spec_icon'];
-		}
-
-		/** end */
-
-		/** Style Tab */
-
 		if ( isset( $atts['blockId'] ) ) {
 			$atts['block_id'] = $atts['blockId'];
 		}
-
-		/** End */
 
 		 /**
 		 * Filters the block attributes.
