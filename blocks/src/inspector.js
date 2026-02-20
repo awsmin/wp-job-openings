@@ -203,7 +203,7 @@ const WidgetInspectorControls = (props) => {
 									__next40pxDefaultSize
 								>
 									<ToggleGroupControlOption value="top" label="Top" />
-									<ToggleGroupControlOption value="slide" label="Side" />
+									<ToggleGroupControlOption value="side" label="Side" />
 								</ToggleGroupControl>
 
 								<TextControl
@@ -565,7 +565,7 @@ const WidgetInspectorControls = (props) => {
 					<div className="hz-inspector-controls">
 						{search && (
 							<>
-								{placement === 'slide' && (
+								{placement === 'side' && (
 									<PanelBody title={__('Sidebar', 'wp-job-openings')} initialOpen={true}>
 										<RangeControl
 											label={__('Sidebar Width', 'wp-job-openings')}

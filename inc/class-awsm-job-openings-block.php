@@ -823,7 +823,7 @@ class AWSM_Job_Openings_Block {
 
 		if ( $enable_search === 'enable' ) {
 			$search_query     = isset( $_GET['jq'] ) ? sanitize_text_field( $_GET['jq'] ) : '';
-			$placeholder_text = apply_filters( 'awsm_jobs_block_search_field_slide_placeholder', $placeholder_search ? $placeholder_search : $default_text );
+			$placeholder_text = apply_filters( 'awsm_jobs_block_search_field_side_placeholder', $placeholder_search ? $placeholder_search : $default_text );
 
 			$search_icon = '<span class="awsm-job-search-btn awsm-b-job-search-btn awsm-job-search-icon-wrapper awsm-b-job-search-icon-wrapper"><i class="awsm-job-icon-search awsm-b-job-icon-search"></i></span><span class="awsm-job-search-close-btn awsm-b-job-search-close-btn awsm-job-search-icon-wrapper awsm-b-job-search-icon-wrapper awsm-b-job-hide"><i class="awsm-job-icon-close-circle awsm-b-job-icon-close-circle"></i></span>';
 
@@ -841,7 +841,7 @@ class AWSM_Job_Openings_Block {
 						if ( is_array( $spec ) && isset( $spec['specKey'] ) && $taxonomy == $spec['specKey'] ) {
 							// Get terms for the taxonomy
 							$terms_args = apply_filters(
-								'awsm_filter_block_spec_slide_terms_args',
+								'awsm_filter_block_spec_side_terms_args',
 								array(
 									'taxonomy'   => $taxonomy,
 									'orderby'    => 'name',
@@ -1030,7 +1030,7 @@ class AWSM_Job_Openings_Block {
 		);
 
 		// Output the filter form content
-		echo apply_filters( 'awsm_filter_block_content_placement_slide', $filter_content ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo apply_filters( 'awsm_filter_block_content_placement_side', $filter_content ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	public static function get_specifications_content_block( $post_id, $display_label, $filter_data = array(), $listing_specs = array(), $has_term_link = true, $show_icon = false ) { 

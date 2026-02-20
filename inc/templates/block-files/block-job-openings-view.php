@@ -96,7 +96,7 @@ if ( isset( $attributes['search'] ) && $attributes['search'] == 'enable' ) {
 $wrapper_class = 'awsm-b-job-wrap' . awsm_jobs_wrapper_class( false );
 
 // Add sidebar placement class only if placement is side
-if ( $placement == 'slide' && ! empty( $placement_sidebar_class ) ) {
+if ( $placement == 'side' && ! empty( $placement_sidebar_class ) ) {
 	$wrapper_class .= ' ' . $placement_sidebar_class;
 }
 
@@ -158,7 +158,7 @@ if ( $placement == 'top' ) {
 					/**
 					 * awsm_block_filter_form_side hook
 					 *
-					 * Display filter form  in placement slide for job listings
+					 * Display filter form  in placement side for job listings
 					 *
 					 * @hooked AWSM_Job_Openings_Block::display_block_filter_form_side()
 					 *
