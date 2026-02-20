@@ -157,7 +157,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						),
 					),
 					/* translators: %1$s: line break element */
-					'description' => sprintf( __( 'Checking this option will affect URLs of all your files uploaded through WP Job Openings Plugin form.%1$s 1. The files will not be displayed in Media Library.%1$s 2. Publicly accessible file URL will be disabled.%1$s 3. \'Resume Preview\' option will not work anymore.', 'wp-job-openings' ), '<br />' ),
+					'description' => sprintf( __( 'Checking this option will affect URLs of all your files uploaded through Hirezoot Plugin form.%1$s 1. The files will not be displayed in Media Library.%1$s 2. Publicly accessible file URL will be disabled.%1$s 3. \'Resume Preview\' option will not work anymore.', 'wp-job-openings' ), '<br />' ),
 				),
 				array(
 					'name'        => 'awsm_delete_data_on_uninstall',

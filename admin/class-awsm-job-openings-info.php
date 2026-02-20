@@ -110,7 +110,7 @@ class AWSM_Job_Openings_Info {
 	}
 
 	public function custom_admin_menu() {
-		add_submenu_page( 'edit.php?post_type=awsm_job_openings', esc_html__( 'WP Job Openings Setup', 'wp-job-openings' ), esc_html__( 'Setup', 'wp-job-openings' ), 'manage_options', 'awsm-jobs-setup', array( $this, 'setup_page' ) );
+		add_submenu_page( 'edit.php?post_type=awsm_job_openings', esc_html__( 'Hirezoot Setup', 'wp-job-openings' ), esc_html__( 'Setup', 'wp-job-openings' ), 'manage_options', 'awsm-jobs-setup', array( $this, 'setup_page' ) );
 		add_submenu_page( 'edit.php?post_type=awsm_job_openings', esc_html__( 'Add-ons', 'wp-job-openings' ), esc_html__( 'Add-ons', 'wp-job-openings' ), 'manage_awsm_jobs', 'awsm-jobs-add-ons', array( $this, 'add_ons_page' ) );
 
 		// Add Get PRO link in submenu.
@@ -312,7 +312,7 @@ class AWSM_Job_Openings_Info {
 				<div class="awsm-job-admin-nav-header">
 					<div class="awsm-job-admin-nav-logo">
 						<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_openings&page=awsm-jobs-overview' ) ); ?>">
-							<?php esc_html_e( 'WP Job Openings', 'wp-job-openings' ); ?>
+							<?php esc_html_e( 'Hirezoot', 'wp-job-openings' ); ?>
 						</a>
 					</div>
 					<ul class="awsm-job-admin-nav">

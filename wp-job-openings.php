@@ -183,9 +183,9 @@ class AWSM_Job_Openings {
 	public static function log( $data, $prefix = '' ) {
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG && defined( 'AWSM_JOBS_DEBUG' ) && AWSM_JOBS_DEBUG ) {
 			if ( is_string( $data ) ) {
-				error_log( 'WP Job Openings:' . $prefix . ': ' . $data );
+				error_log( 'Hirezoot:' . $prefix . ': ' . $data );
 			} else {
-				error_log( 'WP Job Openings:' . $prefix . ': ' . json_encode( $data, JSON_PRETTY_PRINT ) );
+				error_log( 'Hirezoot:' . $prefix . ': ' . json_encode( $data, JSON_PRETTY_PRINT ) );
 			}
 		}
 	}
@@ -268,7 +268,7 @@ class AWSM_Job_Openings {
 		<div class="notice notice-warning is-dismissible">
 			<p>
 				<strong><?php esc_html_e( 'Warning:', 'wp-job-openings' ); ?></strong>
-				<?php esc_html_e( 'You have activated an older version of WP Job Openings than previously installed. This may cause data conflicts or unexpected behaviour.', 'wp-job-openings' ); ?>
+				<?php esc_html_e( 'You have activated an older version of Hirezoot than previously installed. This may cause data conflicts or unexpected behaviour.', 'wp-job-openings' ); ?>
 			</p>
 		</div>
 		<?php
@@ -827,7 +827,7 @@ class AWSM_Job_Openings {
 						 *
 						 * @param string $subject Email subject.
 						 */
-						$subject = apply_filters( 'awsm_jobs_email_digest_subject', esc_html__( 'Email Digest - WP Job Openings', 'wp-job-openings' ) );
+						$subject = apply_filters( 'awsm_jobs_email_digest_subject', esc_html__( 'Email Digest - Hirezoot', 'wp-job-openings' ) );
 
 						add_filter( 'wp_mail_content_type', 'awsm_jobs_mail_content_type' );
 						wp_mail( $to, $subject, $mail_content, array_values( $headers ) );
@@ -1039,10 +1039,10 @@ class AWSM_Job_Openings {
 
 				self::$rating_notice_active = true;
 				/* translators: %1$s: opening html tag, %2$s: closing html tag, %3$s: Jobs count, %4$s: Plugin rating site */
-				$notice = esc_html__( 'That\'s awesome! You have just published %3$sth job posting on your wesbite using %1$sWP Job Openings%2$s. Could you please do us a BIG favor and give it a %1$s5-star%2$s rating on %4$s? Just to help us spread the word and boost our motivation.', 'wp-job-openings' );
+				$notice = esc_html__( 'That\'s awesome! You have just published %3$sth job posting on your wesbite using %1$sHirezoot%2$s. Could you please do us a BIG favor and give it a %1$s5-star%2$s rating on %4$s? Just to help us spread the word and boost our motivation.', 'wp-job-openings' );
 				if ( $context === 'application' ) {
 					/* translators: %1$s: opening html tag, %2$s: closing html tag, %3$s: Applications count, %4$s: Plugin rating site */
-					$notice = esc_html__( 'You have received over %1$s%3$s%2$s job applications through %1$sWP Job Openings%2$s. That\'s awesome! May we ask you to give it a %1$s5-Star%2$s rating on %4$s. It will help us spread the word and boost our motivation.', 'wp-job-openings' );
+					$notice = esc_html__( 'You have received over %1$s%3$s%2$s job applications through %1$sHirezoot%2$s. That\'s awesome! May we ask you to give it a %1$s5-Star%2$s rating on %4$s. It will help us spread the word and boost our motivation.', 'wp-job-openings' );
 				}
 				?>
 				<div class='awsm-job-plugin-rating-wrapper notice notice-info notice'>
@@ -2325,8 +2325,8 @@ class AWSM_Job_Openings {
 			$update_buttons_pro     .= sprintf( '<a href="%2$s" class="button update-now">%1$s</a>', esc_html( $link_action_free_update ), esc_url( $action_url_free_update ) );
 			?>
 			<div class="notice notice-warning is-dismissible">
-				<p><strong><?php esc_html_e( 'WP Job Openings Pro - Update Required', 'wp-job-openings' ); ?></strong></p>
-				<p><?php esc_html_e( 'Please update WP Job Openings Pro Pack to the latest versions to get new features and improvements.', 'wp-job-openings' ); ?>
+				<p><strong><?php esc_html_e( 'Hirezoot Pro - Update Required', 'wp-job-openings' ); ?></strong></p>
+				<p><?php esc_html_e( 'Please update Hirezoot Pro Pack to the latest versions to get new features and improvements.', 'wp-job-openings' ); ?>
 				<?php
 				if ( ! empty( $update_buttons_pro ) ) :
 					echo wp_kses_post( $update_buttons_pro );
