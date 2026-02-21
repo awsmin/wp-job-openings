@@ -100,15 +100,7 @@ export default function Edit( props ) {
 	useEffect( () => {
 		checkElement();
 		handleResize();
-
-		return () => {
-			window.removeEventListener( 'resize', handleResize );
-		};
 	}, [] );
-	useEffect( () => {}, [
-		props.attributes.enable_job_filter,
-		props.attributes.filter_options,
-	]);
 
 	const checkFilters = () => {
 		const wrapper = document.querySelector(
