@@ -162,14 +162,14 @@ const WidgetInspectorControls = (props) => {
 		});
 	};
 
-	const onchange_number_of_columns = ( value ) => {
+	const onChangeNumberOfColumns = ( value ) => {
 		const columnsValue = parseInt( value, 10 );
 		setAttributes( {
 			number_of_columns: isNaN( columnsValue ) ? 0 : columnsValue,
 		} );
 	};
 
-	const other_options_handler = (toggleValue, specKey) => { 
+	const otherOptionsHandler = (toggleValue, specKey) => { 
 		let updated = [...other_options];
 		if (toggleValue) {
 			if (!updated.includes(specKey)) {
@@ -348,7 +348,7 @@ const WidgetInspectorControls = (props) => {
 					
 					<PanelBody title={ __( 'Layout Settings', 'wp-job-openings' ) } initialOpen={true}>
 						<ToggleGroupControl
-							label="Layout"
+							label={ __( 'Layout', 'wp-job-openings' ) }
 							value={ layout }
 							onChange={ ( layout ) => setAttributes( { layout } ) }
 							isBlock
@@ -383,7 +383,7 @@ const WidgetInspectorControls = (props) => {
 									},
 								] }
 								onChange={ ( number_of_columns ) =>
-									onchange_number_of_columns( number_of_columns )
+									onChangeNumberOfColumns( number_of_columns )
 								}
 							/>
 						) }
@@ -432,7 +432,7 @@ const WidgetInspectorControls = (props) => {
 								key={spec.key}
 								label={spec.label}
 								checked={Array.isArray(other_options) && other_options.includes(spec.key)}
-								onChange={(toggleValue) => other_options_handler(toggleValue, spec.key)}
+								onChange={(toggleValue) => otherOptionsHandler(toggleValue, spec.key)}
 							/>
 						))}
 
@@ -799,21 +799,21 @@ const WidgetInspectorControls = (props) => {
 						</PanelBody>
 
 						<PanelColorSettings
-							title="Button Color Settings"
+							title={__('Button Color Settings', 'wp-job-openings')}
 							initialOpen={true}
-							colorSettings={[
-								{
-									value: hz_button_background_color,
-									onChange: (color) => setAttributes({ hz_button_background_color: color }),
-									label: 'Background Color',
-								},
-								{
-									value: hz_button_text_color,
-									onChange: (color) => setAttributes({ hz_button_text_color: color }),
-									label: 'Text Color',
-								},
-							]}
-						/> 
+								colorSettings={[
+									{
+										value: hz_button_background_color,
+										onChange: (color) => setAttributes({ hz_button_background_color: color }),
+										label: __( 'Background Color', 'wp-job-openings' ),
+									},
+									{
+										value: hz_button_text_color,
+										onChange: (color) => setAttributes({ hz_button_text_color: color }),
+										label: __( 'Text Color', 'wp-job-openings' ),
+									},
+								]}
+							/> 
 
 						{ wp.hooks.doAction(
 							'after_awsm_block_styles_panel',
