@@ -319,40 +319,6 @@ jQuery( function( $ ) {
 			setTimeout(function() {
 				syncAllOptionFromUrl($select);
 				forceAllLabel($select);
-
-				/* const $options = $select.find('option');
-				const $all     = $options.eq(0);
-				const $others  = $options.slice(1);
-
-				const selectedOthers = $others.filter(':selected');
-				const totalOthers    = $others.length;
-
-				let slugs = [];
-				if ($select.prop('multiple')) {
-        		    if (selectedOthers.length > 0) {
-						const slugs = selectedOthers.map(function () {
-							return $(this).data('slug');
-						}).get();
-
-						updateAwsmQuery(
-							$select.closest(rootWrapperSelector),
-							$select.closest('.awsm-b-filter-item').data('filter'),
-							slugs.join(',')
-						);
-					}
-				} else {
-					// Single select
-					const selectedSlug = $options.filter(':selected').data('slug') || '';
-
-					if (selectedSlug) {
-						updateAwsmQuery(
-							$select.closest(rootWrapperSelector),
-							$select.closest('.awsm-b-filter-item').data('filter'),
-							selectedSlug
-						);
-					}
-				}  */
-
 			}, 0);
 
 		},
