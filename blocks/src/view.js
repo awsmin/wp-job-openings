@@ -15,7 +15,6 @@ jQuery( function( $ ) {
 		'//' +
 		window.location.host +
 		window.location.pathname;
-	let triggerFilter = true;
 
 	function getListingsData( $wrapper ) {
 		const data = [];
@@ -170,9 +169,8 @@ jQuery( function( $ ) {
 			formData
 		] );
 
-		if ( triggerFilter ) {
-
-			triggerFilter = false;
+		if ( ! $wrapper.data( 'awsmFilterBusy' ) ) {
+			$wrapper.data( 'awsmFilterBusy', true );
 
 			const actionUrl =
 				$filterForm.length > 0 ?
@@ -216,10 +214,10 @@ jQuery( function( $ ) {
 			.fail(function( xhr ) {
 				console.log( xhr );
 			})
-			.always(function() {
-				$wrapper.removeClass( 'awsm-b-jobs-loading' );
-				triggerFilter = true;
-			});
+				.always(function() {
+					$wrapper.removeClass( 'awsm-b-jobs-loading' );
+					$wrapper.data( 'awsmFilterBusy', false );
+				});
 		}
 	}
 
@@ -861,6 +859,13 @@ jQuery( function( $ ) {
 		);
 		$filtersWrap.each( function() {
 			const $wrapper = $( this );
+			const $filterItems = $wrapper.find( '.awsm-b-filter-item' );
+
+			if ( $filterItems.length === 0 ) {
+				$wrapper.removeClass( 'awsm-b-full-width-search-filter-wrap' );
+				return;
+			}
+
 			const filterFirstTop = $wrapper
 				.find( '.awsm-b-filter-item' )
 				.first()
@@ -875,6 +880,8 @@ jQuery( function( $ ) {
 			}
 			if ( filterLastTop > filterFirstTop ) {
 				$wrapper.addClass( 'awsm-b-full-width-search-filter-wrap' );
+			} else {
+				$wrapper.removeClass( 'awsm-b-full-width-search-filter-wrap' );
 			}
 		} );
 	}
