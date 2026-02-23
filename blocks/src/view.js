@@ -199,13 +199,13 @@ jQuery( function( $ ) {
 							.addClass( 'awsm-b-job-hide' );
 						$rootWrapper.find( '.awsm-b-job-search-close-btn' )
 							.removeClass( 'awsm-b-job-hide' );
-					} else {
-						$rootWrapper.find( '.awsm-b-job-search-btn' )
-							.removeClass( 'awsm-b-job-hide' );
-						$rootWrapper.find( '.awsm-b-job-search-close-btn' )
-							.addClass( 'awsm-job-hide' );
+						} else {
+							$rootWrapper.find( '.awsm-b-job-search-btn' )
+								.removeClass( 'awsm-b-job-hide' );
+							$rootWrapper.find( '.awsm-b-job-search-close-btn' )
+								.addClass( 'awsm-b-job-hide' );
+						}
 					}
-				}
 
 				$( document ).trigger( 'awsmjobs_filtered_listings', [
 					$rootWrapper,
@@ -555,10 +555,16 @@ jQuery( function( $ ) {
 			/* let selected_terms = $listingsContainer.data(
 				'awsm-selected-terms'
 			); */
-			const other_options =
-				$listingsContainer.data( 'awsm-other-options' );
+				const other_options =
+					$listingsContainer.data( 'awsm-other-options' );
+				const listings_total = $listingsContainer.data(
+					'awsm-listings-total'
+				);
+				const show_spec_icon = $listingsContainer.data(
+					'awsm-spec-icons'
+				);
 
-			/* end */
+				/* end */
 
 			if ( isDefaultPagination ) {
 				$triggerElem.prop( 'disabled', true );
