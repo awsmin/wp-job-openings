@@ -60,7 +60,7 @@ export default function Edit( props ) {
 
 	const handleResize = () => {
 		const filtersWraps = document.querySelectorAll(
-			'.awsm-b-filter-wrap:not(.awsm-no-search-filter-wrap)'
+			'.awsm-b-filter-wrap:not(.awsm-b-no-search-filter-wrap)'
 		);
 		filtersWraps.forEach( ( wrapper ) => {
 			const filterItems = wrapper.querySelectorAll(
@@ -79,14 +79,18 @@ export default function Edit( props ) {
 					);
 					return;
 				}
-				if ( filterLastTop > filterFirstTop ) {
-					wrapper.classList.add(
-						'awsm-b-full-width-search-filter-wrap'
-					);
+					if ( filterLastTop > filterFirstTop ) {
+						wrapper.classList.add(
+							'awsm-b-full-width-search-filter-wrap'
+						);
+					} else {
+						wrapper.classList.remove(
+							'awsm-b-full-width-search-filter-wrap'
+						);
+					}
 				}
-			}
-		} );
-	};
+			} );
+		};
 
 	const checkElement = () => {
 		const dynamicElement = document.querySelector( '.awsm-b-job-wrap' );
@@ -125,11 +129,15 @@ export default function Edit( props ) {
 				);
 				return;
 			}
-			if ( filterLastTop > filterFirstTop ) {
-				wrapper.classList.add( 'awsm-b-full-width-search-filter-wrap' );
+				if ( filterLastTop > filterFirstTop ) {
+					wrapper.classList.add( 'awsm-b-full-width-search-filter-wrap' );
+				} else {
+					wrapper.classList.remove(
+						'awsm-b-full-width-search-filter-wrap'
+					);
+				}
 			}
-		}
-	};
+		};
 
 	useEffect( () => {
 		const observer = new MutationObserver( () => {
@@ -144,10 +152,10 @@ export default function Edit( props ) {
 			observer.observe( observeItem, { childList: true, subtree: true } );
 		}
 
-		() => {
-			observer.disconnect();
-		};
-	}, [] );
+			return () => {
+				observer.disconnect();
+			};
+		}, [] );
 
 	return (
 		<div { ...blockProps } onClick={ handleClick }>
