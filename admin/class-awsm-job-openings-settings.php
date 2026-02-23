@@ -664,15 +664,31 @@ class AWSM_Job_Openings_Settings {
 
 	public function template_handler( $option_name, $template ) {
 		$template = sanitize_text_field( $template );
+		
 		if ( ( $template === 'custom' || $template === 'plugin' ) && function_exists( 'wp_is_block_theme' ) ) {
 			if ( wp_is_block_theme() ) {
 				$prefix = str_replace( array( 'awsm_jobs_', '_' ), array( '', ' ' ), $option_name );
-				add_settings_error( $option_name, str_replace( '_', '-', $option_name ), ucwords( $prefix ) . ': ' . esc_html__( 'Block theme detected! It is recommended to use a theme template instead of plugin generated template.', 'wp-job-openings' ), 'awsm-jobs-warning' );
+				$error_code = str_replace( '_', '-', $option_name );
+				
+				// Prevent duplicate notices
+				$existing = get_settings_errors( $option_name );
+				foreach ( $existing as $error ) {
+					if ( $error['code'] === $error_code ) {
+						return $template; 
+					}
+				}
+				
+				add_settings_error(
+					$option_name,
+					$error_code,
+					ucwords( $prefix ) . ': ' . esc_html__( 'Block theme detected! It is recommended to use a theme template instead of plugin generated template.', 'wp-job-openings' ),
+					'awsm-jobs-warning'
+				);
 			}
 		}
+		
 		return $template;
 	}
-
 	public function awsm_jobs_filter_handle( $filters ) {
 		$old_value = get_option( 'awsm_jobs_filter' );
 		if ( ! empty( $filters ) ) {
