@@ -196,15 +196,15 @@ const WidgetInspectorControls = (props) => {
 						{ search && (
 							<>
 								<ToggleGroupControl
-									label="Placement"
+									label={ __( 'Placement', 'wp-job-openings' ) }
 									value={ placement }
 									onChange={ ( newPlacement ) => setAttributes( { placement: newPlacement } ) }
 									isBlock
 									__nextHasNoMarginBottom
 									__next40pxDefaultSize
 								>
-									<ToggleGroupControlOption value="top" label="Top" />
-									<ToggleGroupControlOption value="side" label="Side" />
+									<ToggleGroupControlOption value="top" label={ __( 'Top', 'wp-job-openings' ) } />
+									<ToggleGroupControlOption value="side" label={ __( 'Side', 'wp-job-openings' ) } />
 								</ToggleGroupControl>
 
 								<TextControl
