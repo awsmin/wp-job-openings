@@ -63,6 +63,12 @@ export default function Edit( props ) {
 			'.awsm-b-filter-wrap:not(.awsm-b-no-search-filter-wrap)'
 		);
 		filtersWraps.forEach( ( wrapper ) => {
+			const wrapperWidth = wrapper.getBoundingClientRect().width;
+			if ( wrapperWidth < 768 ) {
+				wrapper.classList.remove( 'awsm-b-full-width-search-filter-wrap' );
+				return;
+			}
+
 			const filterItems = wrapper.querySelectorAll(
 				'.awsm-b-filter-item'
 			);
@@ -73,24 +79,18 @@ export default function Edit( props ) {
 					filterItems[
 						filterItems.length - 1
 					].getBoundingClientRect().top;
-				if ( window.innerWidth < 768 ) {
+				if ( filterLastTop > filterFirstTop ) {
+					wrapper.classList.add(
+						'awsm-b-full-width-search-filter-wrap'
+					);
+				} else {
 					wrapper.classList.remove(
 						'awsm-b-full-width-search-filter-wrap'
 					);
-					return;
 				}
-					if ( filterLastTop > filterFirstTop ) {
-						wrapper.classList.add(
-							'awsm-b-full-width-search-filter-wrap'
-						);
-					} else {
-						wrapper.classList.remove(
-							'awsm-b-full-width-search-filter-wrap'
-						);
-					}
-				}
-			} );
-		};
+			}
+		} );
+	};
 
 	const checkElement = () => {
 		const dynamicElement = document.querySelector( '.awsm-b-job-wrap' );
@@ -114,6 +114,12 @@ export default function Edit( props ) {
 		if ( ! wrapper ) {
 			return;
 		}
+		const wrapperWidth = wrapper.getBoundingClientRect().width;
+		if ( wrapperWidth < 768 ) {
+			wrapper.classList.remove( 'awsm-b-full-width-search-filter-wrap' );
+			return;
+		}
+
 		const filterItems = document.querySelectorAll(
 			'#block-' + props.clientId + ' .awsm-b-filter-item'
 		);
@@ -123,21 +129,13 @@ export default function Edit( props ) {
 			const filterLastTop =
 				filterItems[ filterItems.length - 1 ].getBoundingClientRect()
 					.top;
-			if ( window.innerWidth < 768 ) {
-				wrapper.classList.remove(
-					'awsm-b-full-width-search-filter-wrap'
-				);
-				return;
+			if ( filterLastTop > filterFirstTop ) {
+				wrapper.classList.add( 'awsm-b-full-width-search-filter-wrap' );
+			} else {
+				wrapper.classList.remove( 'awsm-b-full-width-search-filter-wrap' );
 			}
-				if ( filterLastTop > filterFirstTop ) {
-					wrapper.classList.add( 'awsm-b-full-width-search-filter-wrap' );
-				} else {
-					wrapper.classList.remove(
-						'awsm-b-full-width-search-filter-wrap'
-					);
-				}
-			}
-		};
+		}
+	};
 
 	useEffect( () => {
 		const observer = new MutationObserver( () => {
@@ -152,10 +150,10 @@ export default function Edit( props ) {
 			observer.observe( observeItem, { childList: true, subtree: true } );
 		}
 
-			return () => {
-				observer.disconnect();
-			};
-		}, [] );
+		return () => {
+			observer.disconnect();
+		};
+	}, [] );
 
 	return (
 		<div { ...blockProps } onClick={ handleClick }>
