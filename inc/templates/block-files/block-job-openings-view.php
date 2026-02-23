@@ -88,7 +88,7 @@ $block_style_variables = "
 </style>
 <!-- End -->
 <?php
-if ( isset( $attributes['search'] ) && $attributes['search'] == 'enable' ) {
+if ( isset( $attributes['search'] ) && $attributes['search'] === 'enable' ) {
 	$show_filter             = true;
 	$placement_sidebar_class = 'awsm-job-2-col';
 }
@@ -96,7 +96,7 @@ if ( isset( $attributes['search'] ) && $attributes['search'] == 'enable' ) {
 $wrapper_class = 'awsm-b-job-wrap' . awsm_jobs_wrapper_class( false );
 
 // Add sidebar placement class only if placement is side
-if ( $placement == 'side' && ! empty( $placement_sidebar_class ) ) {
+if ( $placement === 'side' && ! empty( $placement_sidebar_class ) ) {
 	$wrapper_class .= ' ' . $placement_sidebar_class;
 }
 
@@ -116,7 +116,7 @@ if ( function_exists( 'get_block_wrapper_attributes' ) ) {
 	$wrapper_attrs = 'class="' . esc_attr( $wrapper_class ) . '" id="' . esc_attr( $block_id ) . '"';
 }
 
-if ( $placement == 'top' ) {
+if ( $placement === 'top' ) {
 	?>
 		<div <?php echo $wrapper_attrs; ?>>
 			<?php
@@ -134,41 +134,27 @@ if ( $placement == 'top' ) {
 				do_dynamic_filter_form_action( $attributes );
 				do_action( 'awsm_block_form_outside', $attributes );
 			?>
-			<div class="awsm-b-job-listings"<?php awsm_block_jobs_data_attrs( array(), $attributes ); ?>>
-				<div <?php awsm_block_jobs_view_class( '', $attributes ); ?>>
-					<?php if ( $query->have_posts() ) : ?>
-						<?php
-						include get_awsm_jobs_template_path( 'block-main', 'block-files' );
-						?>
-					<?php else : ?>
-						<div class="awsm-jobs-none-container awsm-b-jobs-none-container">
-							<p><?php awsm_no_jobs_msg(); ?></p>
-						</div>
-					<?php endif; ?>
-				</div>
-			</div>
-		</div>
 	<?php
 } else {
 	?>
 		<div <?php echo $wrapper_attrs; ?>>
 			<?php if ( $show_filter ) { ?>
-			<div class="awsm-b-filter-wrap awsm-jobs-alerts-on">
-				<?php
-					/**
-					 * awsm_block_filter_form_side hook
-					 *
-					 * Display filter form  in placement side for job listings
-					 *
-					 * @hooked AWSM_Job_Openings_Block::display_block_filter_form_side()
-					 *
-					 * @since 3.5.0
-					 *
-					 * @param array $attributes Attributes array from block.
-					 */
-					do_dynamic_filter_form_action( $attributes );
-				?>
-			</div> 
+				<div class="awsm-b-filter-wrap awsm-jobs-alerts-on">
+					<?php
+						/**
+						 * awsm_block_filter_form_side hook
+						 *
+						 * Display filter form  in placement side for job listings
+						 *
+						 * @hooked AWSM_Job_Openings_Block::display_block_filter_form_side()
+						 *
+						 * @since 3.5.0
+						 *
+						 * @param array $attributes Attributes array from block.
+						 */
+						do_dynamic_filter_form_action( $attributes );
+					?>
+				</div> 
 			<?php } ?>
 			<?php
 				/**
@@ -183,9 +169,11 @@ if ( $placement == 'top' ) {
 				do_action( 'awsm_block_filter_form_extra', $attributes );
 				do_action( 'awsm_block_form_outside', $attributes );
 			?>
-			
+		<?php
+	}
+	?>
 			<div class="awsm-b-job-listings"<?php awsm_block_jobs_data_attrs( array(), $attributes ); ?>>
-				<div <?php echo awsm_block_jobs_view_class( 'custom-class', $attributes ); ?>> 
+				<div <?php echo awsm_block_jobs_view_class( $placement === 'top' ? '' : 'custom-class', $attributes ); ?>>
 					<?php if ( $query->have_posts() ) : ?>
 						<?php
 						include get_awsm_jobs_template_path( 'block-main', 'block-files' );
@@ -198,5 +186,3 @@ if ( $placement == 'top' ) {
 				</div>
 			</div>
 		</div>
-	<?php
-}
