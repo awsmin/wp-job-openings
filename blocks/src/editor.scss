@@ -1035,19 +1035,39 @@ ul.awsm-error-message li {
 } */
 
 .filters-button {
-  display: flex;
-  gap: 10px; /* space between buttons */
-  margin-top: 8px;
+	display: flex;
+	gap: 10px;
+	margin-top: 8px;
 }
 
-.filter-btn {
-	margin-right: 10px;
+/* Base button */
+.filters-button .filter-btn {
 	margin-bottom: 5px;
-	color: black;
-	background-color: initial;
+	background-color: #ffffff;
+	color: var(--wp-admin-theme-color-text, #1e1e1e);
+	border: 1px solid #1e1e1e;
+	transition: background 0.15s ease, color 0.15s ease;
+	box-shadow: none;
+	outline: none;
 }
 
-.filter-btn.is-dropdown {
-	background-color: black;
-	color: white;
+/* Active (like ToggleGroup) */
+.filters-button .filter-btn.is-active {
+	background-color: #1e1e1e;
+	color: #ffffff;
+	border-color: #1e1e1e;
 }
+
+/* Hover only inactive */
+.filters-button .filter-btn:not(.is-active):hover {
+	background-color: #f0f0f0;
+	color: var(--wp-admin-theme-color-text, #1e1e1e);
+}
+
+/* Keep active stable on hover */
+.filters-button .filter-btn.is-active:hover {
+	background-color: #1e1e1e;
+	color: #ffffff;
+}
+
+

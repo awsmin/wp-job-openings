@@ -34,7 +34,7 @@ class Awsm_Job_Guten_Blocks {
 	}
 
 	public function block_render_callback( $atts, $content ) { 
-		if ( ! isset( $atts['filter_options'] ) || ! is_array( $atts['filter_options'] ) || empty( $atts['filter_options'] ) ) {
+		if ( ! isset( $atts['filter_options'] ) || ! is_array( $atts['filter_options'] ) ){
 			$default_filters = array();
 			$specs = AWSM_Job_Openings::get_filter_specifications();
 

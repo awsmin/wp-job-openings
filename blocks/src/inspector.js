@@ -265,80 +265,52 @@ const WidgetInspectorControls = (props) => {
 												} }
 											/>
 
-											{ /* If a filter option exists, show buttons */ }
 											{ filterOption && (
 												<div className="filters-button">
-													{ /* Dropdown Button */ }
+													{/* Single Select */}
 													<Button
-														className={ `filter-btn ${ filterOption.value === 'dropdown' ? 'is-dropdown' : '' }` }
-														variant="secondary"
-														size="default"
+														className={`filter-btn ${
+															filterOption.value === 'dropdown' ? 'is-active' : ''
+														}`}
 														__next40pxDefaultSize
-														onClick={ () => {
-															const updatedFilters =
-																filter_options.map(
-																	( option ) =>
-																		option.specKey ===
-																		spec.key
-																			? {
-																					...option,
-																					value: 'dropdown',
-																			}
-																			: option
-																);
-															setAttributes( {
-																filter_options:
-																	updatedFilters,
-															} ); // Update attributes
-														} }
+														onClick={() => {
+															const updatedFilters = filter_options.map((option) =>
+																option.specKey === spec.key
+																	? { ...option, value: 'dropdown' }
+																	: option
+															);
+
+															setAttributes({
+																filter_options: updatedFilters,
+															});
+														}}
 													>
-														{ __(
-															'Single Select',
-															'wp-job-openings'
-														) }
+														{__('Single Select', 'wp-job-openings')}
 													</Button>
 
-													{ /* Checkbox Button */ }
+													{/* Multi Select */}
 													<Button
-														variant="secondary"
-														style={ {
-															backgroundColor:
-																filterOption.value ===
-																'checkbox'
-																	? 'black'
-																	: 'initial',
-															color:
-																filterOption.value ===
-																'checkbox'
-																	? 'white'
-																	: 'black',
-														} }
+														className={`filter-btn ${
+															filterOption.value === 'checkbox' ? 'is-active' : ''
+														}`}
 														__next40pxDefaultSize
-														onClick={ () => {
-															const updatedFilters =
-																filter_options.map(
-																	( option ) =>
-																		option.specKey ===
-																		spec.key
-																			? {
-																					...option,
-																					value: 'checkbox',
-																			}
-																			: option
-																);
-															setAttributes( {
-																filter_options:
-																	updatedFilters,
-															} ); // Update attributes
-														} }
+														onClick={() => {
+															const updatedFilters = filter_options.map((option) =>
+																option.specKey === spec.key
+																	? { ...option, value: 'checkbox' }
+																	: option
+															);
+
+															setAttributes({
+																filter_options: updatedFilters,
+															});
+														}}
 													>
-														{ __(
-															'Multi Select',
-															'wp-job-openings'
-														) }
+														{__('Multi Select', 'wp-job-openings')}
 													</Button>
 												</div>
-											) }
+											)}
+
 										</div>
 									);
 								} ) }
