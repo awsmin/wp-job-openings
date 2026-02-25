@@ -76,6 +76,10 @@ class Awsm_Job_Guten_Blocks {
 			$atts['hide_expired_jobs'] = 'expired';
 		}
 
+		if ( isset( $atts['show_spec_icon'] ) && $atts['show_spec_icon'] === true ) { 
+			$atts['show_spec_icon'] = 'show_icon';
+		} 
+
 		if ( isset( $atts['search_placeholder'] ) && $atts['search_placeholder'] === true ) {
 			$atts['search_placeholder'] = $atts['search_placeholder'];
 		}

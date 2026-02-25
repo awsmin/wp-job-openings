@@ -1030,7 +1030,7 @@ class AWSM_Job_Openings_Block {
 		echo apply_filters( 'awsm_filter_block_content_placement_side', $filter_content ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
-	public static function get_specifications_content_block( $post_id, $display_label, $filter_data = array(), $listing_specs = array(), $has_term_link = true, $show_icon = false ) { 
+	public static function get_specifications_content_block( $post_id, $display_label, $filter_data = array(), $listing_specs = array(), $has_term_link = true, $show_icon ='') { 
 		$spec_content = '';
 		$filter_data  = ! empty( $filter_data ) ? $filter_data : get_option( 'awsm_jobs_filter' );
 		if ( ! empty( $filter_data ) ) { 
@@ -1066,12 +1066,13 @@ class AWSM_Job_Openings_Block {
 						}
 
 						// Get icon and filter data
-						$current_filter = null;
+						$current_filter = null; 
 						foreach ( $filter_data as $filter ) {
 							if ( $taxonomy === $filter['taxonomy'] ) {  
-								$current_filter = $filter;
-								if ( ! empty( $filter['icon'] ) ) {  
-									if ( ! is_singular( 'awsm_job_openings' ) && $show_icon == true ) { 
+								$current_filter = $filter; 
+								if ( ! empty( $filter['icon'] ) ) { 
+									$is_single_job = get_post_type( $post_id ) === 'awsm_job_openings';
+									if ( ! $is_single_job || $show_icon === 'show_icon' ) { 
 										$spec_icon = sprintf( '<i class="awsm-job-icon-%1$s"></i>', esc_attr( $filter['icon'] ) );
 									}
 								}
