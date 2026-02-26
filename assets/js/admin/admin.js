@@ -738,6 +738,14 @@ jQuery(document).ready(function($) {
 
 				// Initialize datepicker
 				var dateToday = new Date();
+				var minDate;
+				if (jobExpiryValue) {
+					var parsedSavedDate = new Date(jobExpiryValue);
+					minDate = parsedSavedDate < dateToday ? parsedSavedDate : dateToday;
+				} else {
+					minDate = dateToday;
+				}
+
 				$dateField.datepicker({
 					altField: $quickEditRow.find('#awsm-jobs-datepicker-alt'),
 					altFormat: 'yy-mm-dd',
@@ -746,7 +754,7 @@ jQuery(document).ready(function($) {
 					buttonImageOnly: true,
 					changeMonth: true,
 					numberOfMonths: 1,
-					minDate: dateToday,
+					minDate: minDate,
 					defaultDate: null
 				});
 
