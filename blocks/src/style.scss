@@ -1,29 +1,3 @@
-/**
- * The following styles get applied both on the front of your site
- * and in the editor.
- *
- * Replace them with your own styles or remove the file completely.
- */
-
- .wp-block-create-block-wjo-block {
-	background-color: #21759b;
-	color: #fff;
-	padding: 2px;
-}
-/**
- * The following styles get applied inside the editor only.
- *
- * Replace them with your own styles or remove the file completely.
- */
-
- .wp-block-create-block-wjo-block {
-	border: 1px dotted #f00;
-}
-
-/**
- * Editor styles.
- *
- */
 .awsm-b-row {
 	margin: 0 -15px;
 	display: -webkit-box;
@@ -79,10 +53,10 @@
 .awsm-b-job-item {
 	background: #fff;
 	//padding: 20px;
-	padding-top: var(--hz-jl-padding-top, 20px);
-	padding-right: var(--hz-jl-padding-right, 20px);
-	padding-bottom: var(--hz-jl-padding-bottom, 20px);
-	padding-left: var(--hz-jl-padding-left, 20px);
+	padding-top: var(--hz-jl-padding-top, 15px);
+	padding-right: var(--hz-jl-padding-right, 15px);
+	padding-bottom: var(--hz-jl-padding-bottom, 15px);
+	padding-left: var(--hz-jl-padding-left, 15px);
 
 	font-size: 14px;
 }
@@ -94,11 +68,11 @@ a.awsm-b-job-item {
 .awsm-b-grid-item .awsm-b-job-item {
 	margin-bottom: 30px;
 	box-shadow: 0 1px 4px 0 rgb(0 0 0 / 5%);
-	border: var(--hz-jl-border-width, 1px) solid var(--hz-jl-border-color, #dddfe3);
-	border-radius: var(--hz-jl-border-radius-topleft, 0px) 
-		var(--hz-jl-border-radius-topright, 0px) 
-		var(--hz-jl-border-radius-bottomright, 0px) 
-		var(--hz-jl-border-radius-bottomleft, 0px);
+	border: var(--hz-jl-border-width, 1px) solid var(--hz-jl-border-color, #CBCBCB);
+	border-radius: var(--hz-jl-border-radius-topleft, 5px) 
+		var(--hz-jl-border-radius-topright, 5px) 
+		var(--hz-jl-border-radius-bottomright, 5px) 
+		var(--hz-jl-border-radius-bottomleft, 5px);
 	display: -webkit-box;
 	display: -moz-box;
 	display: -ms-flexbox;
@@ -238,7 +212,7 @@ a.awsm-b-job-item {
 .awsm-b-filter-item-search .awsm-b-job-form-control {
     padding-right: 48px;
     min-height: 48px;
-	border: var(--hz-ls-border-width, 1px) solid var(--hz-ls-border-color, #ccc);
+	border: var(--hz-ls-border-width, 1px) solid var(--hz-ls-border-color, #cccccc);
 	border-radius: var(--hz-ls-border-radius-topright, 5px) 
 			var(--hz-ls-border-radius-topleft, 5px) 
 			var(--hz-ls-border-radius-bottomright, 5px) 
@@ -290,9 +264,9 @@ a.awsm-b-job-item {
 	outline: none !important;
 	transition: all 0.3s ease;
 	border-radius: var(--hz-jl-border-radius-topleft,5px) var(--hz-jl-border-radius-topright,5px) var(--hz-jl-border-radius-bottomright,5px) var(--hz-jl-border-radius-bottomleft,5px);
-	border-width: var(--hz-jl-border-width, 0px);
-	border-style: var(--hz-jl-border-style, none);
-	border-color: var(--hz-jl-border-color, #dddfe3);
+	border-width: var(--hz-jl-border-width, 1px);
+	border-style: var(--hz-jl-border-style, solid);
+	border-color: var(--hz-jl-border-color, #CBCBCB);
 }
 .awsm-b-load-more-classic a.page-numbers, .awsm-b-load-more-classic span.page-numbers {
 	padding: 5px 10px;
@@ -322,7 +296,7 @@ a.awsm-b-job-item {
 /*---- List ----*/
 
 .awsm-b-lists {
-	border: var(--hz-jl-border-width, 1px) solid var(--hz-jl-border-color, #d5d5d5);
+	border: var(--hz-jl-border-width, 1px) solid var(--hz-jl-border-color, #CBCBCB);
 	border-radius: var(--hz-jl-border-radius-topleft, 0px) 
 		var(--hz-jl-border-radius-topright, 0px) 
 		var(--hz-jl-border-radius-bottomright, 0px) 
@@ -353,7 +327,7 @@ a.awsm-b-job-item {
 }
 
 .awsm-b-list-item .awsm-b-job-item {
-	border-bottom: var(--hz-jl-border-width, 1px) solid var(--hz-jl-border-color, #d5d5d5);
+	border-bottom: var(--hz-jl-border-width, 1px) solid var(--hz-jl-border-color, #CBCBCB);
 }
 
 .awsm-b-list-item .awsm-b-job-item::after {
@@ -807,13 +781,13 @@ ul.awsm-error-message li {
 		width: 100% !important;
 	}
 	.awsm-job-2-col .awsm-b-filter-wrap form{
-		padding: var(--hz-sf-padding-top, 30px)
-	         var(--hz-sf-padding-right, 30px)
-	         var(--hz-sf-padding-bottom, 30px)
-	         var(--hz-sf-padding-left, 30px);
+		padding: var(--hz-sf-padding-top, 15px)
+	         var(--hz-sf-padding-right, 15px)
+	         var(--hz-sf-padding-bottom, 15px)
+	         var(--hz-sf-padding-left, 15px);
 
 		border-width: var(--hz-sf-border-width, 1px);
-		border-style: var(--hz-sf-border-style, none); /* none if border not defined */
+		border-style: var(--hz-sf-border-style, solid); /* none if border not defined */
 		border-color: var(--hz-sf-border-color, transparent) !important;
 		border-radius: 
 			var(--hz-sf-border-radius-topleft, 5px) 
@@ -961,13 +935,13 @@ ul.awsm-error-message li {
 		var(--hz-jl-border-radius-bottomleft, 5px);
 
 	border-width: var(--hz-jl-border-width, 1px);
-	border-style: var(--hz-jl-border-style, none);
+	border-style: var(--hz-jl-border-style, solid);
 	border-color: var(--hz-jl-border-color, #CBCBCB);
 
-	padding-top: var(--hz-jl-padding-top, 30px);
-	padding-right: var(--hz-jl-padding-right, 30px);
-	padding-bottom: var(--hz-jl-padding-bottom, 30px);
-	padding-left: var(--hz-jl-padding-left, 30px);
+	padding-top: var(--hz-jl-padding-top, 15px);
+	padding-right: var(--hz-jl-padding-right, 15px);
+	padding-bottom: var(--hz-jl-padding-bottom, 15px);
+	padding-left: var(--hz-jl-padding-left, 15px);
 
 	display: flex;
 	flex-wrap: wrap;
@@ -1060,7 +1034,7 @@ ul.awsm-error-message li {
 }
 
 .awsm-b-job-more {
-	background-color: var(--hz-b-bg-color, #2ba74a); /* fallback for filled */
+	background-color: var(--hz-b-bg-color);
 	color: var(--hz-b-tx-color, #ffffff) !important;
 	border: var(--hz-bs-border-width, 1px) solid var(--hz-bs-border-color, #d5d5d5);
 	border-radius: var(--hz-bs-border-radius-topleft, 5px) 
@@ -1070,7 +1044,6 @@ ul.awsm-error-message li {
 	display: inline-flex;
 	gap: 8px;
 	align-items: center;
-	border-radius: 5px;
 	padding-top: var(--hz-b-padding-top, 13px);
 	padding-right: var(--hz-b-padding-right, 13px);
 	padding-bottom: var(--hz-b-padding-bottom, 13px);
@@ -1078,7 +1051,7 @@ ul.awsm-error-message li {
 	font-size: 14px;
 	line-height: 1;
 	text-decoration: none;
-	border-style:var(--hz-bs-border-style,none);
+	border-style:var(--hz-bs-border-style,solid);
 }
 
 

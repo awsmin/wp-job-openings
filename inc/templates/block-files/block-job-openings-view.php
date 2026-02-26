@@ -83,7 +83,6 @@ $block_style_variables = "
 	";
 
 	echo apply_filters( 'hz_ui_styles_css_variables', $block_style_variables, $styles );
-
 ?>
 </style>
 <!-- End -->

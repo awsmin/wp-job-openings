@@ -97,7 +97,7 @@
 		},
 		"hz_sidebar_width": {
 			"type": "number",
-			"default": 33.3
+			"default": 33.333
 		},
 		"hz_ls_border": {
 			"type": "object",
