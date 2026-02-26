@@ -144,7 +144,7 @@
 			"type": "object",
 			"default": {
 				"width": "1px",
-				"color": "#4E35DF"
+				"color": "#4e35df" 
 			}
 		},
 		"hz_bs_border_radius": {
