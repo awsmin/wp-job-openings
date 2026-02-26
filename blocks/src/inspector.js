@@ -408,9 +408,9 @@ const WidgetInspectorControls = (props) => {
 							/>
 						))}
 
-						<h2>{__("Show Spec icon in the Listing", "wp-job-openings")}</h2>
+						<h2>{__("Show Spec Icon in the Listing", "wp-job-openings")}</h2>
 						<ToggleControl
-							label={ __( 'Show spec icon', 'wp-job-openings' ) }
+							label={ __( 'Show Spec Icon', 'wp-job-openings' ) }
 							checked={ show_spec_icon }
 							onChange={ ( show_spec_icon ) => setAttributes( { show_spec_icon } ) }
 						/>
