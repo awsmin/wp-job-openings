@@ -48,7 +48,6 @@ $customizer_settings = AWSM_Job_Openings_Mail_Customizer::get_settings();
 						</td>
 					</tr>
 				</table>
-			</div>
 		</center>
 	</body>
 </html>

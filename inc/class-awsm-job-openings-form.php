@@ -965,7 +965,7 @@ class AWSM_Job_Openings_Form {
 						}
 
 						/**
-						 * Fires when applicant or admin notification mail is successfully sent.
+						 * Fires when applicant or admin notification mail is successfully .
 						 *
 						 * @since 1.4
 						 *

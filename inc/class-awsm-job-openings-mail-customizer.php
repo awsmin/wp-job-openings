@@ -109,7 +109,7 @@ class AWSM_Job_Openings_Mail_Customizer {
 			$extra_attr = '';
 
 			if ( $settings['logo'] === 'default' ) {
-				$extra_attr = ' width="284" height="35"';
+				$extra_attr = ' width="174" height="43"';
 			} else {
 				$image_url    = awsm_jobs_get_original_image_url( $settings['logo'] );
 				$company_name = get_option( 'awsm_job_company_name' );
