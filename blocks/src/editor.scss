@@ -732,9 +732,8 @@ ul.awsm-error-message li {
 	font: inherit;
 	padding: 8px 15px;
 	min-height: 46px;
-	//border: 1px solid #ccc;
+	font-size: 14px;
 	border: var(--hz-ls-border-width, 1px) solid var(--hz-ls-border-color, #cccccc);
-	//border-radius: 5px;
 	border-radius: var(--hz-ls-border-radius-topleft, 5px) 
 			var(--hz-ls-border-radius-topright, 5px)
 			var(--hz-ls-border-radius-bottomright, 5px) 
