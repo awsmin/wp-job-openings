@@ -85,11 +85,17 @@ class Awsm_Job_Guten_Blocks {
 	}
 
 	public function block_assets() {
-		wp_enqueue_script( 'awsm-job-admin' );
+		if ( is_admin() ) {
+			wp_enqueue_script( 'awsm-job-admin' );
+			wp_enqueue_style( 'awsm-jobs-general' );
+		}
 
-		if ( ! wp_style_is( 'awsm-jobs-style' ) || ! wp_script_is( 'awsm-job-scripts' ) ) {
-			$awsm_job_openings = AWSM_Job_Openings::init();
-			$awsm_job_openings->awsm_enqueue_scripts();
+		if ( ! wp_script_is( 'awsm-job-scripts' ) ) {
+			wp_enqueue_script( 'awsm-job-scripts' );
+		}
+
+		if ( ! wp_style_is( 'awsm-jobs-style' ) ) {
+			wp_enqueue_style( 'awsm-jobs-style' );
 		}
 	}
 
