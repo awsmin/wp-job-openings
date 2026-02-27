@@ -53,10 +53,8 @@ const WidgetInspectorControls = (props) => {
 			hz_button_background_color,
 			hz_button_text_color,
 			hz_sidebar_width,
-			blockId,
 		},
 		setAttributes,
-		clientId,
 	} = props;
 
 	// Local state for block settings
@@ -73,12 +71,6 @@ const WidgetInspectorControls = (props) => {
 	const block_appearance_list = [];
 	const block_job_listing = [];
 	const block_styles_panel = [];
-
-	useEffect(() => {
-		if (clientId && !blockId) {
-			setAttributes({ blockId: `job-block-${clientId}` });
-		}
-	}, [clientId, blockId]);
 
 	useEffect(() => {
 		if (!specifications?.length) return;

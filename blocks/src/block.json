@@ -29,7 +29,7 @@
 		},
 		"layout": {
 			"type": "string",
-			"default": "stack"
+			"default": "grid"
 		},
 		"selected_terms_main": {
 			"type": "array",
@@ -91,9 +91,6 @@
 				"bottom": "15px",
 				"left": "15px"
 			}
-		},
-		"blockId": {
-			"type": "string"
 		},
 		"hz_sidebar_width": {
 			"type": "number",
@@ -170,12 +167,16 @@
 		},
 		"hz_button_text_color": {
 			"type": "string"
-		}
+		},
+		"anchor": {
+      		"type": "string"
+    	}
 	},
 	"example": {},
 	"supports": {
 		"html": false,
-		"customClassName": true
+		"customClassName": true,
+		"anchor": true
 	},
 	"textdomain": "wp-job-openings",
 	"editorScript": "file:./index.js",

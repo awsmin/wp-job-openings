@@ -28,13 +28,16 @@ class Awsm_Job_Guten_Blocks {
 
 		$args = array(
 			'render_callback' => array( $this, 'block_render_callback' ),
+			'supports' => array( 'anchor' => true, ),
 		);
 
 		register_block_type( __DIR__ . '/build', $args );
 	}
 
 	public function block_render_callback( $atts, $content ) { 
-		if ( ! isset( $atts['filter_options'] ) || ! is_array( $atts['filter_options'] ) ){
+
+		// Ensure filter_options exists and is valid
+		if ( ! isset( $atts['filter_options'] ) || ! is_array( $atts['filter_options'] ) ) {
 			$default_filters = array();
 			$specs = AWSM_Job_Openings::get_filter_specifications();
 
@@ -48,71 +51,31 @@ class Awsm_Job_Guten_Blocks {
 			$atts['filter_options'] = $default_filters;
 		}
 
-		if ( isset( $atts['search'] ) && $atts['search'] === true ) {
-			$atts['search'] = 'enable';
+		$search_enabled     = ! empty( $atts['search'] );
+		$hide_expired       = ! empty( $atts['hide_expired_jobs'] );
+		$show_spec_icon     = ! empty( $atts['show_spec_icon'] );
+
+		$processed_atts = $atts;
+
+		if ( $search_enabled ) {
+			$processed_atts['search'] = 'enable';
 		}
 
-		if ( isset( $atts['filter_options'] ) && is_array( $atts['filter_options'] ) ) {
-			$atts['filter_options'] = $atts['filter_options'];
+		if ( $hide_expired ) {
+			$processed_atts['hide_expired_jobs'] = 'expired';
 		}
 
-		// --- Important: layout fallback for old blocks ---
-		if ( ! isset( $atts['layout'] ) || empty( $atts['layout'] ) ) {
-			// Default new blocks to 'stack'
-			$atts['layout'] = 'stack';
-		} else {
-			// Keep old values like 'grid' or 'list' untouched
-			$allowed_layouts = array( 'list', 'grid', 'stack' );
-			if ( ! in_array( $atts['layout'], $allowed_layouts, true ) ) {
-				$atts['layout'] = 'stack';
-			}
+		if ( $show_spec_icon ) {
+			$processed_atts['show_spec_icon'] = 'show_icon';
 		}
 
-		if ( isset( $atts['number_of_columns'] ) && is_array( $atts['number_of_columns'] ) ) {
-			$atts['number_of_columns'] = $atts['number_of_columns'];
-		}
-
-		if ( isset( $atts['hide_expired_jobs'] ) && $atts['hide_expired_jobs'] === true ) {
-			$atts['hide_expired_jobs'] = 'expired';
-		}
-
-		if ( isset( $atts['show_spec_icon'] ) && $atts['show_spec_icon'] === true ) { 
-			$atts['show_spec_icon'] = 'show_icon';
-		} 
-
-		if ( isset( $atts['search_placeholder'] ) && $atts['search_placeholder'] === true ) {
-			$atts['search_placeholder'] = $atts['search_placeholder'];
-		}
-
-		if ( isset( $atts['list_type'] ) && $atts['list_type'] === true ) {
-			$atts['list_type'] = $atts['list_type'];
-		}
-
-		if ( isset( $atts['selected_terms'] ) && is_array( $atts['selected_terms'] ) ) {
-			$atts['selected_terms'] = $atts['selected_terms'];
-		}
-
-		if ( isset( $atts['order_by'] ) && $atts['order_by'] === true ) {
-			$atts['order_by'] = $atts['order_by'];
-		}
-
-		if ( isset( $atts['blockId'] ) ) {
-			$atts['block_id'] = $atts['blockId'];
-		}
-
-		 /**
-		 * Filters the block attributes.
-		 *
-		 * Allows modification of block attributes prior to rendering.
-		 *
-		 * @since 3.5.0
-		 *
-		 * @param array $atts List of supported attributes.
-		 */
-		$atts = apply_filters( 'awsm_jobs_listings_block_attributes', $atts );
+		$processed_atts = apply_filters(
+			'awsm_jobs_listings_block_attributes',
+			$processed_atts
+		);
 
 		$class_block_init = AWSM_Job_Openings_Block::init();
-		$block_content    = $class_block_init->awsm_jobs_block_attributes( $atts );
+		$block_content    = $class_block_init->awsm_jobs_block_attributes( $processed_atts );
 
 		if ( empty( $block_content ) ) {
 			return '<p>' . __( 'No job listings found.', 'wp-job-openings' ) . '</p>';

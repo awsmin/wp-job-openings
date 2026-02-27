@@ -8,14 +8,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$attributes = isset( $block_atts_set ) && is_array( $block_atts_set ) ? $block_atts_set : array();
-$placement  = isset( $attributes['placement'] ) ? $attributes['placement'] : '';
-$query      = awsm_block_jobs_query( $attributes );
-$block_id   = ( isset( $attributes['block_id'] ) && trim( $attributes['block_id'] ) !== '' ) ? $attributes['block_id'] : 'awsm-block-' . wp_unique_id();
-
+$attributes 			 = isset( $block_atts_set ) && is_array( $block_atts_set ) ? $block_atts_set : array(); 
+$placement  			 = isset( $attributes['placement'] ) ? $attributes['placement'] : '';
+$query      			 = awsm_block_jobs_query( $attributes );
 $show_filter             = false;
 $placement_sidebar_class = '';
 $styles                  = hz_get_ui_styles( $attributes );
+$block_id 				 = $styles['block_id'];
 ?>
 
 <!-- Styles for css variables -->
@@ -86,7 +85,7 @@ $block_style_variables = "
 ?>
 </style>
 <!-- End -->
-<?php
+<?php 
 if ( isset( $attributes['search'] ) && $attributes['search'] === 'enable' ) {
 	$show_filter             = true;
 	$placement_sidebar_class = 'awsm-job-2-col';
@@ -112,7 +111,7 @@ if ( function_exists( 'get_block_wrapper_attributes' ) ) {
 		)
 	);
 } else {
-	$wrapper_attrs = 'class="' . esc_attr( $wrapper_class ) . '" id="' . esc_attr( $block_id ) . '"';
+		$wrapper_attrs = 'class="' . esc_attr( $wrapper_class ) . '" id="' . esc_attr( $block_id ) . '"';
 }
 
 if ( $placement === 'top' ) {
