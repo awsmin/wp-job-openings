@@ -327,24 +327,20 @@ jQuery( function( $ ) {
 			camelCase: false
 		},
 
-		onChange: function(element) {
-			const $select = $(element);
-			const selectric = $select.data('selectric');
-    		const $allOption = $select.find('option').first();
+	});
 
-			handleAwsmMultiFilter($select);
+	$(document).on('change', filterSelector + ' .awsm-b-filter-option', function() {
+		const $select = $(this);
+		handleAwsmMultiFilter($select);
 
-			//wait for Selectric to update label
-			setTimeout(function() {
-				forceAllLabel($select);
-			}, 0);
+		setTimeout(function() {
+			forceAllLabel($select);
+		}, 0);
 
-			// Ensure menu stays open after refresh
-			if ($select.prop('multiple')) {
-				$select.selectric('open');
-			}
+		// Keep dropdown open only if Selectric exists (desktop)
+		if ($select.prop('multiple') && $select.data('selectric')) {
+			$select.selectric('open');
 		}
-
 	});
 
 	function handleAwsmMultiFilter($select) {

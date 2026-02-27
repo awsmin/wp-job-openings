@@ -109,11 +109,4 @@ if ( isset( $query ) && $query instanceof WP_Query && $query->have_posts() ) {
 
 wp_reset_postdata();
 
-if ( ! $has_posts ) {
-	printf(
-		'<div class="awsm-jobs-none-container awsm-b-jobs-none-container">%s</div>',
-		esc_html__( 'Sorry! No jobs to show.', 'wp-job-openings' )
-	);
-}
-
 awsm_block_jobs_load_more( $query, $attributes );
