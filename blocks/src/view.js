@@ -18,38 +18,68 @@ jQuery( function( $ ) {
 
 	function getListingsData( $wrapper ) {
 		const data = [];
+		const seen = {};
+
+		const normalizeKey = ( key ) => {
+			const strKey = String( key );
+
+			// Only normalize AWSM block keys; keep everything else as-is (e.g. `termId`).
+			if ( strKey.indexOf( 'awsm' ) !== 0 ) {
+				return strKey;
+			}
+
+			// jQuery `.data()` turns `data-awsm-layout` into `awsmLayout`; convert back.
+			if ( /[A-Z]/.test( strKey ) ) {
+				return strKey
+					.replace( /([a-z0-9])([A-Z])/g, '$1-$2' )
+					.toLowerCase();
+			}
+
+			return strKey;
+		};
+
 		const parsedListingsAttrs = [
 			'listings',
 			'specs',
 			'search',
 			'lang',
 			'taxonomy',
-			'termId'
+			'termId',
+
+			// block attrs (ONLY dashed)
+			'awsm-layout',
+			'awsm-hide-expired-jobs',
+			'awsm-other-options',
+			'awsm-selected-terms',
+			'awsm-spec-icons',
+			'awsm-order-by'
 		];
 
-		/* added for block */
-		parsedListingsAttrs.push( 'awsm-layout' );
-		parsedListingsAttrs.push( 'awsm-hide-expired-jobs' );
-		parsedListingsAttrs.push( 'awsm-other-options' );
-		parsedListingsAttrs.push( 'awsm-listings-total' );
-		parsedListingsAttrs.push( 'awsm-selected-terms' );
-		parsedListingsAttrs.push( 'awsm-spec-icons' );
-		parsedListingsAttrs.push( 'awsm-order-by' );
-		/* end */
-
+		// Allow Pro to extend
 		$( document ).trigger( 'awsmJobBlockListingsData', [
 			parsedListingsAttrs
 		] );
 
+		// Compare on normalized keys so `awsmLayout` and `awsm-layout` behave the same.
+		const normalizedParsedKeys = parsedListingsAttrs.map( normalizeKey );
+
 		const dataAttrs = $wrapper.data();
+
 		$.each( dataAttrs, function( dataAttr, value ) {
-			if ( $.inArray( dataAttr, parsedListingsAttrs ) === -1 ) {
+			const normalizedKey = normalizeKey( dataAttr );
+
+			if (
+				$.inArray( normalizedKey, normalizedParsedKeys ) === -1 &&
+				! seen[ normalizedKey ]
+			) {
+				seen[ normalizedKey ] = true;
 				data.push( {
-					name: dataAttr,
+					name: normalizedKey,
 					value
 				} );
 			}
-		} );
+		});
+
 		return data;
 	}
 
@@ -78,7 +108,6 @@ jQuery( function( $ ) {
 		const hide_expired_jobs = $wrapper.data( 'awsm-hide-expired-jobs' );
 	//	let selected_terms 		= $wrapper.data( 'awsm-selected-terms' );
 		const other_options 	= $wrapper.data( 'awsm-other-options' );
-		const listings_total 	= $wrapper.data( 'awsm-listings-total' );
 		const show_spec_icon 	= $wrapper.data( 'awsm-spec-icons' );
 		const order_by	= $wrapper.data( 'awsm-order-by' );
 
@@ -138,13 +167,6 @@ jQuery( function( $ ) {
 			});
 		}
 
-		if ( typeof listings_total !== 'undefined' ) {
-			formData.push({
-				name: 'awsm-listings-total',
-				value: listings_total
-			});
-		}
-
 		if ( typeof show_spec_icon !== 'undefined' ) {
 			formData.push({
 				name: 'awsm-spec-icons',
@@ -161,7 +183,7 @@ jQuery( function( $ ) {
 
 		const listingsData = getListingsData( $wrapper );
 		if ( listingsData.length > 0 ) {
-			//formData = formData.concat( listingsData );
+			formData = formData.concat( listingsData );
 		}
 
 		$( document ).trigger( 'awsmJobBlockFiltersFormData', [
@@ -549,16 +571,11 @@ jQuery( function( $ ) {
 			/* let selected_terms = $listingsContainer.data(
 				'awsm-selected-terms'
 			); */
-				const other_options =
-					$listingsContainer.data( 'awsm-other-options' );
-				const listings_total = $listingsContainer.data(
-					'awsm-listings-total'
-				);
-				const show_spec_icon = $listingsContainer.data(
-					'awsm-spec-icons'
-				);
-
-				/* end */
+			const other_options = $listingsContainer.data( 'awsm-other-options' );
+			const show_spec_icon = $listingsContainer.data(
+				'awsm-spec-icons'
+			);
+			/* end */
 
 			if ( isDefaultPagination ) {
 				$triggerElem.prop( 'disabled', true );
@@ -732,12 +749,6 @@ jQuery( function( $ ) {
 					value: other_options
 				} );
 			}
-			if ( typeof listings_total !== 'undefined' ) {
-				wpData.push( {
-					name: 'awsm-listings-total',
-					value: listings_total
-				} );
-			}
 
 			if ( typeof show_spec_icon !== 'undefined' ) {
 				wpData.push( {
@@ -773,7 +784,7 @@ jQuery( function( $ ) {
 			] );
 			const listingsData = getListingsData( $listingsContainer );
 			if ( listingsData.length > 0 ) {
-				//wpData = wpData.concat( listingsData );
+				wpData = wpData.concat( listingsData );
 			}
 
 			// now, handle ajax

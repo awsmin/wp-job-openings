@@ -196,10 +196,6 @@ class AWSM_Job_Openings_Block {
 			$attributes['hide_expired_jobs'] = $_POST['awsm-hide-expired-jobs'];
 		}
 
-		if ( isset( $_POST['awsm-other-options'] ) ) {
-			$attributes['other_options'] = $_POST['awsm-other-options'];
-		}
-
 		/* if ( isset( $_POST['awsm-selected-terms'] ) ) {
 			$selected_terms = json_decode( stripslashes( $_POST['awsm-selected-terms'] ), true );
 
