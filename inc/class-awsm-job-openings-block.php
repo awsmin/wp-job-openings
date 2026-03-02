@@ -162,38 +162,57 @@ class AWSM_Job_Openings_Block {
         // phpcs:disable WordPress.Security.NonceVerification.Missing
 		$filters = $filters_list = $attributes = array(); // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
 
-		$filter_action = isset( $_POST['action'] ) ? $_POST['action'] : '';
+		$filter_action = isset( $_POST['action'] ) ? sanitize_key( wp_unslash( $_POST['action'] ) ) : '';
 
 		if ( ! empty( $_POST['awsm_job_spec'] ) ) {
-			$job_specs = $_POST['awsm_job_spec'];
+			$job_specs = wp_unslash( $_POST['awsm_job_spec'] );
 
 			foreach ( $job_specs as $taxonomy => $term_id ) {
-				$taxonomy = sanitize_text_field( $taxonomy );
+				$taxonomy = sanitize_key( $taxonomy );
 
 				if ( is_array( $term_id ) ) {
 					foreach ( $term_id as $term ) {
-						$filters_list[ $taxonomy ][] = intval( $term );
+						$filters_list[ $taxonomy ][] = absint( $term );
 					}
 				} else {
-					$filters[ $taxonomy ] = intval( $term_id );
+					$filters[ $taxonomy ] = absint( $term_id );
 				}
 			}
 		}
 
 		if ( isset( $_POST['awsm_job_specs_list'] ) ) {
-			$filters_list = $_POST['awsm_job_specs_list'];
+			$filters_list = array();
+			$raw_specs    = wp_unslash( $_POST['awsm_job_specs_list'] );
+
+			if ( is_array( $raw_specs ) ) {
+				foreach ( $raw_specs as $taxonomy => $terms ) {
+					$taxonomy = sanitize_key( $taxonomy );
+					if ( $taxonomy === '' ) {
+						continue;
+					}
+
+					$terms = is_array( $terms ) ? $terms : array( $terms );
+					$terms = array_values( array_filter( array_map( 'absint', $terms ) ) );
+
+					if ( ! empty( $terms ) ) {
+						$filters_list[ $taxonomy ] = $terms;
+					}
+				}
+			}
 		}
 
 		if ( ! empty( $_POST['awsm-layout'] ) ) {
-			$attributes['layout'] = sanitize_text_field( $_POST['awsm-layout'] );
+			$attributes['layout'] = sanitize_text_field( wp_unslash( $_POST['awsm-layout'] ) );
 		}
 
 		if ( isset( $_POST['listings_per_page'] ) ) {
-			$attributes['listings'] = intval( $_POST['listings_per_page'] );
+			$attributes['listings'] = absint( wp_unslash( $_POST['listings_per_page'] ) );
 		}
 
 		if ( isset( $_POST['awsm-hide-expired-jobs'] ) ) {
-			$attributes['hide_expired_jobs'] = $_POST['awsm-hide-expired-jobs'];
+			$hide_expired = sanitize_text_field( wp_unslash( $_POST['awsm-hide-expired-jobs'] ) );
+			$hide_expired = strtolower( $hide_expired );
+			$attributes['hide_expired_jobs'] = in_array( $hide_expired, array( 'expired', '1', 'true', 'yes', 'on' ), true ) ? 'expired' : '';
 		}
 
 		/* if ( isset( $_POST['awsm-selected-terms'] ) ) {
@@ -211,15 +230,28 @@ class AWSM_Job_Openings_Block {
 		} */
 
 		if ( isset( $_POST['awsm-other-options'] ) ) {
-			$attributes['other_options'] = $_POST['awsm-other-options'];
+			$other_options_raw = sanitize_text_field( wp_unslash( $_POST['awsm-other-options'] ) );
+			$other_options     = array_filter(
+				array_map(
+					'sanitize_key',
+					array_map( 'trim', explode( ',', $other_options_raw ) )
+				)
+			);
+			$attributes['other_options'] = implode( ',', $other_options );
 		}
 
 		if ( isset( $_POST['awsm-spec-icons'] ) ) {
-			$attributes['show_spec_icon'] = $_POST['awsm-spec-icons'];
+			$show_spec_icon = sanitize_text_field( wp_unslash( $_POST['awsm-spec-icons'] ) );
+			$show_spec_icon = strtolower( $show_spec_icon );
+			$attributes['show_spec_icon'] = in_array( $show_spec_icon, array( 'show_icon', '1', 'true', 'yes', 'on' ), true ) ? 'show_icon' : '';
 		}
 
 		if ( isset( $_POST['lang'] ) ) {
-			AWSM_Job_Openings::set_current_language( $_POST['lang'] );
+			$lang = sanitize_text_field( wp_unslash( $_POST['lang'] ) );
+			$lang = preg_replace( '/[^A-Za-z0-9_-]/', '', $lang );
+			if ( $lang !== '' ) {
+				AWSM_Job_Openings::set_current_language( $lang );
+			}
 		}
 
 		if ( isset( $_POST['awsm_pagination_base'] ) ) {
@@ -230,7 +262,8 @@ class AWSM_Job_Openings_Block {
 		}
 
 		if ( isset( $_POST['awsm-order-by'] ) ) {
-			$attributes['order_by'] = $_POST['awsm-order-by'];
+			$order_by = sanitize_key( wp_unslash( $_POST['awsm-order-by'] ) );
+			$attributes['order_by'] = in_array( $order_by, array( 'new_to_old', 'old_to_new' ), true ) ? $order_by : 'new_to_old';
 		}
 
 		$attributes = apply_filters( 'awsm_jobs_block_post_filters', $attributes, $_POST );
@@ -238,14 +271,14 @@ class AWSM_Job_Openings_Block {
 		$args = self::awsm_block_job_query_args( $filters, $attributes, array(), $filters_list );
 
 		if ( isset( $_POST['jq'] ) && ! empty( $_POST['jq'] ) ) {
-			$args['s'] = sanitize_text_field( $_POST['jq'] );
+			$args['s'] = sanitize_text_field( wp_unslash( $_POST['jq'] ) );
 		}
 
 		if ( isset( $_POST['paged'] ) ) {
 			if ( isset( $_POST['awsm_pagination_base'] ) ) {
-				$args['paged'] = absint( $_POST['paged'] );
+				$args['paged'] = absint( wp_unslash( $_POST['paged'] ) );
 			} else {
-				$args['paged'] = absint( $_POST['paged'] ) + 1;
+				$args['paged'] = absint( wp_unslash( $_POST['paged'] ) ) + 1;
 			}
 		} 
 
