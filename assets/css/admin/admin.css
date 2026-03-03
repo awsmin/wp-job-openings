@@ -2067,6 +2067,7 @@ input.awsm-button:disabled {
 .awsm-applicant-resume > span {
 	display: flex;
 	flex-wrap: wrap;
+	max-width: 76%;
 }
 
 .awsm-applicant-resume > span span:first-child {
@@ -2075,6 +2076,7 @@ input.awsm-button:disabled {
 	-webkit-box-orient: vertical;
 	overflow: hidden;
 	max-width: 70%;
+	word-break: break-all;
 }
 
 .hs-reume-info {

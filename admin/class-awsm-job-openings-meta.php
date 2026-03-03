@@ -236,7 +236,7 @@ class AWSM_Job_Openings_Meta {
 		if ( ! empty( $attachment_file ) ) {
 			$file_type    = wp_check_filetype( $attachment_file );
 			$file_size    = filesize( $attachment_file );
-			$display_size = size_format( $file_size, 2 );
+			$display_size = size_format( $file_size );
 			$details      = array(
 				'file_name' => $attachment_file,
 				'file_type' => $file_type,
@@ -272,17 +272,30 @@ class AWSM_Job_Openings_Meta {
 				wp_die( esc_html__( 'Invalid id.', 'wp-job-openings' ) );
 			}
 			$file_details = $this->get_attached_file_details( $attachment_id );
+
 			if ( ! empty( $file_details ) ) {
 				$file_name = sanitize_title( get_the_title( $attachment_id ) . $suffix );
+
+				if ( ob_get_level() ) {
+					ob_end_clean();
+				}
+
 				header( 'Content-Description: File Transfer' );
 				header( 'Content-Type: ' . $file_details['file_type']['type'] );
 				header( 'Content-Disposition: attachment; filename="' . $file_name . '.' . $file_details['file_type']['ext'] . '"' );
 				header( 'Expires: 0' );
-				header( 'Pragma: no-cache' );
+				header( 'Cache-Control: must-revalidate' ); 
+				header( 'Pragma: public' );
+
 				if ( ! empty( $file_details['file_size']['size'] ) ) {
 					header( 'Content-Length: ' . $file_details['file_size']['size'] );
 				}
-				readfile( $file_details['file_name'] );
+
+				if ( is_readable( $file_details['file_name'] ) ) {
+					readfile( $file_details['file_name'] );
+				} else {
+					wp_die( esc_html__( 'File is not readable.', 'wp-job-openings' ) );
+				}
 				exit;
 			} else {
 				wp_die( esc_html__( 'File not found!', 'wp-job-openings' ) );
