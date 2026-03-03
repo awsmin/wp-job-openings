@@ -166,29 +166,28 @@ class AWSM_Job_Openings_Core {
 	}
 
 	public static function get_unviewed_applications_count() {
-		$args = array(
-			'post_type'   => 'awsm_job_application',
-			'post_status' => 'publish',
-			'meta_query'  => array(
-				'relation' => 'OR',
-				array(
-					'key'     => 'awsm_application_viewed',
-					'value'   => '0',
-					'type'    => 'numeric',
-					'compare' => '=',
-				),
-				array(
-					'key'     => 'awsm_application_viewed',
-					'compare' => 'NOT EXISTS',
-				),
-			),
-			'fields'      => 'ids',
+		global $wpdb;
+
+		$count = $wpdb->get_var(
+			$wpdb->prepare(
+				"
+				SELECT COUNT(DISTINCT p.ID)
+				FROM {$wpdb->posts} p
+				LEFT JOIN {$wpdb->postmeta} pm
+					ON pm.post_id = p.ID
+					AND pm.meta_key = %s
+				WHERE p.post_type   = %s
+				AND p.post_status = %s
+				AND (pm.meta_value IS NULL OR pm.meta_value = %s)
+				",
+				'awsm_application_viewed',
+				'awsm_job_application',
+				'publish',
+				'0'
+			)
 		);
 
-		$query          = new WP_Query( $args );
-		$unviewed_count = $query->found_posts;
-
-		return $unviewed_count;
+		return (int) $count;
 	}
 
 	private function get_caps() {
