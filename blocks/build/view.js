@@ -124,6 +124,8 @@ jQuery(function ($) {
       return strKey;
     };
     var parsedListingsAttrs = ['listings', 'specs', 'search', 'lang', 'taxonomy', 'termId',
+    // Prevent wrapper state from overriding computed pagination.
+    'page', 'paged',
     // block attrs (ONLY dashed)
     'awsm-layout', 'awsm-hide-expired-jobs', 'awsm-other-options', 'awsm-selected-terms', 'awsm-spec-icons', 'awsm-order-by'];
 
@@ -144,6 +146,40 @@ jQuery(function ($) {
       }
     });
     return data;
+  }
+
+  // Normalize AWSM camelCase params to dashed, then de-dupe scalar keys.
+  // Keeps bracket params (e.g. `awsm_job_spec[tax][]`) untouched to preserve multi-values.
+  function normalizeAndDedupeParams(params) {
+    var out = [];
+    var indexByName = {};
+    (params || []).forEach(function (item) {
+      if (!item || typeof item.name === 'undefined') {
+        return;
+      }
+      var origName = String(item.name);
+      var isBracket = origName.indexOf('[') !== -1;
+      var name = origName;
+      // Only normalize AWSM keys; keep others as-is (e.g. `termId`).
+      if (!isBracket && name.indexOf('awsm') === 0 && /[A-Z]/.test(name)) {
+        name = name.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
+      }
+      var normalizedItem = name === origName ? item : {
+        name: name,
+        value: item.value
+      };
+      if (isBracket) {
+        out.push(normalizedItem);
+        return;
+      }
+      if (typeof indexByName[name] !== 'undefined') {
+        out[indexByName[name]] = normalizedItem; // keep last
+        return;
+      }
+      indexByName[name] = out.length;
+      out.push(normalizedItem);
+    });
+    return out;
   }
   function awsmJobFilters($rootWrapper) {
     var $wrapper = $rootWrapper.find(wrapperSelector);
@@ -246,6 +282,7 @@ jQuery(function ($) {
       formData = formData.concat(listingsData);
     }
     $(document).trigger('awsmJobBlockFiltersFormData', [$wrapper, formData]);
+    formData = normalizeAndDedupeParams(formData);
     if (!$wrapper.data('awsmFilterBusy')) {
       $wrapper.data('awsmFilterBusy', true);
       var actionUrl = $filterForm.length > 0 ? $filterForm.attr('action') : awsmJobsPublic.ajaxurl;
@@ -730,6 +767,7 @@ jQuery(function ($) {
     if (listingsData.length > 0) {
       wpData = wpData.concat(listingsData);
     }
+    wpData = normalizeAndDedupeParams(wpData);
 
     // now, handle ajax
     $.ajax({
