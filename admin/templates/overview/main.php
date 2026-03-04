@@ -13,7 +13,7 @@ $total_active_applications = intval( $overview_data['active_applications'] );
 $applications_count        = intval( $overview_data['unread_applications'] );
 // Enable meta-box support.
 do_action( 'add_meta_boxes_' . AWSM_Job_Openings_Overview::$screen_id, null );
-
+global $post;
 if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 	$response = wp_remote_get( esc_url( 'http://dev.awsm.in/innovations/wp-json/awsm-plugins/v1/job-add-ons' ) );
 	if ( is_wp_error( $response ) ) {
@@ -250,8 +250,10 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 				if ( ! empty( $applications ) ) :
 					foreach ( $applications as $application ) :
 						$applicant_email = get_post_meta( $application->ID, 'awsm_applicant_email', true );
-						$avatar          = apply_filters( 'awsm_applicant_photo', get_avatar( $applicant_email, 130 ) );
-						$avatar          = apply_filters( 'awsm_applicant_photo', get_avatar( $applicant_email, 36 ), $application->ID );
+						$post = $application; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+						setup_postdata( $post );
+						$avatar = apply_filters( 'awsm_applicant_photo', get_avatar( $applicant_email, 36 ) );
+						wp_reset_postdata();
 						$edit_link       = AWSM_Job_Openings::get_application_edit_link( $application->ID );
 						$submission_time = human_time_diff( get_the_time( 'U', $application->ID ), current_time( 'timestamp' ) ) . ' ' . __( 'ago', 'wp-job-openings' );
 						?>
@@ -259,7 +261,7 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 						<?php echo $avatar; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 						<p>
 							<strong><?php echo esc_html( $application->post_title ); ?></strong>
-						<?php echo esc_html( get_post_meta( $application->ID, 'awsm_apply_for', true ) ); ?>
+							<?php echo esc_html( get_post_meta( $application->ID, 'awsm_apply_for', true ) ); ?>
 						</p>
 						<svg width="4.922" height="8.333" viewBox="0 0 4.922 8.333" xmlns="http://www.w3.org/2000/svg" version="1.1" preserveAspectRatio="xMinYMin">
 							<path xmlns="http://www.w3.org/2000/svg" d="M0.41139,0.133199 L0.13652,0.406167 C0.05068,0.492077 0.00339,0.606377 0.00339,0.728527 C0.00339,0.850617 0.05068,0.965047 0.13652,1.050957 L3.2505,4.164807 L0.13306,7.282237 C0.04722,7.368017 4.4408921e-16,7.482447 4.4408921e-16,7.604537 C4.4408921e-16,7.726617 0.04722,7.841117 0.13306,7.926967 L0.40624,8.199997 C0.58388,8.377777 0.87325,8.377777 1.05089,8.199997 L4.77592,4.488317 C4.86169,4.402547 4.92213,4.288247 4.92213,4.165077 L4.92213,4.163647 C4.92213,4.041497 4.86162,3.927197 4.77592,3.841427 L1.06098,0.133199 C0.97521,0.04729 0.85746,0.000135 0.73537,2.22044605e-16 C0.61322,2.22044605e-16 0.49709,0.04729 0.41139,0.133199 Z"/>
