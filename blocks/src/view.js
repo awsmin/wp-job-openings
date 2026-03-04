@@ -365,35 +365,46 @@ jQuery( function( $ ) {
 		$( '.awsm-b-job-no-more-jobs-get' ).slice( 1 ).hide();
 	}
 
-	$(filterSelector + ' .awsm-b-filter-option').selectric({
-		multiple: {
-			keepMenuOpen: true
-		},
-  		onInit: function(select, selectric) {
-			var id = select.id;
+	// Init Selectric per-select so we can vary options based on placement.
+	$( filterSelector + ' .awsm-b-filter-option' ).each( function() {
+		const $selectEl = $( this );
+		const $rootWrapper = $selectEl.closest( rootWrapperSelector );
+		const isTopPlacement =
+			$rootWrapper.length > 0 &&
+			! $rootWrapper.hasClass( 'awsm-job-form-plugin-style' );
 
-			if (selectric && selectric.elements && selectric.elements.input) {
-				var $input = $(selectric.elements.input);
-				$(select).attr('id', 'selectric-' + id);
-				$input.attr('id', id);
+		$selectEl.selectric( {
+			multiple: {
+				keepMenuOpen: true,
+				separator: ', ',
+				// Top placement: show only first 2 labels and then "..." (Selectric built-in).
+				maxLabelEntries: isTopPlacement ? 2 : false
+			},
+			onInit: function( select, selectric ) {
+				var id = select.id;
+
+				if ( selectric && selectric.elements && selectric.elements.input ) {
+					var $input = $( selectric.elements.input );
+					$( select ).attr( 'id', 'selectric-' + id );
+					$input.attr( 'id', id );
+				}
+
+				const $select = $( select );
+
+				setTimeout( function() {
+					syncAllOptionFromUrl( $select );
+					forceAllLabel( $select );
+				}, 0 );
+			},
+
+			arrowButtonMarkup:
+				'<span class="awsm-selectric-arrow-drop">&#x25be;</span>',
+			customClass: {
+				prefix: 'awsm-selectric',
+				camelCase: false
 			}
-
-			const $select = $(select);
-
-			setTimeout(function() {
-				syncAllOptionFromUrl($select);
-				forceAllLabel($select);
-			}, 0);
-
-		},
-
-		arrowButtonMarkup: '<span class="awsm-selectric-arrow-drop">&#x25be;</span>',
-		customClass: {
-			prefix: 'awsm-selectric',
-			camelCase: false
-		},
-
-	});
+		} );
+	} );
 
 	$(document).on('change', filterSelector + ' .awsm-b-filter-option', function() {
 		const $select = $(this);
@@ -544,8 +555,9 @@ jQuery( function( $ ) {
 		const selectric = $select.data('selectric');
 		const $allOption = $select.find('option').first();
 
-		if (selectric && $allOption.is(':selected')) {
-			selectric.elements.label.text($allOption.text());
+		if ( selectric && $allOption.is( ':selected' ) ) {
+			// Selectric omits empty-value options in multi-select label; ensure "All" shows.
+			selectric.elements.label.text( $allOption.text() );
 		}
 	}
 
