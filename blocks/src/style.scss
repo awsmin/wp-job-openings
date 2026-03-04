@@ -130,6 +130,11 @@ a.awsm-b-job-item {
 .awsm-b-filter-wrap {
 	margin: 0 -10px 20px;
 }
+
+// Avoid a flash of native <select> elements before Selectric initializes (notable on refresh).
+.awsm-b-filter-wrap.awsm-selectric-loading .awsm-b-filter-item:not(.awsm-b-filter-item-search) {
+	visibility: hidden;
+}
 .awsm-b-filter-wrap form{
 	display: flex;
 	flex-wrap: wrap;

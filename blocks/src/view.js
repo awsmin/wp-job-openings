@@ -365,6 +365,25 @@ jQuery( function( $ ) {
 		$( '.awsm-b-job-no-more-jobs-get' ).slice( 1 ).hide();
 	}
 
+	// Markup may include `awsm-selectric-loading` to prevent the native <select> flash on refresh.
+	// Remove the class once all Selectric instances inside the wrap are initialized.
+	$( filterSelector + '.awsm-selectric-loading' ).each( function() {
+		const $wrap = $( this );
+		const count = $wrap.find( 'select.awsm-b-filter-option' ).length;
+
+		$wrap.data( 'awsmSelectricPending', count );
+
+		if ( count === 0 ) {
+			$wrap.removeClass( 'awsm-selectric-loading' );
+			return;
+		}
+
+		// Fallback: don't keep the UI hidden forever if Selectric fails to init for any reason.
+		setTimeout( function() {
+			$wrap.removeClass( 'awsm-selectric-loading' );
+		}, 2000 );
+	} );
+
 	// Init Selectric per-select so we can vary options based on placement.
 	$( filterSelector + ' .awsm-b-filter-option' ).each( function() {
 		const $selectEl = $( this );
@@ -390,6 +409,19 @@ jQuery( function( $ ) {
 				}
 
 				const $select = $( select );
+				const $filterWrap = $select.closest( filterSelector );
+
+				if ( $filterWrap.hasClass( 'awsm-selectric-loading' ) ) {
+					let pending = parseInt( $filterWrap.data( 'awsmSelectricPending' ), 10 );
+					if ( isNaN( pending ) ) {
+						pending = 0;
+					}
+					pending = Math.max( pending - 1, 0 );
+					$filterWrap.data( 'awsmSelectricPending', pending );
+					if ( pending === 0 ) {
+						$filterWrap.removeClass( 'awsm-selectric-loading' );
+					}
+				}
 
 				setTimeout( function() {
 					syncAllOptionFromUrl( $select );

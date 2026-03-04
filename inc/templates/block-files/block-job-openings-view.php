@@ -137,7 +137,7 @@ if ( $placement === 'top' ) {
 	?>
 		<div <?php echo $wrapper_attrs; ?>>
 			<?php if ( $show_filter ) { ?>
-				<div class="awsm-b-filter-wrap awsm-jobs-alerts-on">
+				<div class="awsm-b-filter-wrap<?php echo ( is_admin() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) ? '' : ' awsm-selectric-loading'; ?> awsm-jobs-alerts-on">
 					<?php
 						/**
 						 * awsm_block_filter_form_side hook

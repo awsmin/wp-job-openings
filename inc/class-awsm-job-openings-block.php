@@ -776,7 +776,12 @@ class AWSM_Job_Openings_Block {
 				$specs_filter_content = sprintf( '<a href="#" class="awsm-b-filter-toggle" role="button" aria-pressed="false">%2$s</a>' . $custom_action_content_filter . '<div class="awsm-b-filter-items' . $filter_class_admin . '">%1$s</div>', $specs_filter_content, $toggle_control );
 			}
 
-			$wrapper_class = 'awsm-b-filter-wrap';
+				$wrapper_class = 'awsm-b-filter-wrap';
+				// Hide native selects until Selectric initializes to avoid a flash on page refresh.
+				// Don't add this in wp-admin OR REST block previews (editor), because Selectric isn't guaranteed to run there.
+				if ( ! self::is_edit_or_add_page() && ! ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
+					$wrapper_class .= ' awsm-selectric-loading';
+				}
 			if ( ! $enable_search ) {
 				$wrapper_class .= ' awsm-b-no-search-filter-wrap';
 			}

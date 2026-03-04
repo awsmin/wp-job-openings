@@ -485,7 +485,7 @@ if ( ! function_exists( 'render_awsm_block_job_wrap' ) ) {
 			?>
 			<div class="awsm-b-job-wrap<?php awsm_jobs_wrapper_class(); ?> awsm-job-form-plugin-style <?php echo esc_attr( $placement_sidebar_class ); ?>" id="<?php echo esc_attr( $block_id ); ?>">
 				<?php if ( $show_filter ) : ?>
-					<div class="awsm-b-filter-wrap awsm-jobs-alerts-on">
+					<div class="awsm-b-filter-wrap<?php echo ( is_admin() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) ? '' : ' awsm-selectric-loading'; ?> awsm-jobs-alerts-on">
 						<?php
 							do_dynamic_filter_form_action( $attributes );
 							do_action( 'awsm_block_form_outside', $attributes );
