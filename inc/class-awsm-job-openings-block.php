@@ -604,6 +604,9 @@ class AWSM_Job_Openings_Block {
 			if ( ! empty( $spec_keys ) ) {
 				$available_filters = $spec_keys;
 			}
+		} elseif ( isset( $block_atts['filter_options'] ) && is_array( $block_atts['filter_options'] ) ) {
+			// filter_options explicitly set to empty array — no filters should show.
+			$available_filters = array();
 		}
 
 			$available_filters = is_array( $available_filters ) ? $available_filters : array();

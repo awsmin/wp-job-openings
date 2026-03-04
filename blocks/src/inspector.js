@@ -210,10 +210,30 @@ const WidgetInspectorControls = (props) => {
 			<InspectorControls group="settings">
  				<Fragment>
 					<PanelBody title={__('Search & Filters', 'wp-job-openings')} initialOpen={true}>
+						{ ( search || enable_job_filter ) && (
+							<ToggleGroupControl
+								label={ __( 'Placement', 'wp-job-openings' ) }
+								value={ placement }
+								onChange={ ( newPlacement ) => setAttributes( { placement: newPlacement } ) }
+								isBlock
+								__nextHasNoMarginBottom
+								__next40pxDefaultSize
+							>
+								<ToggleGroupControlOption value="top" label={ __( 'Top', 'wp-job-openings' ) } />
+								<ToggleGroupControlOption value="side" label={ __( 'Side', 'wp-job-openings' ) } />
+							</ToggleGroupControl>
+						) }
+
 						<ToggleControl
 							label={ __( 'Enable Search', 'wp-job-openings' ) }
 							checked={ search }
-							onChange={ ( search ) => setAttributes( { search } ) }
+							onChange={ ( newSearch ) => {
+								const updates = { search: newSearch };
+								if ( ! newSearch && ! enable_job_filter ) {
+									updates.placement = 'top';
+								}
+								setAttributes( updates );
+							} }
 						/>
 						
 						{ search && (
@@ -236,22 +256,16 @@ const WidgetInspectorControls = (props) => {
 							</>
 						) }
 
-						<ToggleGroupControl
-							label={ __( 'Placement', 'wp-job-openings' ) }
-							value={ placement }
-							onChange={ ( newPlacement ) => setAttributes( { placement: newPlacement } ) }
-							isBlock
-							__nextHasNoMarginBottom
-							__next40pxDefaultSize
-						>
-							<ToggleGroupControlOption value="top" label={ __( 'Top', 'wp-job-openings' ) } />
-							<ToggleGroupControlOption value="side" label={ __( 'Side', 'wp-job-openings' ) } />
-						</ToggleGroupControl>
-
 						<ToggleControl
 							label={__("Enable Filters", "wp-job-openings")}
 							checked={enable_job_filter}
-							onChange={enable_job_filter => setAttributes({ enable_job_filter })}
+							onChange={ ( newFilter ) => {
+								const updates = { enable_job_filter: newFilter };
+								if ( ! newFilter && ! search ) {
+									updates.placement = 'top';
+								}
+								setAttributes( updates );
+							} }
 						/>
 						{enable_job_filter && (
 							<>
@@ -291,10 +305,14 @@ const WidgetInspectorControls = (props) => {
 																spec.key
 													); // Remove the filter
 
-												// Update attributes to trigger re-render
-												setAttributes( {
-													filter_options: updatedFilters,
-												} );
+										const updates = { filter_options: updatedFilters };
+
+										// If all filters are now off, disable the Enable Filters toggle too
+										if ( updatedFilters.length === 0 ) {
+											updates.enable_job_filter = false;
+										}
+
+										setAttributes( updates );
 											} }
 										/>
 
@@ -349,6 +367,13 @@ const WidgetInspectorControls = (props) => {
 							} ) }
 							</>
 						)}
+
+						{ wp.hooks.doAction(
+							'after_awsm_job_appearance',
+							block_appearance_list,
+							props
+						) }
+						{ block_appearance_list }
 					</PanelBody>
 					
 					<PanelBody title={ __( 'Layout Settings', 'wp-job-openings' ) } initialOpen={true}>
@@ -392,13 +417,6 @@ const WidgetInspectorControls = (props) => {
 								}
 							/>
 						) }
-
-						{ wp.hooks.doAction(
-							'after_awsm_job_appearance',
-							block_appearance_list,
-							props
-						) }
-						{ block_appearance_list }
 
 						<RangeControl
 							label={ __( 'Jobs Per Page', 'wp-job-openings' ) }
