@@ -494,7 +494,7 @@ class AWSM_Job_Openings_Block {
 				if ( ! empty( $terms ) ) {
 					$specs[] = array(
 						'key'   => $spec,
-						'label' => html_entity_decode( $spec_details->label ),
+						'label' => $spec_details->label,
 						'terms' => $terms,
 					);
 				}
@@ -614,7 +614,7 @@ class AWSM_Job_Openings_Block {
 
 		$available_filters_arr = array();
 		if ( $display_filters && ! empty( $taxonomies ) ) {
-			$selected_filters = self::get_block_filters_query_args( $available_filters );
+			$selected_filters = self::get_block_filters_query_args( $available_filters ); 
 			/**
 			 * Modifies the available or active filters to be displayed in the job listing.
 			 *
@@ -638,24 +638,13 @@ class AWSM_Job_Openings_Block {
 						'awsm_filter_block_spec_terms_args',
 						array(
 							'taxonomy'   => $taxonomy,
-							'orderby'    => 'meta_value_num',
-							'meta_query' => array(
-								'relation' => 'OR',
-								array(
-									'key'     => 'term_order',
-									'compare' => 'EXISTS',
-								),
-								array(
-									'key'     => 'term_order',
-									'compare' => 'NOT EXISTS',
-								),
-							),
-							'order'      => 'ASC',
-							'hide_empty' => false,
+							'orderby'    => 'name',
+							// If "Hide expired jobs" is enabled, hide terms without active jobs.
+							'hide_empty' => ! empty( $block_atts['hide_expired_jobs'] ),
 						)
 					);
 
-					$terms = get_terms( $terms_args );
+					$terms = get_terms( $terms_args );  
 					if ( ! empty( $terms ) ) {
 						$available_filters_arr[ $taxonomy ] = $tax_details->label;
 
@@ -871,7 +860,8 @@ class AWSM_Job_Openings_Block {
 								array(
 									'taxonomy'   => $taxonomy,
 									'orderby'    => 'name',
-									'hide_empty' => true,
+									// If "Hide expired jobs" is enabled, hide terms without active jobs.
+									'hide_empty' => ! empty( $block_atts['hide_expired_jobs'] ),
 								)
 							);
 							$terms      = get_terms( $terms_args );

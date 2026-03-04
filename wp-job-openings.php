@@ -1264,7 +1264,6 @@ class AWSM_Job_Openings {
 				'isProEnabled'              => class_exists( 'AWSM_Job_Openings_Pro_Pack' ),
 			)
 		);
-
 		wp_localize_script(
 			'awsm-job-admin-overview',
 			'awsmJobsAdminOverview',
