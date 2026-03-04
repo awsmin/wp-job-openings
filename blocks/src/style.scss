@@ -185,9 +185,8 @@ a.awsm-b-job-item {
 	}
 }
 .awsm-b-filter-wrap .awsm-b-filter-item {
-	/* display: inline-block; */
 	padding: 0 10px 10px;
-	/* vertical-align: top; */
+	max-width: 100%;
 }
 
 .awsm-b-filter-item-search{
@@ -945,15 +944,22 @@ ul.awsm-error-message li {
 	padding-left: var(--hz-jl-padding-left, 15px);
 
 	display: flex;
-	flex-wrap: wrap;
+	/*flex-wrap: wrap;*/
 	align-items: center;
 	justify-content: space-between;
 	gap: 10px;
+
+	@media (max-width:600px){
+		flex-direction: column;
+        align-items: flex-start;
+	}
 }
 .awsm-b-stack-left-col{
-	display: flex;
+/* display: flex;
 	flex-direction: column;
-	flex-wrap: wrap;
+	flex-wrap: wrap; */
+	flex: 1 1 auto;
+    min-width: 0;
 	@media (max-width:600px){
 		width: 100%;
 	}
@@ -969,8 +975,12 @@ ul.awsm-error-message li {
 	}
 }
 .awsm-b-stack-right-col{
+	flex: 0 0 auto;
+    margin-left: auto;
 	@media (max-width:600px){
 		width: 100%;
+		margin-left: 0;
+        margin-top: 10px;
 	}
 }
 
