@@ -9,7 +9,7 @@
 	"attributes": {
 		"search": {
 			"type": "boolean",
-			"default": true
+			"default": false
 		},
 		"placement": {
 			"type": "string",
