@@ -137,6 +137,7 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 							 * @since 1.6.0
 							 */
 							do_action( 'before_awsm_job_applicant_mb_details_list', $post->ID );
+							
 							?>
 							<ul class="awsm-applicant-details-list">
 								<?php

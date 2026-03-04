@@ -148,7 +148,7 @@ class AWSM_Job_Openings_Meta {
 			),
 			$post_id
 		);
-
+		error_log( 'Applicant Meta: ' . print_r( $applicant_meta, true ) ); // Debug log
 		if ( ! empty( $applicant_meta ) && is_array( $applicant_meta ) ) {
 			foreach ( $applicant_meta as $meta_key => $meta_options ) {
 				$visible    = isset( $meta_options['visible'] ) ? $meta_options['visible'] : true;
@@ -195,7 +195,6 @@ class AWSM_Job_Openings_Meta {
 							);
 						}
 					} else {
-						// ADD THIS: handle array values (e.g. checkbox)
 						if ( is_array( $value ) ) {
 							$value = implode( ', ', array_map( 'sanitize_text_field', $value ) );
 						}
@@ -214,7 +213,6 @@ class AWSM_Job_Openings_Meta {
 						$meta_content  = ! $is_meta_group ? '<span>' . $meta_content . '</span>' : $meta_content;
 						$list         .= sprintf( '<li><label>%1$s</label>%2$s</li>', esc_html( $label ), '<div class="' . $meta_key . '">' . $meta_content . '</div>' );
 					}
-
 					// Add to meta details array
 					$meta_details[ $meta_key ] = $value;
 				}
@@ -222,6 +220,7 @@ class AWSM_Job_Openings_Meta {
 		}
 
 		$list = apply_filters( 'awsm_jobs_applicant_meta_details_list', $list, $applicant_meta, $post_id );
+		//error_log( 'Applicant Meta Details List: ' . print_r( $list, true ) ); // Debug log
 		return array(
 			'name'         => $name,
 			'email'        => $email,
