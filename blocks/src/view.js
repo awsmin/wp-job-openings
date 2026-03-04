@@ -40,7 +40,6 @@ jQuery( function( $ ) {
 
 		const parsedListingsAttrs = [
 			'listings',
-			'specs',
 			'search',
 			'lang',
 			'taxonomy',
@@ -146,7 +145,6 @@ jQuery( function( $ ) {
 		}
 
 		const listings 			= $wrapper.data( 'listings' );
-		const specs 			= $wrapper.data( 'specs' );
 		const layout 			= $wrapper.data( 'awsm-layout' );
 		const hide_expired_jobs = $wrapper.data( 'awsm-hide-expired-jobs' );
 	//	let selected_terms 		= $wrapper.data( 'awsm-selected-terms' );
@@ -172,10 +170,6 @@ jQuery( function( $ ) {
 
 		/* Core parameters */
 		formData.push( { name: 'listings_per_page', value: listings } );
-
-		if ( typeof specs !== 'undefined' ) {
-			formData.push( { name: 'shortcode_specs', value: specs } );
-		}
 
 		if ( typeof layout !== 'undefined' ) {
 			formData.push( { name: 'awsm-layout', value: layout } );
@@ -646,7 +640,6 @@ jQuery( function( $ ) {
 				'.awsm-b-jobs-pagination'
 			);
 			const listings = $listingsContainer.data( 'listings' );
-			const specs = $listingsContainer.data( 'specs' );
 			const lang = $listingsContainer.data( 'lang' );
 			const searchQuery = $listingsContainer.data( 'search' );
 			const order_by = $listingsContainer.data( 'awsm-order-by' );
@@ -786,12 +779,6 @@ jQuery( function( $ ) {
 				wpData.push( {
 					name: 'listings_per_page',
 					value: listings
-				} );
-			}
-			if ( typeof specs !== 'undefined' ) {
-				wpData.push( {
-					name: 'shortcode_specs',
-					value: specs
 				} );
 			}
 

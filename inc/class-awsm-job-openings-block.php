@@ -582,9 +582,9 @@ class AWSM_Job_Openings_Block {
 			$search_content = apply_filters( 'awsm_jobs_block_search_field_content', $search_content );
 		}
 
-			$taxonomies      = get_object_taxonomies( 'awsm_job_openings', 'objects' );
-			// Respect separate toggles: search and filters can be enabled independently.
-			$display_filters = ( $enable_job_filters === 'enable' );
+		$taxonomies      = get_object_taxonomies( 'awsm_job_openings', 'objects' );
+		// Respect separate toggles: search and filters can be enabled independently.
+		$display_filters = ( $enable_job_filters === 'enable' );
 
 		$available_filters = get_option( 'awsm_jobs_listing_available_filters' );
 
@@ -609,10 +609,10 @@ class AWSM_Job_Openings_Block {
 			$available_filters = array();
 		}
 
-			$available_filters = is_array( $available_filters ) ? $available_filters : array();
-			// Do not force-enable filters when search is enabled.
+		$available_filters = is_array( $available_filters ) ? $available_filters : array();
+		// Do not force-enable filters when search is enabled.
 
-			$available_filters_arr = array();
+		$available_filters_arr = array();
 		if ( $display_filters && ! empty( $taxonomies ) ) {
 			$selected_filters = self::get_block_filters_query_args( $available_filters ); 
 			/**
