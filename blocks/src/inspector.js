@@ -2,6 +2,7 @@ import { __ } from '@wordpress/i18n';
 import { useEffect,useRef, Fragment, useState } from '@wordpress/element';
 import { InspectorControls,BlockEdit,useBlockProps,PanelColorSettings, __experimentalBorderRadiusControl as BorderRadiusControl} from '@wordpress/block-editor';
 import { addFilter } from '@wordpress/hooks';
+import { useSelect } from '@wordpress/data';
 
 import {
     PanelBody,
@@ -23,6 +24,7 @@ import {
 
 const WidgetInspectorControls = (props) => {
     const {
+		clientId,
 		attributes: {
 			search,
 			placement,
@@ -72,6 +74,21 @@ const WidgetInspectorControls = (props) => {
 	const block_job_listing = [];
 	const block_styles_panel = [];
 
+	const { wasJustInserted, hasOriginalContent } = useSelect(
+		(select) => {
+			const editor = select('core/block-editor');
+			const block = editor?.getBlock ? editor.getBlock(clientId) : null;
+
+			return {
+				wasJustInserted: editor?.wasBlockJustInserted
+					? editor.wasBlockJustInserted(clientId)
+					: false,
+				hasOriginalContent: !!block?.originalContent,
+			};
+		},
+		[clientId]
+	);
+
 	useEffect(() => {
 		if (!specifications?.length) return;
 
@@ -96,18 +113,30 @@ const WidgetInspectorControls = (props) => {
 
 	useEffect(() => {
 		if (!filtersInitRef.current && specifications?.length > 0) {
-			const normalizedFilters = filter_options?.length
-				? filter_options.map(option =>
+			// If a block has filters already, normalize legacy formats (e.g. array of strings)
+			// into the new object shape (specKey + value).
+			if (filter_options?.length) {
+				const normalizedFilters = filter_options.map((option) =>
 					typeof option === 'object' && option.specKey
 						? option
 						: { specKey: option, value: 'dropdown' }
-				)
-				: specifications.map(spec => ({ specKey: spec.key, value: 'dropdown' }));
+				);
 
-			setAttributes({ filter_options: normalizedFilters });
+				setAttributes({ filter_options: normalizedFilters });
+			} else if (wasJustInserted || !hasOriginalContent) {
+				// New inserts: enable all filters by default.
+				const allFilters = specifications.map((spec) => ({
+					specKey: spec.key,
+					value: 'dropdown',
+				}));
+				setAttributes({
+					filter_options: allFilters,
+					selected_terms_main: specifications.map((spec) => spec.key),
+				});
+			}
 			filtersInitRef.current = true;
 		}
-	}, [specifications, filter_options]);
+	}, [specifications, filter_options, wasJustInserted, hasOriginalContent]);
 
 		const handleTermChange = (newTokens, specKey, spec) => {
 			const newTermIds = newTokens

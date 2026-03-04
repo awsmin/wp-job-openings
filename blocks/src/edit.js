@@ -43,10 +43,16 @@ export default function Edit( props ) {
 	const blockProps = useBlockProps();
 
 	let specifications = awsmJobsAdmin.awsm_filters_block;
+	const filterOptionKeys = Array.isArray( filter_options )
+		? filter_options
+				.map( ( opt ) => ( typeof opt === 'string' ? opt : opt?.specKey ) )
+				.filter( Boolean )
+		: [];
+
 	specifications = specifications.filter( ( spec ) => {
 		if (
 			typeof filter_options !== 'undefined' &&
-			filter_options.includes( spec.key )
+			filterOptionKeys.includes( spec.key )
 		) {
 			return spec;
 		}
