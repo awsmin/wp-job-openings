@@ -315,10 +315,16 @@ if ( ! function_exists( 'awsm_jobs_block_listing_item_class' ) ) {
 if ( ! function_exists( 'hz_get_ui_styles' ) ) {
 	function hz_get_ui_styles( $attributes ) {
 
+		if ( ! empty( $attributes['anchor'] ) ) {
+			$block_id = sanitize_title( $attributes['anchor'] );
+		} elseif ( ! empty( $attributes['blockId'] ) ) {
+			$block_id = $attributes['blockId'];
+		} else {
+			$block_id = 'awsm-block-' . wp_unique_id();
+		}
+
 		$styles = array(
-			'block_id'                         => ! empty( $attributes['anchor'] )
-			? $attributes['anchor']
-			: 'awsm-block-' . wp_unique_id(),
+			'block_id'                         => $block_id,
 
 			// Search form / main block
 			'border_width'                     => ! empty( $attributes['hz_sf_border_width'] ) && $attributes['hz_sf_border_width'] !== '0px'

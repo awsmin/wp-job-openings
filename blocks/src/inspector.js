@@ -26,6 +26,7 @@ const WidgetInspectorControls = (props) => {
     const {
 		clientId,
 		attributes: {
+			blockId,
 			search,
 			placement,
 			filter_options,
@@ -113,6 +114,15 @@ const WidgetInspectorControls = (props) => {
 	}, [selected_terms_main]);
 
 	useEffect(() => {
+		const expectedId = 'block-' + clientId;
+		if (!blockId || blockId !== expectedId) {
+			// Persist a stable, unique id so CSS variables can be scoped per-block on the frontend.
+			// Also regenerate on duplication (blockId won't match the new clientId).
+			setAttributes({ blockId: expectedId });
+		}
+	}, []);
+
+	useEffect(() => {
 		if (!filtersInitRef.current && specifications?.length > 0) {
 			// If a block has filters already, normalize legacy formats (e.g. array of strings)
 			// into the new object shape (specKey + value).
@@ -131,6 +141,7 @@ const WidgetInspectorControls = (props) => {
 					value: 'dropdown',
 				}));
 				setAttributes({
+					enable_job_filter: true,
 					filter_options: allFilters,
 					selected_terms_main: specifications.map((spec) => spec.key),
 				});

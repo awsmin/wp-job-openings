@@ -7,6 +7,10 @@
 	"category": "widgets",
 	"description": "Display and filter job listings.",
 	"attributes": {
+		"blockId": {
+			"type": "string",
+			"default": ""
+		},
 		"search": {
 			"type": "boolean",
 			"default": false
