@@ -109,13 +109,14 @@ const WidgetInspectorControls = (props) => {
 		}
 	}, [specifications, filter_options]);
 
-	const handleTermChange = (newTokens, specKey, spec) => {
-		const newTermIds = newTokens
-			.map((token) => {
-				const term = spec.terms.find((t) => t.name === token);
-				return term ? term.term_id : null;
-			})
-			.filter((id) => id !== null);
+		const handleTermChange = (newTokens, specKey, spec) => {
+			const newTermIds = newTokens
+				.map((token) => {
+					// Normalize to string so purely-numeric term names work in FormTokenField.
+					const term = spec.terms.find((t) => String(t.name) === String(token));
+					return term ? term.term_id : null;
+				})
+				.filter((id) => id !== null);
 
 		const updatedSelectedTerms = {
 			...selectedTermsState,
@@ -463,31 +464,32 @@ const WidgetInspectorControls = (props) => {
 										/>
 
 										{ /* Show FormTokenField only when toggle is on */ }
-										{ toggleState[ spec.key ] && (
-											<FormTokenField
-												value={ (
-													selectedTermsState[ spec.key ] || []
-												).map( ( id ) => {
-													const term = spec.terms.find(
-														( t ) => t.term_id === id
-													);
-													return term ? term.name : '';
-												} ) }
-												onChange={ ( newTokens ) =>
-													handleTermChange(
-														newTokens,
-														spec.key,
-														spec
-													)
-												}
-												suggestions={ spec.terms.map(
-													( term ) => term.name
-												) } // Suggestions are term names
-												label=""
-											/>
-										) }
-									</div>
-								) ) }
+											{ toggleState[ spec.key ] && (
+												<FormTokenField
+													value={ (
+														selectedTermsState[ spec.key ] || []
+													).map( ( id ) => {
+														const term = spec.terms.find(
+															( t ) => t.term_id === id
+														);
+														return term ? String( term.name ) : '';
+													} ) }
+													onChange={ ( newTokens ) =>
+														handleTermChange(
+															newTokens,
+															spec.key,
+															spec
+														)
+													}
+													suggestions={ spec.terms.map(
+														( term ) => String( term.name )
+													) } 
+													__experimentalExpandOnFocus={ true }
+													label=""
+												/>
+											) }
+										</div>
+									) ) }
 							</>
 						) }
 
