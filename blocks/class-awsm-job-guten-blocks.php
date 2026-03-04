@@ -52,6 +52,7 @@ class Awsm_Job_Guten_Blocks {
 		}
 
 		$search_enabled     = ! empty( $atts['search'] );
+		$filters_enabled    = ! empty( $atts['enable_job_filter'] );
 		$hide_expired       = ! empty( $atts['hide_expired_jobs'] );
 		$show_spec_icon     = ! empty( $atts['show_spec_icon'] );
 
@@ -59,6 +60,10 @@ class Awsm_Job_Guten_Blocks {
 
 		if ( $search_enabled ) {
 			$processed_atts['search'] = 'enable';
+		}
+
+		if ( $filters_enabled ) {
+			$processed_atts['enable_job_filter'] = 'enable';
 		}
 
 		if ( $hide_expired ) {

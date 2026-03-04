@@ -170,6 +170,10 @@
     },
     "anchor": {
       "type": "string"
+    },
+    "enable_job_filter": {
+      "type": "boolean",
+      "default": true
     }
   },
   "example": {},

@@ -30,6 +30,7 @@ const WidgetInspectorControls = (props) => {
 			placement,
 			filter_options,
 			pagination,
+			enable_job_filter,
 			search_placeholder,
 			hide_expired_jobs,
 			order_by,
@@ -210,25 +211,13 @@ const WidgetInspectorControls = (props) => {
  				<Fragment>
 					<PanelBody title={__('Search & Filters', 'wp-job-openings')} initialOpen={true}>
 						<ToggleControl
-							label={ __( 'Enable Search & Filters', 'wp-job-openings' ) }
+							label={ __( 'Enable Search', 'wp-job-openings' ) }
 							checked={ search }
 							onChange={ ( search ) => setAttributes( { search } ) }
 						/>
 						
 						{ search && (
 							<>
-								<ToggleGroupControl
-									label={ __( 'Placement', 'wp-job-openings' ) }
-									value={ placement }
-									onChange={ ( newPlacement ) => setAttributes( { placement: newPlacement } ) }
-									isBlock
-									__nextHasNoMarginBottom
-									__next40pxDefaultSize
-								>
-									<ToggleGroupControlOption value="top" label={ __( 'Top', 'wp-job-openings' ) } />
-									<ToggleGroupControlOption value="side" label={ __( 'Side', 'wp-job-openings' ) } />
-								</ToggleGroupControl>
-
 								<TextControl
 									label={ __(
 										'Search Placeholder',
@@ -244,100 +233,122 @@ const WidgetInspectorControls = (props) => {
 									) }
 								/>
 
-								<h2>
-									{ __( 'Available Filters', 'wp-job-openings' ) }
-								</h2>
-								{ specifications.map( ( spec ) => {
-									const filterOption = filter_options.find(
-										( option ) => option.specKey === spec.key
-									);
-
-									// Check if there are multiple selected terms for the specKey
-									const hasMultipleSelectedTerms =
-										( selectedTermsState[ spec.key ] || [] )
-											.length > 1;
-
-									return (
-										<div key={ spec.key }> 
-											{ /* Toggle Control */ }
-											<ToggleControl
-												label={ spec.label }
-												checked={ filterOption !== undefined }
-												onChange={ ( toggleValue ) => { 
-													const updatedFilters = toggleValue
-														? [
-																...filter_options,
-																{
-																	specKey: spec.key,
-																	value: hasMultipleSelectedTerms
-																		? 'checkbox'
-																		: 'dropdown',
-																},
-														] // Choose checkbox if multiple terms are selected
-														: filter_options.filter(
-																( option ) =>
-																	option.specKey !==
-																	spec.key
-														); // Remove the filter
-
-													// Update attributes to trigger re-render
-													setAttributes( {
-														filter_options: updatedFilters,
-													} );
-												} }
-											/>
-
-											{ filterOption && (
-												<div className="filters-button">
-													{/* Single Select */}
-													<Button
-														className={`filter-btn ${
-															filterOption.value === 'dropdown' ? 'is-active' : ''
-														}`}
-														__next40pxDefaultSize
-														onClick={() => {
-															const updatedFilters = filter_options.map((option) =>
-																option.specKey === spec.key
-																	? { ...option, value: 'dropdown' }
-																	: option
-															);
-
-															setAttributes({
-																filter_options: updatedFilters,
-															});
-														}}
-													>
-														{__('Single Select', 'wp-job-openings')}
-													</Button>
-
-													{/* Multi Select */}
-													<Button
-														className={`filter-btn ${
-															filterOption.value === 'checkbox' ? 'is-active' : ''
-														}`}
-														__next40pxDefaultSize
-														onClick={() => {
-															const updatedFilters = filter_options.map((option) =>
-																option.specKey === spec.key
-																	? { ...option, value: 'checkbox' }
-																	: option
-															);
-
-															setAttributes({
-																filter_options: updatedFilters,
-															});
-														}}
-													>
-														{__('Multi Select', 'wp-job-openings')}
-													</Button>
-												</div>
-											)}
-
-										</div>
-									);
-								} ) }
 							</>
 						) }
+
+						<ToggleGroupControl
+							label={ __( 'Placement', 'wp-job-openings' ) }
+							value={ placement }
+							onChange={ ( newPlacement ) => setAttributes( { placement: newPlacement } ) }
+							isBlock
+							__nextHasNoMarginBottom
+							__next40pxDefaultSize
+						>
+							<ToggleGroupControlOption value="top" label={ __( 'Top', 'wp-job-openings' ) } />
+							<ToggleGroupControlOption value="side" label={ __( 'Side', 'wp-job-openings' ) } />
+						</ToggleGroupControl>
+
+						<ToggleControl
+							label={__("Enable Filters", "wp-job-openings")}
+							checked={enable_job_filter}
+							onChange={enable_job_filter => setAttributes({ enable_job_filter })}
+						/>
+						{enable_job_filter && (
+							<>
+							<h2>
+								{ __( 'Available Filters', 'wp-job-openings' ) }
+							</h2>
+							{ specifications.map( ( spec ) => {
+								const filterOption = filter_options.find(
+									( option ) => option.specKey === spec.key
+								);
+
+								// Check if there are multiple selected terms for the specKey
+								const hasMultipleSelectedTerms =
+									( selectedTermsState[ spec.key ] || [] )
+										.length > 1;
+
+								return (
+									<div key={ spec.key }> 
+										{ /* Toggle Control */ }
+										<ToggleControl
+											label={ spec.label }
+											checked={ filterOption !== undefined }
+											onChange={ ( toggleValue ) => { 
+												const updatedFilters = toggleValue
+													? [
+															...filter_options,
+															{
+																specKey: spec.key,
+																value: hasMultipleSelectedTerms
+																	? 'checkbox'
+																	: 'dropdown',
+															},
+													] // Choose checkbox if multiple terms are selected
+													: filter_options.filter(
+															( option ) =>
+																option.specKey !==
+																spec.key
+													); // Remove the filter
+
+												// Update attributes to trigger re-render
+												setAttributes( {
+													filter_options: updatedFilters,
+												} );
+											} }
+										/>
+
+										{ filterOption && (
+											<div className="filters-button">
+												{/* Single Select */}
+												<Button
+													className={`filter-btn ${
+														filterOption.value === 'dropdown' ? 'is-active' : ''
+													}`}
+													__next40pxDefaultSize
+													onClick={() => {
+														const updatedFilters = filter_options.map((option) =>
+															option.specKey === spec.key
+																? { ...option, value: 'dropdown' }
+																: option
+														);
+
+														setAttributes({
+															filter_options: updatedFilters,
+														});
+													}}
+												>
+													{__('Single Select', 'wp-job-openings')}
+												</Button>
+
+												{/* Multi Select */}
+												<Button
+													className={`filter-btn ${
+														filterOption.value === 'checkbox' ? 'is-active' : ''
+													}`}
+													__next40pxDefaultSize
+													onClick={() => {
+														const updatedFilters = filter_options.map((option) =>
+															option.specKey === spec.key
+																? { ...option, value: 'checkbox' }
+																: option
+														);
+
+														setAttributes({
+															filter_options: updatedFilters,
+														});
+													}}
+												>
+													{__('Multi Select', 'wp-job-openings')}
+												</Button>
+											</div>
+										)}
+
+									</div>
+								);
+							} ) }
+							</>
+						)}
 					</PanelBody>
 					
 					<PanelBody title={ __( 'Layout Settings', 'wp-job-openings' ) } initialOpen={true}>
