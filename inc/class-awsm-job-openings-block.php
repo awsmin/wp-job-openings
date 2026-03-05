@@ -526,7 +526,7 @@ class AWSM_Job_Openings_Block {
 	public static function get_block_spec_terms( $spec ) {
 		$terms_args = array(
 			'taxonomy'   => $spec,
-			'hide_empty' => false,
+			'hide_empty' => true,
 		);
 		$terms      = get_terms( $terms_args );
 		if ( is_wp_error( $terms ) ) {
