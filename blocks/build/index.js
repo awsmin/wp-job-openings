@@ -402,37 +402,51 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
   }, []);
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_6__.useEffect)(function () {
     if (!filtersInitRef.current && (specifications === null || specifications === void 0 ? void 0 : specifications.length) > 0) {
-      // If a block has filters already, normalize legacy formats (e.g. array of strings)
-      // into the new object shape (specKey + value).
-      if (filter_options !== null && filter_options !== void 0 && filter_options.length) {
-        var normalizedFilters = filter_options.map(function (option) {
-          return (0,_babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_2__["default"])(option) === 'object' && option.specKey ? option : {
-            specKey: option,
-            value: 'dropdown'
-          };
-        });
-        setAttributes({
-          filter_options: normalizedFilters
-        });
-      } else if (wasJustInserted || !hasOriginalContent) {
-        // New inserts: enable all filters by default.
-        var allFilters = specifications.map(function (spec) {
-          return {
-            specKey: spec.key,
-            value: 'dropdown'
-          };
-        });
-        setAttributes({
-          enable_job_filter: true,
-          filter_options: allFilters,
-          selected_terms_main: specifications.map(function (spec) {
-            return spec.key;
-          })
-        });
-      }
+      var normalizedFilters = filter_options !== null && filter_options !== void 0 && filter_options.length ? filter_options.map(function (option) {
+        return (0,_babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_2__["default"])(option) === 'object' && option.specKey ? option : {
+          specKey: option,
+          value: 'dropdown'
+        };
+      }) : specifications.map(function (spec) {
+        return {
+          specKey: spec.key,
+          value: 'dropdown'
+        };
+      });
+      setAttributes({
+        filter_options: normalizedFilters
+      });
       filtersInitRef.current = true;
     }
-  }, [specifications, filter_options, wasJustInserted, hasOriginalContent]);
+  }, [specifications, filter_options]);
+
+  /* useEffect(() => {
+  	if (!filtersInitRef.current && specifications?.length > 0) {
+  		// If a block has filters already, normalize legacy formats (e.g. array of strings)
+  		// into the new object shape (specKey + value).
+  		if (filter_options?.length) {
+  			const normalizedFilters = filter_options.map((option) =>
+  				typeof option === 'object' && option.specKey
+  					? option
+  					: { specKey: option, value: 'dropdown' }
+  			);
+  				setAttributes({ filter_options: normalizedFilters });
+  		} else if (wasJustInserted || !hasOriginalContent) {
+  			// New inserts: enable all filters by default.
+  			const allFilters = specifications.map((spec) => ({
+  				specKey: spec.key,
+  				value: 'dropdown',
+  			}));
+  			setAttributes({
+  				enable_job_filter: true,
+  				filter_options: allFilters,
+  				selected_terms_main: specifications.map((spec) => spec.key),
+  			});
+  		}
+  		filtersInitRef.current = true;
+  	}
+  }, [specifications, filter_options, wasJustInserted, hasOriginalContent]); */
+
   var handleTermChange = function handleTermChange(newTokens, specKey, spec) {
     var newTermIds = newTokens.map(function (token) {
       // Normalize to string so purely-numeric term names work in FormTokenField.

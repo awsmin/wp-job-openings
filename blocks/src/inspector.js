@@ -121,8 +121,23 @@ const WidgetInspectorControls = (props) => {
 			setAttributes({ blockId: expectedId });
 		}
 	}, []);
-
+	
 	useEffect(() => {
+		if (!filtersInitRef.current && specifications?.length > 0) {
+			const normalizedFilters = filter_options?.length
+				? filter_options.map(option =>
+					typeof option === 'object' && option.specKey
+						? option
+						: { specKey: option, value: 'dropdown' }
+				)
+				: specifications.map(spec => ({ specKey: spec.key, value: 'dropdown' }));
+
+			setAttributes({ filter_options: normalizedFilters });
+			filtersInitRef.current = true;
+		}
+	}, [specifications, filter_options]);
+
+	/* useEffect(() => {
 		if (!filtersInitRef.current && specifications?.length > 0) {
 			// If a block has filters already, normalize legacy formats (e.g. array of strings)
 			// into the new object shape (specKey + value).
@@ -148,9 +163,9 @@ const WidgetInspectorControls = (props) => {
 			}
 			filtersInitRef.current = true;
 		}
-	}, [specifications, filter_options, wasJustInserted, hasOriginalContent]);
+	}, [specifications, filter_options, wasJustInserted, hasOriginalContent]); */
 
-		const handleTermChange = (newTokens, specKey, spec) => {
+	const handleTermChange = (newTokens, specKey, spec) => {
 			const newTermIds = newTokens
 				.map((token) => {
 					// Normalize to string so purely-numeric term names work in FormTokenField.
