@@ -189,7 +189,7 @@ if ( ! function_exists( 'awsm_block_jobs_load_more' ) ) {
 			if ( AWSM_Job_Openings::is_default_pagination( $shortcode_atts ) ) {
 				$paged = ( $query->query_vars['paged'] ) ? $query->query_vars['paged'] : 1;
 				if ( $paged < $max_num_pages ) {
-					 $load_more_content = sprintf( '<div class="awsm-b-jobs-pagination awsm-b-load-more-main"><a href="#" class="awsm-b-load-more awsm-b-load-more-btn" data-page="%2$s">%1$s</a></div>', esc_html__( 'Load more', 'wp-job-openings' ), esc_attr( $paged ) );
+					$load_more_content = sprintf( '<div class="awsm-b-jobs-pagination awsm-b-load-more-main"><a href="#" class="awsm-b-load-more awsm-b-load-more-btn" data-page="%2$s">%1$s</a></div>', esc_html__( 'Load more', 'wp-job-openings' ), esc_attr( $paged ) );
 					/**
 					 * Filters the load more content.
 					 *
@@ -215,12 +215,10 @@ if ( ! function_exists( 'awsm_block_jobs_paginate_links' ) ) {
 		// phpcs:disable WordPress.Security.NonceVerification.Missing
 		if ( isset( $_POST['paged'] ) ) {
 			$current = absint( $_POST['paged'] );// phpcs:disable WordPress.Security.NonceVerification.Missing
-		} else {
-			if ( $is_homepage ) {
+		} elseif ( $is_homepage ) {
 				$current = get_query_var( 'page' ) ? absint( get_query_var( 'page' ) ) : 1;
-			} else {
-				$current = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ) : 1;
-			}
+		} else {
+			$current = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ) : 1;
 		}
 
 		$page_var      = ( is_front_page() || is_home() ) ? 'page' : 'paged';

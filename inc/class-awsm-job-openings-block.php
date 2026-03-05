@@ -32,7 +32,7 @@ class AWSM_Job_Openings_Block {
 		$block_atts_set = array(
 			'uid'                        => $this->unique_listing_id,
 			'search'                     => isset( $blockatts['search'] ) ? $blockatts['search'] : '',
-			'enable_job_filter'  		 => isset( $blockatts['enable_job_filter'] ) ? $blockatts['enable_job_filter'] : '',
+			'enable_job_filter'          => isset( $blockatts['enable_job_filter'] ) ? $blockatts['enable_job_filter'] : '',
 			'filter_options'             => isset( $blockatts['filter_options'] ) ? $blockatts['filter_options'] : '',
 			'layout'                     => isset( $blockatts['layout'] ) ? $blockatts['layout'] : '',
 			'hide_expired_jobs'          => isset( $blockatts['hide_expired_jobs'] ) ? $blockatts['hide_expired_jobs'] : '',
@@ -68,7 +68,7 @@ class AWSM_Job_Openings_Block {
 			'hz_button_text_color'       => isset( $blockatts['hz_button_text_color'] ) ? $blockatts['hz_button_text_color'] : '',
 		);
 
-		 /**
+		/**
 		 * Filter the attribute set for the Job Listing block.
 		 *
 		 * Allows modification of the attributes set for the job listings block before rendering.
@@ -80,7 +80,7 @@ class AWSM_Job_Openings_Block {
 		 */
 		$block_atts_set = apply_filters( 'awsm_jobs_block_attributes_set', $block_atts_set, $blockatts );
 
-		$this->unique_listing_id++;
+		++$this->unique_listing_id;
 
 		ob_start();
 		include get_awsm_jobs_template_path( 'block-job-openings-view', 'block-files' );
@@ -212,8 +212,8 @@ class AWSM_Job_Openings_Block {
 		}
 
 		if ( isset( $_POST['awsm-hide-expired-jobs'] ) ) {
-			$hide_expired = sanitize_text_field( wp_unslash( $_POST['awsm-hide-expired-jobs'] ) );
-			$hide_expired = strtolower( $hide_expired );
+			$hide_expired                    = sanitize_text_field( wp_unslash( $_POST['awsm-hide-expired-jobs'] ) );
+			$hide_expired                    = strtolower( $hide_expired );
 			$attributes['hide_expired_jobs'] = in_array( $hide_expired, array( 'expired', '1', 'true', 'yes', 'on' ), true ) ? 'expired' : '';
 		}
 
@@ -232,8 +232,8 @@ class AWSM_Job_Openings_Block {
 		} */
 
 		if ( isset( $_POST['awsm-other-options'] ) ) {
-			$other_options_raw = sanitize_text_field( wp_unslash( $_POST['awsm-other-options'] ) );
-			$other_options     = array_filter(
+			$other_options_raw           = sanitize_text_field( wp_unslash( $_POST['awsm-other-options'] ) );
+			$other_options               = array_filter(
 				array_map(
 					'sanitize_key',
 					array_map( 'trim', explode( ',', $other_options_raw ) )
@@ -243,8 +243,8 @@ class AWSM_Job_Openings_Block {
 		}
 
 		if ( isset( $_POST['awsm-spec-icons'] ) ) {
-			$show_spec_icon = sanitize_text_field( wp_unslash( $_POST['awsm-spec-icons'] ) );
-			$show_spec_icon = strtolower( $show_spec_icon );
+			$show_spec_icon               = sanitize_text_field( wp_unslash( $_POST['awsm-spec-icons'] ) );
+			$show_spec_icon               = strtolower( $show_spec_icon );
 			$attributes['show_spec_icon'] = in_array( $show_spec_icon, array( 'show_icon', '1', 'true', 'yes', 'on' ), true ) ? 'show_icon' : '';
 		}
 
@@ -264,7 +264,7 @@ class AWSM_Job_Openings_Block {
 		}
 
 		if ( isset( $_POST['awsm-order-by'] ) ) {
-			$order_by = sanitize_key( wp_unslash( $_POST['awsm-order-by'] ) );
+			$order_by               = sanitize_key( wp_unslash( $_POST['awsm-order-by'] ) );
 			$attributes['order_by'] = in_array( $order_by, array( 'new_to_old', 'old_to_new' ), true ) ? $order_by : 'new_to_old';
 		}
 
@@ -282,7 +282,7 @@ class AWSM_Job_Openings_Block {
 			} else {
 				$args['paged'] = absint( wp_unslash( $_POST['paged'] ) ) + 1;
 			}
-		} 
+		}
 
 		$query = new WP_Query( $args );
 
@@ -583,7 +583,7 @@ class AWSM_Job_Openings_Block {
 			$search_content = apply_filters( 'awsm_jobs_block_search_field_content', $search_content );
 		}
 
-		$taxonomies      = get_object_taxonomies( 'awsm_job_openings', 'objects' );
+		$taxonomies = get_object_taxonomies( 'awsm_job_openings', 'objects' );
 		// Respect separate toggles: search and filters can be enabled independently.
 		$display_filters = ( $enable_job_filters === 'enable' );
 
@@ -615,7 +615,7 @@ class AWSM_Job_Openings_Block {
 
 		$available_filters_arr = array();
 		if ( $display_filters && ! empty( $taxonomies ) ) {
-			$selected_filters = self::get_block_filters_query_args( $available_filters ); 
+			$selected_filters = self::get_block_filters_query_args( $available_filters );
 			/**
 			 * Modifies the available or active filters to be displayed in the job listing.
 			 *
@@ -645,7 +645,7 @@ class AWSM_Job_Openings_Block {
 						)
 					);
 
-					$terms = get_terms( $terms_args );  
+					$terms = get_terms( $terms_args );
 					if ( ! empty( $terms ) ) {
 						$available_filters_arr[ $taxonomy ] = $tax_details->label;
 
@@ -693,7 +693,7 @@ class AWSM_Job_Openings_Block {
 						 * @param string $taxonomy Taxonomy key.
 						 * @param WP_Taxonomy $tax_details Taxonomy details.
 						 */
-						$filter_label   = apply_filters( 'awsm_filter_block_label', esc_html_x( '', 'job filter', 'wp-job-openings' ) . 'All ' . $spec_name, $taxonomy, $tax_details );
+						$filter_label = apply_filters( 'awsm_filter_block_label', esc_html_x( '', 'job filter', 'wp-job-openings' ) . 'All ' . $spec_name, $taxonomy, $tax_details );
 
 						$filter_class_admin_select_control = '';
 						if ( ! self::is_edit_or_add_page() ) {
@@ -779,10 +779,9 @@ class AWSM_Job_Openings_Block {
 
 				$wrapper_class = 'awsm-b-filter-wrap';
 				// Hide native selects until Selectric initializes to avoid a flash on page refresh.
-				// Don't add this in wp-admin OR REST block previews (editor), because Selectric isn't guaranteed to run there.
-				if ( ! self::is_edit_or_add_page() && ! ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
-					$wrapper_class .= ' awsm-selectric-loading';
-				}
+			if ( ! self::is_edit_or_add_page() && ! ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
+				$wrapper_class .= ' awsm-selectric-loading';
+			}
 			if ( ! $enable_search ) {
 				$wrapper_class .= ' awsm-b-no-search-filter-wrap';
 			}
@@ -824,7 +823,7 @@ class AWSM_Job_Openings_Block {
 		echo apply_filters( 'awsm_filter_block_content', $filter_content, $available_filters_arr ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
-	public function display_block_filter_form_side( $block_atts ) { 
+	public function display_block_filter_form_side( $block_atts ) {
 		$uid                   = isset( $block_atts['uid'] ) ? '-' . $block_atts['uid'] : '';
 		$enable_search         = isset( $block_atts['search'] ) ? $block_atts['search'] : '';
 		$enable_job_filters    = isset( $block_atts['enable_job_filter'] ) ? $block_atts['enable_job_filter'] : '';
@@ -912,7 +911,7 @@ class AWSM_Job_Openings_Block {
 
 							$filter_key = str_replace( '-', '__', $taxonomy );
 							$spec_name  = apply_filters( 'wpml_translate_single_string', $tax_details->label, 'WordPress', sprintf( 'taxonomy general name: %s', $tax_details->label ) );
-							
+
 							/**
 							 * Filters the default label for the job filter.
 							 *
@@ -982,8 +981,8 @@ class AWSM_Job_Openings_Block {
 								</div>',
 								esc_attr( $taxonomy ),
 								esc_attr( $filter_key . '_spec' ),
-								esc_html( $label_text ),        
-								esc_html( $all_spec_label ),   
+								esc_html( $label_text ),
+								esc_html( $all_spec_label ),
 								$options_content,
 								esc_attr( $uid ),
 								esc_attr( $label_class_name ),
@@ -1056,10 +1055,10 @@ class AWSM_Job_Openings_Block {
 		echo apply_filters( 'awsm_filter_block_content_placement_side', $filter_content ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
-	public static function get_specifications_content_block( $post_id, $display_label, $filter_data = array(), $listing_specs = array(), $has_term_link = true, $show_icon ='') { 
+	public static function get_specifications_content_block( $post_id, $display_label, $filter_data = array(), $listing_specs = array(), $has_term_link = true, $show_icon = '' ) {
 		$spec_content = '';
 		$filter_data  = ! empty( $filter_data ) ? $filter_data : get_option( 'awsm_jobs_filter' );
-		if ( ! empty( $filter_data ) ) { 
+		if ( ! empty( $filter_data ) ) {
 			$spec_keys          = wp_list_pluck( $filter_data, 'taxonomy' );
 			$taxonomies         = get_object_taxonomies( 'awsm_job_openings', 'objects' );
 			$is_specs_clickable = get_option( 'awsm_jobs_make_specs_clickable' );
@@ -1077,7 +1076,7 @@ class AWSM_Job_Openings_Block {
 					}
 				}
 
-				if ( $display ) { 
+				if ( $display ) {
 					$terms = get_the_terms( $post_id, $taxonomy );
 
 					/** Filter the job specification terms. */
@@ -1092,13 +1091,13 @@ class AWSM_Job_Openings_Block {
 						}
 
 						// Get icon and filter data
-						$current_filter = null; 
+						$current_filter = null;
 						foreach ( $filter_data as $filter ) {
-							if ( $taxonomy === $filter['taxonomy'] ) {  
-								$current_filter = $filter; 
-								if ( ! empty( $filter['icon'] ) ) { 
+							if ( $taxonomy === $filter['taxonomy'] ) {
+								$current_filter = $filter;
+								if ( ! empty( $filter['icon'] ) ) {
 									$is_single_job = get_post_type( $post_id ) === 'awsm_job_openings';
-									if ( ! $is_single_job || $show_icon === 'show_icon' ) { 
+									if ( ! $is_single_job || $show_icon === 'show_icon' ) {
 										$spec_icon = sprintf( '<i class="awsm-job-icon-%1$s"></i>', esc_attr( $filter['icon'] ) );
 									}
 								}

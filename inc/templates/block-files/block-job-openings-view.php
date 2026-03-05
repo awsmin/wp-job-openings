@@ -8,13 +8,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$attributes 			 = isset( $block_atts_set ) && is_array( $block_atts_set ) ? $block_atts_set : array(); 
-$placement  			 = isset( $attributes['placement'] ) ? $attributes['placement'] : '';
-$query      			 = awsm_block_jobs_query( $attributes );
+$attributes              = isset( $block_atts_set ) && is_array( $block_atts_set ) ? $block_atts_set : array();
+$placement               = isset( $attributes['placement'] ) ? $attributes['placement'] : '';
+$query                   = awsm_block_jobs_query( $attributes );
 $show_filter             = false;
 $placement_sidebar_class = '';
 $styles                  = hz_get_ui_styles( $attributes );
-$block_id 				 = $styles['block_id'];
+$block_id                = $styles['block_id'];
 ?>
 
 <!-- Styles for css variables -->
@@ -85,7 +85,7 @@ $block_style_variables = "
 ?>
 </style>
 <!-- End -->
-<?php 
+<?php
 if (
 	( isset( $attributes['search'] ) && $attributes['search'] === 'enable' ) ||
 	( isset( $attributes['enable_job_filter'] ) && $attributes['enable_job_filter'] === 'enable' )
@@ -171,8 +171,8 @@ if ( $placement === 'top' ) {
 				do_action( 'awsm_block_form_outside', $attributes );
 			?>
 		<?php
-	}
-	?>
+}
+?>
 			<div class="awsm-b-job-listings"<?php awsm_block_jobs_data_attrs( array(), $attributes ); ?>>
 				<div <?php echo awsm_block_jobs_view_class( $placement === 'top' ? '' : 'custom-class', $attributes ); ?>>
 					<?php if ( $query->have_posts() ) : ?>
