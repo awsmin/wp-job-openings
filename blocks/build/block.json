@@ -53,7 +53,7 @@
     },
     "listing_per_page": {
       "type": "number",
-      "default": 9
+      "default": 10
     },
     "pagination": {
       "type": "string",
