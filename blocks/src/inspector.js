@@ -617,125 +617,123 @@ const WidgetInspectorControls = (props) => {
 		    <InspectorControls group="styles">
 				<Fragment>
 					<div className="hz-inspector-controls">
-						{search && (
-							<>
-								{placement === 'side' && (
-									<PanelBody title={__('Sidebar', 'wp-job-openings')} initialOpen={true}>
-										<RangeControl
-											label={__('Sidebar Width', 'wp-job-openings')}
-											__nextHasNoMarginBottom
-											min={33.33}
-											max={80.33}
-											step={0.1}
-											name="hz_sidebar_width"
-											value={parseFloat(hz_sidebar_width) || 33.33}
-											onChange={(val) => {
-												setAttributes({ hz_sidebar_width: val });
-											}}
-											__next40pxDefaultSize
-										/>
+						{placement === 'side' && (
+							<PanelBody title={__('Sidebar', 'wp-job-openings')} initialOpen={true}>
+								<RangeControl
+									label={__('Sidebar Width', 'wp-job-openings')}
+									__nextHasNoMarginBottom
+									min={33.33}
+									max={80.33}
+									step={0.1}
+									name="hz_sidebar_width"
+									value={parseFloat(hz_sidebar_width) || 33.33}
+									onChange={(val) => {
+										setAttributes({ hz_sidebar_width: val });
+									}}
+									__next40pxDefaultSize
+								/>
 
-										<BorderControl
-											label={__('Border', 'wp-job-openings')}
-											withSlider
-											isCompact={true}
-											value={hz_sf_border}
-											onChange={(newBorder) => {
-												const width = newBorder?.width ?? hz_sf_border?.width;
-												setAttributes({
-													hz_sf_border: {
-														...hz_sf_border, 
-														...newBorder,    
-														width: width,    
-													},
-												});
-											}}
-											enableStyle={false}
-										/>
+								<BorderControl
+									label={__('Border', 'wp-job-openings')}
+									withSlider
+									isCompact={true}
+									value={hz_sf_border}
+									onChange={(newBorder) => {
+										const width = newBorder?.width ?? hz_sf_border?.width;
+										setAttributes({
+											hz_sf_border: {
+												...hz_sf_border, 
+												...newBorder,    
+												width: width,    
+											},
+										});
+									}}
+									enableStyle={false}
+								/>
 
-										<Spacer />
+								<Spacer />
 
-										<BorderRadiusControl
-											values={hz_sf_border_radius}
-											onChange={(newRadius) => {
-												if (typeof newRadius === 'string') {
-													const radiusObject = {
-														topLeft: newRadius,
-														topRight: newRadius,
-														bottomRight: newRadius,
-														bottomLeft: newRadius,
-													};
-													setAttributes({ hz_sf_border_radius: radiusObject });
-												} else {
-													setAttributes({ hz_sf_border_radius: newRadius });
-												}
-											}}
-										/>
+								<BorderRadiusControl
+									values={hz_sf_border_radius}
+									onChange={(newRadius) => {
+										if (typeof newRadius === 'string') {
+											const radiusObject = {
+												topLeft: newRadius,
+												topRight: newRadius,
+												bottomRight: newRadius,
+												bottomLeft: newRadius,
+											};
+											setAttributes({ hz_sf_border_radius: radiusObject });
+										} else {
+											setAttributes({ hz_sf_border_radius: newRadius });
+										}
+									}}
+								/>
 
-										<Spacer />
+								<Spacer />
 
-										<BoxControl
-											label={__('Padding', 'wp-job-openings')}
-											values={hz_sf_padding}
-											onChange={(Padding) => {
-												setAttributes({ hz_sf_padding: Padding });
-											}}
-										/>
-									</PanelBody>
-								)}
+								<BoxControl
+									label={__('Padding', 'wp-job-openings')}
+									values={hz_sf_padding}
+									onChange={(Padding) => {
+										setAttributes({ hz_sf_padding: Padding });
+									}}
+								/>
+							</PanelBody>
+						)}
 
-								<PanelBody title={__('Search and Filter Fields', 'wp-job-openings')} initialOpen={true}>
-									<BorderControl
-										label={__('Border', 'wp-job-openings')}
-										withSlider
-										isCompact={true}
-										value={hz_ls_border}
-										__experimentalIsRenderedInSidebar
-										onChange={(newBorder) => {
+						{(search || enable_job_filter) && (
+							<PanelBody title={__('Search and Filter Fields', 'wp-job-openings')} initialOpen={true}>
+							<BorderControl
+								label={__('Border', 'wp-job-openings')}
+								withSlider
+								isCompact={true}
+								value={hz_ls_border}
+								__experimentalIsRenderedInSidebar
+								onChange={(newBorder) => {
 
-											const width = newBorder?.width ?? hz_ls_border?.width;
+									const width = newBorder?.width ?? hz_ls_border?.width;
+									setAttributes({
+										hz_ls_border: {
+											...hz_ls_border, 
+											...newBorder,   
+											width: width,   
+										},
+									});
+
+									if (width === '0px') {
+										setTimeout(() => {
 											setAttributes({
 												hz_ls_border: {
-													...hz_ls_border, 
-													...newBorder,   
-													width: width,   
+													...hz_ls_border,
+													...newBorder,
+													width: '1px',
 												},
 											});
+										}, 100);
+									}
+								}}
+								enableStyle={false}
+							/>
+							<Spacer />
 
-											if (width === '0px') {
-												setTimeout(() => {
-													setAttributes({
-														hz_ls_border: {
-															...hz_ls_border,
-															...newBorder,
-															width: '1px',
-														},
-													});
-												}, 100);
-											}
-										}}
-										enableStyle={false}
-									/>
-									<Spacer />
-
-									<BorderRadiusControl
-										values={hz_ls_border_radius}
-										onChange={(newRadius) => {
-											if (typeof newRadius === 'string') {
-												const radiusObject = {
-													topLeft: newRadius,
-													topRight: newRadius,
-													bottomRight: newRadius,
-													bottomLeft: newRadius,
-												};
-												setAttributes({ hz_ls_border_radius: radiusObject });
-											} else {
-												setAttributes({ hz_ls_border_radius: newRadius });
-											}
-										}}
-									/>
-								</PanelBody>
-							</>
+							<BorderRadiusControl
+								values={hz_ls_border_radius}
+								onChange={(newRadius) => {
+									if (typeof newRadius === 'string') {
+										const radiusObject = {
+											topLeft: newRadius,
+											topRight: newRadius,
+											bottomRight: newRadius,
+											bottomLeft: newRadius,
+										};
+										setAttributes({ hz_ls_border_radius: radiusObject });
+									} else {
+										setAttributes({ hz_ls_border_radius: newRadius });
+									}
+								}}
+							/>
+							</PanelBody>
 						)}
 						
 						<PanelBody title={__('Job Listing', 'wp-job-openings')} initialOpen={true}>
