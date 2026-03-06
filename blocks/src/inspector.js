@@ -651,7 +651,7 @@ const WidgetInspectorControls = (props) => {
 									enableStyle={false}
 								/>
 
-								<Spacer />
+								<Spacer marginBottom={4} />
 
 								<BorderRadiusControl
 									values={hz_sf_border_radius}
@@ -670,7 +670,7 @@ const WidgetInspectorControls = (props) => {
 									}}
 								/>
 
-								<Spacer />
+								<Spacer marginBottom={4} />
 
 								<BoxControl
 									label={__('Padding', 'wp-job-openings')}
@@ -715,7 +715,7 @@ const WidgetInspectorControls = (props) => {
 								}}
 								enableStyle={false}
 							/>
-							<Spacer />
+							<Spacer marginBottom={4} />
 
 							<BorderRadiusControl
 								values={hz_ls_border_radius}
@@ -769,7 +769,7 @@ const WidgetInspectorControls = (props) => {
 								enableStyle={false}
 							/>
 
-							<Spacer></Spacer>
+							<Spacer marginBottom={4}></Spacer>
 
 							<BorderRadiusControl
 								values={hz_jl_border_radius}
@@ -817,7 +817,7 @@ const WidgetInspectorControls = (props) => {
 									enableStyle={false}
 								/>
 
-								<Spacer></Spacer>
+								<Spacer marginBottom={4}></Spacer>
 
 								<BorderRadiusControl
 									values={hz_bs_border_radius}
