@@ -137,34 +137,6 @@ const WidgetInspectorControls = (props) => {
 		}
 	}, [specifications, filter_options]);
 
-	/* useEffect(() => {
-		if (!filtersInitRef.current && specifications?.length > 0) {
-			// If a block has filters already, normalize legacy formats (e.g. array of strings)
-			// into the new object shape (specKey + value).
-			if (filter_options?.length) {
-				const normalizedFilters = filter_options.map((option) =>
-					typeof option === 'object' && option.specKey
-						? option
-						: { specKey: option, value: 'dropdown' }
-				);
-
-				setAttributes({ filter_options: normalizedFilters });
-			} else if (wasJustInserted || !hasOriginalContent) {
-				// New inserts: enable all filters by default.
-				const allFilters = specifications.map((spec) => ({
-					specKey: spec.key,
-					value: 'dropdown',
-				}));
-				setAttributes({
-					enable_job_filter: true,
-					filter_options: allFilters,
-					selected_terms_main: specifications.map((spec) => spec.key),
-				});
-			}
-			filtersInitRef.current = true;
-		}
-	}, [specifications, filter_options, wasJustInserted, hasOriginalContent]); */
-
 	const handleTermChange = (newTokens, specKey, spec) => {
 			const newTermIds = newTokens
 				.map((token) => {
@@ -638,6 +610,7 @@ const WidgetInspectorControls = (props) => {
 									withSlider
 									isCompact={true}
 									value={hz_sf_border}
+									__experimentalIsRenderedInSidebar
 									onChange={(newBorder) => {
 										const width = newBorder?.width ?? hz_sf_border?.width;
 										setAttributes({
@@ -806,9 +779,10 @@ const WidgetInspectorControls = (props) => {
 									value={hz_bs_border} // Use a valid default object
 									__experimentalIsRenderedInSidebar
 									onChange={(newBorder) => {
-										var width = newBorder?.width;
+										const width = newBorder?.width ?? hz_bs_border?.width;
 										setAttributes({
 											hz_bs_border: {
+												...hz_bs_border,
 												...newBorder,
 												width: width,
 											},

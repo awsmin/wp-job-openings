@@ -419,34 +419,6 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
       filtersInitRef.current = true;
     }
   }, [specifications, filter_options]);
-
-  /* useEffect(() => {
-  	if (!filtersInitRef.current && specifications?.length > 0) {
-  		// If a block has filters already, normalize legacy formats (e.g. array of strings)
-  		// into the new object shape (specKey + value).
-  		if (filter_options?.length) {
-  			const normalizedFilters = filter_options.map((option) =>
-  				typeof option === 'object' && option.specKey
-  					? option
-  					: { specKey: option, value: 'dropdown' }
-  			);
-  				setAttributes({ filter_options: normalizedFilters });
-  		} else if (wasJustInserted || !hasOriginalContent) {
-  			// New inserts: enable all filters by default.
-  			const allFilters = specifications.map((spec) => ({
-  				specKey: spec.key,
-  				value: 'dropdown',
-  			}));
-  			setAttributes({
-  				enable_job_filter: true,
-  				filter_options: allFilters,
-  				selected_terms_main: specifications.map((spec) => spec.key),
-  			});
-  		}
-  		filtersInitRef.current = true;
-  	}
-  }, [specifications, filter_options, wasJustInserted, hasOriginalContent]); */
-
   var handleTermChange = function handleTermChange(newTokens, specKey, spec) {
     var newTermIds = newTokens.map(function (token) {
       // Normalize to string so purely-numeric term names work in FormTokenField.
@@ -818,6 +790,7 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
     withSlider: true,
     isCompact: true,
     value: hz_sf_border,
+    __experimentalIsRenderedInSidebar: true,
     onChange: function onChange(newBorder) {
       var _newBorder$width;
       var width = (_newBorder$width = newBorder === null || newBorder === void 0 ? void 0 : newBorder.width) !== null && _newBorder$width !== void 0 ? _newBorder$width : hz_sf_border === null || hz_sf_border === void 0 ? void 0 : hz_sf_border.width;
@@ -974,9 +947,10 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
     ,
     __experimentalIsRenderedInSidebar: true,
     onChange: function onChange(newBorder) {
-      var width = newBorder === null || newBorder === void 0 ? void 0 : newBorder.width;
+      var _newBorder$width4;
+      var width = (_newBorder$width4 = newBorder === null || newBorder === void 0 ? void 0 : newBorder.width) !== null && _newBorder$width4 !== void 0 ? _newBorder$width4 : hz_bs_border === null || hz_bs_border === void 0 ? void 0 : hz_bs_border.width;
       setAttributes({
-        hz_bs_border: _objectSpread(_objectSpread({}, newBorder), {}, {
+        hz_bs_border: _objectSpread(_objectSpread(_objectSpread({}, hz_bs_border), newBorder), {}, {
           width: width
         })
       });
