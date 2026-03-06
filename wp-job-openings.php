@@ -1192,6 +1192,7 @@ class AWSM_Job_Openings {
 				'jquery_validation' => true,
 			),
 			'is_homepage'        => ( is_front_page() || is_home() ),
+			'block_nonce'        => wp_create_nonce( 'awsm_block_ajax' ),
 		);
 		/**
 		 * Filters the public script localized data.

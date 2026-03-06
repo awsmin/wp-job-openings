@@ -223,6 +223,10 @@ jQuery( function( $ ) {
 			formData = formData.concat( listingsData );
 		}
 
+			if ( awsmJobsPublic.block_nonce ) {
+				formData.push( { name: 'awsm_block_nonce', value: awsmJobsPublic.block_nonce } );
+			}
+
 			$( document ).trigger( 'awsmJobBlockFiltersFormData', [
 				$wrapper,
 				formData
@@ -853,6 +857,10 @@ jQuery( function( $ ) {
 				} );
 			}
 			
+			if ( awsmJobsPublic.block_nonce ) {
+				wpData.push( { name: 'awsm_block_nonce', value: awsmJobsPublic.block_nonce } );
+			}
+
 			$( document ).trigger( 'awsmjobs_block_load_more', [
 				$listingsContainer,
 				wpData

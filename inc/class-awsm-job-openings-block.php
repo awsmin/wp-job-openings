@@ -161,7 +161,10 @@ class AWSM_Job_Openings_Block {
 	}
 
 	public function awsm_block_posts_filters() {
-        // phpcs:disable WordPress.Security.NonceVerification.Missing
+		if ( ! isset( $_POST['awsm_block_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['awsm_block_nonce'] ) ), 'awsm_block_ajax' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Security check failed.', 'wp-job-openings' ) ), 403 );
+		}
+
 		$filters = $filters_list = $attributes = array(); // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
 
 		$filter_action = isset( $_POST['action'] ) ? sanitize_key( wp_unslash( $_POST['action'] ) ) : '';
