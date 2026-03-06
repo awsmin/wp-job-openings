@@ -238,6 +238,7 @@ a.awsm-b-job-item {
 }
 
 .awsm-b-filter-item-search .awsm-b-job-form-control {
+	pointer-events: none;
 	padding-right: 48px;
     min-height: 48px;
 	border: var(--hz-ls-border-width, 1px) solid var(--hz-ls-border-color, #cccccc);
