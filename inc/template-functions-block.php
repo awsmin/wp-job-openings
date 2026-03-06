@@ -403,10 +403,10 @@ if ( ! function_exists( 'hz_get_ui_styles' ) ) {
 			'button_border_radius_bottomright' => $attributes['hz_bs_border_radius']['bottomRight'] ?? '5px',
 			'button_border_radius_bottomleft'  => $attributes['hz_bs_border_radius']['bottomLeft'] ?? '5px',
 			'button_background_color'          => ! empty( $attributes['hz_button_background_color'] )
-				? sanitize_hex_color( $attributes['hz_button_background_color'] )
+				? hz_sanitize_color( $attributes['hz_button_background_color'] )
 				: '',
 			'button_text_color'                => ! empty( $attributes['hz_button_text_color'] )
-				? sanitize_hex_color( $attributes['hz_button_text_color'] )
+				? hz_sanitize_color( $attributes['hz_button_text_color'] )
 				: '',
 			'padding_left_button'              => ! empty( $attributes['hz_bs_padding']['left'] )
 				? hz_append_unit_if_missing( $attributes['hz_bs_padding']['left'] )
@@ -423,6 +423,15 @@ if ( ! function_exists( 'hz_get_ui_styles' ) ) {
 		);
 
 		return apply_filters( 'hz_ui_styles', $styles, $attributes );
+	}
+}
+
+if ( ! function_exists( 'hz_sanitize_color' ) ) {
+	function hz_sanitize_color( $color ) {
+		if ( preg_match( '/^var\(--[a-zA-Z0-9_-]+(?:,\s*[^)]+)?\)$/', $color ) ) {
+			return $color;
+		}
+		return sanitize_hex_color( $color );
 	}
 }
 
