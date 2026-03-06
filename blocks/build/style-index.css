@@ -259,7 +259,7 @@ a.awsm-b-job-item {
   padding-right: 48px;
   min-height: 48px;
   border: var(--hz-ls-border-width, 1px) solid var(--hz-ls-border-color, #cccccc);
-  border-radius: var(--hz-ls-border-radius-topright, 5px) var(--hz-ls-border-radius-topleft, 5px) var(--hz-ls-border-radius-bottomright, 5px) var(--hz-ls-border-radius-bottomleft, 5px) !important;
+  border-radius: var(--hz-ls-border-radius-topleft, 5px) var(--hz-ls-border-radius-topright, 5px) var(--hz-ls-border-radius-bottomright, 5px) var(--hz-ls-border-radius-bottomleft, 5px) !important;
   font-size: 14px;
 }
 

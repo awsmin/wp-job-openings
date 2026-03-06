@@ -843,21 +843,13 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
     __experimentalIsRenderedInSidebar: true,
     onChange: function onChange(newBorder) {
       var _newBorder$width2;
-      var width = (_newBorder$width2 = newBorder === null || newBorder === void 0 ? void 0 : newBorder.width) !== null && _newBorder$width2 !== void 0 ? _newBorder$width2 : hz_ls_border === null || hz_ls_border === void 0 ? void 0 : hz_ls_border.width;
+      var rawWidth = (_newBorder$width2 = newBorder === null || newBorder === void 0 ? void 0 : newBorder.width) !== null && _newBorder$width2 !== void 0 ? _newBorder$width2 : hz_ls_border === null || hz_ls_border === void 0 ? void 0 : hz_ls_border.width;
+      var width = rawWidth === '0px' ? '1px' : rawWidth;
       setAttributes({
         hz_ls_border: _objectSpread(_objectSpread(_objectSpread({}, hz_ls_border), newBorder), {}, {
           width: width
         })
       });
-      if (width === '0px') {
-        setTimeout(function () {
-          setAttributes({
-            hz_ls_border: _objectSpread(_objectSpread(_objectSpread({}, hz_ls_border), newBorder), {}, {
-              width: '1px'
-            })
-          });
-        }, 100);
-      }
     },
     enableStyle: false
   }), (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_10__.__experimentalSpacer, {
@@ -892,21 +884,13 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
     __experimentalIsRenderedInSidebar: true,
     onChange: function onChange(newBorder) {
       var _newBorder$width3;
-      var width = (_newBorder$width3 = newBorder === null || newBorder === void 0 ? void 0 : newBorder.width) !== null && _newBorder$width3 !== void 0 ? _newBorder$width3 : hz_jl_border === null || hz_jl_border === void 0 ? void 0 : hz_jl_border.width;
+      var rawWidth = (_newBorder$width3 = newBorder === null || newBorder === void 0 ? void 0 : newBorder.width) !== null && _newBorder$width3 !== void 0 ? _newBorder$width3 : hz_jl_border === null || hz_jl_border === void 0 ? void 0 : hz_jl_border.width;
+      var width = rawWidth === '0px' ? '1px' : rawWidth;
       setAttributes({
         hz_jl_border: _objectSpread(_objectSpread(_objectSpread({}, hz_jl_border), newBorder), {}, {
           width: width
         })
       });
-      if (width === '0px') {
-        setTimeout(function () {
-          setAttributes({
-            hz_jl_border: _objectSpread(_objectSpread(_objectSpread({}, hz_jl_border), newBorder), {}, {
-              width: '1px'
-            })
-          });
-        }, 100);
-      }
     },
     enableStyle: false
   }), (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_10__.__experimentalSpacer, {

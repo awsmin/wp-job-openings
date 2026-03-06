@@ -664,27 +664,15 @@ const WidgetInspectorControls = (props) => {
 								value={hz_ls_border}
 								__experimentalIsRenderedInSidebar
 								onChange={(newBorder) => {
-
-									const width = newBorder?.width ?? hz_ls_border?.width;
+									const rawWidth = newBorder?.width ?? hz_ls_border?.width;
+									const width = rawWidth === '0px' ? '1px' : rawWidth;
 									setAttributes({
 										hz_ls_border: {
-											...hz_ls_border, 
-											...newBorder,   
-											width: width,   
+											...hz_ls_border,
+											...newBorder,
+											width,
 										},
 									});
-
-									if (width === '0px') {
-										setTimeout(() => {
-											setAttributes({
-												hz_ls_border: {
-													...hz_ls_border,
-													...newBorder,
-													width: '1px',
-												},
-											});
-										}, 100);
-									}
 								}}
 								enableStyle={false}
 							/>
@@ -717,27 +705,15 @@ const WidgetInspectorControls = (props) => {
 								value={hz_jl_border}
 								__experimentalIsRenderedInSidebar
 								onChange={(newBorder) => {
-									const width = newBorder?.width ?? hz_jl_border?.width;
-
+									const rawWidth = newBorder?.width ?? hz_jl_border?.width;
+									const width = rawWidth === '0px' ? '1px' : rawWidth;
 									setAttributes({
 										hz_jl_border: {
-											...hz_jl_border, 
-											...newBorder,    
-											width: width,    
+											...hz_jl_border,
+											...newBorder,
+											width,
 										},
 									});
-
-									if (width === '0px') {
-										setTimeout(() => {
-											setAttributes({
-												hz_jl_border: {
-													...hz_jl_border,
-													...newBorder,
-													width: '1px',
-												},
-											});
-										}, 100);
-									}
 								}}
 								enableStyle={false}
 							/>
