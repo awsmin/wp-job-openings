@@ -582,11 +582,11 @@ const WidgetInspectorControls = (props) => {
 							value={ order_by }
 							options={ [
 								{
-									label: __( 'Newest to oldest', 'wp-job-openings' ),
+									label: __( 'Newest to Oldest', 'wp-job-openings' ),
 									value: 'new_to_old',
 								},
 								{
-									label: __( 'Oldest to newest', 'wp-job-openings' ),
+									label: __( 'Oldest to Newest', 'wp-job-openings' ),
 									value: 'old_to_new',
 								},
 							] }

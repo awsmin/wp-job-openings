@@ -773,10 +773,10 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Order By', 'wp-job-openings'),
     value: order_by,
     options: [{
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Newest to oldest', 'wp-job-openings'),
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Newest to Oldest', 'wp-job-openings'),
       value: 'new_to_old'
     }, {
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Oldest to newest', 'wp-job-openings'),
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Oldest to Newest', 'wp-job-openings'),
       value: 'old_to_new'
     }],
     onChange: function onChange(order_by) {
