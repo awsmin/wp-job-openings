@@ -9,8 +9,8 @@ $overview_data             = AWSM_Job_Openings::get_overview_data();
 $active_jobs               = intval( $overview_data['active_jobs'] );
 $new_applications          = intval( $overview_data['new_applications'] );
 $total_applications        = intval( $overview_data['total_applications'] );
-$total_active_applications = intval( $overview_data['active_applications'] );
-$applications_count        = intval( $overview_data['unread_applications'] );
+$total_active_applications = intval( $overview_data['active_applications'] ?? 0 );
+$applications_count        = intval( $overview_data['unread_applications'] ?? 0 );
 // Enable meta-box support.
 do_action( 'add_meta_boxes_' . AWSM_Job_Openings_Overview::$screen_id, null );
 global $post;

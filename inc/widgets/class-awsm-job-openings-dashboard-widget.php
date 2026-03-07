@@ -37,11 +37,11 @@ class AWSM_Job_Openings_Dashboard_Widget {
 				</div>
 				<?php if ( current_user_can( 'edit_applications' ) ) : ?>
 						<div class="awsm-jobs-statistic">
-							<span><?php echo esc_html( $overview_data['unread_applications'] ); ?></span>
+							<span><?php echo esc_html( $overview_data['unread_applications'] ?? 0 ); ?></span>
 							<?php esc_html_e( 'New Applications', 'wp-job-openings' ); ?>
 						</div>
 						<div class="awsm-jobs-statistic">
-							<span><?php echo esc_html( $overview_data['active_applications'] ); ?></span>
+							<span><?php echo esc_html( $overview_data['active_applications'] ?? 0 ); ?></span>
 							<?php esc_html_e( 'Total Applications', 'wp-job-openings' ); ?>
 						</div>
 				<?php endif; ?>
