@@ -422,8 +422,11 @@ jQuery( function( $ ) {
 				}
 
 				setTimeout( function() {
-					syncAllOptionFromUrl( $select );
-					forceAllLabel( $select );
+					// Only multi-select dropdowns use the "All" sync behavior.
+					if ( $select.prop( 'multiple' ) ) {
+						syncAllOptionFromUrl( $select );
+						forceAllLabel( $select );
+					}
 				}, 0 );
 			},
 
@@ -564,6 +567,10 @@ jQuery( function( $ ) {
 	}
 
 	function syncAllOptionFromUrl($select) {
+		// Single-select dropdowns should not sync the "All" option.
+		if ( ! $select.prop( 'multiple' ) ) {
+			return;
+		}
 		const $options = $select.find('option');
 		const $all     = $options.eq(0);
 		const $others  = $options.slice(1);

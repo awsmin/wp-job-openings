@@ -657,19 +657,18 @@ class AWSM_Job_Openings_Block {
 							$selected = '';
 							if ( isset( $block_atts['selected_terms'][ $taxonomy ] ) && in_array( $term->term_id, $block_atts['selected_terms'][ $taxonomy ] ) ) {
 								$selected = ' selected';
-							} else {
-								foreach ( $_GET as $key => $value ) {
-									if ( strpos( $key, 'job__' ) !== false ) {
-										$selected_specs = explode( ',', $value );
+							} else { 
+								$get_key = str_replace( '-', '__', $taxonomy ) . '_spec';
+								if ( isset( $_GET[ $get_key ] ) && is_string( $_GET[ $get_key ] ) ) {
+									// Match selected term by slug from URL.
+									$selected_specs = explode( ',', sanitize_text_field( wp_unslash( $_GET[ $get_key ] ) ) );
+									$selected_specs = array_filter( array_map( 'sanitize_title', array_map( 'trim', $selected_specs ) ) );
 
-										if ( in_array( esc_attr( $term->slug ), $selected_specs ) ) {
-											$selected = ' selected';
-											break;
-										}
+									if ( in_array( $term->slug, $selected_specs, true ) ) {
+										$selected = ' selected';
 									}
 								}
 							}
-
 							$option_content = sprintf( '<option value="%1$s" data-slug="%3$s"%4$s>%2$s</option>', esc_attr( $term->term_id ), esc_html( $term->name ), esc_attr( $term->slug ), esc_attr( $selected ) );
 							/**
 							 * Filter the job filter dropdown option content.
@@ -885,14 +884,13 @@ class AWSM_Job_Openings_Block {
 								if ( isset( $block_atts['selected_terms'][ $taxonomy ] ) && in_array( $term->term_id, $block_atts['selected_terms'][ $taxonomy ] ) ) {
 									$selected = ' selected';
 								} else {
-									foreach ( $_GET as $key => $value ) {
-										if ( strpos( $key, 'job__' ) !== false ) {
-											$selected_specs = explode( ',', $value );
-
-											if ( in_array( esc_attr( $term->slug ), $selected_specs ) ) {
-												$selected = ' selected';
-												break;
-											}
+									$get_key = str_replace( '-', '__', $taxonomy ) . '_spec';
+									if ( isset( $_GET[ $get_key ] ) && is_string( $_GET[ $get_key ] ) ) {
+										// Match selected term by slug from URL.
+										$selected_specs = explode( ',', sanitize_text_field( wp_unslash( $_GET[ $get_key ] ) ) );
+										$selected_specs = array_filter( array_map( 'sanitize_title', array_map( 'trim', $selected_specs ) ) );
+										if ( in_array( $term->slug, $selected_specs, true ) ) {
+											$selected = ' selected';
 										}
 									}
 								}
