@@ -56,8 +56,6 @@
 
 .awsm-b-job-item {
 	background: #fff;
-	//padding: 20px;
-
 	padding-top: var(--hz-jl-padding-top, 15px);
 	padding-right: var(--hz-jl-padding-right, 15px);
 	padding-bottom: var(--hz-jl-padding-bottom, 15px);
@@ -145,18 +143,10 @@ a.awsm-b-job-item {
 	flex-wrap: wrap;
 }
 
-.awsm-b-filter-wrap .awsm-b-filter-items {
-	display: none;
-}
-
 .awsm-b-filter-wrap.awsm-b-full-width-search-filter-wrap .awsm-b-filter-item-search {
 	width: 100%;
 }
 
-.awsm-b-filter-wrap.awsm-b-full-width-search-filter-wrap .awsm-b-filter-items,
-.awsm-b-filter-wrap.awsm-b-no-search-filter-wrap .awsm-b-filter-items {
-	width: 100%;
-}
 
 .awsm-b-filter-toggle {
 	display: flex;
@@ -176,18 +166,6 @@ a.awsm-b-job-item {
 .awsm-b-filter-toggle svg {
 	width: 20px;
 	height: 20px;
-}
-
-.awsm-b-filter-wrap.awsm-b-no-search-filter-wrap .awsm-b-filter-toggle {
-	width: 100%;
-	align-items: center;
-	justify-content: space-between;
-	text-decoration: none;
-}
-
-.awsm-b-filter-wrap.awsm-b-no-search-filter-wrap .awsm-b-filter-toggle svg {
-	width: 22px;
-	height: 22px;
 }
 
 @media (min-width:768px) {
@@ -623,38 +601,6 @@ ul.awsm-error-message li {
 	width: 100%;
 }
 
-@media (min-width:768px) {
-	.awsm-b-filter-wrap .awsm-b-filter-items {
-		display: flex !important;
-		flex-wrap: wrap;
-		width: calc(100% - 250px);
-	}
-
-	.awsm-filter-toggle {
-		display: none;
-	}
-
-	.awsm-b-filter-item-search {
-		width: 250px;
-	}
-
-}
-
-@media (max-width:768px) {
-	.awsm-b-filter-wrap .awsm-b-filter-items {
-		width: 100%;
-	}
-
-	.awsm-b-filter-item-search {
-		width: calc(100% - 66px);
-	}
-
-	.awsm-b-filter-wrap .awsm-b-filter-item .awsm-selectric-wrapper {
-		min-width: 100%;
-	}
-
-}
-
 .awsm-b-sr-only {
 	position: absolute;
 	width: 1px;
@@ -854,11 +800,6 @@ ul.awsm-error-message li {
 	color: #a6a6a6;
 }
 
-.awsm-b-filter-wrap.awsm-b-full-width-search-filter-wrap .awsm-b-filter-items,
-.awsm-b-filter-wrap.awsm-b-no-search-filter-wrap .awsm-b-filter-items {
-	width: 100%;
-}
-
 .awsm-b-filter-wrap.awsm-b-no-search-filter-wrap .awsm-b-filter-toggle {
 	width: 100%;
 	align-items: center;
@@ -942,17 +883,16 @@ ul.awsm-error-message li {
 	align-items: center;
 	justify-content: space-between;
 	gap: 10px;
-	
-	@media (max-width:600px){
+}
+
+@media (max-width:600px){
+	.awsm-b-stack-item .awsm-b-job-item{
 		flex-direction: column;
-        align-items: flex-start;
+		align-items: flex-start;
 	}
 }
 
 .awsm-b-stack-left-col{
-	/* display: flex;
-	flex-direction: column;
-	flex-wrap: wrap; */
 	flex: 1 1 auto;
     min-width: 0;
 	@media (max-width:600px){
@@ -960,7 +900,7 @@ ul.awsm-error-message li {
 	}
 	.awsm-job-featured-image{
 		max-width: 55px;
-		border-radius: 10px
+		border-radius: 10px;
 	}
 	.awsm-job-specification-wrapper{
 		display: flex;
@@ -978,10 +918,6 @@ ul.awsm-error-message li {
 		margin-left: 0;
         margin-top: 10px;
 	}
-}
-
-.filters-button {
-	margin-bottom: 16px;
 }
 
 .awsm-selectric {
@@ -1052,7 +988,7 @@ ul.awsm-error-message li {
 .filters-button {
 	display: flex;
 	gap: 10px;
-	margin-top: 8px;
+	margin-bottom: 16px;
 }
 
 /* Base button */
