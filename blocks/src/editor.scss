@@ -168,12 +168,21 @@ a.awsm-b-job-item {
 		width: calc(100% - 250px);
 	}
 
+	.awsm-b-filter-wrap.awsm-b-full-width-search-filter-wrap .awsm-b-filter-items,
+	.awsm-b-filter-wrap.awsm-b-no-search-filter-wrap .awsm-b-filter-items {
+		width: 100%;
+	}
+
 	.awsm-b-filter-toggle {
 		display: none;
 	}
 
 	.awsm-b-filter-item-search {
 		width: 250px;
+	}
+
+	.awsm-b-filter-wrap.awsm-b-full-width-search-filter-wrap .awsm-b-filter-item-search {
+		width: 100%;
 	}
 }
 
@@ -196,9 +205,23 @@ a.awsm-b-job-item {
 		width: calc(100% - 66px);
 	}
 
+	.awsm-b-filter-wrap.awsm-b-full-width-search-filter-wrap .awsm-b-filter-item-search {
+		width: 100%;
+	}
+
 	.awsm-b-filter-wrap .awsm-b-filter-item .awsm-selectric-wrapper {
 		min-width: 100%;
 	}
+}
+
+.awsm-b-job-form-control {
+	display: block;
+	width: 100%;
+	padding: 5px 10px;
+	border: 1px solid #d5d5d5;
+	border-radius: 5px;
+	color: #444;
+	font: inherit;
 }
 
 .awsm-b-filter-wrap .awsm-b-filter-item .awsm-b-job-form-control {
@@ -427,8 +450,11 @@ a.awsm-b-job-item .awsm-job-specification-item {
 
 // ---- Accessibility ----
 
+// In the editor, always show filter items so the JS layout check can measure positions.
+// (On the frontend, view.js handles toggling via the filter toggle button.)
 .awsm-b-filter-wrap .awsm-b-filter-items {
-	display: none;
+	display: flex !important;
+	flex-wrap: wrap;
 }
 
 .awsm-b-filter-wrap.awsm-b-full-width-search-filter-wrap .awsm-b-filter-items,
@@ -567,20 +593,6 @@ a.awsm-b-job-item .awsm-job-specification-item {
 
 .awsm-job-form-plugin-style .awsm-selectric .label {
 	margin-left: 15px;
-}
-
-// ---- Block Theme Compatibility ----
-
-.awsm-jobs-is-block-theme .site-branding {
-	padding: 0 2.1rem;
-}
-
-.awsm-jobs-is-block-theme .site-content {
-	padding: 0 2.1rem 3rem;
-}
-
-.awsm-jobs-is-block-theme .site-title {
-	margin-bottom: 0;
 }
 
 // ---- Filter Admin ----

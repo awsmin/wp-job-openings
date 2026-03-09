@@ -190,12 +190,21 @@ a.awsm-b-job-item {
 		width: calc(100% - 250px);
 	}
 
+	.awsm-b-filter-wrap.awsm-b-full-width-search-filter-wrap .awsm-b-filter-items,
+	.awsm-b-filter-wrap.awsm-b-no-search-filter-wrap .awsm-b-filter-items {
+		width: 100%;
+	}
+
 	.awsm-b-filter-toggle {
 		display: none;
 	}
 
 	.awsm-b-filter-item-search {
 		width: 250px;
+	}
+
+	.awsm-b-filter-wrap.awsm-b-full-width-search-filter-wrap .awsm-b-filter-item-search {
+		width: 100%;
 	}
 }
 
@@ -582,20 +591,6 @@ a.awsm-b-job-item .awsm-job-specification-item {
 
 .awsm-job-form-plugin-style .awsm-selectric .label {
 	margin-left: 15px;
-}
-
-// ---- Block Theme Compatibility ----
-
-.awsm-jobs-is-block-theme .site-branding {
-	padding: 0 2.1rem;
-}
-
-.awsm-jobs-is-block-theme .site-content {
-	padding: 0 2.1rem 3rem;
-}
-
-.awsm-jobs-is-block-theme .site-title {
-	margin-bottom: 0;
 }
 
 // ---- Job Wrap ----
