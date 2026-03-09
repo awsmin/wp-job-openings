@@ -1,7 +1,9 @@
 /**
  * Editor styles.
- *
  */
+
+// ---- Grid / Row ----
+
 .awsm-b-row {
 	margin: 0 -15px;
 	display: -webkit-box;
@@ -46,13 +48,14 @@
 	width: 100%;
 }
 
+// ---- Visibility ----
+
 .awsm-b-job-hide {
 	display: none !important;
 }
 
-.awsm-job-show {
-	display: block !important;
-}
+
+// ---- Job Item ----
 
 .awsm-b-job-item {
 	background: #fff;
@@ -60,7 +63,6 @@
 	padding-right: var(--hz-jl-padding-right, 15px);
 	padding-bottom: var(--hz-jl-padding-bottom, 15px);
 	padding-left: var(--hz-jl-padding-left, 15px);
-	
 	font-size: 14px;
 }
 
@@ -71,11 +73,11 @@ a.awsm-b-job-item {
 .awsm-b-grid-item .awsm-b-job-item {
 	margin-bottom: 30px;
 	box-shadow: 0 1px 4px 0 rgb(0 0 0 / 5%);
-	//border: 1px solid #dddfe3;
 	border: var(--hz-jl-border-width, 1px) solid var(--hz-jl-border-color, #CBCBCB);
-	border-radius: var(--hz-jl-border-radius-topleft, 5px) 
-		var(--hz-jl-border-radius-topright, 5px) 
-		var(--hz-jl-border-radius-bottomright, 5px) 
+	border-radius:
+		var(--hz-jl-border-radius-topleft, 5px)
+		var(--hz-jl-border-radius-topright, 5px)
+		var(--hz-jl-border-radius-bottomright, 5px)
 		var(--hz-jl-border-radius-bottomleft, 5px);
 	display: -webkit-box;
 	display: -moz-box;
@@ -110,24 +112,16 @@ a.awsm-b-job-item {
 
 .awsm-b-job-item h2.awsm-b-job-post-title a {
 	font-size: 18px;
-	/* color:#4E35DF;
-	text-decoration: none; */
 }
 
-.awsm-b-grid-item .awsm-job-info {
-	min-height: 83px;
-	margin-bottom: 10px;
-}
-
-.awsm-b-grid-item .awsm-job-info p {
-	margin: 0 0 8px;
-}
 
 .awsm-b-job-wrap::after {
 	clear: both;
 	content: '';
 	display: table;
 }
+
+// ---- Filter ----
 
 .awsm-b-filter-wrap,
 .awsm-b-filter-wrap * {
@@ -146,7 +140,6 @@ a.awsm-b-job-item {
 .awsm-b-filter-wrap.awsm-b-full-width-search-filter-wrap .awsm-b-filter-item-search {
 	width: 100%;
 }
-
 
 .awsm-b-filter-toggle {
 	display: flex;
@@ -168,7 +161,7 @@ a.awsm-b-job-item {
 	height: 20px;
 }
 
-@media (min-width:768px) {
+@media (min-width: 768px) {
 	.awsm-b-filter-wrap .awsm-b-filter-items {
 		display: flex !important;
 		flex-wrap: wrap;
@@ -182,12 +175,11 @@ a.awsm-b-job-item {
 	.awsm-b-filter-item-search {
 		width: 250px;
 	}
-
 }
 
 .awsm-b-filter-wrap .awsm-b-filter-item {
 	padding: 0 10px 10px;
-	max-width: 100%;	
+	max-width: 100%;
 }
 
 .awsm-b-filter-item-search {
@@ -195,7 +187,7 @@ a.awsm-b-job-item {
 	padding: 0 10px 10px;
 }
 
-@media (max-width:768px) {
+@media (max-width: 768px) {
 	.awsm-b-filter-wrap .awsm-b-filter-items {
 		width: 100%;
 	}
@@ -207,7 +199,6 @@ a.awsm-b-job-item {
 	.awsm-b-filter-wrap .awsm-b-filter-item .awsm-selectric-wrapper {
 		min-width: 100%;
 	}
-
 }
 
 .awsm-b-filter-wrap .awsm-b-filter-item .awsm-b-job-form-control {
@@ -218,12 +209,13 @@ a.awsm-b-job-item {
 .awsm-b-filter-item-search .awsm-b-job-form-control {
 	pointer-events: none;
 	padding-right: 48px;
-    min-height: 48px;
+	min-height: 48px;
 	border: var(--hz-ls-border-width, 1px) solid var(--hz-ls-border-color, #cccccc);
-	border-radius: var(--hz-ls-border-radius-topleft, 5px)
-			var(--hz-ls-border-radius-topright, 5px)
-			var(--hz-ls-border-radius-bottomright, 5px)
-			var(--hz-ls-border-radius-bottomleft, 5px) !important;
+	border-radius:
+		var(--hz-ls-border-radius-topleft, 5px)
+		var(--hz-ls-border-radius-topright, 5px)
+		var(--hz-ls-border-radius-bottomright, 5px)
+		var(--hz-ls-border-radius-bottomleft, 5px) !important;
 	font-size: 14px;
 }
 
@@ -244,6 +236,8 @@ a.awsm-b-job-item {
 	cursor: pointer;
 }
 
+// ---- No Results ----
+
 .awsm-b-jobs-none-container {
 	padding: 25px;
 }
@@ -252,6 +246,8 @@ a.awsm-b-job-item {
 	margin: 0;
 	padding: 5px;
 }
+
+// ---- Pagination ----
 
 .awsm-b-row .awsm-b-jobs-pagination {
 	padding: 0 15px;
@@ -308,12 +304,14 @@ a.awsm-b-job-item {
 	display: inline-block;
 }
 
-/*---- List ----*/
+// ---- List ----
+
 .awsm-b-lists {
 	border: var(--hz-jl-border-width, 1px) solid var(--hz-jl-border-color, #CBCBCB);
-	border-radius: var(--hz-jl-border-radius-topleft, 5px) 
-		var(--hz-jl-border-radius-topright, 5px) 
-		var(--hz-jl-border-radius-bottomright, 5px) 
+	border-radius:
+		var(--hz-jl-border-radius-topleft, 5px)
+		var(--hz-jl-border-radius-topright, 5px)
+		var(--hz-jl-border-radius-bottomright, 5px)
 		var(--hz-jl-border-radius-bottomleft, 5px);
 }
 
@@ -381,15 +379,12 @@ a.awsm-b-job-item .awsm-job-specification-item {
 	vertical-align: middle;
 }
 
-.awsm-job-more-container .awsm-job-more span::before {
-	content: "\002192";
-}
 
 .awsm-b-lists .awsm-b-jobs-pagination {
 	margin-top: 30px;
 }
 
-.awsm-job-specification-item>[class^="awsm-job-icon-"] {
+.awsm-job-specification-item > [class^="awsm-job-icon-"] {
 	margin-right: 6px;
 }
 
@@ -401,169 +396,8 @@ a.awsm-b-job-item .awsm-job-specification-item {
 	content: "";
 }
 
-/*----- Single ----*/
-.awsm-job-single-wrap,
-.awsm-job-single-wrap *,
-.awsm-job-single-wrap *::before,
-.awsm-job-single-wrap *::after {
-	box-sizing: border-box;
-}
 
-.awsm-job-single-wrap {
-	margin-bottom: 1.3em;
-}
-
-.awsm-job-single-wrap::after {
-	content: "";
-	display: table;
-	clear: both;
-}
-
-.awsm-job-content {
-	padding-bottom: 32px;
-}
-
-.awsm-job-single-wrap.awsm-col-2 .awsm-job-content {
-	float: left;
-	width: 55%;
-	padding-right: 15px;
-}
-
-.awsm-job-single-wrap.awsm-col-2 .awsm-job-form {
-	float: left;
-	width: 45%;
-	padding-left: 15px;
-}
-
-.awsm-job-head,
-.awsm_job_spec_above_content {
-	margin-bottom: 20px;
-}
-
-.awsm-job-head h1 {
-	margin: 0 0 20px;
-}
-
-.awsm-job-list-info span {
-	margin-right: 10px;
-}
-
-.awsm-job-single-wrap .awsm-job-expiration-label {
-	font-weight: bold;
-}
-
-.awsm-job-form-inner {
-	background: #fff;
-	border: 1px solid #dddfe3;
-	padding: 35px;
-}
-
-.awsm-job-form-inner h2 {
-	margin: 0 0 30px;
-}
-
-.awsm-job-form-group {
-	margin-bottom: 20px;
-}
-
-.awsm-job-form-group input[type=checkbox],
-.awsm-job-form-group input[type=radio] {
-	margin-right: 5px;
-}
-
-.awsm-job-form-group label {
-	display: block;
-	margin-bottom: 10px;
-}
-
-.awsm-job-inline-group label,
-.awsm-job-form-options-container label {
-	display: inline;
-	font-weight: normal;
-}
-
-.awsm-b-job-form-control {
-	display: block;
-	width: 100%;
-	padding: 5px 10px;
-	border: 1px solid #d5d5d5;
-	border-radius: 5px;
-	color: #444;
-	font: inherit;
-}
-
-.awsm-job-form-options-container span {
-	display: inline-block;
-	margin-bottom: 10px;
-	margin-left: 10px;
-}
-
-.awsm-job-submit {
-	background: #0195ff;
-	border: 1px solid #0195ff;
-	padding: 10px 30px;
-	color: #fff;
-}
-
-.awsm-job-submit:hover,
-.awsm-job-submit:focus {
-	background: rgba(0, 0, 0, 0);
-	color: #0195ff;
-}
-
-.awsm-job-form-error {
-	color: #db4c4c;
-	font-weight: 500;
-}
-
-.awsm-b-job-form-control.awsm-job-form-error,
-.awsm-b-job-form-control.awsm-job-form-error:focus {
-	border: 1px solid #db4c4c;
-}
-
-.awsm-success-message,
-.awsm-error-message {
-	padding: 12px 25px;
-}
-
-.awsm-success-message p:empty,
-.awsm-error-message p:empty {
-	display: none;
-}
-
-.awsm-success-message p,
-.awsm-error-message p {
-	margin: 0 !important;
-	padding: 0 !important;
-}
-
-.awsm-success-message {
-	border: 1px solid #1ea508;
-}
-
-.awsm-error-message {
-	border: 1px solid #db4c4c;
-}
-
-ul.awsm-error-message li {
-	margin-left: 1.2em;
-	line-height: 1.8em;
-}
-
-.awsm-expired-message {
-	padding: 25px;
-}
-
-.awsm-expired-message p {
-	margin: 1em 0em;
-}
-
-.awsm-job-container {
-	max-width: 1170px;
-	width: 100%;
-	margin: 0 auto;
-	padding: 50px 0;
-}
+// ---- Loading State ----
 
 .awsm-b-jobs-loading {
 	position: relative;
@@ -591,7 +425,8 @@ ul.awsm-error-message li {
 	visibility: visible;
 }
 
-/*---- Accessibility ----*/
+// ---- Accessibility ----
+
 .awsm-b-filter-wrap .awsm-b-filter-items {
 	display: none;
 }
@@ -612,28 +447,16 @@ ul.awsm-error-message li {
 	border: 0;
 }
 
-/*---- Media Queries ----*/
-@media (max-width:1024px) {
+// ---- Media Queries ----
+
+@media (max-width: 1024px) {
 	.awsm-b-grid-col-4 .awsm-b-grid-item {
 		width: 33.333%;
 	}
-
 }
 
-@media (max-width:992px) {
-	.awsm-job-single-wrap.awsm-col-2 .awsm-job-content {
-		width: 100%;
-		padding-right: 0;
-	}
 
-	.awsm-job-single-wrap.awsm-col-2 .awsm-job-form {
-		width: 100%;
-		padding-left: 0;
-	}
-
-}
-
-@media (max-width:768px) {
+@media (max-width: 768px) {
 	.awsm-b-grid-col-4 .awsm-b-grid-item,
 	.awsm-b-grid-col-3 .awsm-b-grid-item,
 	.awsm-b-grid-item {
@@ -649,10 +472,9 @@ ul.awsm-error-message li {
 		width: 100%;
 		text-align: left;
 	}
-
 }
 
-@media (max-width:648px) {
+@media (max-width: 648px) {
 	.awsm-b-grid-col-4 .awsm-b-grid-item,
 	.awsm-b-grid-col-3 .awsm-b-grid-item,
 	.awsm-b-grid-col-2 .awsm-b-grid-item,
@@ -670,8 +492,9 @@ ul.awsm-error-message li {
 		display: block;
 		float: none;
 	}
-
 }
+
+// ---- Form Plugin Style ----
 
 .awsm-job-form-plugin-style .awsm-b-job-form-control {
 	display: block;
@@ -681,10 +504,11 @@ ul.awsm-error-message li {
 	min-height: 46px;
 	font-size: 14px;
 	border: var(--hz-ls-border-width, 1px) solid var(--hz-ls-border-color, #cccccc);
-	border-radius: var(--hz-ls-border-radius-topleft, 5px) 
-			var(--hz-ls-border-radius-topright, 5px)
-			var(--hz-ls-border-radius-bottomright, 5px) 
-			var(--hz-ls-border-radius-bottomleft, 5px) !important;
+	border-radius:
+		var(--hz-ls-border-radius-topleft, 5px)
+		var(--hz-ls-border-radius-topright, 5px)
+		var(--hz-ls-border-radius-bottomright, 5px)
+		var(--hz-ls-border-radius-bottomleft, 5px) !important;
 	line-height: 1;
 	color: #060606;
 	transition: all 0.3s ease;
@@ -745,7 +569,8 @@ ul.awsm-error-message li {
 	margin-left: 15px;
 }
 
-/* Block Theme - Compatibility Templates Styles */
+// ---- Block Theme Compatibility ----
+
 .awsm-jobs-is-block-theme .site-branding {
 	padding: 0 2.1rem;
 }
@@ -758,13 +583,16 @@ ul.awsm-error-message li {
 	margin-bottom: 0;
 }
 
+// ---- Filter Admin ----
+
 .awsm-b-filter-admin label.awsm-b-sr-only {
 	padding: 0 50px 0 15px;
 	border: var(--hz-ls-border-width, 1px) solid var(--hz-ls-border-color, #cccccc) !important;
-    border-radius:var(--hz-ls-border-radius-topleft, 5px) 
-			var(--hz-ls-border-radius-topright, 5px) 
-			var(--hz-ls-border-radius-bottomright, 5px) 
-			var(--hz-ls-border-radius-bottomleft, 5px) !important;
+	border-radius:
+		var(--hz-ls-border-radius-topleft, 5px)
+		var(--hz-ls-border-radius-topright, 5px)
+		var(--hz-ls-border-radius-bottomright, 5px)
+		var(--hz-ls-border-radius-bottomleft, 5px) !important;
 	min-width: 160px;
 	position: relative;
 	-moz-appearance: none;
@@ -791,6 +619,8 @@ ul.awsm-error-message li {
 	display: none !important;
 }
 
+// ---- Icons ----
+
 .awsm-b-job-icon-search:before {
 	content: "\f002";
 }
@@ -799,6 +629,8 @@ ul.awsm-error-message li {
 	content: "\e900";
 	color: #a6a6a6;
 }
+
+// ---- No-search Filter Toggle ----
 
 .awsm-b-filter-wrap.awsm-b-no-search-filter-wrap .awsm-b-filter-toggle {
 	width: 100%;
@@ -812,6 +644,8 @@ ul.awsm-error-message li {
 	height: 22px;
 }
 
+// ---- Job Alerts ----
+
 .awsm-b-filter-wrap.awsm-b-full-width-search-filter-wrap.awsm-b-jobs-alerts-on .awsm-b-filter-items,
 .awsm-b-filter-wrap.awsm-b-no-search-filter-wrap.awsm-b-jobs-alerts-on .awsm-b-filter-items {
 	width: calc(100% - 80px);
@@ -821,14 +655,13 @@ ul.awsm-error-message li {
 	width: calc(100% - 100px);
 }
 
-@media (max-width:767px) {
+@media (max-width: 767px) {
 	.awsm-b-jobs-alerts-on .awsm-b-filter-item-search {
 		width: calc(100% - 146px);
 	}
-
 }
 
-@media (min-width:768px) {
+@media (min-width: 768px) {
 	.awsm-b-filter-wrap.awsm-b-jobs-alerts-on .awsm-b-filter-items {
 		width: calc(100% - 330px);
 		order: 2;
@@ -837,24 +670,29 @@ ul.awsm-error-message li {
 	.awsm-jobs-alerts-popup-trigger-btn {
 		order: 3;
 	}
-
 }
+
+// ---- Job Wrap ----
 
 .awsm-b-job-wrap,
 .awsm-b-job-wrap * {
 	box-sizing: border-box;
 }
 
+// ---- Editor Tab Panel ----
+
 .custom-tab-panel {
-	padding: 15px; /* Add your desired padding */
-	background-color: #f9f9f9; /* Optional: Add a light background for visibility */
-	border: 1px solid #ddd; /* Optional: Add a border for structure */
-	border-radius: 5px; /* Optional: Smooth corners */
+	padding: 15px;
+	background-color: #f9f9f9;
+	border: 1px solid #ddd;
+	border-radius: 5px;
 }
 
 .custom-tab-panel .wp-block-editor-components-tab-panel__tab {
-	margin-bottom: 10px; /* Add spacing between tabs and content */
+	margin-bottom: 10px;
 }
+
+// ---- Stack Layout ----
 
 .awsm-b-stack-item {
 	width: 100%;
@@ -868,41 +706,40 @@ ul.awsm-error-message li {
 		var(--hz-jl-border-radius-topright, 5px)
 		var(--hz-jl-border-radius-bottomright, 5px)
 		var(--hz-jl-border-radius-bottomleft, 5px);
-
 	border-width: var(--hz-jl-border-width, 1px);
 	border-style: var(--hz-jl-border-style, solid);
 	border-color: var(--hz-jl-border-color, #CBCBCB);
-
 	padding-top: var(--hz-jl-padding-top, 15px);
 	padding-right: var(--hz-jl-padding-right, 15px);
 	padding-bottom: var(--hz-jl-padding-bottom, 15px);
 	padding-left: var(--hz-jl-padding-left, 15px);
-
 	display: flex;
-	/* flex-wrap: wrap; */
 	align-items: center;
 	justify-content: space-between;
 	gap: 10px;
 }
 
-@media (max-width:600px){
-	.awsm-b-stack-item .awsm-b-job-item{
+@media (max-width: 600px) {
+	.awsm-b-stack-item .awsm-b-job-item {
 		flex-direction: column;
 		align-items: flex-start;
 	}
 }
 
-.awsm-b-stack-left-col{
+.awsm-b-stack-left-col {
 	flex: 1 1 auto;
-    min-width: 0;
-	@media (max-width:600px){
+	min-width: 0;
+
+	@media (max-width: 600px) {
 		width: 100%;
 	}
-	.awsm-job-featured-image{
+
+	.awsm-job-featured-image {
 		max-width: 55px;
 		border-radius: 10px;
 	}
-	.awsm-job-specification-wrapper{
+
+	.awsm-job-specification-wrapper {
 		display: flex;
 		gap: 15px 30px;
 		align-items: center;
@@ -910,15 +747,18 @@ ul.awsm-error-message li {
 	}
 }
 
-.awsm-b-stack-right-col{
+.awsm-b-stack-right-col {
 	flex: 0 0 auto;
-    margin-left: auto;
-	@media (max-width:600px){
+	margin-left: auto;
+
+	@media (max-width: 600px) {
 		width: 100%;
 		margin-left: 0;
-        margin-top: 10px;
+		margin-top: 10px;
 	}
 }
+
+// ---- Selectric ----
 
 .awsm-selectric {
 	border-radius:
@@ -926,41 +766,44 @@ ul.awsm-error-message li {
 		var(--hz-ls-border-radius-topright, 5px)
 		var(--hz-ls-border-radius-bottomright, 5px)
 		var(--hz-ls-border-radius-bottomleft, 5px) !important;
-
 	border:
 		var(--hz-ls-border-width, 1px)
 		solid
 		var(--hz-ls-border-color, #cccccc) !important;
 }
 
-
 .awsm-b-list-item h2.awsm-b-job-post-title {
 	margin-bottom: 0;
 }
+
+// ---- Misc Editor Controls ----
 
 .components-form-token-field__help {
 	display: none !important;
 }
 
-.custom-box-control .components-input-control__prefix{
-    display: none;
+.custom-box-control .components-input-control__prefix {
+	display: none;
 }
 
-.tab-settings{
+.tab-settings {
 	padding-right: 50px;
 }
 
-.tab-style{
+.tab-style {
 	padding-left: 50px;
 }
 
+// ---- Job More Button ----
+
 .awsm-b-job-more {
-	background-color: var(--hz-b-bg-color); 
+	background-color: var(--hz-b-bg-color);
 	color: var(--hz-b-tx-color) !important;
 	border: var(--hz-bs-border-width, 1px) solid var(--hz-bs-border-color, #4e35df);
-	border-radius: var(--hz-bs-border-radius-topleft, 5px) 
-		var(--hz-bs-border-radius-topright, 5px) 
-		var(--hz-bs-border-radius-bottomright, 5px) 
+	border-radius:
+		var(--hz-bs-border-radius-topleft, 5px)
+		var(--hz-bs-border-radius-topright, 5px)
+		var(--hz-bs-border-radius-bottomright, 5px)
 		var(--hz-bs-border-radius-bottomleft, 5px) !important;
 	display: inline-flex;
 	gap: 8px;
@@ -972,18 +815,17 @@ ul.awsm-error-message li {
 	font-size: 14px;
 	line-height: 1;
 	text-decoration: none;
-	border-style:var(--hz-bs-border-style,solid);
+	border-style: var(--hz-bs-border-style, solid);
 }
 
+// ---- Inspector Controls ----
 
 .hz-inspector-controls .components-base-control:where(:not(:last-child)),
 .hz-inspector-controls .components-radio-control:where(:not(:last-child)) {
-  margin-bottom: 0px !important;
+	margin-bottom: 0px !important;
 }
 
-/* .hz-inspector-controls .components-border-box-control-linked-button{
-	display: none;
-} */
+// ---- Filter Buttons ----
 
 .filters-button {
 	display: flex;
@@ -1002,23 +844,21 @@ ul.awsm-error-message li {
 	outline: none;
 }
 
-/* Active (like ToggleGroup) */
+/* Active state */
 .filters-button .filter-btn.is-active {
 	background-color: #1e1e1e;
 	color: #ffffff;
 	border-color: #1e1e1e;
 }
 
-/* Hover only inactive */
+/* Hover - inactive only */
 .filters-button .filter-btn:not(.is-active):hover {
 	background-color: #f0f0f0;
 	color: var(--wp-admin-theme-color-text, #1e1e1e);
 }
 
-/* Keep active stable on hover */
+/* Hover - active (stable) */
 .filters-button .filter-btn.is-active:hover {
 	background-color: #1e1e1e;
 	color: #ffffff;
 }
-
-
