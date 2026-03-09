@@ -29,9 +29,9 @@ import { __ } from '@wordpress/i18n';
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
  */
 registerBlockType( metadata.name, {
-	title: __( 'Job Listings(Beta)', 'wp-job-openings' ), // Block title.
+	title: __( 'Job Listings (Beta)', 'wp-job-openings' ), // Block title.
 	description: __(
-		'Add and customise your Job Listing layout',
+		'Add and Customise your Job Listing Layout',
 		'wp-job-openings'
 	), // Block description
 	icon: icon.block, // Block icon
