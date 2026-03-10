@@ -776,7 +776,7 @@ class AWSM_Job_Openings_Block {
 				$wrapper_class .= ' awsm-b-no-search-filter-wrap';
 			}
 
-			if ( self::is_edit_or_add_page() && ! empty( $filters_attr ) ) {
+			if ( self::is_edit_or_add_page() && ! empty( $filters_attr ) && $enable_job_filters ) {
 				$wrapper_class .= ' awsm-b-full-width-search-filter-wrap';
 			}
 
