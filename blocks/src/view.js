@@ -952,38 +952,21 @@ jQuery( function( $ ) {
 	 * Handle the responsive styles for filters in the job listing when search is enabled.
 	 */
 	function filtersResponsiveStylesHandler() {
-		const $filtersWrap = $( '.awsm-b-filter-wrap' ).not(
-			'.awsm-b-no-search-filter-wrap'
-		);
-		$filtersWrap.each( function() {
-			const $wrapper = $( this );
-			const $filterItems = $wrapper.find( '.awsm-b-filter-item' );
-
-			if ( $filterItems.length === 0 ) {
-				$wrapper.removeClass( 'awsm-b-full-width-search-filter-wrap' );
+		var $filtersWrap = $('.awsm-b-filter-wrap').not('.awsm-b-no-search-filter-wrap');
+		$filtersWrap.each(function() {
+			var $wrapper = $(this); 
+			var filterFirstTop = $wrapper.find('.awsm-b-filter-item').first().offset().top;
+			var filterLastTop = $wrapper.find('.awsm-b-filter-item').last().offset().top;
+			if(window.innerWidth < 768) {
+				$wrapper.removeClass('awsm-b-full-width-search-filter-wrap');
 				return;
 			}
-
-			const filterFirstTop = $wrapper
-				.find( '.awsm-b-filter-item' )
-				.first()
-				.offset().top;
-			const filterLastTop = $wrapper
-				.find( '.awsm-b-filter-item' )
-				.last()
-				.offset().top;
-			if ( window.innerWidth < 768 ) {
-				$wrapper.removeClass( 'awsm-b-full-width-search-filter-wrap' );
-				return;
+			if (filterLastTop > filterFirstTop) {
+				$wrapper.addClass('awsm-b-full-width-search-filter-wrap');
 			}
-			if ( filterLastTop > filterFirstTop ) {
-				$wrapper.addClass( 'awsm-b-full-width-search-filter-wrap' );
-			} else {
-				$wrapper.removeClass( 'awsm-b-full-width-search-filter-wrap' );
-			}
-		} );
+		});
 	}
-
+	
 	if (
 		$( '.awsm-b-filter-wrap' ).not( '.awsm-b-no-search-filter-wrap' )
 			.length > 0
