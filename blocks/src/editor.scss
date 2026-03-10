@@ -450,13 +450,6 @@ a.awsm-b-job-item .awsm-job-specification-item {
 
 // ---- Accessibility ----
 
-// In the editor, always show filter items so the JS layout check can measure positions.
-// (On the frontend, view.js handles toggling via the filter toggle button.)
-.awsm-b-filter-wrap .awsm-b-filter-items {
-	display: flex !important;
-	flex-wrap: wrap;
-}
-
 .awsm-b-filter-wrap.awsm-b-full-width-search-filter-wrap .awsm-b-filter-items,
 .awsm-b-filter-wrap.awsm-b-no-search-filter-wrap .awsm-b-filter-items {
 	width: 100%;

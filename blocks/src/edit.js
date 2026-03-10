@@ -65,18 +65,20 @@ export default function Edit(props) {
         );
         filtersWraps.forEach(wrapper => {
             const filterItems = wrapper.querySelectorAll(".awsm-b-filter-item");
-            if (filterItems.length > 0) {
-                const filterFirstTop = filterItems[0].getBoundingClientRect().top;
-                const filterLastTop = filterItems[
-                    filterItems.length - 1
-                ].getBoundingClientRect().top;
-                if (window.innerWidth < 768) {
-                    wrapper.classList.remove("awsm-b-full-width-search-filter-wrap");
-                    return;
-                }
-                if (filterLastTop > filterFirstTop) {
-                    wrapper.classList.add("awsm-b-full-width-search-filter-wrap");
-                }
+            if (filterItems.length === 0) {
+                wrapper.classList.add("awsm-b-full-width-search-filter-wrap");
+                return;
+            }
+            const filterFirstTop = filterItems[0].getBoundingClientRect().top;
+            const filterLastTop = filterItems[
+                filterItems.length - 1
+            ].getBoundingClientRect().top;
+            if (window.innerWidth < 768) {
+                wrapper.classList.remove("awsm-b-full-width-search-filter-wrap");
+                return;
+            }
+            if (filterLastTop > filterFirstTop) {
+                wrapper.classList.add("awsm-b-full-width-search-filter-wrap");
             }
         });
     };
@@ -110,18 +112,20 @@ export default function Edit(props) {
         }
         const filterItems = document.querySelectorAll("#block-" + props.clientId + " .awsm-b-filter-item");
 
-        if (filterItems.length > 0) {
-            const filterFirstTop = filterItems[0].getBoundingClientRect().top;
-            const filterLastTop = filterItems[
-                filterItems.length - 1
-            ].getBoundingClientRect().top;
-            if (window.innerWidth < 768) {
-                wrapper.classList.remove("awsm-b-full-width-search-filter-wrap");
-                return;
-            }
-            if (filterLastTop > filterFirstTop) {
-                wrapper.classList.add("awsm-b-full-width-search-filter-wrap");
-            }
+        if (filterItems.length === 0) {
+            wrapper.classList.add("awsm-b-full-width-search-filter-wrap");
+            return;
+        }
+        const filterFirstTop = filterItems[0].getBoundingClientRect().top;
+        const filterLastTop = filterItems[
+            filterItems.length - 1
+        ].getBoundingClientRect().top;
+        if (window.innerWidth < 768) {
+            wrapper.classList.remove("awsm-b-full-width-search-filter-wrap");
+            return;
+        }
+        if (filterLastTop > filterFirstTop) {
+            wrapper.classList.add("awsm-b-full-width-search-filter-wrap");
         }
     };
 
