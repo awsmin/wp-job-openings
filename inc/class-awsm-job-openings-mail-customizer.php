@@ -115,7 +115,7 @@ class AWSM_Job_Openings_Mail_Customizer {
 				$company_name = get_option( 'awsm_job_company_name' );
 				$img_alt      = ! empty( $company_name ) ? $company_name : get_bloginfo( 'name', 'display' );
 			}
-			$logo = sprintf( '<a href="%1$s" target="_blank"><h1><img src="%2$s" alt="%3$s"%4$s></h1></a>', esc_url( site_url( '/' ) ), esc_url( $image_url ), esc_attr( $img_alt ), $extra_attr );
+			$logo = sprintf( '<a href="%1$s" target="_blank"><h1><img src="%2$s" alt="%3$s"%4$s style="max-width: 100%; height:auto"></h1></a>', esc_url( site_url( '/' ) ), esc_url( $image_url ), esc_attr( $img_alt ), $extra_attr );
 		}
 		/**
 		 * Filters the notification HTML mail template logo.
