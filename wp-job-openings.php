@@ -1893,6 +1893,10 @@ class AWSM_Job_Openings {
 			$attrs['sort'] = $_GET['sort'];
 		}
 
+		if ( isset( $shortcode_atts['loadmore'] ) && $shortcode_atts['loadmore'] === 'no' ) {
+				$attrs['loadmore'] = 'no';
+		}
+
 		if ( is_tax() ) {
 			$q_obj             = get_queried_object();
 			$attrs['taxonomy'] = $q_obj->taxonomy;

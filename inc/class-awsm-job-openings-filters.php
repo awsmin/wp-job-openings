@@ -293,6 +293,10 @@ class AWSM_Job_Openings_Filters {
 			$shortcode_atts['listings'] = intval( $_POST['listings_per_page'] );
 		}
 
+		if ( isset( $_POST['loadmore'] ) && $_POST['loadmore'] === 'no' ) {
+			$shortcode_atts['loadmore'] = 'no';
+		}
+
 		if ( isset( $_POST['lang'] ) ) {
 			AWSM_Job_Openings::set_current_language( $_POST['lang'] );
 		}
