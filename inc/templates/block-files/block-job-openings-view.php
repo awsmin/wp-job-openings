@@ -126,23 +126,27 @@ if ( function_exists( 'get_block_wrapper_attributes' ) ) {
 if ( $placement === 'top' ) {
 	?>
 		<div <?php echo $wrapper_attrs; ?>>
-			<?php
-				/**
-				 * awsm_block_filter_form hook
-				 *
+				<?php
+					/**
+					 * awsm_block_filter_form hook
+					 *
 				 * Display filter form for job listings
 				 *
 				 * @hooked AWSM_Job_Openings_Block::display_block_filter_form()
 				 *
 				 * @since 3.5.0
 				 *
-				 * @param array $attributes Attributes array from block.
-				 */
-				do_dynamic_filter_form_action( $attributes );
-				do_action( 'awsm_block_form_outside', $attributes );
-			?>
-	<?php
-} else {
+					 * @param array $attributes Attributes array from block.
+					 */
+					do_dynamic_filter_form_action( $attributes );
+					// Avoid duplicate UI when add-ons output inside the filter form (e.g. alerts button).
+					// Only run the "outside" hook when neither search nor filters are enabled.
+					if ( ! $has_search && ! $has_filters ) {
+						do_action( 'awsm_block_form_outside', $attributes );
+					}
+				?>
+		<?php
+	} else {
 	?>
 			<div <?php echo $wrapper_attrs; ?>>
 				<?php if ( $show_filter ) { ?>
@@ -187,12 +191,16 @@ if ( $placement === 'top' ) {
 				 *
 				 * @param array $attributes Attributes array from block.
 				 */
-				do_action( 'awsm_block_filter_form_extra', $attributes );
-				do_action( 'awsm_block_form_outside', $attributes );
-			?>
-		<?php
-}
-?>
+					do_action( 'awsm_block_filter_form_extra', $attributes );
+					// Avoid duplicate UI when add-ons output inside the filter form (e.g. alerts button).
+					// Only run the "outside" hook when the sidebar form isn't rendered.
+					if ( ! $show_filter ) {
+						do_action( 'awsm_block_form_outside', $attributes );
+					}
+				?>
+			<?php
+	}
+	?>
 			<div class="awsm-b-job-listings"<?php awsm_block_jobs_data_attrs( array(), $attributes ); ?>>
 				<div <?php echo awsm_block_jobs_view_class( $placement === 'top' ? '' : 'custom-class', $attributes ); ?>>
 					<?php if ( $query->have_posts() ) : ?>
