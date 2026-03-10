@@ -148,7 +148,6 @@ class AWSM_Job_Openings_Meta {
 			),
 			$post_id
 		);
-		error_log( 'Applicant Meta: ' . print_r( $applicant_meta, true ) ); // Debug log
 		if ( ! empty( $applicant_meta ) && is_array( $applicant_meta ) ) {
 			foreach ( $applicant_meta as $meta_key => $meta_options ) {
 				$visible    = isset( $meta_options['visible'] ) ? $meta_options['visible'] : true;
@@ -220,7 +219,6 @@ class AWSM_Job_Openings_Meta {
 		}
 
 		$list = apply_filters( 'awsm_jobs_applicant_meta_details_list', $list, $applicant_meta, $post_id );
-		//error_log( 'Applicant Meta Details List: ' . print_r( $list, true ) ); // Debug log
 		return array(
 			'name'         => $name,
 			'email'        => $email,
