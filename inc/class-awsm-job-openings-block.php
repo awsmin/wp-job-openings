@@ -172,6 +172,10 @@ class AWSM_Job_Openings_Block {
 		if ( ! empty( $_POST['awsm_job_spec'] ) ) {
 			$job_specs = wp_unslash( $_POST['awsm_job_spec'] );
 
+			if ( ! is_array( $job_specs ) ) {
+				$job_specs = array();
+			}
+
 			foreach ( $job_specs as $taxonomy => $term_id ) {
 				$taxonomy = sanitize_key( $taxonomy );
 
@@ -220,20 +224,6 @@ class AWSM_Job_Openings_Block {
 			$attributes['hide_expired_jobs'] = in_array( $hide_expired, array( 'expired', '1', 'true', 'yes', 'on' ), true ) ? 'expired' : '';
 		}
 
-		/* if ( isset( $_POST['awsm-selected-terms'] ) ) {
-			$selected_terms = json_decode( stripslashes( $_POST['awsm-selected-terms'] ), true );
-
-			if ( json_last_error() === JSON_ERROR_NONE ) {
-				foreach ( $selected_terms as $key => $value ) {
-					if ( isset( $filters_list[ $key ] ) ) {
-						$filters_list[ $key ] = array_values( array_unique( array_merge( (array) $filters_list[ $key ], (array) $value ) ) );
-					} else {
-						$filters_list[ $key ] = $value;
-					}
-				}
-			}
-		} */
-
 		if ( isset( $_POST['awsm-other-options'] ) ) {
 			$other_options_raw           = sanitize_text_field( wp_unslash( $_POST['awsm-other-options'] ) );
 			$other_options               = array_filter(
@@ -252,9 +242,9 @@ class AWSM_Job_Openings_Block {
 		}
 
 		if ( isset( $_POST['lang'] ) ) {
-			$lang = sanitize_text_field( wp_unslash( $_POST['lang'] ) );
-			$lang = preg_replace( '/[^A-Za-z0-9_-]/', '', $lang );
-			if ( $lang !== '' ) {
+			$lang = sanitize_key( wp_unslash( $_POST['lang'] ) );
+
+			if ( ! empty( $lang ) ) {
 				AWSM_Job_Openings::set_current_language( $lang );
 			}
 		}
@@ -271,7 +261,7 @@ class AWSM_Job_Openings_Block {
 			$attributes['order_by'] = in_array( $order_by, array( 'new_to_old', 'old_to_new' ), true ) ? $order_by : 'new_to_old';
 		}
 
-		$attributes = apply_filters( 'awsm_jobs_block_post_filters', $attributes, $_POST );
+		$attributes = apply_filters( 'awsm_jobs_block_post_filters', $attributes, wp_unslash( $_POST ) );
 
 		$args = self::awsm_block_job_query_args( $filters, $attributes, array(), $filters_list );
 
@@ -317,8 +307,6 @@ class AWSM_Job_Openings_Block {
 				'html' => $html,
 			)
 		);
-		//wp_die();
-		// phpcs:enable
 	}
 
 	public static function awsm_block_job_query_args( $filters = array(), $attributes = array(), $is_term_or_slug = array(), $filters_list = array() ) {

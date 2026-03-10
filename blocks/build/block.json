@@ -69,7 +69,7 @@
     },
     "show_spec_icon": {
       "type": "boolean",
-      "default": false
+      "default": true
     },
     "hz_sf_border": {
       "type": "object",
