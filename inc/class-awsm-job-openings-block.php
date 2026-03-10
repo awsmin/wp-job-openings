@@ -534,7 +534,6 @@ class AWSM_Job_Openings_Block {
 		$enable_job_filters    = isset( $block_atts['enable_job_filter'] ) ? $block_atts['enable_job_filter'] : '';
 		$enable_search         = isset( $block_atts['search'] ) ? $block_atts['search'] : '';
 		$placeholder_search    = isset( $block_atts['search_placeholder'] ) ? $block_atts['search_placeholder'] : '';
-		$select_filter_full    = isset( $block_atts['select_filter_full'] ) ? $block_atts['select_filter_full'] : '';
 
 		$placeholder_search = isset( $block_atts['search_placeholder'] ) ? $block_atts['search_placeholder'] : '';
 		$default_text       = _x( 'Search Jobs', 'job filter', 'wp-job-openings' );
@@ -774,10 +773,6 @@ class AWSM_Job_Openings_Block {
 			}
 			if ( ! $enable_search ) {
 				$wrapper_class .= ' awsm-b-no-search-filter-wrap';
-			}
-
-			if ( self::is_edit_or_add_page() && $select_filter_full ) {
-				$wrapper_class .= ' awsm-b-full-width-search-filter-wrap';
 			}
 
 			$alert_existing_class = '';
