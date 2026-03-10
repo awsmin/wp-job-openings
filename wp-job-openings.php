@@ -997,7 +997,9 @@ class AWSM_Job_Openings {
 	}
 
 	public function job_views_handler() {
-		// phpcs:disable WordPress.Security.NonceVerification.Missing
+		if ( ! isset( $_POST['awsm_nonce'] ) || ! wp_verify_nonce( sanitize_key( $_POST['awsm_nonce'] ), 'awsm_view_count_nonce' ) ) {
+			wp_die();
+		}
 		if ( isset( $_POST['awsm_job_id'] ) ) {
 			$post_id = intval( $_POST['awsm_job_id'] );
 			if ( $post_id && get_post_type( $post_id ) === 'awsm_job_openings' ) {
@@ -1010,7 +1012,6 @@ class AWSM_Job_Openings {
 			}
 		}
 		wp_die();
-		// phpcs:enable
 	}
 
 	public function no_script_msg() {
@@ -1193,6 +1194,7 @@ class AWSM_Job_Openings {
 			),
 			'is_homepage'        => ( is_front_page() || is_home() ),
 			'block_nonce'        => wp_create_nonce( 'awsm_block_ajax' ),
+		'view_count_nonce'   => wp_create_nonce( 'awsm_view_count_nonce' ),
 		);
 		/**
 		 * Filters the public script localized data.

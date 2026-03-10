@@ -10,7 +10,8 @@ jQuery(document).ready(function($) {
 	if (jobId && ! isNaN(jobId)) {
 		$.post(awsmJobsPublic.ajaxurl, {
 			action: 'awsm_view_count',
-			'awsm_job_id': jobId
+			'awsm_job_id': jobId,
+			'awsm_nonce': awsmJobsPublic.view_count_nonce
 		});
 	}
 

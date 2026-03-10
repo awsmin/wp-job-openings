@@ -173,12 +173,12 @@ class AWSM_Job_Openings_Core {
 				"
 				SELECT COUNT(DISTINCT p.ID)
 				FROM {$wpdb->posts} p
-				LEFT JOIN {$wpdb->postmeta} pm
+				INNER JOIN {$wpdb->postmeta} pm
 					ON pm.post_id = p.ID
 					AND pm.meta_key = %s
 				WHERE p.post_type   = %s
 				AND p.post_status = %s
-				AND (pm.meta_value IS NULL OR pm.meta_value = %s)
+				AND pm.meta_value = %s
 				",
 				'awsm_application_viewed',
 				'awsm_job_application',

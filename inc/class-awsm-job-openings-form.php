@@ -386,7 +386,6 @@ class AWSM_Job_Openings_Form {
 	}
 
 	public function insert_application() {
-		// phpcs:disable WordPress.Security.NonceVerification.Missing
 		global $awsm_response;
 
 		$awsm_response = array(
@@ -395,6 +394,9 @@ class AWSM_Job_Openings_Form {
 		);
 
 		if ( $_SERVER['REQUEST_METHOD'] === 'POST' && ! empty( $_POST['action'] ) && $_POST['action'] === 'awsm_applicant_form_submission' ) {
+			if ( ! isset( $_POST['awsm_nonce'] ) || ! wp_verify_nonce( sanitize_key( $_POST['awsm_nonce'] ), 'awsm_application_nonce' ) ) {
+				wp_send_json_error( array( 'message' => esc_html__( 'Security check failed. Please refresh the page and try again.', 'wp-job-openings' ) ) );
+			}
 			$job_id               = intval( $_POST['awsm_job_id'] );
 			$job_status           = get_post_status( $job_id );
 			$applicant_name       = sanitize_text_field( wp_unslash( $_POST['awsm_applicant_name'] ) );
@@ -545,6 +547,8 @@ class AWSM_Job_Openings_Form {
 							if ( ! empty( $agree_privacy_policy ) ) {
 								$applicant_details['awsm_agree_privacy_policy'] = $agree_privacy_policy;
 							}
+
+							$applicant_details['awsm_application_viewed'] = '0';
 
 							foreach ( $applicant_details as $meta_key => $meta_value ) {
 								update_post_meta( $application_id, $meta_key, $meta_value );
