@@ -74,7 +74,7 @@ export default function Edit(props) {
                     wrapper.classList.remove("awsm-b-full-width-search-filter-wrap");
                     return;
                 }
-                if (filterLastTop > filterFirstTop) {
+                if (filterLastTop > filterFirstTop) { 
                     wrapper.classList.add("awsm-b-full-width-search-filter-wrap");
                 }
             }
@@ -93,7 +93,7 @@ export default function Edit(props) {
     useEffect(() => {
         window.addEventListener("resize", handleResize);
         checkElement();
-        handleResize();
+        handleResize(); 
 
         return () => {
             window.removeEventListener("resize", handleResize);
@@ -119,7 +119,7 @@ export default function Edit(props) {
                 wrapper.classList.remove("awsm-b-full-width-search-filter-wrap");
                 return;
             }
-            if (filterLastTop > filterFirstTop) {
+            if (filterLastTop > filterFirstTop) { 
                 wrapper.classList.add("awsm-b-full-width-search-filter-wrap");
             }
         }

@@ -771,8 +771,13 @@ class AWSM_Job_Openings_Block {
 			if ( ! self::is_edit_or_add_page() && ! ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
 				$wrapper_class .= ' awsm-selectric-loading';
 			}
+			
 			if ( ! $enable_search ) {
 				$wrapper_class .= ' awsm-b-no-search-filter-wrap';
+			}
+
+			if ( self::is_edit_or_add_page() && ! empty( $filters_attr ) ) {
+				$wrapper_class .= ' awsm-b-full-width-search-filter-wrap';
 			}
 
 			$alert_existing_class = '';
