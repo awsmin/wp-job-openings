@@ -607,6 +607,16 @@ a.awsm-b-job-item .awsm-job-specification-item {
 	display: none;
 }
 
+// When alerts button is rendered without the sidebar filter form (side placement + no search/filters),
+// keep it readable (show label) and aligned with the filter wrap spacing.
+.awsm-b-filter-wrap-extra .awsm-jobs-alerts-trigger-btn span {
+	display: inline;
+}
+
+.awsm-b-filter-wrap-extra .awsm-jobs-alerts-popup-trigger-btn {
+	padding: 0 10px 10px;
+}
+
 // ---- Filter Checkbox ----
 
 .awsm-filter-check-label {

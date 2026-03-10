@@ -656,6 +656,14 @@ a.awsm-b-job-item .awsm-job-specification-item {
 	width: calc(100% - 80px);
 }
 
+.awsm-b-filter-wrap-extra .awsm-jobs-alerts-trigger-btn span {
+	display: inline;
+}
+
+.awsm-b-filter-wrap-extra .awsm-jobs-alerts-popup-trigger-btn {
+	padding: 0 10px 10px;
+}
+
 .awsm-b-filter-wrap.awsm-b-no-search-filter-wrap.awsm-b-jobs-alerts-on .awsm-b-filter-toggle {
 	width: calc(100% - 100px);
 }

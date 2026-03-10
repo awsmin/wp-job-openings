@@ -144,10 +144,10 @@ if ( $placement === 'top' ) {
 	<?php
 } else {
 	?>
-		<div <?php echo $wrapper_attrs; ?>>
-			<?php if ( $show_filter ) { ?>
-				<div class="awsm-b-filter-wrap<?php echo ( is_admin() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) ? '' : ' awsm-selectric-loading'; ?> awsm-jobs-alerts-on">
-					<?php
+			<div <?php echo $wrapper_attrs; ?>>
+				<?php if ( $show_filter ) { ?>
+					<div class="awsm-b-filter-wrap<?php echo ( is_admin() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) ? '' : ' awsm-selectric-loading'; ?> awsm-jobs-alerts-on">
+						<?php
 						/**
 						 * awsm_block_filter_form_side hook
 						 *
@@ -160,13 +160,27 @@ if ( $placement === 'top' ) {
 						 * @param array $attributes Attributes array from block.
 						 */
 						do_dynamic_filter_form_action( $attributes );
-					?>
-				</div> 
-			<?php } ?>
-			<?php
-				/**
-				 * awsm_block_filter_form_extra hook
-				 *
+						?>
+					</div> 
+				<?php } ?>
+				<?php
+				// If placement is side but sidebar layout is not active, still allow Pro (and others)
+				// to render inside-form extras (e.g. alerts button) above the listings.
+				if ( ! $show_filter ) {
+					ob_start();
+					do_action( 'awsm_block_form_inside', $attributes );
+					$extra_inside = ob_get_clean();
+					if ( ! empty( $extra_inside ) ) {
+						// Add both legacy/new alert wrapper classes so Pro button keeps expected styling
+						// across editor and frontend.
+						echo '<div class="awsm-b-filter-wrap awsm-b-no-search-filter-wrap awsm-b-filter-wrap-extra awsm-jobs-alerts-on awsm-b-jobs-alerts-on">' . $extra_inside . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					}
+				}
+				?>
+				<?php
+					/**
+					 * awsm_block_filter_form_extra hook
+					 *
 				 * Display extra fields if search and filters are not enabled
 				 *
 				 * @since 4.0.0
