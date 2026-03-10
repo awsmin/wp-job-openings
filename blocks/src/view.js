@@ -391,6 +391,9 @@ jQuery( function( $ ) {
 			! $rootWrapper.hasClass( 'awsm-job-form-plugin-style' );
 
 		$selectEl.selectric( {
+			// Use Selectric UI on mobile too; native <select multiple> is not usable on many devices.
+			nativeOnMobile: false,
+			disableOnMobile: false,
 			multiple: {
 				keepMenuOpen: true,
 				separator: ', ',
