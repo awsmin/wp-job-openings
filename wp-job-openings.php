@@ -252,6 +252,30 @@ class AWSM_Job_Openings {
 		if ( ! $stored_version || version_compare( $current_version, $stored_version, '>' ) ) {
 			update_option( 'awsm_jobs_plugin_version', $current_version );
 		}
+
+
+		// Compatibility migration: mark all pre-existing applications as viewed so they
+		// don't incorrectly inflate the unread count after upgrading to a version that
+		// introduced the awsm_application_viewed tracking feature.
+		if ( intval( get_option( 'awsm_jobs_application_viewed_migrated' ) ) !== 1 ) {
+			global $wpdb;
+			$wpdb->query(
+				$wpdb->prepare(
+					"INSERT INTO {$wpdb->postmeta} (post_id, meta_key, meta_value)
+					SELECT p.ID, %s, %s
+					FROM {$wpdb->posts} p
+					LEFT JOIN {$wpdb->postmeta} pm
+						ON pm.post_id = p.ID AND pm.meta_key = %s
+					WHERE p.post_type = %s
+					AND pm.meta_id IS NULL",
+					'awsm_application_viewed',
+					'1',
+					'awsm_application_viewed',
+					'awsm_job_application'
+				)
+			);
+			update_option( 'awsm_jobs_application_viewed_migrated', 1 );
+		}
 	}
 
 	public function check_downgrade() {
