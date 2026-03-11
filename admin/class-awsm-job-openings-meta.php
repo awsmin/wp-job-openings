@@ -356,12 +356,7 @@ class AWSM_Job_Openings_Meta {
 				$is_viewed = get_post_meta( $post_id, 'awsm_application_viewed', true ) === '1';
 
 				if ( ! $is_viewed ) {
-					$activation_date = get_option( 'awsm_jobs_hirezoot_activation_date', '' );
-					$post_date       = get_post_field( 'post_date', $post_id );
-
-					if ( empty( $activation_date ) || $post_date >= $activation_date ) {
-						$classes[] = 'awsm-new-job';
-					}
+					$classes[] = 'awsm-new-job';
 				}
 			}
 		}

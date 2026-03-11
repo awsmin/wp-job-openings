@@ -245,11 +245,6 @@ class AWSM_Job_Openings {
 			}
 		}
 
-		// Store Hirezoot activation date once — used as cutoff for unread application tracking.
-		if ( ! get_option( 'awsm_jobs_hirezoot_activation_date' ) ) {
-			update_option( 'awsm_jobs_hirezoot_activation_date', current_time( 'mysql' ) );
-		}
-
 		// Only update stored version if it's less than current (upgrade)
 		$stored_version  = get_option( 'awsm_jobs_plugin_version' );
 		$current_version = AWSM_JOBS_PLUGIN_VERSION;
