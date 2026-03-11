@@ -529,14 +529,6 @@ class AWSM_Job_Openings_Block {
 	}
 
 	/**
-	 * Get spec terms for the frontend filter dropdown.
-	 * Shows terms with published jobs AND truly empty terms (no jobs at all),
-	 * but excludes terms that only have expired jobs.
-	 *
-	 * @param string $taxonomy Taxonomy key.
-	 * @return array Array of WP_Term objects.
-	 */
-	/**
 	 * Returns term IDs for the given taxonomy that have expired posts but no published posts.
 	 * Uses WordPress's term count (which only counts published posts) to find zero-count terms,
 	 * then checks which of those actually have expired posts.
@@ -566,6 +558,14 @@ class AWSM_Job_Openings_Block {
 		return array_map( 'intval', (array) $ids );
 	}
 
+	/**
+	 * Get spec terms for the frontend filter dropdown.
+	 * Shows terms with published jobs AND truly empty terms (no jobs at all),
+	 * but excludes terms that only have expired jobs.
+	 *
+	 * @param string $taxonomy Taxonomy key.
+	 * @return array Array of WP_Term objects.
+	 */
 	public static function get_block_filter_terms( $taxonomy ) {
 		$terms = get_terms(
 			array(
