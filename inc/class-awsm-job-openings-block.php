@@ -581,10 +581,10 @@ class AWSM_Job_Openings_Block {
 		$expired_only_term_ids = self::get_expired_only_term_ids( $taxonomy );
 
 		if ( empty( $expired_only_term_ids ) ) {
-			return $terms;
+			return apply_filters( 'awsm_block_filter_terms', $terms, $taxonomy );
 		}
 
-		return array_values(
+		$filtered = array_values(
 			array_filter(
 				$terms,
 				function( $term ) use ( $expired_only_term_ids ) {
@@ -592,6 +592,8 @@ class AWSM_Job_Openings_Block {
 				}
 			)
 		);
+
+		return apply_filters( 'awsm_block_filter_terms', $filtered, $taxonomy );
 	}
 
 	public function display_block_filter_form( $block_atts ) {
@@ -702,7 +704,7 @@ class AWSM_Job_Openings_Block {
 								'hide_empty' => true,
 							)
 						);
-						$terms = get_terms( $terms_args );
+						$terms = apply_filters( 'awsm_block_filter_terms', get_terms( $terms_args ), $taxonomy );
 					} else {
 						$terms = self::get_block_filter_terms( $taxonomy );
 					}
@@ -931,7 +933,7 @@ class AWSM_Job_Openings_Block {
 									'hide_empty' => true,
 								)
 							);
-							$terms = get_terms( $terms_args );
+							$terms = apply_filters( 'awsm_block_filter_terms', get_terms( $terms_args ), $taxonomy );
 						} else {
 							$terms = self::get_block_filter_terms( $taxonomy );
 						}
