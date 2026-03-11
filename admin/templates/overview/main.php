@@ -15,7 +15,7 @@ $applications_count        = intval( $overview_data['unread_applications'] ?? 0 
 do_action( 'add_meta_boxes_' . AWSM_Job_Openings_Overview::$screen_id, null );
 global $post;
 if ( get_transient( '_awsm_add_ons_data' ) === false ) {
-	$response = wp_remote_get( esc_url( 'http://dev.awsm.in/innovations/wp-json/awsm-plugins/v1/job-add-ons' ) );
+	$response = wp_remote_get( esc_url( 'https://dev.awsm.in/innovations/wp-json/awsm-plugins/v1/job-add-ons' ) );
 	if ( is_wp_error( $response ) ) {
 		return;
 	}

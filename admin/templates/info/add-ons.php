@@ -3,7 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 if ( get_transient( '_awsm_add_ons_data' ) === false ) {
-	$response = wp_remote_get( esc_url( 'http://dev.awsm.in/innovations/wp-json/awsm-plugins/v1/job-add-ons' ) );
+	$response = wp_remote_get( esc_url( 'https://dev.awsm.in/innovations/wp-json/awsm-plugins/v1/job-add-ons' ) );
 	if ( is_wp_error( $response ) ) {
 		return;
 	}
