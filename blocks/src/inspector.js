@@ -524,30 +524,36 @@ const WidgetInspectorControls = (props) => {
 										/>
 
 										{ /* Show FormTokenField only when toggle is on */ }
-											{ toggleState[ spec.key ] && (
-												<FormTokenField
-													value={ (
-														selectedTermsState[ spec.key ] || []
-													).map( ( id ) => {
-														const term = spec.terms.find(
-															( t ) => t.term_id === id
-														);
-														return term ? String( term.name ) : '';
-													} ) }
-													onChange={ ( newTokens ) =>
-														handleTermChange(
-															newTokens,
-															spec.key,
-															spec
-														)
-													}
-													suggestions={ spec.terms.map(
-														( term ) => String( term.name )
-													) } 
-													__experimentalExpandOnFocus={ true }
-													label=""
-												/>
-											) }
+											{ toggleState[ spec.key ] && ( () => {
+												const expiredIds = hide_expired_jobs ? ( spec.expired_term_ids || [] ) : [];
+												const visibleTerms = spec.terms.filter(
+													( t ) => ! expiredIds.includes( t.term_id )
+												);
+												return (
+													<FormTokenField
+														value={ (
+															selectedTermsState[ spec.key ] || []
+														).map( ( id ) => {
+															const term = visibleTerms.find(
+																( t ) => t.term_id === id
+															);
+															return term ? String( term.name ) : '';
+														} ) }
+														onChange={ ( newTokens ) =>
+															handleTermChange(
+																newTokens,
+																spec.key,
+																{ ...spec, terms: visibleTerms }
+															)
+														}
+														suggestions={ visibleTerms.map(
+															( term ) => String( term.name )
+														) }
+														__experimentalExpandOnFocus={ true }
+														label=""
+													/>
+												);
+											} )() }
 										</div>
 									) ) }
 							</>

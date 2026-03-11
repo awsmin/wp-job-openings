@@ -470,9 +470,10 @@ class AWSM_Job_Openings_Block {
 					$tax_obj = get_taxonomy( $spec_key );
 					if ( ! empty( $tax_obj ) ) {
 						$specs[] = array(
-							'key'   => $spec_key,
-							'label' => $tax_obj->label,
-							'terms' => $terms,
+							'key'             => $spec_key,
+							'label'           => $tax_obj->label,
+							'terms'           => $terms,
+							'expired_term_ids' => self::get_expired_only_term_ids( $spec_key ),
 						);
 					}
 				}
@@ -486,9 +487,10 @@ class AWSM_Job_Openings_Block {
 				$terms = self::get_block_spec_terms( $spec );
 				if ( ! empty( $terms ) ) {
 					$specs[] = array(
-						'key'   => $spec,
-						'label' => $spec_details->label,
-						'terms' => $terms,
+						'key'             => $spec,
+						'label'           => $spec_details->label,
+						'terms'           => $terms,
+						'expired_term_ids' => self::get_expired_only_term_ids( $spec ),
 					);
 				}
 			}
@@ -524,6 +526,72 @@ class AWSM_Job_Openings_Block {
 			$terms = array();
 		}
 		return $terms;
+	}
+
+	/**
+	 * Get spec terms for the frontend filter dropdown.
+	 * Shows terms with published jobs AND truly empty terms (no jobs at all),
+	 * but excludes terms that only have expired jobs.
+	 *
+	 * @param string $taxonomy Taxonomy key.
+	 * @return array Array of WP_Term objects.
+	 */
+	/**
+	 * Returns term IDs for the given taxonomy that have expired posts but no published posts.
+	 * Uses WordPress's term count (which only counts published posts) to find zero-count terms,
+	 * then checks which of those actually have expired posts.
+	 *
+	 * @param string $taxonomy Taxonomy key.
+	 * @return int[] Array of term IDs.
+	 */
+	public static function get_expired_only_term_ids( $taxonomy ) {
+		global $wpdb;
+		$ids = $wpdb->get_col( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+			$wpdb->prepare(
+				"SELECT DISTINCT tt.term_id
+				FROM {$wpdb->term_taxonomy} tt
+				WHERE tt.taxonomy = %s
+				AND tt.count = 0
+				AND EXISTS (
+					SELECT 1
+					FROM {$wpdb->term_relationships} tr
+					JOIN {$wpdb->posts} p ON p.ID = tr.object_id
+					WHERE tr.term_taxonomy_id = tt.term_taxonomy_id
+					AND p.post_type = 'awsm_job_openings'
+					AND p.post_status = 'expired'
+				)",
+				$taxonomy
+			)
+		);
+		return array_map( 'intval', (array) $ids );
+	}
+
+	public static function get_block_filter_terms( $taxonomy ) {
+		$terms = get_terms(
+			array(
+				'taxonomy'   => $taxonomy,
+				'hide_empty' => false,
+			)
+		);
+
+		if ( is_wp_error( $terms ) || empty( $terms ) ) {
+			return array();
+		}
+
+		$expired_only_term_ids = self::get_expired_only_term_ids( $taxonomy );
+
+		if ( empty( $expired_only_term_ids ) ) {
+			return $terms;
+		}
+
+		return array_values(
+			array_filter(
+				$terms,
+				function( $term ) use ( $expired_only_term_ids ) {
+					return ! in_array( (int) $term->term_id, $expired_only_term_ids, true );
+				}
+			)
+		);
 	}
 
 	public function display_block_filter_form( $block_atts ) {
@@ -625,17 +693,19 @@ class AWSM_Job_Openings_Block {
 					 *
 					 * @param array $terms_args Array of arguments.
 					 */
-					$terms_args = apply_filters(
-						'awsm_filter_block_spec_terms_args',
-						array(
-							'taxonomy'   => $taxonomy,
-							'orderby'    => 'name',
-							// If "Hide expired jobs" is enabled, hide terms without active jobs.
-							'hide_empty' => ! empty( $block_atts['hide_expired_jobs'] ),
-						)
-					);
-
-					$terms = get_terms( $terms_args );
+					if ( ! empty( $block_atts['hide_expired_jobs'] ) ) {
+						$terms_args = apply_filters(
+							'awsm_filter_block_spec_terms_args',
+							array(
+								'taxonomy'   => $taxonomy,
+								'orderby'    => 'name',
+								'hide_empty' => true,
+							)
+						);
+						$terms = get_terms( $terms_args );
+					} else {
+						$terms = self::get_block_filter_terms( $taxonomy );
+					}
 					if ( ! empty( $terms ) ) {
 						$available_filters_arr[ $taxonomy ] = $tax_details->label;
 
@@ -852,16 +922,19 @@ class AWSM_Job_Openings_Block {
 				foreach ( $filter_options as $spec ) {
 					if ( is_array( $spec ) && isset( $spec['specKey'] ) && $taxonomy == $spec['specKey'] ) {
 						// Get terms for the taxonomy
-						$terms_args = apply_filters(
-							'awsm_filter_block_spec_side_terms_args',
-							array(
-								'taxonomy'   => $taxonomy,
-								'orderby'    => 'name',
-								// If "Hide expired jobs" is enabled, hide terms without active jobs.
-								'hide_empty' => ! empty( $block_atts['hide_expired_jobs'] ),
-							)
-						);
-						$terms      = get_terms( $terms_args );
+						if ( ! empty( $block_atts['hide_expired_jobs'] ) ) {
+							$terms_args = apply_filters(
+								'awsm_filter_block_spec_side_terms_args',
+								array(
+									'taxonomy'   => $taxonomy,
+									'orderby'    => 'name',
+									'hide_empty' => true,
+								)
+							);
+							$terms = get_terms( $terms_args );
+						} else {
+							$terms = self::get_block_filter_terms( $taxonomy );
+						}
 
 						if ( ! empty( $terms ) ) {
 							$available_filters_arr[ $taxonomy ] = $tax_details->label;
