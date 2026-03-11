@@ -353,10 +353,15 @@ class AWSM_Job_Openings_Meta {
 			$post_status = get_post_status( $post_id );
 
 			if ( $post_status === 'publish' ) {
-				$is_unread = get_post_meta( $post_id, 'awsm_application_viewed', true ) === '0';
+				$is_viewed = get_post_meta( $post_id, 'awsm_application_viewed', true ) === '1';
 
-				if ( $is_unread ) {
-					$classes[] = 'awsm-new-job';
+				if ( ! $is_viewed ) {
+					$activation_date = get_option( 'awsm_jobs_hirezoot_activation_date', '' );
+					$post_date       = get_post_field( 'post_date', $post_id );
+
+					if ( empty( $activation_date ) || $post_date >= $activation_date ) {
+						$classes[] = 'awsm-new-job';
+					}
 				}
 			}
 		}

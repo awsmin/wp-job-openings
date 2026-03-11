@@ -548,8 +548,6 @@ class AWSM_Job_Openings_Form {
 								$applicant_details['awsm_agree_privacy_policy'] = $agree_privacy_policy;
 							}
 
-							$applicant_details['awsm_application_viewed'] = '0';
-
 							foreach ( $applicant_details as $meta_key => $meta_value ) {
 								update_post_meta( $application_id, $meta_key, $meta_value );
 							}
