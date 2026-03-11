@@ -122,20 +122,24 @@ const WidgetInspectorControls = (props) => {
 		}
 	}, []);
 	
-	useEffect(() => {
-		if (!filtersInitRef.current && specifications?.length > 0) {
-			const normalizedFilters = filter_options?.length
-				? filter_options.map(option =>
-					typeof option === 'object' && option.specKey
-						? option
-						: { specKey: option, value: 'dropdown' }
-				)
-				: specifications.map(spec => ({ specKey: spec.key, value: 'dropdown' }));
+		useEffect(() => {
+			// Only auto-populate default filters for newly inserted blocks.
+			// This preserves legacy blocks where filters were enabled but no specs were chosen.
+			if (!wasJustInserted) return;
 
-			setAttributes({ filter_options: normalizedFilters });
-			filtersInitRef.current = true;
-		}
-	}, [specifications, filter_options]);
+			if (!filtersInitRef.current && specifications?.length > 0) {
+				const normalizedFilters = filter_options?.length
+					? filter_options.map(option =>
+						typeof option === 'object' && option.specKey
+							? option
+							: { specKey: option, value: 'dropdown' }
+					)
+					: specifications.map(spec => ({ specKey: spec.key, value: 'dropdown' }));
+
+				setAttributes({ filter_options: normalizedFilters });
+				filtersInitRef.current = true;
+			}
+		}, [wasJustInserted, specifications, filter_options]);
 
 	const handleTermChange = (newTokens, specKey, spec) => {
 			const newTermIds = newTokens
