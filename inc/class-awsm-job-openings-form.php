@@ -552,6 +552,8 @@ class AWSM_Job_Openings_Form {
 								update_post_meta( $application_id, $meta_key, $meta_value );
 							}
 
+							update_post_meta( $application_id, 'awsm_application_viewed', '0' );
+
 							// Now, send notification email
 							$applicant_details['application_id'] = $application_id;
 							$this->notification_email( $applicant_details );

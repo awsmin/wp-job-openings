@@ -353,9 +353,8 @@ class AWSM_Job_Openings_Meta {
 			$post_status = get_post_status( $post_id );
 
 			if ( $post_status === 'publish' ) {
-				$is_viewed = get_post_meta( $post_id, 'awsm_application_viewed', true ) === '1';
-
-				if ( ! $is_viewed ) {
+				$is_viewed = get_post_meta( $post_id, 'awsm_application_viewed', true ) === '0';
+				if ( $is_viewed ) {
 					$classes[] = 'awsm-new-job';
 				}
 			}
