@@ -1018,9 +1018,11 @@ class AWSM_Job_Openings_Block {
 							//$block_atts['filter_options']
 							$spec_multiple_class = $multiple_for_spec = '';
 							foreach ( $block_atts['filter_options'] as $check_multiple ) {
-								if ( $taxonomy == $check_multiple['specKey'] && $check_multiple['value'] == 'checkbox' ) {
-									$spec_multiple_class = 'awsm-b-spec-multiple';
-									$multiple_for_spec   = 'multiple';
+								if ( is_array( $check_multiple ) && isset( $check_multiple['specKey'], $check_multiple['value'] ) ) {
+									if ( $taxonomy == $check_multiple['specKey'] && $check_multiple['value'] == 'checkbox' ) {
+										$spec_multiple_class = 'awsm-b-spec-multiple';
+										$multiple_for_spec   = 'multiple';
+									}
 								}
 							}
 
@@ -1123,7 +1125,18 @@ class AWSM_Job_Openings_Block {
 
 	public static function get_specifications_content_block( $post_id, $display_label, $filter_data = array(), $listing_specs = array(), $has_term_link = true, $show_icon = '' ) {
 		$spec_content = '';
-		$filter_data  = ! empty( $filter_data ) ? $filter_data : get_option( 'awsm_jobs_filter' );
+		$filter_data = ! empty( $filter_data ) ? $filter_data : get_option( 'awsm_jobs_filter' );
+		// Normalize to the expected array-of-arrays shape to avoid PHP notices in REST responses.
+		$filter_data = is_array( $filter_data ) ? $filter_data : array();
+		$filter_data = array_values(
+			array_filter(
+				$filter_data,
+				static function ( $f ) {
+					return is_array( $f ) && ! empty( $f['taxonomy'] );
+				}
+			)
+		);
+
 		if ( ! empty( $filter_data ) ) {
 			$spec_keys          = wp_list_pluck( $filter_data, 'taxonomy' );
 			$taxonomies         = get_object_taxonomies( 'awsm_job_openings', 'objects' );
