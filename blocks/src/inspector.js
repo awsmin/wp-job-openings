@@ -129,11 +129,6 @@ const WidgetInspectorControls = props => {
 	}, [] );
 
 	useEffect( () => {
-		// Normalize legacy filter_options stored as plain strings (old block format).
-		// Old blocks saved filter_options as e.g. ["job-type", "job-location"] but
-		// the new format expects [{specKey: "job-type", value: "dropdown"}, ...].
-		// Old blocks with no filters selected (filter_options=[]) are left untouched —
-		// no filters should display for them, matching the original behavior.
 		if (
 			filter_options?.length &&
 			filter_options.some( option => typeof option === "string" )
@@ -148,28 +143,20 @@ const WidgetInspectorControls = props => {
 	}, [] );
 
 	useEffect( () => {
-		// Only auto-populate default filters for newly inserted blocks.
-		// This preserves legacy blocks where filters were enabled but no specs were chosen.
-		if ( ! wasJustInserted ) {
-			return;
-		}
+		if ( ! wasJustInserted ) return;
+		if ( filtersInitRef.current ) return;
+		if ( ! enable_job_filter ) return;
+		if ( ! specifications?.length ) return;
+		if ( filter_options?.length ) return;
 
-		if ( ! filtersInitRef.current && specifications?.length > 0 ) {
-			const normalizedFilters = filter_options?.length
-				? filter_options.map( option =>
-						typeof option === "object" && option.specKey
-							? option
-							: {specKey: option, value: "dropdown"}
-				  )
-				: specifications.map( spec => ( {
-						specKey: spec.key,
-						value: "dropdown"
-				  } ) );
+		const normalizedFilters = specifications.map( spec => ( {
+			specKey: spec.key,
+			value: "dropdown",
+		} ) );
 
-			setAttributes( {filter_options: normalizedFilters} );
-			filtersInitRef.current = true;
-		}
-	}, [ wasJustInserted, specifications, filter_options ] );
+		setAttributes( {filter_options: normalizedFilters} );
+		filtersInitRef.current = true;
+	}, [ wasJustInserted, specifications, enable_job_filter ] );
 
 	const handleTermChange = ( newTokens, specKey, spec ) => {
 		const newTermIds = newTokens
