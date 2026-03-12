@@ -36,13 +36,20 @@ import { useEffect, useRef } from "@wordpress/element";
 
 export default function Edit(props) {
     const {
-        attributes: { filter_options },
+        attributes,
         setAttributes
     } = props;
 
     const blockProps = useBlockProps();
 
-    let specifications = awsmJobsAdmin.awsm_filters_block;
+    const { filter_options } = attributes;
+
+    // In some editor contexts (or during load), the localized object may not be present.
+    // Guard to avoid breaking block SSR with a JS error.
+    let specifications =
+        window.awsmJobsAdmin && Array.isArray(window.awsmJobsAdmin.awsm_filters_block)
+            ? window.awsmJobsAdmin.awsm_filters_block
+            : [];
 	const filterOptionKeys = Array.isArray( filter_options )
 		? filter_options
 				.map( ( opt ) => ( typeof opt === 'string' ? opt : opt?.specKey ) )
@@ -144,9 +151,112 @@ export default function Edit(props) {
     return (
         <div {...blockProps} onClick={handleClick}>
             <WidgetInspectorControls {...props} />
+            {/*
+              ServerSideRender uses a GET request with attributes encoded in the query string.
+              Sending large style objects (borders/padding/radius) can exceed proxy limits (502 on some hosts).
+              To keep preview accurate, we inject the CSS vars here and omit style attrs from the SSR request.
+            */}
+            <style>{(() => {
+                const id = attributes?.blockId || `block-${props.clientId}`;
+
+                const sfBorderWidth = attributes?.hz_sf_border?.width || "1px";
+                const sfBorderColor = attributes?.hz_sf_border?.color || "#ccc";
+                const sfRadius = attributes?.hz_sf_border_radius || {};
+                const sfPad = attributes?.hz_sf_padding || {};
+                const sidebarWidth = attributes?.hz_sidebar_width ? `${attributes.hz_sidebar_width}%` : "33.333%";
+
+                const lsBorderWidthRaw = attributes?.hz_ls_border?.width || "1px";
+                const lsBorderWidth = lsBorderWidthRaw === "0px" ? "1px" : lsBorderWidthRaw;
+                const lsBorderColor = attributes?.hz_ls_border?.color || "#ccc";
+                const lsRadius = attributes?.hz_ls_border_radius || {};
+
+                const jlBorderWidthRaw = attributes?.hz_jl_border?.width || "1px";
+                const jlBorderWidth = jlBorderWidthRaw === "0px" ? "1px" : jlBorderWidthRaw;
+                const jlBorderColor = attributes?.hz_jl_border?.color || "#cbcbcb";
+                const jlRadius = attributes?.hz_jl_border_radius || {};
+                const jlPad = attributes?.hz_jl_padding || {};
+
+                const bsBorderWidthRaw = attributes?.hz_bs_border?.width || "1px";
+                const bsBorderWidth = bsBorderWidthRaw === "0px" ? "1px" : bsBorderWidthRaw;
+                const bsBorderColor = attributes?.hz_bs_border?.color || "#4e35df";
+                const bsRadius = attributes?.hz_bs_border_radius || {};
+                const bsPad = attributes?.hz_bs_padding || {};
+
+                const bBg = attributes?.hz_button_background_color || "";
+                const bTx = attributes?.hz_button_text_color || "";
+
+                return `
+                    #${id}{
+                        --hz-sf-border-width:${sfBorderWidth};
+                        --hz-sf-border-color:${sfBorderColor};
+                        --hz-sf-border-style:${sfBorderWidth && sfBorderWidth !== "0px" ? "solid" : "none"};
+                        --hz-sf-border-radius-topleft:${sfRadius.topLeft || "5px"};
+                        --hz-sf-border-radius-topright:${sfRadius.topRight || "5px"};
+                        --hz-sf-border-radius-bottomright:${sfRadius.bottomRight || "5px"};
+                        --hz-sf-border-radius-bottomleft:${sfRadius.bottomLeft || "5px"};
+                        --hz-sf-padding-left:${sfPad.left || "15px"};
+                        --hz-sf-padding-right:${sfPad.right || "15px"};
+                        --hz-sf-padding-top:${sfPad.top || "15px"};
+                        --hz-sf-padding-bottom:${sfPad.bottom || "15px"};
+
+                        --hz-sidebar-width:${sidebarWidth};
+
+                        --hz-ls-border-width:${lsBorderWidth};
+                        --hz-ls-border-color:${lsBorderColor};
+                        --hz-ls-border-style:${lsBorderWidth && lsBorderWidth !== "0px" ? "solid" : "none"};
+                        --hz-ls-border-radius-topleft:${lsRadius.topLeft || "5px"};
+                        --hz-ls-border-radius-topright:${lsRadius.topRight || "5px"};
+                        --hz-ls-border-radius-bottomright:${lsRadius.bottomRight || "5px"};
+                        --hz-ls-border-radius-bottomleft:${lsRadius.bottomLeft || "5px"};
+
+                        --hz-jl-border-width:${jlBorderWidth};
+                        --hz-jl-border-color:${jlBorderColor};
+                        --hz-jl-border-style:${jlBorderWidth && jlBorderWidth !== "0px" ? "solid" : "none"};
+                        --hz-jl-border-radius-topleft:${jlRadius.topLeft || "5px"};
+                        --hz-jl-border-radius-topright:${jlRadius.topRight || "5px"};
+                        --hz-jl-border-radius-bottomright:${jlRadius.bottomRight || "5px"};
+                        --hz-jl-border-radius-bottomleft:${jlRadius.bottomLeft || "5px"};
+                        --hz-jl-padding-left:${jlPad.left || "15px"};
+                        --hz-jl-padding-right:${jlPad.right || "15px"};
+                        --hz-jl-padding-top:${jlPad.top || "15px"};
+                        --hz-jl-padding-bottom:${jlPad.bottom || "15px"};
+
+                        --hz-bs-border-width:${bsBorderWidth};
+                        --hz-bs-border-color:${bsBorderColor};
+                        --hz-bs-border-style:${bsBorderWidth && bsBorderWidth !== "0px" ? "solid" : "none"};
+                        --hz-bs-border-radius-topleft:${bsRadius.topLeft || "5px"};
+                        --hz-bs-border-radius-topright:${bsRadius.topRight || "5px"};
+                        --hz-bs-border-radius-bottomright:${bsRadius.bottomRight || "5px"};
+                        --hz-bs-border-radius-bottomleft:${bsRadius.bottomLeft || "5px"};
+
+                        --hz-b-bg-color:${bBg};
+                        --hz-b-tx-color:${bTx};
+                        --hz-b-padding-left:${bsPad.left || "13px"};
+                        --hz-b-padding-right:${bsPad.right || "13px"};
+                        --hz-b-padding-top:${bsPad.top || "13px"};
+                        --hz-b-padding-bottom:${bsPad.bottom || "13px"};
+                    }`;
+            })()}</style>
             <ServerSideRender
                 block="wp-job-openings/blocks"
-                attributes={props.attributes}
+                attributes={(() => {
+                    const ssrAttributes = { ...attributes };
+                    delete ssrAttributes.hz_sf_border;
+                    delete ssrAttributes.hz_sf_border_radius;
+                    delete ssrAttributes.hz_sf_padding;
+                    delete ssrAttributes.hz_sidebar_width;
+                    delete ssrAttributes.hz_ls_border;
+                    delete ssrAttributes.hz_ls_border_radius;
+                    delete ssrAttributes.hz_jl_border;
+                    delete ssrAttributes.hz_jl_border_radius;
+                    delete ssrAttributes.hz_jl_padding;
+                    delete ssrAttributes.hz_bs_border;
+                    delete ssrAttributes.hz_bs_border_radius;
+                    delete ssrAttributes.hz_bs_padding;
+                    delete ssrAttributes.hz_button_background_color;
+                    delete ssrAttributes.hz_button_text_color;
+                    return ssrAttributes;
+                })()}
             />
         </div>
     );
