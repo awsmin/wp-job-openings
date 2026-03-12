@@ -403,6 +403,24 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
     }
   }, []);
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_6__.useEffect)(function () {
+    // Normalize legacy filter_options stored as plain strings (old block format).
+    // Old blocks saved filter_options as e.g. ["job-type", "job-location"] but
+    // the new format expects [{specKey: "job-type", value: "dropdown"}, ...].
+    if (filter_options !== null && filter_options !== void 0 && filter_options.length && filter_options.some(function (option) {
+      return typeof option === "string";
+    })) {
+      var normalizedFilters = filter_options.map(function (option) {
+        return (0,_babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_2__["default"])(option) === "object" && option.specKey ? option : {
+          specKey: option,
+          value: "dropdown"
+        };
+      });
+      setAttributes({
+        filter_options: normalizedFilters
+      });
+    }
+  }, []);
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_6__.useEffect)(function () {
     // Only auto-populate default filters for newly inserted blocks.
     // This preserves legacy blocks where filters were enabled but no specs were chosen.
     if (!wasJustInserted) {

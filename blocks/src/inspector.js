@@ -129,6 +129,23 @@ const WidgetInspectorControls = props => {
 	}, [] );
 
 	useEffect( () => {
+		// Normalize legacy filter_options stored as plain strings (old block format).
+		// Old blocks saved filter_options as e.g. ["job-type", "job-location"] but
+		// the new format expects [{specKey: "job-type", value: "dropdown"}, ...].
+		if (
+			filter_options?.length &&
+			filter_options.some( option => typeof option === "string" )
+		) {
+			const normalizedFilters = filter_options.map( option =>
+				typeof option === "object" && option.specKey
+					? option
+					: {specKey: option, value: "dropdown"}
+			);
+			setAttributes( {filter_options: normalizedFilters} );
+		}
+	}, [] );
+
+	useEffect( () => {
 		// Only auto-populate default filters for newly inserted blocks.
 		// This preserves legacy blocks where filters were enabled but no specs were chosen.
 		if ( ! wasJustInserted ) {
