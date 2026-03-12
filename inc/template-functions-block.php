@@ -117,8 +117,10 @@ if ( ! function_exists( 'awsm_block_jobs_query' ) ) {
 		$query_args      = array();
 		$is_term_or_slug = array();
 		$filter_suffix   = '_spec';
+		$search_job      = '';
 
 		$filters = get_option( 'awsm_jobs_listing_available_filters' );
+		$filters = awsm_block_job_filters_explode( $filters );
 
 		if ( isset( $_GET['jq'] ) && $_GET['jq'] !== '' ) {
 			$search_job = sanitize_text_field( wp_unslash( $_GET['jq'] ) );
