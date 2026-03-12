@@ -129,7 +129,7 @@ const WidgetInspectorControls = props => {
 	}, [] );
 
 	useEffect( () => {
-		// Normalize legacy filter_options stored as plain strings (old block format).
+		// Case 1: Normalize legacy filter_options stored as plain strings (old block format).
 		// Old blocks saved filter_options as e.g. ["job-type", "job-location"] but
 		// the new format expects [{specKey: "job-type", value: "dropdown"}, ...].
 		if (
@@ -141,6 +141,18 @@ const WidgetInspectorControls = props => {
 					? option
 					: {specKey: option, value: "dropdown"}
 			);
+			setAttributes( {filter_options: normalizedFilters} );
+			return;
+		}
+
+		// Case 2: Old blocks had enable_job_filter=true but filter_options was never stored.
+		// PHP falls back to showing all filters in this case (see block_render_callback),
+		// so mirror that by populating filter_options with all specs.
+		if ( enable_job_filter && ! filter_options?.length && specifications?.length > 0 ) {
+			const normalizedFilters = specifications.map( spec => ( {
+				specKey: spec.key,
+				value: "dropdown"
+			} ) );
 			setAttributes( {filter_options: normalizedFilters} );
 		}
 	}, [] );
