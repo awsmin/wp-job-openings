@@ -470,9 +470,9 @@ class AWSM_Job_Openings_Block {
 					$tax_obj = get_taxonomy( $spec_key );
 					if ( ! empty( $tax_obj ) ) {
 						$specs[] = array(
-							'key'             => $spec_key,
-							'label'           => $tax_obj->label,
-							'terms'           => $terms,
+							'key'              => $spec_key,
+							'label'            => $tax_obj->label,
+							'terms'            => $terms,
 							'expired_term_ids' => self::get_expired_only_term_ids( $spec_key ),
 						);
 					}
@@ -487,9 +487,9 @@ class AWSM_Job_Openings_Block {
 				$terms = self::get_block_spec_terms( $spec );
 				if ( ! empty( $terms ) ) {
 					$specs[] = array(
-						'key'             => $spec,
-						'label'           => $spec_details->label,
-						'terms'           => $terms,
+						'key'              => $spec,
+						'label'            => $spec_details->label,
+						'terms'            => $terms,
 						'expired_term_ids' => self::get_expired_only_term_ids( $spec ),
 					);
 				}
@@ -587,7 +587,7 @@ class AWSM_Job_Openings_Block {
 		$filtered = array_values(
 			array_filter(
 				$terms,
-				function( $term ) use ( $expired_only_term_ids ) {
+				function ( $term ) use ( $expired_only_term_ids ) {
 					return ! in_array( (int) $term->term_id, $expired_only_term_ids, true );
 				}
 			)
@@ -704,7 +704,7 @@ class AWSM_Job_Openings_Block {
 								'hide_empty' => true,
 							)
 						);
-						$terms = apply_filters( 'awsm_block_filter_terms', get_terms( $terms_args ), $taxonomy );
+						$terms      = apply_filters( 'awsm_block_filter_terms', get_terms( $terms_args ), $taxonomy );
 					} else {
 						$terms = self::get_block_filter_terms( $taxonomy );
 					}
@@ -716,7 +716,7 @@ class AWSM_Job_Openings_Block {
 							$selected = '';
 							if ( isset( $block_atts['selected_terms'][ $taxonomy ] ) && in_array( $term->term_id, $block_atts['selected_terms'][ $taxonomy ] ) ) {
 								$selected = ' selected';
-							} else { 
+							} else {
 								$get_key = str_replace( '-', '__', $taxonomy ) . '_spec';
 								if ( isset( $_GET[ $get_key ] ) && is_string( $_GET[ $get_key ] ) ) {
 									// Match selected term by slug from URL.
@@ -843,7 +843,7 @@ class AWSM_Job_Openings_Block {
 			if ( ! self::is_edit_or_add_page() && ! ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
 				$wrapper_class .= ' awsm-selectric-loading';
 			}
-			
+
 			if ( ! $enable_search ) {
 				$wrapper_class .= ' awsm-b-no-search-filter-wrap';
 			}
@@ -933,7 +933,7 @@ class AWSM_Job_Openings_Block {
 									'hide_empty' => true,
 								)
 							);
-							$terms = apply_filters( 'awsm_block_filter_terms', get_terms( $terms_args ), $taxonomy );
+							$terms      = apply_filters( 'awsm_block_filter_terms', get_terms( $terms_args ), $taxonomy );
 						} else {
 							$terms = self::get_block_filter_terms( $taxonomy );
 						}
