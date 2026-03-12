@@ -239,6 +239,7 @@ export default function Edit(props) {
             })()}</style>
             <ServerSideRender
                 block="wp-job-openings/blocks"
+                httpMethod="POST"
                 attributes={(() => {
                     const ssrAttributes = { ...attributes };
                     delete ssrAttributes.hz_sf_border;
