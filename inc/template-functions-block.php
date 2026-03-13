@@ -122,6 +122,15 @@ if ( ! function_exists( 'awsm_block_jobs_query' ) ) {
 		$filters = get_option( 'awsm_jobs_listing_available_filters' );
 		$filters = awsm_block_job_filters_explode( $filters );
 
+		// Also include any taxonomies configured in this block's filter_options that aren't in the global list.
+		if ( ! empty( $attributes['filter_options'] ) && is_array( $attributes['filter_options'] ) ) {
+			foreach ( $attributes['filter_options'] as $filter_option ) {
+				if ( ! empty( $filter_option['specKey'] ) && ! in_array( $filter_option['specKey'], $filters, true ) ) {
+					$filters[] = $filter_option['specKey'];
+				}
+			}
+		}
+
 		if ( isset( $_GET['jq'] ) && $_GET['jq'] !== '' ) {
 			$search_job = sanitize_text_field( wp_unslash( $_GET['jq'] ) );
 		}
