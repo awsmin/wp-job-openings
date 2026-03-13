@@ -33,8 +33,6 @@ class AWSM_Job_Openings_Block {
 			'uid'                        => $this->unique_listing_id,
 			'search'                     => isset( $blockatts['search'] ) ? $blockatts['search'] : '',
 			'enable_job_filter'          => isset( $blockatts['enable_job_filter'] ) ? $blockatts['enable_job_filter'] : '',
-			// If filter_options is missing (legacy blocks), treat it as an explicit empty array
-			// so PHP rendering matches the editor defaults (no filters selected).
 			'filter_options'             => isset( $blockatts['filter_options'] ) ? $blockatts['filter_options'] : array(),
 			'layout'                     => isset( $blockatts['layout'] ) ? $blockatts['layout'] : '',
 			'hide_expired_jobs'          => isset( $blockatts['hide_expired_jobs'] ) ? $blockatts['hide_expired_jobs'] : '',

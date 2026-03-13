@@ -171,8 +171,6 @@ if ( $placement === 'top' ) {
 					do_action( 'awsm_block_form_inside', $attributes );
 					$extra_inside = ob_get_clean();
 					if ( ! empty( $extra_inside ) ) {
-						// Add both legacy/new alert wrapper classes so Pro button keeps expected styling
-						// across editor and frontend.
 						echo '<div class="awsm-b-filter-wrap awsm-b-no-search-filter-wrap awsm-b-filter-wrap-extra awsm-jobs-alerts-on awsm-b-jobs-alerts-on">' . $extra_inside . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					}
 				}
