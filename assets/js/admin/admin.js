@@ -294,9 +294,13 @@ jQuery(document).ready(function($) {
 			$('.awsm-jobs-settings-error').removeClass('awsm-hide');
 
 			// Handle accordions.
-			$('.awsm-acc-head').addClass('on');
-			$('.awsm-acc-content').slideDown('normal');
+			var $invalidField = $form.find(':invalid').first();
+			var $invalidSection = $invalidField.closest('.awsm-acc-main');
 
+			if ($invalidSection.length) {
+				$invalidSection.find('.awsm-acc-head').addClass('on');
+				$invalidSection.find('.awsm-acc-content').slideDown('normal');
+			}
 			$('html, body').animate({
 				scrollTop: $('#awsm-job-settings-wrap .awsm-settings-tab-wrapper').offset().top
 			}, 600);
