@@ -139,11 +139,7 @@ if ( $placement === 'top' ) {
 					 * @param array $attributes Attributes array from block.
 					 */
 					do_dynamic_filter_form_action( $attributes );
-					// Avoid duplicate UI when add-ons output inside the filter form (e.g. alerts button).
-					// Only run the "outside" hook when neither search nor filters are enabled.
-					if ( ! $has_search && ! $has_filters ) {
-						do_action( 'awsm_block_form_outside', $attributes );
-					}
+					do_action( 'awsm_block_form_outside', $attributes );
 				?>
 		<?php
 	} else {
@@ -192,11 +188,7 @@ if ( $placement === 'top' ) {
 				 * @param array $attributes Attributes array from block.
 				 */
 					do_action( 'awsm_block_filter_form_extra', $attributes );
-					// Avoid duplicate UI when add-ons output inside the filter form (e.g. alerts button).
-					// Only run the "outside" hook when the sidebar form isn't rendered.
-					if ( ! $show_filter ) {
-						do_action( 'awsm_block_form_outside', $attributes );
-					}
+					do_action( 'awsm_block_form_outside', $attributes );
 				?>
 			<?php
 	}
