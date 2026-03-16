@@ -1111,14 +1111,18 @@ class AWSM_Job_Openings_Block {
 		}
 
 		$filter_content = sprintf(
-			'<form action="%2$s/wp-admin/admin-ajax.php" method="POST">%1$s%3$s</form>',
+			'<form action="%2$s/wp-admin/admin-ajax.php" method="POST">%1$s</form>',
 			$search_content . $specs_filter_content . $hidden_fields_content,
-			esc_url( site_url() ),
-			$custom_action_content
+			esc_url( site_url() )
 		);
 
 		// Output the filter form content
 		echo apply_filters( 'awsm_filter_block_content_placement_side', $filter_content ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+
+		// Output the custom action content (e.g. alerts button) outside the form, below the sidebar box.
+		if ( ! empty( $custom_action_content ) ) {
+			echo $custom_action_content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		}
 	}
 
 	public static function get_specifications_content_block( $post_id, $display_label, $filter_data = array(), $listing_specs = array(), $has_term_link = true, $show_icon = '' ) {

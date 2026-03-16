@@ -95,7 +95,15 @@ $has_filters = (
 	! empty( $attributes['filter_options'] )
 );
 
-if ( $has_search || $has_filters ) {
+// If side placement has no search/filters, show the sidebar only when Job Alerts add-on is enabled
+// so the trigger button doesn't jump above the listings.
+$has_alerts = (
+	'side' === $placement &&
+	! empty( $attributes['enable_alert'] ) &&
+	class_exists( 'AWSM_Job_Openings_Alert_Main_Blocks' )
+);
+
+if ( $has_search || $has_filters || $has_alerts ) {
 	$show_filter             = true;
 	$placement_sidebar_class = 'awsm-job-2-col';
 }
@@ -146,7 +154,13 @@ if ( $placement === 'top' ) {
 	?>
 			<div <?php echo $wrapper_attrs; ?>>
 				<?php if ( $show_filter ) { ?>
-					<div class="awsm-b-filter-wrap<?php echo ( is_admin() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) ? '' : ' awsm-selectric-loading'; ?><?php echo class_exists( 'AWSM_Job_Openings_Alert_Main_Blocks' ) ? ' awsm-jobs-alerts-on' : ''; ?>">
+					<?php
+					// Only use the Selectric loading state when rendering actual search/filters.
+					$filter_wrap_loading_class = ( is_admin() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) || ( ! $has_search && ! $has_filters ) )
+						? ''
+						: ' awsm-selectric-loading';
+					?>
+					<div class="awsm-b-filter-wrap<?php echo $filter_wrap_loading_class; ?><?php echo class_exists( 'AWSM_Job_Openings_Alert_Main_Blocks' ) ? ' awsm-jobs-alerts-on' : ''; ?>">
 						<?php
 						/**
 						 * awsm_block_filter_form_side hook
@@ -159,35 +173,38 @@ if ( $placement === 'top' ) {
 						 *
 						 * @param array $attributes Attributes array from block.
 						 */
-						do_dynamic_filter_form_action( $attributes );
+						// If only alerts are enabled (no search/filters), render the inside content directly.
+						if ( ! $has_search && ! $has_filters ) {
+							do_action( 'awsm_block_form_inside', $attributes );
+						} else {
+							do_dynamic_filter_form_action( $attributes );
+						}
 						?>
 					</div>
-				<?php } ?>
+				<?php } else { ?>
 				<?php
-				// If placement is side but sidebar layout is not active, still allow Pro (and others)
-				// to render inside-form extras (e.g. alerts button) above the listings.
-				if ( ! $show_filter ) {
-					ob_start();
-					do_action( 'awsm_block_form_inside', $attributes );
-					$extra_inside = ob_get_clean();
-					if ( ! empty( $extra_inside ) ) {
-						echo '<div class="awsm-b-filter-wrap-extra' . ( class_exists( 'AWSM_Job_Openings_Alert_Main_Blocks' ) ? ' awsm-jobs-alerts-on' : '' ) . '">' . $extra_inside . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-					}
+				// If no sidebar, render awsm_block_form_inside content in a wrapper above the listings.
+				ob_start();
+				do_action( 'awsm_block_form_inside', $attributes );
+				$extra_inside = ob_get_clean();
+				if ( ! empty( $extra_inside ) ) {
+					echo '<div class="awsm-b-filter-wrap-extra' . ( class_exists( 'AWSM_Job_Openings_Alert_Main_Blocks' ) ? ' awsm-jobs-alerts-on' : '' ) . '">' . $extra_inside . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				}
 				?>
+				<?php } ?>
 				<?php
 					/**
 					 * awsm_block_filter_form_extra hook
 					 *
-				 * Display extra fields if search and filters are not enabled
-				 *
-				 * @since 4.0.0
-				 *
-				 * @param array $attributes Attributes array from block.
-				 */
-					do_action( 'awsm_block_filter_form_extra', $attributes );
-					do_action( 'awsm_block_form_outside', $attributes );
-				?>
+					* Display extra fields if search and filters are not enabled
+					*
+					* @since 4.0.0
+					*
+					* @param array $attributes Attributes array from block.
+					*/
+						do_action( 'awsm_block_filter_form_extra', $attributes );
+						do_action( 'awsm_block_form_outside', $attributes );
+					?>
 			<?php
 	}
 	?>
