@@ -130,12 +130,12 @@ if ( $placement === 'top' ) {
 					/**
 					 * awsm_block_filter_form hook
 					 *
-				 * Display filter form for job listings
-				 *
-				 * @hooked AWSM_Job_Openings_Block::display_block_filter_form()
-				 *
-				 * @since 3.5.0
-				 *
+					 * Display filter form for job listings
+					 *
+					 * @hooked AWSM_Job_Openings_Block::display_block_filter_form()
+					 *
+					 * @since 3.5.0
+					 *
 					 * @param array $attributes Attributes array from block.
 					 */
 					do_dynamic_filter_form_action( $attributes );
@@ -161,7 +161,7 @@ if ( $placement === 'top' ) {
 						 */
 						do_dynamic_filter_form_action( $attributes );
 						?>
-					</div> 
+					</div>
 				<?php } ?>
 				<?php
 				// If placement is side but sidebar layout is not active, still allow Pro (and others)
