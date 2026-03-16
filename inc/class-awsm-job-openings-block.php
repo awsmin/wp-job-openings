@@ -852,10 +852,7 @@ class AWSM_Job_Openings_Block {
 				$wrapper_class .= ' awsm-b-full-width-search-filter-wrap';
 			}
 
-			$alert_existing_class = '';
-			if ( class_exists( 'AWSM_Job_Openings_Alert_Main_Blocks' ) ) {
-				$alert_existing_class = ' awsm-jobs-alerts-on';
-			}
+			$alert_existing_class = apply_filters( 'awsm_jobs_filter_wrap_extra_class', '' );
 
 			$custom_action_content_main = '';
 			if ( ! empty( $custom_action_content ) && empty( $specs_filter_content ) ) {
