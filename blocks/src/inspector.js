@@ -260,11 +260,7 @@ const WidgetInspectorControls = props => {
 							label={ __( "Enable Search", "wp-job-openings" ) }
 							checked={ search }
 							onChange={ newSearch => {
-								const updates = {search: newSearch};
-								if ( ! newSearch && ! enable_job_filter ) {
-									updates.placement = "top";
-								}
-								setAttributes( updates );
+								setAttributes( { search: newSearch } );
 							} }
 						/>
 
@@ -285,11 +281,7 @@ const WidgetInspectorControls = props => {
 							label={ __( "Enable Filters", "wp-job-openings" ) }
 							checked={ enable_job_filter }
 							onChange={ newFilter => {
-								const updates = {enable_job_filter: newFilter};
-								if ( ! newFilter && ! search ) {
-									updates.placement = "top";
-								}
-								setAttributes( updates );
+								setAttributes( { enable_job_filter: newFilter } );
 							} }
 						/>
 						{ enable_job_filter && (
