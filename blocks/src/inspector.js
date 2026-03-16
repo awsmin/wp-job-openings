@@ -234,27 +234,25 @@ const WidgetInspectorControls = props => {
 						title={ __( "Search & Filters", "wp-job-openings" ) }
 						initialOpen={ true }
 					>
-						{ ( search || enable_job_filter ) && (
-							<ToggleGroupControl
-								label={ __( "Placement", "wp-job-openings" ) }
-								value={ placement }
-								onChange={ newPlacement =>
-									setAttributes( {placement: newPlacement} )
-								}
-								isBlock
-								__nextHasNoMarginBottom
-								__next40pxDefaultSize
-							>
-								<ToggleGroupControlOption
-									value="top"
-									label={ __( "Top", "wp-job-openings" ) }
-								/>
-								<ToggleGroupControlOption
-									value="side"
-									label={ __( "Side", "wp-job-openings" ) }
-								/>
-							</ToggleGroupControl>
-						) }
+						<ToggleGroupControl
+							label={ __( "Placement", "wp-job-openings" ) }
+							value={ placement }
+							onChange={ newPlacement =>
+								setAttributes( {placement: newPlacement} )
+							}
+							isBlock
+							__nextHasNoMarginBottom
+							__next40pxDefaultSize
+						>
+							<ToggleGroupControlOption
+								value="top"
+								label={ __( "Top", "wp-job-openings" ) }
+							/>
+							<ToggleGroupControlOption
+								value="side"
+								label={ __( "Side", "wp-job-openings" ) }
+							/>
+						</ToggleGroupControl>
 
 						<ToggleControl
 							label={ __( "Enable Search", "wp-job-openings" ) }
