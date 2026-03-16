@@ -649,42 +649,6 @@ a.awsm-b-job-item .awsm-job-specification-item {
 	height: 22px;
 }
 
-// ---- Job Alerts ----
-
-.awsm-b-filter-wrap.awsm-b-full-width-search-filter-wrap.awsm-b-jobs-alerts-on .awsm-b-filter-items,
-.awsm-b-filter-wrap.awsm-b-no-search-filter-wrap.awsm-b-jobs-alerts-on .awsm-b-filter-items {
-	width: calc(100% - 80px);
-}
-
-.awsm-b-filter-wrap-extra .awsm-jobs-alerts-trigger-btn span {
-	display: inline;
-}
-
-.awsm-b-filter-wrap-extra .awsm-jobs-alerts-popup-trigger-btn {
-	padding: 0;
-}
-
-.awsm-b-filter-wrap.awsm-b-no-search-filter-wrap.awsm-b-jobs-alerts-on .awsm-b-filter-toggle {
-	width: calc(100% - 100px);
-}
-
-@media (max-width: 767px) {
-	.awsm-b-jobs-alerts-on .awsm-b-filter-item-search {
-		width: calc(100% - 146px);
-	}
-}
-
-@media (min-width: 768px) {
-	.awsm-b-filter-wrap.awsm-b-jobs-alerts-on .awsm-b-filter-items {
-		width: calc(100% - 330px);
-		order: 2;
-	}
-
-	.awsm-jobs-alerts-popup-trigger-btn {
-		order: 3;
-	}
-}
-
 // ---- Job Wrap ----
 
 .awsm-b-job-wrap,

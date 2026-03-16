@@ -146,7 +146,7 @@ if ( $placement === 'top' ) {
 	?>
 			<div <?php echo $wrapper_attrs; ?>>
 				<?php if ( $show_filter ) { ?>
-					<div class="awsm-b-filter-wrap<?php echo ( is_admin() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) ? '' : ' awsm-selectric-loading'; ?> awsm-jobs-alerts-on">
+					<div class="awsm-b-filter-wrap<?php echo ( is_admin() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) ? '' : ' awsm-selectric-loading'; ?><?php echo class_exists( 'AWSM_Job_Openings_Alert_Main_Blocks' ) ? ' awsm-jobs-alerts-on' : ''; ?>">
 						<?php
 						/**
 						 * awsm_block_filter_form_side hook
@@ -171,7 +171,7 @@ if ( $placement === 'top' ) {
 					do_action( 'awsm_block_form_inside', $attributes );
 					$extra_inside = ob_get_clean();
 					if ( ! empty( $extra_inside ) ) {
-						echo '<div class="awsm-b-filter-wrap-extra awsm-jobs-alerts-on">' . $extra_inside . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						echo '<div class="awsm-b-filter-wrap-extra' . ( class_exists( 'AWSM_Job_Openings_Alert_Main_Blocks' ) ? ' awsm-jobs-alerts-on' : '' ) . '">' . $extra_inside . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					}
 				}
 				?>

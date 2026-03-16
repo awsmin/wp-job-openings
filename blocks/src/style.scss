@@ -601,22 +601,6 @@ a.awsm-b-job-item .awsm-job-specification-item {
 	box-sizing: border-box;
 }
 
-// ---- Job Alerts ----
-
-.awsm-jobs-alerts-trigger-btn span {
-	display: none;
-}
-
-// When alerts button is rendered without the sidebar filter form (side placement + no search/filters),
-// keep it readable (show label) and aligned with the filter wrap spacing.
-.awsm-b-filter-wrap-extra .awsm-jobs-alerts-trigger-btn span {
-	display: inline;
-}
-
-.awsm-b-filter-wrap-extra .awsm-jobs-alerts-popup-trigger-btn {
-	padding: 0;
-}
-
 // ---- Filter Checkbox ----
 
 .awsm-filter-check-label {
@@ -652,16 +636,10 @@ a.awsm-b-job-item .awsm-job-specification-item {
 	}
 
 	.awsm-job-2-col .awsm-b-filter-item-search,
-	.awsm-job-2-col .awsm-b-filter-wrap .awsm-b-filter-item,
-	.awsm-job-2-col .awsm-jobs-alerts-popup-trigger-btn {
+	.awsm-job-2-col .awsm-b-filter-wrap .awsm-b-filter-item {
 		padding-left: 0;
 		padding-right: 0;
 		width: 100%;
-	}
-
-	.awsm-job-2-col .awsm-b-filter-wrap.awsm-b-full-width-search-filter-wrap.awsm-jobs-alerts-on .awsm-b-filter-items,
-	.awsm-job-2-col .awsm-b-filter-wrap.awsm-b-no-search-filter-wrap.awsm-jobs-alerts-on .awsm-b-filter-items {
-		width: 100% !important;
 	}
 
 	.awsm-job-2-col .awsm-b-filter-wrap .awsm-b-filter-items {
@@ -682,27 +660,6 @@ a.awsm-b-job-item .awsm-job-specification-item {
 			var(--hz-sf-border-radius-topright, 5px)
 			var(--hz-sf-border-radius-bottomright, 5px)
 			var(--hz-sf-border-radius-bottomleft, 5px);
-	}
-
-	.awsm-job-2-col .awsm-b-filter-wrap.awsm-jobs-alerts-on form {
-		margin-bottom: 80px;
-		position: relative;
-	}
-
-	.awsm-job-2-col .awsm-jobs-alerts-popup-trigger-btn {
-		width: 100%;
-		position: absolute;
-		left: 0;
-		bottom: -80px;
-	}
-
-	.awsm-job-2-col .awsm-jobs-alerts-trigger-btn {
-		width: 100%;
-		gap: 10px;
-	}
-
-	.awsm-job-2-col .awsm-jobs-alerts-trigger-btn span {
-		display: block;
 	}
 
 	.awsm-job-2-col .awsm-b-filter-item:not(:last-child),
