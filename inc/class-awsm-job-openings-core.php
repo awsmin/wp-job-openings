@@ -133,7 +133,7 @@ class AWSM_Job_Openings_Core {
 			? sprintf(
 			/* translators: Number of applications */
 				__( 'Applications %s', 'wp-job-openings' ),
-				'<span class="awaiting-mod">' . $application_count . '</span>'
+				'<span class="update-plugins">' . $application_count . '</span>'
 			)
 			: __( 'Applications', 'wp-job-openings' ),
 		);
