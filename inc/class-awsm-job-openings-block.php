@@ -360,7 +360,7 @@ class AWSM_Job_Openings_Block {
 		$args['posts_per_page'] = $list_per_page;
 
 		if ( isset( $attributes['hide_expired_jobs'] ) && $attributes['hide_expired_jobs'] === 'expired' ) {
-			$args['post_status'] = $list_per_page > 0 ? array( 'publish' ) : array();
+			$args['post_status'] = array( 'publish' );
 		} else {
 			$args['post_status'] = array( 'publish', 'expired' );
 		}
