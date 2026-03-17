@@ -629,6 +629,10 @@ a.awsm-b-job-item .awsm-job-specification-item {
 		margin-right: 0;
 	}
 
+	.awsm-job-2-col .awsm-jobs-alerts-popup-trigger-btn a{
+		margin-top:10px;
+	}
+
 	.awsm-job-2-col .awsm-b-job-listings {
 		width: calc(100% - var(--hz-sidebar-width, 33.333%));
 		padding-left: 15px;
