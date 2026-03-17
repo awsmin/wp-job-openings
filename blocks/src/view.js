@@ -979,14 +979,22 @@ jQuery( function ( $ ) {
 		);
 		$filtersWrap.each( function () {
 			const $wrapper = $( this );
-			const filterFirstTop = $wrapper
-				.find( ".awsm-b-filter-item" )
-				.first()
-				.offset().top;
-			const filterLastTop = $wrapper
-				.find( ".awsm-b-filter-item" )
-				.last()
-				.offset().top;
+			const $items = $wrapper.find( ".awsm-b-filter-item" );
+
+			if ( $items.length === 0 ) {
+				$wrapper.removeClass( "awsm-b-full-width-search-filter-wrap" );
+				return;
+			}
+
+			const firstOffset = $items.first().offset();
+			const lastOffset = $items.last().offset();
+			if ( ! firstOffset || ! lastOffset ) {
+				$wrapper.removeClass( "awsm-b-full-width-search-filter-wrap" );
+				return;
+			}
+
+			const filterFirstTop = firstOffset.top;
+			const filterLastTop = lastOffset.top;
 			if ( window.innerWidth < 768 ) {
 				$wrapper.removeClass( "awsm-b-full-width-search-filter-wrap" );
 				return;
