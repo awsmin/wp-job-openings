@@ -477,7 +477,7 @@ if ( ! function_exists( 'awsm_b_job_more_details' ) ) {
 
 if ( ! function_exists( 'do_dynamic_filter_form_action' ) ) {
 	function do_dynamic_filter_form_action( $attributes ) {
-		$placement = isset( $attributes['placement'] ) ? $attributes['placement'] : 'side';
+		$placement = isset( $attributes['placement'] ) ? $attributes['placement'] : 'top';
 
 		$action_name = ( $placement === 'top' )
 			? 'awsm_block_filter_form'
