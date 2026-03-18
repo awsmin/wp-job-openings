@@ -560,75 +560,15 @@ class AWSM_Job_Openings_Block {
 
 	/**
 	 * Get spec terms for the frontend filter dropdown.
-	 * Shows terms with published jobs AND truly empty terms (no jobs at all),
-	 * but excludes terms that only have expired jobs.
+	 *
+	 * Always returns all terms regardless of job status (expired / excluded / filled).
+	 * Hiding jobs in those states applies only to the job listing, not to filter dropdowns.
 	 *
 	 * @param string $taxonomy Taxonomy key.
 	 * @return array Array of WP_Term objects.
 	 */
 	public static function get_block_filter_terms( $taxonomy ) {
-		global $wpdb;
-
-		// Directly query which terms are used by published OR expired jobs,
-		// bypassing get_terms() which only counts published posts in its cache.
-		$term_ids = $wpdb->get_col( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
-			$wpdb->prepare(
-				"SELECT DISTINCT tt.term_id
-				FROM {$wpdb->term_taxonomy} tt
-				INNER JOIN {$wpdb->term_relationships} tr ON tr.term_taxonomy_id = tt.term_taxonomy_id
-				INNER JOIN {$wpdb->posts} p ON p.ID = tr.object_id
-				WHERE tt.taxonomy = %s
-				AND p.post_type = 'awsm_job_openings'
-				AND p.post_status IN ('publish', 'expired')",
-				$taxonomy
-			)
-		);
-
-		if ( empty( $term_ids ) ) {
-			return apply_filters( 'awsm_block_filter_terms', array(), $taxonomy );
-		}
-
-		$term_ids     = array_map( 'intval', $term_ids );
-		$placeholders = implode( ',', array_fill( 0, count( $term_ids ), '%d' ) );
-
-		// Fetch term data directly to bypass any pre_get_terms / terms_clauses filters
-		// that may restrict results based on published post counts.
-		$rows = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
-			$wpdb->prepare(
-				"SELECT t.term_id, t.name, t.slug, tt.term_taxonomy_id, tt.taxonomy, tt.description, tt.parent, tt.count
-				FROM {$wpdb->terms} t
-				INNER JOIN {$wpdb->term_taxonomy} tt ON t.term_id = tt.term_id
-				WHERE t.term_id IN ($placeholders)
-				AND tt.taxonomy = %s
-				ORDER BY t.name ASC",
-				array_merge( $term_ids, array( $taxonomy ) )
-			)
-		);
-
-		if ( empty( $rows ) ) {
-			return apply_filters( 'awsm_block_filter_terms', array(), $taxonomy );
-		}
-
-		$terms = array_map(
-			function( $row ) {
-				return new \WP_Term(
-					(object) array(
-						'term_id'          => (int) $row->term_id,
-						'name'             => $row->name,
-						'slug'             => $row->slug,
-						'term_group'       => 0,
-						'term_taxonomy_id' => (int) $row->term_taxonomy_id,
-						'taxonomy'         => $row->taxonomy,
-						'description'      => $row->description,
-						'parent'           => (int) $row->parent,
-						'count'            => (int) $row->count,
-						'filter'           => 'raw',
-					)
-				);
-			},
-			$rows
-		);
-
+		$terms = self::get_block_spec_terms( $taxonomy );
 		return apply_filters( 'awsm_block_filter_terms', $terms, $taxonomy );
 	}
 
@@ -731,19 +671,7 @@ class AWSM_Job_Openings_Block {
 					 *
 					 * @param array $terms_args Array of arguments.
 					 */
-					if ( ! empty( $block_atts['hide_expired_jobs'] ) ) {
-						$terms_args = apply_filters(
-							'awsm_filter_block_spec_terms_args',
-							array(
-								'taxonomy'   => $taxonomy,
-								'orderby'    => 'name',
-								'hide_empty' => true,
-							)
-						);
-						$terms      = apply_filters( 'awsm_block_filter_terms', get_terms( $terms_args ), $taxonomy );
-					} else {
-						$terms = self::get_block_filter_terms( $taxonomy );
-					}
+					$terms = self::get_block_filter_terms( $taxonomy );
 					if ( ! empty( $terms ) ) {
 						$available_filters_arr[ $taxonomy ] = $tax_details->label;
 
@@ -960,19 +888,7 @@ class AWSM_Job_Openings_Block {
 				foreach ( $filter_options as $spec ) {
 					if ( is_array( $spec ) && isset( $spec['specKey'] ) && $taxonomy == $spec['specKey'] ) {
 						// Get terms for the taxonomy
-						if ( ! empty( $block_atts['hide_expired_jobs'] ) ) {
-							$terms_args = apply_filters(
-								'awsm_filter_block_spec_side_terms_args',
-								array(
-									'taxonomy'   => $taxonomy,
-									'orderby'    => 'name',
-									'hide_empty' => true,
-								)
-							);
-							$terms      = apply_filters( 'awsm_block_filter_terms', get_terms( $terms_args ), $taxonomy );
-						} else {
-							$terms = self::get_block_filter_terms( $taxonomy );
-						}
+						$terms = self::get_block_filter_terms( $taxonomy );
 
 						if ( ! empty( $terms ) ) {
 							$available_filters_arr[ $taxonomy ] = $tax_details->label;
