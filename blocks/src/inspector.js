@@ -555,12 +555,7 @@ const WidgetInspectorControls = props => {
 										{ /* Show FormTokenField only when toggle is on */ }
 										{ toggleState[ spec.key ] &&
 											( () => {
-												const expiredIds = hide_expired_jobs
-													? spec.expired_term_ids || []
-													: [];
-												const visibleTerms = spec.terms.filter(
-													t => ! expiredIds.includes( t.term_id )
-												);
+												const visibleTerms = spec.terms;
 												return (
 													<FormTokenField
 														value={ (
