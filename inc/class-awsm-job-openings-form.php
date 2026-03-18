@@ -293,7 +293,40 @@ class AWSM_Job_Openings_Form {
 		}
 	}
 
+	public function display_recaptcha_field( $form_attrs ) {
+		if ( $this->is_recaptcha_set() ) :
+			/**
+			 * Filters the reCAPTCHA visibility in the application form.
+			 *
+			 * @since 2.2.0
+			 * @since 2.2.1 The `$form_attrs` parameter was added.
+			 *
+			 * @param bool $is_visible Whether the reCAPTCHA is visible or not in the form.
+			 * @param array $form_attrs Attributes array for the form.
+			 */
+			$is_visible = apply_filters( 'awsm_application_form_is_recaptcha_visible', true, $form_attrs );
 
+			if ( $is_visible ) :
+				$site_key     = get_option( 'awsm_jobs_recaptcha_site_key' );
+				$fallback_url = add_query_arg( 'k', $site_key, 'https://www.google.com/recaptcha/api/fallback' );
+				?>
+				<div class="awsm-job-form-group awsm-job-g-recaptcha-group">
+					<div class="g-recaptcha" data-sitekey="<?php echo esc_attr( $site_key ); ?>"></div>
+					<noscript>
+						<div style="width: 302px; height: 422px; position: relative;">
+							<div style="width: 302px; height: 422px; position: absolute;">
+								<iframe src="<?php echo esc_url( $fallback_url ); ?>" frameborder="0" scrolling="no" style="width: 302px; height:422px; border-style: none;"></iframe>
+							</div>
+							<div style="width: 300px; height: 60px; border-style: none; bottom: 12px; left: 25px; margin: 0px; padding: 0px; right: 25px; background: #f9f9f9; border: 1px solid #c1c1c1; border-radius: 3px;">
+								<textarea id="g-recaptcha-response" name="g-recaptcha-response" class="g-recaptcha-response" style="width: 250px; height: 40px; border: 1px solid #c1c1c1; margin: 10px 25px; padding: 0px; resize: none;" ></textarea>
+							</div>
+						</div>
+					</noscript>
+				</div>
+				<?php
+			endif;
+		endif;
+	}
 
 	public function application_form() {
 		$form_attrs = array(
