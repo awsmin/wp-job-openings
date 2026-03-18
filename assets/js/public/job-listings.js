@@ -344,7 +344,7 @@ jQuery(function($) {
 			type: 'POST',
 			beforeSend: function() {
 				if (isDefaultPagination) {
-					$triggerElem.text(awsmJobsPublic.i18n.loading_text);
+					$triggerElem.text($('<textarea/>').html(awsmJobsPublic.i18n.loading_text).val());
 				} else {
 					$listingsContainer.addClass('awsm-jobs-loading');
 				}
