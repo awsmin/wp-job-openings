@@ -443,6 +443,28 @@ jQuery( function ( $ ) {
 						syncAllOptionFromUrl( $select );
 						forceAllLabel( $select );
 					}
+
+					// Sync URL for pre-selected values on page load (from block selected_terms or URL params).
+					const $rootWrapper = $select.closest( rootWrapperSelector );
+					const currentSpec = $select.closest( ".awsm-b-filter-item" ).data( "filter" );
+					if ( currentSpec ) {
+						let slugString = "";
+						if ( $select.prop( "multiple" ) ) {
+							const slugs = $select.find( "option:selected" ).not( ":first" ).map( function () {
+								return $( this ).data( "slug" );
+							} ).get().filter( Boolean );
+							slugString = slugs.join( "," );
+						} else {
+							const $selected = $select.find( "option:selected" );
+							if ( $selected.index() > 0 ) {
+								slugString = $selected.data( "slug" ) || "";
+							}
+						}
+						if ( slugString ) {
+							setPaginationBase( $rootWrapper, currentSpec, slugString );
+							updateAwsmQuery( $rootWrapper, currentSpec, slugString );
+						}
+					}
 				}, 0 );
 			},
 
