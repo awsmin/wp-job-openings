@@ -174,10 +174,10 @@ const WidgetInspectorControls = props => {
 			[ specKey ]: newTermIds
 		};
 
-		// Update filter type if multiple terms selected
+		// Auto-upgrade to multi-select if multiple terms selected; never auto-downgrade.
 		const updatedFilters = filter_options.map( option =>
 			option.specKey === specKey
-				? {...option, value: newTermIds.length > 1 ? "checkbox" : "dropdown"}
+				? {...option, value: newTermIds.length > 1 ? "checkbox" : ( option.value || "dropdown" )}
 				: option
 		);
 

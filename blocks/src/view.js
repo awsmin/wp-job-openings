@@ -448,9 +448,10 @@ jQuery( function ( $ ) {
 					const $rootWrapper = $select.closest( rootWrapperSelector );
 					const currentSpec = $select.closest( ".awsm-b-filter-item" ).data( "filter" );
 					if ( currentSpec ) {
-						let slugString = "";
+						let slugString = ""; 
 						if ( $select.prop( "multiple" ) ) {
-							const slugs = $select.find( "option:selected" ).not( ":first" ).map( function () {
+							const $allOption = $select.find( "option" ).eq( 0 );
+							const slugs = $select.find( "option:selected" ).not( $allOption ).map( function () {
 								return $( this ).data( "slug" );
 							} ).get().filter( Boolean );
 							slugString = slugs.join( "," );
@@ -460,7 +461,7 @@ jQuery( function ( $ ) {
 								slugString = $selected.data( "slug" ) || "";
 							}
 						}
-						if ( slugString ) {
+						if ( slugString ) { 
 							setPaginationBase( $rootWrapper, currentSpec, slugString );
 							updateAwsmQuery( $rootWrapper, currentSpec, slugString );
 						}
