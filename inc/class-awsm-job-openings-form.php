@@ -31,6 +31,7 @@ class AWSM_Job_Openings_Form {
 		add_action( 'before_awsm_job_details', array( $this, 'insert_application' ) );
 		add_action( 'wp_ajax_awsm_applicant_form_submission', array( $this, 'ajax_handle' ) );
 		add_action( 'wp_ajax_nopriv_awsm_applicant_form_submission', array( $this, 'ajax_handle' ) );
+		add_action( 'awsm_job_application_submitted', array( $this, 'set_application_viewed_status' ) );
 
 		add_filter( 'wp_check_filetype_and_ext', array( $this, 'check_filetype_and_ext' ), 10, 5 );
 		add_action( 'add_attachment', array( $this, 'add_index_php_to_folders' ) );
@@ -552,8 +553,6 @@ class AWSM_Job_Openings_Form {
 								update_post_meta( $application_id, $meta_key, $meta_value );
 							}
 
-							update_post_meta( $application_id, 'awsm_application_viewed', '0' );
-
 							// Now, send notification email
 							$applicant_details['application_id'] = $application_id;
 							$this->notification_email( $applicant_details );
@@ -634,6 +633,10 @@ class AWSM_Job_Openings_Form {
 		return $is_valid;
 	}
 
+
+	public function set_application_viewed_status( $application_id ) {
+		update_post_meta( $application_id, 'awsm_application_viewed', '0' );
+	}
 
 	public function ajax_handle() {
 		$response = $this->insert_application();
