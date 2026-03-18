@@ -876,6 +876,9 @@ class AWSM_Job_Openings_Form {
 					}
 
 					$mail_content = AWSM_Job_Openings_Mail_Customizer::sanitize_content( $options['content'] );
+					if ( ! preg_match( '/<(p|div|br|table|ul|ol|li|h[1-6]|blockquote)[\s>\/]/i', $mail_content ) ) {
+						$mail_content = nl2br( $mail_content );
+					}
 
 					if ( $options['html_template'] === 'enable' ) {
 						// Header mail template.
