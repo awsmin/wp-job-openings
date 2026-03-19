@@ -691,7 +691,7 @@ const WidgetInspectorControls = props => {
 
 								<BoxControl
 									label={ __( "Padding", "wp-job-openings" ) }
-									values={ hz_sf_padding }
+									values={ hz_sf_padding?.top ? hz_sf_padding : { top: '15px', right: '15px', bottom: '15px', left: '15px' } }
 									onChange={ Padding => {
 										setAttributes( {hz_sf_padding: Padding} );
 									} }
@@ -829,7 +829,7 @@ const WidgetInspectorControls = props => {
 
 							<BoxControl
 								label={ __( "Padding", "wp-job-openings" ) }
-								values={ hz_jl_padding } // Ensure there is a fallback value
+								values={ hz_jl_padding?.top ? hz_jl_padding : { top: '15px', right: '15px', bottom: '15px', left: '15px' } }
 								onChange={ Padding => {
 									setAttributes( {hz_jl_padding: Padding} );
 								} }
@@ -898,7 +898,7 @@ const WidgetInspectorControls = props => {
 
 							<BoxControl
 								label={ __( "Padding", "wp-job-openings" ) }
-								values={ hz_bs_padding } // Ensure there is a fallback value
+								values={ hz_bs_padding?.top ? hz_bs_padding : { top: '13px', right: '13px', bottom: '13px', left: '13px' } }
 								onChange={ Padding => {
 									setAttributes( {hz_bs_padding: Padding} );
 								} }
