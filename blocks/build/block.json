@@ -172,6 +172,18 @@
     "hz_button_text_color": {
       "type": "string"
     },
+    "hz_sf_background_color": {
+      "type": "string"
+    },
+    "hz_sf_text_color": {
+      "type": "string"
+    },
+    "hz_jl_background_color": {
+      "type": "string"
+    },
+    "hz_jl_text_color": {
+      "type": "string"
+    },
     "anchor": {
       "type": "string"
     },

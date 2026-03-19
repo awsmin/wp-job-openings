@@ -62,6 +62,10 @@ const WidgetInspectorControls = props => {
 			hz_bs_padding = {},
 			hz_button_background_color,
 			hz_button_text_color,
+			hz_sf_background_color,
+			hz_sf_text_color,
+			hz_jl_background_color,
+			hz_jl_text_color,
 			hz_sidebar_width
 		},
 		setAttributes
@@ -735,6 +739,25 @@ const WidgetInspectorControls = props => {
 										}
 									} }
 								/>
+								<Spacer marginBottom={ 4 } />
+								<PanelColorSettings
+									title={ __( "Search & Filter Color Settings", "wp-job-openings" ) }
+									initialOpen={ true }
+									colorSettings={ [
+										{
+											value: hz_sf_background_color,
+											onChange: color =>
+												setAttributes( {hz_sf_background_color: color} ),
+											label: __( "Background Color", "wp-job-openings" )
+										},
+										{
+											value: hz_sf_text_color,
+											onChange: color =>
+												setAttributes( {hz_sf_text_color: color} ),
+											label: __( "Text Color", "wp-job-openings" )
+										}
+									] }
+								/>
 							</PanelBody>
 						) }
 
@@ -787,6 +810,25 @@ const WidgetInspectorControls = props => {
 								onChange={ Padding => {
 									setAttributes( {hz_jl_padding: Padding} );
 								} }
+							/>
+							<Spacer marginBottom={ 4 } />
+							<PanelColorSettings
+								title={ __( "Job Listing Color Settings", "wp-job-openings" ) }
+								initialOpen={ true }
+								colorSettings={ [
+									{
+										value: hz_jl_background_color,
+										onChange: color =>
+											setAttributes( {hz_jl_background_color: color} ),
+										label: __( "Background Color", "wp-job-openings" )
+									},
+									{
+										value: hz_jl_text_color,
+										onChange: color =>
+											setAttributes( {hz_jl_text_color: color} ),
+										label: __( "Text Color", "wp-job-openings" )
+									}
+								] }
 							/>
 
 							<PanelRow>
