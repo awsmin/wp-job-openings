@@ -349,6 +349,7 @@ a.awsm-b-job-item {
 	border: var(--hz-jl-border-width, 1px) solid var(--hz-jl-border-color, #CBCBCB);
 	border-radius:
 		var(--hz-jl-border-radius-topleft, 0px) var(--hz-jl-border-radius-topright, 0px) var(--hz-jl-border-radius-bottomright, 0px) var(--hz-jl-border-radius-bottomleft, 0px);
+	border-bottom: none;
 }
 
 .awsm-b-list-item {
