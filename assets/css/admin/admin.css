@@ -638,7 +638,7 @@ a.awsm-text-red:hover {
 .awsm-job-status-btn-wrapper a.button:hover {
 	border-color: #0bcfb1;
 	background-color: #ffffff;
-	color: #0bcfb1;
+	color: #161616;
 }
 
 .awsm-job-status-btn-wrapper a.button:focus {
@@ -1743,7 +1743,7 @@ a.awsm-plugin-item p {
 
 .application-main-tab a:hover,
 .application-main-tab a.active {
-	color: #0BCFB1;
+	color: #161616;
 	text-decoration: none;
 }
 
@@ -1980,7 +1980,7 @@ input.awsm-button:disabled {
 .awsm-button.awsm-button-alt:hover:focus {
 	border-color: #0bcfb1;
 	background-color: #ffffff;
-	color: #0bcfb1;
+	color: #161616;
 }
 
 .align-right .awsm-button {
