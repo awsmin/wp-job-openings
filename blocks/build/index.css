@@ -58,7 +58,8 @@
 }
 
 .awsm-b-job-item {
-  background: #fff;
+  background: var(--hz-jl-bg-color, #fff);
+  color: var(--hz-jl-tx-color);
   padding-top: var(--hz-jl-padding-top, 15px);
   padding-right: var(--hz-jl-padding-right, 15px);
   padding-bottom: var(--hz-jl-padding-bottom, 15px);
@@ -239,6 +240,8 @@ a.awsm-b-job-item {
   border: var(--hz-ls-border-width, 1px) solid var(--hz-ls-border-color, #cccccc);
   border-radius: var(--hz-ls-border-radius-topleft, 5px) var(--hz-ls-border-radius-topright, 5px) var(--hz-ls-border-radius-bottomright, 5px) var(--hz-ls-border-radius-bottomleft, 5px) !important;
   font-size: 14px;
+  background-color: var(--hz-sf-bg-color);
+  color: var(--hz-sf-tx-color);
 }
 
 .awsm-b-filter-item-search-in {
@@ -382,7 +385,7 @@ a.awsm-b-job-item {
 }
 
 a.awsm-b-job-item .awsm-job-specification-item {
-  color: #4C4C4C;
+  color: var(--hz-jl-tx-color, #4C4C4C);
 }
 
 .awsm-b-list-item .awsm-job-more-container {
@@ -724,6 +727,12 @@ a.awsm-b-job-item .awsm-job-specification-item {
 .awsm-selectric {
   border-radius: var(--hz-ls-border-radius-topleft, 5px) var(--hz-ls-border-radius-topright, 5px) var(--hz-ls-border-radius-bottomright, 5px) var(--hz-ls-border-radius-bottomleft, 5px) !important;
   border: var(--hz-ls-border-width, 1px) solid var(--hz-ls-border-color, #cccccc) !important;
+  background-color: var(--hz-sf-bg-color);
+  color: var(--hz-sf-tx-color);
+}
+
+.awsm-selectric .label {
+  color: var(--hz-sf-tx-color);
 }
 
 .awsm-b-list-item h2.awsm-b-job-post-title {
