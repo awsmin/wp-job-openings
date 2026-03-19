@@ -162,6 +162,11 @@ class AWSM_Job_Openings {
 		<?php
 	}
 
+	public function check_addon_versions() {
+		$this->check_pro_version_for_free_plugin();
+		$this->check_job_alerts_version();
+	}
+
 	public function check_pro_version_for_free_plugin() {
 		if ( defined( 'AWSM_JOBS_PRO_PLUGIN_BASENAME' ) ) {
 			if ( is_plugin_active( AWSM_JOBS_PRO_PLUGIN_BASENAME ) ) {
@@ -178,6 +183,46 @@ class AWSM_Job_Openings {
 				}
 			}
 		}
+	}
+
+	public function check_job_alerts_version() {
+		$job_alerts_basename = 'job-alerts-for-wp-job-openings/job-alerts.php';
+		if ( is_plugin_active( $job_alerts_basename ) ) {
+			$job_alerts_path = WP_PLUGIN_DIR . '/' . $job_alerts_basename;
+			if ( file_exists( $job_alerts_path ) ) {
+				$plugin_data             = get_plugin_data( $job_alerts_path );
+				$job_alerts_version      = $plugin_data['Version'];
+				$required_alerts_version = '1.1.9';
+				if ( version_compare( $job_alerts_version, $required_alerts_version, '<' ) ) {
+					add_action( 'admin_notices', array( $this, 'job_alerts_version_admin_notice' ) );
+				}
+			}
+		}
+	}
+
+	public function job_alerts_version_admin_notice() {
+		$job_alerts_basename = 'job-alerts-for-wp-job-openings/job-alerts.php';
+		$update_url          = wp_nonce_url(
+			self_admin_url( 'update.php?action=upgrade-plugin&plugin=' . $job_alerts_basename ),
+			'upgrade-plugin_' . $job_alerts_basename
+		);
+		?>
+		<div class="notice notice-warning is-dismissible">
+			<p>
+				<?php
+				$plugin = sprintf( '<strong>%s</strong>', esc_html__( 'Job Alerts Add-on for Hirezoot', 'wp-job-openings' ) );
+				/* translators: %s: plugin name */
+				printf( esc_html__( 'Please update the %s plugin to version 1.1.9 or higher to ensure full compatibility.', 'wp-job-openings' ), $plugin ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				echo ' ';
+				printf(
+					'<a href="%s" class="button button-small update-now">%s</a>',
+					esc_url( $update_url ),
+					esc_html__( 'Update Now', 'wp-job-openings' )
+				);
+				?>
+			</p>
+		</div>
+		<?php
 	}
 
 	public static function log( $data, $prefix = '' ) {
@@ -311,7 +356,7 @@ class AWSM_Job_Openings {
 			// Add custom status to status dropdown under post submit meta box (existing and new) for job openings.
 			add_action( 'admin_footer-post.php', array( $this, 'job_submit_meta_box_custom_status' ) );
 			add_action( 'admin_footer-post-new.php', array( $this, 'job_submit_meta_box_custom_status' ) );
-			add_action( 'admin_init', array( $this, 'check_pro_version_for_free_plugin' ) );
+			add_action( 'admin_init', array( $this, 'check_addon_versions' ) );
 		}
 	}
 
