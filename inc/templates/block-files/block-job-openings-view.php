@@ -71,17 +71,17 @@ $block_style_variables = "
 		--hz-bs-border-radius-bottomleft: {$styles['button_border_radius_bottomleft']};
 		--hz-bs-border-style:   " . ( ! empty( $styles['button_width_field'] ) && $styles['button_width_field'] !== '0px' ? 'solid' : 'none' ) . ";
 
-		--hz-b-bg-color: {$styles['button_background_color']};
-		--hz-b-tx-color: {$styles['button_text_color']};
+		" . ( ! empty( $styles['button_background_color'] ) ? "--hz-b-bg-color: {$styles['button_background_color']};" : '' ) . "
+		" . ( ! empty( $styles['button_text_color'] )       ? "--hz-b-tx-color: {$styles['button_text_color']};"       : '' ) . "
 
-		--hz-sf-bg-color: {$styles['sf_background_color']};
-		--hz-sf-tx-color: {$styles['sf_text_color']};
+		" . ( ! empty( $styles['sf_background_color'] ) ? "--hz-sf-bg-color: {$styles['sf_background_color']};" : '' ) . "
+		" . ( ! empty( $styles['sf_text_color'] )       ? "--hz-sf-tx-color: {$styles['sf_text_color']};"       : '' ) . "
 
-		--hz-jl-bg-color: {$styles['jl_background_color']};
-		--hz-jl-tx-color: {$styles['jl_text_color']};
+		" . ( ! empty( $styles['jl_background_color'] ) ? "--hz-jl-bg-color: {$styles['jl_background_color']};" : '' ) . "
+		" . ( ! empty( $styles['jl_text_color'] )       ? "--hz-jl-tx-color: {$styles['jl_text_color']};"       : '' ) . "
 
-		--hz-sidebar-bg-color: {$styles['sidebar_bg_color']};
-		--hz-sidebar-tx-color: {$styles['sidebar_tx_color']};
+		" . ( ! empty( $styles['sidebar_bg_color'] ) ? "--hz-sidebar-bg-color: {$styles['sidebar_bg_color']};" : '' ) . "
+		" . ( ! empty( $styles['sidebar_tx_color'] ) ? "--hz-sidebar-tx-color: {$styles['sidebar_tx_color']};" : '' ) . "
 
 		--hz-b-padding-left: {$styles['padding_left_button']};
 		--hz-b-padding-right: {$styles['padding_right_button']};
