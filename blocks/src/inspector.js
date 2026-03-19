@@ -66,6 +66,8 @@ const WidgetInspectorControls = props => {
 			hz_sf_text_color,
 			hz_jl_background_color,
 			hz_jl_text_color,
+			hz_sidebar_bg_color,
+			hz_sidebar_tx_color,
 			hz_sidebar_width
 		},
 		setAttributes
@@ -693,6 +695,25 @@ const WidgetInspectorControls = props => {
 									onChange={ Padding => {
 										setAttributes( {hz_sf_padding: Padding} );
 									} }
+								/>
+								<Spacer marginBottom={ 4 } />
+								<PanelColorSettings
+									title={ __( "Sidebar Color Settings", "wp-job-openings" ) }
+									initialOpen={ true }
+									colorSettings={ [
+										{
+											value: hz_sidebar_bg_color,
+											onChange: color =>
+												setAttributes( {hz_sidebar_bg_color: color} ),
+											label: __( "Background Color", "wp-job-openings" )
+										},
+										{
+											value: hz_sidebar_tx_color,
+											onChange: color =>
+												setAttributes( {hz_sidebar_tx_color: color} ),
+											label: __( "Text Color", "wp-job-openings" )
+										}
+									] }
 								/>
 							</PanelBody>
 						) }

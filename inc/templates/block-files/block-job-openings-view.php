@@ -80,6 +80,9 @@ $block_style_variables = "
 		--hz-jl-bg-color: {$styles['jl_background_color']};
 		--hz-jl-tx-color: {$styles['jl_text_color']};
 
+		--hz-sidebar-bg-color: {$styles['sidebar_bg_color']};
+		--hz-sidebar-tx-color: {$styles['sidebar_tx_color']};
+
 		--hz-b-padding-left: {$styles['padding_left_button']};
 		--hz-b-padding-right: {$styles['padding_right_button']};
 		--hz-b-padding-top: {$styles['padding_top_button']};
