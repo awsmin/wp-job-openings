@@ -854,6 +854,7 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
   }), (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_10__.__experimentalSpacer, {
     marginBottom: 4
   }), (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_7__.PanelColorSettings, {
+    className: "hz-color-settings",
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Sidebar Color Settings", "wp-job-openings"),
     initialOpen: true,
     colorSettings: [{
@@ -917,6 +918,7 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
   }), (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_10__.__experimentalSpacer, {
     marginBottom: 4
   }), (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_7__.PanelColorSettings, {
+    className: "hz-color-settings",
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Search & Filter Color Settings", "wp-job-openings"),
     initialOpen: true,
     colorSettings: [{
@@ -989,6 +991,7 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
   }), (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_10__.__experimentalSpacer, {
     marginBottom: 4
   }), (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_7__.PanelColorSettings, {
+    className: "hz-color-settings",
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Job Listing Color Settings", "wp-job-openings"),
     initialOpen: true,
     colorSettings: [{

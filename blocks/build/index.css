@@ -92,6 +92,11 @@
   margin-bottom: 0px !important;
 }
 
+.hz-color-settings.block-editor-panel-color-gradient-settings {
+  padding-left: 0;
+  padding-right: 0;
+}
+
 .filters-button {
   display: -webkit-box;
   display: -webkit-flex;

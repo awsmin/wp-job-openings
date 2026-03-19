@@ -107,6 +107,13 @@
 	margin-bottom: 0px !important;
 }
 
+// ---- Color Settings Panel (remove top border/separator) ----
+
+.hz-color-settings.block-editor-panel-color-gradient-settings {
+	padding-left: 0;
+	padding-right: 0;
+}
+
 // ---- Filter Buttons ----
 
 .filters-button {
