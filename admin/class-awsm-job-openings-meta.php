@@ -353,8 +353,9 @@ class AWSM_Job_Openings_Meta {
 			$post_status = get_post_status( $post_id );
 
 			if ( $post_status === 'publish' ) {
-				$is_viewed = get_post_meta( $post_id, 'awsm_application_viewed', true ) === '0';
-				if ( $is_viewed ) {
+				// Only highlight if explicitly marked as unread ('0').
+				// Old applications (no meta) are treated as viewed — no highlight.
+				if ( get_post_meta( $post_id, 'awsm_application_viewed', true ) === '0' ) {
 					$classes[] = 'awsm-new-job';
 				}
 			}
