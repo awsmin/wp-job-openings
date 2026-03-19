@@ -168,18 +168,32 @@ class AWSM_Job_Openings_Core {
 	public static function get_unviewed_applications_count() {
 		global $wpdb;
 
+		if ( ! current_user_can( 'edit_applications' ) ) {
+			return 0;
+		}
+
+		$author_join  = '';
+		$author_where = '';
+
+		if ( ! current_user_can( 'edit_others_applications' ) ) {
+			// Limit to unread applications for jobs owned by the current user.
+			$author_join  = " INNER JOIN {$wpdb->posts} j ON p.post_parent = j.ID AND j.post_type = 'awsm_job_openings'";
+			$author_where = $wpdb->prepare( ' AND j.post_author = %d', get_current_user_id() );
+		}
+
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$count = $wpdb->get_var(
 			$wpdb->prepare(
-				"
-				SELECT COUNT(DISTINCT p.ID)
+				"SELECT COUNT(DISTINCT p.ID)
 				FROM {$wpdb->posts} p
 				LEFT JOIN {$wpdb->postmeta} pm
 					ON pm.post_id = p.ID
 					AND pm.meta_key = %s
-				WHERE p.post_type   = %s
+				{$author_join}
+				WHERE p.post_type = %s
 				AND p.post_status = %s
 				AND (pm.meta_value IS NULL OR pm.meta_value = %s)
-				",
+				{$author_where}",
 				'awsm_application_viewed',
 				'awsm_job_application',
 				'publish',

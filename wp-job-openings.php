@@ -488,6 +488,35 @@ class AWSM_Job_Openings {
 		return $applications;
 	}
 
+	/**
+	 * Get the raw application count for a job, bypassing WP capability checks.
+	 * Returns count based on what the current user can access.
+	 *
+	 * @param int $job_id Job post ID.
+	 * @return int
+	 */
+	public static function get_accessible_applications_count( $job_id ) {
+		global $wpdb;
+
+		if ( current_user_can( 'edit_others_applications' ) ) {
+			// Can access all applications.
+		} elseif ( current_user_can( 'edit_applications' ) ) {
+			// Can only access applications for their own jobs.
+			if ( (int) get_post_field( 'post_author', $job_id ) !== get_current_user_id() ) {
+				return 0;
+			}
+		} else {
+			return 0;
+		}
+
+		return (int) $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT COUNT(ID) FROM {$wpdb->posts} WHERE post_parent = %d AND post_type = 'awsm_job_application' AND post_status != 'trash'",
+				$job_id
+			)
+		);
+	}
+
 	public static function get_applications( $job_id, $fields = 'all' ) {
 		$applications = get_children(
 			array(
@@ -503,7 +532,7 @@ class AWSM_Job_Openings {
 	}
 
 	public function awsm_job_custom_column_member_data( $column, $post_id ) {
-		$application_count = count( self::get_applications( $post_id, 'ids' ) );
+		$application_count = self::get_accessible_applications_count( $post_id );
 		$job_views         = get_post_meta( $post_id, 'awsm_views_count', true );
 		$default_display   = '<span aria-hidden="true">—</span>';
 
@@ -866,19 +895,52 @@ class AWSM_Job_Openings {
 	}
 
 	public static function get_overview_data() {
-		$jobs_count         = (array) wp_count_posts( 'awsm_job_openings' );
-		$applications_count = (array) wp_count_posts( 'awsm_job_application' );
-		unset( $jobs_count['auto-draft'], $applications_count['auto-draft'] );
-		$total_jobs         = array_sum( $jobs_count );
-		$total_applications = array_sum( $applications_count );
-		// Exclude trashed applications to get active applications.
-		$trashed_applications   = isset( $applications_count['trash'] ) ? $applications_count['trash'] : 0;
+		global $wpdb;
+
+		$jobs_count = (array) wp_count_posts( 'awsm_job_openings' );
+		unset( $jobs_count['auto-draft'] );
+		$total_jobs = array_sum( $jobs_count );
+
+		// Build application counts respecting user capabilities.
+		if ( current_user_can( 'edit_others_applications' ) ) {
+			$applications_count = (array) wp_count_posts( 'awsm_job_application' );
+			unset( $applications_count['auto-draft'] );
+			$total_applications   = array_sum( $applications_count );
+			$trashed_applications = isset( $applications_count['trash'] ) ? $applications_count['trash'] : 0;
+			$published_apps       = isset( $applications_count['publish'] ) ? $applications_count['publish'] : 0;
+		} elseif ( current_user_can( 'edit_applications' ) ) {
+			// Limit to applications for jobs owned by the current user.
+			$user_id              = get_current_user_id();
+			$total_applications   = (int) $wpdb->get_var(
+				$wpdb->prepare(
+					"SELECT COUNT(a.ID) FROM {$wpdb->posts} a INNER JOIN {$wpdb->posts} j ON a.post_parent = j.ID WHERE a.post_type = 'awsm_job_application' AND a.post_status != 'auto-draft' AND j.post_type = 'awsm_job_openings' AND j.post_author = %d",
+					$user_id
+				)
+			);
+			$trashed_applications = (int) $wpdb->get_var(
+				$wpdb->prepare(
+					"SELECT COUNT(a.ID) FROM {$wpdb->posts} a INNER JOIN {$wpdb->posts} j ON a.post_parent = j.ID WHERE a.post_type = 'awsm_job_application' AND a.post_status = 'trash' AND j.post_type = 'awsm_job_openings' AND j.post_author = %d",
+					$user_id
+				)
+			);
+			$published_apps       = (int) $wpdb->get_var(
+				$wpdb->prepare(
+					"SELECT COUNT(a.ID) FROM {$wpdb->posts} a INNER JOIN {$wpdb->posts} j ON a.post_parent = j.ID WHERE a.post_type = 'awsm_job_application' AND a.post_status = 'publish' AND j.post_type = 'awsm_job_openings' AND j.post_author = %d",
+					$user_id
+				)
+			);
+		} else {
+			$total_applications   = 0;
+			$trashed_applications = 0;
+			$published_apps       = 0;
+		}
+
 		$active_applications    = $total_applications - $trashed_applications;
 		$new_applications_count = AWSM_Job_Openings_Core::get_unviewed_applications_count();
 		$data                   = array(
 			'active_jobs'         => $jobs_count['publish'],
 			'total_jobs'          => $total_jobs,
-			'new_applications'    => $applications_count['publish'],
+			'new_applications'    => $published_apps,
 			'total_applications'  => $total_applications,
 			'active_applications' => $active_applications,
 			'unread_applications' => $new_applications_count,

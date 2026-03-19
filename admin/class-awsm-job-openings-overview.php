@@ -184,7 +184,20 @@ class AWSM_Job_Openings_Overview {
 		$parsed_args = apply_filters( 'awsm_overview_jobs_args', $parsed_args, $defaults );
 
 		$values = array();
-		$join   = "LEFT JOIN {$wpdb->posts} AS applications ON {$wpdb->posts}.ID = applications.post_parent AND applications.post_type = 'awsm_job_application' AND applications.post_status != 'trash'";
+
+		// Build application join respecting user capabilities.
+		if ( current_user_can( 'edit_others_applications' ) ) {
+			// Count all non-trashed applications.
+			$join = "LEFT JOIN {$wpdb->posts} AS applications ON {$wpdb->posts}.ID = applications.post_parent AND applications.post_type = 'awsm_job_application' AND applications.post_status != 'trash'";
+		} elseif ( current_user_can( 'edit_applications' ) ) {
+			// Count applications only for jobs authored by the current user.
+			$current_user_id = (int) get_current_user_id();
+			$join            = "LEFT JOIN {$wpdb->posts} AS applications ON {$wpdb->posts}.ID = applications.post_parent AND applications.post_type = 'awsm_job_application' AND applications.post_status != 'trash' AND {$wpdb->posts}.post_author = {$current_user_id}";
+		} else {
+			// No application access — always count as 0.
+			$join = "LEFT JOIN {$wpdb->posts} AS applications ON 1=0";
+		}
+
 		$where  = 'WHERE 1=1';
 		if ( isset( $parsed_args['tax_query'] ) && is_array( $parsed_args['tax_query'] ) ) {
 			$in       = array();
