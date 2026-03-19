@@ -23,7 +23,7 @@ $block_id                = $styles['block_id'];
 $block_style_variables = "
 	#{$styles['block_id']} {
 		--hz-sf-border-width: {$styles['border_width']};
-		--hz-sf-border-color: {$styles['border_color']};
+		" . ( ! empty( $styles['border_color'] ) ? "--hz-sf-border-color: {$styles['border_color']};" : '' ) . "
 
 		--hz-sf-border-radius-topleft: {$styles['sf_border_radius_topleft']};
 		--hz-sf-border-radius-topright: {$styles['sf_border_radius_topright']};
@@ -39,7 +39,7 @@ $block_style_variables = "
 		--hz-sidebar-width: {$styles['sidebar_width']};
 
 		--hz-ls-border-width: {$styles['border_width_field']};
-		--hz-ls-border-color: {$styles['border_color_field']};
+		" . ( ! empty( $styles['border_color_field'] ) ? "--hz-ls-border-color: {$styles['border_color_field']};" : '' ) . "
 
 		--hz-ls-border-radius-topleft: {$styles['ls_border_radius_topleft']};
 		--hz-ls-border-radius-topright: {$styles['ls_border_radius_topright']};
@@ -49,7 +49,7 @@ $block_style_variables = "
 		--hz-ls-border-style: " . ( ! empty( $styles['border_width_field'] ) && $styles['border_width_field'] !== '0px' ? 'solid' : 'none' ) . ";
 
 		--hz-jl-border-width: {$styles['border_width_jobs']};
-		--hz-jl-border-color: {$styles['border_color_jobs']};
+		" . ( ! empty( $styles['border_color_jobs'] ) ? "--hz-jl-border-color: {$styles['border_color_jobs']};" : '' ) . "
 
 		--hz-jl-border-radius-topleft: {$styles['jobs_border_radius_topleft']};
 		--hz-jl-border-radius-topright: {$styles['jobs_border_radius_topright']};
@@ -63,7 +63,7 @@ $block_style_variables = "
 		--hz-jl-border-style:   " . ( ! empty( $styles['border_width_jobs'] ) && $styles['border_width_jobs'] !== '0px' ? 'solid' : 'none' ) . ";
 
 		--hz-bs-border-width: {$styles['button_width_field']};
-		--hz-bs-border-color: {$styles['button_color_field']};
+		" . ( ! empty( $styles['button_color_field'] ) ? "--hz-bs-border-color: {$styles['button_color_field']};" : '' ) . "
 
 		--hz-bs-border-radius-topleft: {$styles['button_border_radius_topleft']};
 		--hz-bs-border-radius-topright: {$styles['button_border_radius_topright']};

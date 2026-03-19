@@ -113,7 +113,7 @@ a.awsm-b-job-item {
   text-decoration: none;
 }
 
-.awsm-b-grid-item .awsm-job-more-container {
+.awsm-b-grid-item .awsm-b-job-more-container {
   margin-top: 10px;
 }
 
@@ -306,7 +306,7 @@ a.awsm-b-job-item {
   display: block;
   text-align: center;
   padding: 20px;
-  background: #fff;
+  background-color: var(--hz-jl-bg-color, #fff);
   -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.05);
           box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.05);
   margin: 0 !important;
@@ -318,6 +318,12 @@ a.awsm-b-job-item {
   border-width: var(--hz-jl-border-width, 1px);
   border-style: var(--hz-jl-border-style, solid);
   border-color: var(--hz-jl-border-color, #CBCBCB);
+  color: var(--hz-jl-tx-color);
+}
+
+.awsm-b-load-more-main a.awsm-b-load-more:hover, .awsm-b-load-more-classic a.page-numbers:hover {
+  background-color: color-mix(in srgb, var(--hz-jl-bg-color), black 5%);
+  color: var(--hz-jl-tx-color);
 }
 
 .awsm-b-load-more-classic a.page-numbers,
@@ -661,11 +667,17 @@ a.awsm-b-job-item .awsm-job-specification-item {
   color: color-mix(in srgb, var(--hz-sf-tx-color, #444), black 20%);
 }
 
-.awsm-jobs-alerts-popup-trigger-btn a,
+.awsm-jobs-alerts-popup-trigger-btn a.awsm-b-jobs-alerts-trigger-btn,
 .awsm-b-filter-wrap .awsm-b-jobs-alerts-popup-trigger-btn a {
   border: var(--hz-ls-border-width, 1px) solid var(--hz-ls-border-color, #cccccc);
   border-radius: var(--hz-ls-border-radius-topright, 5px) var(--hz-ls-border-radius-topleft, 5px) var(--hz-ls-border-radius-bottomleft, 5px) var(--hz-ls-border-radius-bottomright, 5px) !important;
   background-color: var(--hz-sf-bg-color);
+  color: var(--hz-sf-tx-color);
+}
+
+.awsm-jobs-alerts-popup-trigger-btn a.awsm-b-jobs-alerts-trigger-btn:hover,
+.awsm-b-filter-wrap .awsm-b-jobs-alerts-popup-trigger-btn a:hover {
+  background-color: color-mix(in srgb, var(--hz-sf-bg-color), black 5%);
   color: var(--hz-sf-tx-color);
 }
 
@@ -1070,4 +1082,9 @@ a.awsm-b-job-item .awsm-job-specification-item {
   line-height: 1;
   text-decoration: none;
   border-style: var(--hz-bs-border-style, solid);
+}
+
+.awsm-b-job-more:hover {
+  background-color: color-mix(in srgb, var(--hz-b-bg-color), black 5%);
+  color: var(--hz-b-tx-color);
 }
