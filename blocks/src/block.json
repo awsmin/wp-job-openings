@@ -184,6 +184,12 @@
 		"hz_jl_text_color": {
 			"type": "string"
 		},
+		"hz_sidebar_bg_color": {
+			"type": "string"
+		},
+		"hz_sidebar_tx_color": {
+			"type": "string"
+		},
 		"anchor": {
       		"type": "string"
     	},

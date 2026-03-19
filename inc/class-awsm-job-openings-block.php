@@ -70,6 +70,8 @@ class AWSM_Job_Openings_Block {
 			'hz_sf_text_color'           => isset( $blockatts['hz_sf_text_color'] ) ? $blockatts['hz_sf_text_color'] : '',
 			'hz_jl_background_color'     => isset( $blockatts['hz_jl_background_color'] ) ? $blockatts['hz_jl_background_color'] : '',
 			'hz_jl_text_color'           => isset( $blockatts['hz_jl_text_color'] ) ? $blockatts['hz_jl_text_color'] : '',
+			'hz_sidebar_bg_color'        => isset( $blockatts['hz_sidebar_bg_color'] ) ? $blockatts['hz_sidebar_bg_color'] : '',
+			'hz_sidebar_tx_color'        => isset( $blockatts['hz_sidebar_tx_color'] ) ? $blockatts['hz_sidebar_tx_color'] : '',
 		);
 
 		/**

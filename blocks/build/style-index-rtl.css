@@ -733,6 +733,8 @@ a.awsm-b-job-item .awsm-job-specification-item {
     border-style: var(--hz-sf-border-style, solid);
     border-color: var(--hz-sf-border-color, transparent) !important;
     border-radius: var(--hz-sf-border-radius-topright, 5px) var(--hz-sf-border-radius-topleft, 5px) var(--hz-sf-border-radius-bottomleft, 5px) var(--hz-sf-border-radius-bottomright, 5px);
+    background-color: var(--hz-sidebar-bg-color);
+    color: var(--hz-sidebar-tx-color);
   }
   .awsm-job-2-col .awsm-b-filter-item:not(:last-child),
   .awsm-job-2-col .awsm-b-filter-item-search {

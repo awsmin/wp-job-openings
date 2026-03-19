@@ -353,6 +353,8 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
     hz_sf_text_color = _props$attributes.hz_sf_text_color,
     hz_jl_background_color = _props$attributes.hz_jl_background_color,
     hz_jl_text_color = _props$attributes.hz_jl_text_color,
+    hz_sidebar_bg_color = _props$attributes.hz_sidebar_bg_color,
+    hz_sidebar_tx_color = _props$attributes.hz_sidebar_tx_color,
     hz_sidebar_width = _props$attributes.hz_sidebar_width,
     setAttributes = props.setAttributes;
 
@@ -849,6 +851,28 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
         hz_sf_padding: Padding
       });
     }
+  }), (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_10__.__experimentalSpacer, {
+    marginBottom: 4
+  }), (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_7__.PanelColorSettings, {
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Sidebar Color Settings", "wp-job-openings"),
+    initialOpen: true,
+    colorSettings: [{
+      value: hz_sidebar_bg_color,
+      onChange: function onChange(color) {
+        return setAttributes({
+          hz_sidebar_bg_color: color
+        });
+      },
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Background Color", "wp-job-openings")
+    }, {
+      value: hz_sidebar_tx_color,
+      onChange: function onChange(color) {
+        return setAttributes({
+          hz_sidebar_tx_color: color
+        });
+      },
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Text Color", "wp-job-openings")
+    }]
   })), (search || enable_job_filter) && (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_10__.PanelBody, {
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Search and Filter Fields", "wp-job-openings"),
     initialOpen: true
@@ -1547,7 +1571,7 @@ function _unsupportedIterableToArray(r, a) {
   \************************/
 /***/ (function(module) {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"wp-job-openings/blocks","version":"1.0.1","title":"Job Listings","category":"widgets","description":"Display and filter job listings.","attributes":{"blockId":{"type":"string","default":""},"search":{"type":"boolean","default":false},"placement":{"type":"string","default":"top"},"search_placeholder":{"type":"string","default":""},"filter_options":{"type":"array","default":[]},"list_type":{"type":"string","default":"all"},"layout":{"type":"string","default":"list"},"selected_terms_main":{"type":"array","default":[]},"selected_terms":{"type":"object","default":{}},"order_by":{"type":"string","default":"new_to_old"},"hide_expired_jobs":{"type":"boolean","default":false},"listing_per_page":{"type":"number","default":10},"pagination":{"type":"string","default":"modern"},"number_of_columns":{"type":"number","default":3},"other_options":{"type":"array","default":[]},"show_spec_icon":{"type":"boolean","default":true},"hz_sf_border":{"type":"object","default":{"width":"1px","color":"#cccccc"}},"hz_sf_border_radius":{"type":"object","default":{"topLeft":"5px","topRight":"5px","bottomLeft":"5px","bottomRight":"5px"}},"hz_sf_padding":{"type":"object","default":{"top":"15px","right":"15px","bottom":"15px","left":"15px"}},"hz_sidebar_width":{"type":"number","default":33.333},"hz_ls_border":{"type":"object","default":{"width":"1px","color":"#cccccc"}},"hz_ls_border_radius":{"type":"object","default":{"topLeft":"5px","topRight":"5px","bottomLeft":"5px","bottomRight":"5px"}},"hz_jl_border":{"type":"object","default":{"width":"1px","color":"#CBCBCB"}},"hz_jl_border_radius":{"type":"object","default":{"topLeft":"5px","topRight":"5px","bottomLeft":"5px","bottomRight":"5px"}},"hz_jl_padding":{"type":"object","default":{"top":"15px","right":"15px","bottom":"15px","left":"15px"}},"hz_bs_border":{"type":"object","default":{"width":"1px","color":"#4e35df"}},"hz_bs_border_radius":{"type":"object","default":{"topLeft":"5px","topRight":"5px","bottomLeft":"5px","bottomRight":"5px"}},"hz_bs_padding":{"type":"object","default":{"top":"13px","right":"13px","bottom":"13px","left":"13px"}},"hz_button_background_color":{"type":"string"},"hz_button_text_color":{"type":"string"},"hz_sf_background_color":{"type":"string"},"hz_sf_text_color":{"type":"string"},"hz_jl_background_color":{"type":"string"},"hz_jl_text_color":{"type":"string"},"anchor":{"type":"string"},"enable_job_filter":{"type":"boolean","default":true}},"example":{},"supports":{"html":false,"customClassName":true,"anchor":true},"textdomain":"wp-job-openings","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"wp-job-openings/blocks","version":"1.0.1","title":"Job Listings","category":"widgets","description":"Display and filter job listings.","attributes":{"blockId":{"type":"string","default":""},"search":{"type":"boolean","default":false},"placement":{"type":"string","default":"top"},"search_placeholder":{"type":"string","default":""},"filter_options":{"type":"array","default":[]},"list_type":{"type":"string","default":"all"},"layout":{"type":"string","default":"list"},"selected_terms_main":{"type":"array","default":[]},"selected_terms":{"type":"object","default":{}},"order_by":{"type":"string","default":"new_to_old"},"hide_expired_jobs":{"type":"boolean","default":false},"listing_per_page":{"type":"number","default":10},"pagination":{"type":"string","default":"modern"},"number_of_columns":{"type":"number","default":3},"other_options":{"type":"array","default":[]},"show_spec_icon":{"type":"boolean","default":true},"hz_sf_border":{"type":"object","default":{"width":"1px","color":"#cccccc"}},"hz_sf_border_radius":{"type":"object","default":{"topLeft":"5px","topRight":"5px","bottomLeft":"5px","bottomRight":"5px"}},"hz_sf_padding":{"type":"object","default":{"top":"15px","right":"15px","bottom":"15px","left":"15px"}},"hz_sidebar_width":{"type":"number","default":33.333},"hz_ls_border":{"type":"object","default":{"width":"1px","color":"#cccccc"}},"hz_ls_border_radius":{"type":"object","default":{"topLeft":"5px","topRight":"5px","bottomLeft":"5px","bottomRight":"5px"}},"hz_jl_border":{"type":"object","default":{"width":"1px","color":"#CBCBCB"}},"hz_jl_border_radius":{"type":"object","default":{"topLeft":"5px","topRight":"5px","bottomLeft":"5px","bottomRight":"5px"}},"hz_jl_padding":{"type":"object","default":{"top":"15px","right":"15px","bottom":"15px","left":"15px"}},"hz_bs_border":{"type":"object","default":{"width":"1px","color":"#4e35df"}},"hz_bs_border_radius":{"type":"object","default":{"topLeft":"5px","topRight":"5px","bottomLeft":"5px","bottomRight":"5px"}},"hz_bs_padding":{"type":"object","default":{"top":"13px","right":"13px","bottom":"13px","left":"13px"}},"hz_button_background_color":{"type":"string"},"hz_button_text_color":{"type":"string"},"hz_sf_background_color":{"type":"string"},"hz_sf_text_color":{"type":"string"},"hz_jl_background_color":{"type":"string"},"hz_jl_text_color":{"type":"string"},"hz_sidebar_bg_color":{"type":"string"},"hz_sidebar_tx_color":{"type":"string"},"anchor":{"type":"string"},"enable_job_filter":{"type":"boolean","default":true}},"example":{},"supports":{"html":false,"customClassName":true,"anchor":true},"textdomain":"wp-job-openings","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ })
 
