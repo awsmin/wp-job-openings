@@ -698,6 +698,7 @@ const WidgetInspectorControls = props => {
 								/>
 								<Spacer marginBottom={ 4 } />
 								<PanelColorSettings
+									className="hz-color-settings"
 									title={ __( "Sidebar Color Settings", "wp-job-openings" ) }
 									initialOpen={ true }
 									colorSettings={ [
@@ -762,6 +763,7 @@ const WidgetInspectorControls = props => {
 								/>
 								<Spacer marginBottom={ 4 } />
 								<PanelColorSettings
+									className="hz-color-settings"
 									title={ __( "Search & Filter Color Settings", "wp-job-openings" ) }
 									initialOpen={ true }
 									colorSettings={ [
@@ -834,6 +836,7 @@ const WidgetInspectorControls = props => {
 							/>
 							<Spacer marginBottom={ 4 } />
 							<PanelColorSettings
+								className="hz-color-settings"
 								title={ __( "Job Listing Color Settings", "wp-job-openings" ) }
 								initialOpen={ true }
 								colorSettings={ [
