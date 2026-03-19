@@ -54,7 +54,8 @@
 // ---- Job Item ----
 
 .awsm-b-job-item {
-	background: #fff;
+	background: var(--hz-jl-bg-color, #fff);
+	color: var(--hz-jl-tx-color);
 	padding-top: var(--hz-jl-padding-top, 15px);
 	padding-right: var(--hz-jl-padding-right, 15px);
 	padding-bottom: var(--hz-jl-padding-bottom, 15px);
@@ -71,10 +72,7 @@ a.awsm-b-job-item {
 	box-shadow: 0 1px 4px 0 rgb(0 0 0 / 5%);
 	border: var(--hz-jl-border-width, 1px) solid var(--hz-jl-border-color, #CBCBCB);
 	border-radius:
-		var(--hz-jl-border-radius-topleft, 5px)
-		var(--hz-jl-border-radius-topright, 5px)
-		var(--hz-jl-border-radius-bottomright, 5px)
-		var(--hz-jl-border-radius-bottomleft, 5px);
+		var(--hz-jl-border-radius-topleft, 5px) var(--hz-jl-border-radius-topright, 5px) var(--hz-jl-border-radius-bottomright, 5px) var(--hz-jl-border-radius-bottomleft, 5px);
 	display: -webkit-box;
 	display: -moz-box;
 	display: -ms-flexbox;
@@ -108,8 +106,12 @@ a.awsm-b-job-item {
 
 .awsm-b-job-item h2.awsm-b-job-post-title a {
 	font-size: 18px;
+	color: var(--hz-jl-tx-color);
 }
 
+.awsm-b-grid-item .awsm-job-more-container {
+	margin-top: 10px;
+}
 
 .awsm-b-job-wrap::after {
 	clear: both;
@@ -242,12 +244,11 @@ a.awsm-b-job-item {
 	min-height: 48px;
 	border: var(--hz-ls-border-width, 1px) solid var(--hz-ls-border-color, #cccccc);
 	border-radius:
-		var(--hz-ls-border-radius-topleft, 5px)
-		var(--hz-ls-border-radius-topright, 5px)
-		var(--hz-ls-border-radius-bottomright, 5px)
-		var(--hz-ls-border-radius-bottomleft, 5px) !important;
+		var(--hz-ls-border-radius-topleft, 5px) var(--hz-ls-border-radius-topright, 5px) var(--hz-ls-border-radius-bottomright, 5px) var(--hz-ls-border-radius-bottomleft, 5px) !important;
 	font-size: 14px;
-	width:100%;
+	width: 100%;
+	background-color: var(--hz-sf-bg-color);
+	color: var(--hz-sf-tx-color);
 }
 
 .awsm-b-filter-item-search-in {
@@ -261,7 +262,7 @@ a.awsm-b-job-item {
 	width: 48px;
 	height: 100%;
 	font-size: 16px;
-	color: #ccc;
+	color: var(--hz-sf-tx-color, #ccc);
 	line-height: 48px;
 	text-align: center;
 	cursor: pointer;
@@ -302,10 +303,7 @@ a.awsm-b-job-item {
 	outline: none !important;
 	transition: all 0.3s ease;
 	border-radius:
-		var(--hz-jl-border-radius-topleft, 5px)
-		var(--hz-jl-border-radius-topright, 5px)
-		var(--hz-jl-border-radius-bottomright, 5px)
-		var(--hz-jl-border-radius-bottomleft, 5px);
+		var(--hz-jl-border-radius-topleft, 5px) var(--hz-jl-border-radius-topright, 5px) var(--hz-jl-border-radius-bottomright, 5px) var(--hz-jl-border-radius-bottomleft, 5px);
 	border-width: var(--hz-jl-border-width, 1px);
 	border-style: var(--hz-jl-border-style, solid);
 	border-color: var(--hz-jl-border-color, #CBCBCB);
@@ -343,10 +341,7 @@ a.awsm-b-job-item {
 .awsm-b-lists {
 	border: var(--hz-jl-border-width, 1px) solid var(--hz-jl-border-color, #CBCBCB);
 	border-radius:
-		var(--hz-jl-border-radius-topleft, 0px)
-		var(--hz-jl-border-radius-topright, 0px)
-		var(--hz-jl-border-radius-bottomright, 0px)
-		var(--hz-jl-border-radius-bottomleft, 0px);
+		var(--hz-jl-border-radius-topleft, 0px) var(--hz-jl-border-radius-topright, 0px) var(--hz-jl-border-radius-bottomright, 0px) var(--hz-jl-border-radius-bottomleft, 0px);
 }
 
 .awsm-b-list-item {
@@ -405,7 +400,7 @@ a.awsm-b-job-item {
 }
 
 a.awsm-b-job-item .awsm-job-specification-item {
-	color: #4C4C4C;
+	color: var(--hz-jl-tx-color, #4C4C4C);
 }
 
 .awsm-b-list-item .awsm-b-job-more-container {
@@ -418,7 +413,7 @@ a.awsm-b-job-item .awsm-job-specification-item {
 	margin-top: 30px;
 }
 
-.awsm-job-specification-item > [class^="awsm-job-icon-"] {
+.awsm-job-specification-item>[class^="awsm-job-icon-"] {
 	margin-right: 6px;
 }
 
@@ -482,6 +477,7 @@ a.awsm-b-job-item .awsm-job-specification-item {
 
 
 @media (max-width: 768px) {
+
 	.awsm-b-grid-col-4 .awsm-b-grid-item,
 	.awsm-b-grid-col-3 .awsm-b-grid-item,
 	.awsm-b-grid-item {
@@ -500,6 +496,7 @@ a.awsm-b-job-item .awsm-job-specification-item {
 }
 
 @media (max-width: 648px) {
+
 	.awsm-b-grid-col-4 .awsm-b-grid-item,
 	.awsm-b-grid-col-3 .awsm-b-grid-item,
 	.awsm-b-grid-col-2 .awsm-b-grid-item,
@@ -530,12 +527,9 @@ a.awsm-b-job-item .awsm-job-specification-item {
 	font-size: 14px;
 	border: var(--hz-ls-border-width, 1px) solid var(--hz-ls-border-color, #ccc);
 	border-radius:
-		var(--hz-ls-border-radius-topleft, 5px)
-		var(--hz-ls-border-radius-topright, 5px)
-		var(--hz-ls-border-radius-bottomright, 5px)
-		var(--hz-ls-border-radius-bottomleft, 5px) !important;
+		var(--hz-ls-border-radius-topleft, 5px) var(--hz-ls-border-radius-topright, 5px) var(--hz-ls-border-radius-bottomright, 5px) var(--hz-ls-border-radius-bottomleft, 5px) !important;
 	line-height: 1;
-	color: #060606;
+	color: var(--hz-sf-tx-color, #060606);
 	transition: all 0.3s ease;
 }
 
@@ -544,6 +538,23 @@ a.awsm-b-job-item .awsm-job-specification-item {
 	box-shadow: none;
 	border-color: #060606;
 }
+
+.awsm-job-form-plugin-style .awsm-b-job-form-control::placeholder {
+	color: color-mix(in srgb, var(--hz-sf-tx-color, #060606), white 15%);
+}
+
+.awsm-job-form-plugin-style .awsm-b-job-form-control::-webkit-input-placeholder {
+	color: color-mix(in srgb, var(--hz-sf-tx-color, #060606), white 15%);
+}
+
+.awsm-job-form-plugin-style .awsm-b-job-form-control::-moz-placeholder {
+	color: color-mix(in srgb, var(--hz-sf-tx-color, #060606), white 15%);
+}
+
+.awsm-job-form-plugin-style .awsm-b-job-form-control:-ms-input-placeholder {
+	color: color-mix(in srgb, var(--hz-sf-tx-color, #060606), white 15%);
+}
+
 
 .awsm-job-form-plugin-style .awsm-b-job-form-control.awsm-job-form-error {
 	border-color: #db4c4c;
@@ -580,6 +591,14 @@ a.awsm-b-job-item .awsm-job-specification-item {
 	pointer-events: none;
 }
 
+.awsm-b-filter-item .awsm-selectric {
+	border: var(--hz-ls-border-width, 1px) solid var(--hz-ls-border-color, #cccccc);
+	border-radius:
+		var(--hz-ls-border-radius-topleft, 5px) var(--hz-ls-border-radius-topright, 5px) var(--hz-ls-border-radius-bottomright, 5px) var(--hz-ls-border-radius-bottomleft, 5px) !important;
+	background-color: var(--hz-sf-bg-color);
+	color: var(--hz-sf-tx-color);
+}
+
 .awsm-job-form-plugin-style .awsm-selectric {
 	border-color: #ccc;
 	box-shadow: none;
@@ -592,6 +611,70 @@ a.awsm-b-job-item .awsm-job-specification-item {
 
 .awsm-job-form-plugin-style .awsm-selectric .label {
 	margin-left: 15px;
+}
+
+.awsm-b-filter-item .awsm-selectric .label {
+	color: var(--hz-sf-tx-color, #444);
+}
+
+.awsm-b-filter-item .awsm-selectric .awsm-selectric-arrow-drop::after {
+	border-top-color: var(--hz-sf-tx-color, #444);
+}
+
+.awsm-b-filter-item .awsm-selectric-focus .awsm-selectric {
+	border-color: var(--hz-ls-border-color, #aaaaaa);
+}
+
+.awsm-b-filter-item .awsm-selectric-hover .awsm-selectric,
+.awsm-b-filter-item .awsm-selectric-open .awsm-selectric {
+	border-color: var(--hz-ls-border-color, #dbdbdb);
+}
+
+
+.awsm-b-filter-item .awsm-selectric-hover .awsm-selectric .awsm-selectric-arrow-drop:after {
+	border-top-color: var(--hz-sf-tx-color, #444);
+}
+
+.awsm-b-filter-item .awsm-selectric-items {
+	background-color: var(--hz-sf-bg-color, #fff);
+	border-color: var(--hz-ls-border-color, #ccc);
+}
+
+.awsm-b-filter-item .awsm-selectric-items li {
+	color: var(--hz-sf-tx-color, #666);
+}
+
+.awsm-b-filter-item .awsm-selectric-items li.selected {
+	background: color-mix(in srgb, var(--hz-sf-bg-color, #fff), black 15%);
+	color: color-mix(in srgb, var(--hz-sf-tx-color, #444), black 20%);
+}
+
+.awsm-b-filter-item .awsm-selectric-items li.highlighted {
+	background: color-mix(in srgb, var(--hz-sf-bg-color, #fff), black 15%);
+	color: color-mix(in srgb, var(--hz-sf-tx-color, #444), black 20%);
+}
+
+.awsm-b-filter-item .awsm-selectric-items li:hover {
+	background: color-mix(in srgb, var(--hz-sf-bg-color, #fff), black 30%);
+	color: color-mix(in srgb, var(--hz-sf-tx-color, #444), black 20%);
+}
+
+.awsm-jobs-alerts-popup-trigger-btn a,
+.awsm-b-filter-wrap .awsm-b-jobs-alerts-popup-trigger-btn a {
+	border: var(--hz-ls-border-width, 1px) solid var(--hz-ls-border-color, #cccccc);
+	border-radius:
+		var(--hz-ls-border-radius-topleft, 5px) var(--hz-ls-border-radius-topright, 5px) var(--hz-ls-border-radius-bottomright, 5px) var(--hz-ls-border-radius-bottomleft, 5px) !important;
+	background-color: var(--hz-sf-bg-color);
+	color: var(--hz-sf-tx-color);
+}
+
+.awsm-jobs-alerts-popup-trigger-btn a svg,
+.awsm-b-filter-wrap .awsm-b-jobs-alerts-popup-trigger-btn a svg {
+	fill: var(--hz-sf-tx-color);
+}
+
+.awsm-b-filter-wrap .awsm-b-jobs-alerts-popup-trigger-btn .awsm-b-jobs-alerts-btn-text {
+	color: var(--hz-sf-tx-color, #191919);
 }
 
 // ---- Job Wrap ----
@@ -629,8 +712,8 @@ a.awsm-b-job-item .awsm-job-specification-item {
 		margin-right: 0;
 	}
 
-	.awsm-job-2-col .awsm-jobs-alerts-popup-trigger-btn a{
-		margin-top:10px;
+	.awsm-job-2-col .awsm-jobs-alerts-popup-trigger-btn a {
+		margin-top: 10px;
 	}
 
 	.awsm-job-2-col .awsm-b-job-listings {
@@ -652,18 +735,12 @@ a.awsm-b-job-item .awsm-job-specification-item {
 
 	.awsm-job-2-col .awsm-b-filter-wrap form {
 		padding:
-			var(--hz-sf-padding-top, 15px)
-			var(--hz-sf-padding-right, 15px)
-			var(--hz-sf-padding-bottom, 15px)
-			var(--hz-sf-padding-left, 15px);
+			var(--hz-sf-padding-top, 15px) var(--hz-sf-padding-right, 15px) var(--hz-sf-padding-bottom, 15px) var(--hz-sf-padding-left, 15px);
 		border-width: var(--hz-sf-border-width, 1px);
 		border-style: var(--hz-sf-border-style, solid);
 		border-color: var(--hz-sf-border-color, transparent) !important;
 		border-radius:
-			var(--hz-sf-border-radius-topleft, 5px)
-			var(--hz-sf-border-radius-topright, 5px)
-			var(--hz-sf-border-radius-bottomright, 5px)
-			var(--hz-sf-border-radius-bottomleft, 5px);
+			var(--hz-sf-border-radius-topleft, 5px) var(--hz-sf-border-radius-topright, 5px) var(--hz-sf-border-radius-bottomright, 5px) var(--hz-sf-border-radius-bottomleft, 5px);
 	}
 
 	.awsm-job-2-col .awsm-b-filter-item:not(:last-child),
@@ -686,7 +763,7 @@ a.awsm-b-job-item .awsm-job-specification-item {
 	}
 }
 
-.awsm-filter-list > label {
+.awsm-filter-list>label {
 	margin-bottom: 10px;
 }
 
@@ -752,16 +829,16 @@ a.awsm-b-job-item .awsm-job-specification-item {
 	transition: all 0.3s ease;
 }
 
-.awsm-filter-list-item input:checked + div .awsm-filter-checkbox-item {
+.awsm-filter-list-item input:checked+div .awsm-filter-checkbox-item {
 	background: #4E35DF;
 	border-color: #4E35DF;
 }
 
-.awsm-filter-list-item input:checked + div .awsm-filter-checkbox-item svg {
+.awsm-filter-list-item input:checked+div .awsm-filter-checkbox-item svg {
 	opacity: 1;
 }
 
-.awsm-filter-list-item input:checked + div .awsm-filter-item-count {
+.awsm-filter-list-item input:checked+div .awsm-filter-item-count {
 	background: #D0C8FF;
 	color: #4E35DF;
 }
@@ -804,10 +881,7 @@ a.awsm-b-job-item .awsm-job-specification-item {
 
 .awsm-b-stack-item .awsm-b-job-item {
 	border-radius:
-		var(--hz-jl-border-radius-topleft, 5px)
-		var(--hz-jl-border-radius-topright, 5px)
-		var(--hz-jl-border-radius-bottomright, 5px)
-		var(--hz-jl-border-radius-bottomleft, 5px);
+		var(--hz-jl-border-radius-topleft, 5px) var(--hz-jl-border-radius-topright, 5px) var(--hz-jl-border-radius-bottomright, 5px) var(--hz-jl-border-radius-bottomleft, 5px);
 	border-width: var(--hz-jl-border-width, 1px);
 	border-style: var(--hz-jl-border-style, solid);
 	border-color: var(--hz-jl-border-color, #CBCBCB);
@@ -906,11 +980,14 @@ a.awsm-b-job-item .awsm-job-specification-item {
 
 .awsm-selectric {
 	border-radius:
-		var(--hz-ls-border-radius-topleft, 5px)
-		var(--hz-ls-border-radius-topright, 5px)
-		var(--hz-ls-border-radius-bottomright, 5px)
-		var(--hz-ls-border-radius-bottomleft, 5px) !important;
+		var(--hz-ls-border-radius-topleft, 5px) var(--hz-ls-border-radius-topright, 5px) var(--hz-ls-border-radius-bottomright, 5px) var(--hz-ls-border-radius-bottomleft, 5px) !important;
 	border: var(--hz-ls-border-width, 1px) solid var(--hz-ls-border-color, #d5d5d5) !important;
+	background-color: var(--hz-sf-bg-color);
+	color: var(--hz-sf-tx-color);
+}
+
+.awsm-selectric .label {
+	color: var(--hz-sf-tx-color);
 }
 
 .awsm-b-list-item h2.awsm-b-job-post-title {
@@ -932,10 +1009,7 @@ a.awsm-b-job-item .awsm-job-specification-item {
 	color: var(--hz-b-tx-color) !important;
 	border: var(--hz-bs-border-width, 1px) solid var(--hz-bs-border-color, #4e35df);
 	border-radius:
-		var(--hz-bs-border-radius-topleft, 5px)
-		var(--hz-bs-border-radius-topright, 5px)
-		var(--hz-bs-border-radius-bottomright, 5px)
-		var(--hz-bs-border-radius-bottomleft, 5px) !important;
+		var(--hz-bs-border-radius-topleft, 5px) var(--hz-bs-border-radius-topright, 5px) var(--hz-bs-border-radius-bottomright, 5px) var(--hz-bs-border-radius-bottomleft, 5px) !important;
 	display: inline-flex;
 	gap: 8px;
 	align-items: center;

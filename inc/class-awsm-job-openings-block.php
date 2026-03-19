@@ -66,6 +66,10 @@ class AWSM_Job_Openings_Block {
 			'hz_bs_padding'              => isset( $blockatts['hz_bs_padding'] ) ? $blockatts['hz_bs_padding'] : '',
 			'hz_button_background_color' => isset( $blockatts['hz_button_background_color'] ) ? $blockatts['hz_button_background_color'] : '',
 			'hz_button_text_color'       => isset( $blockatts['hz_button_text_color'] ) ? $blockatts['hz_button_text_color'] : '',
+			'hz_sf_background_color'     => isset( $blockatts['hz_sf_background_color'] ) ? $blockatts['hz_sf_background_color'] : '',
+			'hz_sf_text_color'           => isset( $blockatts['hz_sf_text_color'] ) ? $blockatts['hz_sf_text_color'] : '',
+			'hz_jl_background_color'     => isset( $blockatts['hz_jl_background_color'] ) ? $blockatts['hz_jl_background_color'] : '',
+			'hz_jl_text_color'           => isset( $blockatts['hz_jl_text_color'] ) ? $blockatts['hz_jl_text_color'] : '',
 		);
 
 		/**

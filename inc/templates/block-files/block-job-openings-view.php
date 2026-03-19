@@ -74,6 +74,12 @@ $block_style_variables = "
 		--hz-b-bg-color: {$styles['button_background_color']};
 		--hz-b-tx-color: {$styles['button_text_color']};
 
+		--hz-sf-bg-color: {$styles['sf_background_color']};
+		--hz-sf-tx-color: {$styles['sf_text_color']};
+
+		--hz-jl-bg-color: {$styles['jl_background_color']};
+		--hz-jl-tx-color: {$styles['jl_text_color']};
+
 		--hz-b-padding-left: {$styles['padding_left_button']};
 		--hz-b-padding-right: {$styles['padding_right_button']};
 		--hz-b-padding-top: {$styles['padding_top_button']};
