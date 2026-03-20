@@ -349,6 +349,10 @@ a.awsm-b-job-item {
 	border: var(--hz-jl-border-width, 1px) solid var(--hz-jl-border-color, #CBCBCB);
 	border-radius:
 		var(--hz-jl-border-radius-topleft, 0px) var(--hz-jl-border-radius-topright, 0px) var(--hz-jl-border-radius-bottomright, 0px) var(--hz-jl-border-radius-bottomleft, 0px);
+		overflow:hidden;
+}
+
+.awsm-b-list-item:last-child .awsm-b-job-item {
 	border-bottom: none;
 }
 
@@ -417,7 +421,7 @@ a.awsm-b-job-item .awsm-job-specification-item {
 }
 
 
-.awsm-b-lists .awsm-b-jobs-pagination {
+.awsm-b-lists + .awsm-b-jobs-pagination {
 	margin-top: 30px;
 }
 

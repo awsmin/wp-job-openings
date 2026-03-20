@@ -108,5 +108,3 @@ if ( isset( $query ) && $query instanceof WP_Query && $query->have_posts() ) {
 }
 
 wp_reset_postdata();
-
-awsm_block_jobs_load_more( $query, $attributes );

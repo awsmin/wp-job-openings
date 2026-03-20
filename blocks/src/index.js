@@ -31,7 +31,7 @@ import { __ } from '@wordpress/i18n';
 registerBlockType( metadata.name, {
 	title: __( 'Job Listings (Beta)', 'wp-job-openings' ), // Block title.
 	description: __(
-		'Add and Customise your Job Listing Layout',
+		'Add and Customise your Job Listing Layout.',
 		'wp-job-openings'
 	), // Block description
 	icon: icon.block, // Block icon
