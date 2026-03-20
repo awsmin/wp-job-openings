@@ -673,26 +673,29 @@ a.awsm-b-job-item .awsm-job-specification-item {
 
 .awsm-jobs-alerts-popup-trigger-btn a.awsm-b-jobs-alerts-trigger-btn,
 .awsm-b-filter-wrap .awsm-b-jobs-alerts-popup-trigger-btn a {
-	border: var(--hz-ls-border-width, 1px) solid var(--hz-ls-border-color, #cccccc);
+	border-width: var(--hz-ls-border-width, 1px);
+	border-style: solid;
+	border-color:var(--hz-alert-bg-color, #cccccc);
 	border-radius:
 		var(--hz-ls-border-radius-topleft, 5px) var(--hz-ls-border-radius-topright, 5px) var(--hz-ls-border-radius-bottomright, 5px) var(--hz-ls-border-radius-bottomleft, 5px) !important;
-	background-color: var(--hz-sf-bg-color);
-	color: var(--hz-sf-tx-color);
+	background-color: var(--hz-alert-bg-color, #ffffff);
+	color: var(--hz-alert-tx-color, #191919);
 }
 
 .awsm-jobs-alerts-popup-trigger-btn a.awsm-b-jobs-alerts-trigger-btn:hover,
 .awsm-b-filter-wrap .awsm-b-jobs-alerts-popup-trigger-btn a:hover{
-	background-color: color-mix(in srgb, var(--hz-sf-bg-color), black 5%);
-	color: var(--hz-sf-tx-color);
+	background-color: color-mix(in srgb, var(--hz-alert-bg-color, #ffffff), black 5%);
+	border-color: color-mix(in srgb, var(--hz-alert-bg-color, #ffffff), black 5%);
+	color: var(--hz-alert-tx-color, #191919);
 }
 
 .awsm-jobs-alerts-popup-trigger-btn a svg,
 .awsm-b-filter-wrap .awsm-b-jobs-alerts-popup-trigger-btn a svg {
-	fill: var(--hz-sf-tx-color);
+	fill: var(--hz-alert-tx-color);
 }
 
 .awsm-b-filter-wrap .awsm-b-jobs-alerts-popup-trigger-btn .awsm-b-jobs-alerts-btn-text {
-	color: var(--hz-sf-tx-color, #191919);
+	color: var(--hz-alert-tx-color, #191919);
 }
 
 // ---- Job Wrap ----
