@@ -178,6 +178,22 @@
 		"hz_pagination_text_color": {
 			"type": "string"
 		},
+		"hz_pagination_border": {
+			"type": "object",
+			"default": {
+				"width": "1px",
+				"color": "#cbcbcb"
+			}
+		},
+		"hz_pagination_border_radius": {
+			"type": "object",
+			"default": {
+				"topLeft": "5px",
+				"topRight": "5px",
+				"bottomLeft": "5px",
+				"bottomRight": "5px"
+			}
+		},
 		"hz_sf_background_color": {
 			"type": "string"
 		},
