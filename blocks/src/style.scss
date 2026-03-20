@@ -694,7 +694,7 @@ a.awsm-b-job-item .awsm-job-specification-item {
 
 .awsm-jobs-alerts-popup-trigger-btn a svg,
 .awsm-b-filter-wrap .awsm-b-jobs-alerts-popup-trigger-btn a svg {
-	fill: var(--hz-alert-tx-color);
+	fill: var(--hz-alert-tx-color, #191919);
 }
 
 .awsm-b-filter-wrap .awsm-b-jobs-alerts-popup-trigger-btn .awsm-b-jobs-alerts-btn-text {
