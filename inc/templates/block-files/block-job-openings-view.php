@@ -19,7 +19,7 @@ $block_id                = $styles['block_id'];
 
 <!-- Styles for css variables -->
 <style>
-<?php
+<?php 
 $block_style_variables = "
 	#{$styles['block_id']} {
 		--hz-sf-border-width: {$styles['border_width']};
@@ -73,6 +73,9 @@ $block_style_variables = "
 
 		" . ( ! empty( $styles['button_background_color'] ) ? "--hz-b-bg-color: {$styles['button_background_color']};" : '' ) . "
 		" . ( ! empty( $styles['button_text_color'] )       ? "--hz-b-tx-color: {$styles['button_text_color']};"       : '' ) . "
+
+		" . ( ! empty( $styles['pagination_background_color'] ) ? "--hz-pagination-bg-color: {$styles['pagination_background_color']};" : '' ) . "
+		" . ( ! empty( $styles['pagination_text_color'] )       ? "--hz-pagination-tx-color: {$styles['pagination_text_color']};"       : '' ) . "
 
 		" . ( ! empty( $styles['sf_background_color'] ) ? "--hz-sf-bg-color: {$styles['sf_background_color']};" : '' ) . "
 		" . ( ! empty( $styles['sf_text_color'] )       ? "--hz-sf-tx-color: {$styles['sf_text_color']};"       : '' ) . "

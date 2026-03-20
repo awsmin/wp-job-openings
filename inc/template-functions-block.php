@@ -419,6 +419,12 @@ if ( ! function_exists( 'hz_get_ui_styles' ) ) {
 			'button_text_color'                => ! empty( $attributes['hz_button_text_color'] )
 				? hz_sanitize_color( $attributes['hz_button_text_color'] )
 				: '',
+			'pagination_background_color'      => ! empty( $attributes['hz_pagination_background_color'] )
+				? hz_sanitize_color( $attributes['hz_pagination_background_color'] )
+				: '',
+			'pagination_text_color'            => ! empty( $attributes['hz_pagination_text_color'] )
+				? hz_sanitize_color( $attributes['hz_pagination_text_color'] )
+				: '',
 			'sf_background_color'              => ! empty( $attributes['hz_sf_background_color'] )
 				? hz_sanitize_color( $attributes['hz_sf_background_color'] )
 				: '',
