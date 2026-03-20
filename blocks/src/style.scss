@@ -349,7 +349,7 @@ a.awsm-b-job-item {
 	border: var(--hz-jl-border-width, 1px) solid var(--hz-jl-border-color, #CBCBCB);
 	border-radius:
 		var(--hz-jl-border-radius-topleft, 0px) var(--hz-jl-border-radius-topright, 0px) var(--hz-jl-border-radius-bottomright, 0px) var(--hz-jl-border-radius-bottomleft, 0px);
-		overflow:hidden;
+	overflow:hidden;
 }
 
 .awsm-b-list-item:last-child .awsm-b-job-item {
@@ -673,11 +673,14 @@ a.awsm-b-job-item .awsm-job-specification-item {
 
 .awsm-jobs-alerts-popup-trigger-btn a.awsm-b-jobs-alerts-trigger-btn,
 .awsm-b-filter-wrap .awsm-b-jobs-alerts-popup-trigger-btn a {
-	border-width: var(--hz-ls-border-width, 1px);
+	border-width: var(--hz-alert-border-width, 1px);
 	border-style: solid;
-	border-color:var(--hz-alert-bg-color, #cccccc);
+	border-color: var(--hz-alert-border-color, #cbcbcb);
 	border-radius:
-		var(--hz-ls-border-radius-topleft, 5px) var(--hz-ls-border-radius-topright, 5px) var(--hz-ls-border-radius-bottomright, 5px) var(--hz-ls-border-radius-bottomleft, 5px) !important;
+		var(--hz-alert-border-radius-topleft, 8px)
+		var(--hz-alert-border-radius-topright, 8px)
+		var(--hz-alert-border-radius-bottomright, 8px)
+		var(--hz-alert-border-radius-bottomleft, 8px);
 	background-color: var(--hz-alert-bg-color, #ffffff);
 	color: var(--hz-alert-tx-color, #191919);
 }
@@ -685,7 +688,7 @@ a.awsm-b-job-item .awsm-job-specification-item {
 .awsm-jobs-alerts-popup-trigger-btn a.awsm-b-jobs-alerts-trigger-btn:hover,
 .awsm-b-filter-wrap .awsm-b-jobs-alerts-popup-trigger-btn a:hover{
 	background-color: color-mix(in srgb, var(--hz-alert-bg-color, #ffffff), black 5%);
-	border-color: color-mix(in srgb, var(--hz-alert-bg-color, #ffffff), black 5%);
+	border-color: color-mix(in srgb, var(--hz-alert-border-color, #ffffff), black 5%);
 	color: var(--hz-alert-tx-color, #191919);
 }
 
