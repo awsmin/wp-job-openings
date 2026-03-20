@@ -929,7 +929,7 @@ var WidgetInspectorControls = function WidgetInspectorControls(props) {
     marginBottom: 4
   }), (0,react__WEBPACK_IMPORTED_MODULE_4__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_7__.PanelColorSettings, {
     className: "hz-color-settings",
-    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Search and Filters Colors", "wp-job-openings"),
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Search & Filters Colors", "wp-job-openings"),
     initialOpen: true,
     colorSettings: [{
       value: hz_sf_background_color,
