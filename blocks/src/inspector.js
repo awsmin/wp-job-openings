@@ -695,7 +695,7 @@ const WidgetInspectorControls = props => {
 
 								<BoxControl
 									label={ __( "Padding", "wp-job-openings" ) }
-									values={ hz_sf_padding?.top ? hz_sf_padding : { top: '15px', right: '15px', bottom: '15px', left: '15px' } }
+									values={ hz_sf_padding?.top ? hz_sf_padding : { top: "15px", right: "15px", bottom: "15px", left: "15px" } }
 									onChange={ Padding => {
 										setAttributes( {hz_sf_padding: Padding} );
 									} }
@@ -725,7 +725,7 @@ const WidgetInspectorControls = props => {
 
 						{ ( search || enable_job_filter ) && (
 							<PanelBody
-								title={ __( "Search and Filter Fields", "wp-job-openings" ) }
+								title={ __( "Search and Filters", "wp-job-openings" ) }
 								initialOpen={ true }
 							>
 								<BorderControl
@@ -768,7 +768,7 @@ const WidgetInspectorControls = props => {
 								<Spacer marginBottom={ 4 } />
 								<PanelColorSettings
 									className="hz-color-settings"
-									title={ __( "Search and Filter Colors", "wp-job-openings" ) }
+									title={ __( "Search and Filters Colors", "wp-job-openings" ) }
 									initialOpen={ true }
 									colorSettings={ [
 										{
@@ -812,7 +812,7 @@ const WidgetInspectorControls = props => {
 								enableStyle={ false }
 							/>
 
-							<Spacer marginBottom={ 4 }></Spacer>
+							<Spacer marginBottom={ 4 } />
 
 							<BorderRadiusControl
 								values={ hz_jl_border_radius }
@@ -831,14 +831,70 @@ const WidgetInspectorControls = props => {
 								} }
 							/>
 
+							<Spacer marginBottom={ 4 } />
+
 							<BoxControl
 								label={ __( "Padding", "wp-job-openings" ) }
-								values={ hz_jl_padding?.top ? hz_jl_padding : { top: '15px', right: '15px', bottom: '15px', left: '15px' } }
+								values={ hz_jl_padding?.top ? hz_jl_padding : { top: "15px", right: "15px", bottom: "15px", left: "15px" } }
 								onChange={ Padding => {
 									setAttributes( {hz_jl_padding: Padding} );
 								} }
 							/>
 							<Spacer marginBottom={ 4 } />
+
+							<PanelRow>
+								<strong>{ __( "Button", "wp-job-openings" ) }</strong>
+							</PanelRow>
+							<BorderControl
+								label={ __( "Border", "wp-job-openings" ) }
+								withSlider
+								isCompact={ true }
+								value={ hz_bs_border }
+								__experimentalIsRenderedInSidebar
+								onChange={ newBorder => {
+									const width = newBorder?.width ?? hz_bs_border?.width;
+									setAttributes( {
+										hz_bs_border: {
+											...hz_bs_border,
+											...newBorder,
+											width
+										}
+									} );
+								} }
+								enableStyle={ false }
+							/>
+
+							<Spacer marginBottom={ 4 } />
+
+							<BorderRadiusControl
+								values={ hz_bs_border_radius }
+								onChange={ newRadius => {
+									if ( typeof newRadius === "string" ) {
+										const radiusObject = {
+											topLeft: newRadius,
+											topRight: newRadius,
+											bottomRight: newRadius,
+											bottomLeft: newRadius
+										};
+										setAttributes( {hz_bs_border_radius: radiusObject} );
+									} else {
+										setAttributes( {hz_bs_border_radius: newRadius} );
+									}
+								} }
+							/>
+
+							<Spacer marginBottom={ 4 } />
+
+							<BoxControl
+								label={ __( "Padding", "wp-job-openings" ) }
+								values={ hz_bs_padding?.top ? hz_bs_padding : { top: "13px", right: "13px", bottom: "13px", left: "13px" } }
+								onChange={ Padding => {
+									setAttributes( {hz_bs_padding: Padding} );
+								} }
+							/>
+
+							<Spacer marginBottom={ 4 } />
+
 							<PanelColorSettings
 								className="hz-color-settings"
 								title={ __( "Job Listing Colors", "wp-job-openings" ) }
@@ -871,57 +927,9 @@ const WidgetInspectorControls = props => {
 								] }
 							/>
 
-							<PanelRow>
-								<strong>{ __( "Button", "wp-job-openings" ) }</strong>
-							</PanelRow>
-							<BorderControl
-								label={ __( "Border", "wp-job-openings" ) }
-								withSlider
-								isCompact={ true }
-								value={ hz_bs_border } // Use a valid default object
-								__experimentalIsRenderedInSidebar
-								onChange={ newBorder => {
-									const width = newBorder?.width ?? hz_bs_border?.width;
-									setAttributes( {
-										hz_bs_border: {
-											...hz_bs_border,
-											...newBorder,
-											width
-										}
-									} );
-								} }
-								enableStyle={ false }
-							/>
-
-							<Spacer marginBottom={ 4 }></Spacer>
-
-							<BorderRadiusControl
-								values={ hz_bs_border_radius }
-								onChange={ newRadius => {
-									if ( typeof newRadius === "string" ) {
-										const radiusObject = {
-											topLeft: newRadius,
-											topRight: newRadius,
-											bottomRight: newRadius,
-											bottomLeft: newRadius
-										};
-										setAttributes( {hz_bs_border_radius: radiusObject} );
-									} else {
-										setAttributes( {hz_bs_border_radius: newRadius} );
-									}
-								} }
-							/>
-
-							<BoxControl
-								label={ __( "Padding", "wp-job-openings" ) }
-								values={ hz_bs_padding?.top ? hz_bs_padding : { top: '13px', right: '13px', bottom: '13px', left: '13px' } }
-								onChange={ Padding => {
-									setAttributes( {hz_bs_padding: Padding} );
-								} }
-							/>
 						</PanelBody>
 
-<PanelBody title={ __( "Pagination", "wp-job-openings" ) } initialOpen={ true }>
+						<PanelBody title={ __( "Pagination", "wp-job-openings" ) } initialOpen={ true }>
 							<BorderControl
 								label={ __( "Border", "wp-job-openings" ) }
 								withSlider
@@ -941,7 +949,7 @@ const WidgetInspectorControls = props => {
 								enableStyle={ false }
 							/>
 
-							<Spacer marginBottom={ 4 }></Spacer>
+							<Spacer marginBottom={ 4 } />
 
 							<BorderRadiusControl
 								values={ hz_pagination_border_radius }
@@ -959,6 +967,9 @@ const WidgetInspectorControls = props => {
 									}
 								} }
 							/>
+
+							<Spacer marginBottom={ 4 } />
+
 							<PanelColorSettings
 								className="hz-color-settings"
 								title={ __( "Pagination Colors", "wp-job-openings" ) }
