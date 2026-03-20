@@ -387,7 +387,7 @@ class AWSM_Job_Openings_Form {
 				$directory_path = dirname( $file_path );
 				$index_php_file = $directory_path . '/index.php';
 				if ( ! file_exists( $index_php_file ) ) {
-					$index_php_content = '<?php\n\n//Silence is golden.\n';
+					$index_php_content = "<?php\n\n//Silence is golden.\n";
 					file_put_contents( $index_php_file, $index_php_content );
 				}
 			}
@@ -414,7 +414,7 @@ class AWSM_Job_Openings_Form {
 	public function set_form_language() {
 		// phpcs:disable WordPress.Security.NonceVerification.Missing
 		if ( isset( $_POST['lang'] ) ) {
-			AWSM_Job_Openings::set_current_language( $_POST['lang'] );
+			AWSM_Job_Openings::set_current_language( sanitize_text_field( wp_unslash( $_POST['lang'] ) ) );
 		}
 		// phpcs:enable
 	}
@@ -570,7 +570,7 @@ class AWSM_Job_Openings_Form {
 							// Add the applicant details as meta data
 							$applicant_details = array(
 								'awsm_job_id'           => $job_id,
-								'awsm_apply_for'        => html_entity_decode( esc_html( get_the_title( $job_id ) ) ),
+								'awsm_apply_for'        => html_entity_decode( get_the_title( $job_id ) ),
 								'awsm_applicant_ip'     => isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( $_SERVER['REMOTE_ADDR'] ) : '',
 								'awsm_applicant_name'   => $applicant_name,
 								'awsm_applicant_email'  => $applicant_email,

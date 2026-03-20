@@ -813,6 +813,7 @@ class AWSM_Job_Openings {
 				wp_update_post( $jobs );
 			}
 		}
+		wp_reset_postdata();
 	}
 
 	public static function get_timezone_string( $selected_zone ) {

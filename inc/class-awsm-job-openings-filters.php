@@ -298,7 +298,7 @@ class AWSM_Job_Openings_Filters {
 		}
 
 		if ( isset( $_POST['lang'] ) ) {
-			AWSM_Job_Openings::set_current_language( $_POST['lang'] );
+			AWSM_Job_Openings::set_current_language( sanitize_text_field( wp_unslash( $_POST['lang'] ) ) );
 		}
 
 		if ( isset( $_POST['awsm_pagination_base'] ) ) {
