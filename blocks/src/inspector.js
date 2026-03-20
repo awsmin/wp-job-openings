@@ -2,8 +2,6 @@ import {__} from "@wordpress/i18n";
 import {useEffect, useRef, Fragment, useState} from "@wordpress/element";
 import {
 	InspectorControls,
-	BlockEdit,
-	useBlockProps,
 	PanelColorSettings,
 	__experimentalBorderRadiusControl as BorderRadiusControl
 } from "@wordpress/block-editor";
@@ -12,14 +10,12 @@ import {useSelect} from "@wordpress/data";
 
 import {
 	PanelBody,
-	TabPanel,
 	RangeControl,
 	ToggleControl,
 	TextControl,
 	SelectControl,
 	Button,
 	FormTokenField,
-	__experimentalInputControl as InputControl,
 	__experimentalToggleGroupControl as ToggleGroupControl,
 	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
 	BoxControl,
