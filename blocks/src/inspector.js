@@ -768,7 +768,7 @@ const WidgetInspectorControls = props => {
 								<Spacer marginBottom={ 4 } />
 								<PanelColorSettings
 									className="hz-color-settings"
-									title={ __( "Search and Filters Colors", "wp-job-openings" ) }
+									title={ __( "Search & Filters Colors", "wp-job-openings" ) }
 									initialOpen={ true }
 									colorSettings={ [
 										{
