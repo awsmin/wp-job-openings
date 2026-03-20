@@ -1032,6 +1032,8 @@ jQuery( function ( $ ) {
 			}
 			if ( filterLastTop > filterFirstTop ) {
 				$wrapper.addClass( "awsm-b-full-width-search-filter-wrap" );
+			} else {
+				$wrapper.removeClass( "awsm-b-full-width-search-filter-wrap" );
 			}
 		} );
 	}
