@@ -76,6 +76,13 @@ $block_style_variables = "
 
 		" . ( ! empty( $styles['pagination_background_color'] ) ? "--hz-pagination-bg-color: {$styles['pagination_background_color']};" : '' ) . "
 		" . ( ! empty( $styles['pagination_text_color'] )       ? "--hz-pagination-tx-color: {$styles['pagination_text_color']};"       : '' ) . "
+		--hz-pagination-border-width: {$styles['pagination_border_width']};
+		" . ( ! empty( $styles['pagination_border_color'] ) ? "--hz-pagination-border-color: {$styles['pagination_border_color']};" : '' ) . "
+		--hz-pagination-border-style: " . ( ! empty( $styles['pagination_border_width'] ) && $styles['pagination_border_width'] !== '0px' ? 'solid' : 'none' ) . ";
+		--hz-pagination-border-radius-topleft: {$styles['pagination_border_radius_topleft']};
+		--hz-pagination-border-radius-topright: {$styles['pagination_border_radius_topright']};
+		--hz-pagination-border-radius-bottomright: {$styles['pagination_border_radius_bottomright']};
+		--hz-pagination-border-radius-bottomleft: {$styles['pagination_border_radius_bottomleft']};
 
 		" . ( ! empty( $styles['sf_background_color'] ) ? "--hz-sf-bg-color: {$styles['sf_background_color']};" : '' ) . "
 		" . ( ! empty( $styles['sf_text_color'] )       ? "--hz-sf-tx-color: {$styles['sf_text_color']};"       : '' ) . "

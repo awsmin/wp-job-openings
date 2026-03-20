@@ -64,6 +64,8 @@ const WidgetInspectorControls = props => {
 			hz_button_text_color,
 			hz_pagination_background_color,
 			hz_pagination_text_color,
+			hz_pagination_border = {},
+			hz_pagination_border_radius,
 			hz_sf_background_color,
 			hz_sf_text_color,
 			hz_jl_background_color,
@@ -701,7 +703,7 @@ const WidgetInspectorControls = props => {
 								<Spacer marginBottom={ 4 } />
 								<PanelColorSettings
 									className="hz-color-settings"
-									title={ __( "Sidebar Color Settings", "wp-job-openings" ) }
+									title={ __( "Sidebar Colors", "wp-job-openings" ) }
 									initialOpen={ true }
 									colorSettings={ [
 										{
@@ -766,7 +768,7 @@ const WidgetInspectorControls = props => {
 								<Spacer marginBottom={ 4 } />
 								<PanelColorSettings
 									className="hz-color-settings"
-									title={ __( "Search & Filter Color Settings", "wp-job-openings" ) }
+									title={ __( "Search and Filter Colors", "wp-job-openings" ) }
 									initialOpen={ true }
 									colorSettings={ [
 										{
@@ -839,20 +841,32 @@ const WidgetInspectorControls = props => {
 							<Spacer marginBottom={ 4 } />
 							<PanelColorSettings
 								className="hz-color-settings"
-								title={ __( "Job Listing Color Settings", "wp-job-openings" ) }
+								title={ __( "Job Listing Colors", "wp-job-openings" ) }
 								initialOpen={ true }
 								colorSettings={ [
 									{
 										value: hz_jl_background_color,
 										onChange: color =>
 											setAttributes( {hz_jl_background_color: color} ),
-										label: __( "Background Color", "wp-job-openings" )
+										label: __( "Listing Background", "wp-job-openings" )
 									},
 									{
 										value: hz_jl_text_color,
 										onChange: color =>
 											setAttributes( {hz_jl_text_color: color} ),
-										label: __( "Text Color", "wp-job-openings" )
+										label: __( "Listing Text", "wp-job-openings" )
+									},
+									{
+										value: hz_button_background_color,
+										onChange: color =>
+											setAttributes( {hz_button_background_color: color} ),
+										label: __( "Button Background", "wp-job-openings" )
+									},
+									{
+										value: hz_button_text_color,
+										onChange: color =>
+											setAttributes( {hz_button_text_color: color} ),
+										label: __( "Button Text", "wp-job-openings" )
 									}
 								] }
 							/>
@@ -907,43 +921,64 @@ const WidgetInspectorControls = props => {
 							/>
 						</PanelBody>
 
-						<PanelColorSettings
-							title={ __( "Button Color Settings", "wp-job-openings" ) }
-							initialOpen={ true }
-							colorSettings={ [
-								{
-									value: hz_button_background_color,
-									onChange: color =>
-										setAttributes( {hz_button_background_color: color} ),
-									label: __( "Background Color", "wp-job-openings" )
-								},
-								{
-									value: hz_button_text_color,
-									onChange: color =>
-										setAttributes( {hz_button_text_color: color} ),
-									label: __( "Text Color", "wp-job-openings" )
-								}
-							] }
-						/>
+<PanelBody title={ __( "Pagination", "wp-job-openings" ) } initialOpen={ true }>
+							<BorderControl
+								label={ __( "Border", "wp-job-openings" ) }
+								withSlider
+								isCompact={ true }
+								value={ hz_pagination_border }
+								__experimentalIsRenderedInSidebar
+								onChange={ newBorder => {
+									const width = newBorder?.width ?? hz_pagination_border?.width;
+									setAttributes( {
+										hz_pagination_border: {
+											...hz_pagination_border,
+											...newBorder,
+											width
+										}
+									} );
+								} }
+								enableStyle={ false }
+							/>
 
-						<PanelColorSettings
-							title={ __( "Pagination Color Settings", "wp-job-openings" ) }
-							initialOpen={ true }
-							colorSettings={ [
-								{
-									value: hz_pagination_background_color,
-									onChange: color =>
-										setAttributes( {hz_pagination_background_color: color} ),
-									label: __( "Background Color", "wp-job-openings" )
-								},
-								{
-									value: hz_pagination_text_color,
-									onChange: color =>
-										setAttributes( {hz_pagination_text_color: color} ),
-									label: __( "Text Color", "wp-job-openings" )
-								}
-							] }
-						/>
+							<Spacer marginBottom={ 4 }></Spacer>
+
+							<BorderRadiusControl
+								values={ hz_pagination_border_radius }
+								onChange={ newRadius => {
+									if ( typeof newRadius === "string" ) {
+										const radiusObject = {
+											topLeft: newRadius,
+											topRight: newRadius,
+											bottomRight: newRadius,
+											bottomLeft: newRadius
+										};
+										setAttributes( {hz_pagination_border_radius: radiusObject} );
+									} else {
+										setAttributes( {hz_pagination_border_radius: newRadius} );
+									}
+								} }
+							/>
+							<PanelColorSettings
+								className="hz-color-settings"
+								title={ __( "Pagination Colors", "wp-job-openings" ) }
+								initialOpen={ true }
+								colorSettings={ [
+									{
+										value: hz_pagination_background_color,
+										onChange: color =>
+											setAttributes( {hz_pagination_background_color: color} ),
+										label: __( "Background Color", "wp-job-openings" )
+									},
+									{
+										value: hz_pagination_text_color,
+										onChange: color =>
+											setAttributes( {hz_pagination_text_color: color} ),
+										label: __( "Text Color", "wp-job-openings" )
+									}
+								] }
+							/>
+						</PanelBody>
 
 						{ wp.hooks.doAction(
 							"after_awsm_block_styles_panel",

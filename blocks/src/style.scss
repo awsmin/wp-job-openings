@@ -303,10 +303,10 @@ a.awsm-b-job-item {
 	text-decoration: none !important;
 	outline: none !important;
 	transition: all 0.3s ease;
-	border-radius:5px;
-	border-width: 1px;
-	border-style: solid;
-	border-color: var(--hz-pagination-bg-color, #CBCBCB);
+	border-radius: var(--hz-pagination-border-radius-topleft, 5px) var(--hz-pagination-border-radius-topright, 5px) var(--hz-pagination-border-radius-bottomright, 5px) var(--hz-pagination-border-radius-bottomleft, 5px);
+	border-width: var(--hz-pagination-border-width, 1px);
+	border-style: var(--hz-pagination-border-style, solid);
+	border-color: var(--hz-pagination-border-color, #cbcbcb);
 	color: var(--hz-pagination-tx-color);
 }
 

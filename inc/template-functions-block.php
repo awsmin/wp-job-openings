@@ -425,6 +425,16 @@ if ( ! function_exists( 'hz_get_ui_styles' ) ) {
 			'pagination_text_color'            => ! empty( $attributes['hz_pagination_text_color'] )
 				? hz_sanitize_color( $attributes['hz_pagination_text_color'] )
 				: '',
+			'pagination_border_width'          => ! empty( $attributes['hz_pagination_border_width'] ) && $attributes['hz_pagination_border_width'] !== '0px'
+				? hz_append_unit_if_missing( $attributes['hz_pagination_border_width'] )
+				: '1px',
+			'pagination_border_color'          => ! empty( $attributes['hz_pagination_border_color'] )
+				? sanitize_hex_color( $attributes['hz_pagination_border_color'] )
+				: '#cbcbcb',
+			'pagination_border_radius_topleft'     => $attributes['hz_pagination_border_radius']['topLeft'] ?? '5px',
+			'pagination_border_radius_topright'    => $attributes['hz_pagination_border_radius']['topRight'] ?? '5px',
+			'pagination_border_radius_bottomright' => $attributes['hz_pagination_border_radius']['bottomRight'] ?? '5px',
+			'pagination_border_radius_bottomleft'  => $attributes['hz_pagination_border_radius']['bottomLeft'] ?? '5px',
 			'sf_background_color'              => ! empty( $attributes['hz_sf_background_color'] )
 				? hz_sanitize_color( $attributes['hz_sf_background_color'] )
 				: '',
