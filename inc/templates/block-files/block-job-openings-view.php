@@ -229,5 +229,6 @@ if ( $placement === 'top' ) {
 						</div>
 					<?php endif; ?>
 				</div>
+				<?php awsm_block_jobs_load_more( $query, $attributes ); ?>
 			</div>
 		</div>

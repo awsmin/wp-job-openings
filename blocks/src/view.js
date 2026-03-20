@@ -258,6 +258,11 @@ jQuery( function ( $ ) {
 				.done( function ( response ) {
 					$rowWrapper.html( response.data.html );
 
+					$wrapper.find( ".awsm-b-jobs-pagination" ).remove();
+					if ( response.data.pagination_html ) {
+						$rowWrapper.after( response.data.pagination_html );
+					}
+
 					const $searchControl = $rootWrapper.find( ".awsm-b-job-search" );
 
 					if ( $searchControl.length > 0 ) {
@@ -960,6 +965,9 @@ jQuery( function ( $ ) {
 									effectDuration
 								);
 							}
+						}
+						if ( response.data.pagination_html ) {
+							$listingsrowContainer.after( response.data.pagination_html );
 						}
 					} else {
 						$triggerElem.remove();

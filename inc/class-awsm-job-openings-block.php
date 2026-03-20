@@ -308,9 +308,14 @@ class AWSM_Job_Openings_Block {
 
 		$html = ob_get_clean();
 
+		ob_start();
+		awsm_block_jobs_load_more( $query, $attributes );
+		$pagination_html = ob_get_clean();
+
 		wp_send_json_success(
 			array(
-				'html' => $html,
+				'html'            => $html,
+				'pagination_html' => $pagination_html,
 			)
 		);
 	}
