@@ -62,6 +62,8 @@ const WidgetInspectorControls = props => {
 			hz_bs_padding = {},
 			hz_button_background_color,
 			hz_button_text_color,
+			hz_pagination_background_color,
+			hz_pagination_text_color,
 			hz_sf_background_color,
 			hz_sf_text_color,
 			hz_jl_background_color,
@@ -919,6 +921,25 @@ const WidgetInspectorControls = props => {
 									value: hz_button_text_color,
 									onChange: color =>
 										setAttributes( {hz_button_text_color: color} ),
+									label: __( "Text Color", "wp-job-openings" )
+								}
+							] }
+						/>
+
+						<PanelColorSettings
+							title={ __( "Pagination Color Settings", "wp-job-openings" ) }
+							initialOpen={ true }
+							colorSettings={ [
+								{
+									value: hz_pagination_background_color,
+									onChange: color =>
+										setAttributes( {hz_pagination_background_color: color} ),
+									label: __( "Background Color", "wp-job-openings" )
+								},
+								{
+									value: hz_pagination_text_color,
+									onChange: color =>
+										setAttributes( {hz_pagination_text_color: color} ),
 									label: __( "Text Color", "wp-job-openings" )
 								}
 							] }

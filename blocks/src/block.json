@@ -172,6 +172,12 @@
 		"hz_button_text_color": {
 			"type": "string"
 		},
+		"hz_pagination_background_color": {
+			"type": "string"
+		},
+		"hz_pagination_text_color": {
+			"type": "string"
+		},
 		"hz_sf_background_color": {
 			"type": "string"
 		},
