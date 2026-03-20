@@ -67,7 +67,10 @@ function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t =
 function Edit(props) {
   var filter_options = props.attributes.filter_options,
     setAttributes = props.setAttributes;
-  var blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__.useBlockProps)();
+  var blockRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_7__.useRef)(null);
+  var blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__.useBlockProps)({
+    ref: blockRef
+  });
   var specifications = awsmJobsAdmin.awsm_filters_block;
   var filterOptionKeys = Array.isArray(filter_options) ? filter_options.map(function (opt) {
     return typeof opt === 'string' ? opt : opt === null || opt === void 0 ? void 0 : opt.specKey;
@@ -82,8 +85,9 @@ function Edit(props) {
     event.stopPropagation();
   };
   var handleResize = function handleResize() {
-    var filtersWraps = document.querySelectorAll(".awsm-b-filter-wrap:not(.awsm-no-search-filter-wrap)");
-    filtersWraps.forEach(function (wrapper) {
+    var _blockRef$current;
+    var filtersWraps = (_blockRef$current = blockRef.current) === null || _blockRef$current === void 0 ? void 0 : _blockRef$current.querySelectorAll(".awsm-b-filter-wrap:not(.awsm-no-search-filter-wrap)");
+    filtersWraps === null || filtersWraps === void 0 || filtersWraps.forEach(function (wrapper) {
       var filterItems = wrapper.querySelectorAll(".awsm-b-filter-item");
       if (filterItems.length > 0) {
         var filterFirstTop = filterItems[0].getBoundingClientRect().top;
@@ -99,8 +103,9 @@ function Edit(props) {
     });
   };
   var _checkElement = function checkElement() {
+    var _blockRef$current2;
     var retries = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-    var dynamicElement = document.querySelector(".awsm-b-job-wrap");
+    var dynamicElement = (_blockRef$current2 = blockRef.current) === null || _blockRef$current2 === void 0 ? void 0 : _blockRef$current2.querySelector(".awsm-b-job-wrap");
     if (dynamicElement) {
       handleResize();
     } else if (retries < 20) {
@@ -113,40 +118,17 @@ function Edit(props) {
     window.addEventListener("resize", handleResize);
     _checkElement();
     handleResize();
-    return function () {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-  var checkFilters = function checkFilters() {
-    var wrapper = document.querySelector("#block-" + props.clientId + " .awsm-b-filter-wrap");
-    if (!wrapper) {
-      return;
-    }
-    var filterItems = document.querySelectorAll("#block-" + props.clientId + " .awsm-b-filter-item");
-    if (filterItems.length > 0) {
-      var filterFirstTop = filterItems[0].getBoundingClientRect().top;
-      var filterLastTop = filterItems[filterItems.length - 1].getBoundingClientRect().top;
-      if (window.innerWidth < 768) {
-        wrapper.classList.remove("awsm-b-full-width-search-filter-wrap");
-        return;
-      }
-      if (filterLastTop > filterFirstTop) {
-        wrapper.classList.add("awsm-b-full-width-search-filter-wrap");
-      }
-    }
-  };
-  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_7__.useEffect)(function () {
     var observer = new MutationObserver(function () {
-      checkFilters();
+      handleResize();
     });
-    var observeItem = document.querySelector("#block-" + props.clientId);
-    if (observeItem) {
-      observer.observe(observeItem, {
+    if (blockRef.current) {
+      observer.observe(blockRef.current, {
         childList: true,
         subtree: true
       });
     }
     return function () {
+      window.removeEventListener("resize", handleResize);
       observer.disconnect();
     };
   }, []);

@@ -40,7 +40,8 @@ export default function Edit(props) {
         setAttributes
     } = props;
 
-    const blockProps = useBlockProps();
+    const blockRef = useRef(null);
+    const blockProps = useBlockProps({ ref: blockRef });
 
     let specifications = awsmJobsAdmin.awsm_filters_block;
 	const filterOptionKeys = Array.isArray( filter_options )
@@ -60,10 +61,10 @@ export default function Edit(props) {
     };
 
     const handleResize = () => {
-        const filtersWraps = document.querySelectorAll(
+        const filtersWraps = blockRef.current?.querySelectorAll(
             ".awsm-b-filter-wrap:not(.awsm-no-search-filter-wrap)"
         );
-        filtersWraps.forEach(wrapper => {
+        filtersWraps?.forEach(wrapper => {
             const filterItems = wrapper.querySelectorAll(".awsm-b-filter-item");
             if (filterItems.length > 0) {
                 const filterFirstTop = filterItems[0].getBoundingClientRect().top;
@@ -74,7 +75,7 @@ export default function Edit(props) {
                     wrapper.classList.remove("awsm-b-full-width-search-filter-wrap");
                     return;
                 }
-                if (filterLastTop > filterFirstTop) { 
+                if (filterLastTop > filterFirstTop) {
                     wrapper.classList.add("awsm-b-full-width-search-filter-wrap");
                 }
             }
@@ -82,7 +83,7 @@ export default function Edit(props) {
     };
 
     const checkElement = ( retries = 0 ) => {
-        const dynamicElement = document.querySelector(".awsm-b-job-wrap");
+        const dynamicElement = blockRef.current?.querySelector(".awsm-b-job-wrap");
         if (dynamicElement) {
             handleResize();
         } else if ( retries < 20 ) {
@@ -93,50 +94,18 @@ export default function Edit(props) {
     useEffect(() => {
         window.addEventListener("resize", handleResize);
         checkElement();
-        handleResize(); 
+        handleResize();
+
+        const observer = new MutationObserver(() => {
+            handleResize();
+        });
+
+        if ( blockRef.current ) {
+            observer.observe( blockRef.current, { childList: true, subtree: true });
+        }
 
         return () => {
             window.removeEventListener("resize", handleResize);
-        };
-    }, []);
-
-    const checkFilters = () => {
-        const wrapper = document.querySelector(
-            "#block-" + props.clientId + " .awsm-b-filter-wrap"
-        );
-
-        if (!wrapper) {
-            return;
-        }
-        const filterItems = document.querySelectorAll("#block-" + props.clientId + " .awsm-b-filter-item");
-
-        if (filterItems.length > 0) {
-            const filterFirstTop = filterItems[0].getBoundingClientRect().top;
-            const filterLastTop = filterItems[
-                filterItems.length - 1
-            ].getBoundingClientRect().top;
-            if (window.innerWidth < 768) {
-                wrapper.classList.remove("awsm-b-full-width-search-filter-wrap");
-                return;
-            }
-            if (filterLastTop > filterFirstTop) { 
-                wrapper.classList.add("awsm-b-full-width-search-filter-wrap");
-            }
-        }
-    };
-
-    useEffect(() => {
-        const observer = new MutationObserver(() => {
-            checkFilters();
-        });
-
-        const observeItem = document.querySelector("#block-" + props.clientId);
-       
-        if(observeItem) {
-            observer.observe( observeItem, { childList: true, subtree: true });
-        }
-
-        return () => {
             observer.disconnect();
         };
     }, []);
