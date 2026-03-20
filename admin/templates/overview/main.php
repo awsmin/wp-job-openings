@@ -95,7 +95,7 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 								</a>
 							<?php endif; ?>
 						<?php endif; ?>
-					</div><!-- .awsm-jobs-overview-welcome-left -->
+					</div>
 
 
 					<div class="awsm-jobs-overview-welcome-right">
@@ -118,16 +118,16 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 							</li>
 							<?php endif; ?>
 						</ul>
-					</div><!-- .awsm-jobs-overview-welcome-right -->
-				</div><!-- .awsm-jobs-overview-welcome -->
-			</div><!-- .awsm-jobs-overview-col -->
-		</div><!-- .awsm-jobs-overview-row -->
+					</div>
+				</div>
+			</div>
+		</div>
 		<div class="awsm-jobs-overview-row">
 			<div class="awsm-jobs-overview-col">
 				<div class="awsm-jobs-overview-chart flex-item">
 					<div class="awsm-jobs-overview-col-head">
 						<h2><?php esc_html_e( 'Application by Status', 'wp-job-openings' ); ?></h2>
-					</div><!-- .awsm-jobs-overview-col-head -->
+					</div>
 					<div class="awsm-jobs-overview-col-content">
 					<?php
 					if ( ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) {
@@ -155,24 +155,21 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 						}
 					}
 					?>
-				</div><!-- .awsm-jobs-overview-col-content -->
-				</div><!-- .awsm-jobs-overview-chart -->
-			</div><!-- .awsm-jobs-overview-col -->
+				</div>
+				</div>
+			</div>
 			<div class="awsm-jobs-overview-col" id="awsm-jobs-overview-applications-analytics">
 				<div class="awsm-jobs-overview-chart flex-item">
 					<div class="awsm-jobs-overview-col-head">
 						<h2><?php esc_html_e( 'Application Analytics', 'wp-job-openings' ); ?></h2>
-					
+					</div>
 						
-							<?php
-								$widget_id = 'awsm-jobs-overview-applications-by-analytics';
-								require AWSM_JOBS_PLUGIN_DIR . '/admin/templates/overview/widgets/applications-analytics.php';
-							?>
-								<!-- Replace this image with chart.js -->
-						
-					</div><!-- .awsm-jobs-overview-col-head -->
-				</div><!-- .awsm-jobs-overview-chart -->
-			</div><!-- .awsm-jobs-overview-col -->
+					<?php
+						$widget_id = 'awsm-jobs-overview-applications-by-analytics';
+						require AWSM_JOBS_PLUGIN_DIR . '/admin/templates/overview/widgets/applications-analytics.php';
+					?>		
+				</div>
+			</div>
 			<div class="awsm-jobs-overview-col">
 				<?php
 					$get_started_links = array(
@@ -216,7 +213,7 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 				<div class="awsm-jobs-overview-get-started flex-item">
 					<div class="awsm-jobs-overview-col-head">
 						<h2><?php esc_html_e( 'Get started', 'wp-job-openings' ); ?></h2>
-					</div><!-- .awsm-jobs-overview-col-head -->
+					</div>
 					<div class="awsm-jobs-overview-col-content">
 						<h3><?php esc_html_e( 'Need help with something?', 'wp-job-openings' ); ?></h3>
 						<?php
@@ -229,10 +226,10 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 							}
 							?>
 						</ul>
-					</div><!-- .awsm-jobs-overview-col-content -->
-				</div><!-- .awsm-jobs-overview-get-started -->
-			</div><!-- .awsm-jobs-overview-col -->
-		</div><!-- .awsm-jobs-overview-row -->
+					</div>
+				</div>
+			</div>
+		</div>
 		<div class="awsm-jobs-overview-row">
 			<div class="awsm-jobs-overview-col">
 				<div class="awsm-jobs-overview-list flex-item">
@@ -244,7 +241,7 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 							<path d="M10.4525 5.62256L6.98345 2.15338C6.88442 2.05436 6.75243 2 6.6117 2C6.47081 2 6.33891 2.05443 6.23988 2.15338L5.92491 2.46843C5.82596 2.5673 5.77145 2.69936 5.77145 2.84017C5.77145 2.98091 5.82596 3.11742 5.92491 3.21629L7.94873 5.24456H1.51896C1.22906 5.24456 1 5.47152 1 5.76149V6.20688C1 6.49686 1.22906 6.74669 1.51896 6.74669H7.97169L5.92499 8.78629C5.82604 8.88532 5.77153 9.01379 5.77153 9.1546C5.77153 9.29525 5.82604 9.4256 5.92499 9.52455L6.23996 9.83857C6.33898 9.9376 6.47089 9.99157 6.61178 9.99157C6.75251 9.99157 6.8845 9.9369 6.98352 9.83787L10.4526 6.36878C10.5519 6.26944 10.6065 6.13683 10.6061 5.99586C10.6064 5.85443 10.5519 5.72174 10.4525 5.62256Z" fill="#161616"/>
 							</svg>
 						</a>
-					</div><!-- .awsm-jobs-overview-col-head -->
+					</div>
 				<?php
 					$applications = AWSM_Job_Openings::get_recent_applications( 7, false );
 				if ( ! empty( $applications ) ) :
@@ -273,8 +270,8 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 						<p><img src="<?php echo esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/icon-3.svg' ); ?>" align="Icon"> <?php esc_html_e( 'Awaiting applications', 'wp-job-openings' ); ?></p>
 					</div>
 					<?php endif; ?>
-				</div><!-- .awsm-jobs-overview-list -->
-			</div><!-- .awsm-jobs-overview-col -->
+				</div>
+			</div>
 			<div class="awsm-jobs-overview-col">
 				<div class="awsm-jobs-overview-list awsm-jobs-overview-positions flex-item">
 					<div class="awsm-jobs-overview-col-head">
@@ -285,7 +282,7 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 							<path d="M10.4525 5.62256L6.98345 2.15338C6.88442 2.05436 6.75243 2 6.6117 2C6.47081 2 6.33891 2.05443 6.23988 2.15338L5.92491 2.46843C5.82596 2.5673 5.77145 2.69936 5.77145 2.84017C5.77145 2.98091 5.82596 3.11742 5.92491 3.21629L7.94873 5.24456H1.51896C1.22906 5.24456 1 5.47152 1 5.76149V6.20688C1 6.49686 1.22906 6.74669 1.51896 6.74669H7.97169L5.92499 8.78629C5.82604 8.88532 5.77153 9.01379 5.77153 9.1546C5.77153 9.29525 5.82604 9.4256 5.92499 9.52455L6.23996 9.83857C6.33898 9.9376 6.47089 9.99157 6.61178 9.99157C6.75251 9.99157 6.8845 9.9369 6.98352 9.83787L10.4526 6.36878C10.5519 6.26944 10.6065 6.13683 10.6061 5.99586C10.6064 5.85443 10.5519 5.72174 10.4525 5.62256Z" fill="#161616"/>
 							</svg>
 						</a>
-					</div><!-- .awsm-jobs-overview-col-head -->
+					</div>
 					
 					<?php
 					if ( ! empty( $jobs ) ) :
@@ -337,14 +334,14 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 							</div>
 						<?php endif; ?>
 					
-				</div><!-- .awsm-jobs-overview-list -->
-			</div><!-- .awsm-jobs-overview-col -->
+				</div>
+			</div>
 			<div class="awsm-jobs-overview-col">
 				   <div class="awsm-jobs-overview-list awsm-jobs-overview-list-interview flex-item">
 					   <div class="awsm-jobs-overview-col-head">
 						   <h2><?php esc_html_e( 'Add-ons for HireZoot', 'wp-job-openings' ); ?></h2>
 						   <a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_openings&page=awsm-jobs-add-ons' ) ); ?>">View All<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M10.4525 5.62256L6.98345 2.15338C6.88442 2.05436 6.75243 2 6.6117 2C6.47081 2 6.33891 2.05443 6.23988 2.15338L5.92491 2.46843C5.82596 2.5673 5.77145 2.69936 5.77145 2.84017C5.77145 2.98091 5.82596 3.11742 5.92491 3.21629L7.94873 5.24456H1.51896C1.22906 5.24456 1 5.47152 1 5.76149V6.20688C1 6.49686 1.22906 6.74669 1.51896 6.74669H7.97169L5.92499 8.78629C5.82604 8.88532 5.77153 9.01379 5.77153 9.1546C5.77153 9.29525 5.82604 9.4256 5.92499 9.52455L6.23996 9.83857C6.33898 9.9376 6.47089 9.99157 6.61178 9.99157C6.75251 9.99157 6.8845 9.9369 6.98352 9.83787L10.4526 6.36878C10.5519 6.26944 10.6065 6.13683 10.6061 5.99586C10.6064 5.85443 10.5519 5.72174 10.4525 5.62256Z" fill="#161616"/></svg></a>
-					   </div><!-- .awsm-jobs-overview-col-head -->
+					   </div>
 					   <div class="awsm-jobs-overview-col-content">
 						   <div class="awsm-wpjo-addon-items">
 						   <?php
@@ -414,9 +411,9 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 												}
 											}
 											?>
-											</div><!-- .awsm-wpjo-addon-item-head -->
+											</div>
 										<p><?php echo wp_kses( $add_on['content'], $allowed_html ); ?></p>
-									</div><!-- .awsm-wpjo-addon-item -->
+									</div>
 									<?php
 								endforeach;
 							else :
@@ -431,16 +428,16 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 										);
 										?>
 										</p>
-									</div><!-- .awsm-welcome-point-image -->
-								</div><!-- .col-->
+									</div>
+								</div>
 							<?php endif; ?>
 
-						   </div><!-- .awsm-wpjo-addon-items -->
-					   </div><!-- .awsm-jobs-overview-col-content -->
+						   </div>
+					   </div>
 				   </div>
-				  <!-- .awsm-jobs-overview-chart -->
+				  
 			</div>
-		</div><!-- .awsm-jobs-overview-row -->
+		</div>
 	   </div>
 </div>
 
