@@ -71,7 +71,7 @@ class AWSM_Job_Openings_Dashboard_Widget {
 									</strong>
 									<?php
 									/* translators: %s: Published date */
-									printf( esc_html__( 'Published on: %s', 'wp-job-openings' ), esc_html( get_the_date( 'F j', $data['id'] ) ) );
+									printf( esc_html__( 'Published on: %s', 'wp-job-openings' ), esc_html( get_the_date( 'F j, Y', $data['id'] ) ) );
 									?>
 								</p>
 								<svg width="4.922" height="8.333" viewBox="0 0 4.922 8.333" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin">
