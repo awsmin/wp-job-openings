@@ -30,41 +30,41 @@ class AWSM_Job_Openings_Block {
 		}
 
 		$block_atts_set = array(
-			'uid'                        => $this->unique_listing_id,
-			'search'                     => isset( $blockatts['search'] ) ? $blockatts['search'] : '',
-			'enable_job_filter'          => isset( $blockatts['enable_job_filter'] ) ? $blockatts['enable_job_filter'] : '',
-			'filter_options'             => isset( $blockatts['filter_options'] ) ? $blockatts['filter_options'] : array(),
-			'filter_types'               => isset( $blockatts['filter_types'] ) ? $blockatts['filter_types'] : array(),
-			'layout'                     => isset( $blockatts['layout'] ) ? $blockatts['layout'] : '',
-			'hide_expired_jobs'          => isset( $blockatts['hide_expired_jobs'] ) ? $blockatts['hide_expired_jobs'] : '',
-			'placement'                  => isset( $blockatts['placement'] ) ? $blockatts['placement'] : 'top',
-			'search_placeholder'         => isset( $blockatts['search_placeholder'] ) ? $blockatts['search_placeholder'] : '',
-			'number_of_columns'          => isset( $blockatts['number_of_columns'] ) ? $blockatts['number_of_columns'] : 3,
-			'other_options'              => isset( $blockatts['other_options'] ) ? $blockatts['other_options'] : '',
-			'show_spec_icon'             => isset( $blockatts['show_spec_icon'] ) ? $blockatts['show_spec_icon'] : '',
-			'list_type'                  => isset( $blockatts['list_type'] ) ? $blockatts['list_type'] : '',
-			'selected_terms'             => isset( $blockatts['selected_terms'] ) ? $blockatts['selected_terms'] : '',
-			'order_by'                   => isset( $blockatts['order_by'] ) ? $blockatts['order_by'] : '',
-			'listings'                   => isset( $blockatts['listing_per_page'] ) ? $blockatts['listing_per_page'] : '',
-			'pagination'                 => isset( $blockatts['pagination'] ) ? $blockatts['pagination'] : '',
-			'anchor'                     => isset( $blockatts['anchor'] ) ? $blockatts['anchor'] : '',
-			'blockId'                    => isset( $blockatts['blockId'] ) ? $blockatts['blockId'] : '',
-			'hz_sf_border_color'         => isset( $blockatts['hz_sf_border']['color'] ) ? $blockatts['hz_sf_border']['color'] : '',
-			'hz_sf_border_width'         => isset( $blockatts['hz_sf_border']['width'] ) ? $blockatts['hz_sf_border']['width'] : '',
-			'hz_sf_padding'              => isset( $blockatts['hz_sf_padding'] ) ? $blockatts['hz_sf_padding'] : '',
-			'hz_sf_border_radius'        => isset( $blockatts['hz_sf_border_radius'] ) ? $blockatts['hz_sf_border_radius'] : '',
-			'hz_sidebar_width'           => isset( $blockatts['hz_sidebar_width'] ) ? $blockatts['hz_sidebar_width'] : '',
-			'hz_ls_border_color'         => isset( $blockatts['hz_ls_border']['color'] ) ? $blockatts['hz_ls_border']['color'] : '',
-			'hz_ls_border_width'         => isset( $blockatts['hz_ls_border']['width'] ) && $blockatts['hz_ls_border']['width'] !== '0px' ? $blockatts['hz_ls_border']['width'] : '1px',
-			'hz_ls_border_radius'        => isset( $blockatts['hz_ls_border_radius'] ) ? $blockatts['hz_ls_border_radius'] : '',
-			'hz_jl_border_color'         => isset( $blockatts['hz_jl_border']['color'] ) ? $blockatts['hz_jl_border']['color'] : '',
-			'hz_jl_border_width'         => isset( $blockatts['hz_jl_border']['width'] ) ? $blockatts['hz_jl_border']['width'] : '',
-			'hz_jl_border_radius'        => isset( $blockatts['hz_jl_border_radius'] ) ? $blockatts['hz_jl_border_radius'] : '',
-			'hz_jl_padding'              => isset( $blockatts['hz_jl_padding'] ) ? $blockatts['hz_jl_padding'] : '',
-			'hz_bs_border_color'         => isset( $blockatts['hz_bs_border']['color'] ) ? $blockatts['hz_bs_border']['color'] : '',
-			'hz_bs_border_width'         => isset( $blockatts['hz_bs_border']['width'] ) ? $blockatts['hz_bs_border']['width'] : '',
-			'hz_bs_border_radius'        => isset( $blockatts['hz_bs_border_radius'] ) ? $blockatts['hz_bs_border_radius'] : '',
-			'hz_bs_padding'              => isset( $blockatts['hz_bs_padding'] ) ? $blockatts['hz_bs_padding'] : '',
+			'uid'                            => $this->unique_listing_id,
+			'search'                         => isset( $blockatts['search'] ) ? $blockatts['search'] : '',
+			'enable_job_filter'              => isset( $blockatts['enable_job_filter'] ) ? $blockatts['enable_job_filter'] : '',
+			'filter_options'                 => isset( $blockatts['filter_options'] ) ? $blockatts['filter_options'] : array(),
+			'filter_types'                   => isset( $blockatts['filter_types'] ) ? $blockatts['filter_types'] : array(),
+			'layout'                         => isset( $blockatts['layout'] ) ? $blockatts['layout'] : '',
+			'hide_expired_jobs'              => isset( $blockatts['hide_expired_jobs'] ) ? $blockatts['hide_expired_jobs'] : '',
+			'placement'                      => isset( $blockatts['placement'] ) ? $blockatts['placement'] : 'top',
+			'search_placeholder'             => isset( $blockatts['search_placeholder'] ) ? $blockatts['search_placeholder'] : '',
+			'number_of_columns'              => isset( $blockatts['number_of_columns'] ) ? $blockatts['number_of_columns'] : 3,
+			'other_options'                  => isset( $blockatts['other_options'] ) ? $blockatts['other_options'] : '',
+			'show_spec_icon'                 => isset( $blockatts['show_spec_icon'] ) ? $blockatts['show_spec_icon'] : '',
+			'list_type'                      => isset( $blockatts['list_type'] ) ? $blockatts['list_type'] : '',
+			'selected_terms'                 => isset( $blockatts['selected_terms'] ) ? $blockatts['selected_terms'] : '',
+			'order_by'                       => isset( $blockatts['order_by'] ) ? $blockatts['order_by'] : '',
+			'listings'                       => isset( $blockatts['listing_per_page'] ) ? $blockatts['listing_per_page'] : '',
+			'pagination'                     => isset( $blockatts['pagination'] ) ? $blockatts['pagination'] : '',
+			'anchor'                         => isset( $blockatts['anchor'] ) ? $blockatts['anchor'] : '',
+			'blockId'                        => isset( $blockatts['blockId'] ) ? $blockatts['blockId'] : '',
+			'hz_sf_border_color'             => isset( $blockatts['hz_sf_border']['color'] ) ? $blockatts['hz_sf_border']['color'] : '',
+			'hz_sf_border_width'             => isset( $blockatts['hz_sf_border']['width'] ) ? $blockatts['hz_sf_border']['width'] : '',
+			'hz_sf_padding'                  => isset( $blockatts['hz_sf_padding'] ) ? $blockatts['hz_sf_padding'] : '',
+			'hz_sf_border_radius'            => isset( $blockatts['hz_sf_border_radius'] ) ? $blockatts['hz_sf_border_radius'] : '',
+			'hz_sidebar_width'               => isset( $blockatts['hz_sidebar_width'] ) ? $blockatts['hz_sidebar_width'] : '',
+			'hz_ls_border_color'             => isset( $blockatts['hz_ls_border']['color'] ) ? $blockatts['hz_ls_border']['color'] : '',
+			'hz_ls_border_width'             => isset( $blockatts['hz_ls_border']['width'] ) && $blockatts['hz_ls_border']['width'] !== '0px' ? $blockatts['hz_ls_border']['width'] : '1px',
+			'hz_ls_border_radius'            => isset( $blockatts['hz_ls_border_radius'] ) ? $blockatts['hz_ls_border_radius'] : '',
+			'hz_jl_border_color'             => isset( $blockatts['hz_jl_border']['color'] ) ? $blockatts['hz_jl_border']['color'] : '',
+			'hz_jl_border_width'             => isset( $blockatts['hz_jl_border']['width'] ) ? $blockatts['hz_jl_border']['width'] : '',
+			'hz_jl_border_radius'            => isset( $blockatts['hz_jl_border_radius'] ) ? $blockatts['hz_jl_border_radius'] : '',
+			'hz_jl_padding'                  => isset( $blockatts['hz_jl_padding'] ) ? $blockatts['hz_jl_padding'] : '',
+			'hz_bs_border_color'             => isset( $blockatts['hz_bs_border']['color'] ) ? $blockatts['hz_bs_border']['color'] : '',
+			'hz_bs_border_width'             => isset( $blockatts['hz_bs_border']['width'] ) ? $blockatts['hz_bs_border']['width'] : '',
+			'hz_bs_border_radius'            => isset( $blockatts['hz_bs_border_radius'] ) ? $blockatts['hz_bs_border_radius'] : '',
+			'hz_bs_padding'                  => isset( $blockatts['hz_bs_padding'] ) ? $blockatts['hz_bs_padding'] : '',
 			'hz_button_background_color'     => isset( $blockatts['hz_button_background_color'] ) ? $blockatts['hz_button_background_color'] : '',
 			'hz_button_text_color'           => isset( $blockatts['hz_button_text_color'] ) ? $blockatts['hz_button_text_color'] : '',
 			'hz_pagination_background_color' => isset( $blockatts['hz_pagination_background_color'] ) ? $blockatts['hz_pagination_background_color'] : '',
@@ -72,12 +72,12 @@ class AWSM_Job_Openings_Block {
 			'hz_pagination_border_radius'    => isset( $blockatts['hz_pagination_border_radius'] ) ? $blockatts['hz_pagination_border_radius'] : array(),
 			'hz_pagination_border_color'     => isset( $blockatts['hz_pagination_border']['color'] ) ? $blockatts['hz_pagination_border']['color'] : '',
 			'hz_pagination_border_width'     => isset( $blockatts['hz_pagination_border']['width'] ) ? $blockatts['hz_pagination_border']['width'] : '',
-			'hz_sf_background_color'     => isset( $blockatts['hz_sf_background_color'] ) ? $blockatts['hz_sf_background_color'] : '',
-			'hz_sf_text_color'           => isset( $blockatts['hz_sf_text_color'] ) ? $blockatts['hz_sf_text_color'] : '',
-			'hz_jl_background_color'     => isset( $blockatts['hz_jl_background_color'] ) ? $blockatts['hz_jl_background_color'] : '',
-			'hz_jl_text_color'           => isset( $blockatts['hz_jl_text_color'] ) ? $blockatts['hz_jl_text_color'] : '',
-			'hz_sidebar_bg_color'        => isset( $blockatts['hz_sidebar_bg_color'] ) ? $blockatts['hz_sidebar_bg_color'] : '',
-			'hz_sidebar_tx_color'        => isset( $blockatts['hz_sidebar_tx_color'] ) ? $blockatts['hz_sidebar_tx_color'] : '',
+			'hz_sf_background_color'         => isset( $blockatts['hz_sf_background_color'] ) ? $blockatts['hz_sf_background_color'] : '',
+			'hz_sf_text_color'               => isset( $blockatts['hz_sf_text_color'] ) ? $blockatts['hz_sf_text_color'] : '',
+			'hz_jl_background_color'         => isset( $blockatts['hz_jl_background_color'] ) ? $blockatts['hz_jl_background_color'] : '',
+			'hz_jl_text_color'               => isset( $blockatts['hz_jl_text_color'] ) ? $blockatts['hz_jl_text_color'] : '',
+			'hz_sidebar_bg_color'            => isset( $blockatts['hz_sidebar_bg_color'] ) ? $blockatts['hz_sidebar_bg_color'] : '',
+			'hz_sidebar_tx_color'            => isset( $blockatts['hz_sidebar_tx_color'] ) ? $blockatts['hz_sidebar_tx_color'] : '',
 		);
 
 		/**
@@ -435,11 +435,6 @@ class AWSM_Job_Openings_Block {
 			: '';
 		$attrs['awsm-spec-icons']        = isset( $block_atts['show_spec_icon'] ) ? $block_atts['show_spec_icon'] : '';
 
-		// Selected terms
-		/* $attrs['awsm-selected-terms'] = isset( $block_atts['selected_terms'] )
-			? htmlspecialchars( json_encode( $block_atts['selected_terms'], JSON_UNESCAPED_SLASHES ) )
-			: '{}'; */
-
 		$attrs['awsm-order-by'] = isset( $block_atts['order_by'] ) ? $block_atts['order_by'] : '';
 
 		$current_lang = AWSM_Job_Openings::get_current_language();
@@ -456,7 +451,7 @@ class AWSM_Job_Openings_Block {
 			$sanitized_key = sanitize_key( $key );
 
 			if ( is_array( $value ) ) {
-				$attrs[ $sanitized_key ] = json_encode( array_map( 'sanitize_text_field', $value ) );
+				$attrs[ $sanitized_key ] = wp_json_encode( array_map( 'sanitize_text_field', $value ) );
 			} elseif ( is_string( $value ) && strpos( $value, ',' ) !== false ) {
 				$attrs[ $sanitized_key ] = implode( ',', array_map( 'sanitize_text_field', explode( ',', $value ) ) );
 			} else {
@@ -648,9 +643,7 @@ class AWSM_Job_Openings_Block {
 				// If it's the new format with specKey + value
 				if ( is_array( $option ) && isset( $option['specKey'] ) ) {
 					$spec_keys[] = $option['specKey'];
-				}
-				// If it's just a string array (older format)
-				elseif ( is_string( $option ) ) {
+				} elseif ( is_string( $option ) ) {
 					$spec_keys[] = $option;
 				}
 			}
@@ -743,12 +736,12 @@ class AWSM_Job_Openings_Block {
 						}
 
 						$spec_multiple_class = $multiple_for_spec = '';
-						$is_checkbox = false;
+						$is_checkbox         = false;
 						if ( isset( $block_atts['filter_types'][ $taxonomy ] ) ) {
 							$is_checkbox = $block_atts['filter_types'][ $taxonomy ] === 'checkbox';
 						} elseif ( isset( $block_atts['filter_options'] ) && is_array( $block_atts['filter_options'] ) ) {
 							foreach ( $block_atts['filter_options'] as $opt ) {
-								if ( is_array( $opt ) && isset( $opt['specKey'] ) && $opt['specKey'] === $taxonomy && ( $opt['value'] ?? '' ) === 'checkbox' ) {
+								if ( is_array( $opt ) && isset( $opt['specKey'] ) && $opt['specKey'] === $taxonomy && ( isset( $opt['value'] ) ? $opt['value'] : '' ) === 'checkbox' ) {
 									$is_checkbox = true;
 									break;
 								}
@@ -984,12 +977,12 @@ class AWSM_Job_Openings_Block {
 							}
 
 							$spec_multiple_class = $multiple_for_spec = '';
-							$is_checkbox = false;
+							$is_checkbox         = false;
 							if ( isset( $block_atts['filter_types'][ $taxonomy ] ) ) {
 								$is_checkbox = $block_atts['filter_types'][ $taxonomy ] === 'checkbox';
 							} elseif ( is_array( $block_atts['filter_options'] ) ) {
 								foreach ( $block_atts['filter_options'] as $opt ) {
-									if ( is_array( $opt ) && isset( $opt['specKey'] ) && $opt['specKey'] === $taxonomy && ( $opt['value'] ?? '' ) === 'checkbox' ) {
+									if ( is_array( $opt ) && isset( $opt['specKey'] ) && $opt['specKey'] === $taxonomy && ( isset( $opt['value'] ) ? $opt['value'] : '' ) === 'checkbox' ) {
 										$is_checkbox = true;
 										break;
 									}
@@ -1103,7 +1096,7 @@ class AWSM_Job_Openings_Block {
 
 	public static function get_specifications_content_block( $post_id, $display_label, $filter_data = array(), $listing_specs = array(), $has_term_link = true, $show_icon = '' ) {
 		$spec_content = '';
-		$filter_data = ! empty( $filter_data ) ? $filter_data : get_option( 'awsm_jobs_filter' );
+		$filter_data  = ! empty( $filter_data ) ? $filter_data : get_option( 'awsm_jobs_filter' );
 		// Normalize to the expected array-of-arrays shape to avoid PHP notices in REST responses.
 		$filter_data = is_array( $filter_data ) ? $filter_data : array();
 		$filter_data = array_values(

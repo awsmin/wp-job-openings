@@ -19,7 +19,7 @@ $block_id                = $styles['block_id'];
 
 <!-- Styles for css variables -->
 <style>
-<?php 
+<?php
 $block_style_variables = "
 	#{$styles['block_id']} {
 		--hz-sf-border-width: {$styles['border_width']};
@@ -69,29 +69,29 @@ $block_style_variables = "
 		--hz-bs-border-radius-topright: {$styles['button_border_radius_topright']};
 		--hz-bs-border-radius-bottomright: {$styles['button_border_radius_bottomright']};
 		--hz-bs-border-radius-bottomleft: {$styles['button_border_radius_bottomleft']};
-		--hz-bs-border-style:   " . ( ! empty( $styles['button_width_field'] ) && $styles['button_width_field'] !== '0px' ? 'solid' : 'none' ) . ";
+		--hz-bs-border-style:   " . ( ! empty( $styles['button_width_field'] ) && $styles['button_width_field'] !== '0px' ? 'solid' : 'none' ) . ';
 
-		" . ( ! empty( $styles['button_background_color'] ) ? "--hz-b-bg-color: {$styles['button_background_color']};" : '' ) . "
-		" . ( ! empty( $styles['button_text_color'] )       ? "--hz-b-tx-color: {$styles['button_text_color']};"       : '' ) . "
+		' . ( ! empty( $styles['button_background_color'] ) ? "--hz-b-bg-color: {$styles['button_background_color']};" : '' ) . '
+		' . ( ! empty( $styles['button_text_color'] ) ? "--hz-b-tx-color: {$styles['button_text_color']};" : '' ) . '
 
-		" . ( ! empty( $styles['pagination_background_color'] ) ? "--hz-pagination-bg-color: {$styles['pagination_background_color']};" : '' ) . "
-		" . ( ! empty( $styles['pagination_text_color'] )       ? "--hz-pagination-tx-color: {$styles['pagination_text_color']};"       : '' ) . "
+		' . ( ! empty( $styles['pagination_background_color'] ) ? "--hz-pagination-bg-color: {$styles['pagination_background_color']};" : '' ) . '
+		' . ( ! empty( $styles['pagination_text_color'] ) ? "--hz-pagination-tx-color: {$styles['pagination_text_color']};" : '' ) . "
 		--hz-pagination-border-width: {$styles['pagination_border_width']};
-		" . ( ! empty( $styles['pagination_border_color'] ) ? "--hz-pagination-border-color: {$styles['pagination_border_color']};" : '' ) . "
-		--hz-pagination-border-style: " . ( ! empty( $styles['pagination_border_width'] ) && $styles['pagination_border_width'] !== '0px' ? 'solid' : 'none' ) . ";
+		" . ( ! empty( $styles['pagination_border_color'] ) ? "--hz-pagination-border-color: {$styles['pagination_border_color']};" : '' ) . '
+		--hz-pagination-border-style: ' . ( ! empty( $styles['pagination_border_width'] ) && $styles['pagination_border_width'] !== '0px' ? 'solid' : 'none' ) . ";
 		--hz-pagination-border-radius-topleft: {$styles['pagination_border_radius_topleft']};
 		--hz-pagination-border-radius-topright: {$styles['pagination_border_radius_topright']};
 		--hz-pagination-border-radius-bottomright: {$styles['pagination_border_radius_bottomright']};
 		--hz-pagination-border-radius-bottomleft: {$styles['pagination_border_radius_bottomleft']};
 
-		" . ( ! empty( $styles['sf_background_color'] ) ? "--hz-sf-bg-color: {$styles['sf_background_color']};" : '' ) . "
-		" . ( ! empty( $styles['sf_text_color'] )       ? "--hz-sf-tx-color: {$styles['sf_text_color']};"       : '' ) . "
+		" . ( ! empty( $styles['sf_background_color'] ) ? "--hz-sf-bg-color: {$styles['sf_background_color']};" : '' ) . '
+		' . ( ! empty( $styles['sf_text_color'] ) ? "--hz-sf-tx-color: {$styles['sf_text_color']};" : '' ) . '
 
-		" . ( ! empty( $styles['jl_background_color'] ) ? "--hz-jl-bg-color: {$styles['jl_background_color']};" : '' ) . "
-		" . ( ! empty( $styles['jl_text_color'] )       ? "--hz-jl-tx-color: {$styles['jl_text_color']};"       : '' ) . "
+		' . ( ! empty( $styles['jl_background_color'] ) ? "--hz-jl-bg-color: {$styles['jl_background_color']};" : '' ) . '
+		' . ( ! empty( $styles['jl_text_color'] ) ? "--hz-jl-tx-color: {$styles['jl_text_color']};" : '' ) . '
 
-		" . ( ! empty( $styles['sidebar_bg_color'] ) ? "--hz-sidebar-bg-color: {$styles['sidebar_bg_color']};" : '' ) . "
-		" . ( ! empty( $styles['sidebar_tx_color'] ) ? "--hz-sidebar-tx-color: {$styles['sidebar_tx_color']};" : '' ) . "
+		' . ( ! empty( $styles['sidebar_bg_color'] ) ? "--hz-sidebar-bg-color: {$styles['sidebar_bg_color']};" : '' ) . '
+		' . ( ! empty( $styles['sidebar_tx_color'] ) ? "--hz-sidebar-tx-color: {$styles['sidebar_tx_color']};" : '' ) . "
 
 		--hz-b-padding-left: {$styles['padding_left_button']};
 		--hz-b-padding-right: {$styles['padding_right_button']};
@@ -169,10 +169,10 @@ if ( $placement === 'top' ) {
 					do_action( 'awsm_block_form_outside', $attributes );
 				?>
 		<?php
-	} else {
+} else {
 	?>
 			<div <?php echo $wrapper_attrs; ?>>
-				<?php if ( $show_filter ) { ?>
+			<?php if ( $show_filter ) { ?>
 					<?php
 					// Only use the Selectric loading state when rendering actual search/filters.
 					$filter_wrap_loading_class = ( is_admin() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) || ( ! $has_search && ! $has_filters ) )
@@ -212,21 +212,21 @@ if ( $placement === 'top' ) {
 				?>
 				<?php } ?>
 				<?php
-					/**
-					 * awsm_block_filter_form_extra hook
-					 *
-					* Display extra fields if search and filters are not enabled
-					*
-					* @since 4.0.0
-					*
-					* @param array $attributes Attributes array from block.
-					*/
-						do_action( 'awsm_block_filter_form_extra', $attributes );
-						do_action( 'awsm_block_form_outside', $attributes );
-					?>
+				/**
+				 * awsm_block_filter_form_extra hook
+				 *
+				* Display extra fields if search and filters are not enabled
+				*
+				* @since 4.0.0
+				*
+				* @param array $attributes Attributes array from block.
+				*/
+					do_action( 'awsm_block_filter_form_extra', $attributes );
+					do_action( 'awsm_block_form_outside', $attributes );
+				?>
 			<?php
-	}
-	?>
+}
+?>
 			<div class="awsm-b-job-listings"<?php awsm_block_jobs_data_attrs( array(), $attributes ); ?>>
 				<div <?php echo awsm_block_jobs_view_class( $placement === 'top' ? '' : 'custom-class', $attributes ); ?>>
 					<?php if ( $query->have_posts() ) : ?>
