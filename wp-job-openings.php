@@ -1368,6 +1368,7 @@ class AWSM_Job_Openings {
 						'title'    => esc_html__( 'Select or Upload an Image', 'wp-job-openings' ),
 						'btn_text' => esc_html__( 'Choose', 'wp-job-openings' ),
 					),
+					'edit_job_specs' => esc_html__( 'Edit Job Specifications', 'wp-job-openings' ),
 				),
 				'specs_settings_url'        => admin_url( 'edit.php?post_type=awsm_job_openings&page=awsm-jobs-settings&tab=specifications' ),
 			'awsm_filters'              => self::get_filter_specifications(),

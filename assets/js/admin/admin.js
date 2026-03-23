@@ -852,7 +852,7 @@ jQuery(document).ready(function($) {
 			var $specLink = $('<a>', {
 				href: awsmJobsAdmin.specs_settings_url,
 				'class': 'awsm-job-specs-settings-link awsm-job-tooltip',
-				title: 'Edit Job Specifications',
+				title: awsmJobsAdmin.i18n.edit_job_specs,
 				target: '_blank'
 			}).html('<span class="dashicons dashicons-admin-generic"></span>');
 			$actions.prepend($specLink);
