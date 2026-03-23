@@ -45,6 +45,7 @@ const WidgetInspectorControls = props => {
 			search,
 			placement,
 			filter_options,
+			filter_types = {},
 			pagination,
 			enable_job_filter,
 			search_placeholder,
@@ -148,16 +149,18 @@ const WidgetInspectorControls = props => {
 	}, [] );
 
 	useEffect( () => {
-		if (
-			filter_options?.length &&
-			filter_options.some( option => typeof option === "string" )
-		) {
-			const normalizedFilters = filter_options.map( option =>
-				typeof option === "object" && option.specKey
-					? option
-					: {specKey: option, value: "dropdown"}
+		if ( filter_options?.length && filter_options.some( option => typeof option === "object" && option?.specKey ) ) {
+			// Migrate old object format [{specKey, value}] → string array + filter_types object
+			const newFilterOptions = filter_options.map( option =>
+				typeof option === "object" && option.specKey ? option.specKey : option
 			);
-			setAttributes( {filter_options: normalizedFilters} );
+			const newFilterTypes = { ...filter_types };
+			filter_options.forEach( option => {
+				if ( typeof option === "object" && option.specKey ) {
+					newFilterTypes[ option.specKey ] = option.value || "dropdown";
+				}
+			} );
+			setAttributes( { filter_options: newFilterOptions, filter_types: newFilterTypes } );
 		}
 	}, [] );
 
@@ -168,12 +171,13 @@ const WidgetInspectorControls = props => {
 		if ( ! specifications?.length ) return;
 		if ( filter_options?.length ) return;
 
-		const normalizedFilters = specifications.map( spec => ( {
-			specKey: spec.key,
-			value: "dropdown",
-		} ) );
+		const newFilterOptions = specifications.map( spec => spec.key );
+		const newFilterTypes = {};
+		specifications.forEach( spec => {
+			newFilterTypes[ spec.key ] = "dropdown";
+		} );
 
-		setAttributes( {filter_options: normalizedFilters} );
+		setAttributes( { filter_options: newFilterOptions, filter_types: newFilterTypes } );
 		filtersInitRef.current = true;
 	}, [ wasJustInserted, specifications, enable_job_filter ] );
 
@@ -194,16 +198,15 @@ const WidgetInspectorControls = props => {
 		};
 
 		// Auto-upgrade to multi-select if multiple terms selected; never auto-downgrade.
-		const updatedFilters = filter_options.map( option =>
-			option.specKey === specKey
-				? {...option, value: newTermIds.length > 1 ? "checkbox" : ( option.value || "dropdown" )}
-				: option
-		);
+		const updatedFilterTypes = {
+			...filter_types,
+			[ specKey ]: newTermIds.length > 1 ? "checkbox" : ( filter_types[ specKey ] || "dropdown" )
+		};
 
 		setSelectedTermsState( updatedSelectedTerms );
 		setAttributes( {
 			selected_terms: updatedSelectedTerms,
-			filter_options: updatedFilters
+			filter_types: updatedFilterTypes
 		} );
 	};
 
@@ -305,92 +308,50 @@ const WidgetInspectorControls = props => {
 							<>
 								<h2>{ __( "Available Filters", "wp-job-openings" ) }</h2>
 								{ specifications.map( spec => {
-									const filterOption = filter_options.find(
-										option => option.specKey === spec.key
-									);
-
-									// Check if there are multiple selected terms for the specKey
+									const isActive = filter_options.includes( spec.key );
+									const filterType = filter_types[ spec.key ] || "dropdown";
 									const hasMultipleSelectedTerms =
 										( selectedTermsState[ spec.key ] || [] ).length > 1;
 
 									return (
 										<div key={ spec.key }>
-											{ /* Toggle Control */ }
 											<ToggleControl
 												label={ spec.label }
-												checked={ filterOption !== undefined }
+												checked={ isActive }
 												onChange={ toggleValue => {
-													const updatedFilters = toggleValue
-														? [
-																...filter_options,
-																{
-																	specKey: spec.key,
-																	value: hasMultipleSelectedTerms
-																		? "checkbox"
-																		: "dropdown"
-																}
-														  ] // Choose checkbox if multiple terms are selected
-														: filter_options.filter(
-																option => option.specKey !== spec.key
-														  ); // Remove the filter
+													const updatedFilterOptions = toggleValue
+														? [ ...filter_options, spec.key ]
+														: filter_options.filter( key => key !== spec.key );
 
-													const updates = {filter_options: updatedFilters};
-
-													// If all filters are now off, disable the Enable Filters toggle too
-													if ( updatedFilters.length === 0 ) {
-														updates.enable_job_filter = false;
+													const updatedFilterTypes = { ...filter_types };
+													if ( toggleValue ) {
+														updatedFilterTypes[ spec.key ] = hasMultipleSelectedTerms ? "checkbox" : "dropdown";
+													} else {
+														delete updatedFilterTypes[ spec.key ];
 													}
 
+													const updates = { filter_options: updatedFilterOptions, filter_types: updatedFilterTypes };
+													if ( updatedFilterOptions.length === 0 ) {
+														updates.enable_job_filter = false;
+													}
 													setAttributes( updates );
 												} }
 											/>
 
-											{ filterOption && (
+											{ isActive && (
 												<div className="filters-button">
-													{ /* Single Select */ }
 													<Button
-														className={ `filter-btn ${
-															filterOption.value === "dropdown"
-																? "is-active"
-																: ""
-														}` }
+														className={ `filter-btn ${ filterType === "dropdown" ? "is-active" : "" }` }
 														__next40pxDefaultSize
-														onClick={ () => {
-															const updatedFilters = filter_options.map(
-																option =>
-																	option.specKey === spec.key
-																		? {...option, value: "dropdown"}
-																		: option
-															);
-
-															setAttributes( {
-																filter_options: updatedFilters
-															} );
-														} }
+														onClick={ () => setAttributes( { filter_types: { ...filter_types, [ spec.key ]: "dropdown" } } ) }
 													>
 														{ __( "Single Select", "wp-job-openings" ) }
 													</Button>
 
-													{ /* Multi Select */ }
 													<Button
-														className={ `filter-btn ${
-															filterOption.value === "checkbox"
-																? "is-active"
-																: ""
-														}` }
+														className={ `filter-btn ${ filterType === "checkbox" ? "is-active" : "" }` }
 														__next40pxDefaultSize
-														onClick={ () => {
-															const updatedFilters = filter_options.map(
-																option =>
-																	option.specKey === spec.key
-																		? {...option, value: "checkbox"}
-																		: option
-															);
-
-															setAttributes( {
-																filter_options: updatedFilters
-															} );
-														} }
+														onClick={ () => setAttributes( { filter_types: { ...filter_types, [ spec.key ]: "checkbox" } } ) }
 													>
 														{ __( "Multi Select", "wp-job-openings" ) }
 													</Button>
