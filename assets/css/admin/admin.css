@@ -1125,6 +1125,32 @@ a.awsm-text-red:hover {
 	pointer-events: none;
 }
 
+.awsm-job-specs-settings-link {
+	display: inline-flex;
+	align-items: center;
+	margin-left: 6px;
+	color: #787c82;
+	text-decoration: none;
+	vertical-align: middle;
+	line-height: 1;
+	opacity: 0;
+	transition: opacity 0.1s ease;
+}
+
+#awsm-job-meta .postbox-header:hover .awsm-job-specs-settings-link {
+	opacity: 1;
+}
+
+.awsm-job-specs-settings-link:hover {
+	color: #1d2327;
+}
+
+.awsm-job-specs-settings-link .dashicons {
+	font-size: 16px;
+	width: 16px;
+	height: 16px;
+}
+
 /*-----*/
 .awsm-job-specifications-section label {
 	margin-bottom: 6px;

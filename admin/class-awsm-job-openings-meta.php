@@ -43,7 +43,14 @@ class AWSM_Job_Openings_Meta {
 
 		$awsm_filters = get_option( 'awsm_jobs_filter' );
 		if ( ! empty( $awsm_filters ) ) {
-			add_meta_box( 'awsm-job-meta', esc_html__( 'Job Specifications', 'wp-job-openings' ), array( $this, 'awsm_job_handle' ), 'awsm_job_openings', 'normal', 'high' );
+			$specs_settings_url = admin_url( 'edit.php?post_type=awsm_job_openings&page=awsm-jobs-settings&tab=specifications' );
+			$meta_box_title     = sprintf(
+				'%s<a href="%s" class="awsm-job-specs-settings-link" title="%s" target="_blank"><span class="dashicons dashicons-admin-generic"></span></a>',
+				esc_html__( 'Job Specifications', 'wp-job-openings' ),
+				esc_url( $specs_settings_url ),
+				esc_attr__( 'Edit Job Specifications', 'wp-job-openings' )
+			);
+			add_meta_box( 'awsm-job-meta', $meta_box_title, array( $this, 'awsm_job_handle' ), 'awsm_job_openings', 'normal', 'high' );
 		}
 
 		add_meta_box( 'awsm-expiry-meta', esc_html__( 'Job Expiry', 'wp-job-openings' ), array( $this, 'awsm_job_expiration' ), 'awsm_job_openings', 'side', 'low' );

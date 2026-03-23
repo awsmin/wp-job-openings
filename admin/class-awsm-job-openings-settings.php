@@ -1401,10 +1401,9 @@ class AWSM_Job_Openings_Settings {
 			if ( ! empty( $terms ) ) {
 				foreach ( $terms as $term ) {
 					$tag_options .= sprintf(
-						'<option value="%1$s" data-termid="%2$s" selected>%1$s (%3$s)</option>',
+						'<option value="%1$s" data-termid="%2$s" selected>%1$s</option>',
 						esc_attr( $term->name ),
 						esc_attr( $term->term_id ),
-						esc_attr( $term->count )
 					);
 				}
 			}
