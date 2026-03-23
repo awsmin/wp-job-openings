@@ -1096,14 +1096,16 @@ a.awsm-text-red:hover {
 
 .awsm-job-setup-form-foot-bottom a {
 	font-size: 13px;
-	text-decoration: underline;
+	text-decoration: none;
 	opacity: 0;
 	visibility: hidden;
 	color: #000;
+	border-bottom: 1px solid #000;
 }
 
 .awsm-job-setup-form-foot-bottom a:hover {
-	color: #6bfae7;
+	color: #000;
+	border-bottom-color: #6bfae7;
 }
 
 .awsm-job-setup-form-foot-bottom a.active {
