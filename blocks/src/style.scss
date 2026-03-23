@@ -159,20 +159,20 @@ a.awsm-b-job-item {
 	flex-flow: wrap;
 	width: 46px;
 	padding: 12px;
-	border: 1px solid var(--hz-alert-border-color, #ccc);
+	border: 1px solid var(--hz-ls-border-color, #cccccc);
 	margin: 0 10px 10px;
 	border-radius: 4px;
 	outline: none !important;
-	background-color: var(--hz-alert-bg-color, transparent);
+	background-color: var(--hz-sf-bg-color, transparent);
 }
 
 .awsm-b-filter-toggle.awsm-on {
-	background-color: color-mix(in srgb, var(--hz-alert-bg-color, #ccc), black 5%);
+	background-color: color-mix(in srgb, var(--hz-sf-bg-color, #cccccc), black 5%);
 }
 
 .awsm-b-filter-toggle:hover {
-	background-color: color-mix(in srgb, var(--hz-alert-bg-color, #ccc), black 5%);
-	border-color: color-mix(in srgb, var(--hz-alert-border-color, #ccc), black 5%);
+	background-color: color-mix(in srgb, var(--hz-sf-bg-color, #cccccc), black 5%);
+	border-color: color-mix(in srgb, var(--hz-ls-border-color, #cccccc), black 5%);
 }
 
 .awsm-b-filter-toggle svg {
@@ -181,7 +181,7 @@ a.awsm-b-job-item {
 }
 
 .awsm-b-filter-toggle svg path {
-	fill: var(--hz-alert-tx-color, #191919);
+	fill: var(--hz-sf-tx-color, #191919);
 }
 
 .awsm-b-filter-wrap.awsm-b-no-search-filter-wrap .awsm-b-filter-toggle {
@@ -569,19 +569,23 @@ a.awsm-b-job-item .awsm-job-specification-item {
 	border-color: #060606;
 }
 
-.awsm-job-form-plugin-style .awsm-b-job-form-control::placeholder {
+.awsm-job-form-plugin-style .awsm-b-job-form-control::placeholder,
+.awsm-b-filter-wrap .awsm-b-job-form-control::placeholder {
 	color: color-mix(in srgb, var(--hz-sf-tx-color, #060606), white 15%);
 }
 
-.awsm-job-form-plugin-style .awsm-b-job-form-control::-webkit-input-placeholder {
+.awsm-job-form-plugin-style .awsm-b-job-form-control::-webkit-input-placeholder,
+.awsm-b-filter-wrap .awsm-b-job-form-control::-webkit-input-placeholder {
 	color: color-mix(in srgb, var(--hz-sf-tx-color, #060606), white 15%);
 }
 
-.awsm-job-form-plugin-style .awsm-b-job-form-control::-moz-placeholder {
+.awsm-job-form-plugin-style .awsm-b-job-form-control::-moz-placeholder,
+.awsm-b-filter-wrap .awsm-b-job-form-control::-moz-placeholder {
 	color: color-mix(in srgb, var(--hz-sf-tx-color, #060606), white 15%);
 }
 
-.awsm-job-form-plugin-style .awsm-b-job-form-control:-ms-input-placeholder {
+.awsm-job-form-plugin-style .awsm-b-job-form-control:-ms-input-placeholder,
+.awsm-b-filter-wrap .awsm-b-job-form-control:-ms-input-placeholder {
 	color: color-mix(in srgb, var(--hz-sf-tx-color, #060606), white 15%);
 }
 
