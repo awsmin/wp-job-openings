@@ -167,7 +167,7 @@ a.awsm-b-job-item {
 }
 
 .awsm-b-filter-toggle.awsm-on {
-	background: var(--hz-alert-bg-color, #ccc);
+	background-color: color-mix(in srgb, var(--hz-alert-bg-color, #ccc), black 5%);
 }
 
 .awsm-b-filter-toggle:hover {
@@ -219,6 +219,12 @@ a.awsm-b-job-item {
 	.awsm-b-filter-wrap.awsm-b-full-width-search-filter-wrap .awsm-b-filter-item-search {
 		width: 100%;
 	}
+}
+
+.awsm-b-filter-item-search .awsm-b-job-form-control:focus {
+	border-color: var(--hz-sf-border-color, #cccccc);
+	background-color: var(--hz-sf-bg-color, #ffffff);
+	color: var(--hz-sf-tx-color, inherit);
 }
 
 .awsm-b-filter-wrap .awsm-b-filter-item {
@@ -322,7 +328,7 @@ a.awsm-b-job-item {
 
 .awsm-b-load-more-main a.awsm-b-load-more:hover, .awsm-b-load-more-classic a.page-numbers:hover{
 	background-color: color-mix(in srgb, var(--hz-pagination-bg-color, #fff), black 5%);
-	border-color: color-mix(in srgb, var(--hz-pagination-bg-color, #fff), black 5%);
+	border-color: color-mix(in srgb, var(--hz-pagination-border-color, #cbcbcb), black 5%);
 	color: var(--hz-pagination-tx-color);
 }
 
