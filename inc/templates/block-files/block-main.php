@@ -10,10 +10,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $attributes     = isset( $attributes ) && is_array( $attributes ) ? $attributes : array();
 $view           = isset( $attributes['layout'] ) ? $attributes['layout'] : get_option( 'awsm_jobs_listing_view' );
-$known_layouts  = array( 'list', 'grid', 'stack' );
-if ( ! in_array( $view, $known_layouts, true ) ) {
-	$view = 'list';
-}
 $awsm_filters   = get_option( 'awsm_jobs_filter' );
 $listing_specs  = isset( $attributes['other_options'] ) ? $attributes['other_options'] : '';
 $show_spec_icon = isset( $attributes['show_spec_icon'] ) ? $attributes['show_spec_icon'] : false;

@@ -146,7 +146,6 @@ jQuery( function ( $ ) {
 		const listings = $wrapper.data( "listings" );
 		const layout = $wrapper.data( "awsm-layout" );
 		const hide_expired_jobs = $wrapper.data( "awsm-hide-expired-jobs" );
-		//	let selected_terms 		= $wrapper.data( 'awsm-selected-terms' );
 		const other_options = $wrapper.data( "awsm-other-options" );
 		const show_spec_icon = $wrapper.data( "awsm-spec-icons" );
 		const order_by = $wrapper.data( "awsm-order-by" );
@@ -177,21 +176,6 @@ jQuery( function ( $ ) {
 		if ( typeof layout !== "undefined" ) {
 			formData.push( {name: "awsm-layout", value: layout} );
 		}
-
-		/* if ( selected_terms ) {
-			if ( typeof selected_terms === 'string' ) {
-				try {
-					selected_terms = JSON.parse( selected_terms );
-				} catch ( error ) {
-					console.error('Failed to parse selected_terms JSON:', error);
-					selected_terms = {};
-				}
-			}
-			formData.push( {
-				name: 'awsm-selected-terms',
-				value: JSON.stringify( selected_terms )
-			} );
-		} */
 
 		if ( typeof hide_expired_jobs !== "undefined" ) {
 			formData.push( {
@@ -315,9 +299,6 @@ jQuery( function ( $ ) {
 		const $rootWrapper = $elem.parents( rootWrapperSelector );
 		const searchQuery = $rootWrapper.find( ".awsm-b-job-search" ).val();
 		$rootWrapper.find( wrapperSelector ).data( "search", searchQuery );
-		if ( searchQuery.length === 0 ) {
-			//$rootWrapper.find('.awsm-b-job-search-icon-wrapper').addClass('awsm-b-job-hide');
-		}
 		setPaginationBase( $rootWrapper, "jq", searchQuery );
 		if ( awsmJobsPublic.deep_linking.search ) {
 			const $paginationBase = $rootWrapper.find(
@@ -717,9 +698,7 @@ jQuery( function ( $ ) {
 			const hide_expired_jobs = $listingsContainer.data(
 				"awsm-hide-expired-jobs"
 			);
-			/* let selected_terms = $listingsContainer.data(
-				'awsm-selected-terms'
-			); */
+		
 			const other_options = $listingsContainer.data( "awsm-other-options" );
 			const show_spec_icon = $listingsContainer.data( "awsm-spec-icons" );
 			/* end */
@@ -857,28 +836,6 @@ jQuery( function ( $ ) {
 					value: hide_expired_jobs
 				} );
 			}
-
-			/* if ( selected_terms ) {
-				if ( typeof selected_terms === 'string' ) {
-					try {
-
-						// Parse the JSON string into an object
-						selected_terms = JSON.parse( selected_terms );
-					} catch ( error ) {
-						console.error(
-							'Failed to parse selected_terms JSON:',
-							error
-						);
-						selected_terms = {}; // Fallback to an empty object
-					}
-				}
-
-				// Push to wpData
-				wpData.push( {
-					name: 'awsm-selected-terms',
-					value: JSON.stringify( selected_terms ) // Send as JSON string
-				} );
-			} */
 
 			if ( typeof other_options !== "undefined" ) {
 				wpData.push( {
