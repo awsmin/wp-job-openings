@@ -222,9 +222,11 @@ a.awsm-b-job-item {
 }
 
 .awsm-b-filter-item-search .awsm-b-job-form-control:focus {
-	border-color: var(--hz-sf-border-color, #cccccc);
+	border: var(--hz-ls-border-width, 1px) solid var(--hz-ls-border-color, #cccccc);
 	background-color: var(--hz-sf-bg-color, #ffffff);
 	color: var(--hz-sf-tx-color, inherit);
+	outline: none;
+	box-shadow: none;
 }
 
 .awsm-b-filter-wrap .awsm-b-filter-item {
