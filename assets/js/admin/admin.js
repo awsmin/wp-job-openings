@@ -844,4 +844,63 @@ jQuery(document).ready(function($) {
 		}
 	});
 
+/*================ Job Specs Settings Link - Inject into handle-actions ================*/
+
+	var $actions = $('#awsm-job-meta .handle-actions');
+	if ($actions.length && !$actions.find('.awsm-job-specs-settings-link').length) {
+		if (typeof awsmJobsAdmin !== 'undefined' && awsmJobsAdmin.specs_settings_url) {
+			var $specLink = $('<a>', {
+				href: awsmJobsAdmin.specs_settings_url,
+				'class': 'awsm-job-specs-settings-link awsm-job-tooltip',
+				title: 'Edit Job Specifications',
+				target: '_blank'
+			}).html('<span class="dashicons dashicons-admin-generic"></span>');
+			$actions.prepend($specLink);
+		}
+	}
+
+/*================ Tooltip ================*/
+
+	var $tooltip = $('<div class="awsm-job-tooltip-cnt"></div>').appendTo('body');
+
+	$(document).on('mouseenter', '.awsm-job-tooltip', function () {
+		var $this = $(this);
+		var title = $this.attr('title');
+		if (!title) return;
+
+		$this.data('title', title).removeAttr('title');
+		$tooltip.text(title).removeClass('awsm-top awsm-bottom');
+
+		var rect = this.getBoundingClientRect();
+		var scrollTop = $(window).scrollTop();
+		var tooltipHeight = $tooltip.outerHeight();
+		var tooltipWidth = $tooltip.outerWidth();
+		var top, left;
+
+		if (rect.top - scrollTop > tooltipHeight + 10) {
+			$tooltip.addClass('awsm-top');
+			top = rect.top + scrollTop - tooltipHeight - 8;
+		} else {
+			$tooltip.addClass('awsm-bottom');
+			top = rect.bottom + scrollTop + 8;
+		}
+
+		left = rect.left + (rect.width / 2) - (tooltipWidth / 2);
+		if (left + tooltipWidth > $(window).width()) {
+			left = $(window).width() - tooltipWidth - 8;
+		}
+		if (left < 0) {
+			left = 8;
+		}
+
+		$tooltip.css({ top: top, left: left }).addClass('active');
+	});
+
+	$(document).on('mouseleave', '.awsm-job-tooltip', function () {
+		$(this).attr('title', $(this).data('title'));
+		$tooltip.removeClass('active awsm-top awsm-bottom');
+	});
+
 });
+
+
