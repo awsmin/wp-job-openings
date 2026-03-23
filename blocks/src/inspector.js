@@ -103,16 +103,13 @@ const WidgetInspectorControls = props => {
 	const block_job_listing = [];
 	const block_styles_panel = [];
 
-	const {wasJustInserted, hasOriginalContent} = useSelect(
+	const { wasJustInserted } = useSelect(
 		select => {
 			const editor = select( "core/block-editor" );
-			const block = editor?.getBlock ? editor.getBlock( clientId ) : null;
-
 			return {
 				wasJustInserted: editor?.wasBlockJustInserted
 					? editor.wasBlockJustInserted( clientId )
 					: false,
-				hasOriginalContent: !! block?.originalContent
 			};
 		},
 		[ clientId ]
@@ -607,7 +604,7 @@ const WidgetInspectorControls = props => {
 			<InspectorControls group="styles">
 				<Fragment>
 					<div className="hz-inspector-controls">
-						{ placement === "side" && (
+						{ placement === "side" && ( search || enable_job_filter ) && (
 							<PanelBody
 								title={ __( "Sidebar", "wp-job-openings" ) }
 								initialOpen={ true }
