@@ -706,7 +706,7 @@ class AWSM_Job_Openings_Settings {
 					return $old_value;
 				}
 				if ( ! preg_match( '/^([a-z0-9]+(-|_))*[a-z0-9]+$/', $spec_key ) ) {
-					add_settings_error( 'awsm_jobs_filter', 'awsm-jobs-filter', esc_html__( 'The job specification key should only contain alphanumeric, latin characters separated by hyphen/underscore, and cannot begin or end with a hyphen/underscore.', 'wp-job-openings' ) );
+					add_settings_error( 'awsm_jobs_filter', 'awsm-jobs-filter', esc_html__( 'The job specification key must contain only lowercase alphanumeric characters, may include hyphens or underscores, and cannot start or end with them.', 'wp-job-openings' ) );
 					return $old_value;
 				}
 				if ( isset( $filter['register'] ) ) {

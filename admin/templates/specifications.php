@@ -82,7 +82,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 								<strong>
 									<# if( data.isInvalidKey ) { #>
 										<?php
-											esc_html_e( 'The job specification key should only contain alphanumeric, latin characters separated by hyphen/underscore, and cannot begin or end with a hyphen/underscore.', 'wp-job-openings' );
+											esc_html_e( 'The job specification key must contain only lowercase alphanumeric characters, may include hyphens or underscores, and cannot start or end with them.', 'wp-job-openings' );
 										?>
 									<# } #>
 								</strong>
