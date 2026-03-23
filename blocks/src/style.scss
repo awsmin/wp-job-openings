@@ -706,7 +706,7 @@ a.awsm-b-job-item .awsm-job-specification-item {
 .awsm-jobs-alerts-popup-trigger-btn a.awsm-b-jobs-alerts-trigger-btn:hover,
 .awsm-b-filter-wrap .awsm-b-jobs-alerts-popup-trigger-btn a:hover{
 	background-color: color-mix(in srgb, var(--hz-alert-bg-color, #ffffff), black 5%);
-	border-color: color-mix(in srgb, var(--hz-alert-border-color, #ffffff), black 5%);
+	border-color: color-mix(in srgb, var(--hz-alert-border-color, #cbcbcb), black 5%);
 	color: var(--hz-alert-tx-color, #191919);
 }
 
