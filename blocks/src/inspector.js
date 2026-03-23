@@ -27,13 +27,16 @@ import {
 const enforceMinBorderWidth = ( newBorder, prevBorder ) => {
 	const rawWidth = newBorder?.width ?? prevBorder?.width;
 	if ( ! rawWidth || parseFloat( rawWidth ) !== 0 ) {
-		return { ...prevBorder, ...newBorder };
+		const color = newBorder && 'color' in newBorder ? newBorder.color : prevBorder?.color;
+		return { ...prevBorder, ...newBorder, color };
 	}
+	// Width hit 0 — enforce minimum and always preserve previous color
 	const unit = rawWidth.replace( /[\d.]/g, '' ) || 'px';
 	return {
 		...prevBorder,
 		...newBorder,
 		width: '1' + unit,
+		color: prevBorder?.color,
 	};
 };
 
@@ -631,11 +634,13 @@ const WidgetInspectorControls = props => {
 									__experimentalIsRenderedInSidebar
 									onChange={ newBorder => {
 										const width = newBorder?.width ?? hz_sf_border?.width;
+										const color = newBorder && 'color' in newBorder ? newBorder.color : hz_sf_border?.color;
 										setAttributes( {
 											hz_sf_border: {
 												...hz_sf_border,
 												...newBorder,
-												width
+												width,
+												color: parseFloat( width ) > 0 ? color : undefined
 											}
 										} );
 									} }
@@ -811,11 +816,13 @@ const WidgetInspectorControls = props => {
 								__experimentalIsRenderedInSidebar
 								onChange={ newBorder => {
 									const width = newBorder?.width ?? hz_bs_border?.width;
+									const color = newBorder && 'color' in newBorder ? newBorder.color : hz_bs_border?.color;
 									setAttributes( {
 										hz_bs_border: {
 											...hz_bs_border,
 											...newBorder,
-											width
+											width,
+											color: parseFloat( width ) > 0 ? color : undefined
 										}
 									} );
 								} }
