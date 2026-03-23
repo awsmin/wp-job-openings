@@ -159,19 +159,29 @@ a.awsm-b-job-item {
 	flex-flow: wrap;
 	width: 46px;
 	padding: 12px;
-	border: 1px solid #ccc;
+	border: 1px solid var(--hz-alert-border-color, #ccc);
 	margin: 0 10px 10px;
 	border-radius: 4px;
 	outline: none !important;
+	background-color: var(--hz-alert-bg-color, transparent);
 }
 
 .awsm-b-filter-toggle.awsm-on {
-	background: #ccc;
+	background: var(--hz-alert-bg-color, #ccc);
+}
+
+.awsm-b-filter-toggle:hover {
+	background-color: color-mix(in srgb, var(--hz-alert-bg-color, #ccc), black 5%);
+	border-color: color-mix(in srgb, var(--hz-alert-border-color, #ccc), black 5%);
 }
 
 .awsm-b-filter-toggle svg {
 	width: 20px;
 	height: 20px;
+}
+
+.awsm-b-filter-toggle svg path {
+	fill: var(--hz-alert-tx-color, #191919);
 }
 
 .awsm-b-filter-wrap.awsm-b-no-search-filter-wrap .awsm-b-filter-toggle {
