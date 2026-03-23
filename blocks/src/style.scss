@@ -1079,3 +1079,14 @@ a.awsm-b-job-item .awsm-job-specification-item {
 	background-color: color-mix(in srgb, var(--hz-b-bg-color), black 5%);
 	color: var(--hz-b-tx-color);
 }
+
+@media (max-width: 767px) {
+	.awsm-job-2-col .awsm-jobs-alerts-on .awsm-b-filter-item-search {
+	  width: calc(100% - 66px);
+	}
+
+	.awsm-job-2-col .awsm-jobs-alerts-on .awsm-b-jobs-alerts-trigger-btn{
+		margin-left: 10px;
+		margin-right: 10px;
+	}
+}
