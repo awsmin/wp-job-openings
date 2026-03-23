@@ -384,7 +384,7 @@ if ( ! function_exists( 'hz_get_ui_styles' ) ) {
 				: '',
 			'border_color_jobs'                => ! empty( $attributes['hz_jl_border_color'] )
 				? sanitize_hex_color( $attributes['hz_jl_border_color'] )
-				: '#ccc',
+				: '#CBCBCB',
 			'jobs_border_radius_topleft'       => $attributes['hz_jl_border_radius']['topLeft'] ?? '5px',
 			'jobs_border_radius_topright'      => $attributes['hz_jl_border_radius']['topRight'] ?? '5px',
 			'jobs_border_radius_bottomright'   => $attributes['hz_jl_border_radius']['bottomRight'] ?? '5px',
@@ -408,7 +408,7 @@ if ( ! function_exists( 'hz_get_ui_styles' ) ) {
 				: '',
 			'button_color_field'               => ! empty( $attributes['hz_bs_border_color'] )
 				? sanitize_hex_color( $attributes['hz_bs_border_color'] )
-				: '#ccc',
+				: '#4e35df',
 			'button_border_radius_topleft'     => $attributes['hz_bs_border_radius']['topLeft'] ?? '5px',
 			'button_border_radius_topright'    => $attributes['hz_bs_border_radius']['topRight'] ?? '5px',
 			'button_border_radius_bottomright' => $attributes['hz_bs_border_radius']['bottomRight'] ?? '5px',

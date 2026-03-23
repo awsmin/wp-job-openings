@@ -24,6 +24,19 @@ import {
 	PanelRow
 } from "@wordpress/components";
 
+const enforceMinBorderWidth = ( newBorder, prevBorder ) => {
+	const rawWidth = newBorder?.width ?? prevBorder?.width;
+	if ( ! rawWidth || parseFloat( rawWidth ) !== 0 ) {
+		return { ...prevBorder, ...newBorder };
+	}
+	const unit = rawWidth.replace( /[\d.]/g, '' ) || 'px';
+	return {
+		...prevBorder,
+		...newBorder,
+		width: '1' + unit,
+	};
+};
+
 const WidgetInspectorControls = props => {
 	const {
 		clientId,
@@ -731,14 +744,8 @@ const WidgetInspectorControls = props => {
 									value={ hz_ls_border }
 									__experimentalIsRenderedInSidebar
 									onChange={ newBorder => {
-										const rawWidth = newBorder?.width ?? hz_ls_border?.width;
-										const width = rawWidth === "0px" ? "1px" : rawWidth;
 										setAttributes( {
-											hz_ls_border: {
-												...hz_ls_border,
-												...newBorder,
-												width
-											}
+											hz_ls_border: enforceMinBorderWidth( newBorder, hz_ls_border )
 										} );
 									} }
 									enableStyle={ false }
@@ -795,14 +802,8 @@ const WidgetInspectorControls = props => {
 								value={ hz_jl_border }
 								__experimentalIsRenderedInSidebar
 								onChange={ newBorder => {
-									const rawWidth = newBorder?.width ?? hz_jl_border?.width;
-									const width = rawWidth === "0px" ? "1px" : rawWidth;
 									setAttributes( {
-										hz_jl_border: {
-											...hz_jl_border,
-											...newBorder,
-											width
-										}
+										hz_jl_border: enforceMinBorderWidth( newBorder, hz_jl_border )
 									} );
 								} }
 								enableStyle={ false }
@@ -933,13 +934,8 @@ const WidgetInspectorControls = props => {
 								value={ hz_pagination_border }
 								__experimentalIsRenderedInSidebar
 								onChange={ newBorder => {
-									const width = newBorder?.width ?? hz_pagination_border?.width;
 									setAttributes( {
-										hz_pagination_border: {
-											...hz_pagination_border,
-											...newBorder,
-											width
-										}
+										hz_pagination_border: enforceMinBorderWidth( newBorder, hz_pagination_border )
 									} );
 								} }
 								enableStyle={ false }
