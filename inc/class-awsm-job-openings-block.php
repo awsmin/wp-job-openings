@@ -34,6 +34,7 @@ class AWSM_Job_Openings_Block {
 			'search'                     => isset( $blockatts['search'] ) ? $blockatts['search'] : '',
 			'enable_job_filter'          => isset( $blockatts['enable_job_filter'] ) ? $blockatts['enable_job_filter'] : '',
 			'filter_options'             => isset( $blockatts['filter_options'] ) ? $blockatts['filter_options'] : array(),
+			'filter_types'               => isset( $blockatts['filter_types'] ) ? $blockatts['filter_types'] : array(),
 			'layout'                     => isset( $blockatts['layout'] ) ? $blockatts['layout'] : '',
 			'hide_expired_jobs'          => isset( $blockatts['hide_expired_jobs'] ) ? $blockatts['hide_expired_jobs'] : '',
 			'placement'                  => isset( $blockatts['placement'] ) ? $blockatts['placement'] : 'top',
@@ -742,15 +743,20 @@ class AWSM_Job_Openings_Block {
 						}
 
 						$spec_multiple_class = $multiple_for_spec = '';
-						if ( isset( $block_atts['filter_options'] ) && is_array( $block_atts['filter_options'] ) ) {
-							foreach ( $block_atts['filter_options'] as $check_multiple ) {
-								if ( is_array( $check_multiple ) && isset( $check_multiple['specKey'], $check_multiple['value'] ) ) {
-									if ( $taxonomy == $check_multiple['specKey'] && $check_multiple['value'] == 'checkbox' ) {
-										$spec_multiple_class = 'awsm-b-spec-multiple';
-										$multiple_for_spec   = 'multiple';
-									}
+						$is_checkbox = false;
+						if ( isset( $block_atts['filter_types'][ $taxonomy ] ) ) {
+							$is_checkbox = $block_atts['filter_types'][ $taxonomy ] === 'checkbox';
+						} elseif ( isset( $block_atts['filter_options'] ) && is_array( $block_atts['filter_options'] ) ) {
+							foreach ( $block_atts['filter_options'] as $opt ) {
+								if ( is_array( $opt ) && isset( $opt['specKey'] ) && $opt['specKey'] === $taxonomy && ( $opt['value'] ?? '' ) === 'checkbox' ) {
+									$is_checkbox = true;
+									break;
 								}
 							}
+						}
+						if ( $is_checkbox ) {
+							$spec_multiple_class = 'awsm-b-spec-multiple';
+							$multiple_for_spec   = 'multiple';
 						}
 
 						$dropdown_content = sprintf( '<div class="awsm-b-filter-item" data-filter="%2$s"><label for="awsm-%1$s-filter-option%5$s" class="awsm-b-sr-only">%3$s</label><select name="awsm_job_spec[%1$s][]" class="awsm-b-filter-option ' . $spec_multiple_class . ' awsm-%1$s-filter-option ' . $filter_class_admin_select_control . '" id="awsm-%1$s-filter-option%5$s" aria-label="%3$s" ' . $multiple_for_spec . '><option value="">%3$s</option>%4$s</select></div>', esc_attr( $taxonomy ), esc_attr( $filter_key . '_spec' ), esc_html( $filter_label ), $options_content, esc_attr( $uid ) );
@@ -898,7 +904,7 @@ class AWSM_Job_Openings_Block {
 		if ( $enable_job_filters === 'enable' && ! empty( $taxonomies ) && is_array( $filter_options ) && ! empty( $filter_options ) ) {
 			foreach ( $taxonomies as $taxonomy => $tax_details ) {
 				foreach ( $filter_options as $spec ) {
-					if ( is_array( $spec ) && isset( $spec['specKey'] ) && $taxonomy == $spec['specKey'] ) {
+					if ( ( is_string( $spec ) && $taxonomy === $spec ) || ( is_array( $spec ) && isset( $spec['specKey'] ) && $taxonomy === $spec['specKey'] ) ) {
 						// Get terms for the taxonomy
 						$terms = self::get_block_filter_terms( $taxonomy );
 
@@ -977,15 +983,21 @@ class AWSM_Job_Openings_Block {
 								$filter_class_admin_select_control = ' awsm-b-filter-option';
 							}
 
-							//$block_atts['filter_options']
 							$spec_multiple_class = $multiple_for_spec = '';
-							foreach ( $block_atts['filter_options'] as $check_multiple ) {
-								if ( is_array( $check_multiple ) && isset( $check_multiple['specKey'], $check_multiple['value'] ) ) {
-									if ( $taxonomy == $check_multiple['specKey'] && $check_multiple['value'] == 'checkbox' ) {
-										$spec_multiple_class = 'awsm-b-spec-multiple';
-										$multiple_for_spec   = 'multiple';
+							$is_checkbox = false;
+							if ( isset( $block_atts['filter_types'][ $taxonomy ] ) ) {
+								$is_checkbox = $block_atts['filter_types'][ $taxonomy ] === 'checkbox';
+							} elseif ( is_array( $block_atts['filter_options'] ) ) {
+								foreach ( $block_atts['filter_options'] as $opt ) {
+									if ( is_array( $opt ) && isset( $opt['specKey'] ) && $opt['specKey'] === $taxonomy && ( $opt['value'] ?? '' ) === 'checkbox' ) {
+										$is_checkbox = true;
+										break;
 									}
 								}
+							}
+							if ( $is_checkbox ) {
+								$spec_multiple_class = 'awsm-b-spec-multiple';
+								$multiple_for_spec   = 'multiple';
 							}
 
 							$label_class_name = '';

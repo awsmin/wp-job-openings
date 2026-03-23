@@ -27,6 +27,10 @@
       "type": "array",
       "default": []
     },
+    "filter_types": {
+      "type": "object",
+      "default": {}
+    },
     "list_type": {
       "type": "string",
       "default": "all"
