@@ -852,7 +852,7 @@ jQuery(document).ready(function($) {
 			var $specLink = $('<a>', {
 				href: awsmJobsAdmin.specs_settings_url,
 				'class': 'awsm-job-specs-settings-link awsm-job-tooltip',
-				title: awsmJobsAdmin.i18n.edit_job_specs,
+				'data-tooltip': awsmJobsAdmin.i18n.edit_job_specs,
 				target: '_blank'
 			}).html('<span class="dashicons dashicons-admin-generic"></span>');
 			$actions.prepend($specLink);
@@ -864,30 +864,28 @@ jQuery(document).ready(function($) {
 	var $tooltip = $('<div class="awsm-job-tooltip-cnt"></div>').appendTo('body');
 
 	$(document).on('mouseenter', '.awsm-job-tooltip', function () {
-		var $this = $(this);
-		var title = $this.attr('title');
-		if (!title) return;
+		var label = $(this).data('tooltip');
+		if (!label) return;
 
-		$this.data('title', title).removeAttr('title');
-		$tooltip.text(title).removeClass('awsm-top awsm-bottom');
+		$tooltip.text(label).removeClass('awsm-top awsm-bottom');
 
 		var rect = this.getBoundingClientRect();
-		var scrollTop = $(window).scrollTop();
 		var tooltipHeight = $tooltip.outerHeight();
 		var tooltipWidth = $tooltip.outerWidth();
 		var top, left;
 
-		if (rect.top - scrollTop > tooltipHeight + 10) {
+		// position: fixed — viewport-relative, no scrollTop needed
+		if (rect.top > tooltipHeight + 10) {
 			$tooltip.addClass('awsm-top');
-			top = rect.top + scrollTop - tooltipHeight - 8;
+			top = rect.top - tooltipHeight - 8;
 		} else {
 			$tooltip.addClass('awsm-bottom');
-			top = rect.bottom + scrollTop + 8;
+			top = rect.bottom + 8;
 		}
 
 		left = rect.left + (rect.width / 2) - (tooltipWidth / 2);
-		if (left + tooltipWidth > $(window).width()) {
-			left = $(window).width() - tooltipWidth - 8;
+		if (left + tooltipWidth > window.innerWidth) {
+			left = window.innerWidth - tooltipWidth - 8;
 		}
 		if (left < 0) {
 			left = 8;
@@ -897,7 +895,6 @@ jQuery(document).ready(function($) {
 	});
 
 	$(document).on('mouseleave', '.awsm-job-tooltip', function () {
-		$(this).attr('title', $(this).data('title'));
 		$tooltip.removeClass('active awsm-top awsm-bottom');
 	});
 
