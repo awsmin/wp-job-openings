@@ -973,6 +973,19 @@ class AWSM_Job_Openings_Settings {
 			$initial_tab        = true;
 			$current_tab_option = "awsm_current_{$section}_subtab";
 			$current_tab_id     = get_option( $current_tab_option, $subtab_id );
+
+			// If a subtab is requested via URL (e.g. from the gear icon on job edit page), honour it.
+			if ( ! empty( $_GET['subtab'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				$url_subtab_id = sanitize_key( wp_unslash( $_GET['subtab'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				// Build valid IDs using the same pattern as the render loop.
+				$valid_ids = array();
+				foreach ( $subtabs as $key => $subtab ) {
+					$valid_ids[] = isset( $subtab['id'] ) ? $subtab['id'] : "awsm-{$key}-{$section}-nav-subtab";
+				}
+				if ( in_array( $url_subtab_id, $valid_ids, true ) ) {
+					$current_tab_id = $url_subtab_id;
+				}
+			}
 			?>
 			<div class="awsm-nav-subtab-container awsm-clearfix">
 				<ul class="subsubsub">

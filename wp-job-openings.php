@@ -1370,7 +1370,7 @@ class AWSM_Job_Openings {
 					),
 					'edit_job_specs' => esc_html__( 'Edit Job Specifications', 'wp-job-openings' ),
 				),
-				'specs_settings_url'        => admin_url( 'edit.php?post_type=awsm_job_openings&page=awsm-jobs-settings&tab=specifications' ),
+				'specs_settings_url'        => admin_url( 'edit.php?post_type=awsm_job_openings&page=awsm-jobs-settings&tab=specifications&subtab=awsm-manage_spec-specifications-nav-subtab' ),
 			'awsm_filters'              => self::get_filter_specifications(),
 				'awsm_filters_block'        => AWSM_Job_Openings_Block::get_block_filter_specifications(),
 				'awsm_featured_image_block' => AWSM_Job_Openings_Block::get_block_featured_image_size(),
