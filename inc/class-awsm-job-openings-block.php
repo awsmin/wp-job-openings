@@ -448,6 +448,13 @@ class AWSM_Job_Openings_Block {
 
 		foreach ( $_GET as $key => $value ) {
 
+			// 'jq' is already stored as data-search; adding it again as data-jq
+			// causes getListingsData() in view.js to override the live form input
+			// value with the stale PHP-rendered value on every filter AJAX call.
+			if ( $key === 'jq' ) {
+				continue;
+			}
+
 			$sanitized_key = sanitize_key( $key );
 
 			if ( is_array( $value ) ) {
