@@ -776,7 +776,7 @@ class AWSM_Job_Openings_Block {
 		$custom_action_content = ob_get_clean();
 		/* end */
 
-		if ( ! empty( $search_content ) || ! empty( $specs_filter_content ) ) {
+		if ( ! empty( $search_content ) || ! empty( $specs_filter_content ) || ! empty( $custom_action_content ) ) {
 			$current_lang          = AWSM_Job_Openings::get_current_language();
 			$hidden_fields_content = '';
 			if ( ! empty( $current_lang ) ) {
@@ -1079,11 +1079,15 @@ class AWSM_Job_Openings_Block {
 			);
 		}
 
-		$filter_content = sprintf(
-			'<form action="%2$s/wp-admin/admin-ajax.php" method="POST">%1$s</form>',
-			$search_content . $specs_filter_content . $hidden_fields_content,
-			esc_url( site_url() )
-		);
+		$filter_content = '';
+
+		if ( ! empty( $search_content ) || ! empty( $specs_filter_content ) ) {
+			$filter_content = sprintf(
+				'<form action="%2$s/wp-admin/admin-ajax.php" method="POST">%1$s</form>',
+				$search_content . $specs_filter_content . $hidden_fields_content,
+				esc_url( site_url() )
+			);
+		}
 
 		// Output the filter form content
 		echo apply_filters( 'awsm_filter_block_content_placement_side', $filter_content ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
