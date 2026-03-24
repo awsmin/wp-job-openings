@@ -260,6 +260,7 @@ a.awsm-b-job-item {
 
 .awsm-b-filter-item-search .awsm-b-job-form-control {
 	padding-right: 48px;
+	padding-left: 9px;
 	min-height: 48px;
 	border: var(--hz-ls-border-width, 1px) solid var(--hz-ls-border-color, #cccccc);
 	border-radius:
@@ -571,25 +572,25 @@ a.awsm-b-job-item .awsm-job-specification-item {
 
 .awsm-job-form-plugin-style .awsm-b-job-form-control::placeholder,
 .awsm-b-filter-item-search .awsm-b-job-form-control::placeholder {
-	color: color-mix(in srgb, var(--hz-sf-tx-color, #060606), white 5%);
+	color: color-mix(in srgb, var(--hz-sf-tx-color, #060606), white 55%);
 	opacity: 1;
 }
 
 .awsm-job-form-plugin-style .awsm-b-job-form-control::-webkit-input-placeholder,
 .awsm-b-filter-wrap .awsm-b-job-form-control::-webkit-input-placeholder {
-	color: color-mix(in srgb, var(--hz-sf-tx-color, #060606), white 5%);
+	color: color-mix(in srgb, var(--hz-sf-tx-color, #060606), white 55%);
 	opacity: 1;
 }
 
 .awsm-job-form-plugin-style .awsm-b-job-form-control::-moz-placeholder,
 .awsm-b-filter-wrap .awsm-b-job-form-control::-moz-placeholder {
-	color: color-mix(in srgb, var(--hz-sf-tx-color, #060606), white 5%);
+	color: color-mix(in srgb, var(--hz-sf-tx-color, #060606), white 55%);
 	opacity: 1;
 }
 
 .awsm-job-form-plugin-style .awsm-b-job-form-control:-ms-input-placeholder,
 .awsm-b-filter-wrap .awsm-b-job-form-control:-ms-input-placeholder {
-	color: color-mix(in srgb, var(--hz-sf-tx-color, #060606), white 5%);
+	color: color-mix(in srgb, var(--hz-sf-tx-color, #060606), white 55%);
 	opacity: 1;
 }
 
