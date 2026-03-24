@@ -776,7 +776,7 @@ class AWSM_Job_Openings_Block {
 		$custom_action_content = ob_get_clean();
 		/* end */
 
-		if ( ! empty( $search_content ) || ! empty( $specs_filter_content ) || ! empty( $custom_action_content ) ) {
+		if ( ! empty( $search_content ) || ! empty( $specs_filter_content ) ) {
 			$current_lang          = AWSM_Job_Openings::get_current_language();
 			$hidden_fields_content = '';
 			if ( ! empty( $current_lang ) ) {
@@ -845,6 +845,8 @@ class AWSM_Job_Openings_Block {
 				'',
 				$alert_existing_class
 			);
+		} elseif ( ! empty( $custom_action_content ) ) {
+			$filter_content = $custom_action_content;
 		}
 
 		/**
