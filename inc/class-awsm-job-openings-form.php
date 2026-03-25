@@ -912,7 +912,22 @@ class AWSM_Job_Openings_Form {
 					}
 
 					$mail_content = AWSM_Job_Openings_Mail_Customizer::sanitize_content( $options['content'] );
-					if ( ! preg_match( '/<(p|div|br|table|ul|ol|li|h[1-6]|blockquote)[\s>\/]/i', $mail_content ) ) {
+					if ( preg_match( '/<[a-z][^>]*>/i', $mail_content ) ) {
+						// Content has HTML - apply nl2br only to non-whitespace text nodes,
+						// preserving all HTML tags (p, ul, li, strong, etc.) as-is.
+						$mail_content = preg_replace_callback(
+							'/(<[^>]+>|[^<]+)/s',
+							function( $matches ) {
+								$chunk = $matches[0];
+								// Return HTML tags and whitespace-only gaps between tags as-is.
+								if ( empty( $chunk ) || '<' === $chunk[0] || '' === trim( $chunk ) ) {
+									return $chunk;
+								}
+								return nl2br( $chunk );
+							},
+							$mail_content
+						);
+					} else {
 						$mail_content = nl2br( $mail_content );
 					}
 
