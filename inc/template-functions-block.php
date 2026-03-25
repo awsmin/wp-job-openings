@@ -552,7 +552,7 @@ if ( ! function_exists( 'render_awsm_block_job_wrap' ) ) {
 				<?php endif; ?>
 
 				<div class="awsm-b-job-listings"<?php awsm_block_jobs_data_attrs( array(), $attributes ); ?>>
-					<div <?php echo awsm_block_jobs_view_class( 'custom-class', $attributes ); ?>>
+					<div <?php awsm_block_jobs_view_class( 'custom-class', $attributes ); ?>>
 						<?php include get_awsm_jobs_template_path( 'block-main', 'block-files' ); ?>
 					</div>
 				</div>

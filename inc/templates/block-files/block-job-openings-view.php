@@ -100,7 +100,7 @@ $block_style_variables = "
 	}
 	";
 
-	echo apply_filters( 'hz_ui_styles_css_variables', $block_style_variables, $styles );
+	echo apply_filters( 'hz_ui_styles_css_variables', $block_style_variables, $styles ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 ?>
 </style>
 <!-- End -->
@@ -152,7 +152,7 @@ if ( function_exists( 'get_block_wrapper_attributes' ) ) {
 
 if ( $placement === 'top' ) {
 	?>
-		<div <?php echo $wrapper_attrs; ?>>
+		<div <?php echo $wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 				<?php
 					/**
 					 * awsm_block_filter_form hook
@@ -171,7 +171,7 @@ if ( $placement === 'top' ) {
 		<?php
 } else {
 	?>
-			<div <?php echo $wrapper_attrs; ?>>
+			<div <?php echo $wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 			<?php if ( $show_filter ) { ?>
 					<?php
 					// Only use the Selectric loading state when rendering actual search/filters.
@@ -179,7 +179,7 @@ if ( $placement === 'top' ) {
 						? ''
 						: ' awsm-selectric-loading';
 					?>
-					<div class="awsm-b-filter-wrap<?php echo $filter_wrap_loading_class; ?><?php echo class_exists( 'AWSM_Job_Openings_Alert_Main_Blocks' ) ? ' awsm-jobs-alerts-on' : ''; ?>">
+					<div class="awsm-b-filter-wrap<?php echo esc_attr( $filter_wrap_loading_class ); ?><?php echo class_exists( 'AWSM_Job_Openings_Alert_Main_Blocks' ) ? ' awsm-jobs-alerts-on' : ''; ?>">
 						<?php
 						/**
 						 * awsm_block_filter_form_side hook
@@ -228,7 +228,7 @@ if ( $placement === 'top' ) {
 }
 ?>
 			<div class="awsm-b-job-listings"<?php awsm_block_jobs_data_attrs( array(), $attributes ); ?>>
-				<div <?php echo awsm_block_jobs_view_class( $placement === 'top' ? '' : 'custom-class', $attributes ); ?>>
+				<div <?php awsm_block_jobs_view_class( $placement === 'top' ? '' : 'custom-class', $attributes ); ?>>
 					<?php if ( $query->have_posts() ) : ?>
 						<?php
 						include get_awsm_jobs_template_path( 'block-main', 'block-files' );
