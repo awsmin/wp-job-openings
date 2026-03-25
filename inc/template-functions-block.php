@@ -193,11 +193,11 @@ if ( ! function_exists( 'awsm_block_jobs_data_attrs' ) ) {
 }
 
 if ( ! function_exists( 'awsm_block_jobs_load_more' ) ) {
-	function awsm_block_jobs_load_more( $query, $shortcode_atts = array() ) {
-		$loadmore      = isset( $shortcode_atts['block_loadmore'] ) && $shortcode_atts['block_loadmore'] === 'no' ? false : true;
+	function awsm_block_jobs_load_more( $query, $attributes = array() ) {
+		$loadmore      = isset( $attributes['block_loadmore'] ) && $attributes['block_loadmore'] === 'no' ? false : true;
 		$max_num_pages = $query->max_num_pages;
 		if ( $loadmore && $max_num_pages > 1 ) {
-			if ( AWSM_Job_Openings::is_default_pagination( $shortcode_atts ) ) {
+			if ( AWSM_Job_Openings::is_default_pagination( $attributes ) ) {
 				$paged = ( $query->query_vars['paged'] ) ? $query->query_vars['paged'] : 1;
 				if ( $paged < $max_num_pages ) {
 					$load_more_content = sprintf( '<div class="awsm-b-jobs-pagination awsm-b-load-more-main"><a href="#" class="awsm-b-load-more awsm-b-load-more-btn" data-page="%2$s">%1$s</a></div>', esc_html__( 'Load more', 'wp-job-openings' ), esc_attr( $paged ) );
@@ -208,9 +208,9 @@ if ( ! function_exists( 'awsm_block_jobs_load_more' ) ) {
 					 *
 					 * @param string $load_more_content The HTML content.
 					 * @param WP_Query $query The Query object.
-					 * @param array $shortcode_atts Shortcode attributes.
+					 * @param array $attributes Block attributes.
 					 */
-					echo apply_filters( 'awsm_block_jobs_load_more_content', $load_more_content, $query, $shortcode_atts ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					echo apply_filters( 'awsm_block_jobs_load_more_content', $load_more_content, $query, $attributes ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				}
 			} else {
 				echo awsm_block_jobs_paginate_links( $query ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
