@@ -179,7 +179,7 @@ if ( $placement === 'top' ) {
 						? ''
 						: ' awsm-selectric-loading';
 					?>
-					<div class="awsm-b-filter-wrap<?php echo esc_attr( $filter_wrap_loading_class ); ?><?php echo class_exists( 'AWSM_Job_Openings_Alert_Main_Blocks' ) ? ' awsm-jobs-alerts-on' : ''; ?>">
+					<div class="awsm-b-filter-wrap<?php echo esc_attr( $filter_wrap_loading_class ); ?><?php echo class_exists( 'AWSM_Job_Openings_Alert_Main_Blocks' ) ? ' awsm-jobs-alerts-on' : ''; ?>" data-placement="side">
 						<?php
 						/**
 						 * awsm_block_filter_form_side hook

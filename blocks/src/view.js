@@ -381,6 +381,8 @@ jQuery( function ( $ ) {
 	// Init Selectric for each filter select.
 	$( filterSelector + " .awsm-b-filter-option" ).each( function () {
 		const $selectEl = $( this );
+		const placement = $selectEl.closest( filterSelector ).data( "placement" ) || "top";
+		const isTopPlacement = placement !== "side";
 
 		$selectEl.selectric( {
 			// Use Selectric UI on mobile too; native <select multiple> is not usable on many devices.
@@ -389,7 +391,7 @@ jQuery( function ( $ ) {
 			multiple: {
 				keepMenuOpen: true,
 				separator: ", ",
-				maxLabelEntries: 2
+				maxLabelEntries: isTopPlacement ? 2 : false
 			},
 			onInit( select, selectric ) {
 				const id = select.id;

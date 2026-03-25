@@ -845,7 +845,7 @@ class AWSM_Job_Openings_Block {
 			}
 
 			$filter_content = sprintf(
-				'<div class="%3$s%5$s"><form action="%2$s/wp-admin/admin-ajax.php" method="POST">%1$s %4$s</form></div>',
+				'<div class="%3$s%5$s" data-placement="top"><form action="%2$s/wp-admin/admin-ajax.php" method="POST">%1$s %4$s</form></div>',
 				$search_content . $custom_action_content_main . $specs_filter_content . $hidden_fields_content,
 				esc_url( site_url() ),
 				esc_attr( $wrapper_class ),
