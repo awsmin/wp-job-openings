@@ -27,8 +27,8 @@ class AWSM_Job_Openings_Dashboard_Widget {
 	public function display_widget() {
 		$overview_data             = AWSM_Job_Openings::get_overview_data();
 		$active_jobs               = intval( $overview_data['active_jobs'] );
-		$total_active_applications = intval( $overview_data['active_applications'] ?? 0 );
-		$applications_count        = intval( $overview_data['unread_applications'] ?? 0 );
+		$total_active_applications = intval( isset( $overview_data['active_applications'] ) ? $overview_data['active_applications'] : 0 );
+		$applications_count        = intval( isset( $overview_data['unread_applications'] ) ? $overview_data['unread_applications'] : 0 );
 		$job_data                  = $this->get_job_data();
 
 		?>

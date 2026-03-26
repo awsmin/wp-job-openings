@@ -182,7 +182,7 @@ class AWSM_Job_Openings_Core {
 
 		// Only count applications explicitly marked as unread ('0').
 		// Old applications without this meta (NULL) are treated as viewed — not counted.
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$count = $wpdb->get_var(
 			$wpdb->prepare(
 				"SELECT COUNT(DISTINCT p.ID)
@@ -201,6 +201,7 @@ class AWSM_Job_Openings_Core {
 				'publish'
 			)
 		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		return (int) $count;
 	}

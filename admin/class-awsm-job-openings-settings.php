@@ -1171,7 +1171,7 @@ class AWSM_Job_Openings_Settings {
 
 												// Extract spec_key from name attribute
 												preg_match( '/\[(.*?)\]/', $radio_choice['name'], $matches );
-												$spec_key = $matches[1] ?? '';
+												$spec_key = isset( $matches[1] ) ? $matches[1] : '';
 
 												// Determine if this radio should be checked
 												$radio_checked = ( isset( $display_type_choices[ $spec_key ] ) && $display_type_choices[ $spec_key ] === $radio_choice['value'] ) ? ' checked' : '';
@@ -1417,7 +1417,7 @@ class AWSM_Job_Openings_Settings {
 					$tag_options .= sprintf(
 						'<option value="%1$s" data-termid="%2$s" selected>%1$s</option>',
 						esc_attr( $term->name ),
-						esc_attr( $term->term_id ),
+						esc_attr( $term->term_id )
 					);
 				}
 			}
@@ -2054,7 +2054,7 @@ class AWSM_Job_Openings_Settings {
 						foreach ( $choices as $choice ) {
 							$val  = isset( $choice['value'] ) ? esc_attr( $choice['value'] ) : 'on';
 							$text = isset( $choice['text'] ) ? esc_html( $choice['text'] ) : '';
-							printf( '<label><input type="checkbox" name="%1$s[]" value="%2$s" %3$s class="%4$s" /> %5$s</label>', esc_attr( $name ), esc_attr( $val ), checked( is_array( (array) $value ) && in_array( esc_attr( $val ), (array) $value, true ) || $value === $val, true, false ), esc_attr( $class ), esc_html( $text ) );
+							printf( '<label><input type="checkbox" name="%1$s[]" value="%2$s" %3$s class="%4$s" /> %5$s</label>', esc_attr( $name ), esc_attr( $val ), checked( ( is_array( (array) $value ) && in_array( esc_attr( $val ), (array) $value, true ) ) || $value === $val, true, false ), esc_attr( $class ), esc_html( $text ) );
 						}
 					}
 					break;

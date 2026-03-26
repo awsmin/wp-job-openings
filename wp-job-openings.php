@@ -1087,7 +1087,7 @@ class AWSM_Job_Openings {
 		if ( is_singular( 'awsm_job_openings' ) ) {
 			// block search engine robots to expired jobs
 			if ( ! function_exists( 'wp_robots_no_robots' ) && $post->post_status === 'expired' && get_option( 'awsm_jobs_expired_jobs_block_search' ) === 'block_expired' ) {
-				wp_no_robots();
+				wp_no_robots(); // phpcs:ignore WordPress.WP.DeprecatedFunctions.wp_no_robotsFound
 			}
 		}
 	}
