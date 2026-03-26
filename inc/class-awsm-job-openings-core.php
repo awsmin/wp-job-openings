@@ -25,7 +25,6 @@ class AWSM_Job_Openings_Core {
 		add_filter( 'woocommerce_disable_admin_bar', array( $this, 'woocommerce_disable_backend_access' ) );
 		add_filter( 'woocommerce_prevent_admin_access', array( $this, 'woocommerce_disable_backend_access' ) );
 		add_filter( 'enter_title_here', array( $this, 'change_add_title_for_awsm_job_openings' ), 10, 2 );
-
 	}
 
 	public static function init() {
@@ -487,5 +486,4 @@ class AWSM_Job_Openings_Core {
 		}
 		return $title;
 	}
-
 }

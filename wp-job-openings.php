@@ -105,7 +105,6 @@ class AWSM_Job_Openings {
 		add_shortcode( 'awsmjobs', array( $this, 'awsm_jobs_shortcode' ) );
 		add_action( 'transition_post_status', array( $this, 'expiry_notification_handler' ), 10, 3 );
 		add_filter( 'display_post_states', array( $this, 'display_job_post_states' ), 10, 2 );
-
 	}
 
 	public static function init() {
@@ -439,7 +438,7 @@ class AWSM_Job_Openings {
 		);
 		$shortcode_atts = shortcode_atts( $pairs, $atts, 'awsmjobs' );
 
-		$this->unique_listing_id++;
+		++$this->unique_listing_id;
 
 		ob_start();
 		include self::get_template_path( 'job-openings-view.php' );
@@ -1302,7 +1301,7 @@ class AWSM_Job_Openings {
 			),
 			'is_homepage'        => ( is_front_page() || is_home() ),
 			'block_nonce'        => wp_create_nonce( 'awsm_block_ajax' ),
-		'view_count_nonce'   => wp_create_nonce( 'awsm_view_count_nonce' ),
+			'view_count_nonce'   => wp_create_nonce( 'awsm_view_count_nonce' ),
 		);
 		/**
 		 * Filters the public script localized data.
@@ -1368,10 +1367,10 @@ class AWSM_Job_Openings {
 						'title'    => esc_html__( 'Select or Upload an Image', 'wp-job-openings' ),
 						'btn_text' => esc_html__( 'Choose', 'wp-job-openings' ),
 					),
-					'edit_job_specs' => esc_html__( 'Edit Job Specifications', 'wp-job-openings' ),
+					'edit_job_specs'  => esc_html__( 'Edit Job Specifications', 'wp-job-openings' ),
 				),
 				'specs_settings_url'        => admin_url( 'edit.php?post_type=awsm_job_openings&page=awsm-jobs-settings&tab=specifications&subtab=awsm-manage_spec-specifications-nav-subtab' ),
-			'awsm_filters'              => self::get_filter_specifications(),
+				'awsm_filters'              => self::get_filter_specifications(),
 				'awsm_filters_block'        => AWSM_Job_Openings_Block::get_block_filter_specifications(),
 				'awsm_featured_image_block' => AWSM_Job_Openings_Block::get_block_featured_image_size(),
 				'isProEnabled'              => class_exists( 'AWSM_Job_Openings_Pro_Pack' ),
@@ -1772,11 +1771,9 @@ class AWSM_Job_Openings {
 					// now, re-hook this function
 					add_action( 'save_post', array( $this, 'awsm_job_save_post' ), 100, 2 );
 				}
-			} else {
-				if ( $post->post_status === 'expired' ) {
+			} elseif ( $post->post_status === 'expired' ) {
 					update_post_meta( $post_id, 'awsm_set_exp_list', 'set_listing' );
 					update_post_meta( $post_id, 'awsm_job_expiry', gmdate( 'Y-m-d' ) );
-				}
 			}
 
 			$rated_status = intval( get_option( 'awsm_jobs_plugin_rating' ) );

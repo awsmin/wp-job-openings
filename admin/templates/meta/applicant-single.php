@@ -10,11 +10,11 @@ $tab_applicant_single_view = AWSM_Job_Openings_Meta::set_applicant_single_view_t
 $applicant_tab_contents    = AWSM_Job_Openings_Meta::get_applicant_single_view_content( $post->ID, $attachment_id );
 $resume_details            = $this->get_attached_file_details( $attachment_id );
 
-$full_file_name            = get_post_meta( $attachment_id, 'awsm_actual_file_name', true );
-$actual_file_name          = pathinfo( $full_file_name, PATHINFO_FILENAME );
-$file_extension            = pathinfo( $full_file_name, PATHINFO_EXTENSION );
-$applicant_job_id          = get_post_meta( $post->ID, 'awsm_job_id', true );
-$resume_field_label        = ( new AWSM_Job_Openings_Form() )->get_attachment_label( $applicant_job_id );
+$full_file_name     = get_post_meta( $attachment_id, 'awsm_actual_file_name', true );
+$actual_file_name   = pathinfo( $full_file_name, PATHINFO_FILENAME );
+$file_extension     = pathinfo( $full_file_name, PATHINFO_EXTENSION );
+$applicant_job_id   = get_post_meta( $post->ID, 'awsm_job_id', true );
+$resume_field_label = ( new AWSM_Job_Openings_Form() )->get_attachment_label( $applicant_job_id );
 $this->is_main_applicant_viewed( $post->ID );
 
 /**
@@ -137,7 +137,7 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 							 * @since 1.6.0
 							 */
 							do_action( 'before_awsm_job_applicant_mb_details_list', $post->ID );
-							
+
 							?>
 							<ul class="awsm-applicant-details-list">
 								<?php

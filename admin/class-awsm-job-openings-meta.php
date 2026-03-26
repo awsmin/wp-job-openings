@@ -281,7 +281,7 @@ class AWSM_Job_Openings_Meta {
 				header( 'Content-Type: ' . $file_details['file_type']['type'] );
 				header( 'Content-Disposition: attachment; filename="' . $file_name . '.' . $file_details['file_type']['ext'] . '"' );
 				header( 'Expires: 0' );
-				header( 'Cache-Control: must-revalidate' ); 
+				header( 'Cache-Control: must-revalidate' );
 				header( 'Pragma: public' );
 
 				if ( ! empty( $file_details['file_size']['size'] ) ) {
@@ -396,5 +396,4 @@ class AWSM_Job_Openings_Meta {
 		</fieldset>
 		<?php
 	}
-
 }

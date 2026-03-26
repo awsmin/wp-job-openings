@@ -37,7 +37,6 @@ class AWSM_Job_Openings_Form {
 		add_action( 'add_attachment', array( $this, 'add_index_php_to_folders' ) );
 
 		$this->init_no_conflict_mode();
-
 	}
 
 	public static function init() {
@@ -179,10 +178,8 @@ class AWSM_Job_Openings_Form {
 					$common_attrs = sprintf( 'name="%1$s" class="%2$s" id="%3$s"%4$s', esc_attr( $field_name ), esc_attr( $field_class ), esc_attr( $field_id ), $required_attr . $data_required . $data_error_msg );
 					if ( $input_type === 'file' ) {
 						$common_attrs .= isset( $field_args['field_type']['accept'] ) ? sprintf( ' accept="%s"', esc_attr( $field_args['field_type']['accept'] ) ) : '';
-					} else {
-						if ( $tag !== 'textarea' && $tag !== 'select' ) {
+					} elseif ( $tag !== 'textarea' && $tag !== 'select' ) {
 							$common_attrs .= isset( $field_args['field_type']['value'] ) ? sprintf( ' value="%s"', esc_attr( $field_args['field_type']['value'] ) ) : '';
-						}
 					}
 
 					$field_content = $label_content = ''; // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
@@ -209,7 +206,7 @@ class AWSM_Job_Openings_Form {
 										$current_field_id = esc_attr( $field_id . '_' . $id_suffix );
 										$common_attrs     = sprintf( 'name="%1$s" class="%2$s" id="%3$s"%4$s', esc_attr( $field_name . $name_suffix ), esc_attr( $field_class ), $current_field_id, $required_attr . $data_required . $data_error_msg );
 										$options_content .= sprintf( '<span><input type="%s" value="%s" %s /> <label for="%s">%s</label></span>', esc_attr( $input_type ), esc_attr( $option ), $common_attrs, $current_field_id, esc_html( $option ) );
-										$id_suffix ++;
+										++$id_suffix;
 									}
 									$field_content .= sprintf( '<div class="awsm-job-form-options-container">%s</div>', $options_content );
 								}
@@ -344,7 +341,6 @@ class AWSM_Job_Openings_Form {
 		} else {
 			$this->display_recaptcha_field( $form_attrs );
 		}
-
 	}
 
 	public function check_filetype_and_ext( $wp_filetype, $file, $filename, $mimes, $real_mime = '' ) {
@@ -475,17 +471,13 @@ class AWSM_Job_Openings_Form {
 			}
 			if ( empty( $applicant_email ) ) {
 				$awsm_response['error'][] = esc_html__( 'Email is required.', 'wp-job-openings' );
-			} else {
-				if ( ! filter_var( $applicant_email, FILTER_VALIDATE_EMAIL ) ) {
+			} elseif ( ! filter_var( $applicant_email, FILTER_VALIDATE_EMAIL ) ) {
 					$awsm_response['error'][] = esc_html__( 'Invalid email format.', 'wp-job-openings' );
-				}
 			}
 			if ( empty( $applicant_phone ) ) {
 				$awsm_response['error'][] = esc_html__( 'Contact number is required.', 'wp-job-openings' );
-			} else {
-				if ( ! preg_match( '%^[+]?[0-9()/ -]*$%', trim( $applicant_phone ) ) ) {
+			} elseif ( ! preg_match( '%^[+]?[0-9()/ -]*$%', trim( $applicant_phone ) ) ) {
 					$awsm_response['error'][] = esc_html__( 'Invalid phone number.', 'wp-job-openings' );
-				}
 			}
 			if ( empty( $applicant_letter ) ) {
 				$awsm_response['error'][] = esc_html__( 'Cover Letter cannot be empty.', 'wp-job-openings' );
@@ -684,12 +676,10 @@ class AWSM_Job_Openings_Form {
 		if ( ! empty( $awsm_response['success'] ) ) {
 			$msg_array  = $awsm_response['success'];
 			$class_name = 'awsm-success-message';
-		} else {
-			if ( ! empty( $awsm_response['error'] ) ) {
+		} elseif ( ! empty( $awsm_response['error'] ) ) {
 				$msg_array  = $awsm_response['error'];
 				$class_name = 'awsm-error-message';
 				$content   .= '<p>' . esc_html__( 'The following errors have occurred:', 'wp-job-openings' ) . '</p>';
-			}
 		}
 		foreach ( $msg_array as $msg ) {
 			$content .= '<li>' . esc_html( $msg ) . '</li>';
@@ -917,7 +907,7 @@ class AWSM_Job_Openings_Form {
 						// preserving all HTML tags (p, ul, li, strong, etc.) as-is.
 						$mail_content = preg_replace_callback(
 							'/(<[^>]+>|[^<]+)/s',
-							function( $matches ) {
+							function ( $matches ) {
 								$chunk = $matches[0];
 								// Return HTML tags and whitespace-only gaps between tags as-is.
 								if ( empty( $chunk ) || '<' === $chunk[0] || '' === trim( $chunk ) ) {
@@ -1276,7 +1266,7 @@ class AWSM_Job_Openings_Form {
 		if ( ! empty( $script['async'] ) ) {
 			add_filter(
 				'script_loader_tag',
-				function( $tag, $handle, $src ) use ( $config ) {
+				function ( $tag, $handle, $src ) use ( $config ) {
 					$captcha_handles = array();
 
 					foreach ( $config as $captcha_type => $captcha_config ) {
@@ -1780,6 +1770,5 @@ class AWSM_Job_Openings_Form {
 		}
 		$form_fields = $this->dynamic_form_fields( $applicant_job_id );
 		return isset( $form_fields['awsm_file']['label'] ) ? $form_fields['awsm_file']['label'] : __( 'Upload CV/Resume', 'wp-job-openings' );
-
 	}
 }

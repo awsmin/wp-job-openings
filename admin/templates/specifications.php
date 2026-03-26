@@ -24,8 +24,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<div class="awsm-form-section">
 				<table id="awsm-repeatable-specifications" width="100%" class="awsm-specs" data-next="<?php echo ( ! empty( $awsm_filters ) ) ? count( $awsm_filters ) : 1; ?>">
 					<thead>
-						 <tr>
-						   <th scope="row" colspan="6" class="awsm-form-head-title">
+						<tr>
+							<th scope="row" colspan="6" class="awsm-form-head-title">
 								<h2><?php esc_html_e( 'Manage Job Specifications', 'wp-job-openings' ); ?></h2>
 							</th>
 						</tr>
@@ -60,7 +60,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 									$awsm_filters
 								);
 
-								$index++;
+								++$index;
 							}
 						}
 						?>

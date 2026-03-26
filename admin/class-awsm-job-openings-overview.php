@@ -57,7 +57,7 @@ class AWSM_Job_Openings_Overview {
 	}
 
 	public function overview_page() {
-		$jobs      = self::get_jobs(
+		$jobs = self::get_jobs(
 			array(
 				'numberjobs' => 7,
 				'job_status' => 'publish',
@@ -198,7 +198,7 @@ class AWSM_Job_Openings_Overview {
 			$join = "LEFT JOIN {$wpdb->posts} AS applications ON 1=0";
 		}
 
-		$where  = 'WHERE 1=1';
+		$where = 'WHERE 1=1';
 		if ( isset( $parsed_args['tax_query'] ) && is_array( $parsed_args['tax_query'] ) ) {
 			$in       = array();
 			$term_ids = array();
@@ -232,7 +232,7 @@ class AWSM_Job_Openings_Overview {
 					}
 					$in     = implode( ',', $in );
 					$where .= " AND tt{$index}.term_taxonomy_id IN({$in})";
-					$index++;
+					++$index;
 				}
 			}
 		}
@@ -309,7 +309,7 @@ class AWSM_Job_Openings_Overview {
 				$count                 = 1;
 				if ( isset( $data[ $key ]['count'] ) ) {
 					$count = $data[ $key ]['count'];
-					$count++;
+					++$count;
 				}
 				$data[ $key ]['count'] = $count;
 			}
@@ -318,6 +318,4 @@ class AWSM_Job_Openings_Overview {
 		}
 		return $analytics_data;
 	}
-
-
 }

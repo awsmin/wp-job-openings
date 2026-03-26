@@ -231,12 +231,10 @@ if ( ! function_exists( 'awsm_jobs_paginate_links' ) ) {
 		// phpcs:disable WordPress.Security.NonceVerification.Missing
 		if ( isset( $_POST['paged'] ) ) {
 			$current = absint( $_POST['paged'] );// phpcs:disable WordPress.Security.NonceVerification.Missing
-		} else {
-			if ( $is_homepage ) {
+		} elseif ( $is_homepage ) {
 				$current = get_query_var( 'page' ) ? absint( get_query_var( 'page' ) ) : 1;
-			} else {
-				$current = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ) : 1;
-			}
+		} else {
+			$current = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ) : 1;
 		}
 
 		$page_var      = ( is_front_page() || is_home() ) ? 'page' : 'paged';

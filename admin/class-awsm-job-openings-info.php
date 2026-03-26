@@ -195,23 +195,21 @@ class AWSM_Job_Openings_Info {
 			$installed_plugin = file_exists( $plugin_root ) ? get_plugins( '/' . $plugin_slug ) : '';
 		}
 		if ( empty( $installed_plugin ) ) {
-			if ( get_filesystem_method( array(), plugin_dir_path( dirname( dirname( __FILE__ ) ) ) ) === 'direct' && $add_on_details['type'] === 'free' ) {
+			if ( get_filesystem_method( array(), plugin_dir_path( dirname( __DIR__ ) ) ) === 'direct' && $add_on_details['type'] === 'free' ) {
 				$btn_class .= ' install-now';
 				$action_url = wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=' . $plugin_slug ), 'install-plugin_' . $plugin_slug );
 			} else {
 				$btn_target = '_blank';
 			}
-		} else {
-			if ( is_plugin_active( $plugin ) ) {
+		} elseif ( is_plugin_active( $plugin ) ) {
 				$btn_action = __( 'Activated', 'wp-job-openings' );
 				$action_url = '#';
 				$btn_class .= ' button-disabled';
 				$btn_attrs  = ' disabled';
-			} else {
-				$btn_action = __( 'Activate', 'wp-job-openings' );
-				$action_url = wp_nonce_url( self_admin_url( 'plugins.php?action=activate&plugin=' . $plugin ), 'activate-plugin_' . $plugin );
-				$btn_class .= ' activate-now';
-			}
+		} else {
+			$btn_action = __( 'Activate', 'wp-job-openings' );
+			$action_url = wp_nonce_url( self_admin_url( 'plugins.php?action=activate&plugin=' . $plugin ), 'activate-plugin_' . $plugin );
+			$btn_class .= ' activate-now';
 		}
 		if ( ! empty( $action_url ) ) {
 			$content = sprintf( '<a href="%2$s" class="%3$s" target="%4$s"%5$s>%1$s</a>', esc_html( $btn_action ), esc_url( $action_url ), esc_attr( $btn_class ), esc_attr( $btn_target ), esc_attr( $btn_attrs ) );

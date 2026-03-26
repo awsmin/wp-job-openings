@@ -31,7 +31,6 @@ class AWSM_Job_Openings_Settings {
 		add_action( 'update_option_awsm_jobs_remove_filters', array( $this, 'update_awsm_jobs_remove_filters' ), 10, 2 );
 		add_action( 'update_option_awsm_jobs_make_specs_clickable', array( $this, 'update_awsm_jobs_make_specs_clickable' ), 10, 2 );
 		add_action( 'update_option_awsm_jobs_email_digest', array( $this, 'update_awsm_jobs_email_digest' ), 10, 2 );
-
 	}
 
 	public static function init( $awsm_core ) {
@@ -668,8 +667,8 @@ class AWSM_Job_Openings_Settings {
 		if ( ( $template === 'custom' || $template === 'plugin' ) && function_exists( 'wp_is_block_theme' ) ) {
 			if ( wp_is_block_theme() ) {
 				$option_subtab_map = array(
-					'awsm_jobs_archive_page_template'  => 'awsm-job-listing-nav-subtab',
-					'awsm_jobs_details_page_template'  => 'awsm-job-details-nav-subtab',
+					'awsm_jobs_archive_page_template' => 'awsm-job-listing-nav-subtab',
+					'awsm_jobs_details_page_template' => 'awsm-job-details-nav-subtab',
 				);
 				// phpcs:ignore WordPress.Security.NonceVerification.Missing
 				$active_subtab = isset( $_POST['awsm_current_appearance_subtab'] ) ? sanitize_text_field( wp_unslash( $_POST['awsm_current_appearance_subtab'] ) ) : '';
@@ -698,7 +697,7 @@ class AWSM_Job_Openings_Settings {
 
 		return $template;
 	}
-	
+
 	public function awsm_jobs_filter_handle( $filters ) {
 		$old_value = get_option( 'awsm_jobs_filter' );
 		if ( ! empty( $filters ) ) {
@@ -969,10 +968,8 @@ class AWSM_Job_Openings_Settings {
 			if ( $option === $value ) {
 				$checked = 'checked';
 			}
-		} else {
-			if ( $default ) {
+		} elseif ( $default ) {
 				$checked = 'checked';
-			}
 		}
 		return $checked;
 	}
@@ -986,7 +983,7 @@ class AWSM_Job_Openings_Settings {
 
 			if ( ! empty( $_GET['subtab'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				$url_subtab_id = sanitize_key( wp_unslash( $_GET['subtab'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-				$valid_ids = array();
+				$valid_ids     = array();
 				foreach ( $subtabs as $key => $subtab ) {
 					$valid_ids[] = isset( $subtab['id'] ) ? $subtab['id'] : "awsm-{$key}-{$section}-nav-subtab";
 				}
@@ -1074,10 +1071,8 @@ class AWSM_Job_Openings_Settings {
 						$class_name = trim( 'awsm-jobs-colorpicker-field ' . $class_name );
 					} elseif ( $field_type === 'image' ) {
 						$class_name = trim( 'awsm-settings-image-field-container ' . $class_name );
-					} else {
-						if ( ! isset( $field_details['class'] ) && $field_type !== 'checkbox' && $field_type !== 'radio' ) {
+					} elseif ( ! isset( $field_details['class'] ) && $field_type !== 'checkbox' && $field_type !== 'radio' ) {
 							$class_name = 'regular-text';
-						}
 					}
 					$class_attr  = ! empty( $class_name ) ? sprintf( ' class="%s"', esc_attr( $class_name ) ) : '';
 					$value       = isset( $field_details['value'] ) ? $field_details['value'] : '';
@@ -1231,7 +1226,7 @@ class AWSM_Job_Openings_Settings {
 										}
 									}
 
-									$choice_fields++;
+									++$choice_fields;
 								} elseif ( $field_type === 'select' ) {
 									$choice_attrs  .= ' ' . selected( $value, $choice, false );
 									$field_content .= sprintf( '<option value="%1$s"%3$s>%2$s</option>', esc_attr( $choice ), esc_html( $choice_text ), $choice_attrs );
@@ -1246,42 +1241,40 @@ class AWSM_Job_Openings_Settings {
 							} elseif ( $field_type === 'select' ) {
 								$field_content = sprintf( '<select name="%2$s" id="%3$s"%4$s>%1$s</select>', $field_content, esc_attr( $field_name ), esc_attr( $id ), $extra_attrs );
 							}
-						} else {
-							if ( $field_type === 'textarea' ) {
+						} elseif ( $field_type === 'textarea' ) {
 								$field_content = sprintf( '<textarea name="%1$s" id="%2$s"%4$s>%3$s</textarea>', esc_attr( $field_name ), esc_attr( $id ), esc_attr( $value ), $extra_attrs );
-							} elseif ( $field_type === 'editor' ) {
-								ob_start();
-								$editor_settings = array(
-									'textarea_name' => $field_name,
-								);
-								if ( isset( $field_details['other_attrs'] ) && is_array( $field_details['other_attrs'] ) ) {
-									$editor_settings = array_merge( $editor_settings, $field_details['other_attrs'] );
-								}
-								awsm_jobs_wp_editor( $value, $id, $editor_settings );
-								$field_content = ob_get_clean();
-							} elseif ( $field_type === 'image' ) {
-								$image_url = '';
-								if ( ! empty( $value ) ) {
-									if ( $value === 'default' ) {
-										$image_url = AWSM_Job_Openings_Mail_Customizer::get_default_logo();
-									} else {
-										$image_url = awsm_jobs_get_original_image_url( $value );
-									}
-								}
-
-								$image_container = '';
-								$image_button    = '';
-								if ( empty( $image_url ) ) {
-									$image_container = sprintf( '<div class="awsm-settings-image awsm-settings-no-image"><span>%s</span></div>', esc_html__( 'No Image selected', 'wp-job-openings' ) );
-									$image_button    = sprintf( '<button type="button" class="button awsm-settings-image-upload-button">%1$s</button><button type="button" class="awsm-hidden-control button awsm-settings-image-remove-button">%2$s</button>', esc_html__( 'Select Image', 'wp-job-openings' ), __( 'Remove', 'wp-job-openings' ) );
-								} else {
-									$image_container = sprintf( '<div class="awsm-settings-image"><img src="%s" /></div>', esc_url( $image_url ) );
-									$image_button    = sprintf( '<button type="button" class="button awsm-settings-image-upload-button">%1$s</button><button type="button" class="button awsm-settings-image-remove-button">%2$s</button>', esc_html__( 'Change Image', 'wp-job-openings' ), __( 'Remove', 'wp-job-openings' ) );
-								}
-								$field_content = sprintf( '<div id="%4$s"%5$s>%3$s<input type="hidden" name="%1$s" class="awsm-settings-image-field" value="%2$s" /></div>', esc_attr( $field_name ), esc_attr( $value ), $image_container . $image_button, esc_attr( $id ), $extra_attrs );
-							} else {
-								$field_content = sprintf( '<input type="%1$s" name="%2$s" id="%3$s" value="%4$s"%5$s />', esc_attr( $field_type ), esc_attr( $field_name ), esc_attr( $id ), esc_attr( $value ), $extra_attrs );
+						} elseif ( $field_type === 'editor' ) {
+							ob_start();
+							$editor_settings = array(
+								'textarea_name' => $field_name,
+							);
+							if ( isset( $field_details['other_attrs'] ) && is_array( $field_details['other_attrs'] ) ) {
+								$editor_settings = array_merge( $editor_settings, $field_details['other_attrs'] );
 							}
+							awsm_jobs_wp_editor( $value, $id, $editor_settings );
+							$field_content = ob_get_clean();
+						} elseif ( $field_type === 'image' ) {
+							$image_url = '';
+							if ( ! empty( $value ) ) {
+								if ( $value === 'default' ) {
+									$image_url = AWSM_Job_Openings_Mail_Customizer::get_default_logo();
+								} else {
+									$image_url = awsm_jobs_get_original_image_url( $value );
+								}
+							}
+
+							$image_container = '';
+							$image_button    = '';
+							if ( empty( $image_url ) ) {
+								$image_container = sprintf( '<div class="awsm-settings-image awsm-settings-no-image"><span>%s</span></div>', esc_html__( 'No Image selected', 'wp-job-openings' ) );
+								$image_button    = sprintf( '<button type="button" class="button awsm-settings-image-upload-button">%1$s</button><button type="button" class="awsm-hidden-control button awsm-settings-image-remove-button">%2$s</button>', esc_html__( 'Select Image', 'wp-job-openings' ), __( 'Remove', 'wp-job-openings' ) );
+							} else {
+								$image_container = sprintf( '<div class="awsm-settings-image"><img src="%s" /></div>', esc_url( $image_url ) );
+								$image_button    = sprintf( '<button type="button" class="button awsm-settings-image-upload-button">%1$s</button><button type="button" class="button awsm-settings-image-remove-button">%2$s</button>', esc_html__( 'Change Image', 'wp-job-openings' ), __( 'Remove', 'wp-job-openings' ) );
+							}
+							$field_content = sprintf( '<div id="%4$s"%5$s>%3$s<input type="hidden" name="%1$s" class="awsm-settings-image-field" value="%2$s" /></div>', esc_attr( $field_name ), esc_attr( $value ), $image_container . $image_button, esc_attr( $id ), $extra_attrs );
+						} else {
+							$field_content = sprintf( '<input type="%1$s" name="%2$s" id="%3$s" value="%4$s"%5$s />', esc_attr( $field_type ), esc_attr( $field_name ), esc_attr( $id ), esc_attr( $value ), $extra_attrs );
 						}
 					}
 					if ( ! empty( $help_button ) ) {
@@ -1394,14 +1387,14 @@ class AWSM_Job_Openings_Settings {
 							$term_id = $terms_map[ $tag_name ]->term_id;
 							update_term_meta( $term_id, 'term_order', $position );
 							$ordered_terms[] = $term_id;
-							$position++;
+							++$position;
 						}
 					}
 					// Then, handle terms not in the filtered list
 					foreach ( $terms as $term ) {
 						if ( ! in_array( $term->term_id, $ordered_terms ) ) {
 							update_term_meta( $term->term_id, 'term_order', $position );
-							$position++;
+							++$position;
 						}
 					}
 					// Get terms again with updated order
@@ -1567,7 +1560,7 @@ class AWSM_Job_Openings_Settings {
 			$site_key_option = self::get_captcha_data( 'field_name', $provider, 'site_key' );
 			$options[]       = array(
 				'option_name' => $site_key_option,
-				'callback'    => function( $input ) use ( $provider ) {
+				'callback'    => function ( $input ) use ( $provider ) {
 					return $this->validate_captcha_key( $input, $provider, 'site_key' );
 				},
 			);
@@ -1575,7 +1568,7 @@ class AWSM_Job_Openings_Settings {
 			$secret_key_option = self::get_captcha_data( 'field_name', $provider, 'secret_key' );
 			$options[]         = array(
 				'option_name' => $secret_key_option,
-				'callback'    => function( $input ) use ( $provider ) {
+				'callback'    => function ( $input ) use ( $provider ) {
 					return $this->validate_captcha_key( $input, $provider, 'secret_key' );
 				},
 			);
@@ -1583,7 +1576,7 @@ class AWSM_Job_Openings_Settings {
 			$fail_message_option = "awsm_jobs_{$provider}_fail_message";
 			$options[]           = array(
 				'option_name' => $fail_message_option,
-				'callback'    => function( $input ) use ( $provider ) {
+				'callback'    => function ( $input ) use ( $provider ) {
 					return $this->sanitize_captcha_fail_message( $input, $provider );
 				},
 			);
@@ -1593,13 +1586,13 @@ class AWSM_Job_Openings_Settings {
 		// v2/v2_invisible keys
 		$options[] = array(
 			'option_name' => 'awsm_jobs_recaptcha_site_key',
-			'callback'    => function( $input ) {
+			'callback'    => function ( $input ) {
 				return $this->validate_captcha_key( $input, 'recaptcha', 'site_key', 'awsm_jobs_recaptcha_site_key' );
 			},
 		);
 		$options[] = array(
 			'option_name' => 'awsm_jobs_recaptcha_secret_key',
-			'callback'    => function( $input ) {
+			'callback'    => function ( $input ) {
 				return $this->validate_captcha_key( $input, 'recaptcha', 'secret_key', 'awsm_jobs_recaptcha_secret_key' );
 			},
 		);
@@ -1607,13 +1600,13 @@ class AWSM_Job_Openings_Settings {
 		// reCAPTCHA v3
 		$options[] = array(
 			'option_name' => 'awsm_jobs_recaptcha_v3_site_key',
-			'callback'    => function( $input ) {
+			'callback'    => function ( $input ) {
 				return $this->validate_captcha_key( $input, 'recaptcha', 'site_key', 'awsm_jobs_recaptcha_v3_site_key' );
 			},
 		);
 		$options[] = array(
 			'option_name' => 'awsm_jobs_recaptcha_v3_secret_key',
-			'callback'    => function( $input ) {
+			'callback'    => function ( $input ) {
 				return $this->validate_captcha_key( $input, 'recaptcha', 'secret_key', 'awsm_jobs_recaptcha_v3_secret_key' );
 			},
 		);
@@ -1621,7 +1614,7 @@ class AWSM_Job_Openings_Settings {
 		// reCAPTCHA fail message
 		$options[] = array(
 			'option_name' => 'awsm_jobs_recaptcha_fail_message',
-			'callback'    => function( $input ) {
+			'callback'    => function ( $input ) {
 				return $this->sanitize_captcha_fail_message( $input, 'recaptcha' );
 			},
 		);
@@ -2757,5 +2750,4 @@ class AWSM_Job_Openings_Settings {
 		 */
 		return apply_filters( 'awsm_jobs_sanitize_captcha_enable', $value, $input );
 	}
-
 }

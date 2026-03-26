@@ -30,7 +30,7 @@ class AWSM_Job_Openings_Dashboard_Widget {
 		$total_active_applications = intval( $overview_data['active_applications'] ?? 0 );
 		$applications_count        = intval( $overview_data['unread_applications'] ?? 0 );
 		$job_data                  = $this->get_job_data();
-		
+
 		?>
 		<div class="awsm-jobs-dw-wrap">
 			<!-- Stats Bar -->
