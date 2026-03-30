@@ -329,10 +329,8 @@ const WidgetInspectorControls = props => {
 														: filter_options.filter( key => key !== spec.key );
 
 													const updatedFilterTypes = { ...filter_types };
-													if ( toggleValue ) {
+													if ( toggleValue && ! updatedFilterTypes[ spec.key ] ) {
 														updatedFilterTypes[ spec.key ] = hasMultipleSelectedTerms ? "checkbox" : "dropdown";
-													} else {
-														delete updatedFilterTypes[ spec.key ];
 													}
 
 													const updates = { filter_options: updatedFilterOptions, filter_types: updatedFilterTypes };
