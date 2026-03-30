@@ -252,6 +252,7 @@ const WidgetInspectorControls = props => {
 			{ /* Control settings  */ }
 			<InspectorControls group="settings">
 				<Fragment>
+					<div className="hz-awsm-ic-settings">
 					<PanelBody
 						title={ __( "Search & Filters", "wp-job-openings" ) }
 						initialOpen={ true }
@@ -282,6 +283,7 @@ const WidgetInspectorControls = props => {
 							onChange={ newSearch => {
 								setAttributes( { search: newSearch } );
 							} }
+						__nextHasNoMarginBottom
 						/>
 
 						{ search && (
@@ -293,6 +295,8 @@ const WidgetInspectorControls = props => {
 										setAttributes( {search_placeholder} )
 									}
 									placeholder={ __( "Search Jobs", "wp-job-openings" ) }
+								__nextHasNoMarginBottom
+								__next40pxDefaultSize
 								/>
 							</>
 						) }
@@ -303,6 +307,7 @@ const WidgetInspectorControls = props => {
 							onChange={ newFilter => {
 								setAttributes( { enable_job_filter: newFilter } );
 							} }
+						__nextHasNoMarginBottom
 						/>
 						{ enable_job_filter && (
 							<>
@@ -314,7 +319,7 @@ const WidgetInspectorControls = props => {
 										( selectedTermsState[ spec.key ] || [] ).length > 1;
 
 									return (
-										<div key={ spec.key }>
+										<div key={ spec.key } style={{ marginBottom: '8px' }}>
 											<ToggleControl
 												label={ spec.label }
 												checked={ isActive }
@@ -336,6 +341,7 @@ const WidgetInspectorControls = props => {
 													}
 													setAttributes( updates );
 												} }
+											__nextHasNoMarginBottom
 											/>
 
 											{ isActive && (
@@ -422,6 +428,8 @@ const WidgetInspectorControls = props => {
 								onChange={ number_of_columns =>
 									onChangeNumberOfColumns( number_of_columns )
 								}
+							__nextHasNoMarginBottom
+							__next40pxDefaultSize
 							/>
 						) }
 
@@ -435,6 +443,8 @@ const WidgetInspectorControls = props => {
 							max={ 100 }
 							step={ 1 }
 							withInputField={ true }
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
 						/>
 
 						<SelectControl
@@ -451,6 +461,8 @@ const WidgetInspectorControls = props => {
 								}
 							] }
 							onChange={ pagination => setAttributes( {pagination} ) }
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
 						/>
 
 						<h2>{ __( "Job Specs in the Listing", "wp-job-openings" ) }</h2>
@@ -466,6 +478,7 @@ const WidgetInspectorControls = props => {
 								onChange={ toggleValue =>
 									otherOptionsHandler( toggleValue, spec.key )
 								}
+							__nextHasNoMarginBottom
 							/>
 						) ) }
 
@@ -476,6 +489,7 @@ const WidgetInspectorControls = props => {
 							label={ __( "Show Spec Icon", "wp-job-openings" ) }
 							checked={ show_spec_icon }
 							onChange={ show_spec_icon => setAttributes( {show_spec_icon} ) }
+						__nextHasNoMarginBottom
 						/>
 					</PanelBody>
 
@@ -522,7 +536,7 @@ const WidgetInspectorControls = props => {
 							<>
 								<h2>{ __( "Filters", "wp-job-openings" ) }</h2>
 								{ specifications.map( spec => (
-									<div key={ spec.key } className="filter-item">
+									<div key={ spec.key } className="filter-item" style={{ marginBottom: '8px' }}>
 										<ToggleControl
 											label={ spec.label }
 											checked={ toggleState[ spec.key ] || false } // Check the toggle state for the spec
@@ -530,6 +544,7 @@ const WidgetInspectorControls = props => {
 												// Handle toggle change and update attributes
 												handleToggleChange( spec.key, isChecked );
 											} }
+										__nextHasNoMarginBottom
 										/>
 
 										{ /* Show FormTokenField only when toggle is on */ }
@@ -557,6 +572,8 @@ const WidgetInspectorControls = props => {
 														) }
 														__experimentalExpandOnFocus={ true }
 														label=""
+													__nextHasNoMarginBottom
+													__next40pxDefaultSize
 													/>
 												);
 											} )() }
@@ -579,6 +596,8 @@ const WidgetInspectorControls = props => {
 								}
 							] }
 							onChange={ order_by => setAttributes( {order_by} ) }
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
 						/>
 
 						<ToggleControl
@@ -587,6 +606,7 @@ const WidgetInspectorControls = props => {
 							onChange={ hide_expired_jobs =>
 								setAttributes( {hide_expired_jobs} )
 							}
+						__nextHasNoMarginBottom
 						/>
 
 						{ wp.hooks.doAction(
@@ -596,6 +616,7 @@ const WidgetInspectorControls = props => {
 						) }
 						{ block_job_listing }
 					</PanelBody>
+					</div>
 				</Fragment>
 			</InspectorControls>
 			{ /* End */ }
@@ -603,7 +624,7 @@ const WidgetInspectorControls = props => {
 			{ /* Control Styles  */ }
 			<InspectorControls group="styles">
 				<Fragment>
-					<div className="hz-inspector-controls">
+					<div className="hz-awsm-ic-styles">
 						{ placement === "side" && ( search || enable_job_filter ) && (
 							<PanelBody
 								title={ __( "Sidebar", "wp-job-openings" ) }

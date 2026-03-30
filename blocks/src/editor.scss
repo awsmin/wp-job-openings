@@ -69,41 +69,16 @@
 	color: #a6a6a6;
 }
 
-// ---- Editor Tab Panel ----
-
-.custom-tab-panel {
-	padding: 15px;
-	background-color: #f9f9f9;
-	border: 1px solid #ddd;
-	border-radius: 5px;
-}
-
-.custom-tab-panel .wp-block-editor-components-tab-panel__tab {
-	margin-bottom: 10px;
-}
-
 // ---- Misc Editor Controls ----
 
-.components-form-token-field__help {
+.hz-awsm-ic-settings .components-form-token-field__help {
 	display: none !important;
-}
-
-.custom-box-control .components-input-control__prefix {
-	display: none;
-}
-
-.tab-settings {
-	padding-right: 50px;
-}
-
-.tab-style {
-	padding-left: 50px;
 }
 
 // ---- Inspector Controls ----
 
-.hz-inspector-controls .components-base-control:where(:not(:last-child)),
-.hz-inspector-controls .components-radio-control:where(:not(:last-child)) {
+.hz-awsm-ic-styles .components-base-control:where(:not(:last-child)),
+.hz-awsm-ic-styles .components-radio-control:where(:not(:last-child)) {
 	margin-bottom: 0px !important;
 }
 
@@ -117,14 +92,14 @@
 
 // ---- Filter Buttons ----
 
-.filters-button {
+.hz-awsm-ic-settings .filters-button {
 	display: flex;
 	gap: 10px;
 	margin-bottom: 16px;
 }
 
 /* Base button */
-.filters-button .filter-btn {
+.hz-awsm-ic-settings .filters-button .filter-btn {
 	margin-bottom: 5px;
 	background-color: #ffffff;
 	color: var(--wp-admin-theme-color-text, #1e1e1e);
@@ -135,20 +110,20 @@
 }
 
 /* Active state */
-.filters-button .filter-btn.is-active {
+.hz-awsm-ic-settings .filters-button .filter-btn.is-active {
 	background-color: #1e1e1e;
 	color: #ffffff;
 	border-color: #1e1e1e;
 }
 
 /* Hover - inactive only */
-.filters-button .filter-btn:not(.is-active):hover {
+.hz-awsm-ic-settings .filters-button .filter-btn:not(.is-active):hover {
 	background-color: #f0f0f0;
 	color: var(--wp-admin-theme-color-text, #1e1e1e);
 }
 
 /* Hover - active (stable) */
-.filters-button .filter-btn.is-active:hover {
+.hz-awsm-ic-settings .filters-button .filter-btn.is-active:hover {
 	background-color: #1e1e1e;
 	color: #ffffff;
 }
