@@ -542,20 +542,19 @@ class AWSM_Job_Openings {
 	public static function get_accessible_applications_count( $job_id ) {
 		global $wpdb;
 
-		if ( current_user_can( 'edit_others_applications' ) ) {
-			// Can access all applications.
-		} elseif ( current_user_can( 'edit_applications' ) ) {
+		if ( ! current_user_can( 'edit_others_applications' ) ) {
+			if ( ! current_user_can( 'edit_applications' ) ) {
+				return 0;
+			}
 			// Can only access applications for their own jobs.
 			if ( (int) get_post_field( 'post_author', $job_id ) !== get_current_user_id() ) {
 				return 0;
 			}
-		} else {
-			return 0;
 		}
 
 		return (int) $wpdb->get_var(
 			$wpdb->prepare(
-				"SELECT COUNT(ID) FROM {$wpdb->posts} WHERE post_parent = %d AND post_type = 'awsm_job_application' AND post_status != 'trash'",
+				"SELECT COUNT(*) FROM {$wpdb->posts} WHERE post_parent = %d AND post_type = 'awsm_job_application' AND post_status != 'trash'",
 				$job_id
 			)
 		);
