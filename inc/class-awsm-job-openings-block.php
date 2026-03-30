@@ -402,7 +402,8 @@ class AWSM_Job_Openings_Block {
 		}
 
 		// Pagination.
-		if ( ! AWSM_Job_Openings::is_default_pagination( $attributes ) && ! isset( $_POST['awsm_pagination_base'] ) ) {
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing
+	if ( ! AWSM_Job_Openings::is_default_pagination( $attributes ) && ! isset( $_POST['awsm_pagination_base'] ) ) {
 			// Handle classic pagination on page load.
 			if ( is_front_page() || is_home() ) {
 				$paged = get_query_var( 'page' ) ? absint( get_query_var( 'page' ) ) : 1;
@@ -735,14 +736,15 @@ class AWSM_Job_Openings_Block {
 						 * @param string $taxonomy Taxonomy key.
 						 * @param WP_Taxonomy $tax_details Taxonomy details.
 						 */
-						$filter_label = apply_filters( 'awsm_filter_block_label', esc_html_x( '', 'job filter', 'wp-job-openings' ) . 'All ' . $spec_name, $taxonomy, $tax_details );
+						$filter_label = apply_filters( 'awsm_filter_block_label', esc_html_x( 'All', 'job filter', 'wp-job-openings' ) . ' ' . $spec_name, $taxonomy, $tax_details );
 
 						$filter_class_admin_select_control = '';
 						if ( ! self::is_edit_or_add_page() ) {
 							$filter_class_admin_select_control = ' awsm-b-filter-option';
 						}
 
-						$spec_multiple_class = $multiple_for_spec = '';
+						$spec_multiple_class = '';
+						$multiple_for_spec   = '';
 						$is_checkbox         = false;
 						if ( isset( $block_atts['filter_types'][ $taxonomy ] ) ) {
 							$is_checkbox = $block_atts['filter_types'][ $taxonomy ] === 'checkbox';
@@ -959,7 +961,7 @@ class AWSM_Job_Openings_Block {
 							 */
 							$main_spec_label = apply_filters(
 								'awsm_filter_block_label',
-								esc_html_x( $spec_name, 'job filter', 'wp-job-openings' ),
+								esc_html( $spec_name ),
 								$taxonomy,
 								$tax_details
 							);
@@ -975,7 +977,7 @@ class AWSM_Job_Openings_Block {
 							 */
 							$all_spec_label = apply_filters(
 								'awsm_filter_block_dropdown_label',
-								esc_html_x( 'All ' . $spec_name, 'job filter', 'wp-job-openings' ),
+								esc_html_x( 'All', 'job filter', 'wp-job-openings' ) . ' ' . esc_html( $spec_name ),
 								$taxonomy,
 								$tax_details
 							);
@@ -985,7 +987,8 @@ class AWSM_Job_Openings_Block {
 								$filter_class_admin_select_control = ' awsm-b-filter-option';
 							}
 
-							$spec_multiple_class = $multiple_for_spec = '';
+							$spec_multiple_class = '';
+							$multiple_for_spec   = '';
 							$is_checkbox         = false;
 							if ( isset( $block_atts['filter_types'][ $taxonomy ] ) ) {
 								$is_checkbox = $block_atts['filter_types'][ $taxonomy ] === 'checkbox';
