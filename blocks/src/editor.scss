@@ -75,11 +75,15 @@
 	display: none !important;
 }
 
-// ---- Inspector Controls ----
+// ---- Inspector Controls (prevent double spacing: natural WP margin + Spacer) ----
 
 .hz-awsm-ic-styles .components-base-control:where(:not(:last-child)),
 .hz-awsm-ic-styles .components-radio-control:where(:not(:last-child)) {
 	margin-bottom: 0px !important;
+}
+
+.hz-awsm-ic-styles fieldset legend {
+	margin-bottom: 8px !important;
 }
 
 // ---- Color Settings Panel (remove top border/separator) ----
