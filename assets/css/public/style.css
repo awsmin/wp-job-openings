@@ -743,3 +743,7 @@ ul.awsm-error-message li {
 	max-width: 100%;
 	height: auto;
 }
+
+.awsm-job-archive-content{ 
+	width: 100%;
+}
