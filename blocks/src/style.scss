@@ -729,6 +729,10 @@ a.awsm-b-job-item .awsm-job-specification-item {
 	color: var(--hz-alert-tx-color, #191919);
 }
 
+.awsm-jobs-alerts-modal{ 
+	box-sizing: border-box;
+}
+
 // ---- Job Wrap ----
 
 .awsm-b-job-wrap,
