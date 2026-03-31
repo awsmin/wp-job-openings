@@ -946,7 +946,8 @@ class AWSM_Job_Openings {
 		$total_jobs = array_sum( $jobs_count );
 
 		// Build application counts respecting user capabilities.
-		if ( current_user_can( 'edit_others_applications' ) ) {
+		// When no user is logged in (e.g. cron/email digest), use full counts.
+		if ( 0 === get_current_user_id() || current_user_can( 'edit_others_applications' ) ) {
 			$applications_count = (array) wp_count_posts( 'awsm_job_application' );
 			unset( $applications_count['auto-draft'] );
 			$total_applications   = array_sum( $applications_count );

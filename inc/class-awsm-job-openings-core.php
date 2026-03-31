@@ -167,14 +167,16 @@ class AWSM_Job_Openings_Core {
 	public static function get_unviewed_applications_count() {
 		global $wpdb;
 
-		if ( ! current_user_can( 'edit_applications' ) ) {
+		// When no user is logged in (e.g. cron/email digest), use full counts.
+		$no_user = 0 === get_current_user_id();
+		if ( ! $no_user && ! current_user_can( 'edit_applications' ) ) {
 			return 0;
 		}
 
 		$author_join  = '';
 		$author_where = '';
 
-		if ( ! current_user_can( 'edit_others_applications' ) ) {
+		if ( ! $no_user && ! current_user_can( 'edit_others_applications' ) ) {
 			// Limit to unread applications for jobs owned by the current user.
 			$author_join  = " INNER JOIN {$wpdb->posts} j ON p.post_parent = j.ID AND j.post_type = 'awsm_job_openings'";
 			$author_where = $wpdb->prepare( ' AND j.post_author = %d', get_current_user_id() );
