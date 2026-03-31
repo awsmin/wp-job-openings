@@ -1833,6 +1833,9 @@ class AWSM_Job_Openings {
 	}
 
 	public function awsm_posts_row_actions( $actions, $post ) {
+		if ( ! current_user_can( 'edit_applications', $post->ID ) ) {
+			return $actions;
+		}
 		if ( $post->post_type === 'awsm_job_openings' ) {
 			$actions['view_applications'] = sprintf( '<a href="%1$s">%2$s</a>', esc_url( admin_url( 'edit.php?post_type=awsm_job_application&awsm_filter_posts=' . $post->ID ) ), esc_html__( 'Applications', 'wp-job-openings' ) );
 		}

@@ -403,7 +403,7 @@ class AWSM_Job_Openings_Block {
 
 		// Pagination.
 		// phpcs:ignore WordPress.Security.NonceVerification.Missing
-	if ( ! AWSM_Job_Openings::is_default_pagination( $attributes ) && ! isset( $_POST['awsm_pagination_base'] ) ) {
+		if ( ! AWSM_Job_Openings::is_default_pagination( $attributes ) && ! isset( $_POST['awsm_pagination_base'] ) ) {
 			// Handle classic pagination on page load.
 			if ( is_front_page() || is_home() ) {
 				$paged = get_query_var( 'page' ) ? absint( get_query_var( 'page' ) ) : 1;
