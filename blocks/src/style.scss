@@ -164,6 +164,7 @@ a.awsm-b-job-item {
 	border-radius: 4px;
 	outline: none !important;
 	background-color: var(--hz-sf-bg-color, transparent);
+	color: var(--hz-sf-tx-color, #191919);
 }
 
 .awsm-b-filter-toggle.awsm-on {
@@ -801,6 +802,12 @@ a.awsm-b-job-item .awsm-job-specification-item {
 		padding-bottom: 20px;
 	}
 
+}
+
+// ---- Side Placement Label Color ----
+
+.awsm-job-2-col .awsm-b-filter-item > label {
+	color: var(--hz-sidebar-tx-color);
 }
 
 // ---- Filter List ----
