@@ -301,7 +301,7 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 								$published_date = get_the_date( 'F j, Y', $job->ID );
 								?>
 									<a href="<?php echo esc_url( get_edit_post_link( $job->ID ) ); ?>" class="awsm-jobs-overview-list-item">
-										<span class="count"><?php echo esc_html( $job->applications_count ); ?></span>
+										<span class="count"><?php echo esc_html( $job->applications_count > 99 ? '99+' : $job->applications_count ); ?></span>
 										<p>
 											<strong>
 										<?php
