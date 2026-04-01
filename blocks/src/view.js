@@ -309,15 +309,17 @@ jQuery( function ( $ ) {
 		awsmJobFilters( $rootWrapper );
 	}
 
-	var updateQuery = function ( key, value, url ) {
+	var updateQuery = function ( key, value, url, preservePagination ) {
 		url = typeof url !== "undefined" ? url : currentUrl;
 		url = url.split( "?" )[ 0 ];
 		const searchParams = new URLSearchParams( document.location.search );
-		if ( searchParams.has( "paged" ) ) {
-			searchParams.delete( "paged" );
-		}
-		if ( searchParams.has( "page" ) ) {
-			searchParams.delete( "page" );
+		if ( ! preservePagination ) {
+			if ( searchParams.has( "paged" ) ) {
+				searchParams.delete( "paged" );
+			}
+			if ( searchParams.has( "page" ) ) {
+				searchParams.delete( "page" );
+			}
 		}
 		value = value !== undefined && value !== null ? String( value ) : "";
 
@@ -444,9 +446,9 @@ jQuery( function ( $ ) {
 								slugString = $selected.data( "slug" ) || "";
 							}
 						}
-						if ( slugString ) { 
+						if ( slugString ) {
 							setPaginationBase( $rootWrapper, currentSpec, slugString );
-							updateAwsmQuery( $rootWrapper, currentSpec, slugString );
+							updateAwsmQuery( $rootWrapper, currentSpec, slugString, true );
 						}
 					}
 				}, 0 );
@@ -632,14 +634,14 @@ jQuery( function ( $ ) {
 		}
 	}
 
-	function updateAwsmQuery( $rootWrapper, spec, value ) {
+	function updateAwsmQuery( $rootWrapper, spec, value, preservePagination ) {
 		if ( ! awsmJobsPublic.deep_linking.spec ) {
 			return;
 		}
 		const $paginationBase = $rootWrapper.find(
 			'input[name="awsm_pagination_base"]'
 		);
-		updateQuery( spec, value, $paginationBase.val() );
+		updateQuery( spec, value, $paginationBase.val(), preservePagination );
 	}
 
 	$( filterSelector + " .awsm-b-job-search-btn" ).on( "click", function () {
