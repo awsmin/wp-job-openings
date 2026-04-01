@@ -703,19 +703,17 @@ class AWSM_Job_Openings_Block {
 						$options_content = '';
 						foreach ( $terms as $term ) {
 							$selected = '';
-							if ( isset( $block_atts['selected_terms'][ $taxonomy ] ) && in_array( $term->term_id, $block_atts['selected_terms'][ $taxonomy ] ) ) {
-								$selected = ' selected';
-							} else {
-								$get_key = str_replace( '-', '__', $taxonomy ) . '_spec';
-								if ( isset( $_GET[ $get_key ] ) && is_string( $_GET[ $get_key ] ) ) {
-									// Match selected term by slug from URL.
-									$selected_specs = explode( ',', sanitize_text_field( wp_unslash( $_GET[ $get_key ] ) ) );
-									$selected_specs = array_filter( array_map( 'sanitize_title', array_map( 'trim', $selected_specs ) ) );
+							$get_key  = str_replace( '-', '__', $taxonomy ) . '_spec';
+							if ( isset( $_GET[ $get_key ] ) && is_string( $_GET[ $get_key ] ) ) {
+								// URL param takes priority over block preselection (user's explicit choice).
+								$selected_specs = explode( ',', sanitize_text_field( wp_unslash( $_GET[ $get_key ] ) ) );
+								$selected_specs = array_filter( array_map( 'sanitize_title', array_map( 'trim', $selected_specs ) ) );
 
-									if ( in_array( $term->slug, $selected_specs, true ) ) {
-										$selected = ' selected';
-									}
+								if ( in_array( $term->slug, $selected_specs, true ) ) {
+									$selected = ' selected';
 								}
+							} elseif ( isset( $block_atts['selected_terms'][ $taxonomy ] ) && in_array( $term->term_id, $block_atts['selected_terms'][ $taxonomy ] ) ) {
+								$selected = ' selected';
 							}
 							$option_content = sprintf( '<option value="%1$s" data-slug="%3$s"%4$s>%2$s</option>', esc_attr( $term->term_id ), esc_html( $term->name ), esc_attr( $term->slug ), esc_attr( $selected ) );
 							/**
@@ -925,18 +923,16 @@ class AWSM_Job_Openings_Block {
 							$options_content = '';
 							foreach ( $terms as $term ) {
 								$selected = '';
-								if ( isset( $block_atts['selected_terms'][ $taxonomy ] ) && in_array( $term->term_id, $block_atts['selected_terms'][ $taxonomy ] ) ) {
-									$selected = ' selected';
-								} else {
-									$get_key = str_replace( '-', '__', $taxonomy ) . '_spec';
-									if ( isset( $_GET[ $get_key ] ) && is_string( $_GET[ $get_key ] ) ) {
-										// Match selected term by slug from URL.
-										$selected_specs = explode( ',', sanitize_text_field( wp_unslash( $_GET[ $get_key ] ) ) );
-										$selected_specs = array_filter( array_map( 'sanitize_title', array_map( 'trim', $selected_specs ) ) );
-										if ( in_array( $term->slug, $selected_specs, true ) ) {
-											$selected = ' selected';
-										}
+								$get_key  = str_replace( '-', '__', $taxonomy ) . '_spec';
+								if ( isset( $_GET[ $get_key ] ) && is_string( $_GET[ $get_key ] ) ) {
+									// URL param takes priority over block preselection (user's explicit choice).
+									$selected_specs = explode( ',', sanitize_text_field( wp_unslash( $_GET[ $get_key ] ) ) );
+									$selected_specs = array_filter( array_map( 'sanitize_title', array_map( 'trim', $selected_specs ) ) );
+									if ( in_array( $term->slug, $selected_specs, true ) ) {
+										$selected = ' selected';
 									}
+								} elseif ( isset( $block_atts['selected_terms'][ $taxonomy ] ) && in_array( $term->term_id, $block_atts['selected_terms'][ $taxonomy ] ) ) {
+									$selected = ' selected';
 								}
 
 								$option_content = sprintf( '<option value="%1$s" data-slug="%3$s"%4$s>%2$s</option>', esc_attr( $term->term_id ), esc_html( $term->name ), esc_attr( $term->slug ), esc_attr( $selected ) );
