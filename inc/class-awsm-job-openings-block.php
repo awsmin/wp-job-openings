@@ -341,7 +341,14 @@ class AWSM_Job_Openings_Block {
 
 		// Combine taxonomy filters (filters + selected_terms).
 		if ( isset( $attributes['selected_terms'] ) && ! empty( $attributes['selected_terms'] ) ) {
-			$filters_list = $attributes['selected_terms'];
+			$selected = $attributes['selected_terms'];
+			// User's explicit filter selection takes precedence — don't merge preselected
+			// terms for a taxonomy the user has already filtered on, as that causes a
+			// union query (both preselected + user-selected jobs returned).
+			foreach ( array_keys( $filters ) as $tax ) {
+				unset( $selected[ $tax ] );
+			}
+			$filters_list = $selected;
 		}
 		// Process taxonomy filters.
 		if ( ! empty( $filters ) || ! empty( $filters_list ) ) {
