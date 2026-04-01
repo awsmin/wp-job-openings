@@ -123,10 +123,18 @@ if ( ! function_exists( 'awsm_block_jobs_query' ) ) {
 		$filters = awsm_block_job_filters_explode( $filters );
 
 		// Also include any taxonomies configured in this block's filter_options that aren't in the global list.
+		// Handles both string format ['tax-key'] (current) and old object format [{specKey, value}].
 		if ( ! empty( $attributes['filter_options'] ) && is_array( $attributes['filter_options'] ) ) {
 			foreach ( $attributes['filter_options'] as $filter_option ) {
-				if ( ! empty( $filter_option['specKey'] ) && ! in_array( $filter_option['specKey'], $filters, true ) ) {
-					$filters[] = $filter_option['specKey'];
+				if ( is_string( $filter_option ) && ! empty( $filter_option ) ) {
+					$key = $filter_option;
+				} elseif ( is_array( $filter_option ) && ! empty( $filter_option['specKey'] ) ) {
+					$key = $filter_option['specKey'];
+				} else {
+					continue;
+				}
+				if ( ! in_array( $key, $filters, true ) ) {
+					$filters[] = $key;
 				}
 			}
 		}
