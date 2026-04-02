@@ -11,22 +11,29 @@ do_action( 'awsm_resume_preview_mb_init', $post->ID );
 ?>
 <div class="awsm-resume-preview">
 	<?php
-		$awsm_attachment_id = get_post_meta( $post->ID, 'awsm_attachment_id', true );
-		$attachment_url     = wp_get_attachment_url( intval( $awsm_attachment_id ) );
-	if ( $attachment_url ) :
+		$awsm_attachment_id    = get_post_meta( $post->ID, 'awsm_attachment_id', true );
+		$secure_upload_enabled = get_option( 'awsm_hide_uploaded_files' ) === 'hide_files';
+		$attachment_url        = ( ! $secure_upload_enabled ) ? wp_get_attachment_url( intval( $awsm_attachment_id ) ) : false;
+	if ( $secure_upload_enabled && ! empty( $awsm_attachment_id ) ) :
+		?>
+			<div class="awsm-resume-secure">
+				<h4><strong><?php esc_html_e( 'Preview not available', 'wp-job-openings' ); ?></strong></h4>
+				<p><?php esc_html_e( 'Secure file upload is enabled, which disables resume preview. You can still download and view the file.', 'wp-job-openings' ); ?></p>
+			</div>
+		<?php elseif ( $attachment_url ) :
 		$file_extension = strtolower( pathinfo( $attachment_url, PATHINFO_EXTENSION ) );
 		?>
 			<div class="awsm-document-preview">
 			<?php if ( $file_extension === 'pdf' ) : ?>
-					<iframe 
-						src="<?php echo esc_url( $attachment_url ); ?>" 
-						style="width: 100%; height: 400px; border: none;" 
+					<iframe
+						src="<?php echo esc_url( $attachment_url ); ?>"
+						style="width: 100%; height: 400px; border: none;"
 						frameborder="0">
 					</iframe>
 				<?php elseif ( in_array( $file_extension, array( 'doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx' ) ) ) : ?>
-					<iframe 
-						src="<?php echo esc_url( 'https://view.officeapps.live.com/op/embed.aspx?src=' . urlencode( $attachment_url ) ); ?>" 
-						style="width: 100%; height: 400px; border: none;" 
+					<iframe
+						src="<?php echo esc_url( 'https://view.officeapps.live.com/op/embed.aspx?src=' . urlencode( $attachment_url ) ); ?>"
+						style="width: 100%; height: 400px; border: none;"
 						frameborder="0">
 					</iframe>
 				<?php else : ?>

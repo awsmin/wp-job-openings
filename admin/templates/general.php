@@ -157,7 +157,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						),
 					),
 					/* translators: %1$s: line break element */
-					'description' => sprintf( __( 'Checking this option will affect URLs of all your files uploaded through Hirezoot Plugin form.%1$s 1. The files will not be displayed in Media Library.%1$s 2. Publicly accessible file URL will be disabled.%1$s 3. \'Resume Preview\' option will not work anymore.', 'wp-job-openings' ), '<br />' ),
+					'description' => sprintf( __( 'Enabling this option will restrict how uploaded files are accessed via HireZoot forms.%1$s 1. Files won’t appear in the Media Library.%1$s 2. Public file URLs will be disabled.%1$s 3. File preview (including resume preview) will not be available.%1$s 4. Fully supported only on Apache servers. It may not work on other server environments including Nginx due to server configuration limitations', 'wp-job-openings' ), '<br />' ),
 				),
 				array(
 					'name'        => 'awsm_delete_data_on_uninstall',
