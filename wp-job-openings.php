@@ -2473,7 +2473,7 @@ class AWSM_Job_Openings {
 			return;
 		}
 
-		$docs_viewer = 'docs-viewer-add-on-for-wp-job-openings/docs-viewer-add-on-for-wp-job-openings.php';
+		$docs_viewer = 'docs-viewer-add-on-for-wp-job-openings/docs-viewer.php';
 
 		if ( is_plugin_active( $docs_viewer ) ) {
 			deactivate_plugins( $docs_viewer );
@@ -2489,7 +2489,7 @@ class AWSM_Job_Openings {
 	 * @return void|WP_Error
 	 */
 	public function block_docs_viewer_activation( $plugin ) {
-		$docs_viewer = 'docs-viewer-add-on-for-wp-job-openings/docs-viewer-add-on-for-wp-job-openings.php';
+		$docs_viewer = 'docs-viewer-add-on-for-wp-job-openings/docs-viewer.php';
 
 		if ( $plugin !== $docs_viewer ) {
 			return;
@@ -2497,7 +2497,7 @@ class AWSM_Job_Openings {
 
 		return new WP_Error(
 			'awsm_docs_viewer_blocked',
-			__( '"Docs Viewer Add-On for WP Job Openings" is no longer required. Resume preview is now built into Hirezoot. You can safely delete this add-on.', 'wp-job-openings' )
+			__( '"Docs Viewer Add-On for Hirezoot" is no longer required. Resume preview is now built into Hirezoot. You can safely delete this add-on.', 'wp-job-openings' )
 		);
 	}
 
@@ -2511,7 +2511,7 @@ class AWSM_Job_Openings {
 			return;
 		}
 
-		$docs_viewer = 'docs-viewer-add-on-for-wp-job-openings/docs-viewer-add-on-for-wp-job-openings.php';
+		$docs_viewer = 'docs-viewer-add-on-for-wp-job-openings/docs-viewer.php';
 
 		// One-time notice shown immediately after forced deactivation.
 		if ( get_option( 'awsm_docs_viewer_deactivated' ) ) {
