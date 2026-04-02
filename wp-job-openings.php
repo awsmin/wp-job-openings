@@ -164,6 +164,7 @@ class AWSM_Job_Openings {
 	public function check_addon_versions() {
 		$this->check_pro_version_for_free_plugin();
 		$this->check_job_alerts_version();
+		$this->handle_docs_viewer_conflict();
 	}
 
 	public function check_pro_version_for_free_plugin() {
@@ -356,6 +357,7 @@ class AWSM_Job_Openings {
 			add_action( 'admin_footer-post.php', array( $this, 'job_submit_meta_box_custom_status' ) );
 			add_action( 'admin_footer-post-new.php', array( $this, 'job_submit_meta_box_custom_status' ) );
 			add_action( 'admin_init', array( $this, 'check_addon_versions' ) );
+			add_filter( 'pre_activate_plugin', array( $this, 'block_docs_viewer_activation' ) );
 		}
 	}
 
@@ -1134,6 +1136,7 @@ class AWSM_Job_Openings {
 	public function awsm_job_plugin_notices() {
 		$this->plugin_rating_notice_handler();
 		$this->awsm_job_version_compatibility_notices();
+		$this->docs_viewer_admin_notices();
 	}
 	public static function plugin_rating_notice( $rating_url, $rating_env, $context = 'job' ) {
 		if ( ! self::$rating_notice_active ) :
@@ -2455,6 +2458,96 @@ class AWSM_Job_Openings {
 					echo wp_kses_post( $update_buttons_pro );
 				endif;
 				?>
+				</p>
+			</div>
+			<?php
+		}
+	}
+
+	/**
+	 * Force-deactivate Docs Viewer add-on if active and store a flag.
+	 * Hooked to admin_init.
+	 */
+	public function handle_docs_viewer_conflict() {
+		if ( ! current_user_can( 'activate_plugins' ) ) {
+			return;
+		}
+
+		$docs_viewer = 'docs-viewer-add-on-for-wp-job-openings/docs-viewer-add-on-for-wp-job-openings.php';
+
+		if ( is_plugin_active( $docs_viewer ) ) {
+			deactivate_plugins( $docs_viewer );
+			update_option( 'awsm_docs_viewer_deactivated', 1 );
+		}
+	}
+
+	/**
+	 * Block reactivation of the Docs Viewer add-on.
+	 * Hooked to pre_activate_plugin — returning WP_Error aborts activation cleanly.
+	 *
+	 * @param  string $plugin  Plugin basename being activated.
+	 * @return void|WP_Error
+	 */
+	public function block_docs_viewer_activation( $plugin ) {
+		$docs_viewer = 'docs-viewer-add-on-for-wp-job-openings/docs-viewer-add-on-for-wp-job-openings.php';
+
+		if ( $plugin !== $docs_viewer ) {
+			return;
+		}
+
+		return new WP_Error(
+			'awsm_docs_viewer_blocked',
+			__( '"Docs Viewer Add-On for WP Job Openings" is no longer required. Resume preview is now built into Hirezoot. You can safely delete this add-on.', 'wp-job-openings' )
+		);
+	}
+
+	/**
+	 * Show a one-time admin notice after force-deactivation,
+	 * and a persistent warning on the plugins screen if the add-on is still installed.
+	 * Hooked to admin_notices.
+	 */
+	public function docs_viewer_admin_notices() {
+		if ( ! current_user_can( 'activate_plugins' ) ) {
+			return;
+		}
+
+		$docs_viewer = 'docs-viewer-add-on-for-wp-job-openings/docs-viewer-add-on-for-wp-job-openings.php';
+
+		// One-time notice shown immediately after forced deactivation.
+		if ( get_option( 'awsm_docs_viewer_deactivated' ) ) {
+			delete_option( 'awsm_docs_viewer_deactivated' );
+			?>
+			<div class="notice notice-warning is-dismissible">
+				<p>
+					<?php
+					printf(
+						/* translators: %s: add-on plugin name */
+						esc_html__( '"%s" has been automatically deactivated. Its functionality is now built into Hirezoot. You can safely delete it.', 'wp-job-openings' ),
+						'<strong>Docs Viewer Add-On for WP Job Openings</strong>'
+					);
+					?>
+				</p>
+			</div>
+			<?php
+		}
+
+		// Persistent notice on the plugins screen while the add-on is still installed.
+		$screen = get_current_screen();
+		if (
+			$screen instanceof WP_Screen &&
+			$screen->id === 'plugins' &&
+			file_exists( WP_PLUGIN_DIR . '/' . $docs_viewer )
+		) {
+			?>
+			<div class="notice notice-info">
+				<p>
+					<?php
+					printf(
+						/* translators: %s: add-on plugin name */
+						esc_html__( 'You can delete "%s" — its functionality is now included in Hirezoot.', 'wp-job-openings' ),
+						'<strong>Docs Viewer Add-On for WP Job Openings</strong>'
+					);
+					?>
 				</p>
 			</div>
 			<?php
