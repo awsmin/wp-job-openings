@@ -310,8 +310,14 @@ jQuery( function ( $ ) {
 	}
 
 	var updateQuery = function ( key, value, url, preservePagination ) {
-		url = typeof url !== "undefined" ? url : currentUrl;
-		url = url.split( "?" )[ 0 ];
+		// When preserving pagination (e.g. on init sync), use the current URL path
+		// so that WordPress canonical-redirected paths like /page/2/ are not lost.
+		if ( preservePagination ) {
+			url = currentUrl;
+		} else {
+			url = typeof url !== "undefined" ? url : currentUrl;
+			url = url.split( "?" )[ 0 ];
+		}
 		const searchParams = new URLSearchParams( document.location.search );
 		if ( ! preservePagination ) {
 			if ( searchParams.has( "paged" ) ) {
