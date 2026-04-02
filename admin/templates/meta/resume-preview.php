@@ -20,9 +20,10 @@ do_action( 'awsm_resume_preview_mb_init', $post->ID );
 				<h4><strong><?php esc_html_e( 'Preview not available', 'wp-job-openings' ); ?></strong></h4>
 				<p><?php esc_html_e( 'Secure file upload is enabled, which disables resume preview. You can still download and view the file.', 'wp-job-openings' ); ?></p>
 			</div>
-		<?php elseif ( $attachment_url ) :
-		$file_extension = strtolower( pathinfo( $attachment_url, PATHINFO_EXTENSION ) );
-		?>
+		<?php
+		elseif ( $attachment_url ) :
+			$file_extension = strtolower( pathinfo( $attachment_url, PATHINFO_EXTENSION ) );
+			?>
 			<div class="awsm-document-preview">
 			<?php if ( $file_extension === 'pdf' ) : ?>
 					<iframe
