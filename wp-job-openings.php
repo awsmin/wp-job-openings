@@ -2044,11 +2044,18 @@ class AWSM_Job_Openings {
 			$display = true;
 		}
 		if ( ! empty( $expiry_date ) && $display ) {
-			$display_status = esc_html__( 'Closing on', 'wp-job-openings' );
-			if ( $post_status === 'expired' ) {
-				$display_status = esc_html__( 'Expired on', 'wp-job-openings' );
+			$timestamp = strtotime( $expiry_date );
+			if ( $timestamp !== false ) {
+				$display_status = esc_html__( 'Closing on', 'wp-job-openings' );
+				if ( $post_status === 'expired' || $timestamp < time() ) {
+					$display_status = esc_html__( 'Expired on', 'wp-job-openings' );
+				}
+				$content = sprintf(
+					'<div class="awsm-job-expiry-details"><span class="awsm-job-expiration-label">%1$s:</span> <span class="awsm-job-expiration-content">%2$s</span></div>',
+					esc_html( $display_status ),
+					esc_html( date_i18n( get_awsm_jobs_date_format( 'expiry', __( 'M j, Y', 'wp-job-openings' ) ), $timestamp ) )
+				);
 			}
-			$content = sprintf( '<div class="awsm-job-expiry-details"><span class="awsm-job-expiration-label">%1$s:</span> <span class="awsm-job-expiration-content">%2$s</span></div>', esc_html( $display_status ), esc_html( date_i18n( get_awsm_jobs_date_format( 'expiry', __( 'M j, Y', 'wp-job-openings' ) ), strtotime( $expiry_date ) ) ) );
 		}
 		return apply_filters( 'awsm_job_expiry_details_content', $content );
 	}
