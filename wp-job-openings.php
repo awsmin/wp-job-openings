@@ -164,48 +164,6 @@ class AWSM_Job_Openings {
 	public function check_addon_versions() {
 		$this->check_pro_version_for_free_plugin();
 		$this->check_job_alerts_version();
-		$this->deactivate_docs_viewer_addon();
-	}
-
-	public function deactivate_docs_viewer_addon() {
-		$docs_viewer_basename = 'docs-viewer-add-on-for-wp-job-openings/docs-viewer.php';
-		if ( is_plugin_active( $docs_viewer_basename ) ) {
-			deactivate_plugins( $docs_viewer_basename );
-			add_action( 'admin_notices', array( $this, 'docs_viewer_deactivated_notice' ) );
-		}
-	}
-
-	public function block_docs_viewer_reactivation( $plugin ) {
-		if ( 'docs-viewer-add-on-for-wp-job-openings/docs-viewer.php' === $plugin ) {
-			deactivate_plugins( $plugin );
-			add_action( 'admin_notices', array( $this, 'docs_viewer_deactivated_notice' ) );
-		}
-	}
-
-	public function docs_viewer_deactivated_notice() {
-		?>
-		<div class="notice notice-warning is-dismissible">
-			<p>
-				<?php
-				$addon_plugin = sprintf( '<strong>%s</strong>', esc_html__( 'Docs Viewer Add-On for WP Job Openings', 'wp-job-openings' ) );
-				$main_plugin  = sprintf( '<strong>%s</strong>', esc_html__( 'HireZoot', 'wp-job-openings' ) );
-				/* translators: %1$s: add-on plugin name, %2$s: main plugin name */
-				printf( esc_html__( '%1$s has been automatically deactivated. Resume preview is now built directly into %2$s and this add-on is no longer required.', 'wp-job-openings' ), $addon_plugin, $main_plugin ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-				?>
-			</p>
-		</div>
-		<?php
-	}
-
-	public function docs_viewer_disable_activate_link( $actions, $plugin_file ) {
-		if ( 'docs-viewer-add-on-for-wp-job-openings/docs-viewer.php' === $plugin_file ) {
-			unset( $actions['activate'] );
-			$actions['awsm_incompatible'] = sprintf(
-				'<span style="color:#a00;">%s</span>',
-				esc_html__( 'Incompatible with HireZoot', 'wp-job-openings' )
-			);
-		}
-		return $actions;
 	}
 
 	public function check_pro_version_for_free_plugin() {
@@ -398,8 +356,6 @@ class AWSM_Job_Openings {
 			add_action( 'admin_footer-post.php', array( $this, 'job_submit_meta_box_custom_status' ) );
 			add_action( 'admin_footer-post-new.php', array( $this, 'job_submit_meta_box_custom_status' ) );
 			add_action( 'admin_init', array( $this, 'check_addon_versions' ) );
-			add_action( 'activated_plugin', array( $this, 'block_docs_viewer_reactivation' ) );
-			add_filter( 'plugin_action_links', array( $this, 'docs_viewer_disable_activate_link' ), 10, 2 );
 		}
 	}
 
