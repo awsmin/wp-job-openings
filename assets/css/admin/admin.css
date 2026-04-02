@@ -2195,12 +2195,12 @@ input.awsm-button:disabled {
 	text-decoration: none;
 	border-color: #0bcfb1;
 	background-color: #ffffff;
-	color: #0bcfb1;
+	color: #161616;
 }
 
 .awsm-applicant-resume-cta a:hover svg,
 .awsm-applicant-resume-cta #awsm-print-apps:hover svg {
-	fill: #0bcfb1;
+	fill: #161616;
 }
 
 .awsm-application-email-main {
