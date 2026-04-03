@@ -104,6 +104,10 @@ a.awsm-b-job-item {
 	text-align: left;
 }
 
+.awsm-b-job-item .awsm-b-stack-left-col-in h2.awsm-b-job-post-title {
+	margin-bottom: 8px;
+}
+
 .awsm-b-job-item h2.awsm-b-job-post-title a {
 	font-size: 18px;
 	color: var(--hz-jl-tx-color);
@@ -972,6 +976,7 @@ a.awsm-b-job-item .awsm-job-specification-item {
 
 	@media (max-width: 600px) {
 		width: 100%;
+		flex-direction: column;
 	}
 
 	.awsm-job-featured-image {
