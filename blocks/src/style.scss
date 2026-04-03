@@ -967,6 +967,8 @@ a.awsm-b-job-item .awsm-job-specification-item {
 .awsm-b-stack-left-col {
 	flex: 1 1 auto;
 	min-width: 0;
+	display: flex;
+	gap: 10px;
 
 	@media (max-width: 600px) {
 		width: 100%;
