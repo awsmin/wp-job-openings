@@ -820,7 +820,6 @@ jQuery(document).ready(function($) {
 					if (jobExpiryValue) {
 						setTimeout(function () {
 							$dateField.datepicker('setDate', new Date(jobExpiryValue));
-							$quickEditRow.find('#awsm-jobs-datepicker-alt').val(jobExpiryValue);
 						}, 50);
 					}
 					if (displayExpiry) {
