@@ -38,7 +38,7 @@ class AWSM_Job_Openings_Block {
 			'layout'                         => isset( $blockatts['layout'] ) ? $blockatts['layout'] : '',
 			'hide_expired_jobs'              => isset( $blockatts['hide_expired_jobs'] ) ? $blockatts['hide_expired_jobs'] : '',
 			'placement'                      => isset( $blockatts['placement'] ) ? $blockatts['placement'] : 'top',
-			'search_placeholder'             => isset( $blockatts['search_placeholder'] ) ? $blockatts['search_placeholder'] : '',
+			'search_placeholder'             => isset( $blockatts['search_placeholder'] ) ? sanitize_text_field( $blockatts['search_placeholder'] ) : '',
 			'number_of_columns'              => isset( $blockatts['number_of_columns'] ) ? $blockatts['number_of_columns'] : 3,
 			'other_options'                  => isset( $blockatts['other_options'] ) ? $blockatts['other_options'] : '',
 			'show_spec_icon'                 => isset( $blockatts['show_spec_icon'] ) ? $blockatts['show_spec_icon'] : '',
@@ -191,6 +191,10 @@ class AWSM_Job_Openings_Block {
 			foreach ( $job_specs as $taxonomy => $term_id ) {
 				$taxonomy = sanitize_key( $taxonomy );
 
+				if ( ! taxonomy_exists( $taxonomy ) ) {
+					continue;
+				}
+
 				if ( is_array( $term_id ) ) {
 					foreach ( $term_id as $term ) {
 						$filters_list[ $taxonomy ][] = absint( $term );
@@ -208,7 +212,7 @@ class AWSM_Job_Openings_Block {
 			if ( is_array( $raw_specs ) ) {
 				foreach ( $raw_specs as $taxonomy => $terms ) {
 					$taxonomy = sanitize_key( $taxonomy );
-					if ( $taxonomy === '' ) {
+					if ( ! taxonomy_exists( $taxonomy ) ) {
 						continue;
 					}
 
@@ -606,9 +610,7 @@ class AWSM_Job_Openings_Block {
 		$filters_attr          = isset( $block_atts['filter_options'] ) ? $block_atts['filter_options'] : array();
 		$enable_job_filters    = isset( $block_atts['enable_job_filter'] ) ? $block_atts['enable_job_filter'] : '';
 		$enable_search         = isset( $block_atts['search'] ) ? $block_atts['search'] : '';
-		$placeholder_search    = isset( $block_atts['search_placeholder'] ) ? $block_atts['search_placeholder'] : '';
-
-		$placeholder_search = isset( $block_atts['search_placeholder'] ) ? $block_atts['search_placeholder'] : '';
+		$placeholder_search = isset( $block_atts['search_placeholder'] ) ? sanitize_text_field( $block_atts['search_placeholder'] ) : '';
 		$default_text       = _x( 'Search Jobs', 'job filter', 'wp-job-openings' );
 
 		/**
@@ -880,7 +882,7 @@ class AWSM_Job_Openings_Block {
 		$uid                   = isset( $block_atts['uid'] ) ? '-' . $block_atts['uid'] : '';
 		$enable_search         = isset( $block_atts['search'] ) ? $block_atts['search'] : '';
 		$enable_job_filters    = isset( $block_atts['enable_job_filter'] ) ? $block_atts['enable_job_filter'] : '';
-		$placeholder_search    = isset( $block_atts['search_placeholder'] ) ? $block_atts['search_placeholder'] : '';
+		$placeholder_search    = isset( $block_atts['search_placeholder'] ) ? sanitize_text_field( $block_atts['search_placeholder'] ) : '';
 		$filter_options        = isset( $block_atts['filter_options'] ) ? $block_atts['filter_options'] : '';
 		$default_text          = __( 'Search Jobs', 'wp-job-openings' );
 		$search_content        = '';
