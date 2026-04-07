@@ -47,7 +47,7 @@ class AWSM_Job_Openings_Info {
 			'error'   => array(),
 		);
 
-		if ( ! isset( $_POST['awsm_job_nonce'] ) || ! wp_verify_nonce( $_POST['awsm_job_nonce'], 'awsm-jobs-setup' ) ) {
+		if ( ! isset( $_POST['awsm_job_nonce'] ) || ! wp_verify_nonce( sanitize_key( $_POST['awsm_job_nonce'] ), 'awsm-jobs-setup' ) ) {
 			$response['error'][] = esc_html__( 'Failed to verify nonce!', 'wp-job-openings' );
 		}
 

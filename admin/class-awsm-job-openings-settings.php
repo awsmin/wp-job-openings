@@ -932,7 +932,7 @@ class AWSM_Job_Openings_Settings {
 	}
 
 	public function settings_switch_ajax() {
-		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'awsm-admin-nonce' ) ) {
+		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_key( $_POST['nonce'] ), 'awsm-admin-nonce' ) ) {
 			wp_die();
 		}
 		if ( ! current_user_can( 'manage_awsm_jobs' ) ) {

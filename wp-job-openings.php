@@ -1229,7 +1229,7 @@ class AWSM_Job_Openings {
 			'errors' => array(),
 		);
 
-		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'awsm-admin-nonce' ) ) {
+		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_key( $_POST['nonce'] ), 'awsm-admin-nonce' ) ) {
 			$response['errors'][] = esc_html__( 'Invalid request!', 'wp-job-openings' );
 		}
 
