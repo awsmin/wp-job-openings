@@ -111,6 +111,7 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 * Added: Block - Job spec icons with enable/disable option.
 * Added: Block - Style tab with styling controls (colors, borders, padding, radius, buttons, background).
 * Added: Block - Nonce-based CSRF protection for block filter and load-more AJAX requests.
+* Added: Block - Filtered jobs.
 * Added: Quick edit option for jobs.
 * Added: Filter applications by date range.
 * Added: Unread applications count display.
