@@ -27,10 +27,11 @@ do_action( 'awsm_resume_preview_mb_init', $post->ID );
 			<div class="awsm-document-preview">
 			<?php if ( $file_extension === 'pdf' ) : ?>
 					<iframe
-						src="<?php echo esc_url( $attachment_url ); ?>"
-						style="width: 100%; height: 400px; border: none;"
-						frameborder="0">
-					</iframe>
+                        src="<?php echo esc_url( 'https://docs.google.com/viewer?embedded=true&url=' . urlencode( $attachment_url ) ); ?>"
+                        style="width: 100%; height: 400px; border: none;"
+                        frameborder="0"
+                        sandbox="allow-scripts allow-same-origin allow-popups">
+                    </iframe>
 				<?php elseif ( in_array( $file_extension, array( 'doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx' ) ) ) : ?>
 					<iframe
 						src="<?php echo esc_url( 'https://view.officeapps.live.com/op/embed.aspx?src=' . urlencode( $attachment_url ) ); ?>"
