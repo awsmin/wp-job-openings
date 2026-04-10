@@ -121,13 +121,10 @@ class AWSM_Job_Openings {
 			require_once AWSM_JOBS_PLUGIN_DIR . "/inc/{$prefix}-{$class}.php";
 		}
 		if ( is_admin() ) {
-			$classes = array( 'overview', 'meta', 'info' );
+			$classes = array( 'overview', 'meta', 'settings', 'info' );
 			foreach ( $classes as $class ) {
 				require_once AWSM_JOBS_PLUGIN_DIR . "/admin/{$prefix}-{$class}.php";
 			}
-		}
-		if ( is_admin() || ( defined( 'DOING_CRON' ) && DOING_CRON ) ) {
-			require_once AWSM_JOBS_PLUGIN_DIR . "/admin/class-awsm-job-openings-settings.php";
 		}
 	}
 
