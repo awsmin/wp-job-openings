@@ -114,7 +114,6 @@ class AWSM_Job_Openings {
 		return self::$instance;
 	}
 
-
 	public static function load_classes() {
 		$prefix  = 'class-awsm-job-openings';
 		$classes = array( 'core', 'ui-builder', 'filters', 'mail-customizer', 'form', 'third-party', 'block' );
@@ -122,10 +121,13 @@ class AWSM_Job_Openings {
 			require_once AWSM_JOBS_PLUGIN_DIR . "/inc/{$prefix}-{$class}.php";
 		}
 		if ( is_admin() ) {
-			$classes = array( 'overview', 'meta', 'settings', 'info' );
+			$classes = array( 'overview', 'meta', 'info' );
 			foreach ( $classes as $class ) {
 				require_once AWSM_JOBS_PLUGIN_DIR . "/admin/{$prefix}-{$class}.php";
 			}
+		}
+		if ( is_admin() || ( defined( 'DOING_CRON' ) && DOING_CRON ) ) {
+			require_once AWSM_JOBS_PLUGIN_DIR . "/admin/class-awsm-job-openings-settings.php";
 		}
 	}
 
