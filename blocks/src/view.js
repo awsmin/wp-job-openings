@@ -149,6 +149,7 @@ jQuery( function ( $ ) {
 		const other_options = $wrapper.data( "awsm-other-options" );
 		const show_spec_icon = $wrapper.data( "awsm-spec-icons" );
 		const order_by = $wrapper.data( "awsm-order-by" );
+		const selected_terms = $wrapper.data( "awsmSelectedTerms" );
 
 		/* Filter URL sync logic */
 		$rootWrapper.find( ".awsm-b-filter-item" ).each( function () {
@@ -203,6 +204,18 @@ jQuery( function ( $ ) {
 				name: "awsm-order-by",
 				value: order_by
 			} );
+		}
+
+		// Send block-configured selected_terms so the AJAX handler can apply the
+		// pre-filter even when filter dropdowns are disabled (search-only config).
+		if ( selected_terms ) {
+			const stValue =
+				typeof selected_terms === "string"
+					? selected_terms
+					: JSON.stringify( selected_terms );
+			if ( stValue && stValue !== "{}" && stValue !== "[]" ) {
+				formData.push( {name: "awsm_selected_terms", value: stValue} );
+			}
 		}
 
 		const listingsData = getListingsData( $wrapper );
@@ -861,6 +874,17 @@ jQuery( function ( $ ) {
 					name: "awsm-order-by",
 					value: order_by
 				} );
+			}
+
+			const selected_terms_lm = $listingsContainer.data( "awsmSelectedTerms" );
+			if ( selected_terms_lm ) {
+				const stValueLm =
+					typeof selected_terms_lm === "string"
+						? selected_terms_lm
+						: JSON.stringify( selected_terms_lm );
+				if ( stValueLm && stValueLm !== "{}" && stValueLm !== "[]" ) {
+					wpData.push( {name: "awsm_selected_terms", value: stValueLm} );
+				}
 			}
 
 			if ( typeof lang !== "undefined" ) {

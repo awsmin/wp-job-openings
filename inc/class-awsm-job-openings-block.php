@@ -277,6 +277,34 @@ class AWSM_Job_Openings_Block {
 			$attributes['order_by'] = in_array( $order_by, array( 'new_to_old', 'old_to_new' ), true ) ? $order_by : 'new_to_old';
 		}
 
+		// Restore block-configured selected_terms sent from the JS wrapper data attr
+		// so they are applied when filter dropdowns are disabled.
+		if ( isset( $_POST['awsm_selected_terms'] ) && ! empty( $_POST['awsm_selected_terms'] ) ) {
+			$raw_st = wp_unslash( $_POST['awsm_selected_terms'] );
+			if ( is_string( $raw_st ) ) {
+				$decoded_st = json_decode( $raw_st, true );
+			} elseif ( is_array( $raw_st ) ) {
+				$decoded_st = $raw_st;
+			} else {
+				$decoded_st = array();
+			}
+			if ( is_array( $decoded_st ) ) {
+				$clean_st = array();
+				foreach ( $decoded_st as $taxonomy => $term_ids ) {
+					$taxonomy = sanitize_key( $taxonomy );
+					if ( taxonomy_exists( $taxonomy ) ) {
+						$term_ids = array_values( array_filter( array_map( 'absint', (array) $term_ids ) ) );
+						if ( ! empty( $term_ids ) ) {
+							$clean_st[ $taxonomy ] = $term_ids;
+						}
+					}
+				}
+				if ( ! empty( $clean_st ) ) {
+					$attributes['selected_terms'] = $clean_st;
+				}
+			}
+		}
+
 		$attributes = apply_filters( 'awsm_jobs_block_post_filters', $attributes, wp_unslash( $_POST ) );
 
 		$args = self::awsm_block_job_query_args( $filters, $attributes, array(), $filters_list );
@@ -349,10 +377,13 @@ class AWSM_Job_Openings_Block {
 			// User's explicit filter selection takes precedence — don't merge preselected
 			// terms for a taxonomy the user has already filtered on, as that causes a
 			// union query (both preselected + user-selected jobs returned).
-			foreach ( array_keys( $filters ) as $tax ) {
+			// Check both scalar $filters and array $filters_list since block dropdowns
+			// produce array-format params that go into $filters_list, not $filters.
+			foreach ( array_merge( array_keys( $filters ), array_keys( $filters_list ) ) as $tax ) {
 				unset( $selected[ $tax ] );
 			}
-			$filters_list = $selected;
+			// Merge remaining preselected terms; don't replace existing user-chosen filters.
+			$filters_list = array_merge( $filters_list, $selected );
 		}
 		// Process taxonomy filters.
 		if ( ! empty( $filters ) || ! empty( $filters_list ) ) {
@@ -448,6 +479,22 @@ class AWSM_Job_Openings_Block {
 		$attrs['awsm-spec-icons']        = isset( $block_atts['show_spec_icon'] ) ? $block_atts['show_spec_icon'] : '';
 
 		$attrs['awsm-order-by'] = isset( $block_atts['order_by'] ) ? $block_atts['order_by'] : '';
+
+		// Store block-configured selected_terms so AJAX search/filter calls can
+		// re-apply the pre-filter when filter dropdowns are disabled.
+		if ( isset( $block_atts['selected_terms'] ) && ! empty( $block_atts['selected_terms'] ) ) {
+			$selected_terms_clean = array();
+			foreach ( $block_atts['selected_terms'] as $taxonomy => $term_ids ) {
+				$taxonomy = sanitize_key( $taxonomy );
+				$term_ids = array_values( array_filter( array_map( 'absint', (array) $term_ids ) ) );
+				if ( ! empty( $term_ids ) ) {
+					$selected_terms_clean[ $taxonomy ] = $term_ids;
+				}
+			}
+			if ( ! empty( $selected_terms_clean ) ) {
+				$attrs['awsm-selected-terms'] = wp_json_encode( $selected_terms_clean );
+			}
+		}
 
 		$current_lang = AWSM_Job_Openings::get_current_language();
 		if ( ! empty( $current_lang ) ) {

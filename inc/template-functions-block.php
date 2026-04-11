@@ -506,7 +506,7 @@ if ( ! function_exists( 'awsm_b_job_more_details' ) ) {
 		$button_class = 'awsm-b-job-more';
 
 		$more_dtls_link = sprintf(
-			'<div class="awsm-b-job-more-container"><%1$s class="%2$s"%3$s>%4$s <span></span></%1$s></div>',
+			'<div class="awsm-b-job-more-container"><%1$s class="%2$s"%3$s>%4$s</%1$s></div>',
 			( $view === 'grid' ) ? 'span' : 'a',
 			esc_attr( $button_class ),
 			( $view === 'grid' ) ? '' : ' href="' . esc_url( $link ) . '"',
