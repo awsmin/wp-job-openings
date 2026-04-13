@@ -1062,17 +1062,20 @@ class AWSM_Job_Openings {
 			}
 		}
 
-		if ( isset( $_GET['awsm_filter_by_date_from'] ) && ! empty( $_GET['awsm_filter_by_date_from'] ) && isset( $_GET['awsm_filter_by_date_to'] ) && ! empty( $_GET['awsm_filter_by_date_to'] ) ) {
-			$date_from = sanitize_text_field( $_GET['awsm_filter_by_date_from'] );
-			$date_to   = sanitize_text_field( $_GET['awsm_filter_by_date_to'] );
+		$date_from = ( isset( $_GET['awsm_filter_by_date_from'] ) && ! empty( $_GET['awsm_filter_by_date_from'] ) ) ? sanitize_text_field( $_GET['awsm_filter_by_date_from'] ) : '';
+		$date_to   = ( isset( $_GET['awsm_filter_by_date_to'] ) && ! empty( $_GET['awsm_filter_by_date_to'] ) ) ? sanitize_text_field( $_GET['awsm_filter_by_date_to'] ) : '';
 
-			$query->query_vars['date_query'] = array(
-				array(
-					'after'     => $date_from,
-					'before'    => $date_to,
-					'inclusive' => true,
-				),
-			);
+		if ( $type === 'awsm_job_application' && is_admin() && $pagenow === 'edit.php' && $query->is_main_query() && ( ! empty( $date_from ) || ! empty( $date_to ) ) ) {
+			$date_query = array( 'inclusive' => true );
+
+			if ( ! empty( $date_from ) ) {
+				$date_query['after'] = $date_from;
+			}
+			if ( ! empty( $date_to ) ) {
+				$date_query['before'] = $date_to;
+			}
+
+			$query->query_vars['date_query'] = array( $date_query );
 		}
 	}
 
