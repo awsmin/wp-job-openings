@@ -657,8 +657,8 @@ class AWSM_Job_Openings_Block {
 		$filters_attr          = isset( $block_atts['filter_options'] ) ? $block_atts['filter_options'] : array();
 		$enable_job_filters    = isset( $block_atts['enable_job_filter'] ) ? $block_atts['enable_job_filter'] : '';
 		$enable_search         = isset( $block_atts['search'] ) ? $block_atts['search'] : '';
-		$placeholder_search = isset( $block_atts['search_placeholder'] ) ? sanitize_text_field( $block_atts['search_placeholder'] ) : '';
-		$default_text       = _x( 'Search Jobs', 'job filter', 'wp-job-openings' );
+		$placeholder_search    = isset( $block_atts['search_placeholder'] ) ? sanitize_text_field( $block_atts['search_placeholder'] ) : '';
+		$default_text          = _x( 'Search Jobs', 'job filter', 'wp-job-openings' );
 
 		/**
 		 * Enable search in the job listing or not.
