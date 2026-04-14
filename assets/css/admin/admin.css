@@ -2511,7 +2511,12 @@ input.awsm-button:disabled {
 	flex-wrap:wrap;
 }
 .awsm-captcha-key-gen .awsm-view-captcha-btn{ margin-left: 0 !important;}
-
+/*-------- Job edit page metabox width ---------*/
+.post-type-awsm_job_openings .edit-post-meta-boxes-area .postbox .handlediv,
+.post-type-awsm_job_openings #editor .postbox>.postbox-header .handle-actions .handle-order-higher, 
+.post-type-awsm_job_openings #editor .postbox>.postbox-header .handle-actions .handle-order-lower{
+	width: 1.62rem;
+}
 @media (min-width:701px) {
 	.awsm-jobs-expired-post-state span {
 		margin-right: 3px;
