@@ -205,7 +205,7 @@ class AWSM_Job_Openings_Core {
 		);
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
-		return (int) $count;
+		return apply_filters( 'awsm_unviewed_applications_count', (int) $count );
 	}
 
 	private function get_caps() {
