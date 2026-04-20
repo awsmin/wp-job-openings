@@ -2197,12 +2197,14 @@ class AWSM_Job_Openings_Settings {
 				? __( 'No-Conflict Mode enabled.', 'wp-job-openings' )
 				: __( 'No-Conflict Mode disabled.', 'wp-job-openings' );
 
-			add_settings_error(
-				'awsm_jobs_captcha_no_conflict_scripts',
-				'awsm-captcha-no-conflict-updated',
-				$status_text,
-				'success'
-			);
+			if ( ! $this->settings_error_exists( 'awsm_jobs_captcha_no_conflict_scripts', 'awsm-captcha-no-conflict-updated' ) ) {
+				add_settings_error(
+					'awsm_jobs_captcha_no_conflict_scripts',
+					'awsm-captcha-no-conflict-updated',
+					$status_text,
+					'success'
+				);
+			}
 		}
 
 		return $new_value;
