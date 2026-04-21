@@ -36,7 +36,12 @@ jQuery(document).ready(function($) {
 				tags: true,
 				tokenSeparators: [ ',' ],
 				theme: 'awsm-job',
-				dropdownCssClass: (dropdownHidden ? 'awsm-hidden-control' : 'awsm-select2-dropdown-control')
+				dropdownCssClass: (dropdownHidden ? 'awsm-hidden-control' : 'awsm-select2-dropdown-control'),
+				language: {
+					noResults: function() {
+						return '';
+					}
+				}
 			};
 			jQuery.extend(config, additionalConfig);
 			$elem.awsmSelect2(config);
