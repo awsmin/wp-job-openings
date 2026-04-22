@@ -901,6 +901,22 @@ jQuery(document).ready(function($) {
 	$(document).on('mouseleave', '.awsm-job-tooltip', function () {
 		$tooltip.removeClass('active awsm-top awsm-bottom');
 	});
+/*================ Resume preview ================*/
+	var $iframe = $('.awsm-preview-frame');
+    var $loader = $('.awsm-preview-loader');
+
+    if ($iframe.length) {
+        var src = $iframe.data('src');
+
+        // Set iframe src after DOM is ready
+        $iframe.attr('src', src);
+
+        // When iframe loads, hide loader and show iframe
+        $iframe.on('load', function () {
+            $loader.hide();
+            $iframe.show();
+        });
+    }
 
 });
 

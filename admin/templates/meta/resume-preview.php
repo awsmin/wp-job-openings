@@ -25,9 +25,13 @@ do_action( 'awsm_resume_preview_mb_init', $post->ID );
 			$file_extension = strtolower( pathinfo( $attachment_url, PATHINFO_EXTENSION ) );
 			?>
 			<div class="awsm-document-preview">
+				<div class="awsm-preview-loader">
+					<div class="awsm-preview-spinner"></div>
+				</div>
 			<?php if ( $file_extension === 'pdf' ) : ?>
 					<iframe
 						src="<?php echo esc_url( 'https://docs.google.com/viewer?embedded=true&url=' . urlencode( $attachment_url ) ); ?>"
+						class="awsm-preview-frame"
 						style="width: 100%; height: 400px; border: none;"
 						frameborder="0"
 						sandbox="allow-scripts allow-same-origin allow-popups">

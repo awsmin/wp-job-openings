@@ -2286,6 +2286,37 @@ input.awsm-button:disabled {
 }
 
 /*----- Resume preview styles  -------*/
+.awsm-document-preview {
+	position: relative;
+}
+
+.awsm-preview-loader {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 400px;
+	z-index: 1;
+}
+
+.awsm-preview-spinner {
+	width: 36px;
+	height: 36px;
+	border: 3px solid #e0e0e0;
+	border-top-color: #2271b1;
+	border-radius: 50%;
+	animation: awsm-spin 0.7s linear infinite;
+}
+
+@keyframes awsm-spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
 .awsm-preview-document {
 	position: relative;
 	display: inline-block;
