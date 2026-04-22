@@ -39,6 +39,7 @@ do_action( 'awsm_resume_preview_mb_init', $post->ID );
 				<?php elseif ( in_array( $file_extension, array( 'doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx' ) ) ) : ?>
 					<iframe
 						src="<?php echo esc_url( 'https://view.officeapps.live.com/op/embed.aspx?src=' . urlencode( $attachment_url ) ); ?>"
+						class="awsm-preview-frame"
 						style="width: 100%; height: 400px; border: none;"
 						frameborder="0">
 					</iframe>
