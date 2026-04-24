@@ -2329,16 +2329,17 @@ input.awsm-button:disabled {
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	background-color: rgba(0, 0, 0, 0.7);
-	color: #fff;
+	background:#fff;
+	color: #161616;
 	padding: 10px 20px;
-	border: none;
 	border-radius: 4px;
 	cursor: pointer;
 	z-index: 10;
 	text-align: center;
 	font-size: 14px;
 	white-space: nowrap;
+	text-decoration: none;
+    line-height: normal;
 }
 
 .awsm-preview-reload-btn img {
