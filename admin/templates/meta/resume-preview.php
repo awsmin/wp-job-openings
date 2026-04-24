@@ -48,6 +48,9 @@ do_action( 'awsm_resume_preview_mb_init', $post->ID );
 						<h2><strong><?php esc_html_e( 'This file type cannot be previewed. Please download the file to view it.', 'wp-job-openings' ); ?></strong></h2>
 					</div>
 				<?php endif; ?>
+				<button type="button" class="awsm-preview-reload-btn" style="display: none;">
+					&#8635; <?php esc_html_e( 'Reload Preview', 'wp-job-openings' ); ?>
+				</button>
 			</div>
 		<?php else : ?>
 			<div class="awsm-resume-none">

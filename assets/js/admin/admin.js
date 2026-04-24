@@ -904,18 +904,41 @@ jQuery(document).ready(function($) {
 /*================ Resume preview ================*/
 	var $iframe = $('.awsm-preview-frame');
     var $loader = $('.awsm-preview-loader');
+    var $reloadBtn = $('.awsm-preview-reload-btn');
+    var previewLoadTimeout;
 
     if ($iframe.length) {
-        var src = $iframe.data('src');
+        var originalSrc = $iframe.attr('src');
 
-        // Set iframe src after DOM is ready
-        $iframe.attr('src', src);
+        function startPreviewTimeout() {
+            clearTimeout(previewLoadTimeout);
+            previewLoadTimeout = setTimeout(function () {
+                $loader.hide();
+                $reloadBtn.show();
+            }, 15000);
+        }
 
-        // When iframe loads, hide loader and show iframe
         $iframe.on('load', function () {
+            // Ignore the intermediate blank load triggered during reload
+            if (!$iframe[0].src || $iframe[0].src === window.location.href) {
+                return;
+            }
+            clearTimeout(previewLoadTimeout);
             $loader.hide();
-            $iframe.show();
+            $reloadBtn.hide();
         });
+
+        $reloadBtn.on('click', function () {
+            $loader.show();
+            $reloadBtn.hide();
+            $iframe.attr('src', '');
+            setTimeout(function () {
+                $iframe[0].src = originalSrc;
+            }, 100);
+            startPreviewTimeout();
+        });
+
+        startPreviewTimeout();
     }
 
 });
