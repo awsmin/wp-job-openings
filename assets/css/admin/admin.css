@@ -2552,6 +2552,9 @@ input.awsm-button:disabled {
 .post-type-awsm_job_openings #editor .postbox>.postbox-header .handle-actions .handle-order-lower{
 	width: 1.62rem;
 }
+.awsm_job_openings_page_awsm-jobs-overview .wrap > h1:empty {
+    padding: 0;
+}
 @media (min-width:701px) {
 	.awsm-jobs-expired-post-state span {
 		margin-right: 3px;
