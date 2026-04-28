@@ -906,21 +906,28 @@ jQuery(document).ready(function($) {
     var $loader = $('.awsm-preview-loader');
     var $reloadBtn = $('.awsm-preview-reload-btn');
     var previewLoadTimeout;
+    var previewTimedOut = false;
 
     if ($iframe.length) {
         var originalSrc = $iframe.attr('src');
 
         function startPreviewTimeout() {
             clearTimeout(previewLoadTimeout);
+            previewTimedOut = false;
             previewLoadTimeout = setTimeout(function () {
+                previewTimedOut = true;
                 $loader.hide();
                 $reloadBtn.show();
-            }, 15000);
+            }, 8000);
         }
 
         $iframe.on('load', function () {
             // Ignore the intermediate blank load triggered during reload
             if (!$iframe[0].src || $iframe[0].src === window.location.href) {
+                return;
+            }
+            // Don't hide the reload button if timeout already fired — viewer shell loaded but document may still be failing
+            if (previewTimedOut) {
                 return;
             }
             clearTimeout(previewLoadTimeout);
