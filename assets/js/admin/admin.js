@@ -907,6 +907,7 @@ jQuery(document).ready(function($) {
     var $reloadBtn = $('.awsm-preview-reload-btn');
     var previewLoadTimeout;
     var previewTimedOut = false;
+    var isBlankingForReload = false;
 
     if ($iframe.length) {
         var originalSrc = $iframe.attr('src');
@@ -922,8 +923,8 @@ jQuery(document).ready(function($) {
         }
 
         $iframe.on('load', function () {
-            // Ignore the intermediate blank load triggered during reload
-            if (!$iframe[0].src || $iframe[0].src === window.location.href) {
+            // Ignore the blank load we intentionally trigger during reload (flag-based, works in Firefox where cross-origin src is restricted)
+            if (isBlankingForReload) {
                 return;
             }
             // Don't hide the reload button if timeout already fired — viewer shell loaded but document may still be failing
@@ -938,8 +939,10 @@ jQuery(document).ready(function($) {
         $reloadBtn.on('click', function () {
             $loader.show();
             $reloadBtn.hide();
+            isBlankingForReload = true;
             $iframe.attr('src', '');
             setTimeout(function () {
+                isBlankingForReload = false;
                 $iframe[0].src = originalSrc;
             }, 100);
             startPreviewTimeout();
