@@ -908,33 +908,24 @@ jQuery(document).ready(function($) {
     var previewLoadTimeout;
 
     if ($iframe.length) {
-        var originalSrc = $iframe.attr('src');
-
         function startPreviewTimeout() {
             clearTimeout(previewLoadTimeout);
             previewLoadTimeout = setTimeout(function () {
-                $loader.hide();
-                $reloadBtn.show();
+                $loader.addClass('taking-too-long');
             }, 15000);
         }
 
         $iframe.on('load', function () {
-            // Ignore the intermediate blank load triggered during reload
-            if (!$iframe[0].src || $iframe[0].src === window.location.href) {
+            if (!$iframe[0].src || $iframe[0].src === 'about:blank' || $iframe[0].src === window.location.href) {
                 return;
             }
             clearTimeout(previewLoadTimeout);
             $loader.hide();
-            $reloadBtn.hide();
         });
 
         $reloadBtn.on('click', function () {
-            $loader.show();
-            $reloadBtn.hide();
-            $iframe.attr('src', '');
-            setTimeout(function () {
-                $iframe[0].src = originalSrc;
-            }, 100);
+            $loader.removeClass('taking-too-long').show();
+            $iframe.attr('src', $iframe.attr('src'));
             startPreviewTimeout();
         });
 
