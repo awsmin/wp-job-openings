@@ -2329,13 +2329,17 @@ input.awsm-button:disabled {
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
-	color: #fff; /* White text */
+	background:#fff;
+	color: #161616;
 	padding: 10px 20px;
 	border-radius: 4px;
 	cursor: pointer;
-	z-index: 10; /* Ensure it appears above other elements */
+	z-index: 10;
 	text-align: center;
+	font-size: 14px;
+	white-space: nowrap;
+	text-decoration: none;
+    line-height: normal;
 }
 
 .awsm-preview-reload-btn img {
@@ -2547,6 +2551,9 @@ input.awsm-button:disabled {
 .post-type-awsm_job_openings #editor .postbox>.postbox-header .handle-actions .handle-order-higher, 
 .post-type-awsm_job_openings #editor .postbox>.postbox-header .handle-actions .handle-order-lower{
 	width: 1.62rem;
+}
+.awsm_job_openings_page_awsm-jobs-overview .wrap > h1:empty {
+    padding: 0;
 }
 @media (min-width:701px) {
 	.awsm-jobs-expired-post-state span {

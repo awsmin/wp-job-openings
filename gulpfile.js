@@ -141,6 +141,7 @@ const genericTasks = [
 	"admin-style",
 	"admin-global-style",
 	"admin-overview-style",
+	"editor-style",
 	"public-scripts",
 	"admin-scripts",
 	"admin-overview-scripts"

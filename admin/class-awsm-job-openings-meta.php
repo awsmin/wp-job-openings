@@ -12,6 +12,7 @@ class AWSM_Job_Openings_Meta {
 		$this->cpath = untrailingslashit( plugin_dir_path( __FILE__ ) );
 		add_action( 'add_meta_boxes', array( $this, 'awsm_register_meta_boxes' ) );
 		add_action( 'admin_menu', array( $this, 'remove_meta_boxes' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'dequeue_autosave' ) );
 		if ( isset( $_GET['awsm_action'] ) ) {
 			if ( $_GET['awsm_action'] === 'download_resume' ) {
 				add_action( 'plugins_loaded', array( $this, 'download_resume_handle' ) );
@@ -108,6 +109,13 @@ class AWSM_Job_Openings_Meta {
 	public function remove_meta_boxes() {
 		remove_meta_box( 'slugdiv', 'awsm_job_application', 'normal' );
 		remove_meta_box( 'submitdiv', 'awsm_job_application', 'side' );
+	}
+
+	public function dequeue_autosave( $hook ) {
+		global $post;
+		if ( 'post.php' === $hook && isset( $post ) && 'awsm_job_application' === $post->post_type ) {
+			wp_dequeue_script( 'autosave' );
+		}
 	}
 
 	public static function set_applicant_single_view_tab() {
