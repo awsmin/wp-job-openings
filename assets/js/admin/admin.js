@@ -925,10 +925,11 @@ jQuery(document).ready(function($) {
 
         $reloadBtn.on('click', function () {
             $loader.removeClass('taking-too-long').show();
-            $iframe.attr('src', $iframe.attr('src'));
+            $iframe.attr('src', $iframe.data('src'));
             startPreviewTimeout();
         });
 
+        $iframe.attr('src', $iframe.data('src'));
         startPreviewTimeout();
     }
 
