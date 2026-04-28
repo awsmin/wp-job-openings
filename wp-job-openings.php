@@ -5,7 +5,7 @@
  * Description: Super simple Job Listing plugin to manage Job Openings and Applicants on your WordPress site.
  * Author: AWSM Innovations
  * Author URI: https://awsm.in/
- * Version: 4.0.0
+ * Version: 4.1.0
  * Requires at least: 4.8
  * Requires PHP: 5.6
  * License: GPLv2
