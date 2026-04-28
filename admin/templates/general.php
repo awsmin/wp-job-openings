@@ -87,6 +87,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'label' => __( 'Timezone ', 'wp-job-openings' ),
 					'type'  => 'raw',
 					'value' => '<select name="awsm_jobs_timezone[original_val]" class="awsm-select-control regular-text">' . wp_timezone_choice( $selected_zone, get_user_locale() ) . '</select>',
+					'description' => __( 'Used only for job expiry. Job and application timestamps follow your WordPress site timezone.', 'wp-job-openings' ),
 				),
 				array(
 					'name'        => 'awsm_permalink_slug',
