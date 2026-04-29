@@ -148,19 +148,21 @@ if ( $post->post_type === 'awsm_job_application' ) {
 				);
 
 				// Previous button
-				$prev_btn = sprintf(
+				$prev_link = $prev ? get_edit_post_link( $prev ) : null;
+				$prev_btn  = sprintf(
 					'<a class="button awsm-job-prev-application-btn%3$s" href="%2$s">%1$s</a>',
 					esc_html__( 'Prev', 'wp-job-openings' ),
-					$prev ? esc_url( get_edit_post_link( $prev ) ) : '#',
-					! $prev ? ' btn-disabled' : ''
+					$prev_link ? esc_url( $prev_link ) : '#',
+					! $prev_link ? ' btn-disabled' : ''
 				);
 
 				// Next button
-				$next_btn = sprintf(
+				$next_link = $next ? get_edit_post_link( $next ) : null;
+				$next_btn  = sprintf(
 					'<a class="button awsm-job-next-application-btn%3$s" href="%2$s">%1$s</a>',
 					esc_html__( 'Next', 'wp-job-openings' ),
-					$next ? esc_url( get_edit_post_link( $next ) ) : '#',
-					! $next ? ' btn-disabled' : ''
+					$next_link ? esc_url( $next_link ) : '#',
+					! $next_link ? ' btn-disabled' : ''
 				);
 
 				// Wrapping the pagination and buttons in correct order
