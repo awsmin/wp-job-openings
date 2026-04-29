@@ -2,7 +2,7 @@
 Contributors: awsmin, aravindajith, anantajitjg, sarathar, adhun, nithi22
 Tags: jobs, job listing, job openings, job board, careers page, jobs page, wp job opening, jobs plugin
 Requires at least: 4.8
-Tested up to: 6.9.1
+Tested up to: 6.9.4
 Requires PHP: 5.6
 Stable tag: trunk
 License: GPLv2 or later
