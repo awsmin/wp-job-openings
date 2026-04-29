@@ -75,6 +75,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		<input type="hidden" name="awsm_job_id" value="<?php echo esc_attr( $form_attrs['job_id'] ); ?>">
 		<input type="hidden" name="action" value="awsm_applicant_form_submission">
+		<?php wp_nonce_field( 'awsm_application_nonce', 'awsm_nonce' ); ?>
 		<div class="awsm-job-form-group">
 			<?php awsm_job_form_submit_btn( $form_attrs ); ?>
 		</div>

@@ -2,9 +2,9 @@
 
 'use strict';
 
-jQuery(function($) {  
+jQuery(function($) { 
 	var rootWrapperSelector = '.awsm-job-wrap';
-	var wrapperSelector = '.awsm-job-listings';
+	var wrapperSelector = '.awsm-job-listings'; 
 
 	/* ========== Job Search and Filtering ========== */
 
@@ -344,7 +344,7 @@ jQuery(function($) {
 			type: 'POST',
 			beforeSend: function() {
 				if (isDefaultPagination) {
-					$triggerElem.text(awsmJobsPublic.i18n.loading_text);
+					$triggerElem.text($('<textarea/>').html(awsmJobsPublic.i18n.loading_text).val());
 				} else {
 					$listingsContainer.addClass('awsm-jobs-loading');
 				}
@@ -422,8 +422,14 @@ jQuery(function($) {
 		var $filtersWrap = $('.awsm-filter-wrap').not('.awsm-no-search-filter-wrap');
 		$filtersWrap.each(function() {
 			var $wrapper = $(this);
-			var filterFirstTop = $wrapper.find('.awsm-filter-item').first().offset().top;
-			var filterLastTop = $wrapper.find('.awsm-filter-item').last().offset().top;
+			var $filterFirst = $wrapper.find('.awsm-filter-item').first();
+			var $filterLast = $wrapper.find('.awsm-filter-item').last();
+			if (!$filterFirst.length || !$filterLast.length) return;
+			var filterFirstOffset = $filterFirst.offset();
+			var filterLastOffset = $filterLast.offset();
+			if (!filterFirstOffset || !filterLastOffset) return;
+			var filterFirstTop = filterFirstOffset.top;
+			var filterLastTop = filterLastOffset.top;
 			if (filterLastTop > filterFirstTop) {
 				$wrapper.addClass('awsm-full-width-search-filter-wrap');
 			} else {

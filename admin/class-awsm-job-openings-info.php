@@ -47,7 +47,7 @@ class AWSM_Job_Openings_Info {
 			'error'   => array(),
 		);
 
-		if ( ! isset( $_POST['awsm_job_nonce'] ) || ! wp_verify_nonce( $_POST['awsm_job_nonce'], 'awsm-jobs-setup' ) ) {
+		if ( ! isset( $_POST['awsm_job_nonce'] ) || ! wp_verify_nonce( sanitize_key( $_POST['awsm_job_nonce'] ), 'awsm-jobs-setup' ) ) {
 			$response['error'][] = esc_html__( 'Failed to verify nonce!', 'wp-job-openings' );
 		}
 
@@ -110,7 +110,7 @@ class AWSM_Job_Openings_Info {
 	}
 
 	public function custom_admin_menu() {
-		add_submenu_page( 'edit.php?post_type=awsm_job_openings', esc_html__( 'WP Job Openings Setup', 'wp-job-openings' ), esc_html__( 'Setup', 'wp-job-openings' ), 'manage_options', 'awsm-jobs-setup', array( $this, 'setup_page' ) );
+		add_submenu_page( 'edit.php?post_type=awsm_job_openings', esc_html__( 'Hirezoot Setup', 'wp-job-openings' ), esc_html__( 'Setup', 'wp-job-openings' ), 'manage_options', 'awsm-jobs-setup', array( $this, 'setup_page' ) );
 		add_submenu_page( 'edit.php?post_type=awsm_job_openings', esc_html__( 'Add-ons', 'wp-job-openings' ), esc_html__( 'Add-ons', 'wp-job-openings' ), 'manage_awsm_jobs', 'awsm-jobs-add-ons', array( $this, 'add_ons_page' ) );
 
 		// Add Get PRO link in submenu.
@@ -195,23 +195,21 @@ class AWSM_Job_Openings_Info {
 			$installed_plugin = file_exists( $plugin_root ) ? get_plugins( '/' . $plugin_slug ) : '';
 		}
 		if ( empty( $installed_plugin ) ) {
-			if ( get_filesystem_method( array(), plugin_dir_path( dirname( dirname( __FILE__ ) ) ) ) === 'direct' && $add_on_details['type'] === 'free' ) {
+			if ( get_filesystem_method( array(), plugin_dir_path( dirname( __DIR__ ) ) ) === 'direct' && $add_on_details['type'] === 'free' ) {
 				$btn_class .= ' install-now';
 				$action_url = wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=' . $plugin_slug ), 'install-plugin_' . $plugin_slug );
 			} else {
 				$btn_target = '_blank';
 			}
-		} else {
-			if ( is_plugin_active( $plugin ) ) {
+		} elseif ( is_plugin_active( $plugin ) ) {
 				$btn_action = __( 'Activated', 'wp-job-openings' );
 				$action_url = '#';
 				$btn_class .= ' button-disabled';
 				$btn_attrs  = ' disabled';
-			} else {
-				$btn_action = __( 'Activate', 'wp-job-openings' );
-				$action_url = wp_nonce_url( self_admin_url( 'plugins.php?action=activate&plugin=' . $plugin ), 'activate-plugin_' . $plugin );
-				$btn_class .= ' activate-now';
-			}
+		} else {
+			$btn_action = __( 'Activate', 'wp-job-openings' );
+			$action_url = wp_nonce_url( self_admin_url( 'plugins.php?action=activate&plugin=' . $plugin ), 'activate-plugin_' . $plugin );
+			$btn_class .= ' activate-now';
 		}
 		if ( ! empty( $action_url ) ) {
 			$content = sprintf( '<a href="%2$s" class="%3$s" target="%4$s"%5$s>%1$s</a>', esc_html( $btn_action ), esc_url( $action_url ), esc_attr( $btn_class ), esc_attr( $btn_target ), esc_attr( $btn_attrs ) );
@@ -258,7 +256,13 @@ class AWSM_Job_Openings_Info {
 	}
 
 	public function nav_header() {
-		$nav_page = self::get_admin_nav_page();
+		$nav_page           = self::get_admin_nav_page();
+		$applications_count = AWSM_Job_Openings_Core::get_unviewed_applications_count();
+		$label              = __( 'Applications', 'wp-job-openings' );
+		if ( $applications_count > 0 && ! current_user_can( 'hiring_panelist' ) ) {
+			$label .= sprintf( ' <span class="awsm-application-unviewed-count">%d</span>', $applications_count );
+		}
+
 		if ( ! empty( $nav_page ) ) :
 			$nav_items = array(
 				array(
@@ -270,7 +274,7 @@ class AWSM_Job_Openings_Info {
 				array(
 					'visible' => current_user_can( 'edit_applications' ),
 					'id'      => 'edit-awsm_job_application',
-					'label'   => __( 'Applications', 'wp-job-openings' ),
+					'label'   => $label,
 					'url'     => admin_url( 'edit.php?post_type=awsm_job_application' ),
 				),
 				array(
@@ -306,7 +310,7 @@ class AWSM_Job_Openings_Info {
 				<div class="awsm-job-admin-nav-header">
 					<div class="awsm-job-admin-nav-logo">
 						<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_openings&page=awsm-jobs-overview' ) ); ?>">
-							<?php esc_html_e( 'WP Job Openings', 'wp-job-openings' ); ?>
+							<?php esc_html_e( 'Hirezoot', 'wp-job-openings' ); ?>
 						</a>
 					</div>
 					<ul class="awsm-job-admin-nav">
@@ -326,7 +330,7 @@ class AWSM_Job_Openings_Info {
 									$extra_atts .= ' target="' . esc_attr( $nav_item['target'] ) . '"';
 								}
 								// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-								printf( '<li><a href="%2$s"%3$s>%1$s</a></li>', esc_html( $nav_item['label'] ), esc_url( $nav_item['url'] ), $extra_atts );
+								printf( '<li><a href="%2$s"%3$s>%1$s</a></li>', wp_kses_post( $nav_item['label'] ), esc_url( $nav_item['url'] ), $extra_atts );
 							}
 						}
 						?>

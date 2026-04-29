@@ -28,68 +28,68 @@ class Awsm_Job_Guten_Blocks {
 
 		$args = array(
 			'render_callback' => array( $this, 'block_render_callback' ),
+			'supports'        => array( 'anchor' => true ),
 		);
 
 		register_block_type( __DIR__ . '/build', $args );
 	}
 
 	public function block_render_callback( $atts, $content ) {
-		if ( isset( $atts['filter_options'] ) && is_array( $atts['filter_options'] ) ) {
-			$atts['filter_options'] = (array) $atts['filter_options'];
-			$atts['filter_options'] = implode( ',', $atts['filter_options'] );
+
+		// Ensure filter_options exists and is valid
+		if ( ! isset( $atts['filter_options'] ) || ! is_array( $atts['filter_options'] ) ) {
+			$default_filters = array();
+			$specs           = AWSM_Job_Openings::get_filter_specifications();
+
+			foreach ( $specs as $spec ) {
+				$default_filters[] = array(
+					'specKey' => $spec['key'],
+					'value'   => 'dropdown',
+				);
+			}
+
+			$atts['filter_options'] = $default_filters;
 		}
 
-		if ( isset( $atts['other_options'] ) && is_array( $atts['other_options'] ) ) {
-			$atts['other_options'] = (array) $atts['other_options'];
-			$atts['other_options'] = implode( ',', $atts['other_options'] );
+		$search_enabled  = ! empty( $atts['search'] );
+		$filters_enabled = ! empty( $atts['enable_job_filter'] );
+		$hide_expired    = ! empty( $atts['hide_expired_jobs'] );
+		$show_spec_icon  = ! empty( $atts['show_spec_icon'] );
+
+		$processed_atts = $atts;
+
+		if ( $search_enabled ) {
+			$processed_atts['search'] = 'enable';
 		}
 
-		if ( isset( $atts['search'] ) && $atts['search'] === true ) {
-			$atts['search'] = 'enable';
+		if ( $filters_enabled ) {
+			$processed_atts['enable_job_filter'] = 'enable';
 		}
 
-		if ( isset( $atts['enable_job_filter'] ) && $atts['enable_job_filter'] === true ) {
-			$atts['enable_job_filter'] = 'enable';
+		if ( $hide_expired ) {
+			$processed_atts['hide_expired_jobs'] = 'expired';
 		}
 
-		if ( isset( $atts['listing_per_page'] ) ) {
-			$atts['listing_per_page'] = $atts['listing_per_page'];
+		if ( $show_spec_icon ) {
+			$processed_atts['show_spec_icon'] = 'show_icon';
 		}
 
-		if ( isset( $atts['hide_expired_jobs'] ) && $atts['hide_expired_jobs'] === true ) {
-			$atts['hide_expired_jobs'] = 'expired';
-		}
-
-		if ( isset( $atts['layout'] ) && is_array( $atts['layout'] ) ) {
-			$atts['layout'] = $atts['layout'];
-		}
-
-		if ( isset( $atts['number_of_columns'] ) && is_array( $atts['number_of_columns'] ) ) {
-			$atts['number_of_columns'] = $atts['number_of_columns'];
-		}
-
-		if ( isset( $atts['select_filter_full'] ) && is_array( $atts['select_filter_full'] ) ) {
-			$atts['select_filter_full'] = $atts['select_filter_full'];
-		}
-
-		 /**
-		 * Filters the block attributes.
-		 *
-		 * Allows modification of block attributes prior to rendering.
-		 *
-		 * @since 3.5.0
-		 *
-		 * @param array $atts List of supported attributes.
-		 */
-		$atts = apply_filters( 'awsm_jobs_listings_block_attributes', $atts );
+		$processed_atts = apply_filters(
+			'awsm_jobs_listings_block_attributes',
+			$processed_atts
+		);
 
 		$class_block_init = AWSM_Job_Openings_Block::init();
-		$block_content    = $class_block_init->awsm_jobs_block_attributes( $atts );
+		$block_content    = $class_block_init->awsm_jobs_block_attributes( $processed_atts );
+
+		if ( empty( $block_content ) ) {
+			return '<p>' . __( 'No job listings found.', 'wp-job-openings' ) . '</p>';
+		}
+
 		return $block_content;
 	}
 
 	public function block_assets() {
-
 		if ( is_admin() ) {
 			wp_enqueue_script( 'awsm-job-admin' );
 			wp_enqueue_style( 'awsm-jobs-general' );

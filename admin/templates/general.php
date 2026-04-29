@@ -83,10 +83,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'description' => __( 'Email for HR notifications', 'wp-job-openings' ),
 				),
 				array(
-					'name'  => 'awsm_jobs_timezone',
-					'label' => __( 'Timezone ', 'wp-job-openings' ),
-					'type'  => 'raw',
-					'value' => '<select name="awsm_jobs_timezone[original_val]" class="awsm-select-control regular-text">' . wp_timezone_choice( $selected_zone, get_user_locale() ) . '</select>',
+					'name'        => 'awsm_jobs_timezone',
+					'label'       => __( 'Timezone ', 'wp-job-openings' ),
+					'type'        => 'raw',
+					'value'       => '<select name="awsm_jobs_timezone[original_val]" class="awsm-select-control regular-text">' . wp_timezone_choice( $selected_zone, get_user_locale() ) . '</select>',
+					'description' => __( 'Used only for job expiry. Job and application timestamps follow your WordPress site timezone.', 'wp-job-openings' ),
 				),
 				array(
 					'name'        => 'awsm_permalink_slug',
@@ -157,7 +158,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						),
 					),
 					/* translators: %1$s: line break element */
-					'description' => sprintf( __( 'Checking this option will affect URLs of all your files uploaded through WP Job Openings Plugin form.%1$s 1. The files will not be displayed in Media Library.%1$s 2. Publicly accessible file URL will be disabled.%1$s 3. \'Resume Preview\' option will not work anymore (Resume Viewer Addon).', 'wp-job-openings' ), '<br />' ),
+					'description' => sprintf( __( 'Enabling this option will restrict how uploaded files are accessed via HireZoot forms.%1$s 1. Files won’t appear in the Media Library.%1$s 2. Public file URLs will be disabled.%1$s 3. File preview (including resume preview) will not be available.%1$s 4. Fully supported only on Apache servers. It may not work on other server environments including Nginx due to server configuration limitations', 'wp-job-openings' ), '<br />' ),
 				),
 				array(
 					'name'        => 'awsm_delete_data_on_uninstall',
@@ -182,12 +183,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<?php do_action( 'awsm_settings_form_elem_start', 'general' ); ?>
 	<form method="POST" action="options.php" id="general_settings_form">
 		<?php
-		   settings_fields( 'awsm-jobs-general-settings' );
+			settings_fields( 'awsm-jobs-general-settings' );
 
-		   // display general subtabs.
-		   $this->display_subtabs( 'general' );
+			// display general subtabs.
+			$this->display_subtabs( 'general' );
 
-		   do_action( 'before_awsm_settings_main_content', 'general' );
+			do_action( 'before_awsm_settings_main_content', 'general' );
 		?>
 
 		<div class="awsm-form-section-main awsm-sub-options-container" id="awsm-general-options-container">

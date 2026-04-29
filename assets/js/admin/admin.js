@@ -36,7 +36,12 @@ jQuery(document).ready(function($) {
 				tags: true,
 				tokenSeparators: [ ',' ],
 				theme: 'awsm-job',
-				dropdownCssClass: (dropdownHidden ? 'awsm-hidden-control' : 'awsm-select2-dropdown-control')
+				dropdownCssClass: (dropdownHidden ? 'awsm-hidden-control' : 'awsm-select2-dropdown-control'),
+				language: {
+					noResults: function() {
+						return '';
+					}
+				}
 			};
 			jQuery.extend(config, additionalConfig);
 			$elem.awsmSelect2(config);
@@ -294,9 +299,13 @@ jQuery(document).ready(function($) {
 			$('.awsm-jobs-settings-error').removeClass('awsm-hide');
 
 			// Handle accordions.
-			$('.awsm-acc-head').addClass('on');
-			$('.awsm-acc-content').slideDown('normal');
+			var $invalidField = $form.find(':invalid').first();
+			var $invalidSection = $invalidField.closest('.awsm-acc-main');
 
+			if ($invalidSection.length) {
+				$invalidSection.find('.awsm-acc-head').addClass('on');
+				$invalidSection.find('.awsm-acc-content').slideDown('normal');
+			}
 			$('html, body').animate({
 				scrollTop: $('#awsm-job-settings-wrap .awsm-settings-tab-wrapper').offset().top
 			}, 600);
@@ -474,6 +483,7 @@ jQuery(document).ready(function($) {
 			}, 2000);
 		});
 	}
+
 	$('#awsm-copy-clip').on('click', function(e) {
 		e.preventDefault();
 	});
@@ -502,6 +512,8 @@ jQuery(document).ready(function($) {
 		});
 	});
 
+	/*================ Setup page ================*/
+
 	$('#awsm-job-setup-form').on('submit', function(e) {
 		e.preventDefault();
 		$('#awsm-jobs-setup-btn').prop('disabled', true);
@@ -528,8 +540,138 @@ jQuery(document).ready(function($) {
 			$('#awsm-jobs-setup-btn').prop('disabled', false);
 		});
 	});
+
+	function awsm_next_prev(ai, ni, i) {
+		if (ni.length === 0) {
+			return;
+		} else {
+			ai.removeClass('active');
+			ni.addClass('active');
+		}
+		if (i > 0) {
+			$('.awsm-job-setup-back').addClass('active');
+		} else {
+			$('.awsm-job-setup-back').removeClass('active');
+		}
+		$('.awsm-job-setup-form-head ul li').removeClass('active');
+		$('.awsm-job-setup-form-head ul li').eq(i).addClass('active');
+	}
+
+	$(document).on('click', '.awsm-job-setup-button-next', function (e) {
+		e.preventDefault();
+		var $ai = $('.awsm-job-setup-form-item.active');
+		var $ni = $ai.next();
+		var $i = $('.awsm-job-setup-form-item').index($ni);
+
+		$ni.find('.awsm-job-form-control').focus();
+
+		if ($i == 1) {
+			var name = $('#awsm_job_company_name').val();
+			if (name === '') {
+				$('#awsm-jobs-setup-btn').eq(0).click();
+				return false;
+			}
+		}
+		if ($i == 2) {
+			var email = $('#awsm_hr_email_address').val();
+			if (email === '' || AwsmIsEmail(email) === false) {
+				$('#awsm-jobs-setup-btn').eq(0).click();
+				return false;
+			} else {
+				$('.awsm-job-setup-button-next').removeClass('active');
+				$('#awsm-jobs-setup-btn').addClass('active');
+			}
+		}
+		awsm_next_prev($ai, $ni, $i);
+		$('.awsm-job-setup-form-main-in').css('transform', 'translateY(-' + $i * 33.3333 + '%)');
+		$(this).addClass('disabled');
+		setTimeout(function () {
+			$('.awsm-job-setup-button-next').removeClass('disabled');
+		}, 500);
+	});
+
+	$(document).on('click', '.awsm-job-setup-back', function (e) {
+		e.preventDefault();
+		var $ai = $('.awsm-job-setup-form-item.active');
+		var $ni = $ai.prev();
+		var $i = $('.awsm-job-setup-form-item').index($ni);
+		$ni.find('.awsm-job-form-control').focus();
+		if ($i == 1) {
+			$('.awsm-job-setup-button-next').addClass('active');
+			$('#awsm-jobs-setup-btn').removeClass('active');
+		}
+		awsm_next_prev($ai, $ni, $i);
+		$('.awsm-job-setup-form-main-in').css('transform', 'translateY(-' + $i * 33.3333 + '%)');
+	});
+
+	$(document).on('keypress', '#awsm_job_company_name, #awsm_hr_email_address', function (event) {
+		if (event.keyCode === 13) {
+			$('.awsm-job-setup-button-next').eq(0).click();
+			return false;
+		}
+	});
+
+	$(document).on('focusin', '.awsm-job-form-control', function () {
+		var $currentItem = $(this).closest('.awsm-job-setup-form-item');
+		var index = $('.awsm-job-setup-form-item').index($currentItem);
+
+		// Update active form step
+		$('.awsm-job-setup-form-item').removeClass('active');
+		$currentItem.addClass('active');
+
+		$('.awsm-job-setup-form-head ul li').removeClass('active');
+		$('.awsm-job-setup-form-head ul li').eq(index).addClass('active');
+
+		$('.awsm-job-setup-form-main-in')
+			.css('transform', 'translateY(-' + index * 33.3333 + '%)');
+
+		// Back button
+		if (index > 0) {
+			$('.awsm-job-setup-back').addClass('active');
+		} else {
+			$('.awsm-job-setup-back').removeClass('active');
+		}
+
+		if (index === 2) {
+			$('.awsm-job-setup-button-next').removeClass('active');
+			$('#awsm-jobs-setup-btn').addClass('active');
+		} else {
+			$('.awsm-job-setup-button-next').addClass('active');
+			$('#awsm-jobs-setup-btn').removeClass('active');
+		}
+	});
+
+   	$(document).on('keydown', function (e) {
+        if (e.key === 'Tab') {
+            var $active = $('.awsm-job-setup-form-item.active');
+            var index = $('.awsm-job-setup-form-item').index($active);
+
+            if (index === 0) {
+                var name = $('#awsm_job_company_name').val();
+                if (!name) {
+                    e.preventDefault();
+                }
+            }
+
+            if (index === 1) {
+                var email = $('#awsm_hr_email_address').val();
+                if (!email || AwsmIsEmail(email) === false) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+
+	function AwsmIsEmail(email) {
+		//const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+		const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]/;
+		if (!regex.test(email)) {
+			return false;
+		}
+	}
+
 	//Captcha type change handler
-var $container = $('#awsm-recaptcha-form-options-container');
+	var $container = $('#awsm-recaptcha-form-options-container');
     var $providerRadios = $container.find('input[name="awsm_jobs_enable_captcha"]');
     var $recaptchaTypeRadios = $container.find('input[name="awsm_jobs_recaptcha_type"]');
 
@@ -567,4 +709,230 @@ var $container = $('#awsm-recaptcha-form-options-container');
     refresh();
     $providerRadios.on('change', refresh);
     $recaptchaTypeRadios.on('change', refreshRecaptchaKeys);
+
+	/*================ Application detail view tab ================*/
+
+	$('.application-main-tab .awsm-application-main-tab-item a').on('click', function (e) {
+		e.preventDefault();
+		$('.application-main-tab .awsm-application-main-tab-item a').removeClass('active');
+		$('.application-main-tab-item').removeClass('active');
+		$(this).addClass('active');
+		var target = $(this).attr('href');
+		$(target).addClass('active');
+	});
+
+	var rangeFrom = $('#awsm_application_date_filter_from'),
+		rangeTo = $('#awsm_application_date_filter_to');
+	$('#awsm_application_date_filter_from, #awsm_application_date_filter_to').datepicker({ dateFormat: "yy-mm-dd" });
+	rangeFrom.on('change', function () {
+		rangeTo.datepicker('option', 'minDate', rangeFrom.val());
+	});
+
+	rangeTo.on('change', function () {
+		rangeFrom.datepicker('option', 'maxDate', rangeTo.val());
+	});
+
+	/*================ Job Spec Drag ================*/
+
+	function enableSelect2Sortable(select2Container, selectElement) {
+		var $ul = select2Container.find('.select2-selection__rendered');
+
+		$ul.sortable({
+			containment: 'parent',
+			items: '.select2-selection__choice',
+			stop: function () {
+				let sortedValues = [];
+
+				// Get the sorted values from the UI
+				$ul.find('.select2-selection__choice').each(function () {
+					let text = $(this).attr('title').trim();
+
+					let option = selectElement.find('option').filter(function () {
+						return $(this).text().trim() === text;
+					});
+
+					if (option.length) {
+						sortedValues.push(option.val());
+					}
+				});
+
+				// **Step 1: Update <select> selected values**
+				selectElement.val(sortedValues).trigger('change');
+
+				// **Step 2: Reorder <option> elements in <select>**
+				sortedValues.forEach(function (val) {
+					let $option = selectElement.find('option[value="' + val + '"]');
+					selectElement.append($option); // Move option to the correct order
+				});
+
+			}
+		});
+	}
+	$('.awsm_jobs_filter_tags').each(function () {
+		var $select = $(this);
+		var $container = $select.next('.select2-container');
+		enableSelect2Sortable($container, $select);
+	});
+
+	if (typeof inlineEditPost !== 'undefined') {
+		var $wp_inline_edit = inlineEditPost.edit;
+
+		inlineEditPost.edit = function (id) {
+			$wp_inline_edit.apply(this, arguments);
+
+			var post_id = 0;
+			if (typeof id == "object") {
+				post_id = parseInt(this.getId(id));
+			}
+
+			if (post_id > 0) {
+				var $quickEditRow = $("#edit-" + post_id);
+				var $postRow = $("#post-" + post_id);
+				var $dateField = $quickEditRow.find('.awsm-jobs-datepicker');
+
+				var setExpiry = $("#awsm_set_exp_list_" + post_id).val();
+				var jobExpiryValue = $("#awsm_job_expiry_" + post_id).val();
+				var displayExpiry = $("#awsm_exp_list_display_" + post_id).val();
+
+				$dateField.val('');
+
+				// Initialize datepicker
+				var dateToday = new Date();
+				var minDate;
+				if (jobExpiryValue) {
+					var parsedSavedDate = new Date(jobExpiryValue);
+					minDate = parsedSavedDate < dateToday ? parsedSavedDate : dateToday;
+				} else {
+					minDate = dateToday;
+				}
+
+				$dateField.datepicker({
+					altField: $quickEditRow.find('#awsm-jobs-datepicker-alt'),
+					altFormat: 'yy-mm-dd',
+					showOn: 'both',
+					buttonText: '',
+					buttonImageOnly: true,
+					changeMonth: true,
+					numberOfMonths: 1,
+					minDate: minDate,
+					defaultDate: null
+				});
+
+				if (setExpiry === "set_listing") {
+					$quickEditRow.find('input[name="awsm_set_exp_list"]').prop("checked", true);
+					$('#awsm-job-expiry-fields').show();
+
+					if (jobExpiryValue) {
+						setTimeout(function () {
+							$dateField.datepicker('setDate', new Date(jobExpiryValue));
+						}, 50);
+					}
+					if (displayExpiry) {
+						$quickEditRow.find('input[name="awsm_exp_list_display"]').prop("checked", true);
+					}
+				} else {
+					setTimeout(function () {
+						$dateField.val('');
+						$quickEditRow.find('#awsm-jobs-datepicker-alt').val('');
+					}, 50);
+				}
+			}
+		};
+	}
+
+	$(document).on('change', '#awsm-job-expiry-edit', function () {
+		if ($(this).is(':checked')) {
+			$('#awsm-job-expiry-fields').slideDown();
+		} else {
+			$('#awsm-job-expiry-fields').slideUp();
+		}
+	});
+
+/*================ Job Specs Settings Link - Inject into handle-actions ================*/
+
+	var $actions = $('#awsm-job-meta .handle-actions');
+	if ($actions.length && !$actions.find('.awsm-job-specs-settings-link').length) {
+		if (typeof awsmJobsAdmin !== 'undefined' && awsmJobsAdmin.specs_settings_url) {
+			var $specLink = $('<a>', {
+				href: awsmJobsAdmin.specs_settings_url,
+				'class': 'awsm-job-specs-settings-link awsm-job-tooltip',
+				'data-tooltip': awsmJobsAdmin.i18n.edit_job_specs,
+				target: '_blank'
+			}).html('<span class="dashicons dashicons-admin-generic"></span>');
+			$actions.prepend($specLink);
+		}
+	}
+
+/*================ Tooltip ================*/
+
+	var $tooltip = $('<div class="awsm-job-tooltip-cnt"></div>').appendTo('body');
+
+	$(document).on('mouseenter', '.awsm-job-tooltip', function () {
+		var label = $(this).data('tooltip');
+		if (!label) return;
+
+		$tooltip.text(label).removeClass('awsm-top awsm-bottom');
+
+		var rect = this.getBoundingClientRect();
+		var tooltipHeight = $tooltip.outerHeight();
+		var tooltipWidth = $tooltip.outerWidth();
+		var top, left;
+
+		// position: fixed — viewport-relative, no scrollTop needed
+		if (rect.top > tooltipHeight + 10) {
+			$tooltip.addClass('awsm-top');
+			top = rect.top - tooltipHeight - 8;
+		} else {
+			$tooltip.addClass('awsm-bottom');
+			top = rect.bottom + 8;
+		}
+
+		left = rect.left + (rect.width / 2) - (tooltipWidth / 2);
+		if (left + tooltipWidth > window.innerWidth) {
+			left = window.innerWidth - tooltipWidth - 8;
+		}
+		if (left < 0) {
+			left = 8;
+		}
+
+		$tooltip.css({ top: top, left: left }).addClass('active');
+	});
+
+	$(document).on('mouseleave', '.awsm-job-tooltip', function () {
+		$tooltip.removeClass('active awsm-top awsm-bottom');
+	});
+/*================ Resume preview ================*/
+	var $iframe = $('.awsm-preview-frame');
+    var $loader = $('.awsm-preview-loader');
+    var $reloadBtn = $('.awsm-preview-reload-btn');
+    var previewLoadTimeout;
+
+    if ($iframe.length) {
+        function startPreviewTimeout() {
+            clearTimeout(previewLoadTimeout);
+            previewLoadTimeout = setTimeout(function () {
+                $loader.addClass('taking-too-long');
+            }, 15000);
+        }
+
+        $iframe.on('load', function () {
+            if (!$iframe[0].src || $iframe[0].src === 'about:blank' || $iframe[0].src === window.location.href) {
+                return;
+            }
+            clearTimeout(previewLoadTimeout);
+            $loader.hide();
+        });
+
+        $reloadBtn.on('click', function () {
+            $loader.removeClass('taking-too-long').show();
+            $iframe.attr('src', $iframe.data('src'));
+            startPreviewTimeout();
+        });
+
+        $iframe.attr('src', $iframe.data('src'));
+        startPreviewTimeout();
+    }
+
 });
+
+

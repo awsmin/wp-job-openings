@@ -34,7 +34,7 @@ class AWSM_Job_Openings_Mail_Customizer {
 	}
 
 	public static function get_default_logo() {
-		return AWSM_JOBS_PLUGIN_URL . '/assets/img/logo.png';
+		return AWSM_JOBS_PLUGIN_URL . '/assets/img/hirezoot-logo.png';
 	}
 
 	public static function sanitize_content( $content ) {
@@ -69,7 +69,7 @@ class AWSM_Job_Openings_Mail_Customizer {
 				'base_color'  => '#05BC9C',
 				'from_email'  => $default_from_email,
 				/* translators: %1$s: Site link, %2$s: Plugin website link */
-				'footer_text' => sprintf( esc_html__( 'Sent from %1$s by %2$s Plugin', 'wp-job-openings' ), '<a href="{site-url}">{site-title}</a>', '<a href="https://wpjobopenings.com">' . esc_html__( 'WP Job Openings', 'wp-job-openings' ) . '</a>' ),
+				'footer_text' => sprintf( esc_html__( 'Sent from %1$s by %2$s Plugin', 'wp-job-openings' ), '<a href="{site-url}">{site-title}</a>', '<a href="https://wpjobopenings.com">' . esc_html__( 'HireZoot', 'wp-job-openings' ) . '</a>' ),
 			)
 		);
 
@@ -105,17 +105,17 @@ class AWSM_Job_Openings_Mail_Customizer {
 
 		if ( ! empty( $settings['logo'] ) ) {
 			$image_url  = self::get_default_logo();
-			$img_alt    = esc_html__( 'WP Job Openings', 'wp-job-openings' );
+			$img_alt    = esc_html__( 'HireZoot', 'wp-job-openings' );
 			$extra_attr = '';
 
 			if ( $settings['logo'] === 'default' ) {
-				$extra_attr = ' width="284" height="35"';
+				$extra_attr = ' width="174" height="43"';
 			} else {
 				$image_url    = awsm_jobs_get_original_image_url( $settings['logo'] );
 				$company_name = get_option( 'awsm_job_company_name' );
 				$img_alt      = ! empty( $company_name ) ? $company_name : get_bloginfo( 'name', 'display' );
 			}
-			$logo = sprintf( '<a href="%1$s" target="_blank"><h1><img src="%2$s" alt="%3$s"%4$s></h1></a>', esc_url( site_url( '/' ) ), esc_url( $image_url ), esc_attr( $img_alt ), $extra_attr );
+			$logo = sprintf( '<a href="%1$s" target="_blank"><h1><img src="%2$s" alt="%3$s"%4$s style="max-width: 100%%; height:auto;"></h1></a>', esc_url( site_url( '/' ) ), esc_url( $image_url ), esc_attr( $img_alt ), $extra_attr );
 		}
 		/**
 		 * Filters the notification HTML mail template logo.

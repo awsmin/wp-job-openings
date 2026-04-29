@@ -34,8 +34,10 @@ class AWSM_Job_Openings_Uninstall {
 			'awsm_jobs_list_per_page',
 			'awsm_jobs_number_of_columns',
 			'awsm_enable_job_search',
+			'awsm_jobs_placement_type',
 			'awsm_enable_job_filter_listing',
 			'awsm_jobs_listing_available_filters',
+			'awsm_jobs_listing_display_type',
 			'awsm_jobs_listing_specs',
 			'awsm_jobs_details_page_template',
 			'awsm_jobs_details_page_layout',
@@ -158,7 +160,7 @@ class AWSM_Job_Openings_Uninstall {
 	private static function remove_posts() {
 		global $wpdb;
 		self::remove_attachments();
-		$wpdb->query( "DELETE FROM {$wpdb->posts} WHERE post_type IN( 'awsm_job_openings', 'awsm_job_application' );" );
+		$wpdb->query( "DELETE FROM {$wpdb->posts} WHERE post_type IN( 'awsm_job_openings', 'awsm_job_application', 'awsm_job_form' );" );
 		$wpdb->query( "DELETE meta FROM {$wpdb->postmeta} meta LEFT JOIN {$wpdb->posts} posts ON posts.ID = meta.post_id WHERE posts.ID IS NULL;" );
 	}
 

@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 
 <div class="awsm-job-get-pro-meta-container">
-	<p><?php esc_html_e( 'A pack of features that makes WP Job Openings a powerful recruitment tool.', 'wp-job-openings' ); ?></p>
+	<p><?php esc_html_e( 'A pack of features that makes Hirezoot a powerful recruitment tool.', 'wp-job-openings' ); ?></p>
 	<ul class="awsm-job-get-pro-features">
 		<li><?php esc_html_e( 'Application form builder', 'wp-job-openings' ); ?></li>
 		<li><?php esc_html_e( 'Shortlist, Reject and Select Applicants', 'wp-job-openings' ); ?></li>

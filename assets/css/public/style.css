@@ -500,7 +500,7 @@ a.awsm-job-item .awsm-job-specification-item {
 	color: #0195ff;
 }
 
-.awsm-job-form-error {
+div.awsm-job-form-error {
 	color: #db4c4c;
 	font-weight: 500;
 }
@@ -742,4 +742,8 @@ ul.awsm-error-message li {
 .awsm-job-featured-image img {
 	max-width: 100%;
 	height: auto;
+}
+
+.awsm-job-archive-content{ 
+	width: 100%;
 }
