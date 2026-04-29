@@ -67,7 +67,7 @@ if ( $post->post_type === 'awsm_job_application' ) {
 		if ( $post_count > 0 ) {
 			$applications                    = array_values( $applications );
 			$edit_link                       = get_edit_post_link( $applications[0] );
-			$data_rows['last_submission'][1] = sprintf( '<a href="%1$s">%2$s %3$s</a>', esc_url( $edit_link ), esc_html( human_time_diff( get_the_time( 'U', $applications[0] ), current_time( 'timestamp' ) ) ), esc_html__( 'ago', 'wp-job-openings' ) );
+			$data_rows['last_submission'][1] = sprintf( '<a href="%1$s">%2$s %3$s</a>', esc_url( $edit_link ? $edit_link : '' ), esc_html( human_time_diff( get_the_time( 'U', $applications[0] ), current_time( 'timestamp' ) ) ), esc_html__( 'ago', 'wp-job-openings' ) );
 		} else {
 			$data_rows['last_submission'][1] = esc_html__( 'NA', 'wp-job-openings' );
 		}
