@@ -910,44 +910,29 @@ jQuery(document).ready(function($) {
     var isBlankingForReload = false;
 
     if ($iframe.length) {
-        var originalSrc = $iframe.attr('src');
-
         function startPreviewTimeout() {
             clearTimeout(previewLoadTimeout);
             previewTimedOut = false;
             previewLoadTimeout = setTimeout(function () {
-                previewTimedOut = true;
-                $loader.hide();
-                $reloadBtn.show();
-            }, 8000);
+                $loader.addClass('taking-too-long');
+            }, 15000);
         }
 
         $iframe.on('load', function () {
-            // Ignore the blank load we intentionally trigger during reload (flag-based, works in Firefox where cross-origin src is restricted)
-            if (isBlankingForReload) {
-                return;
-            }
-            // Don't hide the reload button if timeout already fired — viewer shell loaded but document may still be failing
-            if (previewTimedOut) {
+            if (!$iframe[0].src || $iframe[0].src === 'about:blank' || $iframe[0].src === window.location.href) {
                 return;
             }
             clearTimeout(previewLoadTimeout);
             $loader.hide();
-            $reloadBtn.hide();
         });
 
         $reloadBtn.on('click', function () {
-            $loader.show();
-            $reloadBtn.hide();
-            isBlankingForReload = true;
-            $iframe.attr('src', '');
-            setTimeout(function () {
-                isBlankingForReload = false;
-                $iframe[0].src = originalSrc;
-            }, 100);
+            $loader.removeClass('taking-too-long').show();
+            $iframe.attr('src', $iframe.data('src'));
             startPreviewTimeout();
         });
 
+        $iframe.attr('src', $iframe.data('src'));
         startPreviewTimeout();
     }
 
