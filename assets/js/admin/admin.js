@@ -906,13 +906,10 @@ jQuery(document).ready(function($) {
     var $loader = $('.awsm-preview-loader');
     var $reloadBtn = $('.awsm-preview-reload-btn');
     var previewLoadTimeout;
-    var previewTimedOut = false;
-    var isBlankingForReload = false;
 
     if ($iframe.length) {
         function startPreviewTimeout() {
             clearTimeout(previewLoadTimeout);
-            previewTimedOut = false;
             previewLoadTimeout = setTimeout(function () {
                 $loader.addClass('taking-too-long');
             }, 15000);
