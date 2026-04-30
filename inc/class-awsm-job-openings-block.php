@@ -891,7 +891,7 @@ class AWSM_Job_Openings_Block {
 			}
 
 			$alert_existing_class = '';
-			if ( class_exists( 'AWSM_Job_Openings_Alert_Main_Blocks' ) ) {
+			if ( class_exists( 'AWSM_Job_Openings_Alert_Main_Blocks' ) && ! empty( $block_atts['enable_alert'] ) ) {
 				$alert_existing_class = ' awsm-jobs-alerts-on';
 			}
 
