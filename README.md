@@ -3,7 +3,7 @@
 **Contributors:** awsmin  
 **Tags:** jobs, job listing, job openings, job board, careers page, jobs page, wp job opening, jobs plugin  
 **Requires at least:** 4.8  
-**Tested up to:** 6.9.1
+**Tested up to:** 6.9.4
 **Requires PHP:** 5.6  
 **Stable tag:** 3.4 
 **License:** GPLv2 or later  
@@ -95,7 +95,7 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 
 ## Changelog
 
-**V 4.0.0 - xxxx-xx-xx**
+**V 4.0.0 - 2026-05-04**
 
 * Added: Block - Multi-select filters for job listings.
 * Added: Block - Sidebar filter placement and stack layout option.
