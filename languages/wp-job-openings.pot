@@ -7,7 +7,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language-Team: AWSM innovations <hello@awsm.in>\n"
-"POT-Creation-Date: 2026-04-06 11:37+0000\n"
+"POT-Creation-Date: 2026-05-04 06:54+0000\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -15,286 +15,286 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: wp-job-openings.php:153, admin/class-awsm-job-openings-settings.php:506, inc/class-awsm-job-openings-mail-customizer.php:72, inc/class-awsm-job-openings-mail-customizer.php:108
+#: wp-job-openings.php:152, admin/class-awsm-job-openings-settings.php:506, inc/class-awsm-job-openings-mail-customizer.php:72, inc/class-awsm-job-openings-mail-customizer.php:108
 msgid "HireZoot"
 msgstr ""
 
-#: wp-job-openings.php:154
+#: wp-job-openings.php:153
 msgid "Pro Pack"
 msgstr ""
 
 #. translators: %1$s: main plugin, %2$s: current plugin, %3$s: minimum required version of the main plugin, %4$s: plugin update link
-#: wp-job-openings.php:157
+#: wp-job-openings.php:156
 msgid "Update recommended: The %2$s Addon is recommended to be updated to version 4.0 or higher to function seamlessly with the newer version of %1$s."
 msgstr ""
 
-#: wp-job-openings.php:213
+#: wp-job-openings.php:212
 msgid "Job Alerts Add-on for Hirezoot"
 msgstr ""
 
 #. translators: %s: plugin name
-#: wp-job-openings.php:215
+#: wp-job-openings.php:214
 msgid "Please update the %s plugin to version 1.1.9 or higher to ensure full compatibility."
 msgstr ""
 
-#: wp-job-openings.php:220, wp-job-openings.php:2449
+#: wp-job-openings.php:219, wp-job-openings.php:2451
 msgid "Update Now"
 msgstr ""
 
-#: wp-job-openings.php:315
+#: wp-job-openings.php:314
 msgid "Warning:"
 msgstr ""
 
-#: wp-job-openings.php:316
+#: wp-job-openings.php:315
 msgid "You have activated an older version of Hirezoot than previously installed. This may cause data conflicts or unexpected behaviour."
 msgstr ""
 
-#: wp-job-openings.php:394
+#: wp-job-openings.php:393
 msgid "Jobs"
 msgstr ""
 
-#: wp-job-openings.php:468, admin/class-awsm-job-openings-info.php:283, admin/class-awsm-job-openings-settings.php:48, admin/class-awsm-job-openings-settings.php:48, admin/templates/base.php:13
+#: wp-job-openings.php:467, admin/class-awsm-job-openings-info.php:283, admin/class-awsm-job-openings-settings.php:48, admin/class-awsm-job-openings-settings.php:48, admin/templates/base.php:13
 msgid "Settings"
 msgstr ""
 
-#: wp-job-openings.php:475, admin/templates/meta/job-status.php:30
+#: wp-job-openings.php:474, admin/templates/meta/job-status.php:30
 msgid "Job Title"
 msgstr ""
 
-#: wp-job-openings.php:476
+#: wp-job-openings.php:475
 msgid "Job ID"
 msgstr ""
 
-#: wp-job-openings.php:478, wp-job-openings.php:1390, wp-job-openings.php:1844, admin/class-awsm-job-openings-info.php:261, inc/class-awsm-job-openings-core.php:124, inc/class-awsm-job-openings-core.php:126, inc/class-awsm-job-openings-core.php:127, inc/class-awsm-job-openings-core.php:137, admin/templates/meta/job-status.php:147, admin/templates/overview/widgets/job-listings.php:27
+#: wp-job-openings.php:477, wp-job-openings.php:1392, wp-job-openings.php:1846, admin/class-awsm-job-openings-info.php:261, inc/class-awsm-job-openings-core.php:124, inc/class-awsm-job-openings-core.php:126, inc/class-awsm-job-openings-core.php:127, inc/class-awsm-job-openings-core.php:137, admin/templates/meta/job-status.php:124, admin/templates/overview/widgets/job-listings.php:27
 msgid "Applications"
 msgstr ""
 
-#: wp-job-openings.php:479
+#: wp-job-openings.php:478
 msgid "Expiry"
 msgstr ""
 
-#: wp-job-openings.php:480
+#: wp-job-openings.php:479
 msgid "Views"
 msgstr ""
 
-#: wp-job-openings.php:481
+#: wp-job-openings.php:480
 msgid "Conversion"
 msgstr ""
 
-#: wp-job-openings.php:639, admin/templates/overview/widgets/recent-applications.php:24
+#: wp-job-openings.php:638, admin/templates/overview/widgets/recent-applications.php:24
 msgid "Applicant"
 msgstr ""
 
-#: wp-job-openings.php:640, admin/templates/overview/widgets/job-listings.php:23
+#: wp-job-openings.php:639, admin/templates/overview/widgets/job-listings.php:23
 msgid "ID"
 msgstr ""
 
-#: wp-job-openings.php:641, inc/class-awsm-job-openings-core.php:59, inc/templates/mail/email-digest.php:67
+#: wp-job-openings.php:640, inc/class-awsm-job-openings-core.php:59, inc/templates/mail/email-digest.php:67
 msgid "Job"
 msgstr ""
 
-#: wp-job-openings.php:642, inc/templates/mail/email-digest.php:68
+#: wp-job-openings.php:641, inc/templates/mail/email-digest.php:68
 msgid "Applied on"
 msgstr ""
 
-#: wp-job-openings.php:670
+#: wp-job-openings.php:669
 msgid "View Job: "
 msgstr ""
 
-#: wp-job-openings.php:678, admin/templates/meta/job-status.php:70, admin/templates/overview/main.php:256, admin/templates/overview/widgets/recent-applications.php:34
+#: wp-job-openings.php:677, admin/templates/meta/job-status.php:70, admin/templates/overview/main.php:256, admin/templates/overview/widgets/recent-applications.php:34
 msgid "ago"
 msgstr ""
 
-#: wp-job-openings.php:688, wp-job-openings.php:708, wp-job-openings.php:1010, wp-job-openings.php:2434, admin/templates/meta/job-status.php:54
+#: wp-job-openings.php:687, wp-job-openings.php:707, wp-job-openings.php:1009, wp-job-openings.php:2436, admin/templates/meta/job-status.php:54
 msgid "Expired"
 msgstr ""
 
 #. translators: %s: posts count with expired status
-#: wp-job-openings.php:695
+#: wp-job-openings.php:694
 msgid "Expired <span class=\"count\">(%s)</span>"
 msgid_plural "Expired <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: wp-job-openings.php:905
+#: wp-job-openings.php:904
 msgid "Email Digest - Hirezoot"
 msgstr ""
 
-#: wp-job-openings.php:1007
+#: wp-job-openings.php:1006
 msgid "Published"
 msgstr ""
 
-#: wp-job-openings.php:1007
+#: wp-job-openings.php:1006
 msgid "Current Openings"
 msgstr ""
 
-#: wp-job-openings.php:1010
+#: wp-job-openings.php:1009
 msgid "Inactive"
 msgstr ""
 
-#: wp-job-openings.php:1034
+#: wp-job-openings.php:1033
 msgid "All Jobs"
 msgstr ""
 
-#: wp-job-openings.php:1046
+#: wp-job-openings.php:1045
 msgid "Date From"
 msgstr ""
 
-#: wp-job-openings.php:1047
+#: wp-job-openings.php:1046
 msgid "Date To"
 msgstr ""
 
-#: wp-job-openings.php:1130
+#: wp-job-openings.php:1132
 msgid "JavaScript is required! Please enable it in your browser."
 msgstr ""
 
 #. translators: %1$s: opening html tag, %2$s: closing html tag, %3$s: Jobs count, %4$s: Plugin rating site
-#: wp-job-openings.php:1153
+#: wp-job-openings.php:1155
 msgid "That's awesome! You have just published %3$sth job posting on your website using %1$sHirezoot%2$s. Could you please do us a BIG favor and give it a %1$s5-star%2$s rating on %4$s? Just to help us spread the word and boost our motivation."
 msgstr ""
 
 #. translators: %1$s: opening html tag, %2$s: closing html tag, %3$s: Applications count, %4$s: Plugin rating site
-#: wp-job-openings.php:1156
+#: wp-job-openings.php:1158
 msgid "You have received over %1$s%3$s%2$s job applications through %1$sHirezoot%2$s. That's awesome! May we ask you to give it a %1$s5-Star%2$s rating on %4$s. It will help us spread the word and boost our motivation."
 msgstr ""
 
-#: wp-job-openings.php:1162
+#: wp-job-openings.php:1164
 msgid "Ok, you deserve it"
 msgstr ""
 
-#: wp-job-openings.php:1163
+#: wp-job-openings.php:1165
 msgid "I already did"
 msgstr ""
 
-#: wp-job-openings.php:1164
+#: wp-job-openings.php:1166
 msgid "Maybe later"
 msgstr ""
 
-#: wp-job-openings.php:1233
+#: wp-job-openings.php:1235
 msgid "Invalid request!"
 msgstr ""
 
-#: wp-job-openings.php:1239
+#: wp-job-openings.php:1241
 msgid "Invalid context!"
 msgstr ""
 
-#: wp-job-openings.php:1294
+#: wp-job-openings.php:1296
 msgid "Loading..."
 msgstr ""
 
-#: wp-job-openings.php:1296
+#: wp-job-openings.php:1298
 msgid "Error in submitting your application. Please try again later!"
 msgstr ""
 
-#: wp-job-openings.php:1297
+#: wp-job-openings.php:1299
 msgid "The file you have selected is too large."
 msgstr ""
 
-#: wp-job-openings.php:1365, admin/templates/general.php:20
+#: wp-job-openings.php:1367, admin/templates/general.php:20
 msgid "Select a page"
 msgstr ""
 
-#: wp-job-openings.php:1367, admin/class-awsm-job-openings-settings.php:1270
+#: wp-job-openings.php:1369, admin/class-awsm-job-openings-settings.php:1270
 msgid "Select Image"
 msgstr ""
 
-#: wp-job-openings.php:1368, admin/class-awsm-job-openings-settings.php:1273
+#: wp-job-openings.php:1370, admin/class-awsm-job-openings-settings.php:1273
 msgid "Change Image"
 msgstr ""
 
-#: wp-job-openings.php:1369, admin/class-awsm-job-openings-settings.php:1269
+#: wp-job-openings.php:1371, admin/class-awsm-job-openings-settings.php:1269
 msgid "No Image selected"
 msgstr ""
 
-#: wp-job-openings.php:1370
+#: wp-job-openings.php:1372
 msgid "Select or Upload an Image"
 msgstr ""
 
-#: wp-job-openings.php:1371
+#: wp-job-openings.php:1373
 msgid "Choose"
 msgstr ""
 
-#: wp-job-openings.php:1373
+#: wp-job-openings.php:1375
 msgid "Edit Job Specifications"
 msgstr ""
 
 #. translators: %1$s: application id, %2$s: job title
-#: wp-job-openings.php:1542
+#: wp-job-openings.php:1544
 msgid "Application #%1$s for %2$s"
 msgstr ""
 
 #. translators: %s: application submission time
-#: wp-job-openings.php:1551
+#: wp-job-openings.php:1553
 msgid "Submitted on %s"
 msgstr ""
 
-#: wp-job-openings.php:1555
+#: wp-job-openings.php:1557
 msgid "from IP "
 msgstr ""
 
-#: wp-job-openings.php:2052
+#: wp-job-openings.php:2054
 msgid "Closing on"
 msgstr ""
 
-#: wp-job-openings.php:2054
+#: wp-job-openings.php:2056
 msgid "Expired on"
 msgstr ""
 
-#: wp-job-openings.php:2059
+#: wp-job-openings.php:2061
 msgid "M j, Y"
 msgstr ""
 
-#: wp-job-openings.php:2187
+#: wp-job-openings.php:2189
 msgid "Full Time"
 msgstr ""
 
-#: wp-job-openings.php:2188
+#: wp-job-openings.php:2190
 msgid "Part Time"
 msgstr ""
 
-#: wp-job-openings.php:2189
+#: wp-job-openings.php:2191
 msgid "Freelance"
 msgstr ""
 
-#: wp-job-openings.php:2190
+#: wp-job-openings.php:2192
 msgid "Temporary"
 msgstr ""
 
-#: wp-job-openings.php:2191
+#: wp-job-openings.php:2193
 msgid "Intern"
 msgstr ""
 
-#: wp-job-openings.php:2192
+#: wp-job-openings.php:2194
 msgid "Volunteer"
 msgstr ""
 
-#: wp-job-openings.php:2193
+#: wp-job-openings.php:2195
 msgid "Per Diem"
 msgstr ""
 
-#: wp-job-openings.php:2194
+#: wp-job-openings.php:2196
 msgid "Other"
 msgstr ""
 
-#: wp-job-openings.php:2454
+#: wp-job-openings.php:2456
 msgid "Hirezoot Pro - Update Required"
 msgstr ""
 
-#: wp-job-openings.php:2455
+#: wp-job-openings.php:2457
 msgid "Please update Hirezoot Pro Pack to the latest versions to get new features and improvements."
 msgstr ""
 
-#: wp-job-openings.php:2500
+#: wp-job-openings.php:2502
 msgid "\"Docs Viewer Add-On for Hirezoot\" is no longer required. Resume preview is now built into Hirezoot. You can safely delete this add-on."
 msgstr ""
 
 #. translators: %s: add-on plugin name
-#: wp-job-openings.php:2525
+#: wp-job-openings.php:2527
 msgid "\"%s\" has been automatically deactivated. Its functionality is now built into Hirezoot. You can safely delete it."
 msgstr ""
 
 #. translators: %s: add-on plugin name
-#: wp-job-openings.php:2547
+#: wp-job-openings.php:2549
 msgid "You can delete \"%s\" — its functionality is now included in Hirezoot."
 msgstr ""
 
@@ -383,95 +383,95 @@ msgstr ""
 msgid "Hirezoot"
 msgstr ""
 
-#: admin/class-awsm-job-openings-meta.php:40
+#: admin/class-awsm-job-openings-meta.php:41
 msgid "Job Status"
 msgstr ""
 
-#: admin/class-awsm-job-openings-meta.php:41
+#: admin/class-awsm-job-openings-meta.php:42
 msgid "Job Details"
 msgstr ""
 
-#: admin/class-awsm-job-openings-meta.php:46, admin/class-awsm-job-openings-settings.php:62
+#: admin/class-awsm-job-openings-meta.php:47, admin/class-awsm-job-openings-settings.php:62
 msgid "Job Specifications"
 msgstr ""
 
-#: admin/class-awsm-job-openings-meta.php:49
+#: admin/class-awsm-job-openings-meta.php:50
 msgid "Job Expiry"
 msgstr ""
 
-#: admin/class-awsm-job-openings-meta.php:51
+#: admin/class-awsm-job-openings-meta.php:52
 msgid "Applicant Details"
 msgstr ""
 
-#: admin/class-awsm-job-openings-meta.php:58
+#: admin/class-awsm-job-openings-meta.php:59
 msgid "Resume Preview"
 msgstr ""
 
-#: admin/class-awsm-job-openings-meta.php:64
+#: admin/class-awsm-job-openings-meta.php:65
 msgid "Actions"
 msgstr ""
 
-#: admin/class-awsm-job-openings-meta.php:65
-msgid "Upgrade to WPJO Pro"
+#: admin/class-awsm-job-openings-meta.php:66
+msgid "Upgrade to Hirezoot Pro"
 msgstr ""
 
-#: admin/class-awsm-job-openings-meta.php:115
+#: admin/class-awsm-job-openings-meta.php:123
 msgid "Profile"
 msgstr ""
 
-#: admin/class-awsm-job-openings-meta.php:135, inc/templates/mail/email-digest.php:66
+#: admin/class-awsm-job-openings-meta.php:143, inc/templates/mail/email-digest.php:66
 msgid "Name"
 msgstr ""
 
-#: admin/class-awsm-job-openings-meta.php:138
+#: admin/class-awsm-job-openings-meta.php:146
 msgid "Email Address"
 msgstr ""
 
-#: admin/class-awsm-job-openings-meta.php:141
+#: admin/class-awsm-job-openings-meta.php:149
 msgid "Phone Number"
 msgstr ""
 
-#: admin/class-awsm-job-openings-meta.php:144, inc/class-awsm-job-openings-form.php:104
+#: admin/class-awsm-job-openings-meta.php:152, inc/class-awsm-job-openings-form.php:104
 msgid "Bio"
 msgstr ""
 
-#: admin/class-awsm-job-openings-meta.php:186
+#: admin/class-awsm-job-openings-meta.php:194
 msgid "Download File"
 msgstr ""
 
-#: admin/class-awsm-job-openings-meta.php:265
+#: admin/class-awsm-job-openings-meta.php:273
 msgid "Error occurred!"
 msgstr ""
 
-#: admin/class-awsm-job-openings-meta.php:269
+#: admin/class-awsm-job-openings-meta.php:277
 msgid "Invalid id."
 msgstr ""
 
-#: admin/class-awsm-job-openings-meta.php:298
+#: admin/class-awsm-job-openings-meta.php:306
 msgid "File not found!"
 msgstr ""
 
-#: admin/class-awsm-job-openings-meta.php:294
+#: admin/class-awsm-job-openings-meta.php:302
 msgid "File is not readable."
 msgstr ""
 
-#: admin/class-awsm-job-openings-meta.php:304
+#: admin/class-awsm-job-openings-meta.php:312
 msgid "resume"
 msgstr ""
 
-#: admin/class-awsm-job-openings-meta.php:331
+#: admin/class-awsm-job-openings-meta.php:339
 msgid "Edit"
 msgstr ""
 
-#: admin/class-awsm-job-openings-meta.php:331, inc/templates/mail/email-digest.php:81
+#: admin/class-awsm-job-openings-meta.php:339, inc/templates/mail/email-digest.php:81
 msgid "View"
 msgstr ""
 
-#: admin/class-awsm-job-openings-meta.php:381, admin/templates/meta/job-expiry.php:27
+#: admin/class-awsm-job-openings-meta.php:389, admin/templates/meta/job-expiry.php:27
 msgid "Set expiry for listing"
 msgstr ""
 
-#: admin/class-awsm-job-openings-meta.php:392, admin/templates/meta/job-expiry.php:38
+#: admin/class-awsm-job-openings-meta.php:400, admin/templates/meta/job-expiry.php:38
 msgid "Display expiry date"
 msgstr ""
 
@@ -540,7 +540,7 @@ msgstr ""
 msgid "Job Detail Page"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:91, admin/class-awsm-job-openings-settings.php:124, admin/class-awsm-job-openings-settings.php:2348, admin/class-awsm-job-openings-settings.php:2528, admin/class-awsm-job-openings-settings.php:2632
+#: admin/class-awsm-job-openings-settings.php:91, admin/class-awsm-job-openings-settings.php:124, admin/class-awsm-job-openings-settings.php:2350, admin/class-awsm-job-openings-settings.php:2530, admin/class-awsm-job-openings-settings.php:2634
 msgid "CAPTCHA"
 msgstr ""
 
@@ -837,70 +837,70 @@ msgstr ""
 msgid "No-Conflict Mode disabled."
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:2235
+#: admin/class-awsm-job-openings-settings.php:2237
 msgid "Provider configuration error."
 msgstr ""
 
 #. translators: %s: error message
-#: admin/class-awsm-job-openings-settings.php:2295
+#: admin/class-awsm-job-openings-settings.php:2297
 msgid "Connection error: %s"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:2308
+#: admin/class-awsm-job-openings-settings.php:2310
 msgid "Invalid API response."
 msgstr ""
 
 #. translators: %s: CAPTCHA service name (e.g., reCAPTCHA, hCaptcha, Turnstile)
-#: admin/class-awsm-job-openings-settings.php:2352
+#: admin/class-awsm-job-openings-settings.php:2354
 msgid "Invalid Secret Key. Please verify your %s Secret Key."
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:2353
+#: admin/class-awsm-job-openings-settings.php:2355
 msgid "Secret Key is missing."
 msgstr ""
 
 #. translators: %s: CAPTCHA service name
-#: admin/class-awsm-job-openings-settings.php:2355
+#: admin/class-awsm-job-openings-settings.php:2357
 msgid "Site Key and Secret Key do not match. Please verify both keys belong to the same account."
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:2389, admin/class-awsm-job-openings-settings.php:2407
+#: admin/class-awsm-job-openings-settings.php:2391, admin/class-awsm-job-openings-settings.php:2409
 msgid "Keys verified successfully."
 msgstr ""
 
 #. translators: %s: error codes
-#: admin/class-awsm-job-openings-settings.php:2398
+#: admin/class-awsm-job-openings-settings.php:2400
 msgid "API returned error: %s"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:2413
+#: admin/class-awsm-job-openings-settings.php:2415
 msgid "Unable to verify keys. Please check your configuration."
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:2530
+#: admin/class-awsm-job-openings-settings.php:2532
 msgid "Site Key"
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:2531
+#: admin/class-awsm-job-openings-settings.php:2533
 msgid "Secret Key"
 msgstr ""
 
 #. translators: %s: Key label (e.g. Site Key, Secret Key)
-#: admin/class-awsm-job-openings-settings.php:2535
+#: admin/class-awsm-job-openings-settings.php:2537
 msgid "Please enter a valid %s."
 msgstr ""
 
-#: admin/class-awsm-job-openings-settings.php:2607
+#: admin/class-awsm-job-openings-settings.php:2609
 msgid "Unknown error"
 msgstr ""
 
 #. translators: %s: Detailed error message returned by the CAPTCHA API
-#: admin/class-awsm-job-openings-settings.php:2611
+#: admin/class-awsm-job-openings-settings.php:2613
 msgid "API Verification Failed: %s"
 msgstr ""
 
 #. translators: %s: Service name (e.g. hCaptcha, reCAPTCHA)
-#: admin/class-awsm-job-openings-settings.php:2644
+#: admin/class-awsm-job-openings-settings.php:2646
 msgid "%s keys verified successfully! and settings saved."
 msgstr ""
 
@@ -912,30 +912,30 @@ msgstr ""
 msgid "Security check failed."
 msgstr ""
 
-#: inc/class-awsm-job-openings-block.php:303, inc/class-awsm-job-openings-filters.php:334
+#: inc/class-awsm-job-openings-block.php:335, inc/class-awsm-job-openings-filters.php:335
 msgid "Sorry! No more jobs to show."
 msgstr ""
 
-#: inc/class-awsm-job-openings-block.php:301, inc/class-awsm-job-openings-filters.php:332, inc/template-functions.php:317
+#: inc/class-awsm-job-openings-block.php:333, inc/class-awsm-job-openings-filters.php:333, inc/template-functions.php:317
 msgid "Sorry! No jobs to show."
 msgstr ""
 
-#: inc/class-awsm-job-openings-block.php:612
+#: inc/class-awsm-job-openings-block.php:661
 msgctxt "job filter"
 msgid "Search Jobs"
 msgstr ""
 
-#: inc/class-awsm-job-openings-block.php:744, inc/class-awsm-job-openings-block.php:983, inc/class-awsm-job-openings-filters.php:184
+#: inc/class-awsm-job-openings-block.php:793, inc/class-awsm-job-openings-block.php:1032, inc/class-awsm-job-openings-filters.php:184
 msgctxt "job filter"
 msgid "All"
 msgstr ""
 
-#: inc/class-awsm-job-openings-block.php:811, inc/class-awsm-job-openings-block.php:1080, inc/class-awsm-job-openings-filters.php:228
+#: inc/class-awsm-job-openings-block.php:860, inc/class-awsm-job-openings-block.php:1129, inc/class-awsm-job-openings-filters.php:228
 msgctxt "job filter"
 msgid "Filter by"
 msgstr ""
 
-#: inc/class-awsm-job-openings-block.php:885, inc/class-awsm-job-openings-core.php:64
+#: inc/class-awsm-job-openings-block.php:934, inc/class-awsm-job-openings-core.php:64
 msgid "Search Jobs"
 msgstr ""
 
@@ -1539,77 +1539,81 @@ msgstr ""
 msgid "Timezone "
 msgstr ""
 
-#: admin/templates/general.php:93
+#: admin/templates/general.php:90
+msgid "Used only for job expiry. Job and application timestamps follow your WordPress site timezone."
+msgstr ""
+
+#: admin/templates/general.php:94
 msgid "URL slug"
 msgstr ""
 
-#: admin/templates/general.php:95
+#: admin/templates/general.php:96
 msgid "URL slug for job posts"
 msgstr ""
 
-#: admin/templates/general.php:100
+#: admin/templates/general.php:101
 msgid "Permalink Structure"
 msgstr ""
 
-#: admin/templates/general.php:105
+#: admin/templates/general.php:106
 msgid "Remove front base from custom permalink"
 msgstr ""
 
-#: admin/templates/general.php:111
+#: admin/templates/general.php:112
 msgid "Default 'No Jobs' message "
 msgstr ""
 
-#: admin/templates/general.php:113
+#: admin/templates/general.php:114
 msgid "Default message when there are no active job openings"
 msgstr ""
 
-#: admin/templates/general.php:117
+#: admin/templates/general.php:118
 msgid "Email digest"
 msgstr ""
 
-#: admin/templates/general.php:123
+#: admin/templates/general.php:124
 msgid "Send daily email digest"
 msgstr ""
 
-#: admin/templates/general.php:129
+#: admin/templates/general.php:130
 msgid "Jobs Archive"
 msgstr ""
 
-#: admin/templates/general.php:134
+#: admin/templates/general.php:135
 msgid "Disable the archive page for Job Openings"
 msgstr ""
 
-#: admin/templates/general.php:140
+#: admin/templates/general.php:141
 msgid "Featured image"
 msgstr ""
 
-#: admin/templates/general.php:145
+#: admin/templates/general.php:146
 msgid "Enable Featured image support for Job Openings"
 msgstr ""
 
-#: admin/templates/general.php:151
+#: admin/templates/general.php:152
 msgid "File uploads"
 msgstr ""
 
-#: admin/templates/general.php:156
+#: admin/templates/general.php:157
 msgid "Secure uploaded files"
 msgstr ""
 
 #. translators: %1$s: line break element
-#: admin/templates/general.php:160
+#: admin/templates/general.php:161
 msgid "Enabling this option will restrict how uploaded files are accessed via HireZoot forms.%1$s 1. Files won’t appear in the Media Library.%1$s 2. Public file URLs will be disabled.%1$s 3. File preview (including resume preview) will not be available.%1$s 4. Fully supported only on Apache servers. It may not work on other server environments including Nginx due to server configuration limitations"
 msgstr ""
 
-#: admin/templates/general.php:164
+#: admin/templates/general.php:165
 msgid "Delete data on uninstall"
 msgstr ""
 
-#: admin/templates/general.php:169
+#: admin/templates/general.php:170
 msgid "Delete PLUGIN DATA on uninstall"
 msgstr ""
 
 #. translators: %1$s: line break element, %2$s: opening span tag, %3$s: closing span tag
-#: admin/templates/general.php:174
+#: admin/templates/general.php:175
 msgid "CAUTION: Checking this option will delete all the job listings, applications and %1$sconfigurations from your website %2$swhen you uninstall the plugin%3$s."
 msgstr ""
 
@@ -1846,7 +1850,7 @@ msgstr ""
 msgid "Select the page where your job listings will be displayed"
 msgstr ""
 
-#: admin/templates/info/setup.php:63, admin/templates/meta/job-status.php:161
+#: admin/templates/info/setup.php:63, admin/templates/meta/job-status.php:140
 msgid "Next"
 msgstr ""
 
@@ -1964,15 +1968,19 @@ msgstr ""
 msgid "Date of Expiry:"
 msgstr ""
 
-#: admin/templates/meta/job-status.php:153
+#: admin/templates/meta/job-status.php:131
 msgid "Prev"
 msgstr ""
 
-#: admin/templates/meta/resume-preview.php:48
+#: admin/templates/meta/resume-preview.php:57
 msgid "No resume to preview. File not found!"
 msgstr ""
 
-#: admin/templates/meta/resume-preview.php:42
+#: admin/templates/meta/resume-preview.php:31
+msgid "Reload Preview"
+msgstr ""
+
+#: admin/templates/meta/resume-preview.php:51
 msgid "This file type cannot be previewed. Please download the file to view it."
 msgstr ""
 

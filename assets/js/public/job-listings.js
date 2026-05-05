@@ -422,8 +422,14 @@ jQuery(function($) {
 		var $filtersWrap = $('.awsm-filter-wrap').not('.awsm-no-search-filter-wrap');
 		$filtersWrap.each(function() {
 			var $wrapper = $(this);
-			var filterFirstTop = $wrapper.find('.awsm-filter-item').first().offset().top;
-			var filterLastTop = $wrapper.find('.awsm-filter-item').last().offset().top;
+			var $filterFirst = $wrapper.find('.awsm-filter-item').first();
+			var $filterLast = $wrapper.find('.awsm-filter-item').last();
+			if (!$filterFirst.length || !$filterLast.length) return;
+			var filterFirstOffset = $filterFirst.offset();
+			var filterLastOffset = $filterLast.offset();
+			if (!filterFirstOffset || !filterLastOffset) return;
+			var filterFirstTop = filterFirstOffset.top;
+			var filterLastTop = filterLastOffset.top;
 			if (filterLastTop > filterFirstTop) {
 				$wrapper.addClass('awsm-full-width-search-filter-wrap');
 			} else {

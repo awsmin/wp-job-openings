@@ -61,7 +61,7 @@ export default function Edit(props) {
 
     const handleResize = () => {
         const filtersWraps = blockRef.current?.querySelectorAll(
-            ".awsm-b-filter-wrap:not(.awsm-no-search-filter-wrap)"
+            ".awsm-b-filter-wrap:not(.awsm-b-no-search-filter-wrap)"
         );
         filtersWraps?.forEach(wrapper => {
             const filterItems = wrapper.querySelectorAll(".awsm-b-filter-item");

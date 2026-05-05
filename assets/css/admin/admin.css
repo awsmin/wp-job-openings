@@ -2324,29 +2324,29 @@ input.awsm-button:disabled {
 	height: 100%;
 }
 
+.awsm-preview-loader .awsm-preview-reload-btn {
+	display: none;
+}
+
+.awsm-preview-loader.taking-too-long .awsm-preview-spinner {
+	display: none;
+}
+
+.awsm-preview-loader.taking-too-long .awsm-preview-reload-btn {
+	display: inline-block;
+}
+
 .awsm-preview-reload-btn {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
-	color: #fff; /* White text */
+	background: #000;
+	color: #fff;
 	padding: 10px 20px;
+	border: none;
 	border-radius: 4px;
 	cursor: pointer;
-	z-index: 10; /* Ensure it appears above other elements */
 	text-align: center;
-}
-
-.awsm-preview-reload-btn img {
-	margin-right: 8px;
-	vertical-align: middle;
-}
-
-.awsm-preview-reload-btn.loading {
-	background-color: rgba(0, 0, 0, 0.9); /* Darker background */
-	cursor: progress; /* Show progress cursor */
-	pointer-events: none; /* Disable button interaction */
+	font-size: 14px;
+	white-space: nowrap;
+	line-height: normal;
 }
 
 
@@ -2547,6 +2547,9 @@ input.awsm-button:disabled {
 .post-type-awsm_job_openings #editor .postbox>.postbox-header .handle-actions .handle-order-higher, 
 .post-type-awsm_job_openings #editor .postbox>.postbox-header .handle-actions .handle-order-lower{
 	width: 1.62rem;
+}
+.awsm_job_openings_page_awsm-jobs-overview .wrap > h1:empty {
+    padding: 0;
 }
 @media (min-width:701px) {
 	.awsm-jobs-expired-post-state span {

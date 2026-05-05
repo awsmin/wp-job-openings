@@ -27,10 +27,13 @@ do_action( 'awsm_resume_preview_mb_init', $post->ID );
 			<div class="awsm-document-preview">
 				<div class="awsm-preview-loader">
 					<div class="awsm-preview-spinner"></div>
+					<button type="button" class="awsm-preview-reload-btn">
+						&#8635; <?php esc_html_e( 'Reload Preview', 'wp-job-openings' ); ?>
+					</button>
 				</div>
 			<?php if ( $file_extension === 'pdf' ) : ?>
 					<iframe
-						src="<?php echo esc_url( 'https://docs.google.com/viewer?embedded=true&url=' . urlencode( $attachment_url ) ); ?>"
+						data-src="<?php echo esc_url( 'https://docs.google.com/viewer?embedded=true&url=' . urlencode( $attachment_url ) ); ?>"
 						class="awsm-preview-frame"
 						style="width: 100%; height: 400px; border: none;"
 						frameborder="0"
@@ -38,7 +41,7 @@ do_action( 'awsm_resume_preview_mb_init', $post->ID );
 					</iframe>
 				<?php elseif ( in_array( $file_extension, array( 'doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx' ) ) ) : ?>
 					<iframe
-						src="<?php echo esc_url( 'https://view.officeapps.live.com/op/embed.aspx?src=' . urlencode( $attachment_url ) ); ?>"
+						data-src="<?php echo esc_url( 'https://view.officeapps.live.com/op/embed.aspx?src=' . urlencode( $attachment_url ) ); ?>"
 						class="awsm-preview-frame"
 						style="width: 100%; height: 400px; border: none;"
 						frameborder="0">
