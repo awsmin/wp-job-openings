@@ -3,7 +3,7 @@
 **Contributors:** awsmin, aravindajith, anantajitjg, sarathar, adhun, nithi22  
 **Tags:** jobs, job listing, job board, careers page, recruitment  
 **Requires at least:** 4.8  
-**Tested up to:** 6.9.1
+**Tested up to:** 6.9.4
 **Requires PHP:** 5.6  
 **Stable tag:** 4.0.0  
 **License:** GPLv2 or later  
@@ -109,7 +109,7 @@ Yes. You can view, filter, and manage applications from your dashboard.
 
 ## Changelog
 
-**V 4.0.0 – 2026-05-07**
+**V 4.0.0 – 2026-05-06**
 
 * Added: Block - Multi-select filters for job listings.
 * Added: Block - Sidebar filter placement and stack layout option.

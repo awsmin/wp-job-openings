@@ -1,6 +1,6 @@
 ## Changelog
 
-### V 4.0.0 - 2026-05-04
+### V 4.0.0 - 2026-05-06
 
 * Added: Block - Multi-select filters for job listings.
 * Added: Block - Sidebar filter placement and stack layout option.

@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name: Hirezoot
- * Plugin URI: https://wpjobopenings.com/
- * Description: Super simple Job Listing plugin to manage Job Openings and Applicants on your WordPress site.
+ * Plugin Name: HireZoot
+ * Plugin URI: https://hirezoot.com/
+ * Description: HireZoot (formerly WP Job Openings) makes hiring simple. Add job listings, publish a clean careers page, and manage applications without leaving WordPress.
  * Author: AWSM Innovations
  * Author URI: https://awsm.in/
  * Version: 4.0.0
@@ -14,9 +14,9 @@
  * Domain Path: /languages
  */
 /**
- * Hirezoot Plugin
+ * HireZoot Plugin
  *
- * Super simple Job Listing plugin to manage Job Openings and Applicants on your WordPress site.
+ * HireZoot (formerly WP Job Openings) makes hiring simple. Add job listings, publish a clean careers page, and manage applications without leaving WordPress.
  *
  * @package wp-job-openings
  */
