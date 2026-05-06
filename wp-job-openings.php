@@ -983,8 +983,35 @@ class AWSM_Job_Openings {
 
 		$active_applications    = $total_applications - $trashed_applications;
 		$new_applications_count = AWSM_Job_Openings_Core::get_unviewed_applications_count();
-		$data                   = array(
-			'active_jobs'         => $jobs_count['publish'],
+
+		$active_jobs_args = array(
+			'post_type'      => 'awsm_job_openings',
+			'post_status'    => 'publish',
+			'posts_per_page' => -1,
+			'fields'         => 'ids',
+		);
+		/**
+		 * Filters the query args used to count active (valid) jobs.
+		 * Addons can add meta_query conditions here to exclude filled, excluded, etc.
+		 *
+		 * @since 3.4.0
+		 *
+		 * @param array $active_jobs_args WP_Query args.
+		 */
+		$active_jobs_args = apply_filters( 'awsm_jobs_active_count_query_args', $active_jobs_args );
+		$active_job_ids   = get_posts( $active_jobs_args );
+		/**
+		 * Filters the active job IDs after the initial query.
+		 * Addons can remove IDs here for conditions that require PHP-level checks (e.g. application limit).
+		 *
+		 * @since 3.4.0
+		 *
+		 * @param int[] $active_job_ids Array of job post IDs.
+		 */
+		$active_job_ids = apply_filters( 'awsm_jobs_active_count_ids', $active_job_ids );
+
+		$data = array(
+			'active_jobs'         => count( $active_job_ids ),
 			'total_jobs'          => $total_jobs,
 			'new_applications'    => $published_apps,
 			'total_applications'  => $total_applications,
