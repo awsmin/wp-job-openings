@@ -2,7 +2,7 @@
 # HireZoot – Job Listings, Career Page & Recruitment Tool
 **Contributors:** awsmin, aravindajith, anantajitjg, sarathar, adhun, nithi22  
 **Tags:** jobs, job listing, job board, careers page, recruitment  
-**Requires at least:** 4.8  
+**Requires at least:** 6.0  
 **Tested up to:** 6.9.4
 **Requires PHP:** 5.6  
 **Stable tag:** 4.0.0  
@@ -73,9 +73,9 @@ Version 4 introduces a redesigned dashboard, improved job browsing, flexible fil
 ## Add-ons
 
 * [Auto-Delete Applications (FREE)](https://wordpress.org/plugins/auto-delete-applications-add-on-for-wp-job-openings/)
-* [PRO Pack (PREMIUM)](https://wpjobopenings.com/pro-pack/)
-* [User Access Control (PREMIUM)](https://wpjobopenings.com/add-ons/user-access-control/)
-* [Job Alerts (PREMIUM)](https://wpjobopenings.com/add-ons/job-alerts/)
+* [PRO Pack (PREMIUM)](https://hirezoot.com/addons/pro-pack/)
+* [User Access Control (PREMIUM)](https://hirezoot.com/addons/user-access-control-ad/)
+* [Job Alerts (PREMIUM)](https://hirezoot.com/addons/job-alerts-add-on/)
 
 ## Contribute
 
