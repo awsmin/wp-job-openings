@@ -1,93 +1,107 @@
-[![WP Job Openings](https://ps.w.org/wp-job-openings/assets/banner-772x250.png?rev=2639067)](https://wordpress.org/plugins/wp-job-openings/)
-# WP Job Openings
-**Contributors:** awsmin  
-**Tags:** jobs, job listing, job openings, job board, careers page, jobs page, wp job opening, jobs plugin  
+[![HireZoot – Job Listings, Career Page & Recruitment Tool](https://ps.w.org/wp-job-openings/assets/banner-772x250.png?rev=2639067)](https://wordpress.org/plugins/wp-job-openings/)
+# HireZoot – Job Listings, Career Page & Recruitment Tool
+**Contributors:** awsmin, aravindajith, anantajitjg, sarathar, adhun, nithi22  
+**Tags:** jobs, job listing, job board, careers page, recruitment  
 **Requires at least:** 4.8  
-**Tested up to:** 6.9.4
+**Tested up to:** 6.9.1
 **Requires PHP:** 5.6  
-**Stable tag:** 3.4 
+**Stable tag:** 4.0.0  
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
 **Donate link:** https://www.buymeacoffee.com/awsm
 
 ## Summary
 
-Super simple Job Listing plugin to manage Job Openings and Applicants on your WordPress site.
+Create modern careers page, list jobs, and manage applications directly from your WordPress dashboard.
 
 ## Description
 
-**WP Job Openings plugin is the most simple yet powerful plugin for setting up a job listing page for your WordPress website.**
+**HireZoot (formerly WP Job Openings) makes hiring simple. Add job listings, publish a clean careers page, and manage applications without leaving WordPress.**
 
-WP Job Openings is designed after carefully analyzing hundreds of job listing layouts and methods. The plugin is super simple to use and extensible to a high-performing recruitment tool.
+HireZoot is designed for teams that want a straightforward hiring workflow without unnecessary complexity. Install the plugin, add your job details, and your careers page is ready.
+
 
 [![WP Job Openings - Introduction](https://user-images.githubusercontent.com/22009263/177325986-c1a9b629-3dcf-463c-a158-df7b5fc27816.jpg)](https://www.youtube.com/watch?v=xqAlRljVKJ0)
 
-The plugin comes with two layouts - Grid and List which are designed carefully according to the modern design and User Experience principles. The highlight of the plugin is its totally flexible filter options.
+Version 4 introduces a redesigned dashboard, improved job browsing, flexible filtering, and a smoother overall experience.
 
 
-**[View Demo](https://demo.wpjobopenings.com/)**
+**[View Demo ↗︎](https://demo.hirezoot.com/)**
 
-**[Visit website - wpjobopenings.com](https://wpjobopenings.com/)**
+**[Visit website - HireZoot.com ↗︎](https://hirezoot.com/)**
 
+### 🆕 What's New in Version 4 
 
-## Key Features
+* Redesigned admin dashboard for better usability  
+* New Stack layout for job listings 
+* All new Gutenberg block with advanced customisation features  
+* Sidebar filters for improved navigation  
+* Multi-select filters and sorting options  
+* Improved application management  
+* Resume preview feature added to the core plugin 
+* Performance and usability improvements  
 
-* Super Simple and Easy to Set Up and Use
-* Two Different Modern Layouts
-* Clean and User-Friendly Designs
-* Unlimited Job Specifications
-* Unlimited Filtering Options
-* Search Option to find jobs
-* AJAX Powered Job Listing and Filtering
-* Comes with Default Form to Submit Applications
-* HR Role for setting up HR user
-* Options to Customise Email Notifications
-* Custom Email Notification Templates
-* Application Listings in Plugin
-* Job Expiry Options
-* Job posting structured data for better SEO
-* Recent Jobs Widget
-* WPML Support
-* Developer Friendly (Lots of hooks!)
-* Detailed Documentation
-* Tested with more than 50 top WordPress themes and Plugins
+## 💼 Key Features
+
+✔ Simple setup - get started in minutes  
+✔ Multiple layouts: Grid, List, and Stack  
+✔ Sidebar and inline filtering options  
+✔ AJAX-powered search and filtering  
+✔ Unlimited job specifications  
+✔ Built-in application form  
+✔ Manage applications inside WordPress  
+✔ Customizable email notifications  
+✔ Job expiry options  
+✔ Structured data for SEO  
+✔ Clean and user-friendly UI  
+✔ WPML support  
+✔ Developer-friendly with hooks  
+
+## ✨ Premium Features
+
+✔ Custom application form builder  
+✔ Shortlist, reject, and rate candidates  
+✔ Notes and activity logs  
+✔ Advanced email notifications  
+✔ Export and filter applications  
+✔ Attach files with email notifications  
+✔ Shortcode generator for custom job listings  
+✔ External application links and third-party forms  
+
+**[All Premium Features ↗︎](https://hirezoot.com/pricing/)**
 
 ## Add-ons
 
-* [Docs Viewer](https://wordpress.org/plugins/docs-viewer-add-on-for-wp-job-openings/) (FREE)
-* [Auto-Delete Applications for GDPR Compliance](https://wordpress.org/plugins/auto-delete-applications-add-on-for-wp-job-openings/) (FREE)
-* [PRO Pack](https://wpjobopenings.com/pro-pack/) (PREMIUM)
-* [User Access Control Add-on](https://wpjobopenings.com/add-ons/user-access-control/) (PREMIUM)
-* [Job Alerts Add-on](https://wpjobopenings.com/add-ons/job-alerts/) (PREMIUM)
-
-## WP Job Openings PRO Features
-
-**Power up your job listing with the PRO pack Add-on**
-
-* Form Builder - Make your own application form
-* Shortlist, Reject and Select Applicants
-* Rate and Filter Applications
-* Custom Email Notifications & Templates
-* Email CC option for job submission notifications
-* Notes and Activity Log
-* Option to Filter and Export Applications
-* Attach uploaded file with email notifications
-* Shortcode generator for generating customised job lists
-* Use third-party forms and custom application URLs
-
-
-**[Get PRO Pack](https://wpjobopenings.com/pro-pack/)**
+* [Auto-Delete Applications (FREE)](https://wordpress.org/plugins/auto-delete-applications-add-on-for-wp-job-openings/)
+* [PRO Pack (PREMIUM)](https://wpjobopenings.com/pro-pack/)
+* [User Access Control (PREMIUM)](https://wpjobopenings.com/add-ons/user-access-control/)
+* [Job Alerts (PREMIUM)](https://wpjobopenings.com/add-ons/job-alerts/)
 
 ## Contribute
 
-**You can contribute to the community by translating the plugin to your language.** Believe us, it's super-easy. Click on the link below, choose your language and start translating the strings in Development (trunk).
+**You can contribute to the community by translating the plugin to your language.**
 
 * **[Translate plugin to your language](https://translate.wordpress.org/projects/wp-plugins/wp-job-openings/)**
 
 ## Installation
 
-1. Upload the plugin folder to the `/wp-content/plugins/` directory, or install the plugin through the WordPress plugins screen directly.
-2. Activate the plugin through the `Plugins` screen in WordPress
+1. Upload the plugin to the `/wp-content/plugins/` directory or install via WordPress
+2. Activate the plugin from the Plugins screen
+3. Add your first job listing
+
+## Frequently Asked Questions
+
+**Is HireZoot easy to set up?**  
+Yes. You can publish a job listing page and start receiving applications within minutes.
+
+**Can I customize the application form?**  
+Yes. The default form works out of the box, and PRO features allow full customization.
+
+**Will it work with my theme?**  
+HireZoot works with most well-coded WordPress themes.
+
+**Can I manage applications inside WordPress?**  
+Yes. You can view, filter, and manage applications from your dashboard.
 
 ## Screenshots
 
@@ -95,7 +109,7 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 
 ## Changelog
 
-**V 4.0.0 - 2026-05-04**
+**V 4.0.0 – 2026-05-07**
 
 * Added: Block - Multi-select filters for job listings.
 * Added: Block - Sidebar filter placement and stack layout option.
@@ -103,6 +117,7 @@ The plugin comes with two layouts - Grid and List which are designed carefully a
 * Added: Block - Job spec icons with enable/disable option.
 * Added: Block - Style tab with styling controls (colors, borders, padding, radius, buttons, background).
 * Added: Block - Nonce-based CSRF protection for block filter and load-more AJAX requests.
+* Added: Block - Filtered jobs.
 * Added: Quick edit option for jobs.
 * Added: Filter applications by date range.
 * Added: Unread applications count display.
