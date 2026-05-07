@@ -1753,6 +1753,8 @@ a.awsm-plugin-item p {
 	line-height: 1;
 	letter-spacing: -0.08px;
 	margin: 0 0 6px;
+	word-wrap: break-word;
+    word-break: break-word;
 }
 
 .awsm-applicant-info p {
