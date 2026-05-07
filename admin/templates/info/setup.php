@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					</a>
 				</h1>
 				<p>
-					<span><?php esc_html_e( 'Thanks for installing Hirezoot, you are awesome! ', 'wp-job-openings' ); ?></span>
+					<span><?php esc_html_e( 'Thanks for installing HireZoot, you are awesome! ', 'wp-job-openings' ); ?></span>
 					<span><?php esc_html_e( 'Your are a few minutes away from setting up your job page and start hiring.', 'wp-job-openings' ); ?></span>
 				</p>
 			</div><!-- .awsm-job-setup-head-->

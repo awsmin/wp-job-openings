@@ -63,7 +63,7 @@ class AWSM_Job_Openings_Meta {
 
 		if ( ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) {
 			add_meta_box( 'awsm-application-actions-meta', esc_html__( 'Actions', 'wp-job-openings' ), array( $this, 'application_actions_meta_handler' ), 'awsm_job_application', 'side', 'high' );
-			add_meta_box( 'awsm-get-the-pro-pack-meta', esc_html__( 'Upgrade to Hirezoot Pro', 'wp-job-openings' ), array( $this, 'get_pro_meta_handler' ), 'awsm_job_application', 'side', 'low' );
+			add_meta_box( 'awsm-get-the-pro-pack-meta', esc_html__( 'Upgrade to HireZoot Pro', 'wp-job-openings' ), array( $this, 'get_pro_meta_handler' ), 'awsm_job_application', 'side', 'low' );
 		}
 	}
 

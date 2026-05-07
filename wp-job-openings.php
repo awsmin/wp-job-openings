@@ -209,7 +209,7 @@ class AWSM_Job_Openings {
 		<div class="notice notice-warning is-dismissible">
 			<p>
 				<?php
-				$plugin = sprintf( '<strong>%s</strong>', esc_html__( 'Job Alerts Add-on for Hirezoot', 'wp-job-openings' ) );
+				$plugin = sprintf( '<strong>%s</strong>', esc_html__( 'Job Alerts Add-on for HireZoot', 'wp-job-openings' ) );
 				/* translators: %s: plugin name */
 				printf( esc_html__( 'Please update the %s plugin to version 1.1.9 or higher to ensure full compatibility.', 'wp-job-openings' ), $plugin ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				echo ' ';
@@ -227,9 +227,9 @@ class AWSM_Job_Openings {
 	public static function log( $data, $prefix = '' ) {
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG && defined( 'AWSM_JOBS_DEBUG' ) && AWSM_JOBS_DEBUG ) {
 			if ( is_string( $data ) ) {
-				error_log( 'Hirezoot:' . $prefix . ': ' . $data );
+				error_log( 'HireZoot:' . $prefix . ': ' . $data );
 			} else {
-				error_log( 'Hirezoot:' . $prefix . ': ' . json_encode( $data, JSON_PRETTY_PRINT ) );
+				error_log( 'HireZoot:' . $prefix . ': ' . json_encode( $data, JSON_PRETTY_PRINT ) );
 			}
 		}
 	}
