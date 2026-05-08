@@ -13,7 +13,7 @@
     },
     "search": {
       "type": "boolean",
-      "default": false
+      "default": true
     },
     "placement": {
       "type": "string",
