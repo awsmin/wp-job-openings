@@ -1,5 +1,5 @@
 === HireZoot – Job Listings, Career Page & Recruitment Tool ===
-Contributors: awsmin, aravindajith, anantajitjg, sarathar, adhun, nithi22
+Contributors: awsmin, aravindajith, anantajitjg, sarathar, adhun, nithi22, @sruthi89, shilpaashokan94, @vivekawsm, @fathima54321
 Tags: jobs, job listing, job board, careers page, recruitment
 Requires at least: 6.0
 Tested up to: 6.9.4
