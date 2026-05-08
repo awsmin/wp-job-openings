@@ -24,6 +24,7 @@ class AWSM_Job_Openings_Core {
 		// WooCommerce - Allow the backend access for users with HR Role.
 		add_filter( 'woocommerce_disable_admin_bar', array( $this, 'woocommerce_disable_backend_access' ) );
 		add_filter( 'woocommerce_prevent_admin_access', array( $this, 'woocommerce_disable_backend_access' ) );
+		add_filter( 'enter_title_here', array( $this, 'change_add_title_for_awsm_job_openings' ), 10, 2 );
 	}
 
 	public static function init() {
@@ -106,7 +107,7 @@ class AWSM_Job_Openings_Core {
 					'with_front' => $with_front,
 				),
 				'capability_type' => 'job',
-				'menu_icon'       => esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/nav-icon.svg' ),
+				'menu_icon'       => esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/hirezoot-icon.svg' ),
 				'supports'        => $supports,
 			)
 		);
@@ -117,6 +118,8 @@ class AWSM_Job_Openings_Core {
 			return;
 		}
 
+		$application_count = $this->get_unviewed_applications_count();
+
 		$labels = array(
 			'name'               => __( 'Applications', 'wp-job-openings' ),
 			'singular_name'      => __( 'Application', 'wp-job-openings' ),
@@ -125,6 +128,13 @@ class AWSM_Job_Openings_Core {
 			'search_items'       => __( 'Search Applications', 'wp-job-openings' ),
 			'not_found'          => __( 'No Applications found', 'wp-job-openings' ),
 			'not_found_in_trash' => __( 'No Applications found in Trash', 'wp-job-openings' ),
+			'all_items'          => ( $application_count && ! current_user_can( 'hiring_panelist' ) )
+			? sprintf(
+			/* translators: Number of applications */
+				__( 'Applications %s', 'wp-job-openings' ),
+				'<span class="update-plugins">' . $application_count . '</span>'
+			)
+			: __( 'Applications', 'wp-job-openings' ),
 		);
 
 		/**
@@ -152,6 +162,50 @@ class AWSM_Job_Openings_Core {
 		);
 
 		register_post_type( 'awsm_job_application', $args );
+	}
+
+	public static function get_unviewed_applications_count() {
+		global $wpdb;
+
+		// When no user is logged in (e.g. cron/email digest), use full counts.
+		$no_user = 0 === get_current_user_id();
+		if ( ! $no_user && ! current_user_can( 'edit_applications' ) ) {
+			return 0;
+		}
+
+		$author_join  = '';
+		$author_where = '';
+
+		if ( ! $no_user && ! current_user_can( 'edit_others_applications' ) ) {
+			// Limit to unread applications for jobs owned by the current user.
+			$author_join  = " INNER JOIN {$wpdb->posts} j ON p.post_parent = j.ID AND j.post_type = 'awsm_job_openings'";
+			$author_where = $wpdb->prepare( ' AND j.post_author = %d', get_current_user_id() );
+		}
+
+		// Only count applications explicitly marked as unread ('0').
+		// Old applications without this meta (NULL) are treated as viewed — not counted.
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$count = $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT COUNT(DISTINCT p.ID)
+				FROM {$wpdb->posts} p
+				INNER JOIN {$wpdb->postmeta} pm
+					ON pm.post_id = p.ID
+					AND pm.meta_key = %s
+					AND pm.meta_value = %s
+				{$author_join}
+				WHERE p.post_type = %s
+				AND p.post_status = %s
+				{$author_where}",
+				'awsm_application_viewed',
+				'0',
+				'awsm_job_application',
+				'publish'
+			)
+		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+
+		return apply_filters( 'awsm_unviewed_applications_count', (int) $count );
 	}
 
 	private function get_caps() {
@@ -195,7 +249,7 @@ class AWSM_Job_Openings_Core {
 			'administrator' => array_merge( $caps['level_1'], $caps['level_2'], $caps['level_3'], $caps['level_4'] ),
 			'editor'        => array_merge( $caps['level_1'], $caps['level_2'], $caps['level_3'] ),
 			'author'        => array_merge( $caps['level_1'], $caps['level_2'] ),
-			'contributor'   => $caps['level_1'],
+			// 'contributor'   => $caps['level_1'],
 		);
 		foreach ( $role_caps as $slug => $current_caps ) {
 			$role = get_role( $slug );
@@ -427,5 +481,12 @@ class AWSM_Job_Openings_Core {
 			$disable = false;
 		}
 		return $disable;
+	}
+
+	public function change_add_title_for_awsm_job_openings( $title, $post ) {
+		if ( $post->post_type === 'awsm_job_openings' ) {
+			$title = 'Add Job Title';
+		}
+		return $title;
 	}
 }

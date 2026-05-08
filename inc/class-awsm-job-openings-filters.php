@@ -225,7 +225,8 @@ class AWSM_Job_Openings_Filters {
 				if ( $enable_search === 'enable' ) {
 					$toggle_text_wrapper_class .= ' awsm-sr-only';
 				}
-				$toggle_control = sprintf( '<span class="%2$s">%1$s</span>%3$s', esc_html_x( 'Filter by', 'job filter', 'wp-job-openings' ), esc_attr( $toggle_text_wrapper_class ), $toggle_icon );
+				$toggle_filter_by_text = apply_filters( 'awsm_jobs_filter_toggle_text', _x( 'Filter by', 'job filter', 'wp-job-openings' ) );
+				$toggle_control        = sprintf( '<span class="%2$s">%1$s</span>%3$s', esc_html( $toggle_filter_by_text ), esc_attr( $toggle_text_wrapper_class ), $toggle_icon );
 				/**
 				 * Filters the HTML content for the specifications toggle button.
 				 *
@@ -293,8 +294,12 @@ class AWSM_Job_Openings_Filters {
 			$shortcode_atts['listings'] = intval( $_POST['listings_per_page'] );
 		}
 
+		if ( isset( $_POST['loadmore'] ) && $_POST['loadmore'] === 'no' ) {
+			$shortcode_atts['loadmore'] = 'no';
+		}
+
 		if ( isset( $_POST['lang'] ) ) {
-			AWSM_Job_Openings::set_current_language( $_POST['lang'] );
+			AWSM_Job_Openings::set_current_language( sanitize_text_field( wp_unslash( $_POST['lang'] ) ) );
 		}
 
 		if ( isset( $_POST['awsm_pagination_base'] ) ) {

@@ -47,7 +47,7 @@ class AWSM_Job_Openings_Overview {
 
 	public function admin_menu() {
 		$wp_version = get_bloginfo( 'version' );
-		$page_title = esc_html__( 'WP Job Openings - Overview', 'wp-job-openings' );
+		$page_title = esc_html__( 'Hirezoot - Overview', 'wp-job-openings' );
 		$menu_title = esc_html__( 'Overview', 'wp-job-openings' );
 		if ( version_compare( $wp_version, '5.3', '>=' ) ) {
 			add_submenu_page( 'edit.php?post_type=awsm_job_openings', $page_title, $menu_title, 'edit_jobs', self::$menu_slug, array( $this, 'overview_page' ), 0 );
@@ -57,6 +57,12 @@ class AWSM_Job_Openings_Overview {
 	}
 
 	public function overview_page() {
+		$jobs = self::get_jobs(
+			array(
+				'numberjobs' => 7,
+				'job_status' => 'publish',
+			)
+		);
 		include_once $this->cpath . '/templates/overview/main.php';
 	}
 
@@ -67,6 +73,7 @@ class AWSM_Job_Openings_Overview {
 			exit;
 		}
 	}
+
 
 	public function register_overview_widgets() {
 		$widgets = array(
@@ -140,6 +147,7 @@ class AWSM_Job_Openings_Overview {
 		printf( '<div class="awsm-jobs-overview-widget-wrapper"><div class="awsm-jobs-pro-feature"><img src="%2$s"><p>%1$s</p></div></div>', $pro_link, esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/applications-by-status-chart.png' ) );
 	}
 
+
 	public function open_positions_widget() {
 		$widget_id = 'open-positions';
 		$jobs      = self::get_jobs(
@@ -176,8 +184,21 @@ class AWSM_Job_Openings_Overview {
 		$parsed_args = apply_filters( 'awsm_overview_jobs_args', $parsed_args, $defaults );
 
 		$values = array();
-		$join   = "LEFT JOIN {$wpdb->posts} AS applications ON {$wpdb->posts}.ID = applications.post_parent AND applications.post_type = 'awsm_job_application'";
-		$where  = 'WHERE 1=1';
+
+		// Build application join respecting user capabilities.
+		if ( current_user_can( 'edit_others_applications' ) ) {
+			// Count all non-trashed applications.
+			$join = "LEFT JOIN {$wpdb->posts} AS applications ON {$wpdb->posts}.ID = applications.post_parent AND applications.post_type = 'awsm_job_application' AND applications.post_status != 'trash'";
+		} elseif ( current_user_can( 'edit_applications' ) ) {
+			// Count applications only for jobs authored by the current user.
+			$current_user_id = (int) get_current_user_id();
+			$join            = "LEFT JOIN {$wpdb->posts} AS applications ON {$wpdb->posts}.ID = applications.post_parent AND applications.post_type = 'awsm_job_application' AND applications.post_status != 'trash' AND {$wpdb->posts}.post_author = {$current_user_id}";
+		} else {
+			// No application access — always count as 0.
+			$join = "LEFT JOIN {$wpdb->posts} AS applications ON 1=0";
+		}
+
+		$where = 'WHERE 1=1';
 		if ( isset( $parsed_args['tax_query'] ) && is_array( $parsed_args['tax_query'] ) ) {
 			$in       = array();
 			$term_ids = array();
@@ -211,7 +232,7 @@ class AWSM_Job_Openings_Overview {
 					}
 					$in     = implode( ',', $in );
 					$where .= " AND tt{$index}.term_taxonomy_id IN({$in})";
-					$index++;
+					++$index;
 				}
 			}
 		}
@@ -251,10 +272,11 @@ class AWSM_Job_Openings_Overview {
 		return apply_filters( 'awsm_overview_jobs', $results, $parsed_args );
 	}
 
-	public static function get_jobs_by_author( $numberjobs = 10 ) {
+	public static function get_jobs_by_author( $numberjobs = 7 ) {
 		$args = array(
 			'numberjobs' => $numberjobs,
 			'author_id'  => get_current_user_id(),
+			'job_status' => 'publish',
 		);
 		return self::get_jobs( $args );
 	}
@@ -287,7 +309,7 @@ class AWSM_Job_Openings_Overview {
 				$count                 = 1;
 				if ( isset( $data[ $key ]['count'] ) ) {
 					$count = $data[ $key ]['count'];
-					$count++;
+					++$count;
 				}
 				$data[ $key ]['count'] = $count;
 			}

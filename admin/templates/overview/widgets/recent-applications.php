@@ -36,7 +36,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<tr>
 							<td>
 								<div class="awsm-jobs-overview-applicant">
-							<?php echo $avatar; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+									<?php echo $avatar; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 									<div class="awsm-jobs-overview-applicant-in">
 										<a href="<?php echo esc_url( $edit_link ); ?>"><?php echo esc_html( $application->post_title ); ?></a>
 										<span><?php echo esc_html( $submission_time ); ?></span>
@@ -58,7 +58,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	<?php else : ?>
 			<div class="awsm-jobs-overview-empty-wrapper">
-				<p>📂 <?php esc_html_e( 'Awaiting applications', 'wp-job-openings' ); ?></p>
+				<p><img src="<?php echo esc_url( AWSM_JOBS_PLUGIN_URL . '/assets/img/icon-3.svg' ); ?>" align="Icon"> <?php esc_html_e( 'Awaiting applications', 'wp-job-openings' ); ?></p>
 			</div>
 		<?php
 		endif;

@@ -13,7 +13,6 @@ if ( ! empty( $upload_file_extns ) ) {
 		);
 	}
 }
-
 	/**
 	 * Filters the form settings fields.
 	 *
@@ -39,7 +38,7 @@ if ( ! empty( $upload_file_extns ) ) {
 							'text'  => __( 'Plugin Based', 'wp-job-openings' ),
 						),
 					),
-					'default_value' => 'theme',
+					'default_value' => 'plugin',
 				),
 				array(
 					'visible'     => awsm_jobs_is_akismet_active(),

@@ -31,9 +31,12 @@ class AWSM_Job_Openings_Form {
 		add_action( 'before_awsm_job_details', array( $this, 'insert_application' ) );
 		add_action( 'wp_ajax_awsm_applicant_form_submission', array( $this, 'ajax_handle' ) );
 		add_action( 'wp_ajax_nopriv_awsm_applicant_form_submission', array( $this, 'ajax_handle' ) );
+		add_action( 'awsm_job_application_submitted', array( $this, 'set_application_viewed_status' ) );
 
 		add_filter( 'wp_check_filetype_and_ext', array( $this, 'check_filetype_and_ext' ), 10, 5 );
 		add_action( 'add_attachment', array( $this, 'add_index_php_to_folders' ) );
+
+		$this->init_no_conflict_mode();
 	}
 
 	public static function init() {
@@ -98,7 +101,7 @@ class AWSM_Job_Openings_Form {
 			),
 
 			'awsm_applicant_letter' => array(
-				'label'      => __( 'Cover Letter', 'wp-job-openings' ),
+				'label'      => __( 'Bio', 'wp-job-openings' ),
 				'field_type' => array(
 					'tag' => 'textarea',
 				),
@@ -130,6 +133,7 @@ class AWSM_Job_Openings_Form {
 		$form_fields = apply_filters( 'awsm_application_form_fields', $default_form_fields, $form_attrs );
 		return $form_fields;
 	}
+
 
 	public function display_dynamic_fields( $form_attrs ) {
 		$dynamic_form_fields = $this->dynamic_form_fields( $form_attrs );
@@ -174,10 +178,8 @@ class AWSM_Job_Openings_Form {
 					$common_attrs = sprintf( 'name="%1$s" class="%2$s" id="%3$s"%4$s', esc_attr( $field_name ), esc_attr( $field_class ), esc_attr( $field_id ), $required_attr . $data_required . $data_error_msg );
 					if ( $input_type === 'file' ) {
 						$common_attrs .= isset( $field_args['field_type']['accept'] ) ? sprintf( ' accept="%s"', esc_attr( $field_args['field_type']['accept'] ) ) : '';
-					} else {
-						if ( $tag !== 'textarea' && $tag !== 'select' ) {
+					} elseif ( $tag !== 'textarea' && $tag !== 'select' ) {
 							$common_attrs .= isset( $field_args['field_type']['value'] ) ? sprintf( ' value="%s"', esc_attr( $field_args['field_type']['value'] ) ) : '';
-						}
 					}
 
 					$field_content = $label_content = ''; // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
@@ -204,7 +206,7 @@ class AWSM_Job_Openings_Form {
 										$current_field_id = esc_attr( $field_id . '_' . $id_suffix );
 										$common_attrs     = sprintf( 'name="%1$s" class="%2$s" id="%3$s"%4$s', esc_attr( $field_name . $name_suffix ), esc_attr( $field_class ), $current_field_id, $required_attr . $data_required . $data_error_msg );
 										$options_content .= sprintf( '<span><input type="%s" value="%s" %s /> <label for="%s">%s</label></span>', esc_attr( $input_type ), esc_attr( $option ), $common_attrs, $current_field_id, esc_html( $option ) );
-										$id_suffix ++;
+										++$id_suffix;
 									}
 									$field_content .= sprintf( '<div class="awsm-job-form-options-container">%s</div>', $options_content );
 								}
@@ -339,7 +341,6 @@ class AWSM_Job_Openings_Form {
 		} else {
 			$this->display_recaptcha_field( $form_attrs );
 		}
-
 	}
 
 	public function check_filetype_and_ext( $wp_filetype, $file, $filename, $mimes, $real_mime = '' ) {
@@ -382,7 +383,7 @@ class AWSM_Job_Openings_Form {
 				$directory_path = dirname( $file_path );
 				$index_php_file = $directory_path . '/index.php';
 				if ( ! file_exists( $index_php_file ) ) {
-					$index_php_content = '<?php\n\n//Silence is golden.\n';
+					$index_php_content = "<?php\n\n//Silence is golden.\n";
 					file_put_contents( $index_php_file, $index_php_content );
 				}
 			}
@@ -409,13 +410,12 @@ class AWSM_Job_Openings_Form {
 	public function set_form_language() {
 		// phpcs:disable WordPress.Security.NonceVerification.Missing
 		if ( isset( $_POST['lang'] ) ) {
-			AWSM_Job_Openings::set_current_language( $_POST['lang'] );
+			AWSM_Job_Openings::set_current_language( sanitize_text_field( wp_unslash( $_POST['lang'] ) ) );
 		}
 		// phpcs:enable
 	}
 
 	public function insert_application() {
-		// phpcs:disable WordPress.Security.NonceVerification.Missing
 		global $awsm_response;
 
 		$awsm_response = array(
@@ -424,6 +424,9 @@ class AWSM_Job_Openings_Form {
 		);
 
 		if ( $_SERVER['REQUEST_METHOD'] === 'POST' && ! empty( $_POST['action'] ) && $_POST['action'] === 'awsm_applicant_form_submission' ) {
+			if ( ! isset( $_POST['awsm_nonce'] ) || ! wp_verify_nonce( sanitize_key( $_POST['awsm_nonce'] ), 'awsm_application_nonce' ) ) {
+				wp_send_json_error( array( 'message' => esc_html__( 'Security check failed. Please refresh the page and try again.', 'wp-job-openings' ) ) );
+			}
 			$job_id               = intval( $_POST['awsm_job_id'] );
 			$job_status           = get_post_status( $job_id );
 			$applicant_name       = sanitize_text_field( wp_unslash( $_POST['awsm_applicant_name'] ) );
@@ -468,17 +471,13 @@ class AWSM_Job_Openings_Form {
 			}
 			if ( empty( $applicant_email ) ) {
 				$awsm_response['error'][] = esc_html__( 'Email is required.', 'wp-job-openings' );
-			} else {
-				if ( ! filter_var( $applicant_email, FILTER_VALIDATE_EMAIL ) ) {
+			} elseif ( ! filter_var( $applicant_email, FILTER_VALIDATE_EMAIL ) ) {
 					$awsm_response['error'][] = esc_html__( 'Invalid email format.', 'wp-job-openings' );
-				}
 			}
 			if ( empty( $applicant_phone ) ) {
 				$awsm_response['error'][] = esc_html__( 'Contact number is required.', 'wp-job-openings' );
-			} else {
-				if ( ! preg_match( '%^[+]?[0-9()/ -]*$%', trim( $applicant_phone ) ) ) {
+			} elseif ( ! preg_match( '%^[+]?[0-9()/ -]*$%', trim( $applicant_phone ) ) ) {
 					$awsm_response['error'][] = esc_html__( 'Invalid phone number.', 'wp-job-openings' );
-				}
 			}
 			if ( empty( $applicant_letter ) ) {
 				$awsm_response['error'][] = esc_html__( 'Cover Letter cannot be empty.', 'wp-job-openings' );
@@ -547,11 +546,23 @@ class AWSM_Job_Openings_Form {
 						$attach_id       = wp_insert_attachment( $attachment_data, $movefile['file'], $application_id, true );
 
 						if ( ! is_wp_error( $attach_id ) ) {
+							// Generate attachment metadata
 							$attach_data = wp_generate_attachment_metadata( $attach_id, $movefile['file'] );
 							wp_update_attachment_metadata( $attach_id, $attach_data );
+
+							// Save the actual file name as a meta field for the attachment
+							$original_file_name = isset( $attachment['name'] ) ? sanitize_text_field( $attachment['name'] ) : '';
+
+							if ( ! empty( $original_file_name ) ) {
+								update_post_meta( $attach_id, 'awsm_actual_file_name', $original_file_name );
+								$updated_meta = get_post_meta( $attach_id, 'awsm_actual_file_name', true );
+
+							}
+
+							// Add the applicant details as meta data
 							$applicant_details = array(
 								'awsm_job_id'           => $job_id,
-								'awsm_apply_for'        => html_entity_decode( esc_html( get_the_title( $job_id ) ) ),
+								'awsm_apply_for'        => html_entity_decode( get_the_title( $job_id ) ),
 								'awsm_applicant_ip'     => isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( $_SERVER['REMOTE_ADDR'] ) : '',
 								'awsm_applicant_name'   => $applicant_name,
 								'awsm_applicant_email'  => $applicant_email,
@@ -562,9 +573,11 @@ class AWSM_Job_Openings_Form {
 							if ( ! empty( $agree_privacy_policy ) ) {
 								$applicant_details['awsm_agree_privacy_policy'] = $agree_privacy_policy;
 							}
+
 							foreach ( $applicant_details as $meta_key => $meta_value ) {
 								update_post_meta( $application_id, $meta_key, $meta_value );
 							}
+
 							// Now, send notification email
 							$applicant_details['application_id'] = $application_id;
 							$this->notification_email( $applicant_details );
@@ -645,6 +658,11 @@ class AWSM_Job_Openings_Form {
 		return $is_valid;
 	}
 
+
+	public function set_application_viewed_status( $application_id ) {
+		update_post_meta( $application_id, 'awsm_application_viewed', '0' );
+	}
+
 	public function ajax_handle() {
 		$response = $this->insert_application();
 		wp_send_json( $response );
@@ -658,12 +676,10 @@ class AWSM_Job_Openings_Form {
 		if ( ! empty( $awsm_response['success'] ) ) {
 			$msg_array  = $awsm_response['success'];
 			$class_name = 'awsm-success-message';
-		} else {
-			if ( ! empty( $awsm_response['error'] ) ) {
+		} elseif ( ! empty( $awsm_response['error'] ) ) {
 				$msg_array  = $awsm_response['error'];
 				$class_name = 'awsm-error-message';
 				$content   .= '<p>' . esc_html__( 'The following errors have occurred:', 'wp-job-openings' ) . '</p>';
-			}
 		}
 		foreach ( $msg_array as $msg ) {
 			$content .= '<li>' . esc_html( $msg ) . '</li>';
@@ -712,7 +728,7 @@ class AWSM_Job_Openings_Form {
 			'enable'  => 'enable',
 			'to'      => '{author-email}',
 			'subject' => 'Job Listing Expired',
-			'content' => "This email is to notify you that your job listing for [{job-title}] has just expired. As a result, applicants will no longer be able to apply for this position.\n\nIf you would like to extend the expiration date or remove the listing, please log in to the dashboard and take the necessary steps.\n\nPowered by WP Job Openings Plugin",
+			'content' => "This email is to notify you that your job listing for [{job-title}] has just expired. As a result, applicants will no longer be able to apply for this position.\n\nIf you would like to extend the expiration date or remove the listing, please log in to the dashboard and take the necessary steps.\n\nPowered by Hirezoot Plugin",
 		);
 		return $options;
 	}
@@ -886,7 +902,22 @@ class AWSM_Job_Openings_Form {
 					}
 
 					$mail_content = AWSM_Job_Openings_Mail_Customizer::sanitize_content( $options['content'] );
-					if ( stripos( $mail_content, '</table>' ) === false ) {
+					if ( preg_match( '/<[a-z][^>]*>/i', $mail_content ) ) {
+						// Content has HTML - apply nl2br only to non-whitespace text nodes,
+						// preserving all HTML tags (p, ul, li, strong, etc.) as-is.
+						$mail_content = preg_replace_callback(
+							'/(<[^>]+>|[^<]+)/s',
+							function ( $matches ) {
+								$chunk = $matches[0];
+								// Return HTML tags and whitespace-only gaps between tags as-is.
+								if ( empty( $chunk ) || '<' === $chunk[0] || '' === trim( $chunk ) ) {
+									return $chunk;
+								}
+								return nl2br( $chunk );
+							},
+							$mail_content
+						);
+					} else {
 						$mail_content = nl2br( $mail_content );
 					}
 
@@ -979,7 +1010,7 @@ class AWSM_Job_Openings_Form {
 						}
 
 						/**
-						 * Fires when applicant or admin notification mail is successfully sent.
+						 * Fires when applicant or admin notification mail is successfully .
 						 *
 						 * @since 1.4
 						 *
@@ -1235,7 +1266,7 @@ class AWSM_Job_Openings_Form {
 		if ( ! empty( $script['async'] ) ) {
 			add_filter(
 				'script_loader_tag',
-				function( $tag, $handle, $src ) use ( $config ) {
+				function ( $tag, $handle, $src ) use ( $config ) {
 					$captcha_handles = array();
 
 					foreach ( $config as $captcha_type => $captcha_config ) {
@@ -1726,5 +1757,18 @@ class AWSM_Job_Openings_Form {
 		}
 		add_action( 'wp_enqueue_scripts', array( $this, 'dequeue_conflicting_captcha_scripts' ), 9999 );
 		add_action( 'wp_print_scripts', array( $this, 'dequeue_conflicting_captcha_scripts' ), 9999 );
+	}
+
+	public function get_attachment_label( $applicant_job_id = null ) {
+
+		if ( has_filter( 'awsm_jobs_application_attachment_label' ) ) {
+			$filtered_label = apply_filters( 'awsm_jobs_application_attachment_label', $applicant_job_id );
+
+			if ( $filtered_label !== null ) {
+				return $filtered_label;
+			}
+		}
+		$form_fields = $this->dynamic_form_fields( $applicant_job_id );
+		return isset( $form_fields['awsm_file']['label'] ) ? $form_fields['awsm_file']['label'] : __( 'Upload CV/Resume', 'wp-job-openings' );
 	}
 }

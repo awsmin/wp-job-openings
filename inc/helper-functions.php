@@ -76,10 +76,8 @@ if ( ! function_exists( 'awsm_jobs_get_original_image_url' ) ) {
 		$image_url = false;
 		if ( function_exists( 'wp_get_original_image_url' ) ) {
 			$image_url = wp_get_original_image_url( $attachment_id );
-		} else {
-			if ( wp_attachment_is_image( $attachment_id ) ) {
+		} elseif ( wp_attachment_is_image( $attachment_id ) ) {
 				$image_url = wp_get_attachment_url( $attachment_id );
-			}
 		}
 		return $image_url;
 	}

@@ -42,7 +42,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 				'awsm_jobs_spec_terms_args',
 				array(
 					'taxonomy'   => $spec,
-					'orderby'    => 'name',
+					'orderby'    => 'meta_value_num',
+					'meta_query' => array(
+						'relation' => 'OR',
+						array(
+							'key'     => 'term_order',
+							'compare' => 'EXISTS',
+						),
+						array(
+							'key'     => 'term_order',
+							'compare' => 'NOT EXISTS',
+						),
+					),
+					'order'      => 'ASC',
 					'hide_empty' => false,
 				)
 			);

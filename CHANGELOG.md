@@ -1,5 +1,26 @@
 ## Changelog
 
+### V 4.0.0 - 2026-05-06
+
+* Added: Block - Multi-select filters for job listings.
+* Added: Block - Sidebar filter placement and stack layout option.
+* Added: Block - Job sorting (Order By) support.
+* Added: Block - Job spec icons with enable/disable option.
+* Added: Block - Style tab with styling controls (colors, borders, padding, radius, buttons, background).
+* Added: Block - Nonce-based CSRF protection for block filter and load-more AJAX requests.
+* Added: Quick edit option for jobs.
+* Added: Filter applications by date range.
+* Added: Unread applications count display.
+* Added: Overview page add-on widget.
+* Added: Resume preview and CC field for applicant notifications.
+* Improved: Admin UI and application management experience.
+* Improved: Restore applications from trash to previous status.
+* Improved: Highlight applications in admin lists.
+* Improved: Reordering of specs from settings.
+* Improved: Overview page analytics filter default selection.
+* Fixed: Trashed applications count not updating.
+* Updated: Default settings for layout, listings per page, and job search (new installations only).
+
 ### V 3.6.0 - 2026-02-09
 * Added: New CAPTCHA options, reCAPTCHA v2 (Invisible), hCaptcha, and Cloudflare Turnstile.
 * Minor bug fixes and code improvements.

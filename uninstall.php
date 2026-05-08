@@ -9,7 +9,7 @@ if ( get_option( 'awsm_delete_data_on_uninstall' ) !== 'delete_data' ) {
 	return;
 }
 
-require_once dirname( __FILE__ ) . '/inc/class-awsm-job-openings-uninstall.php';
+require_once __DIR__ . '/inc/class-awsm-job-openings-uninstall.php';
 
 if ( class_exists( 'AWSM_Job_Openings_Uninstall' ) ) {
 	AWSM_Job_Openings_Uninstall::uninstall();
