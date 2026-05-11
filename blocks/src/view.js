@@ -149,7 +149,6 @@ jQuery( function ( $ ) {
 		const other_options = $wrapper.data( "awsm-other-options" );
 		const show_spec_icon = $wrapper.data( "awsm-spec-icons" );
 		const order_by = $wrapper.data( "awsm-order-by" );
-		const selected_terms = $wrapper.data( "awsmSelectedTerms" );
 
 		/* Filter URL sync logic */
 		$rootWrapper.find( ".awsm-b-filter-item" ).each( function () {
@@ -204,18 +203,6 @@ jQuery( function ( $ ) {
 				name: "awsm-order-by",
 				value: order_by
 			} );
-		}
-
-		// Send block-configured selected_terms so the AJAX handler can apply the
-		// pre-filter even when filter dropdowns are disabled (search-only config).
-		if ( selected_terms ) {
-			const stValue =
-				typeof selected_terms === "string"
-					? selected_terms
-					: JSON.stringify( selected_terms );
-			if ( stValue && stValue !== "{}" && stValue !== "[]" ) {
-				formData.push( {name: "awsm_selected_terms", value: stValue} );
-			}
 		}
 
 		const listingsData = getListingsData( $wrapper );
@@ -448,7 +435,7 @@ jQuery( function ( $ ) {
 						forceAllLabel( $select );
 					}
 
-					// Sync URL for pre-selected values on page load (from block selected_terms or URL params).
+					// Sync URL for pre-selected values on page load (from URL params).
 					const $rootWrapper = $select.closest( rootWrapperSelector );
 					const currentSpec = $select.closest( ".awsm-b-filter-item" ).data( "filter" );
 					if ( currentSpec ) {
@@ -742,30 +729,7 @@ jQuery( function ( $ ) {
 				wpData = $filterOption.serializeArray();
 			}
 
-			const specsList = {};
-			$filterForm.find( ".awsm-filter-checkbox:checked" ).each( function () {
-				const $checkbox = $( this );
-				const taxonomy = $checkbox.data( "taxonomy" ); // Get taxonomy from data attribute
-				const termId = $checkbox.data( "term-id" ); // Get term ID from data attribute
-
-				if ( taxonomy && termId ) {
-					if ( ! specsList[ taxonomy ] ) {
-						specsList[ taxonomy ] = []; // Initialize array for this taxonomy
-					}
-					specsList[ taxonomy ].push( termId ); // Add term ID to the array
-				}
-			} );
-
-			for ( var taxonomy in specsList ) {
-				if ( specsList.hasOwnProperty( taxonomy ) ) {
-					specsList[ taxonomy ].forEach( function ( termId ) {
-						wpData.push( {
-							name: `awsm_job_specs_list[${ taxonomy }][]`, // Add taxonomy as part of the key
-							value: termId
-						} );
-					} );
-				}
-			}
+			$( document ).trigger( "awsm_block_collect_checkbox_filters", [ wpData, $filterForm ] );
 
 			if ( ! isDefaultPagination ) {
 				let paginationBaseURL = $triggerElem.attr( "href" );
@@ -874,17 +838,6 @@ jQuery( function ( $ ) {
 					name: "awsm-order-by",
 					value: order_by
 				} );
-			}
-
-			const selected_terms_lm = $listingsContainer.data( "awsmSelectedTerms" );
-			if ( selected_terms_lm ) {
-				const stValueLm =
-					typeof selected_terms_lm === "string"
-						? selected_terms_lm
-						: JSON.stringify( selected_terms_lm );
-				if ( stValueLm && stValueLm !== "{}" && stValueLm !== "[]" ) {
-					wpData.push( {name: "awsm_selected_terms", value: stValueLm} );
-				}
 			}
 
 			if ( typeof lang !== "undefined" ) {
