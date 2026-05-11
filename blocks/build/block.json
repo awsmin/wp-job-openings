@@ -205,6 +205,20 @@
         "right": "20px",
         "bottom": "20px",
         "left": "20px"
+      },
+      "properties": {
+        "top": {
+          "type": "string"
+        },
+        "right": {
+          "type": "string"
+        },
+        "bottom": {
+          "type": "string"
+        },
+        "left": {
+          "type": "string"
+        }
       }
     },
     "hz_sf_background_color": {

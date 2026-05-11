@@ -320,7 +320,10 @@ a.awsm-b-job-item {
 .awsm-b-load-more-classic a.page-numbers {
 	display: block;
 	text-align: center;
-	padding: var(--hz-pagination-padding-top, 20px) var(--hz-pagination-padding-right, 20px) var(--hz-pagination-padding-bottom, 20px) var(--hz-pagination-padding-left, 20px);
+	padding-top: var(--hz-pagination-padding-top, 20px);
+	padding-right: var(--hz-pagination-padding-right, 20px);
+	padding-bottom: var(--hz-pagination-padding-bottom, 20px);
+	padding-left: var(--hz-pagination-padding-left, 20px);
 	background-color: var(--hz-pagination-bg-color, #fff);
 	box-shadow: 0 1px 4px 0 rgb(0 0 0 / 5%);
 	margin: 0 !important;
@@ -342,7 +345,10 @@ a.awsm-b-job-item {
 
 .awsm-b-load-more-classic a.page-numbers,
 .awsm-b-load-more-classic span.page-numbers {
-	padding: 5px 10px;
+	padding-top: var(--hz-pagination-padding-top, 5px);
+	padding-right: var(--hz-pagination-padding-right, 10px);
+	padding-bottom: var(--hz-pagination-padding-bottom, 5px);
+	padding-left: var(--hz-pagination-padding-left, 10px);
 	font-size: 90%;
 }
 

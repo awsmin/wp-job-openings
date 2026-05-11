@@ -72,6 +72,7 @@ class AWSM_Job_Openings_Block {
 			'hz_pagination_border_radius'    => isset( $blockatts['hz_pagination_border_radius'] ) ? $blockatts['hz_pagination_border_radius'] : array(),
 			'hz_pagination_border_color'     => isset( $blockatts['hz_pagination_border']['color'] ) ? $blockatts['hz_pagination_border']['color'] : '',
 			'hz_pagination_border_width'     => isset( $blockatts['hz_pagination_border']['width'] ) ? $blockatts['hz_pagination_border']['width'] : '',
+			'hz_pagination_padding'          => isset( $blockatts['hz_pagination_padding'] ) ? $blockatts['hz_pagination_padding'] : array(),
 			'hz_sf_background_color'         => isset( $blockatts['hz_sf_background_color'] ) ? $blockatts['hz_sf_background_color'] : '',
 			'hz_sf_text_color'               => isset( $blockatts['hz_sf_text_color'] ) ? $blockatts['hz_sf_text_color'] : '',
 			'hz_jl_background_color'         => isset( $blockatts['hz_jl_background_color'] ) ? $blockatts['hz_jl_background_color'] : '',
