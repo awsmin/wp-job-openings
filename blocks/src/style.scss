@@ -320,7 +320,7 @@ a.awsm-b-job-item {
 .awsm-b-load-more-classic a.page-numbers {
 	display: block;
 	text-align: center;
-	padding: 20px;
+	padding: var(--hz-pagination-padding-top, 20px) var(--hz-pagination-padding-right, 20px) var(--hz-pagination-padding-bottom, 20px) var(--hz-pagination-padding-left, 20px);
 	background-color: var(--hz-pagination-bg-color, #fff);
 	box-shadow: 0 1px 4px 0 rgb(0 0 0 / 5%);
 	margin: 0 !important;

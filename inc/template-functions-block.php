@@ -473,6 +473,18 @@ if ( ! function_exists( 'hz_get_ui_styles' ) ) {
 			'padding_bottom_button'                => ! empty( $attributes['hz_bs_padding']['bottom'] )
 				? hz_append_unit_if_missing( $attributes['hz_bs_padding']['bottom'] )
 				: '13px',
+			'padding_top_pagination'               => ! empty( $attributes['hz_pagination_padding']['top'] )
+				? hz_append_unit_if_missing( $attributes['hz_pagination_padding']['top'] )
+				: '20px',
+			'padding_right_pagination'             => ! empty( $attributes['hz_pagination_padding']['right'] )
+				? hz_append_unit_if_missing( $attributes['hz_pagination_padding']['right'] )
+				: '20px',
+			'padding_bottom_pagination'            => ! empty( $attributes['hz_pagination_padding']['bottom'] )
+				? hz_append_unit_if_missing( $attributes['hz_pagination_padding']['bottom'] )
+				: '20px',
+			'padding_left_pagination'              => ! empty( $attributes['hz_pagination_padding']['left'] )
+				? hz_append_unit_if_missing( $attributes['hz_pagination_padding']['left'] )
+				: '20px',
 		);
 
 		return apply_filters( 'hz_ui_styles', $styles, $attributes );

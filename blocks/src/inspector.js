@@ -79,6 +79,7 @@ const WidgetInspectorControls = props => {
 			hz_pagination_text_color,
 			hz_pagination_border = {},
 			hz_pagination_border_radius,
+			hz_pagination_padding,
 			hz_sf_background_color,
 			hz_sf_text_color,
 			hz_jl_background_color,
@@ -941,6 +942,16 @@ const WidgetInspectorControls = props => {
 									} else {
 										setAttributes( {hz_pagination_border_radius: newRadius} );
 									}
+								} }
+							/>
+
+							<Spacer marginBottom={ 4 } />
+
+							<BoxControl
+								label={ __( "Padding", "wp-job-openings" ) }
+								values={ hz_pagination_padding }
+								onChange={ Padding => {
+									setAttributes( {hz_pagination_padding: Padding} );
 								} }
 							/>
 

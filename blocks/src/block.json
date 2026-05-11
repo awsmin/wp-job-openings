@@ -198,6 +198,15 @@
 				"bottomRight": "5px"
 			}
 		},
+		"hz_pagination_padding": {
+			"type": "object",
+			"default": {
+				"top": "20px",
+				"right": "20px",
+				"bottom": "20px",
+				"left": "20px"
+			}
+		},
 		"hz_sf_background_color": {
 			"type": "string"
 		},

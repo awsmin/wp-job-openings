@@ -83,6 +83,10 @@ $block_style_variables = "
 		--hz-pagination-border-radius-topright: {$styles['pagination_border_radius_topright']};
 		--hz-pagination-border-radius-bottomright: {$styles['pagination_border_radius_bottomright']};
 		--hz-pagination-border-radius-bottomleft: {$styles['pagination_border_radius_bottomleft']};
+		--hz-pagination-padding-top: {$styles['padding_top_pagination']};
+		--hz-pagination-padding-right: {$styles['padding_right_pagination']};
+		--hz-pagination-padding-bottom: {$styles['padding_bottom_pagination']};
+		--hz-pagination-padding-left: {$styles['padding_left_pagination']};
 
 		" . ( ! empty( $styles['sf_background_color'] ) ? "--hz-sf-bg-color: {$styles['sf_background_color']};" : '' ) . '
 		' . ( ! empty( $styles['sf_text_color'] ) ? "--hz-sf-tx-color: {$styles['sf_text_color']};" : '' ) . '
