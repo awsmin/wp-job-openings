@@ -389,7 +389,7 @@ class AWSM_Job_Openings {
 				'post_author'  => $user,
 				'post_name'    => 'job-openings',
 				'post_status'  => 'publish',
-				'post_content' => '<p>[awsmjobs]</p>',
+				'post_content' => '<!-- wp:wp-job-openings/blocks /-->',
 				'post_title'   => esc_html__( 'Jobs', 'wp-job-openings' ),
 				'post_type'    => 'page',
 			);
@@ -401,9 +401,12 @@ class AWSM_Job_Openings {
 	}
 
 	public static function add_shortcode_to_page( $page_id ) {
-		$post_content = get_post_field( 'post_content', $page_id );
-		if ( ! has_shortcode( $post_content, 'awsmjobs' ) ) {
-			$post_content .= '<p>[awsmjobs]</p>';
+		$post_content  = get_post_field( 'post_content', $page_id );
+		$block_markup  = '<!-- wp:wp-job-openings/blocks /-->';
+		$has_block     = has_block( 'wp-job-openings/blocks', $post_content );
+		$has_shortcode = has_shortcode( $post_content, 'awsmjobs' );
+		if ( ! $has_block && ! $has_shortcode ) {
+			$post_content .= "\n" . $block_markup;
 		}
 		$page_data = array(
 			'ID'           => $page_id,
