@@ -124,16 +124,12 @@ class AWSM_Job_Openings_Block {
 				$view_class .= ' ' . $column_class;
 				break;
 
-			case 'stack':
-				$view_class .= ' awsm-b-row awsm-list-stacked';
-				break;
-
 			default:
 				$view_class .= ' awsm-b-lists';
 				break;
 		}
 
-		return esc_attr( $view_class );
+		return esc_attr( apply_filters( 'awsm_jobs_block_view_class', $view_class, $view, $attributes ) );
 	}
 
 	public static function is_edit_or_add_page( $type = '' ) {

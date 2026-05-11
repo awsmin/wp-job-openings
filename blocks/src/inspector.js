@@ -91,6 +91,8 @@ const WidgetInspectorControls = props => {
 		setAttributes
 	} = props;
 
+	const isProFeature = ( feature ) => wp.hooks.applyFilters( 'awsm_block_is_pro_feature', false, feature );
+
 	// Local state for block settings
 	const filtersInitRef = useRef( false );
 	const specifications = window.awsmJobsAdmin?.awsm_filters_block || [];
@@ -354,11 +356,15 @@ const WidgetInspectorControls = props => {
 													</Button>
 
 													<Button
-														className={ `filter-btn ${ filterType === "checkbox" ? "is-active" : "" }` }
+														className={ `filter-btn ${ filterType === "checkbox" ? "is-active" : "" }${ ! isProFeature( "multi_select_filter" ) ? " is-pro-locked" : "" }` }
 														__next40pxDefaultSize
-														onClick={ () => setAttributes( { filter_types: { ...filter_types, [ spec.key ]: "checkbox" } } ) }
+														onClick={ () => {
+															if ( ! isProFeature( "multi_select_filter" ) ) return;
+															setAttributes( { filter_types: { ...filter_types, [ spec.key ]: "checkbox" } } );
+														} }
 													>
 														{ __( "Multi Select", "wp-job-openings" ) }
+														{ ! isProFeature( "multi_select_filter" ) && <span className="awsm-pro-badge">Pro</span> }
 													</Button>
 												</div>
 											) }
@@ -383,7 +389,10 @@ const WidgetInspectorControls = props => {
 						<ToggleGroupControl
 							label={ __( "Layout", "wp-job-openings" ) }
 							value={ layout }
-							onChange={ layout => setAttributes( {layout} ) }
+							onChange={ newLayout => {
+								if ( newLayout === "stack" && ! isProFeature( "stack_layout" ) ) return;
+								setAttributes( { layout: newLayout } );
+							} }
 							isBlock
 							__nextHasNoMarginBottom
 							__next40pxDefaultSize
@@ -398,7 +407,11 @@ const WidgetInspectorControls = props => {
 							/>
 							<ToggleGroupControlOption
 								value="stack"
-								label={ __( "Stack", "wp-job-openings" ) }
+								label={
+									! isProFeature( "stack_layout" )
+										? <span>{ __( "Stack", "wp-job-openings" ) }<span className="awsm-pro-badge">Pro</span></span>
+										: __( "Stack", "wp-job-openings" )
+								}
 							/>
 						</ToggleGroupControl>
 
@@ -497,6 +510,7 @@ const WidgetInspectorControls = props => {
 							label={ __( "List Type", "wp-job-openings" ) }
 							value={ list_type }
 							onChange={ newlist_type => {
+								if ( newlist_type === "filtered" && ! isProFeature( "filtered_list" ) ) return;
 								setAttributes( {list_type: newlist_type} );
 
 								// Clear all items in selected_terms if list_type is set to "all"
@@ -521,7 +535,11 @@ const WidgetInspectorControls = props => {
 							/>
 							<ToggleGroupControlOption
 								value="filtered"
-								label={ __( "Filtered List", "wp-job-openings" ) }
+								label={
+									! isProFeature( "filtered_list" )
+										? <span>{ __( "Filtered List", "wp-job-openings" ) }<span className="awsm-pro-badge">Pro</span></span>
+										: __( "Filtered List", "wp-job-openings" )
+								}
 							/>
 						</ToggleGroupControl>
 						<p>
