@@ -56,8 +56,28 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 			<div class="awsm-application-actions <?php echo ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ? 'pro-feature' : ''; ?>">
 				<a class="pro-ft" href="https://wpjobopenings.com/pro-pack/" target="_blank"><?php esc_html_e( 'Pro Features', 'wp-job-openings' ); ?></a>
 				<?php if ( class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) : ?>
-					<?php do_action( 'awsm_application_rating_data' ); ?>
+					<?php
+					/**
+					 * Fires to display the application status pill.
+					 *
+					 * @since 4.1.0
+					 *
+					 * @param int $post_id Application post ID.
+					 */
+					do_action( 'awsm_application_status_pill_data', $post->ID );
+					/**
+					 * Fires to display the application rating.
+					 *
+					 * @since 4.0.0
+					 *
+					 * @param int $post_id Application post ID.
+					 */
+					do_action( 'awsm_application_rating_data' );
+					?>
 				<?php else : ?>
+					<div class="awsm-application-status-pill awsm-application-status-pill-disabled">
+						<span><?php echo esc_html__('New', 'wp-job-openings' ); ?></span>
+					</div>
 					<div class="awsm-application-rating-disabled">
 						<?php
 						wp_star_rating(

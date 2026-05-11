@@ -1613,8 +1613,24 @@ a.awsm-plugin-item p {
 }
 
 .awsm-application-post-status-disabled,
-.awsm-application-rating-disabled {
+.awsm-application-rating-disabled,
+.awsm-application-status-pill-disabled {
 	opacity: 0.5;
+}
+
+.awsm-application-status-pill {
+	display: inline-flex;
+	align-items: center;
+	padding: 4px 10px;
+	border-radius: 100px;
+	border: 1.5px solid #667085;
+	color: #667085;
+	font-size: 12px;
+	font-weight: 500;
+	line-height: 1;
+	white-space: nowrap;
+	background: transparent;
+	cursor: default;
 }
 
 /*--------Rating,Status hover to show pro feature label----------*/
