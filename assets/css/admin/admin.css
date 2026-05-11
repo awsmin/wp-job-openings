@@ -594,6 +594,11 @@ a.awsm-text-red:hover {
 }
 
 .awsm-application-rating-disabled {
+	display: flex;
+	align-items: center;
+}
+
+.awsm-application-rating-pub-section .awsm-application-rating-disabled {
 	flex: 1;
 }
 
@@ -1618,7 +1623,7 @@ a.awsm-plugin-item p {
 	opacity: 0.5;
 }
 
-.awsm-application-status-pill {
+.awsm-application-status-pill-disabled {
 	display: inline-flex;
 	align-items: center;
 	padding: 4px 10px;
@@ -1667,7 +1672,8 @@ a.awsm-plugin-item p {
 
 .awsm-application-actions.pro-feature .pro-ft {
 	left: -90px;
-	top: 8px;
+	top: 50%;
+	transform: translateY(-50%);
 }
 
 .awsm-application-post-status.pro-feature .pro-ft,

@@ -75,7 +75,7 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 					do_action( 'awsm_application_rating_data' );
 					?>
 				<?php else : ?>
-					<div class="awsm-application-status-pill awsm-application-status-pill-disabled">
+					<div class="awsm-application-status-pill-disabled">
 						<span><?php echo esc_html__('New', 'wp-job-openings' ); ?></span>
 					</div>
 					<div class="awsm-application-rating-disabled">
