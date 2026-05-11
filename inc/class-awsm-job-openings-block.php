@@ -796,18 +796,7 @@ class AWSM_Job_Openings_Block {
 
 						$spec_multiple_class = '';
 						$multiple_for_spec   = '';
-						$is_checkbox         = false;
-						if ( isset( $block_atts['filter_types'][ $taxonomy ] ) ) {
-							$is_checkbox = $block_atts['filter_types'][ $taxonomy ] === 'checkbox';
-						} elseif ( isset( $block_atts['filter_options'] ) && is_array( $block_atts['filter_options'] ) ) {
-							foreach ( $block_atts['filter_options'] as $opt ) {
-								if ( is_array( $opt ) && isset( $opt['specKey'] ) && $opt['specKey'] === $taxonomy && ( isset( $opt['value'] ) ? $opt['value'] : '' ) === 'checkbox' ) {
-									$is_checkbox = true;
-									break;
-								}
-							}
-						}
-						if ( $is_checkbox ) {
+						if ( apply_filters( 'awsm_jobs_block_filter_is_multiple', false, $taxonomy, $block_atts ) ) {
 							$spec_multiple_class = 'awsm-b-spec-multiple';
 							$multiple_for_spec   = 'multiple';
 						}
@@ -1038,18 +1027,7 @@ class AWSM_Job_Openings_Block {
 
 							$spec_multiple_class = '';
 							$multiple_for_spec   = '';
-							$is_checkbox         = false;
-							if ( isset( $block_atts['filter_types'][ $taxonomy ] ) ) {
-								$is_checkbox = $block_atts['filter_types'][ $taxonomy ] === 'checkbox';
-							} elseif ( is_array( $block_atts['filter_options'] ) ) {
-								foreach ( $block_atts['filter_options'] as $opt ) {
-									if ( is_array( $opt ) && isset( $opt['specKey'] ) && $opt['specKey'] === $taxonomy && ( isset( $opt['value'] ) ? $opt['value'] : '' ) === 'checkbox' ) {
-										$is_checkbox = true;
-										break;
-									}
-								}
-							}
-							if ( $is_checkbox ) {
+							if ( apply_filters( 'awsm_jobs_block_filter_is_multiple', false, $taxonomy, $block_atts ) ) {
 								$spec_multiple_class = 'awsm-b-spec-multiple';
 								$multiple_for_spec   = 'multiple';
 							}
