@@ -34,15 +34,32 @@ class AWSM_Job_Openings_Block {
 			'search'                         => isset( $blockatts['search'] ) ? $blockatts['search'] : '',
 			'enable_job_filter'              => isset( $blockatts['enable_job_filter'] ) ? $blockatts['enable_job_filter'] : '',
 			'filter_options'                 => isset( $blockatts['filter_options'] ) ? $blockatts['filter_options'] : array(),
-			'filter_types'                   => isset( $blockatts['filter_types'] ) ? $blockatts['filter_types'] : array(),
-			'layout'                         => isset( $blockatts['layout'] ) ? $blockatts['layout'] : '',
+			'filter_types'                   => ( function() use ( $blockatts ) {
+					$filter_types           = isset( $blockatts['filter_types'] ) && is_array( $blockatts['filter_types'] ) ? $blockatts['filter_types'] : array();
+					$supported_filter_types = apply_filters( 'awsm_jobs_block_supported_filter_types', array( 'dropdown' ) );
+					foreach ( $filter_types as $taxonomy => $type ) {
+						if ( ! in_array( $type, $supported_filter_types, true ) ) {
+							$filter_types[ $taxonomy ] = 'dropdown';
+						}
+					}
+					return $filter_types;
+				} )(),
+			'layout'                         => ( function() use ( $blockatts ) {
+					$layout            = isset( $blockatts['layout'] ) ? $blockatts['layout'] : 'list';
+					$supported_layouts = apply_filters( 'awsm_jobs_block_supported_layouts', array( 'list', 'grid' ) );
+					return in_array( $layout, $supported_layouts, true ) ? $layout : 'list';
+				} )(),
 			'hide_expired_jobs'              => isset( $blockatts['hide_expired_jobs'] ) ? $blockatts['hide_expired_jobs'] : '',
 			'placement'                      => isset( $blockatts['placement'] ) ? $blockatts['placement'] : 'top',
 			'search_placeholder'             => isset( $blockatts['search_placeholder'] ) ? sanitize_text_field( $blockatts['search_placeholder'] ) : '',
 			'number_of_columns'              => isset( $blockatts['number_of_columns'] ) ? $blockatts['number_of_columns'] : 3,
 			'other_options'                  => isset( $blockatts['other_options'] ) ? $blockatts['other_options'] : '',
 			'show_spec_icon'                 => isset( $blockatts['show_spec_icon'] ) ? $blockatts['show_spec_icon'] : '',
-			'list_type'                      => isset( $blockatts['list_type'] ) ? $blockatts['list_type'] : '',
+			'list_type'                      => ( function() use ( $blockatts ) {
+					$list_type             = isset( $blockatts['list_type'] ) ? $blockatts['list_type'] : 'all';
+					$supported_list_types  = apply_filters( 'awsm_jobs_block_supported_list_types', array( 'all' ) );
+					return in_array( $list_type, $supported_list_types, true ) ? $list_type : 'all';
+				} )(),
 			'selected_terms'                 => isset( $blockatts['selected_terms'] ) ? $blockatts['selected_terms'] : '',
 			'order_by'                       => isset( $blockatts['order_by'] ) ? $blockatts['order_by'] : '',
 			'listings'                       => isset( $blockatts['listing_per_page'] ) ? $blockatts['listing_per_page'] : '',
