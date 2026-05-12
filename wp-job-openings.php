@@ -381,6 +381,56 @@ class AWSM_Job_Openings {
 		}
 	}
 
+	/**
+	 * Returns the slug of the first detected active page builder, or false for Gutenberg.
+	 *
+	 * @return string|false
+	 */
+	public static function get_active_page_builder() {
+		$builders = array(
+			'elementor'      => defined( 'ELEMENTOR_VERSION' ),
+			'divi'           => defined( 'ET_BUILDER_VERSION' ),
+			'beaver_builder' => class_exists( 'FLBuilder' ),
+			'wpbakery'       => defined( 'WPB_VC_VERSION' ),
+			'bricks'         => defined( 'BRICKS_VERSION' ),
+		);
+
+		foreach ( $builders as $builder => $active ) {
+			if ( $active ) {
+				return $builder;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Returns the appropriate post content for the default job listing page.
+	 *
+	 * Falls back to the [awsmjobs] shortcode when a third-party page builder is
+	 * active, since those environments do not support Gutenberg block markup.
+	 * Use the `awsm_jobs_default_listing_content` filter to override the output.
+	 *
+	 * @return string
+	 */
+	public static function get_default_listing_content() {
+		$builder = self::get_active_page_builder();
+
+		if ( $builder ) {
+			$content = '<p>[awsmjobs]</p>';
+		} else {
+			$content = "<!-- wp:wp-job-openings/blocks -->\n<p class=\"wp-block-wp-job-openings-blocks\"></p>\n<!-- /wp:wp-job-openings/blocks -->";
+		}
+
+		/**
+		 * Filters the default job listing page content inserted on plugin activation.
+		 *
+		 * @param string       $content The content string (shortcode or block markup).
+		 * @param string|false $builder Active page builder slug, or false for Gutenberg.
+		 */
+		return apply_filters( 'awsm_jobs_default_listing_content', $content, $builder );
+	}
+
 	public function create_page_when_activate() {
 		$default_page_id = get_option( 'awsm_jobs_default_listing_page_id' );
 		if ( empty( $default_page_id ) ) {
@@ -389,7 +439,7 @@ class AWSM_Job_Openings {
 				'post_author'  => $user,
 				'post_name'    => 'job-openings',
 				'post_status'  => 'publish',
-				'post_content' => "<!-- wp:wp-job-openings/blocks -->\n<p class=\"wp-block-wp-job-openings-blocks\"></p>\n<!-- /wp:wp-job-openings/blocks -->",
+				'post_content' => self::get_default_listing_content(),
 				'post_title'   => esc_html__( 'Jobs', 'wp-job-openings' ),
 				'post_type'    => 'page',
 			);
@@ -405,7 +455,7 @@ class AWSM_Job_Openings {
 		$has_block     = has_block( 'wp-job-openings/blocks', $post_content );
 		$has_shortcode = has_shortcode( $post_content, 'awsmjobs' );
 		if ( ! $has_block && ! $has_shortcode ) {
-			$post_content .= "\n<!-- wp:wp-job-openings/blocks -->\n<p class=\"wp-block-wp-job-openings-blocks\"></p>\n<!-- /wp:wp-job-openings/blocks -->";
+			$post_content .= "\n" . self::get_default_listing_content();
 		}
 		$page_data = array(
 			'ID'           => $page_id,
