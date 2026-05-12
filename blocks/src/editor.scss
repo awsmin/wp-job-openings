@@ -131,22 +131,17 @@
 // ---- Pro Badge ----
 
 .awsm-pro-badge {
-	display: inline-flex;
 	align-items: center;
 	font-size: 9px;
 	font-weight: 600;
 	line-height: 1;
-	padding: 2px 5px;
+	padding: 2px 2px;
 	border-radius: 3px;
 	background: #1e1e1e;
 	color: #fff;
 	text-transform: uppercase;
 	letter-spacing: 0.5px;
-	margin-left: 5px;
+	margin-left: 2px;
 	vertical-align: middle;
 }
 
-.hz-awsm-ic-settings .filters-button .filter-btn.is-pro-locked {
-	opacity: 0.65;
-	cursor: not-allowed;
-}
