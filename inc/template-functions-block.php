@@ -451,7 +451,7 @@ if ( ! function_exists( 'awsm_b_job_more_details' ) ) {
 			( $view === 'grid' ) ? 'span' : 'a',
 			esc_attr( $button_class ),
 			( $view === 'grid' ) ? '' : ' href="' . esc_url( $link ) . '"',
-			apply_filters( 'awsm_b_job_more_button_text', esc_html__( 'More Details', 'wp-job-openings' ) )
+			apply_filters( 'awsm_b_job_more_button_text', esc_html__( 'More Details →', 'wp-job-openings' ) )
 		);
 
 		echo apply_filters( 'awsm_b_jobs_listing_details_link', $more_dtls_link, $view ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

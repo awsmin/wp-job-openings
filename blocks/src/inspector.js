@@ -74,7 +74,7 @@ const WidgetInspectorControls = props => {
 			hz_bs_border_radius = {},
 			hz_bs_padding = {},
 			hz_button_style = 'none',
-			hz_button_text = '',
+			hz_button_text = 'More Details →',
 			hz_button_background_color,
 			hz_button_text_color,
 			hz_pagination_background_color,
@@ -850,7 +850,7 @@ const WidgetInspectorControls = props => {
 							<TextControl
 								label={ __( "Button Text", "wp-job-openings" ) }
 								value={ hz_button_text }
-								placeholder={ __( "More Details", "wp-job-openings" ) }
+								placeholder={ __( "More Details →", "wp-job-openings" ) }
 								onChange={ value => setAttributes( { hz_button_text: value } ) }
 								__nextHasNoMarginBottom
 							/>

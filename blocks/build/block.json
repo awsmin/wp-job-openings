@@ -176,7 +176,7 @@
     },
     "hz_button_text": {
       "type": "string",
-      "default": ""
+      "default": "More Details →"
     },
     "hz_button_background_color": {
       "type": "string"
