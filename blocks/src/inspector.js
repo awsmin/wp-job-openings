@@ -73,6 +73,7 @@ const WidgetInspectorControls = props => {
 			hz_bs_border = {},
 			hz_bs_border_radius = {},
 			hz_bs_padding = {},
+			hz_button_style = 'none',
 			hz_button_background_color,
 			hz_button_text_color,
 			hz_pagination_background_color,
@@ -845,6 +846,19 @@ const WidgetInspectorControls = props => {
 							<PanelRow>
 								<strong>{ __( "Button", "wp-job-openings" ) }</strong>
 							</PanelRow>
+							<ToggleGroupControl
+								label={ __( "Button Style", "wp-job-openings" ) }
+								value={ hz_button_style }
+								onChange={ value => setAttributes( { hz_button_style: value } ) }
+								isBlock
+								__nextHasNoMarginBottom
+								__next40pxDefaultSize
+							>
+								<ToggleGroupControlOption value="none" label={ __( "None", "wp-job-openings" ) } />
+								<ToggleGroupControlOption value="filled" label={ __( "Filled", "wp-job-openings" ) } />
+								<ToggleGroupControlOption value="outlined" label={ __( "Outlined", "wp-job-openings" ) } />
+							</ToggleGroupControl>
+							<Spacer marginBottom={ 4 } />
 							<BorderControl
 								label={ __( "Border", "wp-job-openings" ) }
 								withSlider

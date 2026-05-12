@@ -170,6 +170,10 @@
         "left": "13px"
       }
     },
+    "hz_button_style": {
+      "type": "string",
+      "default": "none"
+    },
     "hz_button_background_color": {
       "type": "string"
     },

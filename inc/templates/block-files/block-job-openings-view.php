@@ -131,6 +131,15 @@ if ( $has_search || $has_filters || $has_alerts ) {
 	$placement_sidebar_class = 'awsm-job-2-col';
 }
 
+$button_style        = ! empty( $styles['button_style'] ) && $styles['button_style'] !== 'none' ? $styles['button_style'] : '';
+$button_style_filter = null;
+if ( $button_style ) {
+	$button_style_filter = function( $class ) use ( $button_style ) {
+		return $class . ' is-button-' . $button_style;
+	};
+	add_filter( 'awsm_b_job_more_button_class', $button_style_filter );
+}
+
 $wrapper_class = 'awsm-b-job-wrap' . awsm_jobs_wrapper_class( false );
 
 // Add sidebar placement class only if placement is side
@@ -246,3 +255,7 @@ if ( $placement === 'top' ) {
 				<?php awsm_block_jobs_load_more( $query, $attributes ); ?>
 			</div>
 		</div>
+<?php
+if ( $button_style_filter ) {
+	remove_filter( 'awsm_b_job_more_button_class', $button_style_filter );
+}

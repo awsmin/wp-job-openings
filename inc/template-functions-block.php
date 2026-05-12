@@ -348,6 +348,7 @@ if ( ! function_exists( 'hz_get_ui_styles' ) ) {
 			'button_border_radius_topright'        => isset( $attributes['hz_bs_border_radius']['topRight'] ) ? $attributes['hz_bs_border_radius']['topRight'] : '5px',
 			'button_border_radius_bottomright'     => isset( $attributes['hz_bs_border_radius']['bottomRight'] ) ? $attributes['hz_bs_border_radius']['bottomRight'] : '5px',
 			'button_border_radius_bottomleft'      => isset( $attributes['hz_bs_border_radius']['bottomLeft'] ) ? $attributes['hz_bs_border_radius']['bottomLeft'] : '5px',
+			'button_style'                         => ! empty( $attributes['hz_button_style'] ) ? sanitize_key( $attributes['hz_button_style'] ) : 'none',
 			'button_background_color'              => ! empty( $attributes['hz_button_background_color'] )
 				? hz_sanitize_color( $attributes['hz_button_background_color'] )
 				: '',
@@ -442,7 +443,7 @@ if ( ! function_exists( 'hz_append_unit_if_missing' ) ) {
 if ( ! function_exists( 'awsm_b_job_more_details' ) ) {
 	function awsm_b_job_more_details( $link, $view ) {
 
-		$button_class = 'awsm-b-job-more';
+		$button_class = apply_filters( 'awsm_b_job_more_button_class', 'awsm-b-job-more' );
 
 		$more_dtls_link = sprintf(
 			'<div class="awsm-b-job-more-container"><%1$s class="%2$s"%3$s>%4$s</%1$s></div>',

@@ -1082,27 +1082,48 @@ a.awsm-b-job-item .awsm-job-specification-item {
 // ---- Job More Button ----
 
 .awsm-b-job-more {
-	background-color: var(--hz-b-bg-color);
-	color: var(--hz-b-tx-color) !important;
-	border: var(--hz-bs-border-width, 1px) solid var(--hz-bs-border-color, #4e35df);
 	border-radius:
 		var(--hz-bs-border-radius-topleft, 5px) var(--hz-bs-border-radius-topright, 5px) var(--hz-bs-border-radius-bottomright, 5px) var(--hz-bs-border-radius-bottomleft, 5px) !important;
 	display: inline-flex;
 	gap: 8px;
 	align-items: center;
+	font-size: 14px;
+	line-height: 1;
+	text-decoration: none;
+}
+
+.awsm-b-job-more.is-button-none {
+	background-color: transparent;
+	border: none;
+	color: inherit !important;
+	padding: 0;
+}
+
+.awsm-b-job-more.is-button-filled {
+	background-color: var(--hz-b-bg-color, #4e35df);
+	color: var(--hz-b-tx-color, #fff) !important;
+	border: var(--hz-bs-border-width, 1px) solid var(--hz-bs-border-color, #4e35df);
+	border-style: var(--hz-bs-border-style, solid);
 	padding-top: var(--hz-b-padding-top, 13px);
 	padding-right: var(--hz-b-padding-right, 13px);
 	padding-bottom: var(--hz-b-padding-bottom, 13px);
 	padding-left: var(--hz-b-padding-left, 13px);
-	font-size: 14px;
-	line-height: 1;
-	text-decoration: none;
-	border-style: var(--hz-bs-border-style, solid);
 }
 
-.awsm-b-job-more:hover{
-	background-color: color-mix(in srgb, var(--hz-b-bg-color), black 5%);
-	color: var(--hz-b-tx-color);
+.awsm-b-job-more.is-button-filled:hover {
+	background-color: color-mix(in srgb, var(--hz-b-bg-color, #4e35df), black 5%);
+	color: var(--hz-b-tx-color, #fff);
+}
+
+.awsm-b-job-more.is-button-outlined {
+	background-color: transparent;
+	color: var(--hz-bs-border-color, #4e35df) !important;
+	border: var(--hz-bs-border-width, 1px) solid var(--hz-bs-border-color, #4e35df);
+	border-style: var(--hz-bs-border-style, solid);
+	padding-top: var(--hz-b-padding-top, 13px);
+	padding-right: var(--hz-b-padding-right, 13px);
+	padding-bottom: var(--hz-b-padding-bottom, 13px);
+	padding-left: var(--hz-b-padding-left, 13px);
 }
 
 @media (max-width: 767px) {
