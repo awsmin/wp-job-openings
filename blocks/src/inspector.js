@@ -1,5 +1,5 @@
 import {__} from "@wordpress/i18n";
-import {useEffect, useRef, Fragment, useState} from "@wordpress/element";
+import {useEffect, useRef, Fragment} from "@wordpress/element";
 import {
 	InspectorControls,
 	PanelColorSettings,
@@ -15,7 +15,6 @@ import {
 	TextControl,
 	SelectControl,
 	Button,
-	FormTokenField,
 	__experimentalToggleGroupControl as ToggleGroupControl,
 	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
 	BoxControl,
@@ -98,11 +97,6 @@ const WidgetInspectorControls = props => {
 	// Local state for block settings
 	const filtersInitRef = useRef( false );
 	const specifications = window.awsmJobsAdmin?.awsm_filters_block || [];
-	const [ toggleState, setToggleState ] = useState( selected_terms_main || {} );
-
-	const [ selectedTermsState, setSelectedTermsState ] = useState(
-		selected_terms || {}
-	);
 
 	const block_appearance_list = [];
 	const block_job_listing = [];
@@ -119,30 +113,6 @@ const WidgetInspectorControls = props => {
 		},
 		[ clientId ]
 	);
-
-	useEffect( () => {
-		if ( ! specifications?.length ) {
-			return;
-		}
-
-		const initialSelectedTerms = specifications.reduce( ( acc, spec ) => {
-			acc[ spec.key ] = selected_terms?.[ spec.key ] || [];
-			return acc;
-		}, {} );
-
-		setSelectedTermsState( initialSelectedTerms );
-	}, [ specifications, selected_terms ] );
-
-	useEffect( () => {
-		const initialToggle = Array.isArray( selected_terms_main )
-			? selected_terms_main.reduce( ( acc, key ) => {
-					acc[ key ] = true;
-					return acc;
-			  }, {} )
-			: {};
-
-		setToggleState( initialToggle );
-	}, [ selected_terms_main ] );
 
 	useEffect( () => {
 		const expectedId = "block-" + clientId;
@@ -186,52 +156,37 @@ const WidgetInspectorControls = props => {
 		filtersInitRef.current = true;
 	}, [ wasJustInserted, specifications, enable_job_filter ] );
 
-	const handleTermChange = ( newTokens, specKey, spec ) => {
-		const newTermIds = newTokens
-			.map( token => {
-				// Normalize to string so purely-numeric term names work in FormTokenField.
-				const term = spec.terms.find(
-					t => String( t.name ) === String( token )
-				);
-				return term ? term.term_id : null;
-			} )
-			.filter( id => id !== null );
+	useEffect( () => {
+		const updates = {};
 
-		const updatedSelectedTerms = {
-			...selectedTermsState,
-			[ specKey ]: newTermIds
-		};
-
-		// Auto-upgrade to multi-select if multiple terms selected; never auto-downgrade.
-		const updatedFilterTypes = {
-			...filter_types,
-			[ specKey ]: newTermIds.length > 1 ? "checkbox" : ( filter_types[ specKey ] || "dropdown" )
-		};
-
-		setSelectedTermsState( updatedSelectedTerms );
-		setAttributes( {
-			selected_terms: updatedSelectedTerms,
-			filter_types: updatedFilterTypes
-		} );
-	};
-
-	const handleToggleChange = ( specKey, isChecked ) => {
-		const updatedTermsMain = isChecked
-			? [ ...new Set( [ ...( selected_terms_main || [] ), specKey ] ) ]
-			: ( selected_terms_main || [] ).filter( key => key !== specKey );
-
-		const updatedSelectedTerms = {...selectedTermsState};
-		if ( ! isChecked ) {
-			delete updatedSelectedTerms[ specKey ];
+		if ( layout === "stack" && ! isProFeature( "stack_layout" ) ) {
+			updates.layout = "list";
 		}
 
-		setToggleState( prev => ( {...prev, [ specKey ]: isChecked} ) );
-		setSelectedTermsState( updatedSelectedTerms );
-		setAttributes( {
-			selected_terms_main: updatedTermsMain,
-			selected_terms: updatedSelectedTerms
-		} );
-	};
+		if ( list_type === "filtered" && ! isProFeature( "filtered_list" ) ) {
+			updates.list_type = "all";
+		}
+
+		if ( ! isProFeature( "multi_select_filter" ) && filter_types && Object.keys( filter_types ).length ) {
+			const resetTypes = {};
+			let hasCheckbox = false;
+			Object.entries( filter_types ).forEach( ( [ key, val ] ) => {
+				if ( val === "checkbox" ) {
+					resetTypes[ key ] = "dropdown";
+					hasCheckbox = true;
+				} else {
+					resetTypes[ key ] = val;
+				}
+			} );
+			if ( hasCheckbox ) {
+				updates.filter_types = resetTypes;
+			}
+		}
+
+		if ( Object.keys( updates ).length ) {
+			setAttributes( updates );
+		}
+	}, [] );
 
 	const onChangeNumberOfColumns = value => {
 		const columnsValue = parseInt( value, 10 );
@@ -321,7 +276,7 @@ const WidgetInspectorControls = props => {
 									const isActive = filter_options.includes( spec.key );
 									const filterType = filter_types[ spec.key ] || "dropdown";
 									const hasMultipleSelectedTerms =
-										( selectedTermsState[ spec.key ] || [] ).length > 1;
+										( selected_terms?.[ spec.key ] || [] ).length > 1;
 
 									return (
 										<div key={ spec.key } style={{ marginBottom: '8px' }}>
@@ -553,55 +508,7 @@ const WidgetInspectorControls = props => {
 							) }
 						</p>
 
-						{ list_type === "filtered" && (
-							<>
-								<h2>{ __( "Filters", "wp-job-openings" ) }</h2>
-								{ specifications.map( spec => (
-									<div key={ spec.key } className="filter-item" style={{ marginBottom: '8px' }}>
-										<ToggleControl
-											label={ spec.label }
-											checked={ toggleState[ spec.key ] || false } // Check the toggle state for the spec
-											onChange={ isChecked => {
-												// Handle toggle change and update attributes
-												handleToggleChange( spec.key, isChecked );
-											} }
-										__nextHasNoMarginBottom
-										/>
-
-										{ /* Show FormTokenField only when toggle is on */ }
-										{ toggleState[ spec.key ] &&
-											( () => {
-												const visibleTerms = spec.terms;
-												return (
-													<FormTokenField
-														value={ (
-															selectedTermsState[ spec.key ] || []
-														).map( id => {
-															const term = visibleTerms.find(
-																t => t.term_id === id
-															);
-															return term ? String( term.name ) : "";
-														} ) }
-														onChange={ newTokens =>
-															handleTermChange( newTokens, spec.key, {
-																...spec,
-																terms: visibleTerms
-															} )
-														}
-														suggestions={ visibleTerms.map( term =>
-															String( term.name )
-														) }
-														__experimentalExpandOnFocus={ true }
-														label=""
-													__nextHasNoMarginBottom
-													__next40pxDefaultSize
-													/>
-												);
-											} )() }
-									</div>
-								) ) }
-							</>
-						) }
+						{ wp.hooks.applyFilters( 'awsm_jobs_block_filtered_list_ui', null, { list_type, selected_terms, selected_terms_main, specifications, setAttributes, filter_types } ) }
 
 						<SelectControl
 							label={ __( "Order By", "wp-job-openings" ) }
