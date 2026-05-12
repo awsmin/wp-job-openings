@@ -349,6 +349,7 @@ if ( ! function_exists( 'hz_get_ui_styles' ) ) {
 			'button_border_radius_bottomright'     => isset( $attributes['hz_bs_border_radius']['bottomRight'] ) ? $attributes['hz_bs_border_radius']['bottomRight'] : '5px',
 			'button_border_radius_bottomleft'      => isset( $attributes['hz_bs_border_radius']['bottomLeft'] ) ? $attributes['hz_bs_border_radius']['bottomLeft'] : '5px',
 			'button_style'                         => ! empty( $attributes['hz_button_style'] ) ? sanitize_key( $attributes['hz_button_style'] ) : 'none',
+			'button_text'                          => ! empty( $attributes['hz_button_text'] ) ? sanitize_text_field( $attributes['hz_button_text'] ) : '',
 			'button_background_color'              => ! empty( $attributes['hz_button_background_color'] )
 				? hz_sanitize_color( $attributes['hz_button_background_color'] )
 				: '',
@@ -450,7 +451,7 @@ if ( ! function_exists( 'awsm_b_job_more_details' ) ) {
 			( $view === 'grid' ) ? 'span' : 'a',
 			esc_attr( $button_class ),
 			( $view === 'grid' ) ? '' : ' href="' . esc_url( $link ) . '"',
-			esc_html__( 'More Details', 'wp-job-openings' )
+			apply_filters( 'awsm_b_job_more_button_text', esc_html__( 'More Details', 'wp-job-openings' ) )
 		);
 
 		echo apply_filters( 'awsm_b_jobs_listing_details_link', $more_dtls_link, $view ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
