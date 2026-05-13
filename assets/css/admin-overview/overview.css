@@ -314,6 +314,8 @@
 }
 .awsm-jobs-overview-list-item p span{
 	color: #161616;
+	word-break: break-all;
+	word-wrap: break-word;
 }
 .awsm-jobs-overview-list-item-main{
 	display: flex;

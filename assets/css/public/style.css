@@ -94,6 +94,7 @@ a.awsm-job-item {
 	margin: 0 0 15px;
 	font-size: 18px;
 	text-align: left;
+	word-wrap: break-word;
 }
 
 .awsm-job-item h2.awsm-job-post-title a {
