@@ -141,8 +141,21 @@ class AWSM_Job_Openings_Filters {
 						'awsm_filter_spec_terms_args',
 						array(
 							'taxonomy'   => $taxonomy,
-							'orderby'    => 'name',
+							'orderby'    => 'term_order_clause',
+							'order'      => 'ASC',
 							'hide_empty' => true,
+							'meta_query' => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+								'relation'          => 'OR',
+								'term_order_clause' => array(
+									'key'     => 'term_order',
+									'compare' => 'EXISTS',
+									'type'    => 'NUMERIC',
+								),
+								array(
+									'key'     => 'term_order',
+									'compare' => 'NOT EXISTS',
+								),
+							),
 						)
 					);
 					$terms      = get_terms( $terms_args );
