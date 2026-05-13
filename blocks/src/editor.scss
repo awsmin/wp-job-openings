@@ -145,3 +145,15 @@
 	vertical-align: middle;
 }
 
+.hz-awsm-ic-settings .filters-button .filter-btn.is-pro-locked{
+ 	border-color: rgba(0,0,0,.6);
+  color: rgba(0,0,0,.6) !important;
+  
+  cursor: not-allowed;
+  background: none !important;
+}
+
+.components-toggle-group-control-option-base.is-pro-locked{
+cursor: not-allowed;
+color: rgba(0,0,0,.3) !important;
+}
