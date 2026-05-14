@@ -208,12 +208,7 @@
 		},
 		"hz_pagination_padding": {
 			"type": "object",
-			"default": {
-				"top": "20px",
-				"right": "20px",
-				"bottom": "20px",
-				"left": "20px"
-			},
+			"default": {},
 			"properties": {
 				"top":    { "type": "string" },
 				"right":  { "type": "string" },

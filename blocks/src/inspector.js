@@ -903,7 +903,7 @@ const WidgetInspectorControls = props => {
 
 							<BoxControl
 								label={ __( "Padding", "wp-job-openings" ) }
-								values={ hz_pagination_padding }
+								values={ hz_pagination_padding?.top ? hz_pagination_padding : { top: pagination === 'classic' ? '5px' : '20px', right: pagination === 'classic' ? '5px' : '20px', bottom: pagination === 'classic' ? '5px' : '20px', left: pagination === 'classic' ? '5px' : '20px' } }
 								onChange={ Padding => {
 									setAttributes( {hz_pagination_padding: Padding} );
 								} }
