@@ -1927,10 +1927,12 @@ a.awsm-plugin-item p {
 	flex-wrap: wrap;
 	padding: 12px 0;
 	gap: 10px;
-	align-items: center;
+	/* align-items: center; */
 	word-wrap: break-word;
 }
-
+.awsm-applicant-profile ul li.awsm-field-type-file{
+	align-items: center;
+}
 .awsm-applicant-profile ul li:not(:last-child) {
 	border-bottom: 1px solid #EAECF0;
 }

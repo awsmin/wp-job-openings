@@ -165,7 +165,7 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 								if ( ! empty( $resume_details ) ) :
 									$file_size_display = isset( $resume_details['file_size']['display'] ) ? $resume_details['file_size']['display'] : '';
 									?>
-									<li>
+									<li class="awsm-field-type-file">
 										<label>
 											<?php echo ! empty( $resume_field_label ) ? esc_html( $resume_field_label ) : esc_html__( 'Resume', 'wp-job-openings' ); ?>
 										</label>
