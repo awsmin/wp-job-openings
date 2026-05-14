@@ -2402,6 +2402,28 @@ input.awsm-button:disabled {
 	align-items: center;
 }
 
+.awsm-applicant-name-row {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+}
+.awsm-applicant-name-row strong {
+	display: inline !important;
+}
+.awsm-overview-new-badge {
+	display: inline-flex;
+	align-items: center;
+	padding: 2px 7px;
+	border-radius: 10px;
+	background-color: #d63638;
+	color: #fff !important;
+	font-size: 9px;
+	font-weight: 400;
+	letter-spacing: 0.5px;
+	white-space: nowrap;
+	flex-shrink: 0;
+}
+
 .awsm-application-date-filter {
 	line-height: 28px;
 	height: 28px;
