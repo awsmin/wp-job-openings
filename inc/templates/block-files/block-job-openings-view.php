@@ -102,6 +102,7 @@ $block_style_variables = "
 		--hz-b-padding-top: {$styles['padding_top_button']};
 		--hz-b-padding-bottom: {$styles['padding_bottom_button']};
 	}
+	" . ( ! empty( $styles['button_text_color'] ) ? "#{$styles['block_id']} .awsm-b-job-more.is-button-none { color: {$styles['button_text_color']} !important; }" : '' ) . "
 	";
 
 	echo apply_filters( 'hz_ui_styles_css_variables', $block_style_variables, $styles ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -131,14 +132,11 @@ if ( $has_search || $has_filters || $has_alerts ) {
 	$placement_sidebar_class = 'awsm-job-2-col';
 }
 
-$button_style        = ! empty( $styles['button_style'] ) && $styles['button_style'] !== 'none' ? $styles['button_style'] : '';
-$button_style_filter = null;
-if ( $button_style ) {
-	$button_style_filter = function( $class ) use ( $button_style ) {
-		return $class . ' is-button-' . $button_style;
-	};
-	add_filter( 'awsm_b_job_more_button_class', $button_style_filter );
-}
+$button_style        = ! empty( $styles['button_style'] ) ? $styles['button_style'] : 'none';
+$button_style_filter = function( $class ) use ( $button_style ) {
+	return $class . ' is-button-' . $button_style;
+};
+add_filter( 'awsm_b_job_more_button_class', $button_style_filter );
 
 $button_text        = ! empty( $styles['button_text'] ) ? $styles['button_text'] : '';
 $button_text_filter = null;
@@ -265,9 +263,7 @@ if ( $placement === 'top' ) {
 			</div>
 		</div>
 <?php
-if ( $button_style_filter ) {
-	remove_filter( 'awsm_b_job_more_button_class', $button_style_filter );
-}
+remove_filter( 'awsm_b_job_more_button_class', $button_style_filter );
 if ( $button_text_filter ) {
 	remove_filter( 'awsm_b_job_more_button_text', $button_text_filter );
 }

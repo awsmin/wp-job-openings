@@ -1095,7 +1095,6 @@ a.awsm-b-job-item .awsm-job-specification-item {
 .awsm-b-job-more.is-button-none {
 	background-color: transparent;
 	border: none;
-	color: inherit !important;
 	padding: 0;
 }
 
@@ -1116,14 +1115,19 @@ a.awsm-b-job-item .awsm-job-specification-item {
 }
 
 .awsm-b-job-more.is-button-outlined {
-	background-color: transparent;
-	color: var(--hz-bs-border-color, #4e35df) !important;
+	background-color: var(--hz-b-bg-color, transparent);
+	color: var(--hz-b-tx-color, var(--hz-bs-border-color, #4e35df)) !important;
 	border: var(--hz-bs-border-width, 1px) solid var(--hz-bs-border-color, #4e35df);
 	border-style: var(--hz-bs-border-style, solid);
 	padding-top: var(--hz-b-padding-top, 13px);
 	padding-right: var(--hz-b-padding-right, 13px);
 	padding-bottom: var(--hz-b-padding-bottom, 13px);
 	padding-left: var(--hz-b-padding-left, 13px);
+}
+
+.awsm-b-job-more.is-button-outlined:hover {
+	background-color: color-mix(in srgb, var(--hz-b-bg-color, transparent), var(--hz-bs-border-color, #4e35df) 10%);
+	color: var(--hz-b-tx-color, var(--hz-bs-border-color, #4e35df));
 }
 
 @media (max-width: 767px) {

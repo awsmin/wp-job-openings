@@ -771,59 +771,63 @@ const WidgetInspectorControls = props => {
 								__next40pxDefaultSize
 							>
 								<ToggleGroupControlOption value="none" label={ __( "None", "wp-job-openings" ) } />
-								<ToggleGroupControlOption value="filled" label={ __( "Filled", "wp-job-openings" ) } />
-								<ToggleGroupControlOption value="outlined" label={ __( "Outlined", "wp-job-openings" ) } />
+								<ToggleGroupControlOption value="filled" label={ __( "Fill", "wp-job-openings" ) } />
+								<ToggleGroupControlOption value="outlined" label={ __( "Outline", "wp-job-openings" ) } />
 							</ToggleGroupControl>
-							<Spacer marginBottom={ 4 } />
-							<BorderControl
-								label={ __( "Border", "wp-job-openings" ) }
-								withSlider
-								isCompact={ true }
-								value={ hz_bs_border }
-								__experimentalIsRenderedInSidebar
-								onChange={ newBorder => {
-									const width = newBorder?.width ?? hz_bs_border?.width;
-									const color = newBorder && 'color' in newBorder ? newBorder.color : hz_bs_border?.color;
-									setAttributes( {
-										hz_bs_border: {
-											...hz_bs_border,
-											...newBorder,
-											width,
-											color: parseFloat( width ) > 0 ? color : undefined
-										}
-									} );
-								} }
-								enableStyle={ false }
-							/>
+							{ hz_button_style !== 'none' && (
+								<>
+									<Spacer marginBottom={ 4 } />
+									<BorderControl
+										label={ __( "Border", "wp-job-openings" ) }
+										withSlider
+										isCompact={ true }
+										value={ hz_bs_border }
+										__experimentalIsRenderedInSidebar
+										onChange={ newBorder => {
+											const width = newBorder?.width ?? hz_bs_border?.width;
+											const color = newBorder && 'color' in newBorder ? newBorder.color : hz_bs_border?.color;
+											setAttributes( {
+												hz_bs_border: {
+													...hz_bs_border,
+													...newBorder,
+													width,
+													color: parseFloat( width ) > 0 ? color : undefined
+												}
+											} );
+										} }
+										enableStyle={ false }
+									/>
 
-							<Spacer marginBottom={ 4 } />
+									<Spacer marginBottom={ 4 } />
 
-							<BorderRadiusControl
-								values={ hz_bs_border_radius }
-								onChange={ newRadius => {
-									if ( typeof newRadius === "string" ) {
-										const radiusObject = {
-											topLeft: newRadius,
-											topRight: newRadius,
-											bottomRight: newRadius,
-											bottomLeft: newRadius
-										};
-										setAttributes( {hz_bs_border_radius: radiusObject} );
-									} else {
-										setAttributes( {hz_bs_border_radius: newRadius} );
-									}
-								} }
-							/>
+									<BorderRadiusControl
+										values={ hz_bs_border_radius }
+										onChange={ newRadius => {
+											if ( typeof newRadius === "string" ) {
+												const radiusObject = {
+													topLeft: newRadius,
+													topRight: newRadius,
+													bottomRight: newRadius,
+													bottomLeft: newRadius
+												};
+												setAttributes( {hz_bs_border_radius: radiusObject} );
+											} else {
+												setAttributes( {hz_bs_border_radius: newRadius} );
+											}
+										} }
+									/>
 
-							<Spacer marginBottom={ 4 } />
+									<Spacer marginBottom={ 4 } />
 
-							<BoxControl
-								label={ __( "Padding", "wp-job-openings" ) }
-								values={ hz_bs_padding?.top ? hz_bs_padding : { top: "13px", right: "13px", bottom: "13px", left: "13px" } }
-								onChange={ Padding => {
-									setAttributes( {hz_bs_padding: Padding} );
-								} }
-							/>
+									<BoxControl
+										label={ __( "Padding", "wp-job-openings" ) }
+										values={ hz_bs_padding?.top ? hz_bs_padding : { top: "13px", right: "13px", bottom: "13px", left: "13px" } }
+										onChange={ Padding => {
+											setAttributes( {hz_bs_padding: Padding} );
+										} }
+									/>
+								</>
+							) }
 
 							<Spacer marginBottom={ 4 } />
 
@@ -844,12 +848,12 @@ const WidgetInspectorControls = props => {
 											setAttributes( {hz_jl_text_color: color} ),
 										label: __( "Listing Text", "wp-job-openings" )
 									},
-									{
+									...( hz_button_style !== 'none' ? [ {
 										value: hz_button_background_color,
 										onChange: color =>
 											setAttributes( {hz_button_background_color: color} ),
 										label: __( "Button Background", "wp-job-openings" )
-									},
+									} ] : [] ),
 									{
 										value: hz_button_text_color,
 										onChange: color =>
