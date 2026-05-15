@@ -818,6 +818,13 @@ class AWSM_Job_Openings_Settings {
 		if ( ! empty( $gdpr_enable ) && empty( $input ) ) {
 			$input = esc_html__( 'By using this form you agree with the storage and handling of your data by this website.', 'wp-job-openings' );
 		}
+		$current_val = trim( wp_unslash( $input ) );
+		if ( false !== strpbrk( $current_val, '<>' ) ) {
+			if ( ! wp_list_filter( get_settings_errors( 'awsm_jobs_settings' ), array( 'code' => 'invalid_characters' ) ) ) {
+				add_settings_error( 'awsm_jobs_settings', 'invalid_characters', __( 'Special characters like &lt; and &gt; are not allowed.', 'wp-job-openings' ), 'error' );
+			}
+			return get_option( 'awsm_gdpr_cb_text' );
+		}
 		return $this->sanitize_html_content( $input );
 	}
 
