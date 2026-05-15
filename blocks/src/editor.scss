@@ -96,6 +96,7 @@
 	display: flex;
 	gap: 10px;
 	margin-bottom: 16px;
+	justify-content: space-between;
 }
 
 /* Base button */
@@ -107,6 +108,8 @@
 	transition: background 0.15s ease, color 0.15s ease;
 	box-shadow: none;
 	outline: none;
+	justify-content: center;
+	width: calc(50% - 5px);
 }
 
 /* Active state */
