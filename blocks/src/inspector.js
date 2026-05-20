@@ -265,7 +265,17 @@ const WidgetInspectorControls = props => {
 							label={ __( "Enable Filters", "wp-job-openings" ) }
 							checked={ enable_job_filter }
 							onChange={ newFilter => {
-								setAttributes( { enable_job_filter: newFilter } );
+								const updates = { enable_job_filter: newFilter };
+								if ( newFilter && ! filter_options?.length && specifications?.length ) {
+									const newFilterOptions = specifications.map( spec => spec.key );
+									const newFilterTypes = {};
+									specifications.forEach( spec => {
+										newFilterTypes[ spec.key ] = "dropdown";
+									} );
+									updates.filter_options = newFilterOptions;
+									updates.filter_types = newFilterTypes;
+								}
+								setAttributes( updates );
 							} }
 						__nextHasNoMarginBottom
 						/>
