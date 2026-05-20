@@ -49,11 +49,12 @@ class Awsm_Job_Guten_Blocks {
 			}
 
 			$atts['filter_options'] = $default_filters;
-		} elseif ( empty( $atts['filter_options'] ) && ! empty( $atts['enable_job_filter'] ) && empty( $atts['blockId'] ) ) {
-			// filter_options is [] and blockId is unset — block was created programmatically
-			// (e.g. on plugin activation) and has never been opened/saved in the editor.
-			// blockId is written by the editor on first save, so an empty blockId means
-			// no user has ever configured this block. Auto-populate with all available filters.
+		} elseif ( empty( $atts['filter_options'] ) && ! empty( $atts['enable_job_filter'] ) ) {
+			// filter_options is [] but filters are enabled — this is a migration case.
+			// Blocks created before filter_options was introduced, or programmatically created blocks,
+			// may have enable_job_filter=true with no specific filters selected.
+			// When the user intentionally removes all filters, the JS also sets enable_job_filter=false,
+			// so this condition only fires for migration scenarios. Auto-populate with all available filters.
 			$default_filters = array();
 			$specs           = AWSM_Job_Openings::get_filter_specifications();
 
