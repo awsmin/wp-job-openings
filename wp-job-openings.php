@@ -45,6 +45,15 @@ if ( ! defined( 'AWSM_JOBS_UPLOAD_DIR_NAME' ) ) {
 if ( ! defined( 'AWSM_JOBS_DEBUG' ) ) {
 	define( 'AWSM_JOBS_DEBUG', false );
 }
+if ( ! defined( 'AWSM_JOBS_SITE_URL' ) ) {
+	define( 'AWSM_JOBS_SITE_URL', 'https://hirezoot.com' );
+}
+if ( ! defined( 'AWSM_JOBS_DOCS_URL' ) ) {
+	define( 'AWSM_JOBS_DOCS_URL', 'https://docs.hirezoot.com' );
+}
+if ( ! defined( 'AWSM_JOBS_ROADMAP_URL' ) ) {
+	define( 'AWSM_JOBS_ROADMAP_URL', 'https://roadmap.hirezoot.com' );
+}
 
 // Helper functions
 require_once AWSM_JOBS_PLUGIN_DIR . '/inc/helper-functions.php';

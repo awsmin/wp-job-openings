@@ -19,22 +19,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 			$get_started_links = array(
 				array(
 					'id'        => 'documentation',
-					'url'       => 'https://docs.wpjobopenings.com/',
+					'url'       => AWSM_JOBS_DOCS_URL . '/',
 					'link_text' => __( 'Plugin Documentation', 'wp-job-openings' ),
 				),
 				array(
 					'id'        => 'hooks',
-					'url'       => 'https://docs.wpjobopenings.com/developers/hooks',
+					'url'       => AWSM_JOBS_DOCS_URL . '/developers/hooks',
 					'link_text' => __( 'Hooks & Functions', 'wp-job-openings' ),
 				),
 				array(
 					'id'        => 'feedback',
-					'url'       => 'https://roadmap.wpjobopenings.com/boards/feature-requests',
+					'url'       => AWSM_JOBS_ROADMAP_URL . '/boards/feature-requests',
 					'link_text' => __( 'Feedback', 'wp-job-openings' ),
 				),
 				array(
 					'id'        => 'roadmap',
-					'url'       => 'https://roadmap.wpjobopenings.com/roadmap',
+					'url'       => AWSM_JOBS_ROADMAP_URL . '/roadmap',
 					'link_text' => __( 'Roadmap', 'wp-job-openings' ),
 				),
 				array(

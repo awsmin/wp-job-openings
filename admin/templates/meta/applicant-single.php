@@ -54,7 +54,7 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 				?>
 			</div><!-- .awsm-application-head-main -->
 			<div class="awsm-application-actions <?php echo ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ? 'pro-feature' : ''; ?>">
-				<a class="pro-ft" href="https://wpjobopenings.com/pro-pack/" target="_blank"><?php esc_html_e( 'Pro Features', 'wp-job-openings' ); ?></a>
+				<a class="pro-ft" href="<?php echo esc_url( AWSM_JOBS_SITE_URL . '/pro-pack/' ); ?>" target="_blank"><?php esc_html_e( 'Pro Features', 'wp-job-openings' ); ?></a>
 				<?php if ( class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) : ?>
 					<?php
 					/**
@@ -140,7 +140,7 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 						<?php endforeach; ?>
 						<?php if ( ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) : ?>
 							<li class="pro-feature">
-							<a class="pro-ft" href="https://wpjobopenings.com/pro-pack/" target="_blank"><?php esc_html_e( 'Pro Features', 'wp-job-openings' ); ?></a>
+							<a class="pro-ft" href="<?php echo esc_url( AWSM_JOBS_SITE_URL . '/pro-pack/' ); ?>" target="_blank"><?php esc_html_e( 'Pro Features', 'wp-job-openings' ); ?></a>
 							<a href="#"><?php echo esc_html__( 'Notifications', 'wp-job-openings' ); ?><span>8</span></a>
 							<a href="#"><?php echo esc_html__( 'Notes', 'wp-job-openings' ); ?><span>8</span></a>
 							</li>
