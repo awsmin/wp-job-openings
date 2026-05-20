@@ -49,6 +49,24 @@ class Awsm_Job_Guten_Blocks {
 			}
 
 			$atts['filter_options'] = $default_filters;
+		} elseif ( empty( $atts['filter_options'] ) && ! empty( $atts['enable_job_filter'] ) && empty( $atts['blockId'] ) ) {
+			// filter_options is [] and blockId is unset — block was created programmatically
+			// (e.g. on plugin activation) and has never been opened/saved in the editor.
+			// blockId is written by the editor on first save, so an empty blockId means
+			// no user has ever configured this block. Auto-populate with all available filters.
+			$default_filters = array();
+			$specs           = AWSM_Job_Openings::get_filter_specifications();
+
+			foreach ( $specs as $spec ) {
+				$default_filters[] = array(
+					'specKey' => $spec['key'],
+					'value'   => 'dropdown',
+				);
+			}
+
+			if ( ! empty( $default_filters ) ) {
+				$atts['filter_options'] = $default_filters;
+			}
 		}
 
 		$search_enabled  = ! empty( $atts['search'] );
