@@ -140,7 +140,7 @@ const WidgetInspectorControls = props => {
 	}, [] );
 
 	useEffect( () => {
-		if ( ! wasJustInserted ) return;
+		if ( ! wasJustInserted && blockId ) return;
 		if ( filtersInitRef.current ) return;
 		if ( ! enable_job_filter ) return;
 		if ( ! specifications?.length ) return;
