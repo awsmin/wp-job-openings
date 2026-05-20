@@ -31,8 +31,8 @@ class AWSM_Job_Openings_Block {
 
 		$block_atts_set = array(
 			'uid'                            => $this->unique_listing_id,
-			'search'                         => isset( $blockatts['search'] ) ? $blockatts['search'] : '',
-			'enable_job_filter'              => isset( $blockatts['enable_job_filter'] ) ? $blockatts['enable_job_filter'] : '',
+			'search'                         => isset( $blockatts['search'] ) ? ( $blockatts['search'] === true ? 'enable' : $blockatts['search'] ) : '',
+			'enable_job_filter'              => isset( $blockatts['enable_job_filter'] ) ? ( $blockatts['enable_job_filter'] === true ? 'enable' : $blockatts['enable_job_filter'] ) : '',
 			'filter_options'                 => isset( $blockatts['filter_options'] ) ? $blockatts['filter_options'] : array(),
 			'filter_types'                   => ( function() use ( $blockatts ) {
 					$filter_types           = isset( $blockatts['filter_types'] ) && is_array( $blockatts['filter_types'] ) ? $blockatts['filter_types'] : array();
