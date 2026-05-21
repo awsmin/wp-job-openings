@@ -255,7 +255,7 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 						$edit_link       = AWSM_Job_Openings::get_application_edit_link( $application->ID );
 						$submission_time = human_time_diff( get_the_time( 'U', $application->ID ), current_time( 'timestamp' ) ) . ' ' . __( 'ago', 'wp-job-openings' );
 						?>
-					<?php $is_unviewed = get_post_meta( $application->ID, 'awsm_application_viewed', true ) === '0'; ?>
+					<?php $is_unviewed = 'publish' === $application->post_status && get_post_meta( $application->ID, 'awsm_application_viewed', true ) === '0'; ?>
 					<a href="<?php echo esc_url( $edit_link ); ?>" class="awsm-jobs-overview-list-item<?php echo $is_unviewed ? ' awsm-overview-unviewed' : ''; ?>">
 						<?php echo $avatar; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 						<p>
