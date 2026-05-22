@@ -5,6 +5,7 @@ import {
 	PanelColorSettings,
 	__experimentalBorderRadiusControl as BorderRadiusControl
 } from "@wordpress/block-editor";
+import {addFilter} from "@wordpress/hooks";
 import {useSelect} from "@wordpress/data";
 
 import {
@@ -956,4 +957,25 @@ const WidgetInspectorControls = props => {
 	);
 };
 
-export default WidgetInspectorControls;
+// Define the HOC to add custom inspector controls
+const withCustomInspectorControls = BlockEdit => props => {
+	if ( props.name !== "wp-job-openings/blocks" ) {
+		return <BlockEdit { ...props } />;
+	}
+
+	return (
+		<Fragment>
+			<BlockEdit { ...props } />
+			<WidgetInspectorControls { ...props } />
+		</Fragment>
+	);
+};
+
+// Add the filter to extend the block's inspector controls
+addFilter(
+	"editor.BlockEdit",
+	"awsm-job-block-settings/awsm-block-inspector-controls",
+	withCustomInspectorControls
+);
+
+export default withCustomInspectorControls;
