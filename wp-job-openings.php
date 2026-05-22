@@ -49,7 +49,7 @@ if ( ! defined( 'AWSM_JOBS_SITE_URL' ) ) {
 	define( 'AWSM_JOBS_SITE_URL', 'https://hirezoot.com' );
 }
 if ( ! defined( 'AWSM_JOBS_DOCS_URL' ) ) {
-	define( 'AWSM_JOBS_DOCS_URL', 'https://docs.hirezoot.com' );
+	define( 'AWSM_JOBS_DOCS_URL', 'https://docs.wpjobopenings.com/' );
 }
 if ( ! defined( 'AWSM_JOBS_ROADMAP_URL' ) ) {
 	define( 'AWSM_JOBS_ROADMAP_URL', 'https://roadmap.hirezoot.com' );
