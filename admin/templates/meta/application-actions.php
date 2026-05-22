@@ -34,7 +34,7 @@ $application_id = $post->ID;
 					echo 'pro-feature'; }
 				?>
 				">
-				<a class="pro-ft" href="https://wpjobopenings.com/pro-pack/" target="_blank"><?php esc_html_e( 'Pro Features', 'wp-job-openings' ); ?></a>
+				<a class="pro-ft" href="<?php echo esc_url( AWSM_JOBS_SITE_URL . '/pro-pack/' ); ?>" target="_blank"><?php esc_html_e( 'Pro Features', 'wp-job-openings' ); ?></a>
 					<p><label for="post_status"><?php esc_html_e( 'Status:', 'wp-job-openings' ); ?></label></p>
 					<p>
 						<select style="width:100%;" disabled>
