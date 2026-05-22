@@ -388,12 +388,12 @@ class AWSM_Job_Openings {
 	 */
 	public static function get_active_page_builder() {
 		$builders = array(
-			'elementor'        => defined( 'ELEMENTOR_VERSION' ),
-			'divi'             => defined( 'ET_BUILDER_VERSION' ),
-			'beaver_builder'   => class_exists( 'FLBuilder' ),
-			'wpbakery'         => defined( 'WPB_VC_VERSION' ),
-			'bricks'           => defined( 'BRICKS_VERSION' ),
-			'visual_composer'  => defined( 'VCV_VERSION' ),
+			'elementor'       => defined( 'ELEMENTOR_VERSION' ),
+			'divi'            => defined( 'ET_BUILDER_VERSION' ),
+			'beaver_builder'  => class_exists( 'FLBuilder' ),
+			'wpbakery'        => defined( 'WPB_VC_VERSION' ),
+			'bricks'          => defined( 'BRICKS_VERSION' ),
+			'visual_composer' => defined( 'VCV_VERSION' ),
 		);
 
 		foreach ( $builders as $builder => $active ) {
