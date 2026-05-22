@@ -766,7 +766,7 @@ const WidgetInspectorControls = props => {
 							</PanelRow>
 							<TextControl
 								label={ __( "Button Text", "wp-job-openings" ) }
-								value={ hz_button_text }
+								value={ hz_button_text ?? '' }
 								placeholder={ __( "More Details →", "wp-job-openings" ) }
 								onChange={ value => setAttributes( { hz_button_text: value } ) }
 								__nextHasNoMarginBottom
