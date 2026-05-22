@@ -209,7 +209,7 @@ class AWSM_Job_Openings {
 		<div class="notice notice-warning is-dismissible">
 			<p>
 				<?php
-				$plugin = sprintf( '<strong>%s</strong>', esc_html__( 'Job Alerts Add-on for Hirezoot', 'wp-job-openings' ) );
+				$plugin = sprintf( '<strong>%s</strong>', esc_html__( 'Job Alerts Add-on for HireZoot', 'wp-job-openings' ) );
 				/* translators: %s: plugin name */
 				printf( esc_html__( 'Please update the %s plugin to version 1.1.9 or higher to ensure full compatibility.', 'wp-job-openings' ), $plugin ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				echo ' ';
@@ -227,9 +227,9 @@ class AWSM_Job_Openings {
 	public static function log( $data, $prefix = '' ) {
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG && defined( 'AWSM_JOBS_DEBUG' ) && AWSM_JOBS_DEBUG ) {
 			if ( is_string( $data ) ) {
-				error_log( 'Hirezoot:' . $prefix . ': ' . $data );
+				error_log( 'HireZoot:' . $prefix . ': ' . $data );
 			} else {
-				error_log( 'Hirezoot:' . $prefix . ': ' . json_encode( $data, JSON_PRETTY_PRINT ) );
+				error_log( 'HireZoot:' . $prefix . ': ' . json_encode( $data, JSON_PRETTY_PRINT ) );
 			}
 		}
 	}
@@ -381,6 +381,57 @@ class AWSM_Job_Openings {
 		}
 	}
 
+	/**
+	 * Returns the slug of the first detected active page builder, or false for Gutenberg.
+	 *
+	 * @return string|false
+	 */
+	public static function get_active_page_builder() {
+		$builders = array(
+			'elementor'       => defined( 'ELEMENTOR_VERSION' ),
+			'divi'            => defined( 'ET_BUILDER_VERSION' ),
+			'beaver_builder'  => class_exists( 'FLBuilder' ),
+			'wpbakery'        => defined( 'WPB_VC_VERSION' ),
+			'bricks'          => defined( 'BRICKS_VERSION' ),
+			'visual_composer' => defined( 'VCV_VERSION' ),
+		);
+
+		foreach ( $builders as $builder => $active ) {
+			if ( $active ) {
+				return $builder;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Returns the appropriate post content for the default job listing page.
+	 *
+	 * Falls back to the [awsmjobs] shortcode when a third-party page builder is
+	 * active, since those environments do not support Gutenberg block markup.
+	 * Use the `awsm_jobs_default_listing_content` filter to override the output.
+	 *
+	 * @return string
+	 */
+	public static function get_default_listing_content() {
+		$builder = self::get_active_page_builder();
+
+		if ( $builder ) {
+			$content = '<p>[awsmjobs]</p>';
+		} else {
+			$content = "<!-- wp:wp-job-openings/blocks -->\n<p class=\"wp-block-wp-job-openings-blocks\"></p>\n<!-- /wp:wp-job-openings/blocks -->";
+		}
+
+		/**
+		 * Filters the default job listing page content inserted on plugin activation.
+		 *
+		 * @param string       $content The content string (shortcode or block markup).
+		 * @param string|false $builder Active page builder slug, or false for Gutenberg.
+		 */
+		return apply_filters( 'awsm_jobs_default_listing_content', $content, $builder );
+	}
+
 	public function create_page_when_activate() {
 		$default_page_id = get_option( 'awsm_jobs_default_listing_page_id' );
 		if ( empty( $default_page_id ) ) {
@@ -389,7 +440,7 @@ class AWSM_Job_Openings {
 				'post_author'  => $user,
 				'post_name'    => 'job-openings',
 				'post_status'  => 'publish',
-				'post_content' => '<p>[awsmjobs]</p>',
+				'post_content' => self::get_default_listing_content(),
 				'post_title'   => esc_html__( 'Jobs', 'wp-job-openings' ),
 				'post_type'    => 'page',
 			);
@@ -401,9 +452,11 @@ class AWSM_Job_Openings {
 	}
 
 	public static function add_shortcode_to_page( $page_id ) {
-		$post_content = get_post_field( 'post_content', $page_id );
-		if ( ! has_shortcode( $post_content, 'awsmjobs' ) ) {
-			$post_content .= '<p>[awsmjobs]</p>';
+		$post_content  = get_post_field( 'post_content', $page_id );
+		$has_block     = has_block( 'wp-job-openings/blocks', $post_content );
+		$has_shortcode = has_shortcode( $post_content, 'awsmjobs' );
+		if ( ! $has_block && ! $has_shortcode ) {
+			$post_content .= "\n" . self::get_default_listing_content();
 		}
 		$page_data = array(
 			'ID'           => $page_id,
@@ -983,8 +1036,35 @@ class AWSM_Job_Openings {
 
 		$active_applications    = $total_applications - $trashed_applications;
 		$new_applications_count = AWSM_Job_Openings_Core::get_unviewed_applications_count();
-		$data                   = array(
-			'active_jobs'         => $jobs_count['publish'],
+
+		$active_jobs_args = array(
+			'post_type'      => 'awsm_job_openings',
+			'post_status'    => 'publish',
+			'posts_per_page' => -1,
+			'fields'         => 'ids',
+		);
+		/**
+		 * Filters the query args used to count active (valid) jobs.
+		 * Addons can add meta_query conditions here to exclude filled, excluded, etc.
+		 *
+		 * @since 3.4.0
+		 *
+		 * @param array $active_jobs_args WP_Query args.
+		 */
+		$active_jobs_args = apply_filters( 'awsm_jobs_active_count_query_args', $active_jobs_args );
+		$active_job_ids   = get_posts( $active_jobs_args );
+		/**
+		 * Filters the active job IDs after the initial query.
+		 * Addons can remove IDs here for conditions that require PHP-level checks (e.g. application limit).
+		 *
+		 * @since 3.4.0
+		 *
+		 * @param int[] $active_job_ids Array of job post IDs.
+		 */
+		$active_job_ids = apply_filters( 'awsm_jobs_active_count_ids', $active_job_ids );
+
+		$data = array(
+			'active_jobs'         => count( $active_job_ids ),
 			'total_jobs'          => $total_jobs,
 			'new_applications'    => $published_apps,
 			'total_applications'  => $total_applications,
@@ -1378,7 +1458,6 @@ class AWSM_Job_Openings {
 				'awsm_filters'              => self::get_filter_specifications(),
 				'awsm_filters_block'        => AWSM_Job_Openings_Block::get_block_filter_specifications(),
 				'awsm_featured_image_block' => AWSM_Job_Openings_Block::get_block_featured_image_size(),
-				'isProEnabled'              => class_exists( 'AWSM_Job_Openings_Pro_Pack' ),
 			)
 		);
 		wp_localize_script(

@@ -1,5 +1,5 @@
 import {__} from "@wordpress/i18n";
-import {useEffect, useRef, Fragment, useState} from "@wordpress/element";
+import {useEffect, useRef, Fragment} from "@wordpress/element";
 import {
 	InspectorControls,
 	PanelColorSettings,
@@ -15,7 +15,6 @@ import {
 	TextControl,
 	SelectControl,
 	Button,
-	FormTokenField,
 	__experimentalToggleGroupControl as ToggleGroupControl,
 	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
 	BoxControl,
@@ -73,12 +72,15 @@ const WidgetInspectorControls = props => {
 			hz_bs_border = {},
 			hz_bs_border_radius = {},
 			hz_bs_padding = {},
+			hz_button_style = 'none',
+			hz_button_text = 'More Details →',
 			hz_button_background_color,
 			hz_button_text_color,
 			hz_pagination_background_color,
 			hz_pagination_text_color,
 			hz_pagination_border = {},
 			hz_pagination_border_radius,
+			hz_pagination_padding,
 			hz_sf_background_color,
 			hz_sf_text_color,
 			hz_jl_background_color,
@@ -90,14 +92,11 @@ const WidgetInspectorControls = props => {
 		setAttributes
 	} = props;
 
+	const isProFeature = ( feature ) => wp.hooks.applyFilters( 'awsm_block_is_pro_feature', false, feature );
+
 	// Local state for block settings
 	const filtersInitRef = useRef( false );
 	const specifications = window.awsmJobsAdmin?.awsm_filters_block || [];
-	const [ toggleState, setToggleState ] = useState( selected_terms_main || {} );
-
-	const [ selectedTermsState, setSelectedTermsState ] = useState(
-		selected_terms || {}
-	);
 
 	const block_appearance_list = [];
 	const block_job_listing = [];
@@ -114,30 +113,6 @@ const WidgetInspectorControls = props => {
 		},
 		[ clientId ]
 	);
-
-	useEffect( () => {
-		if ( ! specifications?.length ) {
-			return;
-		}
-
-		const initialSelectedTerms = specifications.reduce( ( acc, spec ) => {
-			acc[ spec.key ] = selected_terms?.[ spec.key ] || [];
-			return acc;
-		}, {} );
-
-		setSelectedTermsState( initialSelectedTerms );
-	}, [ specifications, selected_terms ] );
-
-	useEffect( () => {
-		const initialToggle = Array.isArray( selected_terms_main )
-			? selected_terms_main.reduce( ( acc, key ) => {
-					acc[ key ] = true;
-					return acc;
-			  }, {} )
-			: {};
-
-		setToggleState( initialToggle );
-	}, [ selected_terms_main ] );
 
 	useEffect( () => {
 		const expectedId = "block-" + clientId;
@@ -165,7 +140,7 @@ const WidgetInspectorControls = props => {
 	}, [] );
 
 	useEffect( () => {
-		if ( ! wasJustInserted ) return;
+		if ( ! wasJustInserted && blockId ) return;
 		if ( filtersInitRef.current ) return;
 		if ( ! enable_job_filter ) return;
 		if ( ! specifications?.length ) return;
@@ -181,52 +156,37 @@ const WidgetInspectorControls = props => {
 		filtersInitRef.current = true;
 	}, [ wasJustInserted, specifications, enable_job_filter ] );
 
-	const handleTermChange = ( newTokens, specKey, spec ) => {
-		const newTermIds = newTokens
-			.map( token => {
-				// Normalize to string so purely-numeric term names work in FormTokenField.
-				const term = spec.terms.find(
-					t => String( t.name ) === String( token )
-				);
-				return term ? term.term_id : null;
-			} )
-			.filter( id => id !== null );
+	useEffect( () => {
+		const updates = {};
 
-		const updatedSelectedTerms = {
-			...selectedTermsState,
-			[ specKey ]: newTermIds
-		};
-
-		// Auto-upgrade to multi-select if multiple terms selected; never auto-downgrade.
-		const updatedFilterTypes = {
-			...filter_types,
-			[ specKey ]: newTermIds.length > 1 ? "checkbox" : ( filter_types[ specKey ] || "dropdown" )
-		};
-
-		setSelectedTermsState( updatedSelectedTerms );
-		setAttributes( {
-			selected_terms: updatedSelectedTerms,
-			filter_types: updatedFilterTypes
-		} );
-	};
-
-	const handleToggleChange = ( specKey, isChecked ) => {
-		const updatedTermsMain = isChecked
-			? [ ...new Set( [ ...( selected_terms_main || [] ), specKey ] ) ]
-			: ( selected_terms_main || [] ).filter( key => key !== specKey );
-
-		const updatedSelectedTerms = {...selectedTermsState};
-		if ( ! isChecked ) {
-			delete updatedSelectedTerms[ specKey ];
+		if ( layout === "stack" && ! isProFeature( "stack_layout" ) ) {
+			updates.layout = "list";
 		}
 
-		setToggleState( prev => ( {...prev, [ specKey ]: isChecked} ) );
-		setSelectedTermsState( updatedSelectedTerms );
-		setAttributes( {
-			selected_terms_main: updatedTermsMain,
-			selected_terms: updatedSelectedTerms
-		} );
-	};
+		if ( list_type === "filtered" && ! isProFeature( "filtered_list" ) ) {
+			updates.list_type = "all";
+		}
+
+		if ( ! isProFeature( "multi_select_filter" ) && filter_types && Object.keys( filter_types ).length ) {
+			const resetTypes = {};
+			let hasCheckbox = false;
+			Object.entries( filter_types ).forEach( ( [ key, val ] ) => {
+				if ( val === "checkbox" ) {
+					resetTypes[ key ] = "dropdown";
+					hasCheckbox = true;
+				} else {
+					resetTypes[ key ] = val;
+				}
+			} );
+			if ( hasCheckbox ) {
+				updates.filter_types = resetTypes;
+			}
+		}
+
+		if ( Object.keys( updates ).length ) {
+			setAttributes( updates );
+		}
+	}, [] );
 
 	const onChangeNumberOfColumns = value => {
 		const columnsValue = parseInt( value, 10 );
@@ -305,7 +265,17 @@ const WidgetInspectorControls = props => {
 							label={ __( "Enable Filters", "wp-job-openings" ) }
 							checked={ enable_job_filter }
 							onChange={ newFilter => {
-								setAttributes( { enable_job_filter: newFilter } );
+								const updates = { enable_job_filter: newFilter };
+								if ( newFilter && ! filter_options?.length && specifications?.length ) {
+									const newFilterOptions = specifications.map( spec => spec.key );
+									const newFilterTypes = {};
+									specifications.forEach( spec => {
+										newFilterTypes[ spec.key ] = "dropdown";
+									} );
+									updates.filter_options = newFilterOptions;
+									updates.filter_types = newFilterTypes;
+								}
+								setAttributes( updates );
 							} }
 						__nextHasNoMarginBottom
 						/>
@@ -316,7 +286,7 @@ const WidgetInspectorControls = props => {
 									const isActive = filter_options.includes( spec.key );
 									const filterType = filter_types[ spec.key ] || "dropdown";
 									const hasMultipleSelectedTerms =
-										( selectedTermsState[ spec.key ] || [] ).length > 1;
+										( selected_terms?.[ spec.key ] || [] ).length > 1;
 
 									return (
 										<div key={ spec.key } style={{ marginBottom: '8px' }}>
@@ -349,15 +319,19 @@ const WidgetInspectorControls = props => {
 														__next40pxDefaultSize
 														onClick={ () => setAttributes( { filter_types: { ...filter_types, [ spec.key ]: "dropdown" } } ) }
 													>
-														{ __( "Single Select", "wp-job-openings" ) }
+														{ __( "Single", "wp-job-openings" ) }
 													</Button>
 
 													<Button
-														className={ `filter-btn ${ filterType === "checkbox" ? "is-active" : "" }` }
+														className={ `filter-btn ${ filterType === "checkbox" ? "is-active" : "" }${ ! isProFeature( "multi_select_filter" ) ? " is-pro-locked" : "" }` }
 														__next40pxDefaultSize
-														onClick={ () => setAttributes( { filter_types: { ...filter_types, [ spec.key ]: "checkbox" } } ) }
+														onClick={ () => {
+															if ( ! isProFeature( "multi_select_filter" ) ) return;
+															setAttributes( { filter_types: { ...filter_types, [ spec.key ]: "checkbox" } } );
+														} }
 													>
-														{ __( "Multi Select", "wp-job-openings" ) }
+														{ __( "Multiple", "wp-job-openings" ) }
+														{ ! isProFeature( "multi_select_filter" ) && <span className="awsm-pro-badge">Pro</span> }
 													</Button>
 												</div>
 											) }
@@ -382,7 +356,10 @@ const WidgetInspectorControls = props => {
 						<ToggleGroupControl
 							label={ __( "Layout", "wp-job-openings" ) }
 							value={ layout }
-							onChange={ layout => setAttributes( {layout} ) }
+							onChange={ newLayout => {
+								if ( newLayout === "stack" && ! isProFeature( "stack_layout" ) ) return;
+								setAttributes( { layout: newLayout } );
+							} }
 							isBlock
 							__nextHasNoMarginBottom
 							__next40pxDefaultSize
@@ -397,7 +374,12 @@ const WidgetInspectorControls = props => {
 							/>
 							<ToggleGroupControlOption
 								value="stack"
-								label={ __( "Stack", "wp-job-openings" ) }
+								className={ ! isProFeature( "stack_layout" ) ? "is-pro-locked" : "" }
+								label={
+									! isProFeature( "stack_layout" )
+										? <span>{ __( "Stack", "wp-job-openings" ) }<span className="awsm-pro-badge">Pro</span></span>
+										: __( "Stack", "wp-job-openings" )
+								}
 							/>
 						</ToggleGroupControl>
 
@@ -496,6 +478,7 @@ const WidgetInspectorControls = props => {
 							label={ __( "List Type", "wp-job-openings" ) }
 							value={ list_type }
 							onChange={ newlist_type => {
+								if ( newlist_type === "filtered" && ! isProFeature( "filtered_list" ) ) return;
 								setAttributes( {list_type: newlist_type} );
 
 								// Clear all items in selected_terms if list_type is set to "all"
@@ -520,7 +503,12 @@ const WidgetInspectorControls = props => {
 							/>
 							<ToggleGroupControlOption
 								value="filtered"
-								label={ __( "Filtered List", "wp-job-openings" ) }
+								className={ ! isProFeature( "filtered_list" ) ? "is-pro-locked" : "" }
+								label={
+									! isProFeature( "filtered_list" )
+										? <span>{ __( "Filtered", "wp-job-openings" ) }<span className="awsm-pro-badge">Pro</span></span>
+										: __( "Filtered", "wp-job-openings" )
+								}
 							/>
 						</ToggleGroupControl>
 						<p>
@@ -530,55 +518,7 @@ const WidgetInspectorControls = props => {
 							) }
 						</p>
 
-						{ list_type === "filtered" && (
-							<>
-								<h2>{ __( "Filters", "wp-job-openings" ) }</h2>
-								{ specifications.map( spec => (
-									<div key={ spec.key } className="filter-item" style={{ marginBottom: '8px' }}>
-										<ToggleControl
-											label={ spec.label }
-											checked={ toggleState[ spec.key ] || false } // Check the toggle state for the spec
-											onChange={ isChecked => {
-												// Handle toggle change and update attributes
-												handleToggleChange( spec.key, isChecked );
-											} }
-										__nextHasNoMarginBottom
-										/>
-
-										{ /* Show FormTokenField only when toggle is on */ }
-										{ toggleState[ spec.key ] &&
-											( () => {
-												const visibleTerms = spec.terms;
-												return (
-													<FormTokenField
-														value={ (
-															selectedTermsState[ spec.key ] || []
-														).map( id => {
-															const term = visibleTerms.find(
-																t => t.term_id === id
-															);
-															return term ? String( term.name ) : "";
-														} ) }
-														onChange={ newTokens =>
-															handleTermChange( newTokens, spec.key, {
-																...spec,
-																terms: visibleTerms
-															} )
-														}
-														suggestions={ visibleTerms.map( term =>
-															String( term.name )
-														) }
-														__experimentalExpandOnFocus={ true }
-														label=""
-													__nextHasNoMarginBottom
-													__next40pxDefaultSize
-													/>
-												);
-											} )() }
-									</div>
-								) ) }
-							</>
-						) }
+						{ wp.hooks.applyFilters( 'awsm_jobs_block_filtered_list_ui', null, { list_type, selected_terms, selected_terms_main, specifications, setAttributes, filter_types } ) }
 
 						<SelectControl
 							label={ __( "Order By", "wp-job-openings" ) }
@@ -824,55 +764,80 @@ const WidgetInspectorControls = props => {
 							<PanelRow>
 								<strong>{ __( "Button", "wp-job-openings" ) }</strong>
 							</PanelRow>
-							<BorderControl
-								label={ __( "Border", "wp-job-openings" ) }
-								withSlider
-								isCompact={ true }
-								value={ hz_bs_border }
-								__experimentalIsRenderedInSidebar
-								onChange={ newBorder => {
-									const width = newBorder?.width ?? hz_bs_border?.width;
-									const color = newBorder && 'color' in newBorder ? newBorder.color : hz_bs_border?.color;
-									setAttributes( {
-										hz_bs_border: {
-											...hz_bs_border,
-											...newBorder,
-											width,
-											color: parseFloat( width ) > 0 ? color : undefined
-										}
-									} );
-								} }
-								enableStyle={ false }
+							<TextControl
+								label={ __( "Button Text", "wp-job-openings" ) }
+								value={ hz_button_text ?? '' }
+								placeholder={ __( "More Details →", "wp-job-openings" ) }
+								onChange={ value => setAttributes( { hz_button_text: value } ) }
+								__nextHasNoMarginBottom
 							/>
-
 							<Spacer marginBottom={ 4 } />
+							<ToggleGroupControl
+								label={ __( "Button Style", "wp-job-openings" ) }
+								value={ hz_button_style }
+								onChange={ value => setAttributes( { hz_button_style: value } ) }
+								isBlock
+								__nextHasNoMarginBottom
+								__next40pxDefaultSize
+							>
+								<ToggleGroupControlOption value="none" label={ __( "None", "wp-job-openings" ) } />
+								<ToggleGroupControlOption value="filled" label={ __( "Fill", "wp-job-openings" ) } />
+								<ToggleGroupControlOption value="outlined" label={ __( "Outline", "wp-job-openings" ) } />
+							</ToggleGroupControl>
+							{ hz_button_style !== 'none' && (
+								<>
+									<Spacer marginBottom={ 4 } />
+									<BorderControl
+										label={ __( "Border", "wp-job-openings" ) }
+										withSlider
+										isCompact={ true }
+										value={ hz_bs_border }
+										__experimentalIsRenderedInSidebar
+										onChange={ newBorder => {
+											const width = newBorder?.width ?? hz_bs_border?.width;
+											const color = newBorder && 'color' in newBorder ? newBorder.color : hz_bs_border?.color;
+											setAttributes( {
+												hz_bs_border: {
+													...hz_bs_border,
+													...newBorder,
+													width,
+													color: parseFloat( width ) > 0 ? color : undefined
+												}
+											} );
+										} }
+										enableStyle={ false }
+									/>
 
-							<BorderRadiusControl
-								values={ hz_bs_border_radius }
-								onChange={ newRadius => {
-									if ( typeof newRadius === "string" ) {
-										const radiusObject = {
-											topLeft: newRadius,
-											topRight: newRadius,
-											bottomRight: newRadius,
-											bottomLeft: newRadius
-										};
-										setAttributes( {hz_bs_border_radius: radiusObject} );
-									} else {
-										setAttributes( {hz_bs_border_radius: newRadius} );
-									}
-								} }
-							/>
+									<Spacer marginBottom={ 4 } />
 
-							<Spacer marginBottom={ 4 } />
+									<BorderRadiusControl
+										values={ hz_bs_border_radius }
+										onChange={ newRadius => {
+											if ( typeof newRadius === "string" ) {
+												const radiusObject = {
+													topLeft: newRadius,
+													topRight: newRadius,
+													bottomRight: newRadius,
+													bottomLeft: newRadius
+												};
+												setAttributes( {hz_bs_border_radius: radiusObject} );
+											} else {
+												setAttributes( {hz_bs_border_radius: newRadius} );
+											}
+										} }
+									/>
 
-							<BoxControl
-								label={ __( "Padding", "wp-job-openings" ) }
-								values={ hz_bs_padding?.top ? hz_bs_padding : { top: "13px", right: "13px", bottom: "13px", left: "13px" } }
-								onChange={ Padding => {
-									setAttributes( {hz_bs_padding: Padding} );
-								} }
-							/>
+									<Spacer marginBottom={ 4 } />
+
+									<BoxControl
+										label={ __( "Padding", "wp-job-openings" ) }
+										values={ hz_bs_padding?.top ? hz_bs_padding : { top: "13px", right: "13px", bottom: "13px", left: "13px" } }
+										onChange={ Padding => {
+											setAttributes( {hz_bs_padding: Padding} );
+										} }
+									/>
+								</>
+							) }
 
 							<Spacer marginBottom={ 4 } />
 
@@ -893,12 +858,12 @@ const WidgetInspectorControls = props => {
 											setAttributes( {hz_jl_text_color: color} ),
 										label: __( "Listing Text", "wp-job-openings" )
 									},
-									{
+									...( hz_button_style !== 'none' ? [ {
 										value: hz_button_background_color,
 										onChange: color =>
 											setAttributes( {hz_button_background_color: color} ),
 										label: __( "Button Background", "wp-job-openings" )
-									},
+									} ] : [] ),
 									{
 										value: hz_button_text_color,
 										onChange: color =>
@@ -941,6 +906,16 @@ const WidgetInspectorControls = props => {
 									} else {
 										setAttributes( {hz_pagination_border_radius: newRadius} );
 									}
+								} }
+							/>
+
+							<Spacer marginBottom={ 4 } />
+
+							<BoxControl
+								label={ __( "Padding", "wp-job-openings" ) }
+								values={ hz_pagination_padding?.top ? hz_pagination_padding : { top: pagination === 'classic' ? '5px' : '20px', right: pagination === 'classic' ? '5px' : '20px', bottom: pagination === 'classic' ? '5px' : '20px', left: pagination === 'classic' ? '5px' : '20px' } }
+								onChange={ Padding => {
+									setAttributes( {hz_pagination_padding: Padding} );
 								} }
 							/>
 

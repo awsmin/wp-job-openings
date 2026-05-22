@@ -306,6 +306,8 @@
 }
 .awsm-jobs-overview-list-item p{
 	margin: 0;	
+	word-break: break-word;
+    max-width: 90%;
 }
 .awsm-jobs-overview-list-item p strong{
 	display: block;
@@ -314,6 +316,8 @@
 }
 .awsm-jobs-overview-list-item p span{
 	color: #161616;
+	word-break: break-all;
+	word-wrap: break-word;
 }
 .awsm-jobs-overview-list-item-main{
 	display: flex;

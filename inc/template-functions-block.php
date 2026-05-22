@@ -38,79 +38,6 @@ if ( ! function_exists( 'awsm_block_job_filters_explode' ) ) {
 	}
 }
 
-if ( ! function_exists( 'get_block_filtered_job_terms' ) ) {
-	function get_block_filtered_job_terms( $attributes ) {
-
-		$filter_suffix  = '_spec';
-		$filters        = $attributes['filter_options'];
-		$filtered_terms = array();
-
-		if ( ! empty( $filters ) && is_array( $filters ) ) {
-			foreach ( $filters as $filter ) {
-
-				if ( empty( $filter['specKey'] ) ) {
-					continue;
-				}
-
-				$taxonomy           = $filter['specKey'];
-				$current_filter_key = str_replace( '-', '__', $taxonomy ) . $filter_suffix;
-
-				if ( empty( $_GET[ $current_filter_key ] ) ) {
-					continue;
-				}
-
-				$raw_value = wp_unslash( $_GET[ $current_filter_key ] );
-				$slugs     = explode( ',', $raw_value );
-
-				foreach ( $slugs as $slug ) {
-					$slug = sanitize_title( $slug );
-					$term = get_term_by( 'slug', $slug, $taxonomy );
-
-					if ( $term && ! is_wp_error( $term ) ) {
-						$filtered_terms[ $taxonomy ][] = $term;
-					}
-				}
-
-				// Always define taxonomy key
-				if ( empty( $filtered_terms[ $taxonomy ] ) ) {
-					$filtered_terms[ $taxonomy ] = array();
-				}
-			}
-		}
-
-		return $filtered_terms;
-	}
-}
-
-if ( ! function_exists( 'get_block_filtered_job_terms' ) ) {
-	function get_block_filtered_job_terms( $attributes ) {
-		$filter_suffix  = '_spec';
-		$filters        = $attributes['filter_options'];
-		$filtered_terms = array();
-
-		if ( ! empty( $filters ) && is_array( $filters ) ) {
-			foreach ( $filters as $filter ) {
-				if ( ! empty( $filter['specKey'] ) ) {
-					$taxonomy           = $filter['specKey'];
-					$current_filter_key = str_replace( '-', '__', $taxonomy ) . $filter_suffix;
-
-					if ( isset( $_GET[ $current_filter_key ] ) ) {
-						$term_slug = sanitize_title( $_GET[ $current_filter_key ] );
-						$term      = get_term_by( 'slug', $term_slug, $taxonomy );
-
-						if ( $term && ! is_wp_error( $term ) ) {
-							$filtered_terms[ $taxonomy ] = $term;
-						} else {
-							$filtered_terms[ $taxonomy ] = null;
-						}
-					}
-				}
-			}
-		}
-
-		return $filtered_terms;
-	}
-}
 
 if ( ! function_exists( 'awsm_block_jobs_query' ) ) {
 	function awsm_block_jobs_query( $attributes = array() ) {
@@ -421,6 +348,8 @@ if ( ! function_exists( 'hz_get_ui_styles' ) ) {
 			'button_border_radius_topright'        => isset( $attributes['hz_bs_border_radius']['topRight'] ) ? $attributes['hz_bs_border_radius']['topRight'] : '5px',
 			'button_border_radius_bottomright'     => isset( $attributes['hz_bs_border_radius']['bottomRight'] ) ? $attributes['hz_bs_border_radius']['bottomRight'] : '5px',
 			'button_border_radius_bottomleft'      => isset( $attributes['hz_bs_border_radius']['bottomLeft'] ) ? $attributes['hz_bs_border_radius']['bottomLeft'] : '5px',
+			'button_style'                         => ! empty( $attributes['hz_button_style'] ) ? sanitize_key( $attributes['hz_button_style'] ) : 'none',
+			'button_text'                          => ! empty( $attributes['hz_button_text'] ) ? sanitize_text_field( $attributes['hz_button_text'] ) : '',
 			'button_background_color'              => ! empty( $attributes['hz_button_background_color'] )
 				? hz_sanitize_color( $attributes['hz_button_background_color'] )
 				: '',
@@ -473,6 +402,18 @@ if ( ! function_exists( 'hz_get_ui_styles' ) ) {
 			'padding_bottom_button'                => ! empty( $attributes['hz_bs_padding']['bottom'] )
 				? hz_append_unit_if_missing( $attributes['hz_bs_padding']['bottom'] )
 				: '13px',
+			'padding_top_pagination'               => ! empty( $attributes['hz_pagination_padding']['top'] )
+				? hz_append_unit_if_missing( $attributes['hz_pagination_padding']['top'] )
+				: ( isset( $attributes['pagination'] ) && $attributes['pagination'] === 'classic' ? '5px' : '20px' ),
+			'padding_right_pagination'             => ! empty( $attributes['hz_pagination_padding']['right'] )
+				? hz_append_unit_if_missing( $attributes['hz_pagination_padding']['right'] )
+				: ( isset( $attributes['pagination'] ) && $attributes['pagination'] === 'classic' ? '5px' : '20px' ),
+			'padding_bottom_pagination'            => ! empty( $attributes['hz_pagination_padding']['bottom'] )
+				? hz_append_unit_if_missing( $attributes['hz_pagination_padding']['bottom'] )
+				: ( isset( $attributes['pagination'] ) && $attributes['pagination'] === 'classic' ? '5px' : '20px' ),
+			'padding_left_pagination'              => ! empty( $attributes['hz_pagination_padding']['left'] )
+				? hz_append_unit_if_missing( $attributes['hz_pagination_padding']['left'] )
+				: ( isset( $attributes['pagination'] ) && $attributes['pagination'] === 'classic' ? '5px' : '20px' ),
 		);
 
 		return apply_filters( 'hz_ui_styles', $styles, $attributes );
@@ -503,14 +444,14 @@ if ( ! function_exists( 'hz_append_unit_if_missing' ) ) {
 if ( ! function_exists( 'awsm_b_job_more_details' ) ) {
 	function awsm_b_job_more_details( $link, $view ) {
 
-		$button_class = 'awsm-b-job-more';
+		$button_class = apply_filters( 'awsm_b_job_more_button_class', 'awsm-b-job-more' );
 
 		$more_dtls_link = sprintf(
 			'<div class="awsm-b-job-more-container"><%1$s class="%2$s"%3$s>%4$s</%1$s></div>',
 			( $view === 'grid' ) ? 'span' : 'a',
 			esc_attr( $button_class ),
 			( $view === 'grid' ) ? '' : ' href="' . esc_url( $link ) . '"',
-			esc_html__( 'More Details', 'wp-job-openings' )
+			apply_filters( 'awsm_b_job_more_button_text', esc_html__( 'More Details →', 'wp-job-openings' ) )
 		);
 
 		echo apply_filters( 'awsm_b_jobs_listing_details_link', $more_dtls_link, $view ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

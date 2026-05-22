@@ -110,7 +110,7 @@ class AWSM_Job_Openings_Info {
 	}
 
 	public function custom_admin_menu() {
-		add_submenu_page( 'edit.php?post_type=awsm_job_openings', esc_html__( 'Hirezoot Setup', 'wp-job-openings' ), esc_html__( 'Setup', 'wp-job-openings' ), 'manage_options', 'awsm-jobs-setup', array( $this, 'setup_page' ) );
+		add_submenu_page( 'edit.php?post_type=awsm_job_openings', esc_html__( 'HireZoot Setup', 'wp-job-openings' ), esc_html__( 'Setup', 'wp-job-openings' ), 'manage_options', 'awsm-jobs-setup', array( $this, 'setup_page' ) );
 		add_submenu_page( 'edit.php?post_type=awsm_job_openings', esc_html__( 'Add-ons', 'wp-job-openings' ), esc_html__( 'Add-ons', 'wp-job-openings' ), 'manage_awsm_jobs', 'awsm-jobs-add-ons', array( $this, 'add_ons_page' ) );
 
 		// Add Get PRO link in submenu.
@@ -223,7 +223,12 @@ class AWSM_Job_Openings_Info {
 		if ( ! empty( $screen ) ) {
 			$post_type = $screen->post_type;
 			if ( ( $post_type === 'awsm_job_openings' ) || ( $post_type === 'awsm_job_application' ) ) {
-				$is_page = $screen->id;
+				// On a single post edit page, map to the listing screen ID so the nav tab matches.
+				if ( $screen->base === 'post' ) {
+					$is_page = 'edit-' . $screen->post_type;
+				} else {
+					$is_page = $screen->id;
+				}
 				// Check if page is the setup page.
 				if ( isset( $_GET['page'] ) && $_GET['page'] === 'awsm-jobs-setup' ) {
 					$is_page = false;
@@ -310,7 +315,7 @@ class AWSM_Job_Openings_Info {
 				<div class="awsm-job-admin-nav-header">
 					<div class="awsm-job-admin-nav-logo">
 						<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=awsm_job_openings&page=awsm-jobs-overview' ) ); ?>">
-							<?php esc_html_e( 'Hirezoot', 'wp-job-openings' ); ?>
+							<?php esc_html_e( 'HireZoot', 'wp-job-openings' ); ?>
 						</a>
 					</div>
 					<ul class="awsm-job-admin-nav">

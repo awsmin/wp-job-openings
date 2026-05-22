@@ -96,6 +96,7 @@
 	display: flex;
 	gap: 10px;
 	margin-bottom: 16px;
+	justify-content: space-between;
 }
 
 /* Base button */
@@ -107,6 +108,8 @@
 	transition: background 0.15s ease, color 0.15s ease;
 	box-shadow: none;
 	outline: none;
+	justify-content: center;
+	width: calc(50% - 5px);
 }
 
 /* Active state */
@@ -126,4 +129,34 @@
 .hz-awsm-ic-settings .filters-button .filter-btn.is-active:hover {
 	background-color: #1e1e1e;
 	color: #ffffff;
+}
+
+// ---- Pro Badge ----
+
+.awsm-pro-badge {
+	align-items: center;
+	font-size: 9px;
+	font-weight: 600;
+	line-height: 1;
+	padding: 4px 5px;
+	border-radius: 4px;
+	background: #161616;
+	color: #6cfae4;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	margin-left: 2px;
+	vertical-align: middle;
+}
+
+.hz-awsm-ic-settings .filters-button .filter-btn.is-pro-locked{
+ 	border-color: rgba(0,0,0,.6);
+    color: rgba(0,0,0,.6) !important;
+    cursor: not-allowed;
+    background: none !important;
+}
+
+.components-toggle-group-control-option-base.is-pro-locked{
+	pointer-events: none;
+	cursor: not-allowed;
+	color: rgba(0,0,0,.3) !important;
 }

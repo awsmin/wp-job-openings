@@ -51,9 +51,7 @@ if ( isset( $query ) && $query instanceof WP_Query && $query->have_posts() ) {
 						awsm_jobs_block_featured_image( true, $featured_image, '', $attributes );
 					?>
 
-					<?php if ( $view === 'stack' ) : ?>
-					<div class="awsm-b-stack-left-col-in">
-					<?php endif; ?>
+					<?php echo apply_filters( 'awsm_jobs_block_listing_left_col_before_title', '', $view, $job_details['id'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 
 					<h2 class="awsm-b-job-post-title">
 						<?php
@@ -62,15 +60,9 @@ if ( isset( $query ) && $query instanceof WP_Query && $query->have_posts() ) {
 						?>
 					</h2>
 
-					<?php
-					if ( $view === 'stack' ) {
-						awsm_block_job_listing_spec_content( $job_details['id'], $awsm_filters, $listing_specs, false, $show_spec_icon );
-					}
-					?>
+					<?php do_action( 'awsm_jobs_block_listing_left_col_after_title', $job_details['id'], $awsm_filters, $listing_specs, $show_spec_icon, $view ); ?>
 
-					<?php if ( $view === 'stack' ) : ?>
-					</div>
-					<?php endif; ?>
+					<?php echo apply_filters( 'awsm_jobs_block_listing_left_col_after_specs', '', $view, $job_details['id'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 
 					<?php
 						/**
@@ -102,7 +94,7 @@ if ( isset( $query ) && $query instanceof WP_Query && $query->have_posts() ) {
 
 						do_action_deprecated( 'before_awsm_block_jobs_listing_right_col_content', array( $job_details['id'], $attributes ), '3.0.0', 'before_awsm_block_jobs_listing_specs_content' );
 
-					if ( $view !== 'stack' ) {
+					if ( apply_filters( 'awsm_jobs_block_listing_show_right_col_specs', true, $view ) ) {
 						awsm_block_job_listing_spec_content( $job_details['id'], $awsm_filters, $listing_specs, false, $show_spec_icon );
 					}
 

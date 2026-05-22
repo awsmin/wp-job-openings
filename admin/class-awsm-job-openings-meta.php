@@ -63,7 +63,7 @@ class AWSM_Job_Openings_Meta {
 
 		if ( ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) {
 			add_meta_box( 'awsm-application-actions-meta', esc_html__( 'Actions', 'wp-job-openings' ), array( $this, 'application_actions_meta_handler' ), 'awsm_job_application', 'side', 'high' );
-			add_meta_box( 'awsm-get-the-pro-pack-meta', esc_html__( 'Upgrade to Hirezoot Pro', 'wp-job-openings' ), array( $this, 'get_pro_meta_handler' ), 'awsm_job_application', 'side', 'low' );
+			add_meta_box( 'awsm-get-the-pro-pack-meta', esc_html__( 'Upgrade to HireZoot Pro', 'wp-job-openings' ), array( $this, 'get_pro_meta_handler' ), 'awsm_job_application', 'side', 'low' );
 		}
 	}
 
@@ -218,7 +218,19 @@ class AWSM_Job_Openings_Meta {
 					if ( ! empty( $meta_content ) || is_numeric( $meta_content ) ) {
 						$is_meta_group = isset( $meta_options['group'] ) ? $meta_options['group'] : false;
 						$meta_content  = ! $is_meta_group ? '<span>' . $meta_content . '</span>' : $meta_content;
-						$list         .= sprintf( '<li><label>%1$s</label>%2$s</li>', esc_html( $label ), '<div class="' . $meta_key . '">' . $meta_content . '</div>' );
+						if ( isset( $meta_options['type'] ) ) {
+							$field_type = $meta_options['type'];
+						} elseif ( $multi_line ) {
+							$field_type = 'textarea';
+						} elseif ( $meta_key === 'awsm_applicant_email' ) {
+							$field_type = 'email';
+						} elseif ( $meta_key === 'awsm_applicant_phone' ) {
+							$field_type = 'tel';
+						} else {
+							$field_type = 'text';
+						}
+						$li_class = 'awsm-field-type-' . sanitize_html_class( $field_type );
+						$list    .= sprintf( '<li class="%3$s"><label>%1$s</label>%2$s</li>', esc_html( $label ), '<div class="' . $meta_key . '">' . $meta_content . '</div>', esc_attr( $li_class ) );
 					}
 					// Add to meta details array
 					$meta_details[ $meta_key ] = $value;
