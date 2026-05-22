@@ -229,8 +229,8 @@ class AWSM_Job_Openings_Meta {
 						} else {
 							$field_type = 'text';
 						}
-						$li_class      = 'awsm-field-type-' . sanitize_html_class( $field_type );
-						$list         .= sprintf( '<li class="%3$s"><label>%1$s</label>%2$s</li>', esc_html( $label ), '<div class="' . $meta_key . '">' . $meta_content . '</div>', esc_attr( $li_class ) );
+						$li_class = 'awsm-field-type-' . sanitize_html_class( $field_type );
+						$list    .= sprintf( '<li class="%3$s"><label>%1$s</label>%2$s</li>', esc_html( $label ), '<div class="' . $meta_key . '">' . $meta_content . '</div>', esc_attr( $li_class ) );
 					}
 					// Add to meta details array
 					$meta_details[ $meta_key ] = $value;
