@@ -52,7 +52,8 @@ jQuery( function ( $ ) {
 			"awsm-other-options",
 			"awsm-selected-terms",
 			"awsm-spec-icons",
-			"awsm-order-by"
+			"awsm-order-by",
+			"awsm-button-style"  // handled via explicit push below
 		];
 
 		// Allow Pro to extend
@@ -149,6 +150,7 @@ jQuery( function ( $ ) {
 		const other_options = $wrapper.data( "awsm-other-options" );
 		const show_spec_icon = $wrapper.data( "awsm-spec-icons" );
 		const order_by = $wrapper.data( "awsm-order-by" );
+		const button_style = $wrapper.data( "awsm-button-style" );
 
 		/* Filter URL sync logic */
 		$rootWrapper.find( ".awsm-b-filter-item" ).each( function () {
@@ -202,6 +204,13 @@ jQuery( function ( $ ) {
 			formData.push( {
 				name: "awsm-order-by",
 				value: order_by
+			} );
+		}
+
+		if ( typeof button_style !== "undefined" ) {
+			formData.push( {
+				name: "awsm-button-style",
+				value: button_style
 			} );
 		}
 
@@ -706,6 +715,7 @@ jQuery( function ( $ ) {
 		
 			const other_options = $listingsContainer.data( "awsm-other-options" );
 			const show_spec_icon = $listingsContainer.data( "awsm-spec-icons" );
+			const button_style = $listingsContainer.data( "awsm-button-style" );
 			/* end */
 
 			if ( isDefaultPagination ) {
@@ -837,6 +847,13 @@ jQuery( function ( $ ) {
 				wpData.push( {
 					name: "awsm-order-by",
 					value: order_by
+				} );
+			}
+
+			if ( typeof button_style !== "undefined" ) {
+				wpData.push( {
+					name: "awsm-button-style",
+					value: button_style
 				} );
 			}
 

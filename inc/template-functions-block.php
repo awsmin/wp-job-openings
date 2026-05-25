@@ -132,10 +132,11 @@ if ( ! function_exists( 'awsm_block_jobs_load_more' ) ) {
 		$loadmore      = isset( $attributes['block_loadmore'] ) && $attributes['block_loadmore'] === 'no' ? false : true;
 		$max_num_pages = $query->max_num_pages;
 		if ( $loadmore && $max_num_pages > 1 ) {
+			$button_style = ! empty( $attributes['hz_button_style'] ) ? sanitize_key( $attributes['hz_button_style'] ) : 'none';
 			if ( AWSM_Job_Openings::is_default_pagination( $attributes ) ) {
 				$paged = ( $query->query_vars['paged'] ) ? $query->query_vars['paged'] : 1;
 				if ( $paged < $max_num_pages ) {
-					$load_more_content = sprintf( '<div class="awsm-b-jobs-pagination awsm-b-load-more-main"><a href="#" class="awsm-b-load-more awsm-b-load-more-btn" data-page="%2$s">%1$s</a></div>', esc_html__( 'Load more', 'wp-job-openings' ), esc_attr( $paged ) );
+					$load_more_content = sprintf( '<div class="awsm-b-jobs-pagination awsm-b-load-more-main is-button-%3$s"><a href="#" class="awsm-b-load-more awsm-b-load-more-btn" data-page="%2$s">%1$s</a></div>', esc_html__( 'Load more', 'wp-job-openings' ), esc_attr( $paged ), esc_attr( $button_style ) );
 					/**
 					 * Filters the load more content.
 					 *
@@ -148,7 +149,7 @@ if ( ! function_exists( 'awsm_block_jobs_load_more' ) ) {
 					echo apply_filters( 'awsm_block_jobs_load_more_content', $load_more_content, $query, $attributes ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				}
 			} else {
-				echo awsm_block_jobs_paginate_links( $query ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				echo awsm_block_jobs_paginate_links( $query, array( 'hz_button_style' => $button_style ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			}
 		}
 	}
@@ -184,7 +185,8 @@ if ( ! function_exists( 'awsm_block_jobs_paginate_links' ) ) {
 			'current' => max( 1, $current ),
 			'total'   => $max_num_pages,
 		);
-		$pagination_content = sprintf( '<div class="awsm-b-jobs-pagination awsm-b-load-more-classic" data-effect-duration="slow">%s</div>', paginate_links( $args ) );
+		$button_style       = ! empty( $shortcode_atts['hz_button_style'] ) ? sanitize_key( $shortcode_atts['hz_button_style'] ) : 'none';
+		$pagination_content = sprintf( '<div class="awsm-b-jobs-pagination awsm-b-load-more-classic is-button-%2$s" data-effect-duration="slow">%1$s</div>', paginate_links( $args ), esc_attr( $button_style ) );
 		/**
 		 * Filters the paginate links content.
 		 *
