@@ -1093,9 +1093,7 @@ a.awsm-b-job-item .awsm-job-specification-item {
 }
 
 .awsm-b-job-more.is-button-none {
-	background-color: transparent;
-	border: none;
-	padding: 0;
+	color: var(--hz-b-tx-color);
 }
 
 .awsm-b-job-more.is-button-filled {
