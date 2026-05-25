@@ -3,7 +3,7 @@
   "apiVersion": 3,
   "name": "wp-job-openings/blocks",
   "version": "1.0.1",
-  "title": "Job Listings (Beta)",
+  "title": "Job Listings",
   "category": "widgets",
   "description": "Display and filter job listings.",
   "attributes": {
