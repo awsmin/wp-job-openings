@@ -1,6 +1,6 @@
 ## Changelog
 
-### V 4.0.1 – 2026-05-22 =
+### V 4.0.1 – 2026-05-25 =
 Added: Block - "More Details" button text editing option in block inspector.
 Added: Block - Three button styles (None, Fill, Outline) for the "More Details" button.
 Added: Block - Search enabled by default.
