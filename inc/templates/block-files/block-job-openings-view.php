@@ -102,8 +102,7 @@ $block_style_variables = "
 		--hz-b-padding-top: {$styles['padding_top_button']};
 		--hz-b-padding-bottom: {$styles['padding_bottom_button']};
 	}
-	" . ( ! empty( $styles['button_text_color'] ) ? "#{$styles['block_id']} .awsm-b-job-more.is-button-none { color: {$styles['button_text_color']} !important; }" : '' ) . '
-	';
+	";
 
 	echo apply_filters( 'hz_ui_styles_css_variables', $block_style_variables, $styles ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 ?>
