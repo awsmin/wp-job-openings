@@ -151,6 +151,7 @@ jQuery( function ( $ ) {
 		const show_spec_icon = $wrapper.data( "awsm-spec-icons" );
 		const order_by = $wrapper.data( "awsm-order-by" );
 		const button_style = $wrapper.data( "awsm-button-style" );
+		const button_text = $wrapper.data( "awsm-button-text" );
 
 		/* Filter URL sync logic */
 		$rootWrapper.find( ".awsm-b-filter-item" ).each( function () {
@@ -211,6 +212,13 @@ jQuery( function ( $ ) {
 			formData.push( {
 				name: "awsm-button-style",
 				value: button_style
+			} );
+		}
+
+		if ( button_text ) {
+			formData.push( {
+				name: "awsm-button-text",
+				value: button_text
 			} );
 		}
 
@@ -716,6 +724,7 @@ jQuery( function ( $ ) {
 			const other_options = $listingsContainer.data( "awsm-other-options" );
 			const show_spec_icon = $listingsContainer.data( "awsm-spec-icons" );
 			const button_style = $listingsContainer.data( "awsm-button-style" );
+			const button_text = $listingsContainer.data( "awsm-button-text" );
 			/* end */
 
 			if ( isDefaultPagination ) {
@@ -854,6 +863,13 @@ jQuery( function ( $ ) {
 				wpData.push( {
 					name: "awsm-button-style",
 					value: button_style
+				} );
+			}
+
+			if ( button_text ) {
+				wpData.push( {
+					name: "awsm-button-text",
+					value: button_text
 				} );
 			}
 

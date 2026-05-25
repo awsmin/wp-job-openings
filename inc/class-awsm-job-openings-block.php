@@ -297,6 +297,10 @@ class AWSM_Job_Openings_Block {
 			$attributes['hz_button_style'] = sanitize_key( wp_unslash( $_POST['awsm-button-style'] ) );
 		}
 
+		if ( ! empty( $_POST['awsm-button-text'] ) ) {
+			$attributes['hz_button_text'] = sanitize_text_field( wp_unslash( $_POST['awsm-button-text'] ) );
+		}
+
 		$attributes = apply_filters( 'awsm_jobs_block_restore_selected_terms', $attributes );
 
 		$attributes = apply_filters( 'awsm_jobs_block_post_filters', $attributes, map_deep( wp_unslash( $_POST ), 'sanitize_text_field' ) );
@@ -323,6 +327,15 @@ class AWSM_Job_Openings_Block {
 		};
 		add_filter( 'awsm_b_job_more_button_class', $ajax_button_style_filter );
 
+		$ajax_button_text        = ! empty( $attributes['hz_button_text'] ) ? $attributes['hz_button_text'] : '';
+		$ajax_button_text_filter = null;
+		if ( $ajax_button_text ) {
+			$ajax_button_text_filter = function () use ( $ajax_button_text ) {
+				return esc_html( $ajax_button_text );
+			};
+			add_filter( 'awsm_b_job_more_button_text', $ajax_button_text_filter );
+		}
+
 		ob_start();
 
 		if ( $query->have_posts() ) {
@@ -347,6 +360,9 @@ class AWSM_Job_Openings_Block {
 		$html = ob_get_clean();
 
 		remove_filter( 'awsm_b_job_more_button_class', $ajax_button_style_filter );
+		if ( $ajax_button_text_filter ) {
+			remove_filter( 'awsm_b_job_more_button_text', $ajax_button_text_filter );
+		}
 
 		ob_start();
 		awsm_block_jobs_load_more( $query, $attributes );
@@ -467,8 +483,9 @@ class AWSM_Job_Openings_Block {
 			: '';
 		$attrs['awsm-spec-icons']        = isset( $block_atts['show_spec_icon'] ) ? $block_atts['show_spec_icon'] : '';
 
-		$attrs['awsm-order-by']    = isset( $block_atts['order_by'] ) ? $block_atts['order_by'] : '';
+		$attrs['awsm-order-by']     = isset( $block_atts['order_by'] ) ? $block_atts['order_by'] : '';
 		$attrs['awsm-button-style'] = isset( $block_atts['hz_button_style'] ) ? $block_atts['hz_button_style'] : 'none';
+		$attrs['awsm-button-text']  = ! empty( $block_atts['hz_button_text'] ) ? $block_atts['hz_button_text'] : '';
 
 		$current_lang = AWSM_Job_Openings::get_current_language();
 		if ( ! empty( $current_lang ) ) {
