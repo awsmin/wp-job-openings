@@ -7,7 +7,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language-Team: AWSM innovations <hello@awsm.in>\n"
-"POT-Creation-Date: 2026-05-25 05:17+0000\n"
+"POT-Creation-Date: 2026-05-26 10:21+0000\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -46,7 +46,7 @@ msgid "Warning:"
 msgstr ""
 
 #: wp-job-openings.php:324
-msgid "You have activated an older version of Hirezoot than previously installed. This may cause data conflicts or unexpected behaviour."
+msgid "You have activated an older version of HireZoot than previously installed. This may cause data conflicts or unexpected behaviour."
 msgstr ""
 
 #: wp-job-openings.php:453
@@ -117,7 +117,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: wp-job-openings.php:966
-msgid "Email Digest - Hirezoot"
+msgid "Email Digest - HireZoot"
 msgstr ""
 
 #: wp-job-openings.php:1095
@@ -150,12 +150,12 @@ msgstr ""
 
 #. translators: %1$s: opening html tag, %2$s: closing html tag, %3$s: Jobs count, %4$s: Plugin rating site
 #: wp-job-openings.php:1244
-msgid "That's awesome! You have just published %3$sth job posting on your website using %1$sHirezoot%2$s. Could you please do us a BIG favor and give it a %1$s5-star%2$s rating on %4$s? Just to help us spread the word and boost our motivation."
+msgid "That's awesome! You have just published %3$sth job posting on your website using %1$sHireZoot%2$s. Could you please do us a BIG favor and give it a %1$s5-star%2$s rating on %4$s? Just to help us spread the word and boost our motivation."
 msgstr ""
 
 #. translators: %1$s: opening html tag, %2$s: closing html tag, %3$s: Applications count, %4$s: Plugin rating site
 #: wp-job-openings.php:1247
-msgid "You have received over %1$s%3$s%2$s job applications through %1$sHirezoot%2$s. That's awesome! May we ask you to give it a %1$s5-Star%2$s rating on %4$s. It will help us spread the word and boost our motivation."
+msgid "You have received over %1$s%3$s%2$s job applications through %1$sHireZoot%2$s. That's awesome! May we ask you to give it a %1$s5-Star%2$s rating on %4$s. It will help us spread the word and boost our motivation."
 msgstr ""
 
 #: wp-job-openings.php:1253
@@ -277,25 +277,25 @@ msgid "Other"
 msgstr ""
 
 #: wp-job-openings.php:2544
-msgid "Hirezoot Pro - Update Required"
+msgid "HireZoot Pro - Update Required"
 msgstr ""
 
 #: wp-job-openings.php:2545
-msgid "Please update Hirezoot Pro Pack to the latest versions to get new features and improvements."
+msgid "Please update HireZoot Pro Pack to the latest versions to get new features and improvements."
 msgstr ""
 
 #: wp-job-openings.php:2590
-msgid "\"Docs Viewer Add-On for Hirezoot\" is no longer required. Resume preview is now built into Hirezoot. You can safely delete this add-on."
+msgid "\"Docs Viewer Add-On for HireZoot\" is no longer required. Resume preview is now built into HireZoot. You can safely delete this add-on."
 msgstr ""
 
 #. translators: %s: add-on plugin name
 #: wp-job-openings.php:2615
-msgid "\"%s\" has been automatically deactivated. Its functionality is now built into Hirezoot. You can safely delete it."
+msgid "\"%s\" has been automatically deactivated. Its functionality is now built into HireZoot. You can safely delete it."
 msgstr ""
 
 #. translators: %s: add-on plugin name
 #: wp-job-openings.php:2637
-msgid "You can delete \"%s\" — its functionality is now included in Hirezoot."
+msgid "You can delete \"%s\" — its functionality is now included in HireZoot."
 msgstr ""
 
 #: admin/class-awsm-job-openings-info.php:51
@@ -912,30 +912,30 @@ msgstr ""
 msgid "Security check failed."
 msgstr ""
 
-#: inc/class-awsm-job-openings-block.php:325, inc/class-awsm-job-openings-filters.php:348
+#: inc/class-awsm-job-openings-block.php:348, inc/class-awsm-job-openings-filters.php:348
 msgid "Sorry! No more jobs to show."
 msgstr ""
 
-#: inc/class-awsm-job-openings-block.php:323, inc/class-awsm-job-openings-filters.php:346, inc/template-functions.php:317
+#: inc/class-awsm-job-openings-block.php:346, inc/class-awsm-job-openings-filters.php:346, inc/template-functions.php:317
 msgid "Sorry! No jobs to show."
 msgstr ""
 
-#: inc/class-awsm-job-openings-block.php:622
+#: inc/class-awsm-job-openings-block.php:652
 msgctxt "job filter"
 msgid "Search Jobs"
 msgstr ""
 
-#: inc/class-awsm-job-openings-block.php:754, inc/class-awsm-job-openings-block.php:982, inc/class-awsm-job-openings-filters.php:197
+#: inc/class-awsm-job-openings-block.php:784, inc/class-awsm-job-openings-block.php:1012, inc/class-awsm-job-openings-filters.php:197
 msgctxt "job filter"
 msgid "All"
 msgstr ""
 
-#: inc/class-awsm-job-openings-block.php:810, inc/class-awsm-job-openings-block.php:1068, inc/class-awsm-job-openings-filters.php:241
+#: inc/class-awsm-job-openings-block.php:840, inc/class-awsm-job-openings-block.php:1098, inc/class-awsm-job-openings-filters.php:241
 msgctxt "job filter"
 msgid "Filter by"
 msgstr ""
 
-#: inc/class-awsm-job-openings-block.php:884, inc/class-awsm-job-openings-core.php:64
+#: inc/class-awsm-job-openings-block.php:914, inc/class-awsm-job-openings-core.php:64
 msgid "Search Jobs"
 msgstr ""
 
@@ -1264,11 +1264,11 @@ msgstr ""
 msgid "It looks like you have overridden the mail HTML template files. This version is unsupported with the notification customizer. Please update template files for full support."
 msgstr ""
 
-#: inc/template-functions-block.php:138, inc/template-functions.php:279
+#: inc/template-functions-block.php:139, inc/template-functions.php:279
 msgid "Load more"
 msgstr ""
 
-#: inc/template-functions-block.php:454
+#: inc/template-functions-block.php:456
 msgid "More Details →"
 msgstr ""
 
