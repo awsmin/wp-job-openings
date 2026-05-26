@@ -1,4 +1,6 @@
 .DS_Store
+.agent/
+CLAUDE.md
 Thumbs.db
 node_modules
 # build
