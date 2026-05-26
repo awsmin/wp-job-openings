@@ -321,7 +321,7 @@ class AWSM_Job_Openings {
 		<div class="notice notice-warning is-dismissible">
 			<p>
 				<strong><?php esc_html_e( 'Warning:', 'wp-job-openings' ); ?></strong>
-				<?php esc_html_e( 'You have activated an older version of Hirezoot than previously installed. This may cause data conflicts or unexpected behaviour.', 'wp-job-openings' ); ?>
+				<?php esc_html_e( 'You have activated an older version of HireZoot than previously installed. This may cause data conflicts or unexpected behaviour.', 'wp-job-openings' ); ?>
 			</p>
 		</div>
 		<?php
@@ -963,7 +963,7 @@ class AWSM_Job_Openings {
 						 *
 						 * @param string $subject Email subject.
 						 */
-						$subject = apply_filters( 'awsm_jobs_email_digest_subject', esc_html__( 'Email Digest - Hirezoot', 'wp-job-openings' ) );
+						$subject = apply_filters( 'awsm_jobs_email_digest_subject', esc_html__( 'Email Digest - HireZoot', 'wp-job-openings' ) );
 
 						add_filter( 'wp_mail_content_type', 'awsm_jobs_mail_content_type' );
 						wp_mail( $to, $subject, $mail_content, array_values( $headers ) );
@@ -1241,10 +1241,10 @@ class AWSM_Job_Openings {
 
 				self::$rating_notice_active = true;
 				/* translators: %1$s: opening html tag, %2$s: closing html tag, %3$s: Jobs count, %4$s: Plugin rating site */
-				$notice = esc_html__( 'That\'s awesome! You have just published %3$sth job posting on your website using %1$sHirezoot%2$s. Could you please do us a BIG favor and give it a %1$s5-star%2$s rating on %4$s? Just to help us spread the word and boost our motivation.', 'wp-job-openings' );
+				$notice = esc_html__( 'That\'s awesome! You have just published %3$sth job posting on your website using %1$sHireZoot%2$s. Could you please do us a BIG favor and give it a %1$s5-star%2$s rating on %4$s? Just to help us spread the word and boost our motivation.', 'wp-job-openings' );
 				if ( $context === 'application' ) {
 					/* translators: %1$s: opening html tag, %2$s: closing html tag, %3$s: Applications count, %4$s: Plugin rating site */
-					$notice = esc_html__( 'You have received over %1$s%3$s%2$s job applications through %1$sHirezoot%2$s. That\'s awesome! May we ask you to give it a %1$s5-Star%2$s rating on %4$s. It will help us spread the word and boost our motivation.', 'wp-job-openings' );
+					$notice = esc_html__( 'You have received over %1$s%3$s%2$s job applications through %1$sHireZoot%2$s. That\'s awesome! May we ask you to give it a %1$s5-Star%2$s rating on %4$s. It will help us spread the word and boost our motivation.', 'wp-job-openings' );
 				}
 				?>
 				<div class='awsm-job-plugin-rating-wrapper notice notice-info notice'>
@@ -2541,8 +2541,8 @@ class AWSM_Job_Openings {
 			$update_buttons_pro     .= sprintf( '<a href="%2$s" class="button update-now">%1$s</a>', esc_html( $link_action_free_update ), esc_url( $action_url_free_update ) );
 			?>
 			<div class="notice notice-warning is-dismissible">
-				<p><strong><?php esc_html_e( 'Hirezoot Pro - Update Required', 'wp-job-openings' ); ?></strong></p>
-				<p><?php esc_html_e( 'Please update Hirezoot Pro Pack to the latest versions to get new features and improvements.', 'wp-job-openings' ); ?>
+				<p><strong><?php esc_html_e( 'HireZoot Pro - Update Required', 'wp-job-openings' ); ?></strong></p>
+				<p><?php esc_html_e( 'Please update HireZoot Pro Pack to the latest versions to get new features and improvements.', 'wp-job-openings' ); ?>
 				<?php
 				if ( ! empty( $update_buttons_pro ) ) :
 					echo wp_kses_post( $update_buttons_pro );
@@ -2587,7 +2587,7 @@ class AWSM_Job_Openings {
 
 		return new WP_Error(
 			'awsm_docs_viewer_blocked',
-			__( '"Docs Viewer Add-On for Hirezoot" is no longer required. Resume preview is now built into Hirezoot. You can safely delete this add-on.', 'wp-job-openings' )
+			__( '"Docs Viewer Add-On for HireZoot" is no longer required. Resume preview is now built into HireZoot. You can safely delete this add-on.', 'wp-job-openings' )
 		);
 	}
 
@@ -2612,7 +2612,7 @@ class AWSM_Job_Openings {
 					<?php
 					printf(
 						/* translators: %s: add-on plugin name */
-						esc_html__( '"%s" has been automatically deactivated. Its functionality is now built into Hirezoot. You can safely delete it.', 'wp-job-openings' ),
+						esc_html__( '"%s" has been automatically deactivated. Its functionality is now built into HireZoot. You can safely delete it.', 'wp-job-openings' ),
 						'<strong>Docs Viewer Add-On for WP Job Openings</strong>'
 					);
 					?>
@@ -2634,7 +2634,7 @@ class AWSM_Job_Openings {
 					<?php
 					printf(
 						/* translators: %s: add-on plugin name */
-						esc_html__( 'You can delete "%s" — its functionality is now included in Hirezoot.', 'wp-job-openings' ),
+						esc_html__( 'You can delete "%s" — its functionality is now included in HireZoot.', 'wp-job-openings' ),
 						'<strong>Docs Viewer Add-On for WP Job Openings</strong>'
 					);
 					?>
