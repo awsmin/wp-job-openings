@@ -1,6 +1,4 @@
 .DS_Store
-.agent/
-CLAUDE.md
 Thumbs.db
 node_modules
 # build
@@ -8,3 +6,5 @@ node_modules
 *.zip
 *.log
 /vendor/
+.agent/
+CLAUDE.md
