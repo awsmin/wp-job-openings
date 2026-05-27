@@ -494,16 +494,16 @@ class AWSM_Job_Openings_Settings {
 			'awsm_jobs_notification_content'        => "Dear {applicant},\n\nThis is to let you know that we have received your application.We appreciate your interest in {company} and the position of {job-title} for which you applied.  If you are selected for an interview, you can expect a phone call from our Human Resources staff shortly.\n\n Thank you, again, for your interest in our company. We do appreciate the time that you invested in this application.\n\nSincerely\n\nHR Manager\n{company}",
 			'awsm_jobs_enable_admin_notification'   => 'enable',
 			'awsm_jobs_admin_notification_subject'  => 'New application received for the position {job-title} [{job-id}]',
-			'awsm_jobs_admin_notification_content'  => "Job Opening: {job-title} [{job-id}]\nName: {applicant}\nEmail: {applicant-email}\nPhone: {applicant-phone}\nResume: {applicant-resume}\nCover letter: {applicant-cover}\n\nPowered by Hirezoot Plugin",
+			'awsm_jobs_admin_notification_content'  => "Job Opening: {job-title} [{job-id}]\nName: {applicant}\nEmail: {applicant-email}\nPhone: {applicant-phone}\nResume: {applicant-resume}\nCover letter: {applicant-cover}\n\nPowered by HireZoot Plugin",
 			'awsm_jobs_enable_expiry_notification'  => 'enable',
 			'awsm_jobs_author_notification_subject' => 'Job Listing Expired',
-			'awsm_jobs_author_notification_content' => "This email is to notify you that your job listing for [{job-title}] has just expired. As a result, applicants will no longer be able to apply for this position.\n\nIf you would like to extend the expiration date or remove the listing, please log in to the dashboard and take the necessary steps.\n\nPowered by Hirezoot Plugin",
+			'awsm_jobs_author_notification_content' => "This email is to notify you that your job listing for [{job-title}] has just expired. As a result, applicants will no longer be able to apply for this position.\n\nIf you would like to extend the expiration date or remove the listing, please log in to the dashboard and take the necessary steps.\n\nPowered by HireZoot Plugin",
 			'awsm_jobs_notification_customizer'     => array(
 				'logo'        => 'default',
 				'base_color'  => '#05BC9C',
 				'from_email'  => $default_from_email,
 				/* translators: %1$s: Site link, %2$s: Plugin website link */
-				'footer_text' => sprintf( esc_html__( 'Sent from %1$s by %2$s Plugin', 'wp-job-openings' ), '<a href="{site-url}">{site-title}</a>', '<a href="https://wpjobopenings.com">' . esc_html__( 'HireZoot', 'wp-job-openings' ) . '</a>' ),
+				'footer_text' => sprintf( esc_html__( 'Sent from %1$s by %2$s Plugin', 'wp-job-openings' ), '<a href="{site-url}">{site-title}</a>', '<a href="' . AWSM_JOBS_SITE_URL . '">' . esc_html__( 'HireZoot', 'wp-job-openings' ) . '</a>' ),
 			),
 			'awsm_jobs_email_digest'                => 'enable',
 		);
@@ -817,6 +817,13 @@ class AWSM_Job_Openings_Settings {
 		$gdpr_enable = get_option( 'awsm_enable_gdpr_cb' );
 		if ( ! empty( $gdpr_enable ) && empty( $input ) ) {
 			$input = esc_html__( 'By using this form you agree with the storage and handling of your data by this website.', 'wp-job-openings' );
+		}
+		$current_val = trim( wp_unslash( $input ) );
+		if ( false !== strpbrk( $current_val, '<>' ) ) {
+			if ( ! wp_list_filter( get_settings_errors( 'awsm_jobs_settings' ), array( 'code' => 'invalid_characters' ) ) ) {
+				add_settings_error( 'awsm_jobs_settings', 'invalid_characters', __( 'Special characters like &lt; and &gt; are not allowed.', 'wp-job-openings' ), 'error' );
+			}
+			return get_option( 'awsm_gdpr_cb_text' );
 		}
 		return $this->sanitize_html_content( $input );
 	}

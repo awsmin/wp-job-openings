@@ -3,7 +3,7 @@
 **Contributors:** awsmin, aravindajith, anantajitjg, sarathar, adhun, nithi22  
 **Tags:** jobs, job listing, job board, careers page, recruitment  
 **Requires at least:** 6.0  
-**Tested up to:** 6.9.4
+**Tested up to:** 7.0
 **Requires PHP:** 5.6  
 **Stable tag:** 4.0.0  
 **License:** GPLv2 or later  
@@ -109,8 +109,17 @@ Yes. You can view, filter, and manage applications from your dashboard.
 
 ## Changelog
 
-**V 4.0.0 – 2026-05-06**
+**V 4.0.1 – 2026-05-26 =
+* Added: Block - "More Details" button text editing option in block inspector.
+* Added: Block - Three button styles (None, Fill, Outline) for the "More Details" button.
+* Added: Block - Search enabled by default.
+* Added: Block - Pro badge locking for Stack layout, Multiple select filter, and Filtered list features.
+* Improved: Block - Set block as default when the plugin is installed.
+* Improved: Block - Padding controls for Classic and Modern pagination styles.
+* Update: Default job listing layout changed from shortcode to block on the Job Listing page.
+* Update: Added new application status badge in the Overview page recent application listing.
 
+**V 4.0.0 – 2026-05-06**
 * Added: Block - Multi-select filters for job listings.
 * Added: Block - Sidebar filter placement and stack layout option.
 * Added: Block - Job sorting (Order By) support.

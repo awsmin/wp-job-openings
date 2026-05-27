@@ -594,6 +594,11 @@ a.awsm-text-red:hover {
 }
 
 .awsm-application-rating-disabled {
+	display: flex;
+	align-items: center;
+}
+
+.awsm-application-rating-pub-section .awsm-application-rating-disabled {
 	flex: 1;
 }
 
@@ -1613,8 +1618,24 @@ a.awsm-plugin-item p {
 }
 
 .awsm-application-post-status-disabled,
-.awsm-application-rating-disabled {
+.awsm-application-rating-disabled,
+.awsm-application-status-pill-disabled {
 	opacity: 0.5;
+}
+
+.awsm-application-status-pill-disabled {
+	display: inline-flex;
+	align-items: center;
+	padding: 4px 10px;
+	border-radius: 100px;
+	border: 1.5px solid #667085;
+	color: #667085;
+	font-size: 12px;
+	font-weight: 500;
+	line-height: 1;
+	white-space: nowrap;
+	background: transparent;
+	cursor: default;
 }
 
 /*--------Rating,Status hover to show pro feature label----------*/
@@ -1651,7 +1672,8 @@ a.awsm-plugin-item p {
 
 .awsm-application-actions.pro-feature .pro-ft {
 	left: -90px;
-	top: 8px;
+	top: 50%;
+	transform: translateY(-50%);
 }
 
 .awsm-application-post-status.pro-feature .pro-ft,
@@ -1753,6 +1775,8 @@ a.awsm-plugin-item p {
 	line-height: 1;
 	letter-spacing: -0.08px;
 	margin: 0 0 6px;
+	word-wrap: break-word;
+    word-break: break-word;
 }
 
 .awsm-applicant-info p {
@@ -1903,10 +1927,12 @@ a.awsm-plugin-item p {
 	flex-wrap: wrap;
 	padding: 12px 0;
 	gap: 10px;
-	align-items: center;
+	/* align-items: center; */
 	word-wrap: break-word;
 }
-
+.awsm-applicant-profile ul li.awsm-field-type-file{
+	align-items: center;
+}
 .awsm-applicant-profile ul li:not(:last-child) {
 	border-bottom: 1px solid #EAECF0;
 }
@@ -2376,6 +2402,28 @@ input.awsm-button:disabled {
 	display: inline-flex;
 	line-height: 1;
 	align-items: center;
+}
+
+.awsm-applicant-name-row {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+}
+.awsm-applicant-name-row strong {
+	display: inline !important;
+}
+.awsm-overview-new-badge {
+	display: inline-flex;
+	align-items: center;
+	padding: 2px 7px;
+	border-radius: 10px;
+	background-color: #d63638;
+	color: #fff !important;
+	font-size: 9px;
+	font-weight: 400;
+	letter-spacing: 0.5px;
+	white-space: nowrap;
+	flex-shrink: 0;
 }
 
 .awsm-application-date-filter {

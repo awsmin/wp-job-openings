@@ -3,7 +3,7 @@
   "apiVersion": 3,
   "name": "wp-job-openings/blocks",
   "version": "1.0.1",
-  "title": "Job Listings (Beta)",
+  "title": "Job Listings",
   "category": "widgets",
   "description": "Display and filter job listings.",
   "attributes": {
@@ -13,7 +13,7 @@
     },
     "search": {
       "type": "boolean",
-      "default": false
+      "default": true
     },
     "placement": {
       "type": "string",
@@ -170,6 +170,14 @@
         "left": "13px"
       }
     },
+    "hz_button_style": {
+      "type": "string",
+      "default": "none"
+    },
+    "hz_button_text": {
+      "type": "string",
+      "default": "More Details →"
+    },
     "hz_button_background_color": {
       "type": "string"
     },
@@ -196,6 +204,24 @@
         "topRight": "5px",
         "bottomLeft": "5px",
         "bottomRight": "5px"
+      }
+    },
+    "hz_pagination_padding": {
+      "type": "object",
+      "default": {},
+      "properties": {
+        "top": {
+          "type": "string"
+        },
+        "right": {
+          "type": "string"
+        },
+        "bottom": {
+          "type": "string"
+        },
+        "left": {
+          "type": "string"
+        }
       }
     },
     "hz_sf_background_color": {

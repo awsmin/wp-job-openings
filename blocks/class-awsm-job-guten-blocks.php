@@ -39,7 +39,7 @@ class Awsm_Job_Guten_Blocks {
 		// Ensure filter_options exists and is valid
 		if ( ! isset( $atts['filter_options'] ) || ! is_array( $atts['filter_options'] ) ) {
 			$default_filters = array();
-			$specs           = AWSM_Job_Openings::get_filter_specifications();
+			$specs           = AWSM_Job_Openings_Block::get_block_filter_specifications();
 
 			foreach ( $specs as $spec ) {
 				$default_filters[] = array(
@@ -49,6 +49,25 @@ class Awsm_Job_Guten_Blocks {
 			}
 
 			$atts['filter_options'] = $default_filters;
+		} elseif ( empty( $atts['filter_options'] ) && ! empty( $atts['enable_job_filter'] ) ) {
+			// filter_options is [] but filters are enabled — this is a migration case.
+			// Blocks created before filter_options was introduced, or programmatically created blocks,
+			// may have enable_job_filter=true with no specific filters selected.
+			// When the user intentionally removes all filters, the JS also sets enable_job_filter=false,
+			// so this condition only fires for migration scenarios. Auto-populate with all available filters.
+			$default_filters = array();
+			$specs           = AWSM_Job_Openings_Block::get_block_filter_specifications();
+
+			foreach ( $specs as $spec ) {
+				$default_filters[] = array(
+					'specKey' => $spec['key'],
+					'value'   => 'dropdown',
+				);
+			}
+
+			if ( ! empty( $default_filters ) ) {
+				$atts['filter_options'] = $default_filters;
+			}
 		}
 
 		$search_enabled  = ! empty( $atts['search'] );

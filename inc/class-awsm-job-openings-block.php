@@ -31,18 +31,35 @@ class AWSM_Job_Openings_Block {
 
 		$block_atts_set = array(
 			'uid'                            => $this->unique_listing_id,
-			'search'                         => isset( $blockatts['search'] ) ? $blockatts['search'] : '',
-			'enable_job_filter'              => isset( $blockatts['enable_job_filter'] ) ? $blockatts['enable_job_filter'] : '',
+			'search'                         => isset( $blockatts['search'] ) ? ( $blockatts['search'] === true ? 'enable' : $blockatts['search'] ) : '',
+			'enable_job_filter'              => isset( $blockatts['enable_job_filter'] ) ? ( $blockatts['enable_job_filter'] === true ? 'enable' : $blockatts['enable_job_filter'] ) : '',
 			'filter_options'                 => isset( $blockatts['filter_options'] ) ? $blockatts['filter_options'] : array(),
-			'filter_types'                   => isset( $blockatts['filter_types'] ) ? $blockatts['filter_types'] : array(),
-			'layout'                         => isset( $blockatts['layout'] ) ? $blockatts['layout'] : '',
+			'filter_types'                   => ( function () use ( $blockatts ) {
+					$filter_types           = isset( $blockatts['filter_types'] ) && is_array( $blockatts['filter_types'] ) ? $blockatts['filter_types'] : array();
+					$supported_filter_types = apply_filters( 'awsm_jobs_block_supported_filter_types', array( 'dropdown' ) );
+				foreach ( $filter_types as $taxonomy => $type ) {
+					if ( ! in_array( $type, $supported_filter_types, true ) ) {
+						$filter_types[ $taxonomy ] = 'dropdown';
+					}
+				}
+					return $filter_types;
+			} )(),
+			'layout'                         => ( function () use ( $blockatts ) {
+					$layout            = isset( $blockatts['layout'] ) ? $blockatts['layout'] : 'list';
+					$supported_layouts = apply_filters( 'awsm_jobs_block_supported_layouts', array( 'list', 'grid' ) );
+					return in_array( $layout, $supported_layouts, true ) ? $layout : 'list';
+			} )(),
 			'hide_expired_jobs'              => isset( $blockatts['hide_expired_jobs'] ) ? $blockatts['hide_expired_jobs'] : '',
 			'placement'                      => isset( $blockatts['placement'] ) ? $blockatts['placement'] : 'top',
 			'search_placeholder'             => isset( $blockatts['search_placeholder'] ) ? sanitize_text_field( $blockatts['search_placeholder'] ) : '',
 			'number_of_columns'              => isset( $blockatts['number_of_columns'] ) ? $blockatts['number_of_columns'] : 3,
 			'other_options'                  => isset( $blockatts['other_options'] ) ? $blockatts['other_options'] : '',
 			'show_spec_icon'                 => isset( $blockatts['show_spec_icon'] ) ? $blockatts['show_spec_icon'] : '',
-			'list_type'                      => isset( $blockatts['list_type'] ) ? $blockatts['list_type'] : '',
+			'list_type'                      => ( function () use ( $blockatts ) {
+					$list_type             = isset( $blockatts['list_type'] ) ? $blockatts['list_type'] : 'all';
+					$supported_list_types  = apply_filters( 'awsm_jobs_block_supported_list_types', array( 'all' ) );
+					return in_array( $list_type, $supported_list_types, true ) ? $list_type : 'all';
+			} )(),
 			'selected_terms'                 => isset( $blockatts['selected_terms'] ) ? $blockatts['selected_terms'] : '',
 			'order_by'                       => isset( $blockatts['order_by'] ) ? $blockatts['order_by'] : '',
 			'listings'                       => isset( $blockatts['listing_per_page'] ) ? $blockatts['listing_per_page'] : '',
@@ -65,6 +82,8 @@ class AWSM_Job_Openings_Block {
 			'hz_bs_border_width'             => isset( $blockatts['hz_bs_border']['width'] ) ? $blockatts['hz_bs_border']['width'] : '',
 			'hz_bs_border_radius'            => isset( $blockatts['hz_bs_border_radius'] ) ? $blockatts['hz_bs_border_radius'] : '',
 			'hz_bs_padding'                  => isset( $blockatts['hz_bs_padding'] ) ? $blockatts['hz_bs_padding'] : '',
+			'hz_button_style'                => isset( $blockatts['hz_button_style'] ) ? $blockatts['hz_button_style'] : 'none',
+			'hz_button_text'                 => ! empty( $blockatts['hz_button_text'] ) ? $blockatts['hz_button_text'] : '',
 			'hz_button_background_color'     => isset( $blockatts['hz_button_background_color'] ) ? $blockatts['hz_button_background_color'] : '',
 			'hz_button_text_color'           => isset( $blockatts['hz_button_text_color'] ) ? $blockatts['hz_button_text_color'] : '',
 			'hz_pagination_background_color' => isset( $blockatts['hz_pagination_background_color'] ) ? $blockatts['hz_pagination_background_color'] : '',
@@ -72,6 +91,7 @@ class AWSM_Job_Openings_Block {
 			'hz_pagination_border_radius'    => isset( $blockatts['hz_pagination_border_radius'] ) ? $blockatts['hz_pagination_border_radius'] : array(),
 			'hz_pagination_border_color'     => isset( $blockatts['hz_pagination_border']['color'] ) ? $blockatts['hz_pagination_border']['color'] : '',
 			'hz_pagination_border_width'     => isset( $blockatts['hz_pagination_border']['width'] ) ? $blockatts['hz_pagination_border']['width'] : '',
+			'hz_pagination_padding'          => isset( $blockatts['hz_pagination_padding'] ) ? $blockatts['hz_pagination_padding'] : array(),
 			'hz_sf_background_color'         => isset( $blockatts['hz_sf_background_color'] ) ? $blockatts['hz_sf_background_color'] : '',
 			'hz_sf_text_color'               => isset( $blockatts['hz_sf_text_color'] ) ? $blockatts['hz_sf_text_color'] : '',
 			'hz_jl_background_color'         => isset( $blockatts['hz_jl_background_color'] ) ? $blockatts['hz_jl_background_color'] : '',
@@ -123,16 +143,12 @@ class AWSM_Job_Openings_Block {
 				$view_class .= ' ' . $column_class;
 				break;
 
-			case 'stack':
-				$view_class .= ' awsm-b-row awsm-list-stacked';
-				break;
-
 			default:
 				$view_class .= ' awsm-b-lists';
 				break;
 		}
 
-		return esc_attr( $view_class );
+		return esc_attr( apply_filters( 'awsm_jobs_block_view_class', $view_class, $view, $attributes ) );
 	}
 
 	public static function is_edit_or_add_page( $type = '' ) {
@@ -277,35 +293,17 @@ class AWSM_Job_Openings_Block {
 			$attributes['order_by'] = in_array( $order_by, array( 'new_to_old', 'old_to_new' ), true ) ? $order_by : 'new_to_old';
 		}
 
-		// Restore block-configured selected_terms sent from the JS wrapper data attr
-		// so they are applied when filter dropdowns are disabled.
-		if ( isset( $_POST['awsm_selected_terms'] ) && ! empty( $_POST['awsm_selected_terms'] ) ) {
-			$raw_st = wp_unslash( $_POST['awsm_selected_terms'] );
-			if ( is_string( $raw_st ) ) {
-				$decoded_st = json_decode( $raw_st, true );
-			} elseif ( is_array( $raw_st ) ) {
-				$decoded_st = $raw_st;
-			} else {
-				$decoded_st = array();
-			}
-			if ( is_array( $decoded_st ) ) {
-				$clean_st = array();
-				foreach ( $decoded_st as $taxonomy => $term_ids ) {
-					$taxonomy = sanitize_key( $taxonomy );
-					if ( taxonomy_exists( $taxonomy ) ) {
-						$term_ids = array_values( array_filter( array_map( 'absint', (array) $term_ids ) ) );
-						if ( ! empty( $term_ids ) ) {
-							$clean_st[ $taxonomy ] = $term_ids;
-						}
-					}
-				}
-				if ( ! empty( $clean_st ) ) {
-					$attributes['selected_terms'] = $clean_st;
-				}
-			}
+		if ( isset( $_POST['awsm-button-style'] ) ) {
+			$attributes['hz_button_style'] = sanitize_key( wp_unslash( $_POST['awsm-button-style'] ) );
 		}
 
-		$attributes = apply_filters( 'awsm_jobs_block_post_filters', $attributes, wp_unslash( $_POST ) );
+		if ( ! empty( $_POST['awsm-button-text'] ) ) {
+			$attributes['hz_button_text'] = sanitize_text_field( wp_unslash( $_POST['awsm-button-text'] ) );
+		}
+
+		$attributes = apply_filters( 'awsm_jobs_block_restore_selected_terms', $attributes );
+
+		$attributes = apply_filters( 'awsm_jobs_block_post_filters', $attributes, map_deep( wp_unslash( $_POST ), 'sanitize_text_field' ) );
 
 		$args = self::awsm_block_job_query_args( $filters, $attributes, array(), $filters_list );
 
@@ -322,6 +320,21 @@ class AWSM_Job_Openings_Block {
 		}
 
 		$query = new WP_Query( $args );
+
+		$ajax_button_style        = ! empty( $attributes['hz_button_style'] ) ? sanitize_key( $attributes['hz_button_style'] ) : 'none';
+		$ajax_button_style_filter = function ( $class ) use ( $ajax_button_style ) {
+			return $class . ' is-button-' . $ajax_button_style;
+		};
+		add_filter( 'awsm_b_job_more_button_class', $ajax_button_style_filter );
+
+		$ajax_button_text        = ! empty( $attributes['hz_button_text'] ) ? $attributes['hz_button_text'] : '';
+		$ajax_button_text_filter = null;
+		if ( $ajax_button_text ) {
+			$ajax_button_text_filter = function () use ( $ajax_button_text ) {
+				return esc_html( $ajax_button_text );
+			};
+			add_filter( 'awsm_b_job_more_button_text', $ajax_button_text_filter );
+		}
 
 		ob_start();
 
@@ -345,6 +358,11 @@ class AWSM_Job_Openings_Block {
 		}
 
 		$html = ob_get_clean();
+
+		remove_filter( 'awsm_b_job_more_button_class', $ajax_button_style_filter );
+		if ( $ajax_button_text_filter ) {
+			remove_filter( 'awsm_b_job_more_button_text', $ajax_button_text_filter );
+		}
 
 		ob_start();
 		awsm_block_jobs_load_more( $query, $attributes );
@@ -371,20 +389,7 @@ class AWSM_Job_Openings_Block {
 			$is_term_or_slug[ $taxonomy ] = 'term_id';
 		}
 
-		// Combine taxonomy filters (filters + selected_terms).
-		if ( isset( $attributes['selected_terms'] ) && ! empty( $attributes['selected_terms'] ) ) {
-			$selected = $attributes['selected_terms'];
-			// User's explicit filter selection takes precedence — don't merge preselected
-			// terms for a taxonomy the user has already filtered on, as that causes a
-			// union query (both preselected + user-selected jobs returned).
-			// Check both scalar $filters and array $filters_list since block dropdowns
-			// produce array-format params that go into $filters_list, not $filters.
-			foreach ( array_merge( array_keys( $filters ), array_keys( $filters_list ) ) as $tax ) {
-				unset( $selected[ $tax ] );
-			}
-			// Merge remaining preselected terms; don't replace existing user-chosen filters.
-			$filters_list = array_merge( $filters_list, $selected );
-		}
+		$filters_list = apply_filters( 'awsm_jobs_block_selected_terms_query', $filters_list, $attributes, $filters );
 		// Process taxonomy filters.
 		if ( ! empty( $filters ) || ! empty( $filters_list ) ) {
 			$filters      = is_array( $filters ) ? $filters : array();
@@ -478,23 +483,9 @@ class AWSM_Job_Openings_Block {
 			: '';
 		$attrs['awsm-spec-icons']        = isset( $block_atts['show_spec_icon'] ) ? $block_atts['show_spec_icon'] : '';
 
-		$attrs['awsm-order-by'] = isset( $block_atts['order_by'] ) ? $block_atts['order_by'] : '';
-
-		// Store block-configured selected_terms so AJAX search/filter calls can
-		// re-apply the pre-filter when filter dropdowns are disabled.
-		if ( isset( $block_atts['selected_terms'] ) && ! empty( $block_atts['selected_terms'] ) ) {
-			$selected_terms_clean = array();
-			foreach ( $block_atts['selected_terms'] as $taxonomy => $term_ids ) {
-				$taxonomy = sanitize_key( $taxonomy );
-				$term_ids = array_values( array_filter( array_map( 'absint', (array) $term_ids ) ) );
-				if ( ! empty( $term_ids ) ) {
-					$selected_terms_clean[ $taxonomy ] = $term_ids;
-				}
-			}
-			if ( ! empty( $selected_terms_clean ) ) {
-				$attrs['awsm-selected-terms'] = wp_json_encode( $selected_terms_clean );
-			}
-		}
+		$attrs['awsm-order-by']     = isset( $block_atts['order_by'] ) ? $block_atts['order_by'] : '';
+		$attrs['awsm-button-style'] = isset( $block_atts['hz_button_style'] ) ? $block_atts['hz_button_style'] : 'none';
+		$attrs['awsm-button-text']  = ! empty( $block_atts['hz_button_text'] ) ? $block_atts['hz_button_text'] : '';
 
 		$current_lang = AWSM_Job_Openings::get_current_language();
 		if ( ! empty( $current_lang ) ) {
@@ -761,7 +752,7 @@ class AWSM_Job_Openings_Block {
 								if ( in_array( $term->slug, $selected_specs, true ) ) {
 									$selected = ' selected';
 								}
-							} elseif ( isset( $block_atts['selected_terms'][ $taxonomy ] ) && in_array( $term->term_id, $block_atts['selected_terms'][ $taxonomy ] ) ) {
+							} elseif ( apply_filters( 'awsm_jobs_block_filter_option_is_selected', false, $term, $taxonomy, $block_atts ) ) {
 								$selected = ' selected';
 							}
 							$option_content = sprintf( '<option value="%1$s" data-slug="%3$s"%4$s>%2$s</option>', esc_attr( $term->term_id ), esc_html( $term->name ), esc_attr( $term->slug ), esc_attr( $selected ) );
@@ -799,18 +790,7 @@ class AWSM_Job_Openings_Block {
 
 						$spec_multiple_class = '';
 						$multiple_for_spec   = '';
-						$is_checkbox         = false;
-						if ( isset( $block_atts['filter_types'][ $taxonomy ] ) ) {
-							$is_checkbox = $block_atts['filter_types'][ $taxonomy ] === 'checkbox';
-						} elseif ( isset( $block_atts['filter_options'] ) && is_array( $block_atts['filter_options'] ) ) {
-							foreach ( $block_atts['filter_options'] as $opt ) {
-								if ( is_array( $opt ) && isset( $opt['specKey'] ) && $opt['specKey'] === $taxonomy && ( isset( $opt['value'] ) ? $opt['value'] : '' ) === 'checkbox' ) {
-									$is_checkbox = true;
-									break;
-								}
-							}
-						}
-						if ( $is_checkbox ) {
+						if ( apply_filters( 'awsm_jobs_block_filter_is_multiple', false, $taxonomy, $block_atts ) ) {
 							$spec_multiple_class = 'awsm-b-spec-multiple';
 							$multiple_for_spec   = 'multiple';
 						}
@@ -980,7 +960,7 @@ class AWSM_Job_Openings_Block {
 									if ( in_array( $term->slug, $selected_specs, true ) ) {
 										$selected = ' selected';
 									}
-								} elseif ( isset( $block_atts['selected_terms'][ $taxonomy ] ) && in_array( $term->term_id, $block_atts['selected_terms'][ $taxonomy ] ) ) {
+								} elseif ( apply_filters( 'awsm_jobs_block_filter_option_is_selected', false, $term, $taxonomy, $block_atts ) ) {
 									$selected = ' selected';
 								}
 
@@ -1041,18 +1021,7 @@ class AWSM_Job_Openings_Block {
 
 							$spec_multiple_class = '';
 							$multiple_for_spec   = '';
-							$is_checkbox         = false;
-							if ( isset( $block_atts['filter_types'][ $taxonomy ] ) ) {
-								$is_checkbox = $block_atts['filter_types'][ $taxonomy ] === 'checkbox';
-							} elseif ( is_array( $block_atts['filter_options'] ) ) {
-								foreach ( $block_atts['filter_options'] as $opt ) {
-									if ( is_array( $opt ) && isset( $opt['specKey'] ) && $opt['specKey'] === $taxonomy && ( isset( $opt['value'] ) ? $opt['value'] : '' ) === 'checkbox' ) {
-										$is_checkbox = true;
-										break;
-									}
-								}
-							}
-							if ( $is_checkbox ) {
+							if ( apply_filters( 'awsm_jobs_block_filter_is_multiple', false, $taxonomy, $block_atts ) ) {
 								$spec_multiple_class = 'awsm-b-spec-multiple';
 								$multiple_for_spec   = 'multiple';
 							}

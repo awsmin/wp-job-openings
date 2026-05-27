@@ -173,22 +173,22 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 					$get_started_links = array(
 						array(
 							'id'        => 'documentation',
-							'url'       => 'https://docs.wpjobopenings.com/',
+							'url'       => AWSM_JOBS_DOCS_URL . '/',
 							'link_text' => __( 'Plugin Documentation', 'wp-job-openings' ),
 						),
 						array(
 							'id'        => 'hooks',
-							'url'       => 'https://docs.wpjobopenings.com/developers/hooks',
+							'url'       => AWSM_JOBS_DOCS_URL . '/developers/hooks',
 							'link_text' => __( 'Hooks & Functions', 'wp-job-openings' ),
 						),
 						array(
 							'id'        => 'feedback',
-							'url'       => 'https://roadmap.wpjobopenings.com/boards/feature-requests',
+							'url'       => AWSM_JOBS_ROADMAP_URL . '/boards/feature-requests',
 							'link_text' => __( 'Feedback', 'wp-job-openings' ),
 						),
 						array(
 							'id'        => 'roadmap',
-							'url'       => 'https://roadmap.wpjobopenings.com/roadmap',
+							'url'       => AWSM_JOBS_ROADMAP_URL . '/roadmap',
 							'link_text' => __( 'Roadmap', 'wp-job-openings' ),
 						),
 						array(
@@ -255,10 +255,16 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 						$edit_link       = AWSM_Job_Openings::get_application_edit_link( $application->ID );
 						$submission_time = human_time_diff( get_the_time( 'U', $application->ID ), current_time( 'timestamp' ) ) . ' ' . __( 'ago', 'wp-job-openings' );
 						?>
-					<a href="<?php echo esc_url( $edit_link ); ?>" class="awsm-jobs-overview-list-item">
+						<?php $is_unviewed = 'publish' === $application->post_status && get_post_meta( $application->ID, 'awsm_application_viewed', true ) === '0'; ?>
+					<a href="<?php echo esc_url( $edit_link ); ?>" class="awsm-jobs-overview-list-item<?php echo $is_unviewed ? ' awsm-overview-unviewed' : ''; ?>">
 						<?php echo $avatar; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 						<p>
-							<strong><?php echo esc_html( $application->post_title ); ?></strong>
+							<span class="awsm-applicant-name-row">
+								<strong><?php echo esc_html( $application->post_title ); ?></strong>
+								<?php if ( $is_unviewed ) : ?>
+								<span class="awsm-overview-new-badge"><?php esc_html_e( 'NEW', 'wp-job-openings' ); ?></span>
+								<?php endif; ?>
+							</span>
 							<?php echo esc_html( get_post_meta( $application->ID, 'awsm_apply_for', true ) ); ?>
 						</p>
 						<svg width="4.922" height="8.333" viewBox="0 0 4.922 8.333" xmlns="http://www.w3.org/2000/svg" version="1.1" preserveAspectRatio="xMinYMin">
@@ -387,7 +393,7 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 											</div>
 											<?php
 											if ( current_user_can( 'install_plugins' ) ) {
-												if ( empty( $add_on['wp_plugin'] ) && sanitize_title( $add_on['name'] ) === 'wp-job-openings-pro-pack' ) {
+												if ( empty( $add_on['wp_plugin'] ) && ( sanitize_title( $add_on['name'] ) === 'wp-job-openings-pro-pack' || sanitize_title( $add_on['name'] ) === 'hirezoot-pro-pack' ) ) {
 													$add_on['wp_plugin'] = 'pro-pack-for-wp-job-openings/pro-pack.php';
 												}
 

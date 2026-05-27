@@ -54,10 +54,30 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 				?>
 			</div><!-- .awsm-application-head-main -->
 			<div class="awsm-application-actions <?php echo ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ? 'pro-feature' : ''; ?>">
-				<a class="pro-ft" href="https://wpjobopenings.com/pro-pack/" target="_blank"><?php esc_html_e( 'Pro Features', 'wp-job-openings' ); ?></a>
+				<a class="pro-ft" href="<?php echo esc_url( AWSM_JOBS_SITE_URL . '/pro-pack/' ); ?>" target="_blank"><?php esc_html_e( 'Pro Features', 'wp-job-openings' ); ?></a>
 				<?php if ( class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) : ?>
-					<?php do_action( 'awsm_application_rating_data' ); ?>
+					<?php
+					/**
+					 * Fires to display the application status pill.
+					 *
+					 * @since 4.1.0
+					 *
+					 * @param int $post_id Application post ID.
+					 */
+					do_action( 'awsm_application_status_pill_data', $post->ID );
+					/**
+					 * Fires to display the application rating.
+					 *
+					 * @since 4.0.0
+					 *
+					 * @param int $post_id Application post ID.
+					 */
+					do_action( 'awsm_application_rating_data' );
+					?>
 				<?php else : ?>
+					<div class="awsm-application-status-pill-disabled">
+						<span><?php echo esc_html__( 'New', 'wp-job-openings' ); ?></span>
+					</div>
 					<div class="awsm-application-rating-disabled">
 						<?php
 						wp_star_rating(
@@ -120,7 +140,7 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 						<?php endforeach; ?>
 						<?php if ( ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) : ?>
 							<li class="pro-feature">
-							<a class="pro-ft" href="https://wpjobopenings.com/pro-pack/" target="_blank"><?php esc_html_e( 'Pro Features', 'wp-job-openings' ); ?></a>
+							<a class="pro-ft" href="<?php echo esc_url( AWSM_JOBS_SITE_URL . '/pro-pack/' ); ?>" target="_blank"><?php esc_html_e( 'Pro Features', 'wp-job-openings' ); ?></a>
 							<a href="#"><?php echo esc_html__( 'Notifications', 'wp-job-openings' ); ?><span>8</span></a>
 							<a href="#"><?php echo esc_html__( 'Notes', 'wp-job-openings' ); ?><span>8</span></a>
 							</li>
@@ -145,7 +165,7 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 								if ( ! empty( $resume_details ) ) :
 									$file_size_display = isset( $resume_details['file_size']['display'] ) ? $resume_details['file_size']['display'] : '';
 									?>
-									<li>
+									<li class="awsm-field-type-file">
 										<label>
 											<?php echo ! empty( $resume_field_label ) ? esc_html( $resume_field_label ) : esc_html__( 'Resume', 'wp-job-openings' ); ?>
 										</label>
