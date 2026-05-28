@@ -967,11 +967,16 @@ a.awsm-b-job-item .awsm-job-specification-item {
 	align-items: center;
 	justify-content: space-between;
 	gap: 10px;
+	flex-wrap: wrap;
 
 	@media (max-width: 600px) {
 		flex-direction: column;
 		align-items: flex-start;
 	}
+}
+
+.awsm-list-stacked .awsm-b-stack-left-col {
+	min-width: 75%;
 }
 
 .awsm-b-stack-left-col {
