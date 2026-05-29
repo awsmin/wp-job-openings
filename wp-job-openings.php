@@ -1443,6 +1443,14 @@ class AWSM_Job_Openings {
 				wp_enqueue_style( 'awsm-job-admin-overview' );
 				wp_enqueue_script( 'awsm-job-admin-overview' );
 			}
+
+			if ( 'awsm_job_openings' === $screen->id && $screen->is_block_editor() ) {
+				wp_add_inline_script(
+					'wp-edit-post',
+					'(function(){wp.domReady(function(){var d=wp.data&&wp.data.dispatch("core/preferences");d&&d.setDefaults&&d.setDefaults("core/edit-post",{metaBoxesMainIsOpen:true});});})();',
+					'after'
+				);
+			}
 		}
 
 		wp_localize_script(
