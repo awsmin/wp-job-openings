@@ -25,7 +25,6 @@ class AWSM_Job_Openings_Meta {
 		add_filter( 'wp_untrash_post_status', array( $this, 'awsm_job_application_restore_post_to_previous_status' ), 10, 3 );
 		add_filter( 'post_class', array( $this, 'awsm_add_unread_application_class' ), 10, 3 );
 		add_action( 'quick_edit_custom_box', array( $this, 'awsm_job_openings_main_quick_edit_fields' ), 10, 2 );
-		add_filter( 'default_hidden_meta_boxes', array( $this, 'awsm_open_meta_box_by_default' ), 10, 2 );
 
 	}
 
@@ -421,17 +420,4 @@ class AWSM_Job_Openings_Meta {
 	}
 
 
-	public function awsm_open_meta_box_by_default( $hidden, $screen ) {
-
-		if ( 'awsm_job_openings' === $screen->id ) {
-
-			$key = array_search( 'awsm-job-meta', $hidden, true );
-
-			if ( false !== $key ) {
-				unset( $hidden[ $key ] );
-			}
-		}
-
-		return $hidden;
-	}
 }
