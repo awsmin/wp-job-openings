@@ -819,13 +819,14 @@ class AWSM_Job_Openings_Settings {
 			$input = esc_html__( 'By using this form you agree with the storage and handling of your data by this website.', 'wp-job-openings' );
 		}
 		$current_val = trim( wp_unslash( $input ) );
-		if ( false !== strpbrk( $current_val, '<>' ) ) {
+		$sanitized   = $this->sanitize_html_content( $current_val );
+		if ( substr_count( $current_val, '<' ) > substr_count( $sanitized, '<' ) ) {
 			if ( ! wp_list_filter( get_settings_errors( 'awsm_jobs_settings' ), array( 'code' => 'invalid_characters' ) ) ) {
 				add_settings_error( 'awsm_jobs_settings', 'invalid_characters', __( 'Special characters like &lt; and &gt; are not allowed.', 'wp-job-openings' ), 'error' );
 			}
-			return get_option( 'awsm_gdpr_cb_text' );
+			$sanitized = $this->sanitize_html_content( preg_replace( '/[<>]/', '', $current_val ) );
 		}
-		return $this->sanitize_html_content( $input );
+		return $sanitized;
 	}
 
 	public function notification_content_handler( $input, $option_name ) {
