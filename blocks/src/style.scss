@@ -564,7 +564,7 @@ a.awsm-b-job-item .awsm-job-specification-item {
 	display: block;
 	width: 100%;
 	font: inherit;
-	padding: 8px 15px;
+	padding: 8px 48px 8px 15px;
 	min-height: 46px;
 	font-size: 14px;
 	border: var(--hz-ls-border-width, 1px) solid var(--hz-ls-border-color, #ccc);
@@ -967,11 +967,16 @@ a.awsm-b-job-item .awsm-job-specification-item {
 	align-items: center;
 	justify-content: space-between;
 	gap: 10px;
+	flex-wrap: wrap;
 
 	@media (max-width: 600px) {
 		flex-direction: column;
 		align-items: flex-start;
 	}
+}
+
+.awsm-list-stacked .awsm-b-stack-left-col {
+	min-width: 75%;
 }
 
 .awsm-b-stack-left-col {

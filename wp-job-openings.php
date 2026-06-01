@@ -1443,6 +1443,8 @@ class AWSM_Job_Openings {
 				wp_enqueue_style( 'awsm-job-admin-overview' );
 				wp_enqueue_script( 'awsm-job-admin-overview' );
 			}
+
+			
 		}
 
 		wp_localize_script(

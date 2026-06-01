@@ -5,10 +5,12 @@ Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 5.6
 Stable tag: 4.0.0
+Stable tag: 4.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://www.buymeacoffee.com/awsm
 
+Create modern careers page, list jobs, and manage applications directly from your WordPress dashboard.
 Create modern careers page, list jobs, and manage applications directly from your WordPress dashboard.
 
 == Description ==
@@ -94,11 +96,41 @@ HireZoot works with most well-coded WordPress themes.
 = Can I manage applications inside WordPress? =
 Yes. You can view, filter, and manage applications from your dashboard.
 
+1. Upload the plugin to the `/wp-content/plugins/` directory or install via WordPress  
+2. Activate the plugin from the Plugins screen  
+3. Add your first job listing  
+
+== Frequently Asked Questions ==
+
+= Is HireZoot easy to set up? =
+Yes. You can publish a job listing page and start receiving applications within minutes.
+
+= Can I customize the application form? =
+Yes. The default form works out of the box, and PRO features allow full customization.
+
+= Will it work with my theme? =
+HireZoot works with most well-coded WordPress themes.
+
+= Can I manage applications inside WordPress? =
+Yes. You can view, filter, and manage applications from your dashboard.
+
 == Screenshots ==
 
 1. Job Openings and Applications Dashboard
 2. Job listing - Grid View
 3. Job listing - List View
+4. Job listing - Stack View
+5. Job Block
+6. Job Detail View
+7. Plugin Welcome Page
+8. Add A Job Opening
+9. Application List
+10. Application Detail View
+11. Email Digest
+12. Job Openings List
+13. General Settings
+14. Job Specifications Settings
+15. Notifications Template Settings
 4. Job listing - Stack View
 5. Job Block
 6. Job Detail View

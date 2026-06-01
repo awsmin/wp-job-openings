@@ -548,16 +548,16 @@ class AWSM_Job_Openings_Block {
 				}
 			}
 		} else {
-			$taxonomy_objects = get_object_taxonomies( 'awsm_job_openings', 'objects' );
-			foreach ( $taxonomy_objects as $spec => $spec_details ) {
-				if ( ! in_array( $spec, $spec_keys, true ) ) {
+			foreach ( $spec_keys as $spec ) {
+				$tax_obj = get_taxonomy( $spec );
+				if ( empty( $tax_obj ) ) {
 					continue;
 				}
 				$terms = self::get_block_spec_terms( $spec );
 				if ( ! empty( $terms ) ) {
 					$specs[] = array(
 						'key'              => $spec,
-						'label'            => $spec_details->label,
+						'label'            => $tax_obj->label,
 						'terms'            => $terms,
 						'expired_term_ids' => self::get_expired_only_term_ids( $spec ),
 					);
@@ -726,6 +726,11 @@ class AWSM_Job_Openings_Block {
 			 * @param array $block_atts The block attributes.
 			 */
 			$available_filters = apply_filters( 'awsm_active_block_job_filters', $available_filters, $block_atts );
+			$awsm_admin_filter_order = wp_list_pluck( get_option( 'awsm_jobs_filter', array() ), 'taxonomy' );
+			if ( ! empty( $awsm_admin_filter_order ) ) {
+				$available_filters = array_values( array_intersect( $awsm_admin_filter_order, $available_filters ) );
+			}
+			$filter_dropdown_map = array();
 			foreach ( $taxonomies as $taxonomy => $tax_details ) {
 				if ( in_array( $taxonomy, $available_filters ) ) {
 
@@ -805,8 +810,13 @@ class AWSM_Job_Openings_Block {
 						 */
 						$dropdown_content = apply_filters( 'awsm_job_filter_dropdown_content', $dropdown_content );
 
-						$specs_filter_content .= $dropdown_content;
+						$filter_dropdown_map[ $taxonomy ] = $dropdown_content;
 					}
+				}
+			}
+			foreach ( $available_filters as $taxonomy ) {
+				if ( isset( $filter_dropdown_map[ $taxonomy ] ) ) {
+					$specs_filter_content .= $filter_dropdown_map[ $taxonomy ];
 				}
 			}
 		}
@@ -939,6 +949,8 @@ class AWSM_Job_Openings_Block {
 		$selected_filters = self::get_block_filters_query_args( $available_filters );
 
 		// Respect the legacy separate toggle: only build the filter dropdowns when enabled.
+		$awsm_admin_filter_order_side = wp_list_pluck( get_option( 'awsm_jobs_filter', array() ), 'taxonomy' );
+		$filter_dropdown_map_side     = array();
 		if ( $enable_job_filters === 'enable' && ! empty( $taxonomies ) && is_array( $filter_options ) && ! empty( $filter_options ) ) {
 			foreach ( $taxonomies as $taxonomy => $tax_details ) {
 				foreach ( $filter_options as $spec ) {
@@ -1069,9 +1081,15 @@ class AWSM_Job_Openings_Block {
 							 */
 							$dropdown_content = apply_filters( 'awsm_job_filter_dropdown_content', $dropdown_content );
 
-							$specs_filter_content .= $dropdown_content;
+							$filter_dropdown_map_side[ $taxonomy ] = $dropdown_content;
 						}
 					}
+				}
+			}
+			$ordered_keys = ! empty( $awsm_admin_filter_order_side ) ? $awsm_admin_filter_order_side : array_keys( $filter_dropdown_map_side );
+			foreach ( $ordered_keys as $taxonomy ) {
+				if ( isset( $filter_dropdown_map_side[ $taxonomy ] ) ) {
+					$specs_filter_content .= $filter_dropdown_map_side[ $taxonomy ];
 				}
 			}
 		}
