@@ -1187,6 +1187,10 @@ class AWSM_Job_Openings_Form {
 	 */
 
 	public function enqueue_captcha_scripts() {
+		if ( ! is_singular( 'awsm_job_openings' ) || ! awsm_jobs_is_new_captcha_enabled() ) {
+			return;
+		}
+
 		if ( ! $this->is_captcha_set() ) {
 			return;
 		}
@@ -1215,6 +1219,10 @@ class AWSM_Job_Openings_Form {
 				$site_key = $this->get_captcha_site_key( $captcha_type );
 
 				if ( ! empty( $site_key ) ) {
+					if ( wp_script_is( 'awsm-jobs-g-recaptcha', 'enqueued' ) ) {
+						return;
+					}
+
 					$recaptcha_api_url = "https://www.google.com/recaptcha/api.js?render={$site_key}";
 
 					wp_dequeue_script( 'awsm-jobs-g-recaptcha' );
@@ -1747,11 +1755,17 @@ class AWSM_Job_Openings_Form {
 	}
 
 	/**
-	 * Initialize no-conflict mode hooks (late priority like WPForms).
+	 * Initialize no-conflict mode hooks.
 	 *
 	 * @return void
 	 */
 	public function init_no_conflict_mode() {
+		// Enqueue CAPTCHA scripts at very late priority on both hooks so any
+		// other plugin's no-conflict mode (running at ≤9999) cannot permanently
+		// strip our scripts from job pages — generic, no coupling to any specific plugin.
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_captcha_scripts' ), 99999 );
+		add_action( 'wp_print_scripts', array( $this, 'enqueue_captcha_scripts' ), 99999 );
+
 		if ( ! $this->is_no_conflict_mode_enabled() ) {
 			return;
 		}
