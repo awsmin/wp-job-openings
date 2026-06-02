@@ -732,6 +732,11 @@ jQuery(document).ready(function($) {
 		rangeFrom.datepicker('option', 'maxDate', rangeTo.val());
 	});
 
+	var $clearBtn = $('#awsm-clear-filters');
+	if ($clearBtn.length) {
+		$clearBtn.insertAfter('#post-query-submit');
+	}
+
 	/*================ Job Spec Drag ================*/
 
 	function enableSelect2Sortable(select2Container, selectElement) {

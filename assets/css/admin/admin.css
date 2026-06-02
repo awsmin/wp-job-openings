@@ -2726,4 +2726,28 @@ input.awsm-button:disabled {
 
 }
 
+.awsm-clr-flt-btn.awsm-clr-flt-btn {
+	background: none;
+	border: none;
+	box-shadow: none;
+	outline: none;
+	text-shadow: none;
+	color: #2271b1;
+	cursor: pointer;
+	padding: 0 4px;
+	height: auto;
+	line-height: inherit;
+	text-decoration: none;
+}
+
+.awsm-clr-flt-btn.awsm-clr-flt-btn:hover,
+.awsm-clr-flt-btn.awsm-clr-flt-btn:focus,
+.awsm-clr-flt-btn.awsm-clr-flt-btn:active {
+	background: none;
+	border: none;
+	box-shadow: none;
+	outline: none;
+	color: #135e96;
+}
+
 

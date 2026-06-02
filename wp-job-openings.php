@@ -1134,6 +1134,13 @@ class AWSM_Job_Openings {
 			echo '<input type="text" class="awsm-application-date-filter" id="awsm_application_date_filter_from" name="awsm_filter_by_date_from" placeholder="' . esc_attr__( 'Date From', 'wp-job-openings' ) . '" value="' . esc_attr( $date_range_from ) . '" />';
 			echo '<input type="text" class="awsm-application-date-filter" id="awsm_application_date_filter_to" name="awsm_filter_by_date_to" placeholder="' . esc_attr__( 'Date To', 'wp-job-openings' ) . '" value="' . esc_attr( $date_range_to ) . '" />';
 
+			$pro_spec_filter   = isset( $_GET['awsm_job_admin_filter'] ) ? array_filter( (array) $_GET['awsm_job_admin_filter'] ) : array();
+			$pro_filled_filter = isset( $_GET['awsm_filled_jobs_filter'] ) ? sanitize_text_field( $_GET['awsm_filled_jobs_filter'] ) : '';
+			$has_filters       = ! empty( $jobs_post_filter ) || ! empty( $date_range_from ) || ! empty( $date_range_to ) || ! empty( $pro_spec_filter ) || ! empty( $pro_filled_filter );
+			if ( $has_filters ) {
+				echo '<a href="' . esc_url( admin_url( 'edit.php?post_type=awsm_job_application' ) ) . '" id="awsm-clear-filters" class="button awsm-clr-flt-btn">' . esc_html__( 'Clear Filter', 'wp-job-openings' ) . '</a>';
+			}
+
 		}
 	}
 
