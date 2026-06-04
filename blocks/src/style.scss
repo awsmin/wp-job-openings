@@ -991,8 +991,11 @@ a.awsm-b-job-item .awsm-job-specification-item {
 	}
 
 	.awsm-job-featured-image {
-		max-width: 55px;
+		width: 55px;
 		border-radius: 10px;
+		img{
+			width: 100%;
+		}
 	}
 
 	.awsm-job-specification-wrapper {
@@ -1006,6 +1009,7 @@ a.awsm-b-job-item .awsm-job-specification-item {
 .awsm-b-stack-right-col {
 	flex: 0 0 auto;
 	margin-left: auto;
+	max-width: 100%;
 
 	@media (max-width: 600px) {
 		width: 100%;
