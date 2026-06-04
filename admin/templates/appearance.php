@@ -193,7 +193,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 								),
 								array(
 									'attr'  => 'toggle-target',
-									'value' => '#awsm_jobs_available_filters_row',
+									'value' => '#awsm_jobs_available_filters_row, #awsm_jobs_filter_items_order_row',
 								),
 							),
 						),
@@ -211,6 +211,30 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'container_class' => $enable_filters !== 'enabled' ? $hidden_class : '',
 					'choices'         => $available_filters_choices,
 					'description'     => __( 'Check the job specs you want to enable as filters', 'wp-job-openings' ),
+				),
+				array(
+					'name'            => 'awsm_jobs_filter_items_order',
+					'visible'         => ! empty( $specifications ),
+					'label'           => __( 'Order Filter Items By', 'wp-job-openings' ),
+					'type'            => 'select',
+					'container_id'    => 'awsm_jobs_filter_items_order_row',
+					'container_class' => $enable_filters !== 'enabled' ? $hidden_class : '',
+					'class'           => 'awsm-select-control regular-text',
+					'default_value'   => 'custom',
+					'choices'         => array(
+						array(
+							'value' => 'custom',
+							'text'  => __( 'Custom Ordering', 'wp-job-openings' ),
+						),
+						array(
+							'value' => 'alpha_asc',
+							'text'  => __( 'Alphabetical (A → Z)', 'wp-job-openings' ),
+						),
+						array(
+							'value' => 'alpha_desc',
+							'text'  => __( 'Alphabetical (Z → A)', 'wp-job-openings' ),
+						),
+					),
 				),
 				array(
 					'id'    => 'awsm-appearance-listing-other-options-title',

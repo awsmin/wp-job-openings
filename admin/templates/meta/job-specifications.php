@@ -58,6 +58,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'hide_empty' => false,
 				)
 			);
+			$filter_items_order = get_option( 'awsm_jobs_filter_items_order', 'custom' );
+			if ( 'alpha_asc' === $filter_items_order || 'alpha_desc' === $filter_items_order ) {
+				$terms_args['orderby'] = 'name';
+				$terms_args['order']   = 'alpha_asc' === $filter_items_order ? 'ASC' : 'DESC';
+				unset( $terms_args['meta_query'] );
+			}
 			$spec_terms = get_terms( $terms_args );
 
 			$post_terms     = get_the_terms( $post->ID, $spec );

@@ -137,9 +137,16 @@ class AWSM_Job_Openings_Filters {
 					 *
 					 * @param array $terms_args Array of arguments.
 					 */
-					$terms_args = apply_filters(
-						'awsm_filter_spec_terms_args',
-						array(
+					$filter_items_order = get_option( 'awsm_jobs_filter_items_order', 'custom' );
+					if ( 'alpha_asc' === $filter_items_order || 'alpha_desc' === $filter_items_order ) {
+						$base_terms_args = array(
+							'taxonomy'   => $taxonomy,
+							'orderby'    => 'name',
+							'order'      => 'alpha_asc' === $filter_items_order ? 'ASC' : 'DESC',
+							'hide_empty' => true,
+						);
+					} else {
+						$base_terms_args = array(
 							'taxonomy'   => $taxonomy,
 							'orderby'    => 'term_order_clause',
 							'order'      => 'ASC',
@@ -156,9 +163,16 @@ class AWSM_Job_Openings_Filters {
 									'compare' => 'NOT EXISTS',
 								),
 							),
-						)
-					);
-					$terms      = get_terms( $terms_args );
+						);
+					}
+					$terms_args = apply_filters( 'awsm_filter_spec_terms_args', $base_terms_args );
+					// Re-enforce the admin ordering setting — hooks (e.g. pro plugin) may have overridden it.
+					if ( 'alpha_asc' === $filter_items_order || 'alpha_desc' === $filter_items_order ) {
+						$terms_args['orderby'] = 'name';
+						$terms_args['order']   = 'alpha_asc' === $filter_items_order ? 'ASC' : 'DESC';
+						unset( $terms_args['meta_query'] );
+					}
+					$terms = get_terms( $terms_args );
 					if ( ! empty( $terms ) ) {
 							$available_filters_arr[ $taxonomy ] = $tax_details->label;
 

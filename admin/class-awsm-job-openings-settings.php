@@ -210,6 +210,9 @@ class AWSM_Job_Openings_Settings {
 					'callback'    => array( $this, 'sanitize_array_fields' ),
 				),
 				array(
+					'option_name' => 'awsm_jobs_filter_items_order',
+				),
+				array(
 					'option_name' => 'awsm_jobs_listing_display_type',
 					'callback'    => array( $this, 'sanitize_array_fields' ),
 				),
@@ -1417,6 +1420,19 @@ class AWSM_Job_Openings_Settings {
 					);
 					break;
 				}
+			}
+
+			// Apply admin-configured ordering to the terms before rendering tag options.
+			$filter_items_order = get_option( 'awsm_jobs_filter_items_order', 'custom' );
+			if ( ( 'alpha_asc' === $filter_items_order || 'alpha_desc' === $filter_items_order ) && ! empty( $terms ) && ! is_wp_error( $terms ) ) {
+				usort(
+					$terms,
+					function( $a, $b ) use ( $filter_items_order ) {
+						return 'alpha_asc' === $filter_items_order
+							? strcmp( $a->name, $b->name )
+							: strcmp( $b->name, $a->name );
+					}
+				);
 			}
 
 			// Generate tag options
