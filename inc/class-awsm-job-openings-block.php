@@ -98,6 +98,7 @@ class AWSM_Job_Openings_Block {
 			'hz_jl_text_color'               => isset( $blockatts['hz_jl_text_color'] ) ? $blockatts['hz_jl_text_color'] : '',
 			'hz_sidebar_bg_color'            => isset( $blockatts['hz_sidebar_bg_color'] ) ? $blockatts['hz_sidebar_bg_color'] : '',
 			'hz_sidebar_tx_color'            => isset( $blockatts['hz_sidebar_tx_color'] ) ? $blockatts['hz_sidebar_tx_color'] : '',
+			'filter_items_order'             => isset( $blockatts['filter_items_order'] ) && in_array( $blockatts['filter_items_order'], array( 'custom', 'alpha_asc', 'alpha_desc' ), true ) ? $blockatts['filter_items_order'] : 'custom',
 		);
 
 		/**
@@ -641,6 +642,69 @@ class AWSM_Job_Openings_Block {
 		return apply_filters( 'awsm_block_filter_terms', $terms, $taxonomy );
 	}
 
+	/**
+	 * Return filter terms ordered according to the block's filter_items_order attribute.
+	 * Mirrors the shortcode ordering logic in class-awsm-job-openings-filters.php exactly,
+	 * except hide_empty is always false for the block (filter dropdowns show all terms).
+	 * Falls back to the global admin setting when the attribute is not set.
+	 *
+	 * @param string $taxonomy   Taxonomy key — needed to re-query for correct ordering.
+	 * @param array  $block_atts Block attributes.
+	 * @return array Ordered WP_Term objects.
+	 */
+	public static function order_block_filter_terms( $taxonomy, $block_atts ) {
+		$allowed = array( 'custom', 'alpha_asc', 'alpha_desc' );
+		$order   = isset( $block_atts['filter_items_order'] ) && in_array( $block_atts['filter_items_order'], $allowed, true )
+			? $block_atts['filter_items_order']
+			: get_option( 'awsm_jobs_filter_items_order', 'custom' );
+
+		if ( 'alpha_asc' === $order || 'alpha_desc' === $order ) {
+			// Re-fetch with explicit alpha ordering so hooks cannot override the sort direction.
+			$terms_args            = apply_filters(
+				'awsm_block_filter_spec_terms_args',
+				array(
+					'taxonomy'   => $taxonomy,
+					'orderby'    => 'name',
+					'order'      => 'alpha_asc' === $order ? 'ASC' : 'DESC',
+					'hide_empty' => false,
+				)
+			);
+			$terms_args['orderby'] = 'name';
+			$terms_args['order']   = 'alpha_asc' === $order ? 'ASC' : 'DESC';
+			unset( $terms_args['meta_query'] );
+			$terms = get_terms( $terms_args );
+			return is_wp_error( $terms ) ? array() : $terms;
+		}
+
+		// Custom ordering: two queries to avoid MySQL's alphabetical fallback for
+		// terms that have no saved term_order meta (NULL sorts first, then by name).
+		// 1. Terms with a saved order — sorted by that saved position.
+		// 2. Terms with no saved order — appended in insertion order (term_id).
+		$terms_with_order = get_terms( array(
+			'taxonomy'   => $taxonomy,
+			'meta_key'   => 'term_order', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+			'orderby'    => 'meta_value_num',
+			'order'      => 'ASC',
+			'hide_empty' => false,
+		) );
+		$terms_without_order = get_terms( array(
+			'taxonomy'   => $taxonomy,
+			'orderby'    => 'id',
+			'order'      => 'ASC',
+			'hide_empty' => false,
+			'meta_query' => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+				array(
+					'key'     => 'term_order',
+					'compare' => 'NOT EXISTS',
+				),
+			),
+		) );
+		return array_merge(
+			is_wp_error( $terms_with_order ) ? array() : $terms_with_order,
+			is_wp_error( $terms_without_order ) ? array() : $terms_without_order
+		);
+	}
+
 	public function display_block_filter_form( $block_atts ) {
 		$search_content        = '';
 		$specs_filter_content  = '';
@@ -741,7 +805,8 @@ class AWSM_Job_Openings_Block {
 					 *
 					 * @param array $terms_args Array of arguments.
 					 */
-					$terms = self::get_block_filter_terms( $taxonomy );
+					$terms = self::order_block_filter_terms( $taxonomy, $block_atts );
+					$terms = apply_filters( 'awsm_block_filter_terms', $terms, $taxonomy );
 					if ( ! empty( $terms ) ) {
 						$available_filters_arr[ $taxonomy ] = $tax_details->label;
 
@@ -956,7 +1021,8 @@ class AWSM_Job_Openings_Block {
 				foreach ( $filter_options as $spec ) {
 					if ( ( is_string( $spec ) && $taxonomy === $spec ) || ( is_array( $spec ) && isset( $spec['specKey'] ) && $taxonomy === $spec['specKey'] ) ) {
 						// Get terms for the taxonomy
-						$terms = self::get_block_filter_terms( $taxonomy );
+						$terms = self::order_block_filter_terms( $taxonomy, $block_atts );
+						$terms = apply_filters( 'awsm_block_filter_terms', $terms, $taxonomy );
 
 						if ( ! empty( $terms ) ) {
 							$available_filters_arr[ $taxonomy ] = $tax_details->label;

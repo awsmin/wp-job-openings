@@ -50,6 +50,7 @@ const WidgetInspectorControls = props => {
 			filter_types = {},
 			pagination,
 			enable_job_filter,
+			filter_items_order = 'custom',
 			search_placeholder,
 			hide_expired_jobs,
 			order_by,
@@ -338,6 +339,20 @@ const WidgetInspectorControls = props => {
 										</div>
 									);
 								} ) }
+							<SelectControl
+								label={ __( "Order Filter Items By", "wp-job-openings" ) }
+								value={ filter_items_order }
+								options={ [
+									{ value: 'custom',     label: __( 'Custom Ordering', 'wp-job-openings' ) },
+									{ value: 'alpha_asc',  label: __( 'Alphabetical (A → Z)', 'wp-job-openings' ) },
+									{ value: 'alpha_desc', label: __( 'Alphabetical (Z → A)', 'wp-job-openings' ) },
+								] }
+								onChange={ value =>
+									setAttributes( {filter_items_order: value} )
+							}
+								__nextHasNoMarginBottom
+								__next40pxDefaultSize
+							/>
 							</>
 						) }
 
