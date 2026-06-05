@@ -1422,16 +1422,16 @@ class AWSM_Job_Openings_Settings {
 				}
 			}
 
-			// Apply admin-configured ordering to the terms before rendering tag options.
+			// Re-fetch terms for display only using the admin-configured order.
 			$filter_items_order = get_option( 'awsm_jobs_filter_items_order', 'custom' );
-			if ( ( 'alpha_asc' === $filter_items_order || 'alpha_desc' === $filter_items_order ) && ! empty( $terms ) && ! is_wp_error( $terms ) ) {
-				usort(
-					$terms,
-					function( $a, $b ) use ( $filter_items_order ) {
-						return 'alpha_asc' === $filter_items_order
-							? strcmp( $a->name, $b->name )
-							: strcmp( $b->name, $a->name );
-					}
+			if ( 'alpha_asc' === $filter_items_order || 'alpha_desc' === $filter_items_order ) {
+				$terms = get_terms(
+					array(
+						'taxonomy'   => $spec_key,
+						'orderby'    => 'name',
+						'order'      => 'alpha_asc' === $filter_items_order ? 'ASC' : 'DESC',
+						'hide_empty' => false,
+					)
 				);
 			}
 

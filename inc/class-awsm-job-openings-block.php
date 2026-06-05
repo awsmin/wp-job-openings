@@ -586,35 +586,11 @@ class AWSM_Job_Openings_Block {
 	}
 
 	public static function get_block_spec_terms( $spec ) {
-		$filter_items_order = get_option( 'awsm_jobs_filter_items_order', 'custom' );
-		if ( 'alpha_asc' === $filter_items_order || 'alpha_desc' === $filter_items_order ) {
-			$terms_args = array(
-				'taxonomy'   => $spec,
-				'hide_empty' => false,
-				'orderby'    => 'name',
-				'order'      => 'alpha_asc' === $filter_items_order ? 'ASC' : 'DESC',
-			);
-		} else {
-			$terms_args = array(
-				'taxonomy'   => $spec,
-				'hide_empty' => false,
-				'orderby'    => 'term_order_clause',
-				'order'      => 'ASC',
-				'meta_query' => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-					'relation'          => 'OR',
-					'term_order_clause' => array(
-						'key'     => 'term_order',
-						'compare' => 'EXISTS',
-						'type'    => 'NUMERIC',
-					),
-					array(
-						'key'     => 'term_order',
-						'compare' => 'NOT EXISTS',
-					),
-				),
-			);
-		}
-		$terms = get_terms( $terms_args );
+		$terms_args = array(
+			'taxonomy'   => $spec,
+			'hide_empty' => false,
+		);
+		$terms      = get_terms( $terms_args );
 		if ( is_wp_error( $terms ) ) {
 			$terms = array();
 		}

@@ -9,6 +9,7 @@ jQuery(window).on('load', function() {
 
 jQuery(document).ready(function($) {
 	var jobsAdminMain = window.awsmJobsAdminMain = window.awsmJobsAdminMain || {};
+	var filterItemsOrder = ( typeof awsmJobsAdmin !== 'undefined' && awsmJobsAdmin.filter_items_order ) ? awsmJobsAdmin.filter_items_order : 'custom';
 
 	/**
 	 * for generic select2 initialization
@@ -210,7 +211,11 @@ jQuery(document).ready(function($) {
 			cursor: 'grabbing'
 		});
 	}
-	makeSpecSortable();
+	if ( filterItemsOrder === 'custom' ) {
+		makeSpecSortable();
+	} else {
+		$('.awsm-specs-drag-control').addClass('awsm-drag-disabled');
+	}
 
 	$('.awsm_jobs_filter_tags').on('select2:unselect', function(e) {
 		var $row = $(this).parents('.awsm-job-specifications-settings-row');
@@ -240,6 +245,12 @@ jQuery(document).ready(function($) {
 			$wrapper.find('.awsm_job_specifications_settings_body').append(specTemplate(templateData));
 			jobsAdminMain.tagSelect($('.awsm_jobs_filter_tags').last());
 			jobsAdminMain.iconSelect($('.awsm-icon-select-control').last(), iconData);
+			if ( filterItemsOrder === 'custom' ) {
+				var $newTagSelect = $('.awsm_jobs_filter_tags').last();
+				enableSelect2Sortable( $newTagSelect.next('.select2-container'), $newTagSelect );
+			} else {
+				$('.awsm-specs-drag-control').last().addClass('awsm-drag-disabled');
+			}
 		}
 	});
 
@@ -773,11 +784,13 @@ jQuery(document).ready(function($) {
 			}
 		});
 	}
-	$('.awsm_jobs_filter_tags').each(function () {
-		var $select = $(this);
-		var $container = $select.next('.select2-container');
-		enableSelect2Sortable($container, $select);
-	});
+	if ( filterItemsOrder === 'custom' ) {
+		$('.awsm_jobs_filter_tags').each(function () {
+			var $select = $(this);
+			var $container = $select.next('.select2-container');
+			enableSelect2Sortable($container, $select);
+		});
+	}
 
 	if (typeof inlineEditPost !== 'undefined') {
 		var $wp_inline_edit = inlineEditPost.edit;
