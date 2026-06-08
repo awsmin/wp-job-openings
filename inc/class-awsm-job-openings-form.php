@@ -1187,9 +1187,7 @@ class AWSM_Job_Openings_Form {
 	 */
 
 	public function enqueue_captcha_scripts() {
-		if ( ! is_singular( 'awsm_job_openings' ) || ! awsm_jobs_is_new_captcha_enabled() ) {
-			return;
-		}
+
 
 		if ( ! $this->is_captcha_set() ) {
 			return;
