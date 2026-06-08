@@ -38,5 +38,13 @@
 			"/* translators: %1\\$s: $1, %2\\$s: $2 */"
 		],
 		"description": "Translators Comment to clarify the meaning of the placeholders"
+	},
+	"WP Job Openings: Log X": {
+		"scope": "php",
+		"prefix": "logx",
+		"body": [
+			"error_log( '${1:label}: ' . json_encode( $2 ) );"
+		],
+		"description": "Labeled error_log with json_encode for quick debug output"
 	}
 }
