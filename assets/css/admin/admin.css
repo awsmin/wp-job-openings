@@ -2732,7 +2732,15 @@ input.awsm-button:disabled {
 
 }
 
+.post-type-awsm_job_application .alignleft.actions {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 4px;
+}
+
 .awsm-clr-flt-btn.awsm-clr-flt-btn {
+	order: 99;
 	background: none;
 	border: none;
 	box-shadow: none;
