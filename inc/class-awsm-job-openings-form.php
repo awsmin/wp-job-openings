@@ -1753,16 +1753,57 @@ class AWSM_Job_Openings_Form {
 	}
 
 	/**
+	 * Whether the current page needs CAPTCHA scripts.
+	 *
+	 * Returns true on single job pages and on any page that contains the
+	 * [awsmjobs_alerts] shortcode. A filter is provided so add-ons can extend
+	 * this check without patching core.
+	 *
+	 * @return bool
+	 */
+	public function is_captcha_page() {
+		$is_captcha_page = is_singular( 'awsm_job_openings' );
+
+		if ( ! $is_captcha_page ) {
+			global $post;
+			if ( $post instanceof WP_Post && has_shortcode( $post->post_content, 'awsmjobs_alerts' ) ) {
+				$is_captcha_page = true;
+			}
+		}
+
+		/**
+		 * Filters whether the current page needs CAPTCHA scripts.
+		 *
+		 * @param bool $is_captcha_page Whether the current page needs CAPTCHA scripts.
+		 */
+		return (bool) apply_filters( 'awsm_jobs_needs_captcha_scripts', $is_captcha_page );
+	}
+
+	/**
+	 * Re-enqueue CAPTCHA scripts at late priority (no-conflict guard), but only
+	 * on pages that actually contain a job form or job alerts form.
+	 *
+	 * @return void
+	 */
+	public function maybe_enqueue_captcha_scripts() {
+		if ( ! $this->is_captcha_page() ) {
+			return;
+		}
+		$this->enqueue_captcha_scripts();
+	}
+
+	/**
 	 * Initialize no-conflict mode hooks.
 	 *
 	 * @return void
 	 */
 	public function init_no_conflict_mode() {
-		// Enqueue CAPTCHA scripts at very late priority on both hooks so any
-		// other plugin's no-conflict mode (running at ≤9999) cannot permanently
-		// strip our scripts from job pages — generic, no coupling to any specific plugin.
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_captcha_scripts' ), 99999 );
-		add_action( 'wp_print_scripts', array( $this, 'enqueue_captcha_scripts' ), 99999 );
+		// Re-enqueue CAPTCHA scripts at very late priority so any other plugin's
+		// no-conflict mode (running at ≤9999) cannot permanently strip our scripts
+		// from job pages. The wrapper checks the page context first so the script
+		// is not loaded on unrelated frontend or admin pages.
+		add_action( 'wp_enqueue_scripts', array( $this, 'maybe_enqueue_captcha_scripts' ), 99999 );
+		add_action( 'wp_print_scripts', array( $this, 'maybe_enqueue_captcha_scripts' ), 99999 );
 
 		if ( ! $this->is_no_conflict_mode_enabled() ) {
 			return;
