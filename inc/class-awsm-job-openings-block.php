@@ -1276,29 +1276,31 @@ class AWSM_Job_Openings_Block {
 							}
 						}
 
-						// Create ordered terms array based on filter tags
-						$ordered_terms = array();
-						if ( $current_filter && ! empty( $current_filter['tags'] ) ) {
-							// Create a map of term names to term objects
-							$term_map = array();
-							foreach ( $terms as $term ) {
-								$term_map[ $term->name ] = $term;
-							}
-
-							// Add terms in the order specified by tags
-							foreach ( $current_filter['tags'] as $tag ) {
-								if ( isset( $term_map[ $tag ] ) ) {
-									$ordered_terms[] = $term_map[ $tag ];
-									unset( $term_map[ $tag ] );
+						// Order terms according to the admin-configured setting.
+						$filter_items_order = get_option( 'awsm_jobs_filter_items_order', 'custom' );
+						if ( 'alpha_asc' === $filter_items_order ) {
+							$ordered_terms = wp_list_sort( $terms, 'name', 'ASC' );
+						} elseif ( 'alpha_desc' === $filter_items_order ) {
+							$ordered_terms = wp_list_sort( $terms, 'name', 'DESC' );
+						} else {
+							// Custom ordering: use the admin-configured tag order from filter settings.
+							$ordered_terms = $terms;
+							if ( $current_filter && ! empty( $current_filter['tags'] ) ) {
+								$term_map      = array();
+								$ordered_terms = array();
+								foreach ( $terms as $term ) {
+									$term_map[ $term->name ] = $term;
+								}
+								foreach ( $current_filter['tags'] as $tag ) {
+									if ( isset( $term_map[ $tag ] ) ) {
+										$ordered_terms[] = $term_map[ $tag ];
+										unset( $term_map[ $tag ] );
+									}
+								}
+								foreach ( $term_map as $term ) {
+									$ordered_terms[] = $term;
 								}
 							}
-
-							// Add any remaining terms that weren't in the filter tags
-							foreach ( $term_map as $term ) {
-								$ordered_terms[] = $term;
-							}
-						} else {
-							$ordered_terms = $terms;
 						}
 
 						// Generate terms HTML
