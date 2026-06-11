@@ -294,6 +294,11 @@ class AWSM_Job_Openings_Block {
 			$attributes['order_by'] = in_array( $order_by, array( 'new_to_old', 'old_to_new' ), true ) ? $order_by : 'new_to_old';
 		}
 
+		if ( isset( $_POST['awsm-filter-items-order'] ) ) {
+			$filter_items_order               = sanitize_key( wp_unslash( $_POST['awsm-filter-items-order'] ) );
+			$attributes['filter_items_order'] = in_array( $filter_items_order, array( 'custom', 'alpha_asc', 'alpha_desc' ), true ) ? $filter_items_order : 'custom';
+		}
+
 		if ( isset( $_POST['awsm-button-style'] ) ) {
 			$attributes['hz_button_style'] = sanitize_key( wp_unslash( $_POST['awsm-button-style'] ) );
 		}
@@ -484,8 +489,9 @@ class AWSM_Job_Openings_Block {
 			: '';
 		$attrs['awsm-spec-icons']        = isset( $block_atts['show_spec_icon'] ) ? $block_atts['show_spec_icon'] : '';
 
-		$attrs['awsm-order-by']     = isset( $block_atts['order_by'] ) ? $block_atts['order_by'] : '';
-		$attrs['awsm-button-style'] = isset( $block_atts['hz_button_style'] ) ? $block_atts['hz_button_style'] : 'none';
+		$attrs['awsm-order-by']           = isset( $block_atts['order_by'] ) ? $block_atts['order_by'] : '';
+		$attrs['awsm-filter-items-order'] = isset( $block_atts['filter_items_order'] ) ? $block_atts['filter_items_order'] : '';
+		$attrs['awsm-button-style']       = isset( $block_atts['hz_button_style'] ) ? $block_atts['hz_button_style'] : 'none';
 		$attrs['awsm-button-text']  = ! empty( $block_atts['hz_button_text'] ) ? $block_atts['hz_button_text'] : '';
 
 		$current_lang = AWSM_Job_Openings::get_current_language();
@@ -905,6 +911,9 @@ class AWSM_Job_Openings_Block {
 				$hidden_fields_content .= sprintf( '<input type="hidden" name="awsm_pagination_base" value="%1$s"><input type="hidden" name="paged" value="%2$s">', esc_url( get_pagenum_link() ), absint( $paged ) );
 			}
 			$hidden_fields_content .= '<input type="hidden" name="action" value="block_jobfilter">';
+			if ( ! empty( $block_atts['filter_items_order'] ) ) {
+				$hidden_fields_content .= sprintf( '<input type="hidden" name="awsm-filter-items-order" value="%s">', esc_attr( $block_atts['filter_items_order'] ) );
+			}
 			if ( ! empty( $specs_filter_content ) ) {
 				$toggle_icon = '<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" version="1.1" preserveAspectRatio="xMinYMin"><path xmlns="http://www.w3.org/2000/svg" fill="rgb(9.803922%,9.803922%,9.803922%)" d="M 36.417969 19.9375 L 36.417969 17.265625 C 36.417969 16.160156 35.523438 15.265625 34.417969 15.265625 L 21.578125 15.265625 C 20.476562 15.265625 19.578125 16.160156 19.578125 17.265625 L 19.578125 19.9375 L 11 19.9375 L 11 26.9375 L 19.578125 26.9375 L 19.578125 30.105469 C 19.578125 31.210938 20.476562 32.105469 21.578125 32.105469 L 34.417969 32.105469 C 35.523438 32.105469 36.417969 31.210938 36.417969 30.105469 L 36.417969 26.9375 L 89 26.9375 L 89 19.9375 Z M 58.421875 43.578125 C 58.421875 42.476562 57.527344 41.578125 56.421875 41.578125 L 43.582031 41.578125 C 42.480469 41.578125 41.582031 42.476562 41.582031 43.578125 L 41.582031 46.5 L 11 46.5 L 11 53.5 L 41.582031 53.5 L 41.582031 56.421875 C 41.582031 57.527344 42.480469 58.421875 43.582031 58.421875 L 56.421875 58.421875 C 57.527344 58.421875 58.421875 57.527344 58.421875 56.421875 L 58.421875 53.5 L 89 53.5 L 89 46.5 L 58.421875 46.5 Z M 80.417969 70.140625 C 80.417969 69.035156 79.523438 68.140625 78.417969 68.140625 L 65.578125 68.140625 C 64.476562 68.140625 63.578125 69.035156 63.578125 70.140625 L 63.578125 73.0625 L 11 73.0625 L 11 80.0625 L 63.578125 80.0625 L 63.578125 82.984375 C 63.578125 84.085938 64.476562 84.984375 65.578125 84.984375 L 78.417969 84.984375 C 79.523438 84.984375 80.417969 84.085938 80.417969 82.984375 L 80.417969 80.0625 L 89 80.0625 L 89 73.0625 L 80.417969 73.0625 Z M 80.417969 70.140625"/></svg>';
 
@@ -993,6 +1002,10 @@ class AWSM_Job_Openings_Block {
 		$specs_filter_content  = '';
 
 		$hidden_fields_content = '<input type="hidden" name="action" value="block_jobfilter">';
+
+		if ( ! empty( $block_atts['filter_items_order'] ) ) {
+			$hidden_fields_content .= sprintf( '<input type="hidden" name="awsm-filter-items-order" value="%s">', esc_attr( $block_atts['filter_items_order'] ) );
+		}
 
 		if ( ! AWSM_Job_Openings::is_default_pagination( $block_atts ) ) {
 			$paged                  = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
@@ -1215,7 +1228,7 @@ class AWSM_Job_Openings_Block {
 		}
 	}
 
-	public static function get_specifications_content_block( $post_id, $display_label, $filter_data = array(), $listing_specs = array(), $has_term_link = true, $show_icon = '' ) {
+	public static function get_specifications_content_block( $post_id, $display_label, $filter_data = array(), $listing_specs = array(), $has_term_link = true, $show_icon = '', $filter_items_order = null ) {
 		$spec_content = '';
 		$filter_data  = ! empty( $filter_data ) ? $filter_data : get_option( 'awsm_jobs_filter' );
 		// Normalize to the expected array-of-arrays shape to avoid PHP notices in REST responses.
@@ -1276,8 +1289,11 @@ class AWSM_Job_Openings_Block {
 							}
 						}
 
-						// Order terms according to the admin-configured setting.
-						$filter_items_order = get_option( 'awsm_jobs_filter_items_order', 'custom' );
+						// Order terms: prefer the per-block attribute, fall back to the global admin option.
+						$allowed_orders     = array( 'custom', 'alpha_asc', 'alpha_desc' );
+						$filter_items_order = ( null !== $filter_items_order && in_array( $filter_items_order, $allowed_orders, true ) )
+							? $filter_items_order
+							: get_option( 'awsm_jobs_filter_items_order', 'custom' );
 						if ( 'alpha_asc' === $filter_items_order ) {
 							$ordered_terms = wp_list_sort( $terms, 'name', 'ASC' );
 						} elseif ( 'alpha_desc' === $filter_items_order ) {
