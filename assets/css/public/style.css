@@ -743,6 +743,7 @@ ul.awsm-error-message li {
 .awsm-job-featured-image img {
 	max-width: 100%;
 	height: auto;
+	object-fit: cover;
 }
 
 .awsm-job-archive-content{ 
