@@ -1216,32 +1216,20 @@ class AWSM_Job_Openings_Form {
 					wp_dequeue_script( 'awsm-jobs-g-recaptcha' );
 					wp_deregister_script( 'awsm-jobs-g-recaptcha' );
 
-					if ( 'v3' === $recaptcha_type ) {
-						// reCAPTCHA v3 requires api.js?render=SITE_KEY (v3 API).
-						wp_enqueue_script(
-							'awsm-jobs-g-recaptcha',
-							esc_url( "https://www.google.com/recaptcha/api.js?render={$site_key}" ),
-							array(),
-							null,
-							array(
-								'in_footer' => false,
-								'strategy'  => 'defer',
-							)
-						);
-					} else {
-						// v2_invisible: plain api.js (v2 API). ?render=KEY is v3-only and breaks
-						// grecaptcha.render() calls that v2_invisible depends on.
-						wp_enqueue_script(
-							$script['handle'],
-							$script['src'],
-							isset( $script['deps'] ) ? $script['deps'] : array(),
-							null,
-							array(
-								'in_footer' => $script['in_footer'],
-								'strategy'  => $script['strategy'],
-							)
-						);
-					}
+					// Both v3 and v2_invisible use api.js?render=SITE_KEY (v3 API).
+					// The JS executeRecaptcha() calls grecaptcha.execute(siteKey,{action})
+					// which is a v3 API method — it requires the v3 script URL regardless
+					// of which recaptcha subtype the admin selected.
+					wp_enqueue_script(
+						'awsm-jobs-g-recaptcha',
+						esc_url( "https://www.google.com/recaptcha/api.js?render={$site_key}" ),
+						array(),
+						null,
+						array(
+							'in_footer' => false,
+							'strategy'  => 'defer',
+						)
+					);
 
 					wp_add_inline_script(
 						'awsm-jobs-g-recaptcha',
@@ -1833,21 +1821,16 @@ class AWSM_Job_Openings_Form {
 			return $captcha_page;
 		}
 
-		$is_captcha_page = is_singular( 'awsm_job_openings' );
-
-		if ( ! $is_captcha_page ) {
-			$queried = get_queried_object();
-			if ( $queried instanceof WP_Post && has_shortcode( $queried->post_content, 'awsmjobs_alerts' ) ) {
-				$is_captcha_page = true;
-			}
-		}
-
 		/**
 		 * Filters whether the current page needs CAPTCHA scripts.
 		 *
+		 * The main plugin only knows about its own post type. Add-ons that need
+		 * captcha on other pages (e.g. job-alerts shortcode pages) must extend
+		 * this check via the filter rather than modifying core.
+		 *
 		 * @param bool $is_captcha_page Whether the current page needs CAPTCHA scripts.
 		 */
-		$captcha_page = (bool) apply_filters( 'awsm_jobs_needs_captcha_scripts', $is_captcha_page );
+		$captcha_page = (bool) apply_filters( 'awsm_jobs_needs_captcha_scripts', is_singular( 'awsm_job_openings' ) );
 		return $captcha_page;
 	}
 
@@ -1898,9 +1881,8 @@ class AWSM_Job_Openings_Form {
 			return;
 		}
 
-		$src = ( 'v3' === $recaptcha_type )
-			? 'https://www.google.com/recaptcha/api.js?render=' . rawurlencode( $site_key )
-			: 'https://www.google.com/recaptcha/api.js';
+		// Both v3 and v2_invisible need api.js?render=SITE_KEY — same reason as enqueue_captcha_scripts().
+		$src = 'https://www.google.com/recaptcha/api.js?render=' . rawurlencode( $site_key );
 
 		$option          = get_option( 'awsm_jobs_recaptcha_fail_message' );
 		$recaptcha_error = ! empty( $option )
