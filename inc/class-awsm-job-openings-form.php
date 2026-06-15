@@ -1163,7 +1163,6 @@ class AWSM_Job_Openings_Form {
 		}
 
 		$config = $this::get_captcha_frontend_config();
-
 		if ( ! isset( $config[ $captcha_type ] ) ) {
 			return false;
 		}
@@ -1187,14 +1186,8 @@ class AWSM_Job_Openings_Form {
 	 */
 
 	public function enqueue_captcha_scripts() {
-
-
 		if ( ! $this->is_captcha_set() ) {
 			return;
-		}
-
-		if ( $this->is_no_conflict_mode_enabled() ) {
-			$this->dequeue_conflicting_captcha_scripts();
 		}
 
 		$captcha_type = $this->get_captcha_type();
@@ -1217,38 +1210,54 @@ class AWSM_Job_Openings_Form {
 				$site_key = $this->get_captcha_site_key( $captcha_type );
 
 				if ( ! empty( $site_key ) ) {
-					if ( wp_script_is( 'awsm-jobs-g-recaptcha', 'enqueued' ) ) {
-						return;
-					}
-
-					$recaptcha_api_url = "https://www.google.com/recaptcha/api.js?render={$site_key}";
-
+					// Deregister first so any previously registered URL/inline-data is cleared,
+					// then enqueue fresh. This guarantees the correct URL on every call and avoids
+					// stale inline-script data left by WordPress after a prior deregister cycle.
 					wp_dequeue_script( 'awsm-jobs-g-recaptcha' );
 					wp_deregister_script( 'awsm-jobs-g-recaptcha' );
 
-					wp_enqueue_script(
-						'awsm-jobs-g-recaptcha',
-						esc_url( $recaptcha_api_url ),
-						array(),
-						'3.0',
-						array(
-							'in_footer' => false,
-							'strategy'  => 'defer',
-						)
-					);
-
-					$inline_script = sprintf(
-						'var awsmJobsRecaptcha = %s;',
-						wp_json_encode(
+					if ( 'v3' === $recaptcha_type ) {
+						// reCAPTCHA v3 requires api.js?render=SITE_KEY (v3 API).
+						wp_enqueue_script(
+							'awsm-jobs-g-recaptcha',
+							esc_url( "https://www.google.com/recaptcha/api.js?render={$site_key}" ),
+							array(),
+							null,
 							array(
-								'site_key'  => $site_key,
-								'action'    => 'applicationform',
-								'type'      => $recaptcha_type,
-								'error_msg' => $recaptcha_error,
+								'in_footer' => false,
+								'strategy'  => 'defer',
 							)
-						)
+						);
+					} else {
+						// v2_invisible: plain api.js (v2 API). ?render=KEY is v3-only and breaks
+						// grecaptcha.render() calls that v2_invisible depends on.
+						wp_enqueue_script(
+							$script['handle'],
+							$script['src'],
+							isset( $script['deps'] ) ? $script['deps'] : array(),
+							null,
+							array(
+								'in_footer' => $script['in_footer'],
+								'strategy'  => $script['strategy'],
+							)
+						);
+					}
+
+					wp_add_inline_script(
+						'awsm-jobs-g-recaptcha',
+						sprintf(
+							'var awsmJobsRecaptcha = %s;',
+							wp_json_encode(
+								array(
+									'site_key'  => $site_key,
+									'action'    => 'applicationform',
+									'type'      => $recaptcha_type,
+									'error_msg' => $recaptcha_error,
+								)
+							)
+						),
+						'after'
 					);
-					wp_add_inline_script( 'awsm-jobs-g-recaptcha', $inline_script, 'after' );
 
 					do_action( 'awsm_jobs_captcha_scripts_enqueued', $captcha_type, $script );
 
@@ -1257,34 +1266,33 @@ class AWSM_Job_Openings_Form {
 			}
 		}
 
+		// Generic path: v2_checkbox, hcaptcha, turnstile.
 		$script = apply_filters( 'awsm_jobs_captcha_script_config', $script, $captcha_type );
 
 		wp_enqueue_script(
 			$script['handle'],
 			$script['src'],
 			isset( $script['deps'] ) ? $script['deps'] : array(),
-			$script['version'],
+			null,
 			array(
 				'in_footer' => $script['in_footer'],
 				'strategy'  => $script['strategy'],
 			)
 		);
+
 		if ( ! empty( $script['async'] ) ) {
 			add_filter(
 				'script_loader_tag',
 				function ( $tag, $handle, $src ) use ( $config ) {
 					$captcha_handles = array();
-
-					foreach ( $config as $captcha_type => $captcha_config ) {
+					foreach ( $config as $type => $captcha_config ) {
 						if ( isset( $captcha_config['script']['handle'] ) && ! empty( $captcha_config['script']['async'] ) ) {
 							$captcha_handles[] = $captcha_config['script']['handle'];
 						}
 					}
-
 					if ( in_array( $handle, $captcha_handles, true ) && strpos( $tag, ' async' ) === false ) {
 						$tag = str_replace( ' defer', ' async defer', $tag );
 					}
-
 					return $tag;
 				},
 				10,
@@ -1293,6 +1301,48 @@ class AWSM_Job_Openings_Form {
 		}
 
 		do_action( 'awsm_jobs_captcha_scripts_enqueued', $captcha_type, $script );
+	}
+
+	/**
+	 * Re-enqueue our CAPTCHA script if another plugin's no-conflict mode dequeued it.
+	 *
+	 * Runs at wp_print_scripts PHP_INT_MAX — the absolute last slot before
+	 * WordPress calls do_head_items() and outputs script tags. Only acts when
+	 * the script is genuinely absent from the queue (not already printed).
+	 */
+	public function ensure_captcha_scripts_enqueued() {
+		if ( ! $this->is_captcha_page() ) {
+			return;
+		}
+
+		if ( ! $this->is_captcha_set() ) {
+			return;
+		}
+
+		// Determine which handle we own.
+		$captcha_type = $this->get_captcha_type();
+		$config       = self::get_captcha_frontend_config();
+
+		if ( ! isset( $config[ $captcha_type ] ) || empty( $config[ $captcha_type ]['script'] ) ) {
+			return;
+		}
+
+		$handle = $config[ $captcha_type ]['script']['handle'];
+
+		// Already printed — do not output a second copy.
+		if ( wp_script_is( $handle, 'done' ) ) {
+			return;
+		}
+
+		// Still in the queue — it will be printed normally.
+		if ( wp_script_is( $handle, 'enqueued' ) ) {
+			return;
+		}
+
+		// Script is missing: another plugin's no-conflict mode dequeued it.
+		// Strip any conflicting scripts it may have re-enqueued, then restore ours.
+		$this->dequeue_conflicting_captcha_scripts();
+		$this->enqueue_captcha_scripts();
 	}
 	/**
 	 * Get CAPTCHA verification response from provider
@@ -1692,19 +1742,24 @@ class AWSM_Job_Openings_Form {
 			return;
 		}
 
-		$conflict_urls = array();
+		$conflict_urls    = array();
+		$conflict_handles = array();
 		foreach ( $config as $type => $provider ) {
 			if ( $type === 'none' || empty( $provider['conflict'] ) ) {
 				continue;
 			}
-			if ( $type === $current_type ) {
-				continue;
-			}
+			// Include ALL types (including current) so same-captcha-type scripts from other
+			// plugins (e.g. WP Forms using reCAPTCHA when we also use reCAPTCHA) are dequeued.
+			// Our own script is protected below via $own_handle and $own_prefix checks.
 			if ( ! empty( $provider['conflict']['urls'] ) && is_array( $provider['conflict']['urls'] ) ) {
 				$conflict_urls = array_merge( $conflict_urls, $provider['conflict']['urls'] );
 			}
+			if ( ! empty( $provider['conflict']['handles'] ) && is_array( $provider['conflict']['handles'] ) ) {
+				$conflict_handles = array_merge( $conflict_handles, $provider['conflict']['handles'] );
+			}
 		}
-		$conflict_urls = array_values( array_unique( $conflict_urls ) );
+		$conflict_urls    = array_values( array_unique( $conflict_urls ) );
+		$conflict_handles = array_values( array_unique( $conflict_handles ) );
 
 		$own_handle = ! empty( $config[ $current_type ]['script']['handle'] )
 			? (string) $config[ $current_type ]['script']['handle']
@@ -1726,6 +1781,7 @@ class AWSM_Job_Openings_Form {
 
 			$reg = $scripts->registered[ $handle ];
 
+			// Never touch our own script handles.
 			if ( $own_handle && $handle === $own_handle ) {
 				continue;
 			}
@@ -1734,6 +1790,15 @@ class AWSM_Job_Openings_Form {
 				continue;
 			}
 
+			// Dequeue by handle name first (covers plugins that use a known handle alias).
+			if ( in_array( $handle, $conflict_handles, true ) ) {
+				wp_dequeue_script( $handle );
+				wp_deregister_script( $handle );
+				$dequeued[] = $handle;
+				continue;
+			}
+
+			// Dequeue by script URL (covers plugins that use a custom handle but the same CDN).
 			$src = isset( $reg->src ) ? (string) $reg->src : '';
 			if ( $src === '' ) {
 				continue;
@@ -1780,36 +1845,109 @@ class AWSM_Job_Openings_Form {
 	}
 
 	/**
-	 * Re-enqueue CAPTCHA scripts at late priority (no-conflict guard), but only
-	 * on pages that actually contain a job form or job alerts form.
+	 * Directly output reCAPTCHA v3/v2_invisible script tags when no-conflict mode
+	 * is active and another plugin's wp_print_scripts hook removed our script
+	 * from the queue after do_head_items() already ran.
 	 *
-	 * @return void
+	 * Hooks at wp_head PHP_INT_MAX — fires after wp_print_head_scripts (priority 9)
+	 * has fully completed (do_action('wp_print_scripts') + do_head_items()), so we
+	 * can still append tags inside <head> via echo without being affected by any
+	 * remaining wp_dequeue_script calls.
 	 */
-	public function maybe_enqueue_captcha_scripts() {
-		if ( ! $this->is_captcha_page() ) {
+	public function output_captcha_script_fallback() {
+		if ( ! $this->is_captcha_page() || ! $this->is_captcha_set() ) {
 			return;
 		}
-		$this->enqueue_captcha_scripts();
+
+		$captcha_type = $this->get_captcha_type();
+		if ( 'recaptcha' !== $captcha_type ) {
+			return;
+		}
+
+		$recaptcha_type = $this->get_recaptcha_type();
+		if ( 'v3' !== $recaptcha_type && 'v2_invisible' !== $recaptcha_type ) {
+			return;
+		}
+
+		$is_done     = wp_script_is( 'awsm-jobs-g-recaptcha', 'done' );
+		$is_enqueued = wp_script_is( 'awsm-jobs-g-recaptcha', 'enqueued' );
+
+		// Script was already output through the normal WordPress queue path.
+		if ( $is_done ) {
+			return;
+		}
+
+		// At this point do_head_items() has already run (wp_head priority 9).
+		// Whether the script is "enqueued" (sitting in footer queue) or completely
+		// gone, we cannot trust the WP queue to deliver it — WP Forms dequeues
+		// recaptcha from footer hooks too. Pull it out of the queue and echo now.
+		if ( $is_enqueued ) {
+			wp_dequeue_script( 'awsm-jobs-g-recaptcha' );
+			wp_deregister_script( 'awsm-jobs-g-recaptcha' );
+		}
+
+		$site_key = $this->get_captcha_site_key( $captcha_type );
+		if ( empty( $site_key ) ) {
+			return;
+		}
+
+		$src = ( 'v3' === $recaptcha_type )
+			? 'https://www.google.com/recaptcha/api.js?render=' . rawurlencode( $site_key )
+			: 'https://www.google.com/recaptcha/api.js';
+
+		$option          = get_option( 'awsm_jobs_recaptcha_fail_message' );
+		$recaptcha_error = ! empty( $option )
+			? $option
+			: esc_html__( 'reCAPTCHA verification failed. Please try again.', 'wp-job-openings' );
+
+		$inline_config = wp_json_encode(
+			array(
+				'site_key'  => $site_key,
+				'action'    => 'applicationform',
+				'type'      => $recaptcha_type,
+				'error_msg' => $recaptcha_error,
+			)
+		);
+
+		printf(
+			'<script src="%s" defer></script>' . "\n" . '<script>var awsmJobsRecaptcha = %s;</script>' . "\n",
+			esc_url( $src ),
+			$inline_config
+		);
+
+		// Prevent wp_print_footer_scripts from outputting a second copy.
+		wp_scripts()->done[] = 'awsm-jobs-g-recaptcha';
 	}
 
 	/**
 	 * Initialize no-conflict mode hooks.
 	 *
-	 * @return void
+	 * Three-layer defence:
+	 *  1. dequeue_conflicting_captcha_scripts() at priority 9999 on both hooks
+	 *     strips other plugins' captcha scripts from the queue.
+	 *  2. ensure_captcha_scripts_enqueued() at wp_print_scripts PHP_INT_MAX
+	 *     re-enqueues our script if a competing plugin dequeued it at any priority
+	 *     lower than PHP_INT_MAX (e.g. 99999).
+	 *  3. output_captcha_script_fallback() at wp_head PHP_INT_MAX fires AFTER
+	 *     wp_print_head_scripts (priority 9) has fully completed — including all
+	 *     wp_print_scripts hooks and do_head_items(). If our script is still absent
+	 *     (e.g. because a competing hook at the same PHP_INT_MAX priority but
+	 *     registered later dequeued it again), we echo the tag directly.
 	 */
 	public function init_no_conflict_mode() {
-		// Re-enqueue CAPTCHA scripts at very late priority so any other plugin's
-		// no-conflict mode (running at ≤9999) cannot permanently strip our scripts
-		// from job pages. The wrapper checks the page context first so the script
-		// is not loaded on unrelated frontend or admin pages.
-		add_action( 'wp_enqueue_scripts', array( $this, 'maybe_enqueue_captcha_scripts' ), 99999 );
-		add_action( 'wp_print_scripts', array( $this, 'maybe_enqueue_captcha_scripts' ), 99999 );
-
 		if ( ! $this->is_no_conflict_mode_enabled() ) {
 			return;
 		}
+
+		// Layer 1 — strip competing captcha scripts.
 		add_action( 'wp_enqueue_scripts', array( $this, 'dequeue_conflicting_captcha_scripts' ), 9999 );
-		add_action( 'wp_print_scripts', array( $this, 'dequeue_conflicting_captcha_scripts' ), 9999 );
+		add_action( 'wp_print_scripts',   array( $this, 'dequeue_conflicting_captcha_scripts' ), 9999 );
+
+		// Layer 2 — restore ours if dequeued before scripts are printed.
+		add_action( 'wp_print_scripts', array( $this, 'ensure_captcha_scripts_enqueued' ), PHP_INT_MAX );
+
+		// Layer 3 — direct-echo fallback that bypasses the queue entirely.
+		add_action( 'wp_head', array( $this, 'output_captcha_script_fallback' ), PHP_INT_MAX );
 	}
 
 	public function get_attachment_label( $applicant_job_id = null ) {
