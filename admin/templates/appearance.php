@@ -72,9 +72,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 		array(
 			'listing' => array(
 				array(
-					'id'    => 'awsm-appearance-listing-layout-title',
-					'label' => __( 'Job listing layout options', 'wp-job-openings' ),
-					'type'  => 'title',
+					'id'          => 'awsm-appearance-listing-layout-title',
+					'label'       => __( 'Job listing layout options for Shortcode', 'wp-job-openings' ),
+					'type'        => 'title',
+					'description' => __( 'These settings affect only shortcode-based job listings. Job Listings blocks use their own settings available in the block editor.', 'wp-job-openings' ),
 				),
 				array(
 					'name'          => 'awsm_jobs_archive_page_template',

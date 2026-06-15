@@ -73,7 +73,7 @@ class AWSM_Job_Openings_Settings {
 					'listing' => array(
 						'id'     => 'awsm-job-listing-nav-subtab',
 						'target' => 'awsm-job-listing-options-container',
-						'label'  => __( 'Job Listing Page', 'wp-job-openings' ),
+						'label'  => __( 'Job Listing Page (Shortcode)', 'wp-job-openings' ),
 					),
 					'details' => array(
 						'id'     => 'awsm-job-details-nav-subtab',
@@ -1319,7 +1319,9 @@ class AWSM_Job_Openings_Settings {
 				}
 				if ( $container === 'table' ) {
 					if ( $field_type === 'title' ) {
-						$content .= sprintf( '<tr%3$s><th scope="row" colspan="2" class="awsm-form-head-title"><h2 id="%2$s">%1$s</h2></th></tr>', esc_html( $label ), esc_attr( $id ), $container_attrs );
+						$title_description = isset( $field_details['description'] ) ? $field_details['description'] : '';
+						$description_html  = ! empty( $title_description ) ? sprintf( '<p class="awsm-form-head-description">%s</p>', wp_kses( $title_description, $allowed_html ) ) : '';
+						$content          .= sprintf( '<tr%4$s><th scope="row" colspan="2" class="awsm-form-head-title"><h2 id="%2$s">%1$s</h2>%3$s</th></tr>', esc_html( $label ), esc_attr( $id ), $description_html, $container_attrs );
 					} else {
 						$content .= sprintf( '<tr%3$s><th scope="row">%1$s</th><td>%2$s</td></tr>', $field_label, $field_content, $container_attrs );
 					}
