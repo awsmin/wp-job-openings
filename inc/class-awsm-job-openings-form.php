@@ -1827,11 +1827,17 @@ class AWSM_Job_Openings_Form {
 	 * @return bool
 	 */
 	public function is_captcha_page() {
+		static $captcha_page = null;
+
+		if ( null !== $captcha_page ) {
+			return $captcha_page;
+		}
+
 		$is_captcha_page = is_singular( 'awsm_job_openings' );
 
 		if ( ! $is_captcha_page ) {
-			global $post;
-			if ( $post instanceof WP_Post && has_shortcode( $post->post_content, 'awsmjobs_alerts' ) ) {
+			$queried = get_queried_object();
+			if ( $queried instanceof WP_Post && has_shortcode( $queried->post_content, 'awsmjobs_alerts' ) ) {
 				$is_captcha_page = true;
 			}
 		}
@@ -1841,7 +1847,8 @@ class AWSM_Job_Openings_Form {
 		 *
 		 * @param bool $is_captcha_page Whether the current page needs CAPTCHA scripts.
 		 */
-		return (bool) apply_filters( 'awsm_jobs_needs_captcha_scripts', $is_captcha_page );
+		$captcha_page = (bool) apply_filters( 'awsm_jobs_needs_captcha_scripts', $is_captcha_page );
+		return $captcha_page;
 	}
 
 	/**

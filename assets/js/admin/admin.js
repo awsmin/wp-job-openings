@@ -211,11 +211,7 @@ jQuery(document).ready(function($) {
 			cursor: 'grabbing'
 		});
 	}
-	if ( filterItemsOrder === 'custom' ) {
-		makeSpecSortable();
-	} else {
-		$('.awsm-specs-drag-control').addClass('awsm-drag-disabled');
-	}
+	makeSpecSortable();
 
 	$('.awsm_jobs_filter_tags').on('select2:unselect', function(e) {
 		var $row = $(this).parents('.awsm-job-specifications-settings-row');
@@ -248,8 +244,6 @@ jQuery(document).ready(function($) {
 			if ( filterItemsOrder === 'custom' ) {
 				var $newTagSelect = $('.awsm_jobs_filter_tags').last();
 				enableSelect2Sortable( $newTagSelect.next('.select2-container'), $newTagSelect );
-			} else {
-				$('.awsm-specs-drag-control').last().addClass('awsm-drag-disabled');
 			}
 		}
 	});

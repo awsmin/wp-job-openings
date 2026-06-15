@@ -773,12 +773,6 @@ a.awsm-text-red:hover {
 	cursor: grab;
 }
 
-.awsm-specs-drag-control.awsm-drag-disabled {
-	cursor: not-allowed;
-	opacity: 0.35;
-	pointer-events: none;
-}
-
 .awsm-specs .select2-container--default.select2-container--open.select2-container--below .select2-selection--single,
 .awsm-specs .select2-container--default.select2-container--open.select2-container--below .select2-selection--multiple,
 .awsm-specs .select2-container--default.select2-container--open.select2-container--above .select2-selection--single,
