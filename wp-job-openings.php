@@ -2217,24 +2217,30 @@ class AWSM_Job_Openings {
 						} elseif ( 'alpha_desc' === $filter_items_order ) {
 							$ordered_terms = wp_list_sort( $terms, 'name', 'DESC' );
 						} else {
-							// Custom ordering: use the admin-configured tag order from filter settings.
-							$ordered_terms = $terms;
-							if ( $current_filter && ! empty( $current_filter['tags'] ) ) {
-								$term_map      = array();
-								$ordered_terms = array();
-								foreach ( $terms as $term ) {
-									$term_map[ $term->name ] = $term;
-								}
-								foreach ( $current_filter['tags'] as $tag ) {
-									if ( isset( $term_map[ $tag ] ) ) {
-										$ordered_terms[] = $term_map[ $tag ];
-										unset( $term_map[ $tag ] );
-									}
-								}
-								foreach ( $term_map as $term ) {
-									$ordered_terms[] = $term;
-								}
-							}
+							// Custom ordering: terms with term_order meta (by saved position) first,
+							// then newly added terms without term_order meta (by term_id/insertion order).
+							$terms_with_order    = get_terms( array(
+								'taxonomy'   => $taxonomy,
+								'object_ids' => $post_id,
+								'meta_key'   => 'term_order',
+								'orderby'    => 'meta_value_num',
+								'order'      => 'ASC',
+								'hide_empty' => false,
+							) );
+							$terms_without_order = get_terms( array(
+								'taxonomy'   => $taxonomy,
+								'object_ids' => $post_id,
+								'orderby'    => 'id',
+								'order'      => 'ASC',
+								'hide_empty' => false,
+								'meta_query' => array(
+									array( 'key' => 'term_order', 'compare' => 'NOT EXISTS' ),
+								),
+							) );
+							$ordered_terms = array_merge(
+								is_wp_error( $terms_with_order ) ? array() : $terms_with_order,
+								is_wp_error( $terms_without_order ) ? array() : $terms_without_order
+							);
 						}
 
 						// Generate terms HTML
