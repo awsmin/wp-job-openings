@@ -158,26 +158,30 @@ class AWSM_Job_Openings_Filters {
 						// terms that have no saved term_order meta (NULL sorts first, then by name).
 						// 1. Terms with a saved order — sorted by that saved position.
 						// 2. Terms with no saved order — appended in insertion order (term_id).
-						$terms_with_order    = get_terms( array(
-							'taxonomy'   => $taxonomy,
-							'meta_key'   => 'term_order', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
-							'orderby'    => 'meta_value_num',
-							'order'      => 'ASC',
-							'hide_empty' => true,
-						) );
-						$terms_without_order = get_terms( array(
-							'taxonomy'   => $taxonomy,
-							'orderby'    => 'id',
-							'order'      => 'ASC',
-							'hide_empty' => true,
-							'meta_query' => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+						$terms_with_order    = get_terms(
+							array(
+								'taxonomy' => $taxonomy,
+								'meta_key' => 'term_order', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+							'orderby'      => 'meta_value_num',
+							'order'        => 'ASC',
+							'hide_empty'   => true,
+							)
+						);
+						$terms_without_order = get_terms(
+							array(
+								'taxonomy'   => $taxonomy,
+								'orderby'    => 'id',
+								'order'      => 'ASC',
+								'hide_empty' => true,
+								'meta_query' => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 								array(
 									'key'     => 'term_order',
 									'compare' => 'NOT EXISTS',
 								),
-							),
-						) );
-						$terms = array_merge(
+								),
+							)
+						);
+						$terms               = array_merge(
 							is_wp_error( $terms_with_order ) ? array() : $terms_with_order,
 							is_wp_error( $terms_without_order ) ? array() : $terms_without_order
 						);

@@ -492,7 +492,7 @@ class AWSM_Job_Openings_Block {
 		$attrs['awsm-order-by']           = isset( $block_atts['order_by'] ) ? $block_atts['order_by'] : '';
 		$attrs['awsm-filter-items-order'] = isset( $block_atts['filter_items_order'] ) ? $block_atts['filter_items_order'] : '';
 		$attrs['awsm-button-style']       = isset( $block_atts['hz_button_style'] ) ? $block_atts['hz_button_style'] : 'none';
-		$attrs['awsm-button-text']  = ! empty( $block_atts['hz_button_text'] ) ? $block_atts['hz_button_text'] : '';
+		$attrs['awsm-button-text']        = ! empty( $block_atts['hz_button_text'] ) ? $block_atts['hz_button_text'] : '';
 
 		$current_lang = AWSM_Job_Openings::get_current_language();
 		if ( ! empty( $current_lang ) ) {
@@ -686,25 +686,29 @@ class AWSM_Job_Openings_Block {
 		// terms that have no saved term_order meta (NULL sorts first, then by name).
 		// 1. Terms with a saved order — sorted by that saved position.
 		// 2. Terms with no saved order — appended in insertion order (term_id).
-		$terms_with_order = get_terms( array(
-			'taxonomy'   => $taxonomy,
-			'meta_key'   => 'term_order', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
-			'orderby'    => 'meta_value_num',
-			'order'      => 'ASC',
-			'hide_empty' => false,
-		) );
-		$terms_without_order = get_terms( array(
-			'taxonomy'   => $taxonomy,
-			'orderby'    => 'id',
-			'order'      => 'ASC',
-			'hide_empty' => false,
-			'meta_query' => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+		$terms_with_order    = get_terms(
+			array(
+				'taxonomy' => $taxonomy,
+				'meta_key' => 'term_order', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+			'orderby'      => 'meta_value_num',
+			'order'        => 'ASC',
+			'hide_empty'   => false,
+			)
+		);
+		$terms_without_order = get_terms(
+			array(
+				'taxonomy'   => $taxonomy,
+				'orderby'    => 'id',
+				'order'      => 'ASC',
+				'hide_empty' => false,
+				'meta_query' => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 				array(
 					'key'     => 'term_order',
 					'compare' => 'NOT EXISTS',
 				),
-			),
-		) );
+				),
+			)
+		);
 		return array_merge(
 			is_wp_error( $terms_with_order ) ? array() : $terms_with_order,
 			is_wp_error( $terms_without_order ) ? array() : $terms_without_order
@@ -795,7 +799,7 @@ class AWSM_Job_Openings_Block {
 			 * @param array $available_filters The available filters.
 			 * @param array $block_atts The block attributes.
 			 */
-			$available_filters = apply_filters( 'awsm_active_block_job_filters', $available_filters, $block_atts );
+			$available_filters       = apply_filters( 'awsm_active_block_job_filters', $available_filters, $block_atts );
 			$awsm_admin_filter_order = wp_list_pluck( get_option( 'awsm_jobs_filter', array() ), 'taxonomy' );
 			if ( ! empty( $awsm_admin_filter_order ) ) {
 				$available_filters = array_values( array_intersect( $awsm_admin_filter_order, $available_filters ) );

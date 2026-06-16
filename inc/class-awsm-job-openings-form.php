@@ -1895,14 +1895,17 @@ class AWSM_Job_Openings_Form {
 				'action'    => 'applicationform',
 				'type'      => $recaptcha_type,
 				'error_msg' => $recaptcha_error,
-			)
+			),
+			JSON_HEX_TAG
 		);
 
-		printf(
-			'<script src="%s" defer></script>' . "\n" . '<script>var awsmJobsRecaptcha = %s;</script>' . "\n",
-			esc_url( $src ),
-			$inline_config
+		wp_print_script_tag(
+			array(
+				'src'   => esc_url( $src ),
+				'defer' => true,
+			)
 		);
+		wp_print_inline_script_tag( 'var awsmJobsRecaptcha = ' . $inline_config . ';' );
 
 		// Prevent wp_print_footer_scripts from outputting a second copy.
 		wp_scripts()->done[] = 'awsm-jobs-g-recaptcha';
@@ -1930,7 +1933,7 @@ class AWSM_Job_Openings_Form {
 
 		// Layer 1 — strip competing captcha scripts.
 		add_action( 'wp_enqueue_scripts', array( $this, 'dequeue_conflicting_captcha_scripts' ), 9999 );
-		add_action( 'wp_print_scripts',   array( $this, 'dequeue_conflicting_captcha_scripts' ), 9999 );
+		add_action( 'wp_print_scripts', array( $this, 'dequeue_conflicting_captcha_scripts' ), 9999 );
 
 		// Layer 2 — restore ours if dequeued before scripts are printed.
 		add_action( 'wp_print_scripts', array( $this, 'ensure_captcha_scripts_enqueued' ), PHP_INT_MAX );

@@ -271,7 +271,7 @@ class AWSM_Job_Openings_Overview {
 				$results = array_values(
 					array_filter(
 						$results,
-						function( $job ) use ( $active_ids ) {
+						function ( $job ) use ( $active_ids ) {
 							return in_array( intval( $job->ID ), $active_ids, true );
 						}
 					)

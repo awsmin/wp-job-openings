@@ -1140,7 +1140,6 @@ class AWSM_Job_Openings {
 			if ( $has_filters ) {
 				echo '<a href="' . esc_url( admin_url( 'edit.php?post_type=awsm_job_application' ) ) . '" id="awsm-clear-filters" class="button awsm-clr-flt-btn">' . esc_html__( 'Clear Filter', 'wp-job-openings' ) . '</a>';
 			}
-
 		}
 	}
 
@@ -1450,8 +1449,6 @@ class AWSM_Job_Openings {
 				wp_enqueue_style( 'awsm-job-admin-overview' );
 				wp_enqueue_script( 'awsm-job-admin-overview' );
 			}
-
-			
 		}
 
 		wp_localize_script(

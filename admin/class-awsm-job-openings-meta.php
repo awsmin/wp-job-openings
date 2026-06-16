@@ -25,7 +25,6 @@ class AWSM_Job_Openings_Meta {
 		add_filter( 'wp_untrash_post_status', array( $this, 'awsm_job_application_restore_post_to_previous_status' ), 10, 3 );
 		add_filter( 'post_class', array( $this, 'awsm_add_unread_application_class' ), 10, 3 );
 		add_action( 'quick_edit_custom_box', array( $this, 'awsm_job_openings_main_quick_edit_fields' ), 10, 2 );
-
 	}
 
 
@@ -418,6 +417,4 @@ class AWSM_Job_Openings_Meta {
 		</fieldset>
 		<?php
 	}
-
-
 }
