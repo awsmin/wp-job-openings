@@ -146,6 +146,13 @@ Yes. You can view, filter, and manage applications from your dashboard.
 
 == Changelog ==
 
+= V x.x.x – 2026-06-17 =
+Added: Clear Filters button in the application listing.
+Added: Order By option for job specifications.
+Improved: SVG support option for Featured Images in the block.
+ADDED: Job Specifications ordering option in the block settings.
+* Minor bug fixes and code improvements.
+
 = V 4.0.1 – 2026-05-26 =
 Added: Block - "More Details" button text editing option in block inspector.
 Added: Block - Three button styles (None, Fill, Outline) for the "More Details" button.
