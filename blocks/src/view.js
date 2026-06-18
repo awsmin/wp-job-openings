@@ -936,7 +936,7 @@ jQuery( function ( $ ) {
 				.done( function ( response ) {
 					if ( response.data.html ) {
 						let effectDuration = $paginationWrapper.data( "effectDuration" );
-						$paginationWrapper.remove();
+						$listingsContainer.find( ".awsm-b-jobs-pagination" ).remove();
 						if ( isDefaultPagination ) {
 							$listingsrowContainer.append( response.data.html );
 						} else {
