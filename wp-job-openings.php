@@ -2219,25 +2219,32 @@ class AWSM_Job_Openings {
 						} else {
 							// Custom ordering: terms with term_order meta (by saved position) first,
 							// then newly added terms without term_order meta (by term_id/insertion order).
-							$terms_with_order    = get_terms( array(
-								'taxonomy'   => $taxonomy,
-								'object_ids' => $post_id,
-								'meta_key'   => 'term_order',
-								'orderby'    => 'meta_value_num',
-								'order'      => 'ASC',
-								'hide_empty' => false,
-							) );
-							$terms_without_order = get_terms( array(
-								'taxonomy'   => $taxonomy,
-								'object_ids' => $post_id,
-								'orderby'    => 'id',
-								'order'      => 'ASC',
-								'hide_empty' => false,
-								'meta_query' => array(
-									array( 'key' => 'term_order', 'compare' => 'NOT EXISTS' ),
-								),
-							) );
-							$ordered_terms = array_merge(
+							$terms_with_order    = get_terms(
+								array(
+									'taxonomy'   => $taxonomy,
+									'object_ids' => $post_id,
+									'meta_key'   => 'term_order',
+									'orderby'    => 'meta_value_num',
+									'order'      => 'ASC',
+									'hide_empty' => false,
+								)
+							);
+							$terms_without_order = get_terms(
+								array(
+									'taxonomy'   => $taxonomy,
+									'object_ids' => $post_id,
+									'orderby'    => 'id',
+									'order'      => 'ASC',
+									'hide_empty' => false,
+									'meta_query' => array(
+										array(
+											'key'     => 'term_order',
+											'compare' => 'NOT EXISTS',
+										),
+									),
+								)
+							);
+							$ordered_terms       = array_merge(
 								is_wp_error( $terms_with_order ) ? array() : $terms_with_order,
 								is_wp_error( $terms_without_order ) ? array() : $terms_without_order
 							);
