@@ -10,7 +10,7 @@ License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://www.buymeacoffee.com/awsm
 
-Create modern careers page, list jobs, and manage applications directly from your WordPress dashboard.th
+Create modern careers page, list jobs, and manage applications directly from your WordPress dashboard.
 
 == Description ==
 
