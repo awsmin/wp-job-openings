@@ -671,7 +671,7 @@ const WidgetInspectorControls = props => {
 
 						{ ( search || enable_job_filter ) && (
 							<PanelBody
-								title={ __( "Search and Filters", "wp-job-openings" ) }
+								title={ __( "Search & Filters", "wp-job-openings" ) }
 								initialOpen={ true }
 							>
 								<BorderControl
