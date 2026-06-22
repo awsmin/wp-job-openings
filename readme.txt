@@ -5,12 +5,10 @@ Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 5.6
 Stable tag: 4.0.0
-Stable tag: 4.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://www.buymeacoffee.com/awsm
 
-Create modern careers page, list jobs, and manage applications directly from your WordPress dashboard.
 Create modern careers page, list jobs, and manage applications directly from your WordPress dashboard.
 
 == Description ==
@@ -146,7 +144,7 @@ Yes. You can view, filter, and manage applications from your dashboard.
 
 == Changelog ==
 
-= V x.x.x – 2026-06-17 =
+= V 4.0.2 – 2026-06-22 =
 Added: Clear Filters button in the application listing.
 Added: Order By option for job specifications.
 Improved: SVG support option for Featured Images in the block.
