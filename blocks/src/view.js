@@ -713,6 +713,12 @@ jQuery( function ( $ ) {
 
 			const $mainContainer = $triggerElem.parents( rootWrapperSelector );
 			const $listingsContainer = $mainContainer.find( wrapperSelector );
+
+			if ( $listingsContainer.data( "awsmPaginationBusy" ) ) {
+				return;
+			}
+			$listingsContainer.data( "awsmPaginationBusy", true );
+
 			const $listingsrowContainer = $listingsContainer.find( sectionSelector );
 
 			const $paginationWrapper = $triggerElem.parents(
@@ -969,6 +975,9 @@ jQuery( function ( $ ) {
 				.fail( function ( xhr ) {
 					// eslint-disable-next-line no-console
 					console.log( xhr );
+				} )
+				.always( function () {
+					$listingsContainer.data( "awsmPaginationBusy", false );
 				} );
 		}
 	);
