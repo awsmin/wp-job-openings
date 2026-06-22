@@ -114,6 +114,7 @@ Yes. You can view, filter, and manage applications from your dashboard.
 * Added: Order By option for job specifications.
 * Added: Job Specifications ordering option in the block settings.
 * Improved: SVG support option for Featured Images in the block.
+* Minor bug fixes and code improvements.
 
 **V 4.0.1 – 2026-05-26**
 * Added: Block - "More Details" button text editing option in block inspector.
