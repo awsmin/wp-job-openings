@@ -145,21 +145,21 @@ Yes. You can view, filter, and manage applications from your dashboard.
 == Changelog ==
 
 = V 4.0.2 – 2026-06-22 =
-Added: Clear Filters button in the application listing.
-Added: Order By option for job specifications.
-Improved: SVG support option for Featured Images in the block.
-ADDED: Job Specifications ordering option in the block settings.
+* Added: Clear Filters button in the application listing.
+* Added: Order By option for job specifications.
+* Improved: SVG support option for Featured Images in the block.
+* ADDED: Job Specifications ordering option in the block settings.
 * Minor bug fixes and code improvements.
 
 = V 4.0.1 – 2026-05-26 =
-Added: Block - "More Details" button text editing option in block inspector.
-Added: Block - Three button styles (None, Fill, Outline) for the "More Details" button.
-Added: Block - Search enabled by default.
-Added: Block - Pro badge locking for Stack layout, Multiple select filter, and Filtered list features.
-Improved: Block - Set block as default when the plugin is installed.
-Improved: Block - Padding controls for Classic and Modern pagination styles.
-Update: Default job listing layout changed from shortcode to block on the Job Listing page.
-Update: Added new application status badge in the Overview page recent application listing.
+* Added: Block - "More Details" button text editing option in block inspector.
+* Added: Block - Three button styles (None, Fill, Outline) for the "More Details" button.
+* Added: Block - Search enabled by default.
+* Added: Block - Pro badge locking for Stack layout, Multiple select filter, and Filtered list features.
+* Improved: Block - Set block as default when the plugin is installed.
+* Improved: Block - Padding controls for Classic and Modern pagination styles.
+* Update: Default job listing layout changed from shortcode to block on the Job Listing page.
+* Update: Added new application status badge in the Overview page recent application listing.
 
 = V 4.0.0 – 2026-05-06 =
 * Added: Block - Multi-select filters for job listings.
