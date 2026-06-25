@@ -293,6 +293,12 @@ jQuery(document).ready(function($) {
 					error.appendTo(element.parents('.awsm-job-form-group'));
 				}
 			});
+
+			// File inputs fire 'change' (not 'keyup') when a file is selected,
+			// so jQuery Validate's default events never clear the error. Re-validate on change.
+			$form.on('change', '[type="file"]', function() {
+				$(this).valid();
+			});
 		});
 	}
 
