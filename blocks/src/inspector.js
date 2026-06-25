@@ -23,21 +23,20 @@ import {
 	PanelRow
 } from "@wordpress/components";
 
-const MAX_BORDER_WIDTH = 20;
-
 const enforceMinBorderWidth = ( newBorder, prevBorder ) => {
 	const rawWidth = newBorder?.width ?? prevBorder?.width;
-	const color = newBorder && 'color' in newBorder ? newBorder.color : prevBorder?.color;
-
-	if ( ! rawWidth || parseFloat( rawWidth ) === 0 ) {
-		// Width hit 0 — enforce minimum and always preserve previous color
-		const unit = rawWidth ? rawWidth.replace( /[\d.]/g, '' ) || 'px' : 'px';
-		return { ...prevBorder, ...newBorder, width: '1' + unit, color: prevBorder?.color };
+	if ( ! rawWidth || parseFloat( rawWidth ) !== 0 ) {
+		const color = newBorder && 'color' in newBorder ? newBorder.color : prevBorder?.color;
+		return { ...prevBorder, ...newBorder, color };
 	}
-
+	// Width hit 0 — enforce minimum and always preserve previous color
 	const unit = rawWidth.replace( /[\d.]/g, '' ) || 'px';
-	const clamped = Math.min( parseFloat( rawWidth ), MAX_BORDER_WIDTH );
-	return { ...prevBorder, ...newBorder, width: clamped + unit, color };
+	return {
+		...prevBorder,
+		...newBorder,
+		width: '1' + unit,
+		color: prevBorder?.color,
+	};
 };
 
 const WidgetInspectorControls = props => {
