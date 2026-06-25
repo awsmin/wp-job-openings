@@ -110,7 +110,7 @@ Yes. You can view, filter, and manage applications from your dashboard.
 
 ## Changelog
 
-**V 4.0.2 – 2026-06-22**
+**V 4.0.2 – 2026-06-25**
 * Added: Clear Filters button in the application listing.
 * Added: Order By option for job specifications.
 * Added: Job Specifications ordering option in the block settings.
