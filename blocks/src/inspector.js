@@ -23,20 +23,21 @@ import {
 	PanelRow
 } from "@wordpress/components";
 
+const MAX_BORDER_WIDTH = 20;
+
 const enforceMinBorderWidth = ( newBorder, prevBorder ) => {
 	const rawWidth = newBorder?.width ?? prevBorder?.width;
-	if ( ! rawWidth || parseFloat( rawWidth ) !== 0 ) {
-		const color = newBorder && 'color' in newBorder ? newBorder.color : prevBorder?.color;
-		return { ...prevBorder, ...newBorder, color };
+	const color = newBorder && 'color' in newBorder ? newBorder.color : prevBorder?.color;
+
+	if ( ! rawWidth || parseFloat( rawWidth ) === 0 ) {
+		// Width hit 0 — enforce minimum and always preserve previous color
+		const unit = rawWidth ? rawWidth.replace( /[\d.]/g, '' ) || 'px' : 'px';
+		return { ...prevBorder, ...newBorder, width: '1' + unit, color: prevBorder?.color };
 	}
-	// Width hit 0 — enforce minimum and always preserve previous color
+
 	const unit = rawWidth.replace( /[\d.]/g, '' ) || 'px';
-	return {
-		...prevBorder,
-		...newBorder,
-		width: '1' + unit,
-		color: prevBorder?.color,
-	};
+	const clamped = Math.min( parseFloat( rawWidth ), MAX_BORDER_WIDTH );
+	return { ...prevBorder, ...newBorder, width: clamped + unit, color };
 };
 
 const WidgetInspectorControls = props => {
@@ -604,14 +605,11 @@ const WidgetInspectorControls = props => {
 									value={ hz_sf_border }
 									__experimentalIsRenderedInSidebar
 									onChange={ newBorder => {
-										const width = newBorder?.width ?? hz_sf_border?.width;
-										const color = newBorder && 'color' in newBorder ? newBorder.color : hz_sf_border?.color;
+										const enforced = enforceMinBorderWidth( newBorder, hz_sf_border );
 										setAttributes( {
 											hz_sf_border: {
-												...hz_sf_border,
-												...newBorder,
-												width,
-												color: parseFloat( width ) > 0 ? color : undefined
+												...enforced,
+												color: parseFloat( enforced.width ) > 0 ? enforced.color : undefined
 											}
 										} );
 									} }
@@ -809,14 +807,11 @@ const WidgetInspectorControls = props => {
 										value={ hz_bs_border }
 										__experimentalIsRenderedInSidebar
 										onChange={ newBorder => {
-											const width = newBorder?.width ?? hz_bs_border?.width;
-											const color = newBorder && 'color' in newBorder ? newBorder.color : hz_bs_border?.color;
+											const enforced = enforceMinBorderWidth( newBorder, hz_bs_border );
 											setAttributes( {
 												hz_bs_border: {
-													...hz_bs_border,
-													...newBorder,
-													width,
-													color: parseFloat( width ) > 0 ? color : undefined
+													...enforced,
+													color: parseFloat( enforced.width ) > 0 ? enforced.color : undefined
 												}
 											} );
 										} }
