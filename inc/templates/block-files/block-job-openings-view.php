@@ -254,7 +254,7 @@ if ( $placement === 'top' ) {
 						?>
 					<?php else : ?>
 						<div class="awsm-jobs-none-container awsm-b-jobs-none-container">
-							<p><?php awsm_no_jobs_msg(); ?></p>
+							<p><?php echo esc_html__( 'Sorry! No jobs to show.', 'wp-job-openings' ); ?></p>
 						</div>
 					<?php endif; ?>
 				</div>
