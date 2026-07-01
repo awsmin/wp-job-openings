@@ -12,8 +12,10 @@ class AWSM_Job_Openings_Form {
 
 	public static $allowed_html = array(
 		'a'      => array(
-			'href'  => array(),
-			'title' => array(),
+			'href'   => array(),
+			'title'  => array(),
+			'target' => array(),
+			'rel'    => array(),
 		),
 		'br'     => array(),
 		'em'     => array(),
