@@ -1788,6 +1788,14 @@ class AWSM_Job_Openings {
 						wp_update_post( $post_data );
 						// now, re-hook this function
 						add_action( 'save_post', array( $this, 'awsm_job_save_post' ), 100, 2 );
+					} elseif ( $post->post_status === 'expired' ) {
+						// Future expiry date set on an expired job — restore to published
+						$post_data                = array();
+						$post_data['ID']          = $post_id;
+						$post_data['post_status'] = 'publish';
+						remove_action( 'save_post', array( $this, 'awsm_job_save_post' ), 100 );
+						wp_update_post( $post_data );
+						add_action( 'save_post', array( $this, 'awsm_job_save_post' ), 100, 2 );
 					}
 				} elseif ( $post->post_status === 'expired' ) {
 					// If a job is expired but no expiry date is set, restore expiry meta
@@ -1869,6 +1877,14 @@ class AWSM_Job_Openings {
 					remove_action( 'save_post', array( $this, 'awsm_job_save_post' ), 100 );
 					wp_update_post( $post_data );
 					// now, re-hook this function
+					add_action( 'save_post', array( $this, 'awsm_job_save_post' ), 100, 2 );
+				} elseif ( $post->post_status === 'expired' ) {
+					// Future expiry date set on an expired job — restore to published
+					$post_data                = array();
+					$post_data['ID']          = $post_id;
+					$post_data['post_status'] = 'publish';
+					remove_action( 'save_post', array( $this, 'awsm_job_save_post' ), 100 );
+					wp_update_post( $post_data );
 					add_action( 'save_post', array( $this, 'awsm_job_save_post' ), 100, 2 );
 				}
 			} elseif ( $post->post_status === 'expired' ) {
