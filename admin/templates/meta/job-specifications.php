@@ -77,7 +77,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<li>
 					<input type="hidden" name="awsm_job_spec_terms[<?php echo esc_attr( $spec ); ?>][]" value="" />
 					<label for="awsm_job_<?php echo esc_attr( $spec ); ?>_specification"><?php echo esc_html( $spec_options->label ); ?></label>
-					<select class="awsm_job_specification_terms" id="awsm_job_<?php echo esc_attr( $spec ); ?>_specification" name="awsm_job_spec_terms[<?php echo esc_attr( $spec ); ?>][]" multiple="multiple" style="width: 100%;">
+					<select class="awsm_job_specification_terms" id="awsm_job_<?php echo esc_attr( $spec ); ?>_specification" name="awsm_job_spec_terms[<?php echo esc_attr( $spec ); ?>][]" multiple="multiple" style="width: 100%;" data-placeholder="<?php esc_html_e( 'Select an existing option or type a new one. Press Enter to add.', 'wp-job-openings' ); ?>">
 					<?php
 					if ( ! empty( $spec_terms ) ) :
 						foreach ( $spec_terms as $spec_term ) :
