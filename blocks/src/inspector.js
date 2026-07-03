@@ -142,38 +142,19 @@ const WidgetInspectorControls = props => {
 	}, [] );
 
 	useEffect( () => {
+		if ( ! wasJustInserted && blockId ) return;
 		if ( filtersInitRef.current ) return;
 		if ( ! enable_job_filter ) return;
 		if ( ! specifications?.length ) return;
+		if ( filter_options?.length ) return;
 
-		const existingOptions = filter_options || [];
+		const newFilterOptions = specifications.map( spec => spec.key );
+		const newFilterTypes = {};
+		specifications.forEach( spec => {
+			newFilterTypes[ spec.key ] = "dropdown";
+		} );
 
-		if ( ! existingOptions.length ) {
-			// Brand-new block with no saved options: only initialize on first insertion.
-			if ( ! wasJustInserted && blockId ) return;
-			const newFilterOptions = specifications.map( spec => spec.key );
-			const newFilterTypes = {};
-			specifications.forEach( spec => {
-				newFilterTypes[ spec.key ] = "dropdown";
-			} );
-			setAttributes( { filter_options: newFilterOptions, filter_types: newFilterTypes } );
-		} else {
-			// Existing block: auto-add any specs that were created after this block was configured.
-			const newSpecKeys = specifications
-				.map( spec => spec.key )
-				.filter( key => ! existingOptions.includes( key ) );
-			if ( newSpecKeys.length ) {
-				const updatedFilterTypes = { ...filter_types };
-				newSpecKeys.forEach( key => {
-					updatedFilterTypes[ key ] = "dropdown";
-				} );
-				setAttributes( {
-					filter_options: [ ...existingOptions, ...newSpecKeys ],
-					filter_types: updatedFilterTypes,
-				} );
-			}
-		}
-
+		setAttributes( { filter_options: newFilterOptions, filter_types: newFilterTypes } );
 		filtersInitRef.current = true;
 	}, [ wasJustInserted, specifications, enable_job_filter ] );
 
