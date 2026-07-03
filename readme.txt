@@ -4,7 +4,7 @@ Tags: jobs, job listing, job board, careers page, recruitment
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 5.6
-Stable tag: 4.0.0
+Stable tag: 4.0.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://www.buymeacoffee.com/awsm
@@ -94,6 +94,24 @@ HireZoot works with most well-coded WordPress themes.
 = Can I manage applications inside WordPress? =
 Yes. You can view, filter, and manage applications from your dashboard.
 
+1. Upload the plugin to the `/wp-content/plugins/` directory or install via WordPress  
+2. Activate the plugin from the Plugins screen  
+3. Add your first job listing  
+
+== Frequently Asked Questions ==
+
+= Is HireZoot easy to set up? =
+Yes. You can publish a job listing page and start receiving applications within minutes.
+
+= Can I customize the application form? =
+Yes. The default form works out of the box, and PRO features allow full customization.
+
+= Will it work with my theme? =
+HireZoot works with most well-coded WordPress themes.
+
+= Can I manage applications inside WordPress? =
+Yes. You can view, filter, and manage applications from your dashboard.
+
 == Screenshots ==
 
 1. Job Openings and Applications Dashboard
@@ -111,18 +129,37 @@ Yes. You can view, filter, and manage applications from your dashboard.
 13. General Settings
 14. Job Specifications Settings
 15. Notifications Template Settings
+4. Job listing - Stack View
+5. Job Block
+6. Job Detail View
+7. Plugin Welcome Page
+8. Add A Job Opening
+9. Application List
+10. Application Detail View
+11. Email Digest
+12. Job Openings List
+13. General Settings
+14. Job Specifications Settings
+15. Notifications Template Settings
 
 == Changelog ==
 
+= V 4.0.2 – 2026-06-25 =
+* Added: Clear Filters button in the application listing.
+* Added: Order By option for job specifications.
+* Improved: SVG support option for Featured Images in the block.
+* ADDED: Job Specifications ordering option in the block settings.
+* Minor bug fixes and code improvements.
+
 = V 4.0.1 – 2026-05-26 =
-Added: Block - "More Details" button text editing option in block inspector.
-Added: Block - Three button styles (None, Fill, Outline) for the "More Details" button.
-Added: Block - Search enabled by default.
-Added: Block - Pro badge locking for Stack layout, Multiple select filter, and Filtered list features.
-Improved: Block - Set block as default when the plugin is installed.
-Improved: Block - Padding controls for Classic and Modern pagination styles.
-Update: Default job listing layout changed from shortcode to block on the Job Listing page.
-Update: Added new application status badge in the Overview page recent application listing.
+* Added: Block - "More Details" button text editing option in block inspector.
+* Added: Block - Three button styles (None, Fill, Outline) for the "More Details" button.
+* Added: Block - Search enabled by default.
+* Added: Block - Pro badge locking for Stack layout, Multiple select filter, and Filtered list features.
+* Improved: Block - Set block as default when the plugin is installed.
+* Improved: Block - Padding controls for Classic and Modern pagination styles.
+* Update: Default job listing layout changed from shortcode to block on the Job Listing page.
+* Update: Added new application status badge in the Overview page recent application listing.
 
 = V 4.0.0 – 2026-05-06 =
 * Added: Block - Multi-select filters for job listings.

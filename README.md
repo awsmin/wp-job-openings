@@ -5,7 +5,7 @@
 **Requires at least:** 6.0  
 **Tested up to:** 7.0
 **Requires PHP:** 5.6  
-**Stable tag:** 4.0.0  
+**Stable tag:** 4.0.2  
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
 **Donate link:** https://www.buymeacoffee.com/awsm
@@ -109,7 +109,14 @@ Yes. You can view, filter, and manage applications from your dashboard.
 
 ## Changelog
 
-**V 4.0.1 – 2026-05-26 =
+**V 4.0.2 – 2026-06-25**
+* Added: Clear Filters button in the application listing.
+* Added: Order By option for job specifications.
+* Added: Job Specifications ordering option in the block settings.
+* Improved: SVG support option for Featured Images in the block.
+* Minor bug fixes and code improvements.
+
+**V 4.0.1 – 2026-05-26**
 * Added: Block - "More Details" button text editing option in block inspector.
 * Added: Block - Three button styles (None, Fill, Outline) for the "More Details" button.
 * Added: Block - Search enabled by default.

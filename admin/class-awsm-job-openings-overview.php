@@ -59,8 +59,9 @@ class AWSM_Job_Openings_Overview {
 	public function overview_page() {
 		$jobs = self::get_jobs(
 			array(
-				'numberjobs' => 7,
-				'job_status' => 'publish',
+				'numberjobs'      => 7,
+				'job_status'      => 'publish',
+				'exclude_expired' => true,
 			)
 		);
 		include_once $this->cpath . '/templates/overview/main.php';
@@ -152,8 +153,9 @@ class AWSM_Job_Openings_Overview {
 		$widget_id = 'open-positions';
 		$jobs      = self::get_jobs(
 			array(
-				'numberjobs' => 10,
-				'job_status' => 'publish',
+				'numberjobs'      => 10,
+				'job_status'      => 'publish',
+				'exclude_expired' => true,
 			)
 		);
 		include $this->get_widget_path( 'job-listings', self::$menu_slug . '-' . $widget_id );
@@ -252,15 +254,36 @@ class AWSM_Job_Openings_Overview {
 			$where   .= " AND {$wpdb->posts}.post_author = %d";
 			$values[] = $parsed_args['author_id'];
 		}
-		// limit.
-		$limit = '';
-		if ( $parsed_args['numberjobs'] !== -1 ) {
-			$limit   .= ' LIMIT %d';
-			$values[] = $parsed_args['numberjobs'];
+		// exclude jobs whose expiry date meta has already passed.
+		if ( ! empty( $parsed_args['exclude_expired'] ) ) {
+			$join    .= " LEFT JOIN {$wpdb->postmeta} AS job_expiry ON {$wpdb->posts}.ID = job_expiry.post_id AND job_expiry.meta_key = 'awsm_job_expiry'";
+			$where   .= " AND (job_expiry.meta_value IS NULL OR job_expiry.meta_value = '' OR job_expiry.meta_value >= %s)";
+			$values[] = current_time( 'Y-m-d' );
+		}
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$results = $wpdb->get_results( $wpdb->prepare( "SELECT {$wpdb->posts}.ID, COUNT(applications.ID) AS applications_count FROM {$wpdb->posts} {$join} {$where} GROUP BY {$wpdb->posts}.ID ORDER BY {$wpdb->posts}.post_date DESC", $values ), OBJECT );
+
+		// Remove jobs whose application limit has been exceeded (pro pack hooks awsm_jobs_active_count_ids).
+		if ( ! empty( $results ) ) {
+			$result_ids = array_map( 'intval', wp_list_pluck( $results, 'ID' ) );
+			$active_ids = array_map( 'intval', (array) apply_filters( 'awsm_jobs_active_count_ids', $result_ids ) );
+			if ( count( $active_ids ) !== count( $result_ids ) ) {
+				$results = array_values(
+					array_filter(
+						$results,
+						function ( $job ) use ( $active_ids ) {
+							return in_array( intval( $job->ID ), $active_ids, true );
+						}
+					)
+				);
+			}
 		}
 
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$results = $wpdb->get_results( $wpdb->prepare( "SELECT {$wpdb->posts}.ID, COUNT(applications.ID) AS applications_count FROM {$wpdb->posts} {$join} {$where} GROUP BY {$wpdb->posts}.ID ORDER BY applications_count DESC, {$wpdb->posts}.ID{$limit}", $values ), OBJECT );
+		// Apply numberjobs limit in PHP so it comes after the active-count filter above.
+		if ( $parsed_args['numberjobs'] !== -1 ) {
+			$results = array_slice( $results, 0, (int) $parsed_args['numberjobs'] );
+		}
+
 		/**
 		 * Filters the overview jobs result.
 		 *

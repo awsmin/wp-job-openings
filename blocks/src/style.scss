@@ -98,6 +98,10 @@ a.awsm-b-job-item {
 	margin-bottom: 14px;
 }
 
+.awsm-b-grid-item .awsm-job-featured-image img {
+	width: 100%;
+}
+
 .awsm-b-job-item h2.awsm-b-job-post-title {
 	margin: 0 0 15px;
 	font-size: 18px;
@@ -397,15 +401,11 @@ a.awsm-b-job-item {
 .awsm-b-list-item .awsm-job-featured-image {
 	float: left;
 	margin-right: 10px;
-}
-
-.awsm-b-list-item .awsm-job-featured-image img {
 	width: 50px;
-	height: 50px;
 }
 
 .awsm-job-featured-image img {
-	max-width: 100%;
+	width: 100%;
 	height: auto;
 }
 
@@ -564,7 +564,7 @@ a.awsm-b-job-item .awsm-job-specification-item {
 	display: block;
 	width: 100%;
 	font: inherit;
-	padding: 8px 15px;
+	padding: 8px 48px 8px 15px;
 	min-height: 46px;
 	font-size: 14px;
 	border: var(--hz-ls-border-width, 1px) solid var(--hz-ls-border-color, #ccc);
@@ -967,11 +967,16 @@ a.awsm-b-job-item .awsm-job-specification-item {
 	align-items: center;
 	justify-content: space-between;
 	gap: 10px;
+	flex-wrap: wrap;
 
 	@media (max-width: 600px) {
 		flex-direction: column;
 		align-items: flex-start;
 	}
+}
+
+.awsm-list-stacked .awsm-b-stack-left-col {
+	min-width: 75%;
 }
 
 .awsm-b-stack-left-col {
@@ -986,8 +991,11 @@ a.awsm-b-job-item .awsm-job-specification-item {
 	}
 
 	.awsm-job-featured-image {
-		max-width: 55px;
+		width: 55px;
 		border-radius: 10px;
+		img{
+			width: 100%;
+		}
 	}
 
 	.awsm-job-specification-wrapper {
@@ -1001,6 +1009,7 @@ a.awsm-b-job-item .awsm-job-specification-item {
 .awsm-b-stack-right-col {
 	flex: 0 0 auto;
 	margin-left: auto;
+	max-width: 100%;
 
 	@media (max-width: 600px) {
 		width: 100%;

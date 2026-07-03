@@ -95,7 +95,8 @@ if ( isset( $query ) && $query instanceof WP_Query && $query->have_posts() ) {
 						do_action_deprecated( 'before_awsm_block_jobs_listing_right_col_content', array( $job_details['id'], $attributes ), '3.0.0', 'before_awsm_block_jobs_listing_specs_content' );
 
 					if ( apply_filters( 'awsm_jobs_block_listing_show_right_col_specs', true, $view ) ) {
-						awsm_block_job_listing_spec_content( $job_details['id'], $awsm_filters, $listing_specs, false, $show_spec_icon );
+						$filter_items_order = isset( $attributes['filter_items_order'] ) ? $attributes['filter_items_order'] : null;
+						awsm_block_job_listing_spec_content( $job_details['id'], $awsm_filters, $listing_specs, false, $show_spec_icon, $filter_items_order );
 					}
 
 						awsm_b_job_more_details( $job_details['permalink'], $view );

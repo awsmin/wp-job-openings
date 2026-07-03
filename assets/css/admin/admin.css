@@ -111,6 +111,7 @@
 	padding: 10px 10px 10px 0;
 }
 
+
 .awsm-job-settings-wrap form h2 {
 	font-size: 16px;
 	margin: 0;
@@ -2724,6 +2725,38 @@ input.awsm-button:disabled {
 		margin: 0 0 20px;
 	}
 
+}
+
+.post-type-awsm_job_application .alignleft.actions {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 4px;
+}
+
+.awsm-clr-flt-btn.awsm-clr-flt-btn {
+	order: 99;
+	background: none;
+	border: none;
+	box-shadow: none;
+	outline: none;
+	text-shadow: none;
+	color: #2271b1;
+	cursor: pointer;
+	padding: 0 4px;
+	height: auto;
+	line-height: inherit;
+	text-decoration: none;
+}
+
+.awsm-clr-flt-btn.awsm-clr-flt-btn:hover,
+.awsm-clr-flt-btn.awsm-clr-flt-btn:focus,
+.awsm-clr-flt-btn.awsm-clr-flt-btn:active {
+	background: none;
+	border: none;
+	box-shadow: none;
+	outline: none;
+	color: #135e96;
 }
 
 

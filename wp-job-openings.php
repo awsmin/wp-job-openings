@@ -5,7 +5,7 @@
  * Description: HireZoot (formerly WP Job Openings) makes hiring simple. Add job listings, publish a clean careers page, and manage applications without leaving WordPress.
  * Author: AWSM Innovations
  * Author URI: https://awsm.in/
- * Version: 4.0.1
+ * Version: 4.0.2
  * Requires at least: 6.0
  * Requires PHP: 5.6
  * License: GPLv2
@@ -37,7 +37,7 @@ if ( ! defined( 'AWSM_JOBS_PLUGIN_URL' ) ) {
 	define( 'AWSM_JOBS_PLUGIN_URL', untrailingslashit( plugin_dir_url( __FILE__ ) ) );
 }
 if ( ! defined( 'AWSM_JOBS_PLUGIN_VERSION' ) ) {
-	define( 'AWSM_JOBS_PLUGIN_VERSION', '4.0.1' );
+	define( 'AWSM_JOBS_PLUGIN_VERSION', '4.0.2' );
 }
 if ( ! defined( 'AWSM_JOBS_UPLOAD_DIR_NAME' ) ) {
 	define( 'AWSM_JOBS_UPLOAD_DIR_NAME', 'awsm-job-openings' );
@@ -1134,6 +1134,12 @@ class AWSM_Job_Openings {
 			echo '<input type="text" class="awsm-application-date-filter" id="awsm_application_date_filter_from" name="awsm_filter_by_date_from" placeholder="' . esc_attr__( 'Date From', 'wp-job-openings' ) . '" value="' . esc_attr( $date_range_from ) . '" />';
 			echo '<input type="text" class="awsm-application-date-filter" id="awsm_application_date_filter_to" name="awsm_filter_by_date_to" placeholder="' . esc_attr__( 'Date To', 'wp-job-openings' ) . '" value="' . esc_attr( $date_range_to ) . '" />';
 
+			$pro_spec_filter   = isset( $_GET['awsm_job_admin_filter'] ) ? array_filter( (array) $_GET['awsm_job_admin_filter'] ) : array();
+			$pro_filled_filter = isset( $_GET['awsm_filled_jobs_filter'] ) ? sanitize_text_field( $_GET['awsm_filled_jobs_filter'] ) : '';
+			$has_filters       = ! empty( $jobs_post_filter ) || ! empty( $date_range_from ) || ! empty( $date_range_to ) || ! empty( $pro_spec_filter ) || ! empty( $pro_filled_filter );
+			if ( $has_filters ) {
+				echo '<a href="' . esc_url( admin_url( 'edit.php?post_type=awsm_job_application' ) ) . '" id="awsm-clear-filters" class="button awsm-clr-flt-btn">' . esc_html__( 'Clear Filter', 'wp-job-openings' ) . '</a>';
+			}
 		}
 	}
 
@@ -1464,6 +1470,7 @@ class AWSM_Job_Openings {
 					'edit_job_specs'  => esc_html__( 'Edit Job Specifications', 'wp-job-openings' ),
 				),
 				'specs_settings_url'        => admin_url( 'edit.php?post_type=awsm_job_openings&page=awsm-jobs-settings&tab=specifications&subtab=awsm-manage_spec-specifications-nav-subtab' ),
+				'filter_items_order'        => sanitize_text_field( get_option( 'awsm_jobs_filter_items_order', 'custom' ) ),
 				'awsm_filters'              => self::get_filter_specifications(),
 				'awsm_filters_block'        => AWSM_Job_Openings_Block::get_block_filter_specifications(),
 				'awsm_featured_image_block' => AWSM_Job_Openings_Block::get_block_featured_image_size(),
@@ -2203,29 +2210,44 @@ class AWSM_Job_Openings {
 							}
 						}
 
-						// Create ordered terms array based on filter tags
-						$ordered_terms = array();
-						if ( $current_filter && ! empty( $current_filter['tags'] ) ) {
-							// Create a map of term names to term objects
-							$term_map = array();
-							foreach ( $terms as $term ) {
-								$term_map[ $term->name ] = $term;
-							}
-
-							// Add terms in the order specified by tags
-							foreach ( $current_filter['tags'] as $tag ) {
-								if ( isset( $term_map[ $tag ] ) ) {
-									$ordered_terms[] = $term_map[ $tag ];
-									unset( $term_map[ $tag ] );
-								}
-							}
-
-							// Add any remaining terms that weren't in the filter tags
-							foreach ( $term_map as $term ) {
-								$ordered_terms[] = $term;
-							}
+						// Order terms according to the admin-configured setting.
+						$filter_items_order = get_option( 'awsm_jobs_filter_items_order', 'custom' );
+						if ( 'alpha_asc' === $filter_items_order ) {
+							$ordered_terms = wp_list_sort( $terms, 'name', 'ASC' );
+						} elseif ( 'alpha_desc' === $filter_items_order ) {
+							$ordered_terms = wp_list_sort( $terms, 'name', 'DESC' );
 						} else {
-							$ordered_terms = $terms;
+							// Custom ordering: terms with term_order meta (by saved position) first,
+							// then newly added terms without term_order meta (by term_id/insertion order).
+							$terms_with_order    = get_terms(
+								array(
+									'taxonomy'   => $taxonomy,
+									'object_ids' => $post_id,
+									'meta_key'   => 'term_order',
+									'orderby'    => 'meta_value_num',
+									'order'      => 'ASC',
+									'hide_empty' => false,
+								)
+							);
+							$terms_without_order = get_terms(
+								array(
+									'taxonomy'   => $taxonomy,
+									'object_ids' => $post_id,
+									'orderby'    => 'id',
+									'order'      => 'ASC',
+									'hide_empty' => false,
+									'meta_query' => array(
+										array(
+											'key'     => 'term_order',
+											'compare' => 'NOT EXISTS',
+										),
+									),
+								)
+							);
+							$ordered_terms       = array_merge(
+								is_wp_error( $terms_with_order ) ? array() : $terms_with_order,
+								is_wp_error( $terms_without_order ) ? array() : $terms_without_order
+							);
 						}
 
 						// Generate terms HTML

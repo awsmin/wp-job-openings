@@ -73,7 +73,7 @@ class AWSM_Job_Openings_Settings {
 					'listing' => array(
 						'id'     => 'awsm-job-listing-nav-subtab',
 						'target' => 'awsm-job-listing-options-container',
-						'label'  => __( 'Job Listing Page', 'wp-job-openings' ),
+						'label'  => __( 'Job Listing Page (Shortcode)', 'wp-job-openings' ),
 					),
 					'details' => array(
 						'id'     => 'awsm-job-details-nav-subtab',
@@ -208,6 +208,9 @@ class AWSM_Job_Openings_Settings {
 				array(
 					'option_name' => 'awsm_jobs_listing_available_filters',
 					'callback'    => array( $this, 'sanitize_array_fields' ),
+				),
+				array(
+					'option_name' => 'awsm_jobs_filter_items_order',
 				),
 				array(
 					'option_name' => 'awsm_jobs_listing_display_type',
@@ -819,13 +822,14 @@ class AWSM_Job_Openings_Settings {
 			$input = esc_html__( 'By using this form you agree with the storage and handling of your data by this website.', 'wp-job-openings' );
 		}
 		$current_val = trim( wp_unslash( $input ) );
-		if ( false !== strpbrk( $current_val, '<>' ) ) {
+		$sanitized   = $this->sanitize_html_content( $current_val );
+		if ( substr_count( $current_val, '<' ) > substr_count( $sanitized, '<' ) ) {
 			if ( ! wp_list_filter( get_settings_errors( 'awsm_jobs_settings' ), array( 'code' => 'invalid_characters' ) ) ) {
 				add_settings_error( 'awsm_jobs_settings', 'invalid_characters', __( 'Special characters like &lt; and &gt; are not allowed.', 'wp-job-openings' ), 'error' );
 			}
-			return get_option( 'awsm_gdpr_cb_text' );
+			$sanitized = $this->sanitize_html_content( preg_replace( '/[<>]/', '', $current_val ) );
 		}
-		return $this->sanitize_html_content( $input );
+		return $sanitized;
 	}
 
 	public function notification_content_handler( $input, $option_name ) {
@@ -1315,7 +1319,9 @@ class AWSM_Job_Openings_Settings {
 				}
 				if ( $container === 'table' ) {
 					if ( $field_type === 'title' ) {
-						$content .= sprintf( '<tr%3$s><th scope="row" colspan="2" class="awsm-form-head-title"><h2 id="%2$s">%1$s</h2></th></tr>', esc_html( $label ), esc_attr( $id ), $container_attrs );
+						$title_description = isset( $field_details['description'] ) ? $field_details['description'] : '';
+						$description_html  = ! empty( $title_description ) ? sprintf( '<p class="awsm-form-head-description">%s</p>', wp_kses( $title_description, $allowed_html ) ) : '';
+						$content          .= sprintf( '<tr%4$s><th scope="row" colspan="2" class="awsm-form-head-title"><h2 id="%2$s">%1$s</h2>%3$s</th></tr>', esc_html( $label ), esc_attr( $id ), $description_html, $container_attrs );
 					} else {
 						$content .= sprintf( '<tr%3$s><th scope="row">%1$s</th><td>%2$s</td></tr>', $field_label, $field_content, $container_attrs );
 					}
@@ -1416,6 +1422,19 @@ class AWSM_Job_Openings_Settings {
 					);
 					break;
 				}
+			}
+
+			// Re-fetch terms for display only using the admin-configured order.
+			$filter_items_order = get_option( 'awsm_jobs_filter_items_order', 'custom' );
+			if ( 'alpha_asc' === $filter_items_order || 'alpha_desc' === $filter_items_order ) {
+				$terms = get_terms(
+					array(
+						'taxonomy'   => $spec_key,
+						'orderby'    => 'name',
+						'order'      => 'alpha_asc' === $filter_items_order ? 'ASC' : 'DESC',
+						'hide_empty' => false,
+					)
+				);
 			}
 
 			// Generate tag options

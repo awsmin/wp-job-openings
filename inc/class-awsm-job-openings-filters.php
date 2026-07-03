@@ -137,28 +137,55 @@ class AWSM_Job_Openings_Filters {
 					 *
 					 * @param array $terms_args Array of arguments.
 					 */
-					$terms_args = apply_filters(
-						'awsm_filter_spec_terms_args',
-						array(
-							'taxonomy'   => $taxonomy,
-							'orderby'    => 'term_order_clause',
-							'order'      => 'ASC',
-							'hide_empty' => true,
-							'meta_query' => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-								'relation'          => 'OR',
-								'term_order_clause' => array(
-									'key'     => 'term_order',
-									'compare' => 'EXISTS',
-									'type'    => 'NUMERIC',
-								),
+					$filter_items_order = get_option( 'awsm_jobs_filter_items_order', 'custom' );
+					if ( 'alpha_asc' === $filter_items_order || 'alpha_desc' === $filter_items_order ) {
+						$terms_args = apply_filters(
+							'awsm_filter_spec_terms_args',
+							array(
+								'taxonomy'   => $taxonomy,
+								'orderby'    => 'name',
+								'order'      => 'alpha_asc' === $filter_items_order ? 'ASC' : 'DESC',
+								'hide_empty' => true,
+							)
+						);
+						// Re-enforce alpha ordering — hooks (e.g. pro plugin) may have overridden it.
+						$terms_args['orderby'] = 'name';
+						$terms_args['order']   = 'alpha_asc' === $filter_items_order ? 'ASC' : 'DESC';
+						unset( $terms_args['meta_query'] );
+						$terms = get_terms( $terms_args );
+					} else {
+						// Custom ordering: two queries to avoid MySQL's alphabetical fallback for
+						// terms that have no saved term_order meta (NULL sorts first, then by name).
+						// 1. Terms with a saved order — sorted by that saved position.
+						// 2. Terms with no saved order — appended in insertion order (term_id).
+						$terms_with_order    = get_terms(
+							array(
+								'taxonomy' => $taxonomy,
+								'meta_key' => 'term_order', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+							'orderby'      => 'meta_value_num',
+							'order'        => 'ASC',
+							'hide_empty'   => true,
+							)
+						);
+						$terms_without_order = get_terms(
+							array(
+								'taxonomy'   => $taxonomy,
+								'orderby'    => 'id',
+								'order'      => 'ASC',
+								'hide_empty' => true,
+								'meta_query' => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 								array(
 									'key'     => 'term_order',
 									'compare' => 'NOT EXISTS',
 								),
-							),
-						)
-					);
-					$terms      = get_terms( $terms_args );
+								),
+							)
+						);
+						$terms               = array_merge(
+							is_wp_error( $terms_with_order ) ? array() : $terms_with_order,
+							is_wp_error( $terms_without_order ) ? array() : $terms_without_order
+						);
+					}
 					if ( ! empty( $terms ) ) {
 							$available_filters_arr[ $taxonomy ] = $tax_details->label;
 

@@ -98,6 +98,7 @@ class AWSM_Job_Openings_Block {
 			'hz_jl_text_color'               => isset( $blockatts['hz_jl_text_color'] ) ? $blockatts['hz_jl_text_color'] : '',
 			'hz_sidebar_bg_color'            => isset( $blockatts['hz_sidebar_bg_color'] ) ? $blockatts['hz_sidebar_bg_color'] : '',
 			'hz_sidebar_tx_color'            => isset( $blockatts['hz_sidebar_tx_color'] ) ? $blockatts['hz_sidebar_tx_color'] : '',
+			'filter_items_order'             => isset( $blockatts['filter_items_order'] ) && in_array( $blockatts['filter_items_order'], array( 'custom', 'alpha_asc', 'alpha_desc' ), true ) ? $blockatts['filter_items_order'] : 'custom',
 		);
 
 		/**
@@ -293,6 +294,11 @@ class AWSM_Job_Openings_Block {
 			$attributes['order_by'] = in_array( $order_by, array( 'new_to_old', 'old_to_new' ), true ) ? $order_by : 'new_to_old';
 		}
 
+		if ( isset( $_POST['awsm-filter-items-order'] ) ) {
+			$filter_items_order               = sanitize_key( wp_unslash( $_POST['awsm-filter-items-order'] ) );
+			$attributes['filter_items_order'] = in_array( $filter_items_order, array( 'custom', 'alpha_asc', 'alpha_desc' ), true ) ? $filter_items_order : 'custom';
+		}
+
 		if ( isset( $_POST['awsm-button-style'] ) ) {
 			$attributes['hz_button_style'] = sanitize_key( wp_unslash( $_POST['awsm-button-style'] ) );
 		}
@@ -483,9 +489,10 @@ class AWSM_Job_Openings_Block {
 			: '';
 		$attrs['awsm-spec-icons']        = isset( $block_atts['show_spec_icon'] ) ? $block_atts['show_spec_icon'] : '';
 
-		$attrs['awsm-order-by']     = isset( $block_atts['order_by'] ) ? $block_atts['order_by'] : '';
-		$attrs['awsm-button-style'] = isset( $block_atts['hz_button_style'] ) ? $block_atts['hz_button_style'] : 'none';
-		$attrs['awsm-button-text']  = ! empty( $block_atts['hz_button_text'] ) ? $block_atts['hz_button_text'] : '';
+		$attrs['awsm-order-by']           = isset( $block_atts['order_by'] ) ? $block_atts['order_by'] : '';
+		$attrs['awsm-filter-items-order'] = isset( $block_atts['filter_items_order'] ) ? $block_atts['filter_items_order'] : '';
+		$attrs['awsm-button-style']       = isset( $block_atts['hz_button_style'] ) ? $block_atts['hz_button_style'] : 'none';
+		$attrs['awsm-button-text']        = ! empty( $block_atts['hz_button_text'] ) ? $block_atts['hz_button_text'] : '';
 
 		$current_lang = AWSM_Job_Openings::get_current_language();
 		if ( ! empty( $current_lang ) ) {
@@ -548,16 +555,16 @@ class AWSM_Job_Openings_Block {
 				}
 			}
 		} else {
-			$taxonomy_objects = get_object_taxonomies( 'awsm_job_openings', 'objects' );
-			foreach ( $taxonomy_objects as $spec => $spec_details ) {
-				if ( ! in_array( $spec, $spec_keys, true ) ) {
+			foreach ( $spec_keys as $spec ) {
+				$tax_obj = get_taxonomy( $spec );
+				if ( empty( $tax_obj ) ) {
 					continue;
 				}
 				$terms = self::get_block_spec_terms( $spec );
 				if ( ! empty( $terms ) ) {
 					$specs[] = array(
 						'key'              => $spec,
-						'label'            => $spec_details->label,
+						'label'            => $tax_obj->label,
 						'terms'            => $terms,
 						'expired_term_ids' => self::get_expired_only_term_ids( $spec ),
 					);
@@ -639,6 +646,73 @@ class AWSM_Job_Openings_Block {
 	public static function get_block_filter_terms( $taxonomy ) {
 		$terms = self::get_block_spec_terms( $taxonomy );
 		return apply_filters( 'awsm_block_filter_terms', $terms, $taxonomy );
+	}
+
+	/**
+	 * Return filter terms ordered according to the block's filter_items_order attribute.
+	 * Mirrors the shortcode ordering logic in class-awsm-job-openings-filters.php exactly,
+	 * except hide_empty is always false for the block (filter dropdowns show all terms).
+	 * Falls back to the global admin setting when the attribute is not set.
+	 *
+	 * @param string $taxonomy   Taxonomy key — needed to re-query for correct ordering.
+	 * @param array  $block_atts Block attributes.
+	 * @return array Ordered WP_Term objects.
+	 */
+	public static function order_block_filter_terms( $taxonomy, $block_atts ) {
+		$allowed = array( 'custom', 'alpha_asc', 'alpha_desc' );
+		$order   = isset( $block_atts['filter_items_order'] ) && in_array( $block_atts['filter_items_order'], $allowed, true )
+			? $block_atts['filter_items_order']
+			: get_option( 'awsm_jobs_filter_items_order', 'custom' );
+
+		if ( 'alpha_asc' === $order || 'alpha_desc' === $order ) {
+			// Re-fetch with explicit alpha ordering so hooks cannot override the sort direction.
+			$terms_args            = apply_filters(
+				'awsm_block_filter_spec_terms_args',
+				array(
+					'taxonomy'   => $taxonomy,
+					'orderby'    => 'name',
+					'order'      => 'alpha_asc' === $order ? 'ASC' : 'DESC',
+					'hide_empty' => false,
+				)
+			);
+			$terms_args['orderby'] = 'name';
+			$terms_args['order']   = 'alpha_asc' === $order ? 'ASC' : 'DESC';
+			unset( $terms_args['meta_query'] );
+			$terms = get_terms( $terms_args );
+			return is_wp_error( $terms ) ? array() : $terms;
+		}
+
+		// Custom ordering: two queries to avoid MySQL's alphabetical fallback for
+		// terms that have no saved term_order meta (NULL sorts first, then by name).
+		// 1. Terms with a saved order — sorted by that saved position.
+		// 2. Terms with no saved order — appended in insertion order (term_id).
+		$terms_with_order    = get_terms(
+			array(
+				'taxonomy' => $taxonomy,
+				'meta_key' => 'term_order', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+			'orderby'      => 'meta_value_num',
+			'order'        => 'ASC',
+			'hide_empty'   => false,
+			)
+		);
+		$terms_without_order = get_terms(
+			array(
+				'taxonomy'   => $taxonomy,
+				'orderby'    => 'id',
+				'order'      => 'ASC',
+				'hide_empty' => false,
+				'meta_query' => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+				array(
+					'key'     => 'term_order',
+					'compare' => 'NOT EXISTS',
+				),
+				),
+			)
+		);
+		return array_merge(
+			is_wp_error( $terms_with_order ) ? array() : $terms_with_order,
+			is_wp_error( $terms_without_order ) ? array() : $terms_without_order
+		);
 	}
 
 	public function display_block_filter_form( $block_atts ) {
@@ -725,7 +799,12 @@ class AWSM_Job_Openings_Block {
 			 * @param array $available_filters The available filters.
 			 * @param array $block_atts The block attributes.
 			 */
-			$available_filters = apply_filters( 'awsm_active_block_job_filters', $available_filters, $block_atts );
+			$available_filters       = apply_filters( 'awsm_active_block_job_filters', $available_filters, $block_atts );
+			$awsm_admin_filter_order = wp_list_pluck( get_option( 'awsm_jobs_filter', array() ), 'taxonomy' );
+			if ( ! empty( $awsm_admin_filter_order ) ) {
+				$available_filters = array_values( array_intersect( $awsm_admin_filter_order, $available_filters ) );
+			}
+			$filter_dropdown_map = array();
 			foreach ( $taxonomies as $taxonomy => $tax_details ) {
 				if ( in_array( $taxonomy, $available_filters ) ) {
 
@@ -736,7 +815,8 @@ class AWSM_Job_Openings_Block {
 					 *
 					 * @param array $terms_args Array of arguments.
 					 */
-					$terms = self::get_block_filter_terms( $taxonomy );
+					$terms = self::order_block_filter_terms( $taxonomy, $block_atts );
+					$terms = apply_filters( 'awsm_block_filter_terms', $terms, $taxonomy );
 					if ( ! empty( $terms ) ) {
 						$available_filters_arr[ $taxonomy ] = $tax_details->label;
 
@@ -805,8 +885,13 @@ class AWSM_Job_Openings_Block {
 						 */
 						$dropdown_content = apply_filters( 'awsm_job_filter_dropdown_content', $dropdown_content );
 
-						$specs_filter_content .= $dropdown_content;
+						$filter_dropdown_map[ $taxonomy ] = $dropdown_content;
 					}
+				}
+			}
+			foreach ( $available_filters as $taxonomy ) {
+				if ( isset( $filter_dropdown_map[ $taxonomy ] ) ) {
+					$specs_filter_content .= $filter_dropdown_map[ $taxonomy ];
 				}
 			}
 		}
@@ -830,6 +915,9 @@ class AWSM_Job_Openings_Block {
 				$hidden_fields_content .= sprintf( '<input type="hidden" name="awsm_pagination_base" value="%1$s"><input type="hidden" name="paged" value="%2$s">', esc_url( get_pagenum_link() ), absint( $paged ) );
 			}
 			$hidden_fields_content .= '<input type="hidden" name="action" value="block_jobfilter">';
+			if ( ! empty( $block_atts['filter_items_order'] ) ) {
+				$hidden_fields_content .= sprintf( '<input type="hidden" name="awsm-filter-items-order" value="%s">', esc_attr( $block_atts['filter_items_order'] ) );
+			}
 			if ( ! empty( $specs_filter_content ) ) {
 				$toggle_icon = '<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" version="1.1" preserveAspectRatio="xMinYMin"><path xmlns="http://www.w3.org/2000/svg" fill="rgb(9.803922%,9.803922%,9.803922%)" d="M 36.417969 19.9375 L 36.417969 17.265625 C 36.417969 16.160156 35.523438 15.265625 34.417969 15.265625 L 21.578125 15.265625 C 20.476562 15.265625 19.578125 16.160156 19.578125 17.265625 L 19.578125 19.9375 L 11 19.9375 L 11 26.9375 L 19.578125 26.9375 L 19.578125 30.105469 C 19.578125 31.210938 20.476562 32.105469 21.578125 32.105469 L 34.417969 32.105469 C 35.523438 32.105469 36.417969 31.210938 36.417969 30.105469 L 36.417969 26.9375 L 89 26.9375 L 89 19.9375 Z M 58.421875 43.578125 C 58.421875 42.476562 57.527344 41.578125 56.421875 41.578125 L 43.582031 41.578125 C 42.480469 41.578125 41.582031 42.476562 41.582031 43.578125 L 41.582031 46.5 L 11 46.5 L 11 53.5 L 41.582031 53.5 L 41.582031 56.421875 C 41.582031 57.527344 42.480469 58.421875 43.582031 58.421875 L 56.421875 58.421875 C 57.527344 58.421875 58.421875 57.527344 58.421875 56.421875 L 58.421875 53.5 L 89 53.5 L 89 46.5 L 58.421875 46.5 Z M 80.417969 70.140625 C 80.417969 69.035156 79.523438 68.140625 78.417969 68.140625 L 65.578125 68.140625 C 64.476562 68.140625 63.578125 69.035156 63.578125 70.140625 L 63.578125 73.0625 L 11 73.0625 L 11 80.0625 L 63.578125 80.0625 L 63.578125 82.984375 C 63.578125 84.085938 64.476562 84.984375 65.578125 84.984375 L 78.417969 84.984375 C 79.523438 84.984375 80.417969 84.085938 80.417969 82.984375 L 80.417969 80.0625 L 89 80.0625 L 89 73.0625 L 80.417969 73.0625 Z M 80.417969 70.140625"/></svg>';
 
@@ -919,6 +1007,10 @@ class AWSM_Job_Openings_Block {
 
 		$hidden_fields_content = '<input type="hidden" name="action" value="block_jobfilter">';
 
+		if ( ! empty( $block_atts['filter_items_order'] ) ) {
+			$hidden_fields_content .= sprintf( '<input type="hidden" name="awsm-filter-items-order" value="%s">', esc_attr( $block_atts['filter_items_order'] ) );
+		}
+
 		if ( ! AWSM_Job_Openings::is_default_pagination( $block_atts ) ) {
 			$paged                  = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
 			$hidden_fields_content .= sprintf( '<input type="hidden" name="awsm_pagination_base" value="%1$s"><input type="hidden" name="paged" value="%2$s">', esc_url( get_pagenum_link() ), absint( $paged ) );
@@ -939,12 +1031,15 @@ class AWSM_Job_Openings_Block {
 		$selected_filters = self::get_block_filters_query_args( $available_filters );
 
 		// Respect the legacy separate toggle: only build the filter dropdowns when enabled.
+		$awsm_admin_filter_order_side = wp_list_pluck( get_option( 'awsm_jobs_filter', array() ), 'taxonomy' );
+		$filter_dropdown_map_side     = array();
 		if ( $enable_job_filters === 'enable' && ! empty( $taxonomies ) && is_array( $filter_options ) && ! empty( $filter_options ) ) {
 			foreach ( $taxonomies as $taxonomy => $tax_details ) {
 				foreach ( $filter_options as $spec ) {
 					if ( ( is_string( $spec ) && $taxonomy === $spec ) || ( is_array( $spec ) && isset( $spec['specKey'] ) && $taxonomy === $spec['specKey'] ) ) {
 						// Get terms for the taxonomy
-						$terms = self::get_block_filter_terms( $taxonomy );
+						$terms = self::order_block_filter_terms( $taxonomy, $block_atts );
+						$terms = apply_filters( 'awsm_block_filter_terms', $terms, $taxonomy );
 
 						if ( ! empty( $terms ) ) {
 							$available_filters_arr[ $taxonomy ] = $tax_details->label;
@@ -1069,9 +1164,15 @@ class AWSM_Job_Openings_Block {
 							 */
 							$dropdown_content = apply_filters( 'awsm_job_filter_dropdown_content', $dropdown_content );
 
-							$specs_filter_content .= $dropdown_content;
+							$filter_dropdown_map_side[ $taxonomy ] = $dropdown_content;
 						}
 					}
+				}
+			}
+			$ordered_keys = ! empty( $awsm_admin_filter_order_side ) ? $awsm_admin_filter_order_side : array_keys( $filter_dropdown_map_side );
+			foreach ( $ordered_keys as $taxonomy ) {
+				if ( isset( $filter_dropdown_map_side[ $taxonomy ] ) ) {
+					$specs_filter_content .= $filter_dropdown_map_side[ $taxonomy ];
 				}
 			}
 		}
@@ -1131,7 +1232,7 @@ class AWSM_Job_Openings_Block {
 		}
 	}
 
-	public static function get_specifications_content_block( $post_id, $display_label, $filter_data = array(), $listing_specs = array(), $has_term_link = true, $show_icon = '' ) {
+	public static function get_specifications_content_block( $post_id, $display_label, $filter_data = array(), $listing_specs = array(), $has_term_link = true, $show_icon = '', $filter_items_order = null ) {
 		$spec_content = '';
 		$filter_data  = ! empty( $filter_data ) ? $filter_data : get_option( 'awsm_jobs_filter' );
 		// Normalize to the expected array-of-arrays shape to avoid PHP notices in REST responses.
@@ -1192,29 +1293,47 @@ class AWSM_Job_Openings_Block {
 							}
 						}
 
-						// Create ordered terms array based on filter tags
-						$ordered_terms = array();
-						if ( $current_filter && ! empty( $current_filter['tags'] ) ) {
-							// Create a map of term names to term objects
-							$term_map = array();
-							foreach ( $terms as $term ) {
-								$term_map[ $term->name ] = $term;
-							}
-
-							// Add terms in the order specified by tags
-							foreach ( $current_filter['tags'] as $tag ) {
-								if ( isset( $term_map[ $tag ] ) ) {
-									$ordered_terms[] = $term_map[ $tag ];
-									unset( $term_map[ $tag ] );
-								}
-							}
-
-							// Add any remaining terms that weren't in the filter tags
-							foreach ( $term_map as $term ) {
-								$ordered_terms[] = $term;
-							}
+						// Order terms: prefer the per-block attribute, fall back to the global admin option.
+						$allowed_orders     = array( 'custom', 'alpha_asc', 'alpha_desc' );
+						$filter_items_order = ( null !== $filter_items_order && in_array( $filter_items_order, $allowed_orders, true ) )
+							? $filter_items_order
+							: get_option( 'awsm_jobs_filter_items_order', 'custom' );
+						if ( 'alpha_asc' === $filter_items_order ) {
+							$ordered_terms = wp_list_sort( $terms, 'name', 'ASC' );
+						} elseif ( 'alpha_desc' === $filter_items_order ) {
+							$ordered_terms = wp_list_sort( $terms, 'name', 'DESC' );
 						} else {
-							$ordered_terms = $terms;
+							// Custom ordering: terms with term_order meta (by saved position) first,
+							// then newly added terms without term_order meta (by term_id/insertion order).
+							$terms_with_order    = get_terms(
+								array(
+									'taxonomy'   => $taxonomy,
+									'object_ids' => $post_id,
+									'meta_key'   => 'term_order',
+									'orderby'    => 'meta_value_num',
+									'order'      => 'ASC',
+									'hide_empty' => false,
+								)
+							);
+							$terms_without_order = get_terms(
+								array(
+									'taxonomy'   => $taxonomy,
+									'object_ids' => $post_id,
+									'orderby'    => 'id',
+									'order'      => 'ASC',
+									'hide_empty' => false,
+									'meta_query' => array(
+										array(
+											'key'     => 'term_order',
+											'compare' => 'NOT EXISTS',
+										),
+									),
+								)
+							);
+							$ordered_terms       = array_merge(
+								is_wp_error( $terms_with_order ) ? array() : $terms_with_order,
+								is_wp_error( $terms_without_order ) ? array() : $terms_without_order
+							);
 						}
 
 						// Generate terms HTML

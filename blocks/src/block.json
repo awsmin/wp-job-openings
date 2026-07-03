@@ -241,6 +241,10 @@
 			"type": "boolean",
 			"default": true
 		},
+		"filter_items_order": {
+			"type": "string",
+			"default": "custom"
+		},
 		"enable_alert": {
 			"type": "boolean",
 			"default": false

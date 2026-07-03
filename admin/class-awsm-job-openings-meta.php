@@ -27,6 +27,7 @@ class AWSM_Job_Openings_Meta {
 		add_action( 'quick_edit_custom_box', array( $this, 'awsm_job_openings_main_quick_edit_fields' ), 10, 2 );
 	}
 
+
 	public static function init() {
 		if ( is_null( self::$instance ) ) {
 			self::$instance = new self();

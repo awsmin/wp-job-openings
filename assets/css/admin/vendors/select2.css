@@ -9,7 +9,7 @@
 	box-sizing: border-box;
 	cursor: pointer;
 	display: block;
-	height: 30px;
+	height: 40px;
 	user-select: none;
 	-webkit-user-select: none;
 }
@@ -20,6 +20,7 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+	min-height: 40px;
 }
 .select2-container .select2-selection--single .select2-selection__clear {
 	background-color: transparent;
@@ -180,7 +181,7 @@
 	.select2-selection--single
 	.select2-selection__rendered {
 	color: #444;
-	line-height: 28px;
+	line-height: 38px;
 }
 .select2-container--awsm-job
 	.select2-selection--single
@@ -200,7 +201,7 @@
 .select2-container--awsm-job
 	.select2-selection--single
 	.select2-selection__arrow {
-	height: 26px;
+	height: 36px;
 	position: absolute;
 	top: 1px;
 	right: 1px;

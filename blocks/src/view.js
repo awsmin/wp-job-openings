@@ -150,6 +150,7 @@ jQuery( function ( $ ) {
 		const other_options = $wrapper.data( "awsm-other-options" );
 		const show_spec_icon = $wrapper.data( "awsm-spec-icons" );
 		const order_by = $wrapper.data( "awsm-order-by" );
+		const filter_items_order = $wrapper.data( "awsm-filter-items-order" );
 		const button_style = $wrapper.data( "awsm-button-style" );
 		const button_text = $wrapper.data( "awsm-button-text" );
 
@@ -205,6 +206,13 @@ jQuery( function ( $ ) {
 			formData.push( {
 				name: "awsm-order-by",
 				value: order_by
+			} );
+		}
+
+		if ( typeof filter_items_order !== "undefined" ) {
+			formData.push( {
+				name: "awsm-filter-items-order",
+				value: filter_items_order
 			} );
 		}
 
@@ -714,6 +722,7 @@ jQuery( function ( $ ) {
 			const lang = $listingsContainer.data( "lang" );
 			const searchQuery = $listingsContainer.data( "search" );
 			const order_by = $listingsContainer.data( "awsm-order-by" );
+			const filter_items_order = $listingsContainer.data( "awsm-filter-items-order" );
 
 			/* added for block */
 			const layout = $listingsContainer.data( "awsm-layout" );
@@ -859,6 +868,13 @@ jQuery( function ( $ ) {
 				} );
 			}
 
+			if ( typeof filter_items_order !== "undefined" ) {
+				wpData.push( {
+					name: "awsm-filter-items-order",
+					value: filter_items_order
+				} );
+			}
+
 			if ( typeof button_style !== "undefined" ) {
 				wpData.push( {
 					name: "awsm-button-style",
@@ -920,7 +936,7 @@ jQuery( function ( $ ) {
 				.done( function ( response ) {
 					if ( response.data.html ) {
 						let effectDuration = $paginationWrapper.data( "effectDuration" );
-						$paginationWrapper.remove();
+						$listingsContainer.find( ".awsm-b-jobs-pagination" ).remove();
 						if ( isDefaultPagination ) {
 							$listingsrowContainer.append( response.data.html );
 						} else {
