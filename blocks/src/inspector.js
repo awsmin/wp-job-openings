@@ -6,7 +6,6 @@ import {
 	__experimentalBorderRadiusControl as BorderRadiusControl
 } from "@wordpress/block-editor";
 import {addFilter} from "@wordpress/hooks";
-import {useSelect} from "@wordpress/data";
 
 import {
 	PanelBody,
@@ -89,7 +88,8 @@ const WidgetInspectorControls = props => {
 			hz_jl_text_color,
 			hz_sidebar_bg_color,
 			hz_sidebar_tx_color,
-			hz_sidebar_width
+			hz_sidebar_width,
+			filtersInitialized
 		},
 		setAttributes
 	} = props;
@@ -103,18 +103,6 @@ const WidgetInspectorControls = props => {
 	const block_appearance_list = [];
 	const block_job_listing = [];
 	const block_styles_panel = [];
-
-	const { wasJustInserted } = useSelect(
-		select => {
-			const editor = select( "core/block-editor" );
-			return {
-				wasJustInserted: editor?.wasBlockJustInserted
-					? editor.wasBlockJustInserted( clientId )
-					: false,
-			};
-		},
-		[ clientId ]
-	);
 
 	useEffect( () => {
 		const expectedId = "block-" + clientId;
@@ -142,11 +130,15 @@ const WidgetInspectorControls = props => {
 	}, [] );
 
 	useEffect( () => {
-		if ( ! wasJustInserted && blockId ) return;
+		if ( ! filtersInitialized && filter_options?.length ) {
+			setAttributes( { filtersInitialized: true } );
+			return;
+		}
+
+		if ( filtersInitialized ) return;
 		if ( filtersInitRef.current ) return;
 		if ( ! enable_job_filter ) return;
 		if ( ! specifications?.length ) return;
-		if ( filter_options?.length ) return;
 
 		const newFilterOptions = specifications.map( spec => spec.key );
 		const newFilterTypes = {};
@@ -154,9 +146,9 @@ const WidgetInspectorControls = props => {
 			newFilterTypes[ spec.key ] = "dropdown";
 		} );
 
-		setAttributes( { filter_options: newFilterOptions, filter_types: newFilterTypes } );
+		setAttributes( { filter_options: newFilterOptions, filter_types: newFilterTypes, filtersInitialized: true } );
 		filtersInitRef.current = true;
-	}, [ wasJustInserted, specifications, enable_job_filter ] );
+	}, [ filtersInitialized, specifications, enable_job_filter ] );
 
 	useEffect( () => {
 		const updates = {};

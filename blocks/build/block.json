@@ -256,6 +256,10 @@
     "enable_alert": {
       "type": "boolean",
       "default": false
+    },
+    "filtersInitialized": {
+      "type": "boolean",
+      "default": false
     }
   },
   "example": {},
