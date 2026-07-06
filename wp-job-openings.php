@@ -1474,6 +1474,7 @@ class AWSM_Job_Openings {
 				'awsm_filters'              => self::get_filter_specifications(),
 				'awsm_filters_block'        => AWSM_Job_Openings_Block::get_block_filter_specifications(),
 				'awsm_featured_image_block' => AWSM_Job_Openings_Block::get_block_featured_image_size(),
+				'awsm_default_spec_keys'    => self::get_default_spec_keys(),
 			)
 		);
 		wp_localize_script(
@@ -1530,6 +1531,14 @@ class AWSM_Job_Openings {
 		return $specs;
 	}
 
+
+	public static function get_default_spec_keys() {
+		$defaults = AWSM_Job_Openings_Settings::get_default_settings( 'awsm_jobs_filter' );
+		if ( is_array( $defaults ) ) {
+			return wp_list_pluck( $defaults, 'taxonomy' );
+		}
+		return array( 'job-category', 'job-type', 'job-location' );
+	}
 
 	public static function get_spec_terms( $spec ) {
 		$terms_args = array(
