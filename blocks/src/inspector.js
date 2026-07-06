@@ -1,5 +1,6 @@
 import {__} from "@wordpress/i18n";
 import {useEffect, useRef, Fragment} from "@wordpress/element";
+import {useSelect} from "@wordpress/data";
 import {
 	InspectorControls,
 	PanelColorSettings,
@@ -100,6 +101,18 @@ const WidgetInspectorControls = props => {
 	const filtersInitRef = useRef( false );
 	const specifications = window.awsmJobsAdmin?.awsm_filters_block || [];
 
+	const { wasJustInserted } = useSelect(
+		select => {
+			const editor = select( 'core/block-editor' );
+			return {
+				wasJustInserted: editor?.wasBlockJustInserted
+					? editor.wasBlockJustInserted( clientId )
+					: false,
+			};
+		},
+		[ clientId ]
+	);
+
 	const block_appearance_list = [];
 	const block_job_listing = [];
 	const block_styles_panel = [];
@@ -130,6 +143,7 @@ const WidgetInspectorControls = props => {
 	}, [] );
 
 	useEffect( () => {
+		// Migration: existing block already has filter_options saved — just mark initialized.
 		if ( ! filtersInitialized && filter_options?.length ) {
 			setAttributes( { filtersInitialized: true } );
 			return;
@@ -140,15 +154,24 @@ const WidgetInspectorControls = props => {
 		if ( ! enable_job_filter ) return;
 		if ( ! specifications?.length ) return;
 
-		const newFilterOptions = specifications.map( spec => spec.key );
-		const newFilterTypes = {};
-		specifications.forEach( spec => {
-			newFilterTypes[ spec.key ] = "dropdown";
-		} );
+		let optsToSet;
+		const typesToSet = {};
 
-		setAttributes( { filter_options: newFilterOptions, filter_types: newFilterTypes, filtersInitialized: true } );
+		if ( wasJustInserted ) {
+			// Brand new block — load all specs (plugin defaults + user-created).
+			optsToSet = specifications.map( spec => spec.key );
+		} else {
+			// Existing block with no saved filter_options (e.g. the default Jobs page created
+			// on plugin activation). Enable only the plugin's built-in default specs so that
+			// user-added specs are not silently turned on — matching shortcode behaviour.
+			const defaultKeys = new Set( window.awsmJobsAdmin?.awsm_default_spec_keys || [] );
+			optsToSet = specifications.map( s => s.key ).filter( k => defaultKeys.has( k ) );
+		}
+
+		optsToSet.forEach( k => { typesToSet[ k ] = 'dropdown'; } );
+		setAttributes( { filter_options: optsToSet, filter_types: typesToSet, filtersInitialized: true } );
 		filtersInitRef.current = true;
-	}, [ filtersInitialized, specifications, enable_job_filter ] );
+	}, [ filtersInitialized, specifications, enable_job_filter, wasJustInserted ] );
 
 	useEffect( () => {
 		const updates = {};
