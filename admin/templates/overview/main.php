@@ -178,7 +178,7 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 						),
 						array(
 							'id'        => 'hooks',
-							'url'       => AWSM_JOBS_DOCS_URL . '/developers/hooks',
+							'url'       => AWSM_JOBS_DOCS_URL . '/hooks',
 							'link_text' => __( 'Hooks & Functions', 'wp-job-openings' ),
 						),
 						array(
