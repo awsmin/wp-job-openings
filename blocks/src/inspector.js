@@ -23,23 +23,6 @@ import {
 	PanelRow
 } from "@wordpress/components";
 
-const MAX_BORDER_WIDTH = 20;
-
-const enforceMinBorderWidth = ( newBorder, prevBorder ) => {
-	const rawWidth = newBorder?.width ?? prevBorder?.width;
-	const color = newBorder && 'color' in newBorder ? newBorder.color : prevBorder?.color;
-
-	if ( ! rawWidth || parseFloat( rawWidth ) === 0 ) {
-		// Width hit 0 — enforce minimum and always preserve previous color
-		const unit = rawWidth ? rawWidth.replace( /[\d.]/g, '' ) || 'px' : 'px';
-		return { ...prevBorder, ...newBorder, width: '1' + unit, color: prevBorder?.color };
-	}
-
-	const unit = rawWidth.replace( /[\d.]/g, '' ) || 'px';
-	const clamped = Math.min( parseFloat( rawWidth ), MAX_BORDER_WIDTH );
-	return { ...prevBorder, ...newBorder, width: clamped + unit, color };
-};
-
 const WidgetInspectorControls = props => {
 	const {
 		clientId,
@@ -620,11 +603,10 @@ const WidgetInspectorControls = props => {
 									value={ hz_sf_border }
 									__experimentalIsRenderedInSidebar
 									onChange={ newBorder => {
-										const enforced = enforceMinBorderWidth( newBorder, hz_sf_border );
 										setAttributes( {
 											hz_sf_border: {
-												...enforced,
-												color: parseFloat( enforced.width ) > 0 ? enforced.color : undefined
+												...newBorder,
+												color: parseFloat( newBorder.width ) > 0 ? newBorder.color : undefined
 											}
 										} );
 									} }
@@ -695,7 +677,7 @@ const WidgetInspectorControls = props => {
 									__experimentalIsRenderedInSidebar
 									onChange={ newBorder => {
 										setAttributes( {
-											hz_ls_border: enforceMinBorderWidth( newBorder, hz_ls_border )
+											hz_ls_border: newBorder
 										} );
 									} }
 									enableStyle={ false }
@@ -753,7 +735,7 @@ const WidgetInspectorControls = props => {
 								__experimentalIsRenderedInSidebar
 								onChange={ newBorder => {
 									setAttributes( {
-										hz_jl_border: enforceMinBorderWidth( newBorder, hz_jl_border )
+										hz_jl_border: newBorder
 									} );
 								} }
 								enableStyle={ false }
@@ -822,11 +804,10 @@ const WidgetInspectorControls = props => {
 										value={ hz_bs_border }
 										__experimentalIsRenderedInSidebar
 										onChange={ newBorder => {
-											const enforced = enforceMinBorderWidth( newBorder, hz_bs_border );
 											setAttributes( {
 												hz_bs_border: {
-													...enforced,
-													color: parseFloat( enforced.width ) > 0 ? enforced.color : undefined
+													...newBorder,
+													color: parseFloat( newBorder.width ) > 0 ? newBorder.color : undefined
 												}
 											} );
 										} }
@@ -909,7 +890,7 @@ const WidgetInspectorControls = props => {
 								__experimentalIsRenderedInSidebar
 								onChange={ newBorder => {
 									setAttributes( {
-										hz_pagination_border: enforceMinBorderWidth( newBorder, hz_pagination_border )
+										hz_pagination_border: newBorder
 									} );
 								} }
 								enableStyle={ false }
