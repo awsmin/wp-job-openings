@@ -112,6 +112,7 @@ class AWSM_Job_Openings_Dashboard_Widget {
 			array(
 				'numberjobs' => $numberjobs,
 				'job_status' => 'publish',
+				'orderby'    => 'recent_activity',
 			)
 		);
 		return $results;
