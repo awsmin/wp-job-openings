@@ -270,7 +270,7 @@ class AWSM_Job_Openings_Overview {
 		}
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$results = $wpdb->get_results( $wpdb->prepare( "SELECT {$wpdb->posts}.ID, COUNT(applications.ID) AS applications_count FROM {$wpdb->posts} {$join} {$where} GROUP BY {$wpdb->posts}.ID ORDER BY {$orderby}", $values ), OBJECT );
+		$results = $wpdb->get_results( $wpdb->prepare( "SELECT {$wpdb->posts}.ID, COUNT(DISTINCT applications.ID) AS applications_count FROM {$wpdb->posts} {$join} {$where} GROUP BY {$wpdb->posts}.ID ORDER BY {$orderby}", $values ), OBJECT );
 
 		// Remove jobs whose application limit has been exceeded (pro pack hooks awsm_jobs_active_count_ids).
 		if ( ! empty( $results ) ) {
