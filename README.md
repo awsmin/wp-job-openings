@@ -1,11 +1,10 @@
 [![HireZoot – Job Listings, Career Page & Recruitment Tool](https://ps.w.org/wp-job-openings/assets/banner-772x250.png?rev=2639067)](https://wordpress.org/plugins/wp-job-openings/)
 # HireZoot – Job Listings, Career Page & Recruitment Tool
-**Contributors:** awsmin, aravindajith, anantajitjg, sarathar, adhun, nithi22  
+**Contributors:** awsmin, aravindajith, anantajitjg, sarathar, adhun, nithi22, @sruthi89, shilpaashokan94, @vivekawsm, @fathima54321  
 **Tags:** jobs, job listing, job board, careers page, recruitment  
 **Requires at least:** 6.0  
 **Tested up to:** 7.0
 **Requires PHP:** 5.6  
-**Stable tag:** 4.0.2  
 **Stable tag:** 4.0.2  
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
