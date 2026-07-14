@@ -478,9 +478,9 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 				'type'    => Controls_Manager::SELECT,
 				'default' => 'none',
 				'options' => array(
-					'none'    => esc_html__( 'None', 'wp-job-openings' ),
-					'fill'    => esc_html__( 'Fill', 'wp-job-openings' ),
-					'outline' => esc_html__( 'Outline', 'wp-job-openings' ),
+					'none'     => esc_html__( 'None', 'wp-job-openings' ),
+					'filled'   => esc_html__( 'Fill', 'wp-job-openings' ),
+					'outlined' => esc_html__( 'Outline', 'wp-job-openings' ),
 				),
 			)
 		);
