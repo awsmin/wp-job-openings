@@ -37,6 +37,20 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 	}
 
 	/**
+	 * Returns the site's registered job specifications as a control-ready [key => label] map.
+	 *
+	 * @return array
+	 */
+	protected function get_spec_options() {
+		$specs   = class_exists( 'AWSM_Job_Openings_Block' ) ? AWSM_Job_Openings_Block::get_block_filter_specifications() : array();
+		$options = array();
+		foreach ( $specs as $spec ) {
+			$options[ $spec['key'] ] = $spec['label'];
+		}
+		return $options;
+	}
+
+	/**
 	 * Adds a uniform border-width + color + radius control group for one section of the listing.
 	 *
 	 * @param string $key           Attribute key prefix, e.g. 'hz_sf'.
@@ -176,6 +190,19 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 		);
 
 		$this->add_control(
+			'other_options',
+			array(
+				'label'       => esc_html__( 'Job Specs to Show in the Listing', 'wp-job-openings' ),
+				'description' => esc_html__( 'Specifications shown as tags on each job listing row (separate from the filter dropdowns above).', 'wp-job-openings' ),
+				'type'        => Controls_Manager::SELECT2,
+				'multiple'    => true,
+				'label_block' => true,
+				'options'     => $this->get_spec_options(),
+				'default'     => array(),
+			)
+		);
+
+		$this->add_control(
 			'order_by',
 			array(
 				'label'   => esc_html__( 'Order By', 'wp-job-openings' ),
@@ -223,11 +250,7 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 			)
 		);
 
-		$specs   = class_exists( 'AWSM_Job_Openings_Block' ) ? AWSM_Job_Openings_Block::get_block_filter_specifications() : array();
-		$options = array();
-		foreach ( $specs as $spec ) {
-			$options[ $spec['key'] ] = $spec['label'];
-		}
+		$options = $this->get_spec_options();
 
 		$this->add_control(
 			'filter_options',
@@ -654,6 +677,7 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 			'listing_per_page'               => isset( $settings['listing_per_page'] ) ? intval( $settings['listing_per_page'] ) : 10,
 			'pagination'                     => isset( $settings['pagination'] ) ? $settings['pagination'] : 'modern',
 			'show_spec_icon'                 => ! empty( $settings['show_spec_icon'] ),
+			'other_options'                  => isset( $settings['other_options'] ) && is_array( $settings['other_options'] ) ? array_values( $settings['other_options'] ) : array(),
 			'hz_sidebar_width'               => isset( $settings['hz_sidebar_width'] ) ? floatval( $settings['hz_sidebar_width'] ) : 33.333,
 
 			'hz_sf_background_color'        => isset( $settings['hz_sf_background_color'] ) ? $settings['hz_sf_background_color'] : '',
