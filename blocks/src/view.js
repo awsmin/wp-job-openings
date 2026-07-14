@@ -392,32 +392,46 @@ jQuery( function ( $ ) {
 		$( ".awsm-b-job-no-more-jobs-get" ).slice( 1 ).hide();
 	}
 
-	// Markup may include `awsm-selectric-loading` to prevent the native <select> flash on refresh.
-	// Remove the class once all Selectric instances inside the wrap are initialized.
-	$( filterSelector + ".awsm-selectric-loading" ).each( function () {
-		const $wrap = $( this );
-		const count = $wrap.find( "select.awsm-b-filter-option" ).length;
+	/**
+	 * Initializes Selectric on filter <select> elements within the given scope.
+	 *
+	 * Elementor's editor inserts widget markup asynchronously, well after this
+	 * script's initial document-ready run, so the one-time global initialization
+	 * below never reaches Elementor-inserted instances. `initSelectricFilters` is
+	 * re-invoked, scoped to just the new element, via the `frontend/element_ready/global`
+	 * hook Elementor fires whenever it (re)renders a widget — see bottom of file.
+	 *
+	 * @param {jQuery} [$scope] Root to search within. Defaults to the whole document.
+	 */
+	function initSelectricFilters( $scope ) {
+		const $root = $scope && $scope.length ? $scope : $( document );
 
-		$wrap.data( "awsmSelectricPending", count );
+		// Markup may include `awsm-selectric-loading` to prevent the native <select> flash on refresh.
+		// Remove the class once all Selectric instances inside the wrap are initialized.
+		$root.find( filterSelector + ".awsm-selectric-loading" ).addBack( filterSelector + ".awsm-selectric-loading" ).each( function () {
+			const $wrap = $( this );
+			const count = $wrap.find( "select.awsm-b-filter-option" ).length;
 
-		if ( count === 0 ) {
-			$wrap.removeClass( "awsm-selectric-loading" );
-			return;
-		}
+			$wrap.data( "awsmSelectricPending", count );
 
-		// Fallback: don't keep the UI hidden forever if Selectric fails to init for any reason.
-		setTimeout( function () {
-			$wrap.removeClass( "awsm-selectric-loading" );
-		}, 2000 );
-	} );
+			if ( count === 0 ) {
+				$wrap.removeClass( "awsm-selectric-loading" );
+				return;
+			}
 
-	// Init Selectric for each filter select.
-	$( filterSelector + " .awsm-b-filter-option" ).each( function () {
-		const $selectEl = $( this );
-		const placement = $selectEl.closest( filterSelector ).data( "placement" ) || "top";
-		const isTopPlacement = placement !== "side";
+			// Fallback: don't keep the UI hidden forever if Selectric fails to init for any reason.
+			setTimeout( function () {
+				$wrap.removeClass( "awsm-selectric-loading" );
+			}, 2000 );
+		} );
 
-		$selectEl.selectric( {
+		// Init Selectric for each filter select that hasn't been converted yet.
+		$root.find( filterSelector + " .awsm-b-filter-option" ).addBack( filterSelector + " .awsm-b-filter-option" ).not( ".awsm-selectric-active" ).each( function () {
+			const $selectEl = $( this ).addClass( "awsm-selectric-active" );
+			const placement = $selectEl.closest( filterSelector ).data( "placement" ) || "top";
+			const isTopPlacement = placement !== "side";
+
+			$selectEl.selectric( {
 			// Use Selectric UI on mobile too; native <select multiple> is not usable on many devices.
 			nativeOnMobile: false,
 			disableOnMobile: false,
@@ -492,7 +506,19 @@ jQuery( function ( $ ) {
 				camelCase: false
 			}
 		} );
-	} );
+		} );
+	}
+
+	initSelectricFilters();
+
+	// Re-run Selectric init for widgets Elementor (re)inserts after this script's
+	// initial document-ready run — both in the editor's live preview and on the
+	// real frontend when Elementor is used to build the page.
+	if ( window.elementorFrontend && window.elementorFrontend.hooks ) {
+		elementorFrontend.hooks.addAction( "frontend/element_ready/global", function ( $scope ) {
+			initSelectricFilters( $scope );
+		} );
+	}
 
 	$( document ).on(
 		"change",
