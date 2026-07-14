@@ -3,9 +3,9 @@
 **Contributors:** awsmin, aravindajith, anantajitjg, sarathar, adhun, nithi22, @sruthi89, shilpaashokan94, @vivekawsm, @fathima54321  
 **Tags:** jobs, job listing, job board, careers page, recruitment  
 **Requires at least:** 6.0  
-**Tested up to:** 7.0
+**Tested up to:** 7.0.1
 **Requires PHP:** 5.6  
-**Stable tag:** 4.0.2  
+**Stable tag:** 4.0.3  
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
 **Donate link:** https://www.buymeacoffee.com/awsm
@@ -108,6 +108,14 @@ Yes. You can view, filter, and manage applications from your dashboard.
 <img src="https://ps.w.org/wp-job-openings/assets/screenshot-5.png?rev=2639067" width="90%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-2.png?rev=2639067" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-3.png?rev=2639067" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-4.png?rev=2639067" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-1.png?rev=2639067" width="90%"></img>
 
 ## Changelog
+
+**V 4.0.3 – 2026-07-14**
+* Fixed: Block — job specification/filter dropdowns no longer disappear when a spec's terms have no currently-matching jobs (e.g. all excluded or expired).
+* Fixed: Block — pagination no longer fires duplicate/overlapping requests on rapid double-clicks (Classic and Modern styles).
+* Fixed: Block — the "No jobs to show" message now displays correctly when no listings match the current filters.
+* Improved: Block — filter initialization for the default Jobs page and newly inserted blocks is now consistent, so job specifications added after plugin activation are no longer silently excluded from one side (editor vs. frontend) but not the other.
+* Minor: Block — inspector label wording updated ("Search & Filters").
+* Minor bug fixes and code improvements.
 
 **V 4.0.2 – 2026-06-25**
 * Added: Clear Filters button in the application listing.
