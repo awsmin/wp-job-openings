@@ -4,6 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Elementor\Controls_Manager;
+use Elementor\Repeater;
 use Elementor\Widget_Base;
 
 class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
@@ -321,17 +322,40 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 			)
 		);
 
-		$this->add_control(
-			'filter_display_type',
+		$repeater = new Repeater();
+
+		$repeater->add_control(
+			'spec_key',
 			array(
-				'label'       => esc_html__( 'Filter Display Type', 'wp-job-openings' ),
-				'description' => esc_html__( 'Applies to all filters shown above.', 'wp-job-openings' ),
+				'label'       => esc_html__( 'Specification', 'wp-job-openings' ),
 				'type'        => Controls_Manager::SELECT,
-				'default'     => 'dropdown',
-				'options'     => array(
+				'label_block' => true,
+				'options'     => $options,
+			)
+		);
+
+		$repeater->add_control(
+			'type',
+			array(
+				'label'   => esc_html__( 'Display As', 'wp-job-openings' ),
+				'type'    => Controls_Manager::SELECT,
+				'default' => 'dropdown',
+				'options' => array(
 					'dropdown' => esc_html__( 'Single Select (Dropdown)', 'wp-job-openings' ),
 					'checkbox' => esc_html__( 'Multi-Select (Checkboxes)', 'wp-job-openings' ) . ' — ' . esc_html__( 'Pro', 'wp-job-openings' ),
 				),
+			)
+		);
+
+		$this->add_control(
+			'filter_type_overrides',
+			array(
+				'label'       => esc_html__( 'Filter Display Type Per Specification', 'wp-job-openings' ),
+				'description' => esc_html__( 'Add a row per specification to switch it to multi-select checkboxes. Any filter without a row here stays a single-select dropdown.', 'wp-job-openings' ),
+				'type'        => Controls_Manager::REPEATER,
+				'fields'      => $repeater->get_controls(),
+				'default'     => array(),
+				'title_field' => '{{{ spec_key }}}: {{{ type }}}',
 				'condition'   => array(
 					'enable_job_filter' => 'yes',
 				),
@@ -339,9 +363,8 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 		);
 
 		$this->add_pro_notice(
-			'filter_display_type_pro_notice',
-			esc_html__( 'Multi-select filters require Pro Pack for WP Job Openings. Filters will display as single-select dropdowns until then.', 'wp-job-openings' ),
-			array( 'filter_display_type' => 'checkbox' )
+			'filter_type_overrides_pro_notice',
+			esc_html__( 'Multi-select filters require Pro Pack for WP Job Openings. Any specification set to Multi-Select above will display as a single-select dropdown until then.', 'wp-job-openings' )
 		);
 
 		$this->add_control(
@@ -970,10 +993,16 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 
 		$filter_options = isset( $settings['filter_options'] ) && is_array( $settings['filter_options'] ) ? array_values( $settings['filter_options'] ) : array();
 
-		$filter_display_type = isset( $settings['filter_display_type'] ) ? $settings['filter_display_type'] : 'dropdown';
-		$filter_types         = array();
+		$filter_types = array();
 		foreach ( $filter_options as $filter_key ) {
-			$filter_types[ $filter_key ] = $filter_display_type;
+			$filter_types[ $filter_key ] = 'dropdown';
+		}
+		if ( ! empty( $settings['filter_type_overrides'] ) && is_array( $settings['filter_type_overrides'] ) ) {
+			foreach ( $settings['filter_type_overrides'] as $row ) {
+				if ( ! empty( $row['spec_key'] ) && in_array( $row['spec_key'], $filter_options, true ) ) {
+					$filter_types[ $row['spec_key'] ] = ! empty( $row['type'] ) ? $row['type'] : 'dropdown';
+				}
+			}
 		}
 
 		$list_type      = isset( $settings['list_type'] ) ? $settings['list_type'] : 'all';
