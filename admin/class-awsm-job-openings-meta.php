@@ -114,7 +114,8 @@ class AWSM_Job_Openings_Meta {
 
 	public function dequeue_autosave( $hook ) {
 		global $post;
-		if ( 'post.php' === $hook && isset( $post ) && 'awsm_job_application' === $post->post_type ) {
+		$autosave_disabled_post_types = array( 'awsm_job_openings', 'awsm_job_application' );
+		if ( in_array( $hook, array( 'post.php', 'post-new.php' ), true ) && isset( $post ) && in_array( $post->post_type, $autosave_disabled_post_types, true ) ) {
 			wp_dequeue_script( 'autosave' );
 		}
 	}
