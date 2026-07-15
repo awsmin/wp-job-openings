@@ -334,16 +334,21 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 			)
 		);
 
+		$display_as_options = array(
+			'dropdown' => esc_html__( 'Single Select (Dropdown)', 'wp-job-openings' ),
+		);
+		if ( $this->is_pro_active() ) {
+			$display_as_options['checkbox'] = esc_html__( 'Multi-Select (Checkboxes)', 'wp-job-openings' );
+		}
+
 		$repeater->add_control(
 			'type',
 			array(
-				'label'   => esc_html__( 'Display As', 'wp-job-openings' ),
-				'type'    => Controls_Manager::SELECT,
-				'default' => 'dropdown',
-				'options' => array(
-					'dropdown' => esc_html__( 'Single Select (Dropdown)', 'wp-job-openings' ),
-					'checkbox' => esc_html__( 'Multi-Select (Checkboxes)', 'wp-job-openings' ) . ' — ' . esc_html__( 'Pro', 'wp-job-openings' ),
-				),
+				'label'       => esc_html__( 'Display As', 'wp-job-openings' ),
+				'type'        => Controls_Manager::SELECT,
+				'default'     => 'dropdown',
+				'options'     => $display_as_options,
+				'description' => $this->is_pro_active() ? '' : '🔒 ' . esc_html__( 'Multi-Select unlocks with Pro Pack for WP Job Openings.', 'wp-job-openings' ),
 			)
 		);
 
