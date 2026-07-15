@@ -480,10 +480,28 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 	}
 
 	protected function register_content_filtered_list_controls() {
+		if ( ! $this->is_pro_active() ) {
+			$this->start_controls_section(
+				'section_filtered_list',
+				array(
+					'label' => esc_html__( 'Filtered List', 'wp-job-openings' ) . ' — ' . esc_html__( 'Pro', 'wp-job-openings' ),
+					'tab'   => Controls_Manager::TAB_CONTENT,
+				)
+			);
+
+			$this->add_pro_notice(
+				'filtered_list_pro_notice',
+				esc_html__( 'Restricting the listing to preselected specs requires Pro Pack for WP Job Openings. All jobs will show until then.', 'wp-job-openings' )
+			);
+
+			$this->end_controls_section();
+			return;
+		}
+
 		$this->start_controls_section(
 			'section_filtered_list',
 			array(
-				'label' => esc_html__( 'Filtered List', 'wp-job-openings' ) . ' — ' . esc_html__( 'Pro', 'wp-job-openings' ),
+				'label' => esc_html__( 'Filtered List', 'wp-job-openings' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -496,15 +514,9 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 				'default' => 'all',
 				'options' => array(
 					'all'      => esc_html__( 'All Jobs', 'wp-job-openings' ),
-					'filtered' => esc_html__( 'Only Jobs Matching Preselected Specs', 'wp-job-openings' ) . ' — ' . esc_html__( 'Pro', 'wp-job-openings' ),
+					'filtered' => esc_html__( 'Only Jobs Matching Preselected Specs', 'wp-job-openings' ),
 				),
 			)
-		);
-
-		$this->add_pro_notice(
-			'list_type_pro_notice',
-			esc_html__( 'Restricting the listing to preselected specs requires Pro Pack for WP Job Openings. All jobs will show until then.', 'wp-job-openings' ),
-			array( 'list_type' => 'filtered' )
 		);
 
 		$specs = class_exists( 'AWSM_Job_Openings_Block' ) ? AWSM_Job_Openings_Block::get_block_filter_specifications() : array();
