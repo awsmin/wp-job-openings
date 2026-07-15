@@ -322,55 +322,52 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 			)
 		);
 
-		$repeater = new Repeater();
-
-		$repeater->add_control(
-			'spec_key',
-			array(
-				'label'       => esc_html__( 'Specification', 'wp-job-openings' ),
-				'type'        => Controls_Manager::SELECT,
-				'label_block' => true,
-				'options'     => $options,
-			)
-		);
-
-		$display_as_options = array(
-			'dropdown' => esc_html__( 'Single Select (Dropdown)', 'wp-job-openings' ),
-		);
 		if ( $this->is_pro_active() ) {
-			$display_as_options['checkbox'] = esc_html__( 'Multi-Select (Checkboxes)', 'wp-job-openings' );
+			$repeater = new Repeater();
+
+			$repeater->add_control(
+				'spec_key',
+				array(
+					'label'       => esc_html__( 'Specification', 'wp-job-openings' ),
+					'type'        => Controls_Manager::SELECT,
+					'label_block' => true,
+					'options'     => $options,
+				)
+			);
+
+			$repeater->add_control(
+				'type',
+				array(
+					'label'   => esc_html__( 'Display As', 'wp-job-openings' ),
+					'type'    => Controls_Manager::SELECT,
+					'default' => 'dropdown',
+					'options' => array(
+						'dropdown' => esc_html__( 'Single Select (Dropdown)', 'wp-job-openings' ),
+						'checkbox' => esc_html__( 'Multi-Select (Checkboxes)', 'wp-job-openings' ),
+					),
+				)
+			);
+
+			$this->add_control(
+				'filter_type_overrides',
+				array(
+					'label'       => esc_html__( 'Filter Display Type Per Specification', 'wp-job-openings' ),
+					'description' => esc_html__( 'Add a row per specification to switch it to multi-select checkboxes. Any filter without a row here stays a single-select dropdown.', 'wp-job-openings' ),
+					'type'        => Controls_Manager::REPEATER,
+					'fields'      => $repeater->get_controls(),
+					'default'     => array(),
+					'title_field' => '{{{ spec_key }}}: {{{ type }}}',
+					'condition'   => array(
+						'enable_job_filter' => 'yes',
+					),
+				)
+			);
+		} else {
+			$this->add_pro_notice(
+				'filter_type_overrides_pro_notice',
+				esc_html__( 'Per-specification multi-select filters require Pro Pack for WP Job Openings. All filters will display as single-select dropdowns until then.', 'wp-job-openings' )
+			);
 		}
-
-		$repeater->add_control(
-			'type',
-			array(
-				'label'       => esc_html__( 'Display As', 'wp-job-openings' ),
-				'type'        => Controls_Manager::SELECT,
-				'default'     => 'dropdown',
-				'options'     => $display_as_options,
-				'description' => $this->is_pro_active() ? '' : '🔒 ' . esc_html__( 'Multi-Select unlocks with Pro Pack for WP Job Openings.', 'wp-job-openings' ),
-			)
-		);
-
-		$this->add_control(
-			'filter_type_overrides',
-			array(
-				'label'       => esc_html__( 'Filter Display Type Per Specification', 'wp-job-openings' ),
-				'description' => esc_html__( 'Add a row per specification to switch it to multi-select checkboxes. Any filter without a row here stays a single-select dropdown.', 'wp-job-openings' ),
-				'type'        => Controls_Manager::REPEATER,
-				'fields'      => $repeater->get_controls(),
-				'default'     => array(),
-				'title_field' => '{{{ spec_key }}}: {{{ type }}}',
-				'condition'   => array(
-					'enable_job_filter' => 'yes',
-				),
-			)
-		);
-
-		$this->add_pro_notice(
-			'filter_type_overrides_pro_notice',
-			esc_html__( 'Multi-select filters require Pro Pack for WP Job Openings. Any specification set to Multi-Select above will display as a single-select dropdown until then.', 'wp-job-openings' )
-		);
 
 		$this->add_control(
 			'filter_items_order',
