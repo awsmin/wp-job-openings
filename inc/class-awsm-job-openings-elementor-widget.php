@@ -4,7 +4,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Elementor\Controls_Manager;
-use Elementor\Repeater;
 use Elementor\Widget_Base;
 
 class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
@@ -35,57 +34,6 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 
 	public function get_style_depends() {
 		return array( 'wp-job-openings-blocks-style' );
-	}
-
-	/**
-	 * Whether Pro Pack for WP Job Openings is active. Pro-only settings are still shown
-	 * (with a locked/upgrade notice) when it isn't, matching the block editor's own
-	 * grayed-out-with-a-Pro-badge treatment of the same features.
-	 *
-	 * @return bool
-	 */
-	protected function is_pro_active() {
-		return class_exists( 'AWSM_Job_Openings_Pro_Block' );
-	}
-
-	/**
-	 * Adds a locked-feature notice, shown only while Pro Pack is inactive.
-	 *
-	 * @param string $id        Unique control id.
-	 * @param string $message   Notice text.
-	 * @param array  $condition Optional Elementor control condition (e.g. show only when a certain option is picked).
-	 */
-	protected function add_pro_notice( $id, $message, $condition = array() ) {
-		if ( $this->is_pro_active() ) {
-			return;
-		}
-
-		$args = array(
-			'type' => Controls_Manager::RAW_HTML,
-			'raw'  => '<div style="padding:8px 10px;background:#fff8e5;border-left:3px solid #f0b849;font-size:12px;line-height:1.5;">🔒 ' . esc_html( $message ) . '</div>',
-		);
-
-		if ( ! empty( $condition ) ) {
-			$args['condition'] = $condition;
-		}
-
-		$this->add_control( $id, $args );
-	}
-
-	/**
-	 * Returns the site's available featured-image sizes as a control-ready [value => label] map.
-	 * Empty when the "Featured Image" setting is disabled in the plugin's own Settings screen —
-	 * matches pro-pack's own gate on this same feature.
-	 *
-	 * @return array
-	 */
-	protected function get_featured_image_size_options() {
-		$sizes   = class_exists( 'AWSM_Job_Openings_Block' ) ? AWSM_Job_Openings_Block::get_block_featured_image_size() : array();
-		$options = array();
-		foreach ( $sizes as $size ) {
-			$options[ $size['value'] ] = $size['text'];
-		}
-		return $options;
 	}
 
 	/**
@@ -175,16 +123,13 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 	protected function register_controls() {
 		$this->register_content_general_controls();
 		$this->register_content_filters_controls();
-		$this->register_content_filtered_list_controls();
 		$this->register_content_layout_controls();
-		$this->register_content_featured_image_controls();
 		$this->register_style_search_filters_controls();
 		$this->register_style_list_controls();
 		$this->register_style_job_listing_controls();
 		$this->register_style_button_controls();
 		$this->register_style_pagination_controls();
 		$this->register_style_sidebar_controls();
-		$this->register_style_featured_image_controls();
 	}
 
 	protected function register_content_general_controls() {
@@ -322,53 +267,6 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 			)
 		);
 
-		if ( $this->is_pro_active() ) {
-			$repeater = new Repeater();
-
-			$repeater->add_control(
-				'spec_key',
-				array(
-					'label'       => esc_html__( 'Specification', 'wp-job-openings' ),
-					'type'        => Controls_Manager::SELECT,
-					'label_block' => true,
-					'options'     => $options,
-				)
-			);
-
-			$repeater->add_control(
-				'type',
-				array(
-					'label'   => esc_html__( 'Display As', 'wp-job-openings' ),
-					'type'    => Controls_Manager::SELECT,
-					'default' => 'dropdown',
-					'options' => array(
-						'dropdown' => esc_html__( 'Single Select (Dropdown)', 'wp-job-openings' ),
-						'checkbox' => esc_html__( 'Multi-Select (Checkboxes)', 'wp-job-openings' ),
-					),
-				)
-			);
-
-			$this->add_control(
-				'filter_type_overrides',
-				array(
-					'label'       => esc_html__( 'Filter Display Type Per Specification', 'wp-job-openings' ),
-					'description' => esc_html__( 'Add a row per specification to switch it to multi-select checkboxes. Any filter without a row here stays a single-select dropdown.', 'wp-job-openings' ),
-					'type'        => Controls_Manager::REPEATER,
-					'fields'      => $repeater->get_controls(),
-					'default'     => array(),
-					'title_field' => '{{{ spec_key }}}: {{{ type }}}',
-					'condition'   => array(
-						'enable_job_filter' => 'yes',
-					),
-				)
-			);
-		} else {
-			$this->add_pro_notice(
-				'filter_type_overrides_pro_notice',
-				esc_html__( 'Per-specification multi-select filters require Pro Pack for WP Job Openings. All filters will display as single-select dropdowns until then.', 'wp-job-openings' )
-			);
-		}
-
 		$this->add_control(
 			'filter_items_order',
 			array(
@@ -421,17 +319,10 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 				'type'    => Controls_Manager::SELECT,
 				'default' => 'list',
 				'options' => array(
-					'list'  => esc_html__( 'List', 'wp-job-openings' ),
-					'grid'  => esc_html__( 'Grid', 'wp-job-openings' ),
-					'stack' => esc_html__( 'Stack', 'wp-job-openings' ) . ' — ' . esc_html__( 'Pro', 'wp-job-openings' ),
+					'list' => esc_html__( 'List', 'wp-job-openings' ),
+					'grid' => esc_html__( 'Grid', 'wp-job-openings' ),
 				),
 			)
-		);
-
-		$this->add_pro_notice(
-			'layout_pro_notice',
-			esc_html__( 'Stack layout requires Pro Pack for WP Job Openings. This will display as List until then.', 'wp-job-openings' ),
-			array( 'layout' => 'stack' )
 		);
 
 		$this->add_control(
@@ -473,133 +364,6 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 					'modern'  => esc_html__( 'Modern', 'wp-job-openings' ),
 					'classic' => esc_html__( 'Classic', 'wp-job-openings' ),
 				),
-			)
-		);
-
-		$this->end_controls_section();
-	}
-
-	protected function register_content_filtered_list_controls() {
-		if ( ! $this->is_pro_active() ) {
-			return;
-		}
-
-		$this->start_controls_section(
-			'section_filtered_list',
-			array(
-				'label' => esc_html__( 'Filtered List', 'wp-job-openings' ),
-				'tab'   => Controls_Manager::TAB_CONTENT,
-			)
-		);
-
-		$this->add_control(
-			'list_type',
-			array(
-				'label'   => esc_html__( 'Show', 'wp-job-openings' ),
-				'type'    => Controls_Manager::SELECT,
-				'default' => 'all',
-				'options' => array(
-					'all'      => esc_html__( 'All Jobs', 'wp-job-openings' ),
-					'filtered' => esc_html__( 'Only Jobs Matching Preselected Specs', 'wp-job-openings' ),
-				),
-			)
-		);
-
-		$specs = class_exists( 'AWSM_Job_Openings_Block' ) ? AWSM_Job_Openings_Block::get_block_filter_specifications() : array();
-		foreach ( $specs as $spec ) {
-			$term_options = array();
-			foreach ( $spec['terms'] as $term ) {
-				$term_options[ $term->term_id ] = $term->name;
-			}
-			if ( empty( $term_options ) ) {
-				continue;
-			}
-
-			$this->add_control(
-				'selected_terms_' . $spec['key'],
-				array(
-					/* translators: %s: specification label, e.g. "Job Category" */
-					'label'       => sprintf( esc_html__( 'Preselected %s', 'wp-job-openings' ), $spec['label'] ),
-					'type'        => Controls_Manager::SELECT2,
-					'multiple'    => true,
-					'label_block' => true,
-					'options'     => $term_options,
-					'default'     => array(),
-					'condition'   => array(
-						'list_type' => 'filtered',
-					),
-				)
-			);
-		}
-
-		$this->end_controls_section();
-	}
-
-	protected function register_content_featured_image_controls() {
-		$image_size_options = $this->get_featured_image_size_options();
-		if ( empty( $image_size_options ) ) {
-			return;
-		}
-
-		$this->start_controls_section(
-			'section_featured_image',
-			array(
-				'label' => esc_html__( 'Featured Image', 'wp-job-openings' ) . ' — ' . esc_html__( 'Pro', 'wp-job-openings' ),
-				'tab'   => Controls_Manager::TAB_CONTENT,
-			)
-		);
-
-		$this->add_pro_notice(
-			'featured_image_pro_notice',
-			esc_html__( 'Featured images require Pro Pack for WP Job Openings to be active.', 'wp-job-openings' )
-		);
-
-		$this->add_control(
-			'hide_featured_image',
-			array(
-				'label'        => esc_html__( 'Hide Featured Image', 'wp-job-openings' ),
-				'type'         => Controls_Manager::SWITCHER,
-				'label_on'     => esc_html__( 'Yes', 'wp-job-openings' ),
-				'label_off'    => esc_html__( 'No', 'wp-job-openings' ),
-				'return_value' => 'yes',
-				'default'      => '',
-			)
-		);
-
-		$this->add_control(
-			'featured_image_size',
-			array(
-				'label'     => esc_html__( 'Image Size', 'wp-job-openings' ),
-				'type'      => Controls_Manager::SELECT,
-				'options'   => $image_size_options,
-				'default'   => array_key_first( $image_size_options ),
-				'condition' => array(
-					'hide_featured_image!' => 'yes',
-				),
-			)
-		);
-
-		$this->add_control(
-			'position_filling',
-			array(
-				'label'        => esc_html__( 'Hide Jobs Filled', 'wp-job-openings' ),
-				'type'         => Controls_Manager::SWITCHER,
-				'label_on'     => esc_html__( 'Yes', 'wp-job-openings' ),
-				'label_off'    => esc_html__( 'No', 'wp-job-openings' ),
-				'return_value' => 'yes',
-				'default'      => '',
-			)
-		);
-
-		$this->add_control(
-			'excluded_jobs',
-			array(
-				'label'        => esc_html__( 'Hide Jobs Excluded', 'wp-job-openings' ),
-				'type'         => Controls_Manager::SWITCHER,
-				'label_on'     => esc_html__( 'Yes', 'wp-job-openings' ),
-				'label_off'    => esc_html__( 'No', 'wp-job-openings' ),
-				'return_value' => 'yes',
-				'default'      => '',
 			)
 		);
 
@@ -839,89 +603,6 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 		$this->end_controls_section();
 	}
 
-	protected function register_style_featured_image_controls() {
-		if ( empty( $this->get_featured_image_size_options() ) ) {
-			return;
-		}
-
-		$this->start_controls_section(
-			'section_style_featured_image',
-			array(
-				'label'     => esc_html__( 'Featured Image', 'wp-job-openings' ) . ' — ' . esc_html__( 'Pro', 'wp-job-openings' ),
-				'tab'       => Controls_Manager::TAB_STYLE,
-				'condition' => array(
-					'hide_featured_image!' => 'yes',
-				),
-			)
-		);
-
-		$this->add_pro_notice(
-			'featured_image_style_pro_notice',
-			esc_html__( 'Featured image styling requires Pro Pack for WP Job Openings to be active.', 'wp-job-openings' )
-		);
-
-		$this->add_border_controls( 'hz_fi', 0, '#cccccc' );
-
-		$this->add_control(
-			'hz_fi_aspect_ratio',
-			array(
-				'label'   => esc_html__( 'Aspect Ratio', 'wp-job-openings' ),
-				'type'    => Controls_Manager::SELECT,
-				'default' => '',
-				'options' => array(
-					''      => esc_html__( 'Original', 'wp-job-openings' ),
-					'1/1'   => esc_html__( 'Square - 1:1', 'wp-job-openings' ),
-					'4/3'   => esc_html__( 'Standard - 4:3', 'wp-job-openings' ),
-					'3/4'   => esc_html__( 'Portrait - 3:4', 'wp-job-openings' ),
-					'3/2'   => esc_html__( 'Classic - 3:2', 'wp-job-openings' ),
-					'2/3'   => esc_html__( 'Classic Portrait - 2:3', 'wp-job-openings' ),
-					'16/9'  => esc_html__( 'Wide - 16:9', 'wp-job-openings' ),
-					'9/16'  => esc_html__( 'Tall - 9:16', 'wp-job-openings' ),
-				),
-			)
-		);
-
-		$this->add_control(
-			'hz_fi_width',
-			array(
-				'label'      => esc_html__( 'Width', 'wp-job-openings' ),
-				'type'       => Controls_Manager::SLIDER,
-				'size_units' => array( 'px', '%' ),
-				'range'      => array(
-					'px' => array(
-						'min' => 0,
-						'max' => 800,
-					),
-					'%'  => array(
-						'min' => 0,
-						'max' => 100,
-					),
-				),
-			)
-		);
-
-		$this->add_control(
-			'hz_fi_height',
-			array(
-				'label'      => esc_html__( 'Height', 'wp-job-openings' ),
-				'type'       => Controls_Manager::SLIDER,
-				'size_units' => array( 'px', '%' ),
-				'range'      => array(
-					'px' => array(
-						'min' => 0,
-						'max' => 800,
-					),
-					'%'  => array(
-						'min' => 0,
-						'max' => 100,
-					),
-				),
-			)
-		);
-
-		$this->end_controls_section();
-	}
-
 	/**
 	 * Reads a DIMENSIONS control value and maps it to the corner-based shape
 	 * (topLeft/topRight/bottomLeft/bottomRight) the block's render logic expects.
@@ -967,22 +648,6 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 		);
 	}
 
-	/**
-	 * Reads a SLIDER control value into a plain CSS length string (e.g. "200px"), or '' if unset.
-	 *
-	 * @param array  $settings Widget settings array.
-	 * @param string $key      Control name.
-	 * @return string
-	 */
-	protected function slider_value( $settings, $key ) {
-		$size = isset( $settings[ $key ]['size'] ) ? $settings[ $key ]['size'] : '';
-		if ( '' === $size || null === $size ) {
-			return '';
-		}
-		$unit = isset( $settings[ $key ]['unit'] ) ? $settings[ $key ]['unit'] : 'px';
-		return $size . $unit;
-	}
-
 	protected function render() {
 		if ( ! class_exists( 'Awsm_Job_Guten_Blocks' ) || ! function_exists( 'awsm_jobs_query' ) ) {
 			return;
@@ -993,30 +658,6 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 
 		$filter_options = isset( $settings['filter_options'] ) && is_array( $settings['filter_options'] ) ? array_values( $settings['filter_options'] ) : array();
 
-		$filter_types = array();
-		foreach ( $filter_options as $filter_key ) {
-			$filter_types[ $filter_key ] = 'dropdown';
-		}
-		if ( ! empty( $settings['filter_type_overrides'] ) && is_array( $settings['filter_type_overrides'] ) ) {
-			foreach ( $settings['filter_type_overrides'] as $row ) {
-				if ( ! empty( $row['spec_key'] ) && in_array( $row['spec_key'], $filter_options, true ) ) {
-					$filter_types[ $row['spec_key'] ] = ! empty( $row['type'] ) ? $row['type'] : 'dropdown';
-				}
-			}
-		}
-
-		$list_type      = isset( $settings['list_type'] ) ? $settings['list_type'] : 'all';
-		$selected_terms = array();
-		if ( 'filtered' === $list_type ) {
-			$specs = class_exists( 'AWSM_Job_Openings_Block' ) ? AWSM_Job_Openings_Block::get_block_filter_specifications() : array();
-			foreach ( $specs as $spec ) {
-				$control_key = 'selected_terms_' . $spec['key'];
-				if ( ! empty( $settings[ $control_key ] ) && is_array( $settings[ $control_key ] ) ) {
-					$selected_terms[ $spec['key'] ] = array_map( 'intval', $settings[ $control_key ] );
-				}
-			}
-		}
-
 		$atts = array(
 			'blockId'                        => $block_id,
 			'anchor'                         => '',
@@ -1025,13 +666,12 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 			'enable_job_filter'              => ! empty( $settings['enable_job_filter'] ),
 			'filter_options'                 => $filter_options,
 			'filtersInitialized'             => true,
-			'filter_types'                   => $filter_types,
+			'filter_types'                   => array(),
 			'filter_items_order'             => isset( $settings['filter_items_order'] ) ? $settings['filter_items_order'] : 'custom',
 			'placement'                      => isset( $settings['placement'] ) ? $settings['placement'] : 'top',
 			'layout'                         => isset( $settings['layout'] ) ? $settings['layout'] : 'list',
 			'number_of_columns'              => isset( $settings['number_of_columns'] ) ? intval( $settings['number_of_columns'] ) : 3,
-			'list_type'                      => $list_type,
-			'selected_terms'                 => $selected_terms,
+			'list_type'                      => 'all',
 			'order_by'                       => isset( $settings['order_by'] ) ? $settings['order_by'] : 'new_to_old',
 			'hide_expired_jobs'              => ! empty( $settings['hide_expired_jobs'] ),
 			'listing_per_page'               => isset( $settings['listing_per_page'] ) ? intval( $settings['listing_per_page'] ) : 10,
@@ -1039,16 +679,6 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 			'show_spec_icon'                 => ! empty( $settings['show_spec_icon'] ),
 			'other_options'                  => isset( $settings['other_options'] ) && is_array( $settings['other_options'] ) ? array_values( $settings['other_options'] ) : array(),
 			'hz_sidebar_width'               => isset( $settings['hz_sidebar_width'] ) ? floatval( $settings['hz_sidebar_width'] ) : 33.333,
-
-			'hide_featured_image'            => ! empty( $settings['hide_featured_image'] ),
-			'featured_image_size'            => isset( $settings['featured_image_size'] ) ? $settings['featured_image_size'] : '',
-			'position_filling'               => ! empty( $settings['position_filling'] ),
-			'excluded_jobs'                  => ! empty( $settings['excluded_jobs'] ),
-			'hz_fi_border'                   => $this->border_value( $settings, 'hz_fi' ),
-			'hz_fi_border_radius'            => $this->to_corner_radius( isset( $settings['hz_fi_border_radius'] ) ? $settings['hz_fi_border_radius'] : array() ),
-			'hz_fi_aspect_ratio'             => isset( $settings['hz_fi_aspect_ratio'] ) ? $settings['hz_fi_aspect_ratio'] : '',
-			'hz_fi_width'                    => $this->slider_value( $settings, 'hz_fi_width' ),
-			'hz_fi_height'                   => $this->slider_value( $settings, 'hz_fi_height' ),
 
 			'hz_sf_background_color'        => isset( $settings['hz_sf_background_color'] ) ? $settings['hz_sf_background_color'] : '',
 			'hz_sf_text_color'               => isset( $settings['hz_sf_text_color'] ) ? $settings['hz_sf_text_color'] : '',
@@ -1083,6 +713,19 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 			'hz_sidebar_tx_color'            => isset( $settings['hz_sidebar_tx_color'] ) ? $settings['hz_sidebar_tx_color'] : '',
 		);
 
+		/**
+		 * Filters the attributes passed to the block's render function from the Elementor widget.
+		 *
+		 * Pro Pack for WP Job Openings hooks in here to inject its own settings (Stack layout,
+		 * per-spec multi-select filter types, Filtered List + preselected terms, Featured Image),
+		 * registered via its own elementor/element/awsm-job-listings/* control hooks. This widget
+		 * has no knowledge of those features — same separation as the Gutenberg block, which is
+		 * extended by Pro Pack entirely through WordPress action/filter hooks.
+		 *
+		 * @param array      $atts     Attributes built from this widget's own (free-tier) settings.
+		 * @param array      $settings Full Elementor settings array for this widget instance.
+		 * @param Widget_Base $widget  This widget instance.
+		 */
 		$atts = apply_filters( 'awsm_jobs_elementor_widget_attributes', $atts, $settings, $this );
 
 		echo Awsm_Job_Guten_Blocks::get_instance()->block_render_callback( $atts, '' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
