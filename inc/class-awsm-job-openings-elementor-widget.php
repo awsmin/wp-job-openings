@@ -481,20 +481,6 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 
 	protected function register_content_filtered_list_controls() {
 		if ( ! $this->is_pro_active() ) {
-			$this->start_controls_section(
-				'section_filtered_list',
-				array(
-					'label' => esc_html__( 'Filtered List', 'wp-job-openings' ) . ' — ' . esc_html__( 'Pro', 'wp-job-openings' ),
-					'tab'   => Controls_Manager::TAB_CONTENT,
-				)
-			);
-
-			$this->add_pro_notice(
-				'filtered_list_pro_notice',
-				esc_html__( 'Restricting the listing to preselected specs requires Pro Pack for WP Job Openings. All jobs will show until then.', 'wp-job-openings' )
-			);
-
-			$this->end_controls_section();
 			return;
 		}
 
