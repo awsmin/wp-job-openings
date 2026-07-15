@@ -540,6 +540,13 @@ ul.awsm-error-message li {
 	line-height: 1.8em;
 }
 
+.awsm-job-captcha-noscript-msg {
+	margin: 10px 0 0;
+	color: #db4c4c;
+	font-size: 18px;
+	font-weight: 300;
+}
+
 .awsm-expired-message {
 	padding: 25px;
 }

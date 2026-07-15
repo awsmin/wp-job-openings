@@ -1072,7 +1072,7 @@ class AWSM_Job_Openings_Form {
 				'render'        => array(
 					'class'      => 'h-captcha',
 					'data_attrs' => array(),
-					'noscript'   => null,
+					'noscript'   => 'render_captcha_noscript_message',
 				),
 				'script'        => array(
 					'handle'    => 'awsm-jobs-h-captcha',
@@ -1095,7 +1095,7 @@ class AWSM_Job_Openings_Form {
 				'render'        => array(
 					'class'      => 'cf-turnstile',
 					'data_attrs' => array(),
-					'noscript'   => null,
+					'noscript'   => 'render_captcha_noscript_message',
 				),
 				'script'        => array(
 					'handle'    => 'awsm-jobs-cf-turnstile',
@@ -1595,7 +1595,7 @@ class AWSM_Job_Openings_Form {
 		if ( ! empty( $render_config['noscript'] ) ) {
 			$noscript_method = $render_config['noscript'];
 			if ( method_exists( $this, $noscript_method ) ) {
-				$this->{$noscript_method}( $site_key );
+				$this->{$noscript_method}( $site_key, $captcha_type );
 			}
 		}
 	}
@@ -1617,6 +1617,38 @@ class AWSM_Job_Openings_Form {
 					<textarea id="g-recaptcha-response" name="g-recaptcha-response" class="g-recaptcha-response" style="width: 250px; height: 40px; border: 1px solid #c1c1c1; margin: 10px 25px; padding: 0px; resize: none;"></textarea>
 				</div>
 			</div>
+		</noscript>
+		<?php
+	}
+
+	/**
+	 * Render a generic noscript fallback message for CAPTCHA providers
+	 * (e.g. hCaptcha, Turnstile) that do not offer a functional non-JS
+	 * challenge, unlike reCAPTCHA's iframe fallback.
+	 *
+	 * @param string $site_key     Unused, kept for signature parity with render_recaptcha_noscript().
+	 * @param string $captcha_type The active captcha type (e.g. 'hcaptcha', 'turnstile').
+	 * @return void
+	 */
+	private function render_captcha_noscript_message( $site_key, $captcha_type ) {
+		$labels = array(
+			'hcaptcha'  => 'hCaptcha',
+			'turnstile' => 'Turnstile',
+		);
+		$label = isset( $labels[ $captcha_type ] ) ? $labels[ $captcha_type ] : __( 'CAPTCHA', 'wp-job-openings' );
+		?>
+		<noscript>
+			<p class="awsm-job-captcha-noscript-msg">
+				<?php
+				echo esc_html(
+					sprintf(
+						/* translators: %s: Captcha provider name (e.g. hCaptcha, Turnstile) */
+						__( 'JavaScript is disabled. Enable it to use %s.', 'wp-job-openings' ),
+						$label
+					)
+				);
+				?>
+			</p>
 		</noscript>
 		<?php
 	}
