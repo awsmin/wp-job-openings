@@ -125,7 +125,6 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 		$this->register_content_filters_controls();
 		$this->register_content_layout_controls();
 		$this->register_style_search_filters_controls();
-		$this->register_style_list_controls();
 		$this->register_style_job_listing_controls();
 		$this->register_style_button_controls();
 		$this->register_style_pagination_controls();
@@ -395,29 +394,11 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 			)
 		);
 
-		$this->add_border_controls( 'hz_sf', 1, '#cccccc' );
-		$this->add_padding_control(
-			'hz_sf',
-			array(
-				'top'    => '15',
-				'right'  => '15',
-				'bottom' => '15',
-				'left'   => '15',
-			)
-		);
-
-		$this->end_controls_section();
-	}
-
-	protected function register_style_list_controls() {
-		$this->start_controls_section(
-			'section_style_list',
-			array(
-				'label' => esc_html__( 'List Style', 'wp-job-openings' ),
-				'tab'   => Controls_Manager::TAB_STYLE,
-			)
-		);
-
+		// Uses the hz_ls_* attributes: this is what actually renders the visible
+		// border on the search box and filter dropdowns (matches the block, where
+		// the "Search & Filters" border control has no visible effect in Top
+		// placement and "List Style" is what controls this — folded into one
+		// section here to match what users expect from "Search & Filters").
 		$this->add_border_controls( 'hz_ls', 1, '#cccccc' );
 
 		$this->end_controls_section();
@@ -597,6 +578,20 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 			array(
 				'label' => esc_html__( 'Text Color', 'wp-job-openings' ),
 				'type'  => Controls_Manager::COLOR,
+			)
+		);
+
+		// hz_sf_border/radius/padding only have a visible effect on the sidebar
+		// container in Side placement (same as the block), so they live here
+		// rather than in "Search & Filters" where they'd silently do nothing.
+		$this->add_border_controls( 'hz_sf', 1, '#cccccc' );
+		$this->add_padding_control(
+			'hz_sf',
+			array(
+				'top'    => '15',
+				'right'  => '15',
+				'bottom' => '15',
+				'left'   => '15',
 			)
 		);
 
