@@ -445,6 +445,7 @@ class AWSM_Job_Openings {
 		$default_page_id = get_option( 'awsm_jobs_default_listing_page_id' );
 		if ( empty( $default_page_id ) ) {
 			$user    = get_current_user_id();
+			$builder = self::get_active_page_builder();
 			$post    = array(
 				'post_author'  => $user,
 				'post_name'    => 'job-openings',
@@ -456,7 +457,58 @@ class AWSM_Job_Openings {
 			$post_id = wp_insert_post( $post );
 			if ( ! empty( $post_id ) ) {
 				update_option( 'awsm_jobs_default_listing_page_id', $post_id );
+
+				if ( 'elementor' === $builder ) {
+					self::setup_default_elementor_page( $post_id );
+				}
 			}
+		}
+	}
+
+	/**
+	 * Sets up the default job listing page to open correctly in Elementor's own
+	 * editor (instead of an empty canvas) by writing real _elementor_data with our
+	 * "Job Listings" widget already placed, matching what a page built natively in
+	 * Elementor would have. Elementor renders directly from this data on the
+	 * frontend too, regardless of post_content.
+	 *
+	 * @param int $post_id The page's post ID.
+	 */
+	protected static function setup_default_elementor_page( $post_id ) {
+		if ( ! class_exists( '\Elementor\Plugin' ) ) {
+			return;
+		}
+
+		$container_id = substr( md5( uniqid( 'awsm', true ) ), 0, 7 );
+		$widget_id    = substr( md5( uniqid( 'awsm', true ) ), 0, 7 );
+
+		$elementor_data = array(
+			array(
+				'id'       => $container_id,
+				'elType'   => 'container',
+				'settings' => new stdClass(),
+				'elements' => array(
+					array(
+						'id'         => $widget_id,
+						'elType'     => 'widget',
+						'widgetType' => 'awsm-job-listings',
+						'settings'   => new stdClass(),
+						'elements'   => array(),
+					),
+				),
+			),
+		);
+
+		update_post_meta( $post_id, '_elementor_data', wp_slash( wp_json_encode( $elementor_data ) ) );
+		update_post_meta( $post_id, '_elementor_edit_mode', 'builder' );
+		update_post_meta( $post_id, '_elementor_template_type', 'wp-page' );
+
+		if ( defined( 'ELEMENTOR_VERSION' ) ) {
+			update_post_meta( $post_id, '_elementor_version', ELEMENTOR_VERSION );
+		}
+
+		if ( isset( \Elementor\Plugin::$instance->files_manager ) ) {
+			\Elementor\Plugin::$instance->files_manager->clear_cache();
 		}
 	}
 
