@@ -100,8 +100,50 @@ jQuery(document).ready(function($) {
 		buttonImageOnly: true,
 		changeMonth: true,
 		numberOfMonths: 1,
-		minDate: dateToday
+		minDate: dateToday,
+		onSelect: function() {
+			awsmSyncJobExpiryMeta();
+		}
 	});
+
+	/**
+	 * Keep the block editor's meta store in sync with the Job Expiry
+	 * fields so the editor's Save request persists them via the REST API,
+	 * in addition to the classic save_post fallback.
+	 */
+	function awsmSyncJobExpiryMeta() {
+		var $expiryToggle = $('#awsm-job-expiry');
+		if (!$expiryToggle.length || typeof wp === 'undefined' || !wp.data || typeof wp.data.select !== 'function') {
+			console.log('[awsm] job expiry meta sync skipped: prerequisites missing', {
+				hasToggle: !!$expiryToggle.length,
+				hasWp: typeof wp !== 'undefined',
+				hasWpData: typeof wp !== 'undefined' && !!wp.data
+			});
+			return;
+		}
+		var editor;
+		try {
+			editor = wp.data.select('core/editor') ? wp.data.dispatch('core/editor') : null;
+		} catch (e) {
+			editor = null;
+		}
+		if (!editor) {
+			console.log('[awsm] job expiry meta sync skipped: core/editor store not available');
+			return;
+		}
+		// Mirrors the classic save_post behaviour: disabling "Set expiry for
+		// listing" clears the date and display-date meta, not just the flag.
+		var isExpirySet = $expiryToggle.is(':checked');
+		var meta = {
+			awsm_set_exp_list: isExpirySet ? 'set_listing' : '',
+			awsm_job_expiry: isExpirySet ? ($('#awsm-jobs-datepicker-alt').val() || '') : '',
+			awsm_exp_list_display: isExpirySet ? ($('#awsm-job-expiry-display').is(':checked') ? 'list_display' : '') : ''
+		};
+		console.log('[awsm] syncing job expiry meta to editor:', meta);
+		editor.editPost({ meta: meta });
+	}
+
+	$('#awsm-job-expiry, #awsm-job-expiry-display').on('change', awsmSyncJobExpiryMeta);
 
 	/*================ Job Specifications ================*/
 

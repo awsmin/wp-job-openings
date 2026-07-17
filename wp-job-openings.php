@@ -348,6 +348,28 @@ class AWSM_Job_Openings {
 		$this->unregister_awsm_jobs_taxonomies();
 		$this->awsm_jobs_taxonomies();
 		$this->awsm_custom_expired_status();
+		$this->register_job_expiry_meta();
+	}
+
+	/**
+	 * Expose the Job Expiry fields to the REST API so the block editor's
+	 * Save request can persist them directly as post meta.
+	 */
+	public function register_job_expiry_meta() {
+		$args = array(
+			'type'              => 'string',
+			'single'            => true,
+			'default'           => '',
+			'sanitize_callback' => 'sanitize_text_field',
+			'auth_callback'     => function ( $allowed, $meta_key, $post_id ) {
+				return current_user_can( 'edit_post', $post_id );
+			},
+			'show_in_rest'      => true,
+		);
+
+		register_post_meta( 'awsm_job_openings', 'awsm_set_exp_list', $args );
+		register_post_meta( 'awsm_job_openings', 'awsm_job_expiry', $args );
+		register_post_meta( 'awsm_job_openings', 'awsm_exp_list_display', $args );
 	}
 
 	public function admin_actions() {
