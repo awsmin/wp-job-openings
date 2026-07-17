@@ -81,6 +81,28 @@ class AWSM_Job_Openings_Settings {
 						'label'  => __( 'Job Detail Page', 'wp-job-openings' ),
 					),
 				);
+				// Pro Pack provides the real Change Strings subtab via `awsm_jobs_settings_subtabs`; only show the locked placeholder when it's not active.
+				if ( ! awsm_jobs_is_pro_active() ) {
+					$subtabs['change_strings'] = array(
+						'label' => __( 'Change Strings', 'wp-job-openings' ),
+						'pro'   => true,
+					);
+				}
+				break;
+			case 'specifications':
+				$subtabs = array(
+					'general' => array(
+						'target' => 'awsm-job-specifications-options-container',
+						'label'  => __( 'Manage Specifications', 'wp-job-openings' ),
+					),
+				);
+				// Pro Pack provides the real Admin Filters subtab via `awsm_jobs_settings_subtabs`; only show the locked placeholder when it's not active.
+				if ( ! awsm_jobs_is_pro_active() ) {
+					$subtabs['admin_filters'] = array(
+						'label' => __( 'Admin Filters', 'wp-job-openings' ),
+						'pro'   => true,
+					);
+				}
 				break;
 			case 'form':
 				$subtabs = array(
@@ -91,6 +113,13 @@ class AWSM_Job_Openings_Settings {
 						'label' => __( 'CAPTCHA', 'wp-job-openings' ),
 					),
 				);
+				// Pro Pack provides the real Form Builder subtab via `awsm_jobs_settings_subtabs`; only show the locked placeholder when it's not active.
+				if ( ! awsm_jobs_is_pro_active() ) {
+					$subtabs['form_builder'] = array(
+						'label' => __( 'Form Builder', 'wp-job-openings' ),
+						'pro'   => true,
+					);
+				}
 				break;
 			case 'notification':
 				$subtabs = array(
@@ -102,6 +131,13 @@ class AWSM_Job_Openings_Settings {
 						'label' => esc_html__( 'Customize', 'wp-job-openings' ),
 					),
 				);
+				// Pro Pack provides the real Templates subtab via `awsm_jobs_settings_subtabs`; only show the locked placeholder when it's not active.
+				if ( ! awsm_jobs_is_pro_active() ) {
+					$subtabs['templates'] = array(
+						'label' => esc_html__( 'Templates', 'wp-job-openings' ),
+						'pro'   => true,
+					);
+				}
 				break;
 		}
 		/**
@@ -1007,6 +1043,16 @@ class AWSM_Job_Openings_Settings {
 				<ul class="subsubsub">
 					<?php
 					foreach ( $subtabs as $key => $subtab ) :
+						if ( ! empty( $subtab['pro'] ) && ! awsm_jobs_is_pro_active() ) :
+							?>
+							<li class="pro-feature">
+								<a class="pro-ft" href="<?php echo esc_url( AWSM_JOBS_SITE_URL . '/pro-pack/' ); ?>" target="_blank"><?php esc_html_e( 'Pro Feature', 'wp-job-openings' ); ?></a>
+								<a href="#"><?php echo esc_html( $subtab['label'] ); ?></a>
+							</li>
+							<?php
+							continue;
+						endif;
+
 						$unique_id     = $key . '-' . $section;
 						$id            = isset( $subtab['id'] ) ? $subtab['id'] : "awsm-{$unique_id}-nav-subtab";
 						$target        = isset( $subtab['target'] ) ? $subtab['target'] : "awsm-{$unique_id}-options-container";

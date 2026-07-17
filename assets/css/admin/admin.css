@@ -107,6 +107,46 @@
 	display: none !important;
 }
 
+/*--------Locked (Pro) subtab hover tooltip----------*/
+.awsm-nav-subtab-container .subsubsub li.pro-feature {
+	position: relative;
+}
+
+.awsm-nav-subtab-container .subsubsub li.pro-feature > a:not(.pro-ft) {
+	color: #a7aaad;
+	cursor: default;
+}
+
+.awsm-nav-subtab-container .subsubsub li.pro-feature > a:not(.pro-ft):hover,
+.awsm-nav-subtab-container .subsubsub li.pro-feature > a:not(.pro-ft):focus {
+	color: #a7aaad;
+	text-decoration: none;
+}
+
+.awsm-nav-subtab-container .subsubsub li.pro-feature .pro-ft {
+	opacity: 0;
+	visibility: hidden;
+	transition: all 0.3s ease;
+	background: #161616;
+	padding: 4px 8px;
+	border-radius: 4px;
+	font-size: 11px;
+	color: #6CFAE4;
+	line-height: 1;
+	position: absolute;
+	left: 100%;
+	top: 50%;
+	margin-left: 8px;
+	transform: translateY(-50%);
+	text-decoration: none;
+	white-space: nowrap;
+}
+
+.awsm-nav-subtab-container .subsubsub li.pro-feature:hover .pro-ft {
+	opacity: 1;
+	visibility: visible;
+}
+
 .form-table th.awsm-form-head-title {
 	padding: 10px 10px 10px 0;
 }
