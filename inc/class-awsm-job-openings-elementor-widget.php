@@ -354,41 +354,6 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 		);
 
 		$this->add_control(
-			'hz_sidebar_width',
-			array(
-				'label'      => esc_html__( 'Sidebar Width (%)', 'wp-job-openings' ),
-				'type'       => Controls_Manager::NUMBER,
-				'min'        => 10,
-				'max'        => 50,
-				'default'    => 33,
-				// Matches the block: shown whenever placement is "side" and either
-				// search or filters is enabled (not just filters).
-				'conditions' => array(
-					'relation' => 'and',
-					'terms'    => array(
-						array(
-							'name'  => 'placement',
-							'value' => 'side',
-						),
-						array(
-							'relation' => 'or',
-							'terms'    => array(
-								array(
-									'name'  => 'search',
-									'value' => 'yes',
-								),
-								array(
-									'name'  => 'enable_job_filter',
-									'value' => 'yes',
-								),
-							),
-						),
-					),
-				),
-			)
-		);
-
-		$this->add_control(
 			'pagination',
 			array(
 				'label'   => esc_html__( 'Pagination Style', 'wp-job-openings' ),
@@ -610,6 +575,18 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 						),
 					),
 				),
+			)
+		);
+
+		$this->add_control(
+			'hz_sidebar_width',
+			array(
+				'label'   => esc_html__( 'Sidebar Width (%)', 'wp-job-openings' ),
+				'type'    => Controls_Manager::NUMBER,
+				'min'     => 33.33,
+				'max'     => 80.33,
+				'step'    => 0.1,
+				'default' => 33.33,
 			)
 		);
 
