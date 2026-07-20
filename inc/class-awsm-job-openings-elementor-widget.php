@@ -56,48 +56,58 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 	 * @param string $key           Attribute key prefix, e.g. 'hz_sf'.
 	 * @param int    $default_width Default border width in px.
 	 * @param string $default_color Default border color (hex).
+	 * @param array  $condition     Optional Elementor 'condition' array to gate all three controls.
 	 */
-	protected function add_border_controls( $key, $default_width = 1, $default_color = '#cccccc' ) {
+	protected function add_border_controls( $key, $default_width = 1, $default_color = '#cccccc', $condition = array() ) {
 		$this->add_control(
 			"{$key}_border_width",
-			array(
-				'label'   => esc_html__( 'Border Width (px)', 'wp-job-openings' ),
-				'type'    => Controls_Manager::SLIDER,
-				'range'   => array(
-					'px' => array(
-						'min' => 0,
-						'max' => 20,
+			array_merge(
+				array(
+					'label'   => esc_html__( 'Border Width (px)', 'wp-job-openings' ),
+					'type'    => Controls_Manager::SLIDER,
+					'range'   => array(
+						'px' => array(
+							'min' => 0,
+							'max' => 20,
+						),
+					),
+					'default' => array(
+						'unit' => 'px',
+						'size' => $default_width,
 					),
 				),
-				'default' => array(
-					'unit' => 'px',
-					'size' => $default_width,
-				),
+				$condition ? array( 'condition' => $condition ) : array()
 			)
 		);
 
 		$this->add_control(
 			"{$key}_border_color",
-			array(
-				'label'   => esc_html__( 'Border Color', 'wp-job-openings' ),
-				'type'    => Controls_Manager::COLOR,
-				'default' => $default_color,
+			array_merge(
+				array(
+					'label'   => esc_html__( 'Border Color', 'wp-job-openings' ),
+					'type'    => Controls_Manager::COLOR,
+					'default' => $default_color,
+				),
+				$condition ? array( 'condition' => $condition ) : array()
 			)
 		);
 
 		$this->add_control(
 			"{$key}_border_radius",
-			array(
-				'label'      => esc_html__( 'Border Radius', 'wp-job-openings' ),
-				'type'       => Controls_Manager::DIMENSIONS,
-				'size_units' => array( 'px', '%' ),
-				'default'    => array(
-					'top'    => '5',
-					'right'  => '5',
-					'bottom' => '5',
-					'left'   => '5',
-					'unit'   => 'px',
+			array_merge(
+				array(
+					'label'      => esc_html__( 'Border Radius', 'wp-job-openings' ),
+					'type'       => Controls_Manager::DIMENSIONS,
+					'size_units' => array( 'px', '%' ),
+					'default'    => array(
+						'top'    => '5',
+						'right'  => '5',
+						'bottom' => '5',
+						'left'   => '5',
+						'unit'   => 'px',
+					),
 				),
+				$condition ? array( 'condition' => $condition ) : array()
 			)
 		);
 	}
@@ -105,17 +115,21 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 	/**
 	 * Adds a padding (top/right/bottom/left) control for one section of the listing.
 	 *
-	 * @param string $key      Attribute key prefix, e.g. 'hz_sf'.
-	 * @param array  $defaults Default top/right/bottom/left values (numbers, px assumed).
+	 * @param string $key       Attribute key prefix, e.g. 'hz_sf'.
+	 * @param array  $defaults  Default top/right/bottom/left values (numbers, px assumed).
+	 * @param array  $condition Optional Elementor 'condition' array to gate the control.
 	 */
-	protected function add_padding_control( $key, $defaults ) {
+	protected function add_padding_control( $key, $defaults, $condition = array() ) {
 		$this->add_control(
 			"{$key}_padding",
-			array(
-				'label'      => esc_html__( 'Padding', 'wp-job-openings' ),
-				'type'       => Controls_Manager::DIMENSIONS,
-				'size_units' => array( 'px', '%' ),
-				'default'    => array_merge( $defaults, array( 'unit' => 'px' ) ),
+			array_merge(
+				array(
+					'label'      => esc_html__( 'Padding', 'wp-job-openings' ),
+					'type'       => Controls_Manager::DIMENSIONS,
+					'size_units' => array( 'px', '%' ),
+					'default'    => array_merge( $defaults, array( 'unit' => 'px' ) ),
+				),
+				$condition ? array( 'condition' => $condition ) : array()
 			)
 		);
 	}
@@ -286,15 +300,12 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 		$this->add_control(
 			'placement',
 			array(
-				'label'     => esc_html__( 'Filter Placement', 'wp-job-openings' ),
-				'type'      => Controls_Manager::SELECT,
-				'default'   => 'top',
-				'options'   => array(
+				'label'   => esc_html__( 'Filter Placement', 'wp-job-openings' ),
+				'type'    => Controls_Manager::SELECT,
+				'default' => 'top',
+				'options' => array(
 					'top'  => esc_html__( 'Top', 'wp-job-openings' ),
 					'side' => esc_html__( 'Side', 'wp-job-openings' ),
-				),
-				'condition' => array(
-					'enable_job_filter' => 'yes',
 				),
 			)
 		);
@@ -328,10 +339,14 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 			'number_of_columns',
 			array(
 				'label'     => esc_html__( 'Columns', 'wp-job-openings' ),
-				'type'      => Controls_Manager::NUMBER,
-				'min'       => 1,
-				'max'       => 6,
-				'default'   => 3,
+				'type'      => Controls_Manager::SELECT,
+				'default'   => '3',
+				'options'   => array(
+					'1' => esc_html__( '1 Column', 'wp-job-openings' ),
+					'2' => esc_html__( '2 Columns', 'wp-job-openings' ),
+					'3' => esc_html__( '3 Columns', 'wp-job-openings' ),
+					'4' => esc_html__( '4 Columns', 'wp-job-openings' ),
+				),
 				'condition' => array(
 					'layout' => 'grid',
 				),
@@ -341,14 +356,34 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 		$this->add_control(
 			'hz_sidebar_width',
 			array(
-				'label'     => esc_html__( 'Sidebar Width (%)', 'wp-job-openings' ),
-				'type'      => Controls_Manager::NUMBER,
-				'min'       => 10,
-				'max'       => 50,
-				'default'   => 33,
-				'condition' => array(
-					'placement'         => 'side',
-					'enable_job_filter' => 'yes',
+				'label'      => esc_html__( 'Sidebar Width (%)', 'wp-job-openings' ),
+				'type'       => Controls_Manager::NUMBER,
+				'min'        => 10,
+				'max'        => 50,
+				'default'    => 33,
+				// Matches the block: shown whenever placement is "side" and either
+				// search or filters is enabled (not just filters).
+				'conditions' => array(
+					'relation' => 'and',
+					'terms'    => array(
+						array(
+							'name'  => 'placement',
+							'value' => 'side',
+						),
+						array(
+							'relation' => 'or',
+							'terms'    => array(
+								array(
+									'name'  => 'search',
+									'value' => 'yes',
+								),
+								array(
+									'name'  => 'enable_job_filter',
+									'value' => 'yes',
+								),
+							),
+						),
+					),
 				),
 			)
 		);
@@ -469,12 +504,9 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 		$this->add_control(
 			'hz_button_text',
 			array(
-				'label'     => esc_html__( 'Button Text', 'wp-job-openings' ),
-				'type'      => Controls_Manager::TEXT,
-				'default'   => esc_html__( 'More Details →', 'wp-job-openings' ),
-				'condition' => array(
-					'hz_button_style!' => 'none',
-				),
+				'label'   => esc_html__( 'Button Text', 'wp-job-openings' ),
+				'type'    => Controls_Manager::TEXT,
+				'default' => esc_html__( 'More Details →', 'wp-job-openings' ),
 			)
 		);
 
@@ -492,15 +524,15 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 		$this->add_control(
 			'hz_button_text_color',
 			array(
-				'label'     => esc_html__( 'Text Color', 'wp-job-openings' ),
-				'type'      => Controls_Manager::COLOR,
-				'condition' => array(
-					'hz_button_style!' => 'none',
-				),
+				'label' => esc_html__( 'Text Color', 'wp-job-openings' ),
+				'type'  => Controls_Manager::COLOR,
 			)
 		);
 
-		$this->add_border_controls( 'hz_bs', 1, '#4e35df' );
+		// Border/radius/padding only have a visible effect once a button style is
+		// chosen (same as the block, which hides these once hz_button_style !== 'none').
+		$button_style_condition = array( 'hz_button_style!' => 'none' );
+		$this->add_border_controls( 'hz_bs', 1, '#4e35df', $button_style_condition );
 		$this->add_padding_control(
 			'hz_bs',
 			array(
@@ -508,7 +540,8 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 				'right'  => '13',
 				'bottom' => '13',
 				'left'   => '13',
-			)
+			),
+			$button_style_condition
 		);
 
 		$this->end_controls_section();
@@ -540,15 +573,9 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 		);
 
 		$this->add_border_controls( 'hz_pagination', 1, '#cbcbcb' );
-		$this->add_padding_control(
-			'hz_pagination',
-			array(
-				'top'    => '20',
-				'right'  => '20',
-				'bottom' => '20',
-				'left'   => '20',
-			)
-		);
+		// No fixed default here: the actual default (5px classic / 20px modern) is
+		// applied in render() based on the 'pagination' style, matching the block editor.
+		$this->add_padding_control( 'hz_pagination', array() );
 
 		$this->end_controls_section();
 	}
@@ -557,10 +584,31 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'section_style_sidebar',
 			array(
-				'label'     => esc_html__( 'Sidebar', 'wp-job-openings' ),
-				'tab'       => Controls_Manager::TAB_STYLE,
-				'condition' => array(
-					'placement' => 'side',
+				'label' => esc_html__( 'Sidebar', 'wp-job-openings' ),
+				'tab'   => Controls_Manager::TAB_STYLE,
+				// Matches the block: shown whenever placement is "side" and either
+				// search or filters is enabled (not just filters).
+				'conditions' => array(
+					'relation' => 'and',
+					'terms'    => array(
+						array(
+							'name'  => 'placement',
+							'value' => 'side',
+						),
+						array(
+							'relation' => 'or',
+							'terms'    => array(
+								array(
+									'name'  => 'search',
+									'value' => 'yes',
+								),
+								array(
+									'name'  => 'enable_job_filter',
+									'value' => 'yes',
+								),
+							),
+						),
+					),
 				),
 			)
 		);
@@ -621,16 +669,17 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 	 * Reads a DIMENSIONS control value used for padding into the plain
 	 * top/right/bottom/left shape the block's render logic expects.
 	 *
-	 * @param array $dimensions Raw control value with top/right/bottom/left/unit keys.
+	 * @param array  $dimensions Raw control value with top/right/bottom/left/unit keys.
+	 * @param string $fallback   Value to use for any side left blank.
 	 * @return array
 	 */
-	protected function to_padding( $dimensions ) {
+	protected function to_padding( $dimensions, $fallback = '0' ) {
 		$unit = ! empty( $dimensions['unit'] ) ? $dimensions['unit'] : 'px';
 		return array(
-			'top'    => ( isset( $dimensions['top'] ) && $dimensions['top'] !== '' ? $dimensions['top'] : '0' ) . $unit,
-			'right'  => ( isset( $dimensions['right'] ) && $dimensions['right'] !== '' ? $dimensions['right'] : '0' ) . $unit,
-			'bottom' => ( isset( $dimensions['bottom'] ) && $dimensions['bottom'] !== '' ? $dimensions['bottom'] : '0' ) . $unit,
-			'left'   => ( isset( $dimensions['left'] ) && $dimensions['left'] !== '' ? $dimensions['left'] : '0' ) . $unit,
+			'top'    => ( isset( $dimensions['top'] ) && $dimensions['top'] !== '' ? $dimensions['top'] : $fallback ) . $unit,
+			'right'  => ( isset( $dimensions['right'] ) && $dimensions['right'] !== '' ? $dimensions['right'] : $fallback ) . $unit,
+			'bottom' => ( isset( $dimensions['bottom'] ) && $dimensions['bottom'] !== '' ? $dimensions['bottom'] : $fallback ) . $unit,
+			'left'   => ( isset( $dimensions['left'] ) && $dimensions['left'] !== '' ? $dimensions['left'] : $fallback ) . $unit,
 		);
 	}
 
@@ -702,7 +751,10 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 			'hz_pagination_text_color'       => isset( $settings['hz_pagination_text_color'] ) ? $settings['hz_pagination_text_color'] : '',
 			'hz_pagination_border'           => $this->border_value( $settings, 'hz_pagination' ),
 			'hz_pagination_border_radius'    => $this->to_corner_radius( isset( $settings['hz_pagination_border_radius'] ) ? $settings['hz_pagination_border_radius'] : array() ),
-			'hz_pagination_padding'          => $this->to_padding( isset( $settings['hz_pagination_padding'] ) ? $settings['hz_pagination_padding'] : array() ),
+			'hz_pagination_padding'          => $this->to_padding(
+				isset( $settings['hz_pagination_padding'] ) ? $settings['hz_pagination_padding'] : array(),
+				'classic' === ( isset( $settings['pagination'] ) ? $settings['pagination'] : 'modern' ) ? '5' : '20'
+			),
 
 			'hz_sidebar_bg_color'            => isset( $settings['hz_sidebar_bg_color'] ) ? $settings['hz_sidebar_bg_color'] : '',
 			'hz_sidebar_tx_color'            => isset( $settings['hz_sidebar_tx_color'] ) ? $settings['hz_sidebar_tx_color'] : '',
