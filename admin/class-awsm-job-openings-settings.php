@@ -2486,7 +2486,10 @@ class AWSM_Job_Openings_Settings {
 		}
 
 		if ( 'secret_key' === $key_type ) {
-			$this->verify_secret_key( $value, $old_value, $provider, $key_type, $option_name, $actual_option_name );
+			$verified = $this->verify_secret_key( $value, $old_value, $provider, $key_type, $option_name, $actual_option_name );
+			if ( false === $verified ) {
+				return $old_value;
+			}
 		}
 
 		return $this->sanitize_and_filter( $value, $provider, $key_type, $option_name );
@@ -2587,19 +2590,21 @@ class AWSM_Job_Openings_Settings {
 		$site_key = $this->get_site_key_for_verification( $provider, $actual_option_name );
 
 		if ( '' === $site_key ) {
-			return;
+			return null;
 		}
 
 		$verification = $this->verify_keys_with_api( $site_key, $value, $provider );
 
 		if ( empty( $verification['valid'] ) ) {
 			$this->add_api_verification_error( $verification, $option_name, $provider, $key_type );
-			return;
+			return false;
 		}
 
 		if ( $value !== $old_value || '' === $old_value ) {
 			$this->add_verification_success_message( $provider, $option_name, $value );
 		}
+
+		return true;
 	}
 
 	/**

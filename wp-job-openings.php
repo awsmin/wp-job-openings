@@ -5,7 +5,7 @@
  * Description: HireZoot (formerly WP Job Openings) makes hiring simple. Add job listings, publish a clean careers page, and manage applications without leaving WordPress.
  * Author: AWSM Innovations
  * Author URI: https://awsm.in/
- * Version: 4.0.2
+ * Version: 4.0.3
  * Requires at least: 6.0
  * Requires PHP: 5.6
  * License: GPLv2
@@ -37,7 +37,7 @@ if ( ! defined( 'AWSM_JOBS_PLUGIN_URL' ) ) {
 	define( 'AWSM_JOBS_PLUGIN_URL', untrailingslashit( plugin_dir_url( __FILE__ ) ) );
 }
 if ( ! defined( 'AWSM_JOBS_PLUGIN_VERSION' ) ) {
-	define( 'AWSM_JOBS_PLUGIN_VERSION', '4.0.2' );
+	define( 'AWSM_JOBS_PLUGIN_VERSION', '4.0.3' );
 }
 if ( ! defined( 'AWSM_JOBS_UPLOAD_DIR_NAME' ) ) {
 	define( 'AWSM_JOBS_UPLOAD_DIR_NAME', 'awsm-job-openings' );
@@ -49,7 +49,7 @@ if ( ! defined( 'AWSM_JOBS_SITE_URL' ) ) {
 	define( 'AWSM_JOBS_SITE_URL', 'https://hirezoot.com' );
 }
 if ( ! defined( 'AWSM_JOBS_DOCS_URL' ) ) {
-	define( 'AWSM_JOBS_DOCS_URL', 'https://docs.wpjobopenings.com/' );
+	define( 'AWSM_JOBS_DOCS_URL', 'https://docs.hirezoot.com' );
 }
 if ( ! defined( 'AWSM_JOBS_ROADMAP_URL' ) ) {
 	define( 'AWSM_JOBS_ROADMAP_URL', 'https://roadmap.hirezoot.com' );
@@ -1474,6 +1474,7 @@ class AWSM_Job_Openings {
 				'awsm_filters'              => self::get_filter_specifications(),
 				'awsm_filters_block'        => AWSM_Job_Openings_Block::get_block_filter_specifications(),
 				'awsm_featured_image_block' => AWSM_Job_Openings_Block::get_block_featured_image_size(),
+				'awsm_default_spec_keys'    => self::get_default_spec_keys(),
 			)
 		);
 		wp_localize_script(
@@ -1530,6 +1531,14 @@ class AWSM_Job_Openings {
 		return $specs;
 	}
 
+
+	public static function get_default_spec_keys() {
+		$defaults = AWSM_Job_Openings_Settings::get_default_settings( 'awsm_jobs_filter' );
+		if ( is_array( $defaults ) ) {
+			return wp_list_pluck( $defaults, 'taxonomy' );
+		}
+		return array( 'job-category', 'job-type', 'job-location' );
+	}
 
 	public static function get_spec_terms( $spec ) {
 		$terms_args = array(
@@ -1788,6 +1797,14 @@ class AWSM_Job_Openings {
 						wp_update_post( $post_data );
 						// now, re-hook this function
 						add_action( 'save_post', array( $this, 'awsm_job_save_post' ), 100, 2 );
+					} elseif ( $post->post_status === 'expired' ) {
+						// Future expiry date set on an expired job — restore to published
+						$post_data                = array();
+						$post_data['ID']          = $post_id;
+						$post_data['post_status'] = 'publish';
+						remove_action( 'save_post', array( $this, 'awsm_job_save_post' ), 100 );
+						wp_update_post( $post_data );
+						add_action( 'save_post', array( $this, 'awsm_job_save_post' ), 100, 2 );
 					}
 				} elseif ( $post->post_status === 'expired' ) {
 					// If a job is expired but no expiry date is set, restore expiry meta
@@ -1869,6 +1886,14 @@ class AWSM_Job_Openings {
 					remove_action( 'save_post', array( $this, 'awsm_job_save_post' ), 100 );
 					wp_update_post( $post_data );
 					// now, re-hook this function
+					add_action( 'save_post', array( $this, 'awsm_job_save_post' ), 100, 2 );
+				} elseif ( $post->post_status === 'expired' ) {
+					// Future expiry date set on an expired job — restore to published
+					$post_data                = array();
+					$post_data['ID']          = $post_id;
+					$post_data['post_status'] = 'publish';
+					remove_action( 'save_post', array( $this, 'awsm_job_save_post' ), 100 );
+					wp_update_post( $post_data );
 					add_action( 'save_post', array( $this, 'awsm_job_save_post' ), 100, 2 );
 				}
 			} elseif ( $post->post_status === 'expired' ) {

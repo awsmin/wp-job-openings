@@ -62,6 +62,7 @@ class AWSM_Job_Openings_Overview {
 				'numberjobs'      => 7,
 				'job_status'      => 'publish',
 				'exclude_expired' => true,
+				'orderby'         => 'recent_activity',
 			)
 		);
 		include_once $this->cpath . '/templates/overview/main.php';
@@ -173,6 +174,7 @@ class AWSM_Job_Openings_Overview {
 		$defaults    = array(
 			'numberjobs' => -1,
 			'job_status' => array( 'publish', 'expired', 'future', 'draft', 'pending', 'private' ),
+			'orderby'    => 'post_date',
 		);
 		$parsed_args = wp_parse_args( $args, $defaults );
 		/**
@@ -260,8 +262,15 @@ class AWSM_Job_Openings_Overview {
 			$where   .= " AND (job_expiry.meta_value IS NULL OR job_expiry.meta_value = '' OR job_expiry.meta_value >= %s)";
 			$values[] = current_time( 'Y-m-d' );
 		}
+		// Order by the most recent application activity, falling back to the job's own publish date.
+		if ( 'recent_activity' === $parsed_args['orderby'] ) {
+			$orderby = "COALESCE(MAX(applications.post_date), {$wpdb->posts}.post_date) DESC";
+		} else {
+			$orderby = "{$wpdb->posts}.post_date DESC";
+		}
+
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$results = $wpdb->get_results( $wpdb->prepare( "SELECT {$wpdb->posts}.ID, COUNT(applications.ID) AS applications_count FROM {$wpdb->posts} {$join} {$where} GROUP BY {$wpdb->posts}.ID ORDER BY {$wpdb->posts}.post_date DESC", $values ), OBJECT );
+		$results = $wpdb->get_results( $wpdb->prepare( "SELECT {$wpdb->posts}.ID, COUNT(DISTINCT applications.ID) AS applications_count FROM {$wpdb->posts} {$join} {$where} GROUP BY {$wpdb->posts}.ID ORDER BY {$orderby}", $values ), OBJECT );
 
 		// Remove jobs whose application limit has been exceeded (pro pack hooks awsm_jobs_active_count_ids).
 		if ( ! empty( $results ) ) {

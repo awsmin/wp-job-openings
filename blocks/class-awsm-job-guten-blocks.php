@@ -36,37 +36,25 @@ class Awsm_Job_Guten_Blocks {
 
 	public function block_render_callback( $atts, $content ) {
 
-		// Ensure filter_options exists and is valid
 		if ( ! isset( $atts['filter_options'] ) || ! is_array( $atts['filter_options'] ) ) {
-			$default_filters = array();
-			$specs           = AWSM_Job_Openings_Block::get_block_filter_specifications();
+			$atts['filter_options'] = array();
+		}
 
-			foreach ( $specs as $spec ) {
-				$default_filters[] = array(
-					'specKey' => $spec['key'],
-					'value'   => 'dropdown',
-				);
-			}
+		// Snapshot-based init: capture specs at first render so later-added specs never auto-inject.
+		if ( empty( $atts['filtersInitialized'] ) && empty( $atts['filter_options'] ) && ! empty( $atts['enable_job_filter'] ) ) {
+			global $post;
+			$pid      = is_object( $post ) ? $post->ID : 0;
+			$bid      = ! empty( $atts['blockId'] ) ? sanitize_key( $atts['blockId'] ) : 'default';
+			$opt_key  = 'awsm_bfinit_' . $pid . '_' . $bid;
+			$snapshot = get_option( $opt_key, null );
 
-			$atts['filter_options'] = $default_filters;
-		} elseif ( empty( $atts['filter_options'] ) && ! empty( $atts['enable_job_filter'] ) ) {
-			// filter_options is [] but filters are enabled — this is a migration case.
-			// Blocks created before filter_options was introduced, or programmatically created blocks,
-			// may have enable_job_filter=true with no specific filters selected.
-			// When the user intentionally removes all filters, the JS also sets enable_job_filter=false,
-			// so this condition only fires for migration scenarios. Auto-populate with all available filters.
-			$default_filters = array();
-			$specs           = AWSM_Job_Openings_Block::get_block_filter_specifications();
-
-			foreach ( $specs as $spec ) {
-				$default_filters[] = array(
-					'specKey' => $spec['key'],
-					'value'   => 'dropdown',
-				);
-			}
-
-			if ( ! empty( $default_filters ) ) {
-				$atts['filter_options'] = $default_filters;
+			if ( null !== $snapshot && is_array( $snapshot ) ) {
+				$atts['filter_options'] = $snapshot;
+			} else {
+				$specs                  = AWSM_Job_Openings_Block::get_block_filter_specifications();
+				$snap                   = wp_list_pluck( $specs, 'key' );
+				$atts['filter_options'] = $snap;
+				update_option( $opt_key, $snap, false );
 			}
 		}
 

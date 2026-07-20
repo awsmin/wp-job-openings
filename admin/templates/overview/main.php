@@ -178,7 +178,7 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 						),
 						array(
 							'id'        => 'hooks',
-							'url'       => AWSM_JOBS_DOCS_URL . '/developers/hooks',
+							'url'       => AWSM_JOBS_DOCS_URL . '/hooks',
 							'link_text' => __( 'Hooks & Functions', 'wp-job-openings' ),
 						),
 						array(
@@ -283,7 +283,7 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 			<div class="awsm-jobs-overview-col">
 				<div class="awsm-jobs-overview-list awsm-jobs-overview-positions flex-item">
 					<div class="awsm-jobs-overview-col-head">
-						<h2><?php esc_html_e( 'Open Job Positions', 'wp-job-openings' ); ?></h2>
+						<h2><?php esc_html_e( 'Active Jobs', 'wp-job-openings' ); ?></h2>
 						<a href="<?php echo esc_url( admin_url( 'edit.php?post_status=publish&post_type=awsm_job_openings' ) ); ?>">
 							<?php esc_html_e( 'View All', 'wp-job-openings' ); ?>
 							<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">

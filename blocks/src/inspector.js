@@ -1,12 +1,12 @@
 import {__} from "@wordpress/i18n";
 import {useEffect, useRef, Fragment} from "@wordpress/element";
+import {useSelect} from "@wordpress/data";
 import {
 	InspectorControls,
 	PanelColorSettings,
 	__experimentalBorderRadiusControl as BorderRadiusControl
 } from "@wordpress/block-editor";
 import {addFilter} from "@wordpress/hooks";
-import {useSelect} from "@wordpress/data";
 
 import {
 	PanelBody,
@@ -22,22 +22,6 @@ import {
 	BorderControl,
 	PanelRow
 } from "@wordpress/components";
-
-const enforceMinBorderWidth = ( newBorder, prevBorder ) => {
-	const rawWidth = newBorder?.width ?? prevBorder?.width;
-	if ( ! rawWidth || parseFloat( rawWidth ) !== 0 ) {
-		const color = newBorder && 'color' in newBorder ? newBorder.color : prevBorder?.color;
-		return { ...prevBorder, ...newBorder, color };
-	}
-	// Width hit 0 — enforce minimum and always preserve previous color
-	const unit = rawWidth.replace( /[\d.]/g, '' ) || 'px';
-	return {
-		...prevBorder,
-		...newBorder,
-		width: '1' + unit,
-		color: prevBorder?.color,
-	};
-};
 
 const WidgetInspectorControls = props => {
 	const {
@@ -88,7 +72,8 @@ const WidgetInspectorControls = props => {
 			hz_jl_text_color,
 			hz_sidebar_bg_color,
 			hz_sidebar_tx_color,
-			hz_sidebar_width
+			hz_sidebar_width,
+			filtersInitialized
 		},
 		setAttributes
 	} = props;
@@ -99,13 +84,9 @@ const WidgetInspectorControls = props => {
 	const filtersInitRef = useRef( false );
 	const specifications = window.awsmJobsAdmin?.awsm_filters_block || [];
 
-	const block_appearance_list = [];
-	const block_job_listing = [];
-	const block_styles_panel = [];
-
 	const { wasJustInserted } = useSelect(
 		select => {
-			const editor = select( "core/block-editor" );
+			const editor = select( 'core/block-editor' );
 			return {
 				wasJustInserted: editor?.wasBlockJustInserted
 					? editor.wasBlockJustInserted( clientId )
@@ -114,6 +95,10 @@ const WidgetInspectorControls = props => {
 		},
 		[ clientId ]
 	);
+
+	const block_appearance_list = [];
+	const block_job_listing = [];
+	const block_styles_panel = [];
 
 	useEffect( () => {
 		const expectedId = "block-" + clientId;
@@ -141,21 +126,35 @@ const WidgetInspectorControls = props => {
 	}, [] );
 
 	useEffect( () => {
-		if ( ! wasJustInserted && blockId ) return;
+		// Migration: existing block already has filter_options saved — just mark initialized.
+		if ( ! filtersInitialized && filter_options?.length ) {
+			setAttributes( { filtersInitialized: true } );
+			return;
+		}
+
+		if ( filtersInitialized ) return;
 		if ( filtersInitRef.current ) return;
 		if ( ! enable_job_filter ) return;
 		if ( ! specifications?.length ) return;
-		if ( filter_options?.length ) return;
 
-		const newFilterOptions = specifications.map( spec => spec.key );
-		const newFilterTypes = {};
-		specifications.forEach( spec => {
-			newFilterTypes[ spec.key ] = "dropdown";
-		} );
+		let optsToSet;
+		const typesToSet = {};
 
-		setAttributes( { filter_options: newFilterOptions, filter_types: newFilterTypes } );
+		if ( wasJustInserted ) {
+			// Brand new block — load all specs (plugin defaults + user-created).
+			optsToSet = specifications.map( spec => spec.key );
+		} else {
+			// Existing block with no saved filter_options (e.g. the default Jobs page created
+			// on plugin activation). Enable only the plugin's built-in default specs so that
+			// user-added specs are not silently turned on — matching shortcode behaviour.
+			const defaultKeys = new Set( window.awsmJobsAdmin?.awsm_default_spec_keys || [] );
+			optsToSet = specifications.map( s => s.key ).filter( k => defaultKeys.has( k ) );
+		}
+
+		optsToSet.forEach( k => { typesToSet[ k ] = 'dropdown'; } );
+		setAttributes( { filter_options: optsToSet, filter_types: typesToSet, filtersInitialized: true } );
 		filtersInitRef.current = true;
-	}, [ wasJustInserted, specifications, enable_job_filter ] );
+	}, [ filtersInitialized, specifications, enable_job_filter, wasJustInserted ] );
 
 	useEffect( () => {
 		const updates = {};
@@ -604,14 +603,10 @@ const WidgetInspectorControls = props => {
 									value={ hz_sf_border }
 									__experimentalIsRenderedInSidebar
 									onChange={ newBorder => {
-										const width = newBorder?.width ?? hz_sf_border?.width;
-										const color = newBorder && 'color' in newBorder ? newBorder.color : hz_sf_border?.color;
 										setAttributes( {
 											hz_sf_border: {
-												...hz_sf_border,
 												...newBorder,
-												width,
-												color: parseFloat( width ) > 0 ? color : undefined
+												color: parseFloat( newBorder.width ) > 0 ? newBorder.color : undefined
 											}
 										} );
 									} }
@@ -671,7 +666,7 @@ const WidgetInspectorControls = props => {
 
 						{ ( search || enable_job_filter ) && (
 							<PanelBody
-								title={ __( "Search and Filters", "wp-job-openings" ) }
+								title={ __( "Search & Filters", "wp-job-openings" ) }
 								initialOpen={ true }
 							>
 								<BorderControl
@@ -682,7 +677,7 @@ const WidgetInspectorControls = props => {
 									__experimentalIsRenderedInSidebar
 									onChange={ newBorder => {
 										setAttributes( {
-											hz_ls_border: enforceMinBorderWidth( newBorder, hz_ls_border )
+											hz_ls_border: newBorder
 										} );
 									} }
 									enableStyle={ false }
@@ -740,7 +735,7 @@ const WidgetInspectorControls = props => {
 								__experimentalIsRenderedInSidebar
 								onChange={ newBorder => {
 									setAttributes( {
-										hz_jl_border: enforceMinBorderWidth( newBorder, hz_jl_border )
+										hz_jl_border: newBorder
 									} );
 								} }
 								enableStyle={ false }
@@ -809,14 +804,10 @@ const WidgetInspectorControls = props => {
 										value={ hz_bs_border }
 										__experimentalIsRenderedInSidebar
 										onChange={ newBorder => {
-											const width = newBorder?.width ?? hz_bs_border?.width;
-											const color = newBorder && 'color' in newBorder ? newBorder.color : hz_bs_border?.color;
 											setAttributes( {
 												hz_bs_border: {
-													...hz_bs_border,
 													...newBorder,
-													width,
-													color: parseFloat( width ) > 0 ? color : undefined
+													color: parseFloat( newBorder.width ) > 0 ? newBorder.color : undefined
 												}
 											} );
 										} }
@@ -899,7 +890,7 @@ const WidgetInspectorControls = props => {
 								__experimentalIsRenderedInSidebar
 								onChange={ newBorder => {
 									setAttributes( {
-										hz_pagination_border: enforceMinBorderWidth( newBorder, hz_pagination_border )
+										hz_pagination_border: newBorder
 									} );
 								} }
 								enableStyle={ false }

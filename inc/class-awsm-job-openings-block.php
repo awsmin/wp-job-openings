@@ -541,17 +541,15 @@ class AWSM_Job_Openings_Block {
 		$specs = array();
 		if ( ! empty( $specs_keys ) ) {
 			foreach ( $specs_keys as $spec_key ) {
-				$terms = self::get_block_spec_terms( $spec_key );
-				if ( ! empty( $terms ) ) {
-					$tax_obj = get_taxonomy( $spec_key );
-					if ( ! empty( $tax_obj ) ) {
-						$specs[] = array(
-							'key'              => $spec_key,
-							'label'            => $tax_obj->label,
-							'terms'            => $terms,
-							'expired_term_ids' => self::get_expired_only_term_ids( $spec_key ),
-						);
-					}
+				$tax_obj = get_taxonomy( $spec_key );
+				if ( ! empty( $tax_obj ) ) {
+					$terms   = self::get_block_spec_terms( $spec_key );
+					$specs[] = array(
+						'key'              => $spec_key,
+						'label'            => $tax_obj->label,
+						'terms'            => $terms,
+						'expired_term_ids' => ! empty( $terms ) ? self::get_expired_only_term_ids( $spec_key ) : array(),
+					);
 				}
 			}
 		} else {
@@ -560,15 +558,13 @@ class AWSM_Job_Openings_Block {
 				if ( empty( $tax_obj ) ) {
 					continue;
 				}
-				$terms = self::get_block_spec_terms( $spec );
-				if ( ! empty( $terms ) ) {
-					$specs[] = array(
-						'key'              => $spec,
-						'label'            => $tax_obj->label,
-						'terms'            => $terms,
-						'expired_term_ids' => self::get_expired_only_term_ids( $spec ),
-					);
-				}
+				$terms   = self::get_block_spec_terms( $spec );
+				$specs[] = array(
+					'key'              => $spec,
+					'label'            => $tax_obj->label,
+					'terms'            => $terms,
+					'expired_term_ids' => ! empty( $terms ) ? self::get_expired_only_term_ids( $spec ) : array(),
+				);
 			}
 		}
 		return $specs;
@@ -817,76 +813,75 @@ class AWSM_Job_Openings_Block {
 					 */
 					$terms = self::order_block_filter_terms( $taxonomy, $block_atts );
 					$terms = apply_filters( 'awsm_block_filter_terms', $terms, $taxonomy );
-					if ( ! empty( $terms ) ) {
-						$available_filters_arr[ $taxonomy ] = $tax_details->label;
 
-						$options_content = '';
-						foreach ( $terms as $term ) {
-							$selected = '';
-							$get_key  = str_replace( '-', '__', $taxonomy ) . '_spec';
-							if ( isset( $_GET[ $get_key ] ) && is_string( $_GET[ $get_key ] ) ) {
-								// URL param takes priority over block preselection (user's explicit choice).
-								$selected_specs = explode( ',', sanitize_text_field( wp_unslash( $_GET[ $get_key ] ) ) );
-								$selected_specs = array_filter( array_map( 'sanitize_title', array_map( 'trim', $selected_specs ) ) );
+					$available_filters_arr[ $taxonomy ] = $tax_details->label;
 
-								if ( in_array( $term->slug, $selected_specs, true ) ) {
-									$selected = ' selected';
-								}
-							} elseif ( apply_filters( 'awsm_jobs_block_filter_option_is_selected', false, $term, $taxonomy, $block_atts ) ) {
+					$options_content = '';
+					foreach ( $terms as $term ) {
+						$selected = '';
+						$get_key  = str_replace( '-', '__', $taxonomy ) . '_spec';
+						if ( isset( $_GET[ $get_key ] ) && is_string( $_GET[ $get_key ] ) ) {
+							// URL param takes priority over block preselection (user's explicit choice).
+							$selected_specs = explode( ',', sanitize_text_field( wp_unslash( $_GET[ $get_key ] ) ) );
+							$selected_specs = array_filter( array_map( 'sanitize_title', array_map( 'trim', $selected_specs ) ) );
+
+							if ( in_array( $term->slug, $selected_specs, true ) ) {
 								$selected = ' selected';
 							}
-							$option_content = sprintf( '<option value="%1$s" data-slug="%3$s"%4$s>%2$s</option>', esc_attr( $term->term_id ), esc_html( $term->name ), esc_attr( $term->slug ), esc_attr( $selected ) );
-							/**
-							 * Filter the job filter dropdown option content.
-							 *
-							 * @since 3.5.0
-							 *
-							 * @param string $option_content Filter dropdown option content.
-							 * @param WP_Term $term Job spec term.
-							 * @param string $taxonomy Job spec key.
-							 */
-							$option_content = apply_filters( 'awsm_job_filter_block_option_content', $option_content, $term, $taxonomy );
-
-							$options_content .= $option_content;
+						} elseif ( apply_filters( 'awsm_jobs_block_filter_option_is_selected', false, $term, $taxonomy, $block_atts ) ) {
+							$selected = ' selected';
 						}
-
-						$filter_key = str_replace( '-', '__', $taxonomy );
-						$spec_name  = apply_filters( 'wpml_translate_single_string', $tax_details->label, 'WordPress', sprintf( 'taxonomy general name: %s', $tax_details->label ) );
+						$option_content = sprintf( '<option value="%1$s" data-slug="%3$s"%4$s>%2$s</option>', esc_attr( $term->term_id ), esc_html( $term->name ), esc_attr( $term->slug ), esc_attr( $selected ) );
 						/**
-						 * Filters the default label for the job filter.
+						 * Filter the job filter dropdown option content.
 						 *
 						 * @since 3.5.0
 						 *
-						 * @param string $filter_label The label for the filter.
-						 * @param string $taxonomy Taxonomy key.
-						 * @param WP_Taxonomy $tax_details Taxonomy details.
+						 * @param string $option_content Filter dropdown option content.
+						 * @param WP_Term $term Job spec term.
+						 * @param string $taxonomy Job spec key.
 						 */
-						$filter_label = apply_filters( 'awsm_filter_block_label', esc_html_x( 'All', 'job filter', 'wp-job-openings' ) . ' ' . $spec_name, $taxonomy, $tax_details );
+						$option_content = apply_filters( 'awsm_job_filter_block_option_content', $option_content, $term, $taxonomy );
 
-						$filter_class_admin_select_control = '';
-						if ( ! self::is_edit_or_add_page() ) {
-							$filter_class_admin_select_control = ' awsm-b-filter-option';
-						}
-
-						$spec_multiple_class = '';
-						$multiple_for_spec   = '';
-						if ( apply_filters( 'awsm_jobs_block_filter_is_multiple', false, $taxonomy, $block_atts ) ) {
-							$spec_multiple_class = 'awsm-b-spec-multiple';
-							$multiple_for_spec   = 'multiple';
-						}
-
-						$dropdown_content = sprintf( '<div class="awsm-b-filter-item" data-filter="%2$s"><label for="awsm-%1$s-filter-option%5$s" class="awsm-b-sr-only">%3$s</label><select name="awsm_job_spec[%1$s][]" class="awsm-b-filter-option ' . $spec_multiple_class . ' awsm-%1$s-filter-option ' . $filter_class_admin_select_control . '" id="awsm-%1$s-filter-option%5$s" aria-label="%3$s" ' . $multiple_for_spec . '><option value="">%3$s</option>%4$s</select></div>', esc_attr( $taxonomy ), esc_attr( $filter_key . '_spec' ), esc_html( $filter_label ), $options_content, esc_attr( $uid ) );
-						/**
-						 * Filter the job filter dropdown content.
-						 *
-						 * @since 3.5.0
-						 *
-						 * @param string $dropdown_content Filter dropdown content.
-						 */
-						$dropdown_content = apply_filters( 'awsm_job_filter_dropdown_content', $dropdown_content );
-
-						$filter_dropdown_map[ $taxonomy ] = $dropdown_content;
+						$options_content .= $option_content;
 					}
+
+					$filter_key = str_replace( '-', '__', $taxonomy );
+					$spec_name  = apply_filters( 'wpml_translate_single_string', $tax_details->label, 'WordPress', sprintf( 'taxonomy general name: %s', $tax_details->label ) );
+					/**
+					 * Filters the default label for the job filter.
+					 *
+					 * @since 3.5.0
+					 *
+					 * @param string $filter_label The label for the filter.
+					 * @param string $taxonomy Taxonomy key.
+					 * @param WP_Taxonomy $tax_details Taxonomy details.
+					 */
+					$filter_label = apply_filters( 'awsm_filter_block_label', esc_html_x( 'All', 'job filter', 'wp-job-openings' ) . ' ' . $spec_name, $taxonomy, $tax_details );
+
+					$filter_class_admin_select_control = '';
+					if ( ! self::is_edit_or_add_page() ) {
+						$filter_class_admin_select_control = ' awsm-b-filter-option';
+					}
+
+					$spec_multiple_class = '';
+					$multiple_for_spec   = '';
+					if ( apply_filters( 'awsm_jobs_block_filter_is_multiple', false, $taxonomy, $block_atts ) ) {
+						$spec_multiple_class = 'awsm-b-spec-multiple';
+						$multiple_for_spec   = 'multiple';
+					}
+
+					$dropdown_content = sprintf( '<div class="awsm-b-filter-item" data-filter="%2$s"><label for="awsm-%1$s-filter-option%5$s" class="awsm-b-sr-only">%3$s</label><select name="awsm_job_spec[%1$s][]" class="awsm-b-filter-option ' . $spec_multiple_class . ' awsm-%1$s-filter-option ' . $filter_class_admin_select_control . '" id="awsm-%1$s-filter-option%5$s" aria-label="%3$s" ' . $multiple_for_spec . '><option value="">%3$s</option>%4$s</select></div>', esc_attr( $taxonomy ), esc_attr( $filter_key . '_spec' ), esc_html( $filter_label ), $options_content, esc_attr( $uid ) );
+					/**
+					 * Filter the job filter dropdown content.
+					 *
+					 * @since 3.5.0
+					 *
+					 * @param string $dropdown_content Filter dropdown content.
+					 */
+					$dropdown_content = apply_filters( 'awsm_job_filter_dropdown_content', $dropdown_content );
+
+					$filter_dropdown_map[ $taxonomy ] = $dropdown_content;
 				}
 			}
 			foreach ( $available_filters as $taxonomy ) {
@@ -1041,23 +1036,22 @@ class AWSM_Job_Openings_Block {
 						$terms = self::order_block_filter_terms( $taxonomy, $block_atts );
 						$terms = apply_filters( 'awsm_block_filter_terms', $terms, $taxonomy );
 
-						if ( ! empty( $terms ) ) {
-							$available_filters_arr[ $taxonomy ] = $tax_details->label;
+						$available_filters_arr[ $taxonomy ] = $tax_details->label;
 
-							$options_content = '';
-							foreach ( $terms as $term ) {
+						$options_content = '';
+						foreach ( $terms as $term ) {
 								$selected = '';
 								$get_key  = str_replace( '-', '__', $taxonomy ) . '_spec';
-								if ( isset( $_GET[ $get_key ] ) && is_string( $_GET[ $get_key ] ) ) {
-									// URL param takes priority over block preselection (user's explicit choice).
-									$selected_specs = explode( ',', sanitize_text_field( wp_unslash( $_GET[ $get_key ] ) ) );
-									$selected_specs = array_filter( array_map( 'sanitize_title', array_map( 'trim', $selected_specs ) ) );
-									if ( in_array( $term->slug, $selected_specs, true ) ) {
-										$selected = ' selected';
-									}
-								} elseif ( apply_filters( 'awsm_jobs_block_filter_option_is_selected', false, $term, $taxonomy, $block_atts ) ) {
+							if ( isset( $_GET[ $get_key ] ) && is_string( $_GET[ $get_key ] ) ) {
+								// URL param takes priority over block preselection (user's explicit choice).
+								$selected_specs = explode( ',', sanitize_text_field( wp_unslash( $_GET[ $get_key ] ) ) );
+								$selected_specs = array_filter( array_map( 'sanitize_title', array_map( 'trim', $selected_specs ) ) );
+								if ( in_array( $term->slug, $selected_specs, true ) ) {
 									$selected = ' selected';
 								}
+							} elseif ( apply_filters( 'awsm_jobs_block_filter_option_is_selected', false, $term, $taxonomy, $block_atts ) ) {
+								$selected = ' selected';
+							}
 
 								$option_content = sprintf( '<option value="%1$s" data-slug="%3$s"%4$s>%2$s</option>', esc_attr( $term->term_id ), esc_html( $term->name ), esc_attr( $term->slug ), esc_attr( $selected ) );
 								/**
@@ -1072,7 +1066,7 @@ class AWSM_Job_Openings_Block {
 								$option_content = apply_filters( 'awsm_job_filter_block_option_content', $option_content, $term, $taxonomy );
 
 								$options_content .= $option_content;
-							}
+						}
 
 							$filter_key = str_replace( '-', '__', $taxonomy );
 							$spec_name  = apply_filters( 'wpml_translate_single_string', $tax_details->label, 'WordPress', sprintf( 'taxonomy general name: %s', $tax_details->label ) );
@@ -1110,21 +1104,21 @@ class AWSM_Job_Openings_Block {
 							);
 
 							$filter_class_admin_select_control = '';
-							if ( ! self::is_edit_or_add_page() ) {
-								$filter_class_admin_select_control = ' awsm-b-filter-option';
-							}
+						if ( ! self::is_edit_or_add_page() ) {
+							$filter_class_admin_select_control = ' awsm-b-filter-option';
+						}
 
 							$spec_multiple_class = '';
 							$multiple_for_spec   = '';
-							if ( apply_filters( 'awsm_jobs_block_filter_is_multiple', false, $taxonomy, $block_atts ) ) {
-								$spec_multiple_class = 'awsm-b-spec-multiple';
-								$multiple_for_spec   = 'multiple';
-							}
+						if ( apply_filters( 'awsm_jobs_block_filter_is_multiple', false, $taxonomy, $block_atts ) ) {
+							$spec_multiple_class = 'awsm-b-spec-multiple';
+							$multiple_for_spec   = 'multiple';
+						}
 
 							$label_class_name = '';
-							if ( self::is_edit_or_add_page() ) {
-								$label_class_name = 'awsm-b-sr-only';
-							}
+						if ( self::is_edit_or_add_page() ) {
+							$label_class_name = 'awsm-b-sr-only';
+						}
 
 							$label_text = self::is_edit_or_add_page()
 							? $all_spec_label   // Block editor preview
@@ -1165,7 +1159,6 @@ class AWSM_Job_Openings_Block {
 							$dropdown_content = apply_filters( 'awsm_job_filter_dropdown_content', $dropdown_content );
 
 							$filter_dropdown_map_side[ $taxonomy ] = $dropdown_content;
-						}
 					}
 				}
 			}
