@@ -389,6 +389,16 @@ const WidgetInspectorControls = props => {
 							<ToggleGroupControlOption
 								value="stack"
 								className={ ! isProFeature( "stack_layout" ) ? "is-pro-locked" : "" }
+								onFocus={ ( event ) => {
+									if ( ! isProFeature( "stack_layout" ) ) {
+										event.preventDefault();
+									}
+								} }
+								onClick={ ( event ) => {
+									if ( ! isProFeature( "stack_layout" ) ) {
+										event.preventDefault();
+									}
+								} }
 								label={
 									! isProFeature( "stack_layout" )
 										? <span>{ __( "Stack", "wp-job-openings" ) }<span className="awsm-pro-badge">Pro</span></span>
@@ -518,6 +528,16 @@ const WidgetInspectorControls = props => {
 							<ToggleGroupControlOption
 								value="filtered"
 								className={ ! isProFeature( "filtered_list" ) ? "is-pro-locked" : "" }
+								onFocus={ ( event ) => {
+									if ( ! isProFeature( "filtered_list" ) ) {
+										event.preventDefault();
+									}
+								} }
+								onClick={ ( event ) => {
+									if ( ! isProFeature( "filtered_list" ) ) {
+										event.preventDefault();
+									}
+								} }
 								label={
 									! isProFeature( "filtered_list" )
 										? <span>{ __( "Filtered", "wp-job-openings" ) }<span className="awsm-pro-badge">Pro</span></span>
