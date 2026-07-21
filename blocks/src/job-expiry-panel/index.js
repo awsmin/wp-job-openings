@@ -139,6 +139,9 @@ function JobExpiryPanel() {
 			/>
 			{ isExpirySet && (
 				<>
+					<span className="awsm-job-expiry-date-label">
+						{ __( 'Select Expiry Date & Time', 'wp-job-openings' ) }
+					</span>
 					<Dropdown
 						className="awsm-job-expiry-date-dropdown"
 						contentClassName="awsm-job-expiry-date-popover"
