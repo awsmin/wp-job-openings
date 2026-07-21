@@ -17,7 +17,7 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 	}
 
 	public function get_icon() {
-		return 'eicon-post-list';
+		return 'awsm-job-listings-widget-icon';
 	}
 
 	public function get_categories() {
