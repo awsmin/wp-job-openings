@@ -1,0 +1,28 @@
+.awsm-job-expiry-panel {
+	.awsm-job-expiry-date-dropdown {
+		display: block;
+		margin: 8px 0 12px;
+
+		.components-button {
+			width: 100%;
+			justify-content: flex-start;
+		}
+	}
+}
+
+.awsm-job-expiry-date-popover-inner {
+	min-width: 260px;
+}
+
+.awsm-job-expiry-date-popover-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 12px 12px 8px;
+	border-bottom: 1px solid #e0e0e0;
+
+	.awsm-job-expiry-date-popover-title {
+		font-weight: 600;
+		flex-grow: 1;
+	}
+}

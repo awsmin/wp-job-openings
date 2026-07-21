@@ -48,7 +48,11 @@ class AWSM_Job_Openings_Meta {
 			add_meta_box( 'awsm-job-meta', esc_html__( 'Job Specifications', 'wp-job-openings' ), array( $this, 'awsm_job_handle' ), 'awsm_job_openings', 'normal', 'high' );
 		}
 
-		add_meta_box( 'awsm-expiry-meta', esc_html__( 'Job Expiry', 'wp-job-openings' ), array( $this, 'awsm_job_expiration' ), 'awsm_job_openings', 'side', 'low' );
+		// The block editor gets a native Gutenberg panel (see AWSM_Job_Openings::enqueue_job_expiry_panel())
+		// instead of this classic metabox; keep the classic version only for the Classic Editor fallback.
+		if ( ! use_block_editor_for_post_type( 'awsm_job_openings' ) ) {
+			add_meta_box( 'awsm-expiry-meta', esc_html__( 'Job Expiry', 'wp-job-openings' ), array( $this, 'awsm_job_expiration' ), 'awsm_job_openings', 'side', 'low' );
+		}
 
 		add_meta_box( 'awsm-job-details-meta', esc_html__( 'Applicant Details', 'wp-job-openings' ), array( $this, 'awsm_job_application_handle' ), 'awsm_job_application', 'normal', 'high' );
 
