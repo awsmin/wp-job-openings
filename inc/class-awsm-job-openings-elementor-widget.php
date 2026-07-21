@@ -665,8 +665,30 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 		$unit  = isset( $settings[ "{$key}_border_width" ]['unit'] ) ? $settings[ "{$key}_border_width" ]['unit'] : 'px';
 		return array(
 			'width' => $width . $unit,
-			'color' => isset( $settings[ "{$key}_border_color" ] ) ? $settings[ "{$key}_border_color" ] : '',
+			'color' => $this->resolve_global_color( $settings, "{$key}_border_color" ),
 		);
+	}
+
+	/**
+	 * Color controls have no 'selectors' mapping (colors are applied via this widget's
+	 * own --hz-xxx CSS custom properties, shared with the Gutenberg block/shortcode), so
+	 * Elementor's own CSS pipeline never resolves a Global Color pick for them. When a
+	 * Global Color is selected, Elementor leaves the control's own value blank and instead
+	 * records the pick under $settings['__globals__'][$key] (e.g. 'globals/colors?id=primary').
+	 * Resolve that reference to the same CSS variable Elementor's kit CSS already defines
+	 * on :root, so it can be used as a value directly, exactly like a literal hex value.
+	 */
+	protected function resolve_global_color( $settings, $key ) {
+		if ( ! empty( $settings['__globals__'][ $key ] ) ) {
+			$query = wp_parse_url( $settings['__globals__'][ $key ], PHP_URL_QUERY );
+			wp_parse_str( (string) $query, $params );
+
+			if ( ! empty( $params['id'] ) ) {
+				return 'var(--e-global-color-' . sanitize_html_class( $params['id'] ) . ')';
+			}
+		}
+
+		return isset( $settings[ $key ] ) ? $settings[ $key ] : '';
 	}
 
 	protected function render() {
@@ -701,8 +723,8 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 			'other_options'                  => isset( $settings['other_options'] ) && is_array( $settings['other_options'] ) ? array_values( $settings['other_options'] ) : array(),
 			'hz_sidebar_width'               => isset( $settings['hz_sidebar_width'] ) ? floatval( $settings['hz_sidebar_width'] ) : 33.333,
 
-			'hz_sf_background_color'        => isset( $settings['hz_sf_background_color'] ) ? $settings['hz_sf_background_color'] : '',
-			'hz_sf_text_color'               => isset( $settings['hz_sf_text_color'] ) ? $settings['hz_sf_text_color'] : '',
+			'hz_sf_background_color'        => $this->resolve_global_color( $settings, 'hz_sf_background_color' ),
+			'hz_sf_text_color'               => $this->resolve_global_color( $settings, 'hz_sf_text_color' ),
 			'hz_sf_border'                   => $this->border_value( $settings, 'hz_sf' ),
 			'hz_sf_border_radius'            => $this->to_corner_radius( isset( $settings['hz_sf_border_radius'] ) ? $settings['hz_sf_border_radius'] : array() ),
 			'hz_sf_padding'                  => $this->to_padding( isset( $settings['hz_sf_padding'] ) ? $settings['hz_sf_padding'] : array() ),
@@ -710,22 +732,22 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 			'hz_ls_border'                   => $this->border_value( $settings, 'hz_ls' ),
 			'hz_ls_border_radius'            => $this->to_corner_radius( isset( $settings['hz_ls_border_radius'] ) ? $settings['hz_ls_border_radius'] : array() ),
 
-			'hz_jl_background_color'         => isset( $settings['hz_jl_background_color'] ) ? $settings['hz_jl_background_color'] : '',
-			'hz_jl_text_color'               => isset( $settings['hz_jl_text_color'] ) ? $settings['hz_jl_text_color'] : '',
+			'hz_jl_background_color'         => $this->resolve_global_color( $settings, 'hz_jl_background_color' ),
+			'hz_jl_text_color'               => $this->resolve_global_color( $settings, 'hz_jl_text_color' ),
 			'hz_jl_border'                   => $this->border_value( $settings, 'hz_jl' ),
 			'hz_jl_border_radius'            => $this->to_corner_radius( isset( $settings['hz_jl_border_radius'] ) ? $settings['hz_jl_border_radius'] : array() ),
 			'hz_jl_padding'                  => $this->to_padding( isset( $settings['hz_jl_padding'] ) ? $settings['hz_jl_padding'] : array() ),
 
 			'hz_button_style'                => isset( $settings['hz_button_style'] ) ? $settings['hz_button_style'] : 'none',
 			'hz_button_text'                 => isset( $settings['hz_button_text'] ) ? $settings['hz_button_text'] : '',
-			'hz_button_background_color'     => isset( $settings['hz_button_background_color'] ) ? $settings['hz_button_background_color'] : '',
-			'hz_button_text_color'           => isset( $settings['hz_button_text_color'] ) ? $settings['hz_button_text_color'] : '',
+			'hz_button_background_color'     => $this->resolve_global_color( $settings, 'hz_button_background_color' ),
+			'hz_button_text_color'           => $this->resolve_global_color( $settings, 'hz_button_text_color' ),
 			'hz_bs_border'                   => $this->border_value( $settings, 'hz_bs' ),
 			'hz_bs_border_radius'            => $this->to_corner_radius( isset( $settings['hz_bs_border_radius'] ) ? $settings['hz_bs_border_radius'] : array() ),
 			'hz_bs_padding'                  => $this->to_padding( isset( $settings['hz_bs_padding'] ) ? $settings['hz_bs_padding'] : array() ),
 
-			'hz_pagination_background_color' => isset( $settings['hz_pagination_background_color'] ) ? $settings['hz_pagination_background_color'] : '',
-			'hz_pagination_text_color'       => isset( $settings['hz_pagination_text_color'] ) ? $settings['hz_pagination_text_color'] : '',
+			'hz_pagination_background_color' => $this->resolve_global_color( $settings, 'hz_pagination_background_color' ),
+			'hz_pagination_text_color'       => $this->resolve_global_color( $settings, 'hz_pagination_text_color' ),
 			'hz_pagination_border'           => $this->border_value( $settings, 'hz_pagination' ),
 			'hz_pagination_border_radius'    => $this->to_corner_radius( isset( $settings['hz_pagination_border_radius'] ) ? $settings['hz_pagination_border_radius'] : array() ),
 			'hz_pagination_padding'          => $this->to_padding(
@@ -733,8 +755,8 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 				'classic' === ( isset( $settings['pagination'] ) ? $settings['pagination'] : 'modern' ) ? '5' : '20'
 			),
 
-			'hz_sidebar_bg_color'            => isset( $settings['hz_sidebar_bg_color'] ) ? $settings['hz_sidebar_bg_color'] : '',
-			'hz_sidebar_tx_color'            => isset( $settings['hz_sidebar_tx_color'] ) ? $settings['hz_sidebar_tx_color'] : '',
+			'hz_sidebar_bg_color'            => $this->resolve_global_color( $settings, 'hz_sidebar_bg_color' ),
+			'hz_sidebar_tx_color'            => $this->resolve_global_color( $settings, 'hz_sidebar_tx_color' ),
 		);
 
 		/**
