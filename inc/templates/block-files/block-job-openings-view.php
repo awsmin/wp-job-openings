@@ -162,11 +162,20 @@ if ( function_exists( 'get_block_wrapper_attributes' ) ) {
 	// get_block_wrapper_attributes() reads WP_Block_Supports::$block_to_render, which
 	// WP_Block::render() normally populates before calling a block's render callback.
 	// This template is also rendered directly by the Elementor widget and the shortcode
-	// (bypassing WP_Block::render() entirely), leaving that static null and triggering
-	// a "Trying to access array offset on value of type null" warning. Only fill it in
-	// when empty, so the real Gutenberg block render path (where it's already set
-	// correctly) is left untouched.
-	$awsm_should_set_block_context = empty( WP_Block_Supports::$block_to_render );
+	// (bypassing WP_Block::render() entirely). Two problem cases:
+	// 1. Nothing populated it at all (null) -> "array offset on null" warning.
+	// 2. It's still holding some OTHER block's context (e.g. a block theme's own
+	//    "Post Content" block, which wraps the whole page and is still mid-render when
+	//    Elementor's `the_content` hook runs this template) -> get_block_wrapper_attributes()
+	//    generates wrapper classes/attributes for the WRONG block (e.g. "alignfull",
+	//    "wp-block-post-content") instead of ours, silently breaking this block's styling.
+	// Fix both by only trusting it when it's already set to OUR OWN block, and always
+	// restoring whatever was there before (not assuming null), so a genuine nested
+	// render_block() call for another block further up the stack isn't corrupted.
+	$awsm_previous_block_context   = WP_Block_Supports::$block_to_render;
+	$awsm_should_set_block_context = empty( $awsm_previous_block_context['blockName'] )
+		|| 'wp-job-openings/blocks' !== $awsm_previous_block_context['blockName'];
+
 	if ( $awsm_should_set_block_context ) {
 		WP_Block_Supports::$block_to_render = array(
 			'blockName' => 'wp-job-openings/blocks',
@@ -182,7 +191,7 @@ if ( function_exists( 'get_block_wrapper_attributes' ) ) {
 	);
 
 	if ( $awsm_should_set_block_context ) {
-		WP_Block_Supports::$block_to_render = null;
+		WP_Block_Supports::$block_to_render = $awsm_previous_block_context;
 	}
 } else {
 		$wrapper_attrs = 'class="' . esc_attr( $wrapper_class ) . '" id="' . esc_attr( $block_id ) . '"';
