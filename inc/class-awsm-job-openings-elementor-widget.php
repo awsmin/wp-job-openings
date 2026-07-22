@@ -170,10 +170,11 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 		$this->add_control(
 			'search_placeholder',
 			array(
-				'label'     => esc_html__( 'Search Placeholder', 'wp-job-openings' ),
-				'type'      => Controls_Manager::TEXT,
-				'default'   => '',
-				'condition' => array(
+				'label'       => esc_html__( 'Search Placeholder', 'wp-job-openings' ),
+				'type'        => Controls_Manager::TEXT,
+				'default'     => '',
+				'placeholder' => esc_html__( 'Search Jobs', 'wp-job-openings' ),
+				'condition'   => array(
 					'search' => 'yes',
 				),
 			)

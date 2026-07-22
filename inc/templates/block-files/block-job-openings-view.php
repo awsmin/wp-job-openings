@@ -159,12 +159,31 @@ if ( 'top' !== $placement ) {
 }
 
 if ( function_exists( 'get_block_wrapper_attributes' ) ) {
+	// get_block_wrapper_attributes() reads WP_Block_Supports::$block_to_render, which
+	// WP_Block::render() normally populates before calling a block's render callback.
+	// This template is also rendered directly by the Elementor widget and the shortcode
+	// (bypassing WP_Block::render() entirely), leaving that static null and triggering
+	// a "Trying to access array offset on value of type null" warning. Only fill it in
+	// when empty, so the real Gutenberg block render path (where it's already set
+	// correctly) is left untouched.
+	$awsm_should_set_block_context = empty( WP_Block_Supports::$block_to_render );
+	if ( $awsm_should_set_block_context ) {
+		WP_Block_Supports::$block_to_render = array(
+			'blockName' => 'wp-job-openings/blocks',
+			'attrs'     => array(),
+		);
+	}
+
 	$wrapper_attrs = get_block_wrapper_attributes(
 		array(
 			'class' => $wrapper_class,
 			'id'    => $block_id,
 		)
 	);
+
+	if ( $awsm_should_set_block_context ) {
+		WP_Block_Supports::$block_to_render = null;
+	}
 } else {
 		$wrapper_attrs = 'class="' . esc_attr( $wrapper_class ) . '" id="' . esc_attr( $block_id ) . '"';
 }
