@@ -196,6 +196,7 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 			'show_spec_icon',
 			array(
 				'label'        => esc_html__( 'Show Specification Icons', 'wp-job-openings' ),
+				'description'  => esc_html__( 'Show Spec Icon in the Listing.', 'wp-job-openings' ),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'Yes', 'wp-job-openings' ),
 				'label_off'    => esc_html__( 'No', 'wp-job-openings' ),
@@ -372,7 +373,7 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 			'list_type',
 			array(
 				'label'       => esc_html__( 'Show', 'wp-job-openings' ),
-				'description' => esc_html__( 'Only Jobs Matching Preselected Specs is a Pro Pack feature.', 'wp-job-openings' ),
+				'description' => esc_html__( 'Display all jobs or filtered by job specifications. Filtering by specifications is a Pro Pack feature.', 'wp-job-openings' ),
 				'type'        => Controls_Manager::SELECT,
 				'default'     => 'all',
 				'options'     => array(
