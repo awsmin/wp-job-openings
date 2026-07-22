@@ -378,7 +378,7 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 				'default'     => 'all',
 				'options'     => array(
 					'all'      => esc_html__( 'All Jobs', 'wp-job-openings' ),
-					'filtered' => esc_html__( 'Only Jobs Matching Preselected Specs (Pro)', 'wp-job-openings' ),
+					'filtered' => esc_html__( 'Filtered List (Pro)', 'wp-job-openings' ),
 				),
 			)
 		);
