@@ -373,7 +373,7 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 			'list_type',
 			array(
 				'label'       => esc_html__( 'Show', 'wp-job-openings' ),
-				'description' => esc_html__( 'Display all jobs or filtered by job specifications. Filtering by specifications is a Pro Pack feature.', 'wp-job-openings' ),
+				'description' => esc_html__( 'Display All Jobs or Filter by Job Specification. Filtering by specifications is a Pro Pack feature.', 'wp-job-openings' ),
 				'type'        => Controls_Manager::SELECT,
 				'default'     => 'all',
 				'options'     => array(
