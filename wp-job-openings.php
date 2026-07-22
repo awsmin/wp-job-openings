@@ -1676,7 +1676,7 @@ class AWSM_Job_Openings {
 
 					if ( ! taxonomy_exists( $taxonomy ) && ( $tax_length > 0 && $tax_length <= 32 ) ) {
 						$args = array(
-							'labels'       => array( 'name' => esc_html( $spec['filter'] ) ),
+							'labels'       => array( 'name' => $spec['filter'] ),
 							'show_ui'      => false,
 							'show_in_menu' => false,
 							'query_var'    => true,
