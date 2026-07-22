@@ -137,6 +137,7 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 	protected function register_controls() {
 		$this->register_content_general_controls();
 		$this->register_content_filters_controls();
+		$this->register_content_filtered_list_controls();
 		$this->register_content_layout_controls();
 		$this->register_style_search_filters_controls();
 		$this->register_style_job_listing_controls();
@@ -280,6 +281,39 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 			)
 		);
 
+		// Pro Pack registers its own real filter_type_{spec_key} controls via its own
+		// Elementor hooks when active (same control IDs, same Single/Multiple CHOOSE
+		// UI) — these are only a "Pro" preview for when Pro Pack isn't installed, so
+		// they're skipped entirely once Pro Pack is active to avoid colliding with it.
+		if ( ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) {
+			foreach ( $options as $spec_key => $spec_label ) {
+				$this->add_control(
+					'filter_type_' . $spec_key,
+					array(
+						/* translators: %s: specification label, e.g. "Job Category" */
+						'label'     => sprintf( esc_html__( '%s Selection', 'wp-job-openings' ), $spec_label ),
+						'type'      => Controls_Manager::CHOOSE,
+						'options'   => array(
+							'dropdown' => array(
+								'title' => esc_html__( 'Single', 'wp-job-openings' ),
+								'icon'  => 'eicon-dot-circle-o',
+							),
+							'checkbox' => array(
+								'title' => esc_html__( 'Multiple (Pro)', 'wp-job-openings' ),
+								'icon'  => 'eicon-atomic-checkbox',
+							),
+						),
+						'default'   => 'dropdown',
+						'toggle'    => false,
+						'classes'   => 'awsm-filter-type-choose',
+						'condition' => array(
+							'enable_job_filter' => 'yes',
+						),
+					)
+				);
+			}
+		}
+
 		$this->add_control(
 			'filter_items_order',
 			array(
@@ -313,6 +347,43 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 		$this->end_controls_section();
 	}
 
+	/**
+	 * "Filtered List" (list_type) is a Pro Pack feature: Pro Pack's own Elementor hook
+	 * (add_filtered_list_section()) registers this exact section/control ID itself,
+	 * with a richer per-spec preselected-terms picker, when active. This is only a
+	 * "Pro" preview for when Pro Pack isn't installed, so it's skipped entirely once
+	 * Pro Pack is active to avoid colliding with Pro Pack's own version.
+	 */
+	protected function register_content_filtered_list_controls() {
+		if ( class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) {
+			return;
+		}
+
+		$this->start_controls_section(
+			'section_filtered_list',
+			array(
+				'label' => esc_html__( 'Filtered List', 'wp-job-openings' ),
+				'tab'   => Controls_Manager::TAB_CONTENT,
+			)
+		);
+
+		$this->add_control(
+			'list_type',
+			array(
+				'label'       => esc_html__( 'Show', 'wp-job-openings' ),
+				'description' => esc_html__( 'Only Jobs Matching Preselected Specs is a Pro Pack feature.', 'wp-job-openings' ),
+				'type'        => Controls_Manager::SELECT,
+				'default'     => 'all',
+				'options'     => array(
+					'all'      => esc_html__( 'All Jobs', 'wp-job-openings' ),
+					'filtered' => esc_html__( 'Only Jobs Matching Preselected Specs (Pro)', 'wp-job-openings' ),
+				),
+			)
+		);
+
+		$this->end_controls_section();
+	}
+
 	protected function register_content_layout_controls() {
 		$this->start_controls_section(
 			'section_layout',
@@ -322,6 +393,9 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 			)
 		);
 
+		// Pro Pack's own Elementor hook (extend_layout_section()) calls update_control()
+		// on this same 'layout' control to drop the "(Pro)" suffix once active — that
+		// only replaces 'options', so the label itself is safe to always include here.
 		$this->add_control(
 			'layout',
 			array(
@@ -329,8 +403,9 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 				'type'    => Controls_Manager::SELECT,
 				'default' => 'list',
 				'options' => array(
-					'list' => esc_html__( 'List', 'wp-job-openings' ),
-					'grid' => esc_html__( 'Grid', 'wp-job-openings' ),
+					'list'  => esc_html__( 'List', 'wp-job-openings' ),
+					'grid'  => esc_html__( 'Grid', 'wp-job-openings' ),
+					'stack' => class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ? esc_html__( 'Stack', 'wp-job-openings' ) : esc_html__( 'Stack (Pro)', 'wp-job-openings' ),
 				),
 			)
 		);
@@ -701,6 +776,22 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 
 		$filter_options = isset( $settings['filter_options'] ) && is_array( $settings['filter_options'] ) ? array_values( $settings['filter_options'] ) : array();
 
+		// Stack layout and Filtered listing are Pro Pack features, shown here (labeled
+		// "Pro") but disabled from actual selection by elementor-widget-pro-lock.js.
+		// This is a second, server-side guard in case that JS never ran (e.g. a saved
+		// value from before Pro Pack was deactivated) — never trust the client alone.
+		$is_pro_pack_active = class_exists( 'AWSM_Job_Openings_Pro_Pack' );
+
+		$layout = isset( $settings['layout'] ) ? $settings['layout'] : 'list';
+		if ( 'stack' === $layout && ! $is_pro_pack_active ) {
+			$layout = 'list';
+		}
+
+		$list_type = isset( $settings['list_type'] ) ? $settings['list_type'] : 'all';
+		if ( 'filtered' === $list_type && ! $is_pro_pack_active ) {
+			$list_type = 'all';
+		}
+
 		$atts = array(
 			'blockId'                        => $block_id,
 			'anchor'                         => '',
@@ -709,12 +800,17 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 			'enable_job_filter'              => ! empty( $settings['enable_job_filter'] ),
 			'filter_options'                 => $filter_options,
 			'filtersInitialized'             => true,
+			// filter_type_{spec_key} controls only exist here when Pro Pack is inactive
+			// (see register_content_filters_controls()), and even then only as a "Pro"
+			// preview — picking "Multiple (Pro)" never actually applies. When Pro Pack
+			// is active, it registers its own real version of these controls and merges
+			// the resulting per-spec selection in via its own filter hook, below.
 			'filter_types'                   => array(),
 			'filter_items_order'             => isset( $settings['filter_items_order'] ) ? $settings['filter_items_order'] : 'custom',
 			'placement'                      => isset( $settings['placement'] ) ? $settings['placement'] : 'top',
-			'layout'                         => isset( $settings['layout'] ) ? $settings['layout'] : 'list',
+			'layout'                         => $layout,
 			'number_of_columns'              => isset( $settings['number_of_columns'] ) ? intval( $settings['number_of_columns'] ) : 3,
-			'list_type'                      => 'all',
+			'list_type'                      => $list_type,
 			'order_by'                       => isset( $settings['order_by'] ) ? $settings['order_by'] : 'new_to_old',
 			'hide_expired_jobs'              => ! empty( $settings['hide_expired_jobs'] ),
 			'listing_per_page'               => isset( $settings['listing_per_page'] ) ? intval( $settings['listing_per_page'] ) : 10,
