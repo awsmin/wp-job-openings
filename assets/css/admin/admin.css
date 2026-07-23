@@ -724,6 +724,10 @@ a.awsm-text-red:hover {
 	display: none !important;
 }
 
+#awsm-job-nonce-meta {
+	display: none !important;
+}
+
 .awsm-show {
 	display: block !important;
 }

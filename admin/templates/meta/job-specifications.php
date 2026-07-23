@@ -6,16 +6,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	$taxonomy_objects = get_object_taxonomies( 'awsm_job_openings', 'objects' );
 
 	/**
-	 * awsm_job_save_post() gates its classic-editor save handling (this
-	 * metabox's taxonomy terms, and the classic Job Expiry $_POST fallback)
-	 * behind this nonce. This metabox always renders for awsm_job_openings
-	 * (in both the classic and block editor), unlike the Job Expiry metabox
-	 * which the block editor replaces with a native panel — so the nonce is
-	 * emitted here to guarantee it's always present.
-	 */
-	wp_nonce_field( 'awsm_save_post_meta', 'awsm_jobs_posts_nonce' );
-
-	/**
 	 * Initialize job specifications meta box.
 	 *
 	 * @since 1.6.0
