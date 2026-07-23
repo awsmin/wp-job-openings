@@ -1635,7 +1635,7 @@ class AWSM_Job_Openings_Form {
 			'hcaptcha'  => 'hCaptcha',
 			'turnstile' => 'Turnstile',
 		);
-		$label = isset( $labels[ $captcha_type ] ) ? $labels[ $captcha_type ] : __( 'CAPTCHA', 'wp-job-openings' );
+		$label  = isset( $labels[ $captcha_type ] ) ? $labels[ $captcha_type ] : __( 'CAPTCHA', 'wp-job-openings' );
 		?>
 		<noscript>
 			<p class="awsm-job-captcha-noscript-msg">

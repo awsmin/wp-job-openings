@@ -626,8 +626,8 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'section_style_sidebar',
 			array(
-				'label' => esc_html__( 'Sidebar', 'wp-job-openings' ),
-				'tab'   => Controls_Manager::TAB_STYLE,
+				'label'      => esc_html__( 'Sidebar', 'wp-job-openings' ),
+				'tab'        => Controls_Manager::TAB_STYLE,
 				// Matches the block: shown whenever placement is "side" and either
 				// search or filters is enabled (not just filters).
 				'conditions' => array(
@@ -821,7 +821,7 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 			'other_options'                  => isset( $settings['other_options'] ) && is_array( $settings['other_options'] ) ? array_values( $settings['other_options'] ) : array(),
 			'hz_sidebar_width'               => isset( $settings['hz_sidebar_width'] ) ? floatval( $settings['hz_sidebar_width'] ) : 33.333,
 
-			'hz_sf_background_color'        => $this->resolve_global_color( $settings, 'hz_sf_background_color' ),
+			'hz_sf_background_color'         => $this->resolve_global_color( $settings, 'hz_sf_background_color' ),
 			'hz_sf_text_color'               => $this->resolve_global_color( $settings, 'hz_sf_text_color' ),
 			'hz_sf_border'                   => $this->border_value( $settings, 'hz_sf' ),
 			'hz_sf_border_radius'            => $this->to_corner_radius( isset( $settings['hz_sf_border_radius'] ) ? $settings['hz_sf_border_radius'] : array() ),
