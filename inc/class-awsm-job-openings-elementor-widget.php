@@ -84,9 +84,12 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 			"{$key}_border_color",
 			array_merge(
 				array(
-					'label'   => esc_html__( 'Border Color', 'wp-job-openings' ),
-					'type'    => Controls_Manager::COLOR,
-					'default' => $default_color,
+					'label'     => esc_html__( 'Border Color', 'wp-job-openings' ),
+					'type'      => Controls_Manager::COLOR,
+					'default'   => $default_color,
+					'selectors' => array(
+						'{{WRAPPER}}' => "--{$key}-border-color: {{VALUE}};",
+					),
 				),
 				$condition ? array( 'condition' => $condition ) : array()
 			)
@@ -458,16 +461,22 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 		$this->add_control(
 			'hz_sf_background_color',
 			array(
-				'label' => esc_html__( 'Background Color', 'wp-job-openings' ),
-				'type'  => Controls_Manager::COLOR,
+				'label'     => esc_html__( 'Background Color', 'wp-job-openings' ),
+				'type'      => Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}}' => '--hz-sf-bg-color: {{VALUE}};',
+				),
 			)
 		);
 
 		$this->add_control(
 			'hz_sf_text_color',
 			array(
-				'label' => esc_html__( 'Text Color', 'wp-job-openings' ),
-				'type'  => Controls_Manager::COLOR,
+				'label'     => esc_html__( 'Text Color', 'wp-job-openings' ),
+				'type'      => Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}}' => '--hz-sf-tx-color: {{VALUE}};',
+				),
 			)
 		);
 
@@ -493,16 +502,22 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 		$this->add_control(
 			'hz_jl_background_color',
 			array(
-				'label' => esc_html__( 'Background Color', 'wp-job-openings' ),
-				'type'  => Controls_Manager::COLOR,
+				'label'     => esc_html__( 'Background Color', 'wp-job-openings' ),
+				'type'      => Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}}' => '--hz-jl-bg-color: {{VALUE}};',
+				),
 			)
 		);
 
 		$this->add_control(
 			'hz_jl_text_color',
 			array(
-				'label' => esc_html__( 'Text Color', 'wp-job-openings' ),
-				'type'  => Controls_Manager::COLOR,
+				'label'     => esc_html__( 'Text Color', 'wp-job-openings' ),
+				'type'      => Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}}' => '--hz-jl-tx-color: {{VALUE}};',
+				),
 			)
 		);
 
@@ -560,14 +575,20 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 				'condition' => array(
 					'hz_button_style!' => 'none',
 				),
+				'selectors' => array(
+					'{{WRAPPER}}' => '--hz-b-bg-color: {{VALUE}};',
+				),
 			)
 		);
 
 		$this->add_control(
 			'hz_button_text_color',
 			array(
-				'label' => esc_html__( 'Text Color', 'wp-job-openings' ),
-				'type'  => Controls_Manager::COLOR,
+				'label'     => esc_html__( 'Text Color', 'wp-job-openings' ),
+				'type'      => Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}}' => '--hz-b-tx-color: {{VALUE}};',
+				),
 			)
 		);
 
@@ -601,16 +622,22 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 		$this->add_control(
 			'hz_pagination_background_color',
 			array(
-				'label' => esc_html__( 'Background Color', 'wp-job-openings' ),
-				'type'  => Controls_Manager::COLOR,
+				'label'     => esc_html__( 'Background Color', 'wp-job-openings' ),
+				'type'      => Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}}' => '--hz-pagination-bg-color: {{VALUE}};',
+				),
 			)
 		);
 
 		$this->add_control(
 			'hz_pagination_text_color',
 			array(
-				'label' => esc_html__( 'Text Color', 'wp-job-openings' ),
-				'type'  => Controls_Manager::COLOR,
+				'label'     => esc_html__( 'Text Color', 'wp-job-openings' ),
+				'type'      => Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}}' => '--hz-pagination-tx-color: {{VALUE}};',
+				),
 			)
 		);
 
@@ -670,16 +697,22 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 		$this->add_control(
 			'hz_sidebar_bg_color',
 			array(
-				'label' => esc_html__( 'Background Color', 'wp-job-openings' ),
-				'type'  => Controls_Manager::COLOR,
+				'label'     => esc_html__( 'Background Color', 'wp-job-openings' ),
+				'type'      => Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}}' => '--hz-sidebar-bg-color: {{VALUE}};',
+				),
 			)
 		);
 
 		$this->add_control(
 			'hz_sidebar_tx_color',
 			array(
-				'label' => esc_html__( 'Text Color', 'wp-job-openings' ),
-				'type'  => Controls_Manager::COLOR,
+				'label'     => esc_html__( 'Text Color', 'wp-job-openings' ),
+				'type'      => Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}}' => '--hz-sidebar-tx-color: {{VALUE}};',
+				),
 			)
 		);
 
