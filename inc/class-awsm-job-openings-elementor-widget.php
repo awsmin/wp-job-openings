@@ -13,7 +13,7 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 	}
 
 	public function get_title() {
-		return esc_html__( 'Job Listings', 'wp-job-openings' );
+		return esc_html__( 'Job Listings ( Beta )', 'wp-job-openings' );
 	}
 
 	public function get_icon() {
