@@ -13,15 +13,18 @@
  *    disables the locked <option>/<input> and adds the "Pro" badge wherever they
  *    appear — covers first render, re-renders, and duplicating an existing widget.
  * 2. A capture-phase `change` listener on `document`, using event delegation, that
- *    independently re-checks every change on these controls and snaps a locked value
- *    back to its safe fallback — this is what actually guarantees the option can't be
- *    switched to, regardless of whether layer 1's `disabled` patch happens to be
- *    applied at that exact moment.
+ *    independently re-checks every change on these controls and blocks a NEW attempt
+ *    to select the locked value, snapping it back to its safe fallback — this is what
+ *    actually guarantees the option can't be switched to, regardless of whether layer
+ *    1's `disabled` patch happens to be applied at that exact moment.
  *
- * Both layers also correct a value that's already saved as the locked one (e.g. from
- * testing done before this lock existed, or a widget duplicated from one that had Pro
- * Pack active at the time) — the lock functions don't just disable the option, they
- * also snap the control back to its fallback immediately if that's its current value.
+ * Deliberately does NOT touch a value that's already saved as the locked one (e.g. from
+ * before Pro Pack was deactivated) — only the option/input is disabled and new attempts
+ * to change TO it are blocked. The already-saved choice stays intact and inert (the
+ * free widget's own render() already guarantees a locked value never has any effect
+ * while Pro Pack is inactive — see class-awsm-job-openings-elementor-widget.php), so it
+ * comes back automatically if Pro Pack is reactivated later, instead of being silently
+ * overwritten every time the editor happens to be opened while Pro Pack is off.
  */
 ( function( $ ) {
 	'use strict';
@@ -39,10 +42,6 @@
 		}
 
 		$select.find( 'option[value="' + config.locked + '"]' ).prop( 'disabled', true );
-
-		if ( $select.val() === config.locked ) {
-			$select.val( config.fallback ).trigger( 'change' );
-		}
 	}
 
 	function lockFilterTypeChoice( $input ) {
@@ -57,13 +56,6 @@
 		if ( $label.length && ! $label.hasClass( 'awsm-pro-locked' ) ) {
 			$label.addClass( 'awsm-pro-locked' );
 			$label.append( '<span class="awsm-pro-badge">Pro</span>' );
-		}
-
-		if ( $input.prop( 'checked' ) ) {
-			var $dropdownInput = $( 'input[type="radio"][name="' + name + '"][value="dropdown"]' );
-			if ( $dropdownInput.length ) {
-				$dropdownInput.prop( 'checked', true ).trigger( 'change' );
-			}
 		}
 	}
 
