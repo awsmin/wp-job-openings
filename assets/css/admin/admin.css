@@ -716,18 +716,29 @@ a.awsm-text-red:hover {
 	margin-top: 12px;
 }
 
+.awsm-job-expiry-items:has(#awsm-job-expiry:checked) .awsm-job-expiry-main {
+	display: block;
+}
+
 .awsm-job-expiry-items {
 	margin: 16px 0px 4px 0px;
 }
 
-#awsm-job-expiry:checked~.awsm-job-expiry-main {
-	display: block;
+.awsm-toggle-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	cursor: pointer;
 }
 
-.awsm-job-expiry-items>input,
-.awsm-job-expiry-items>label {
-	display: inline-block;
-	vertical-align: bottom;
+.awsm-toggle-row .awsm-toggle-switch {
+	position: static;
+	flex-shrink: 0;
+}
+
+.awsm-toggle-row-label {
+	font-weight: 600;
 }
 
 .awsm-jobs-datepicker-wrapper {
@@ -750,6 +761,10 @@ a.awsm-text-red:hover {
 }
 
 .awsm-hide {
+	display: none !important;
+}
+
+#awsm-job-nonce-meta {
 	display: none !important;
 }
 

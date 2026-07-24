@@ -38,6 +38,16 @@ class AWSM_Job_Openings_Meta {
 	public function awsm_register_meta_boxes() {
 		global $action, $post;
 
+		// awsm_job_save_post() (and Pro Pack's own save handler) gate their
+		// classic-editor $_POST save handling behind this single shared
+		// nonce. It used to only be emitted by the classic Job Expiry
+		// metabox, which the block editor no longer renders — and other
+		// candidate metaboxes (Job Specifications, Job Status) are only
+		// conditionally registered, so this dedicated, always-registered,
+		// visually hidden metabox is the one guaranteed source for it,
+		// regardless of editor mode or plugin configuration.
+		add_meta_box( 'awsm-job-nonce-meta', 'awsm-job-nonce-meta', array( $this, 'awsm_job_nonce_meta_handler' ), 'awsm_job_openings', 'side', 'low' );
+
 		if ( $action === 'edit' ) {
 			add_meta_box( 'awsm-status-meta', esc_html__( 'Job Status', 'wp-job-openings' ), array( $this, 'awsm_job_status' ), 'awsm_job_openings', 'side', 'high' );
 			add_meta_box( 'awsm-status-meta-applicant', esc_html__( 'Job Details', 'wp-job-openings' ), array( $this, 'awsm_job_status' ), 'awsm_job_application', 'side', 'low' );
@@ -48,7 +58,11 @@ class AWSM_Job_Openings_Meta {
 			add_meta_box( 'awsm-job-meta', esc_html__( 'Job Specifications', 'wp-job-openings' ), array( $this, 'awsm_job_handle' ), 'awsm_job_openings', 'normal', 'high' );
 		}
 
-		add_meta_box( 'awsm-expiry-meta', esc_html__( 'Job Expiry', 'wp-job-openings' ), array( $this, 'awsm_job_expiration' ), 'awsm_job_openings', 'side', 'low' );
+		// The block editor gets a native Gutenberg panel (see AWSM_Job_Openings::enqueue_job_expiry_panel())
+		// instead of this classic metabox; keep the classic version only for the Classic Editor fallback.
+		if ( ! use_block_editor_for_post_type( 'awsm_job_openings' ) ) {
+			add_meta_box( 'awsm-expiry-meta', esc_html__( 'Job Expiry', 'wp-job-openings' ), array( $this, 'awsm_job_expiration' ), 'awsm_job_openings', 'side', 'low' );
+		}
 
 		add_meta_box( 'awsm-job-details-meta', esc_html__( 'Applicant Details', 'wp-job-openings' ), array( $this, 'awsm_job_application_handle' ), 'awsm_job_application', 'normal', 'high' );
 
@@ -66,6 +80,10 @@ class AWSM_Job_Openings_Meta {
 			add_meta_box( 'awsm-application-actions-meta', esc_html__( 'Actions', 'wp-job-openings' ), array( $this, 'application_actions_meta_handler' ), 'awsm_job_application', 'side', 'high' );
 			add_meta_box( 'awsm-get-the-pro-pack-meta', esc_html__( 'Upgrade to HireZoot Pro', 'wp-job-openings' ), array( $this, 'get_pro_meta_handler' ), 'awsm_job_application', 'side', 'low' );
 		}
+	}
+
+	public function awsm_job_nonce_meta_handler() {
+		wp_nonce_field( 'awsm_save_post_meta', 'awsm_jobs_posts_nonce' );
 	}
 
 	public function awsm_job_status( $post ) {
