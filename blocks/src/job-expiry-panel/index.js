@@ -82,6 +82,18 @@ function componentsToPickerDate( c, siteOffsetHours ) {
 	return new Date( utcMs - siteOffsetHours * 3600000 );
 }
 
+/**
+ * <DateTimePicker>'s calendar grid days are generated (via date-fns/use-lilius)
+ * using plain local-time getters, so "is this day in the past" is judged the
+ * same way — against the browser's own local today — rather than through the
+ * siteOffsetHours conversion used for the stored value.
+ */
+function isPastCalendarDay( day ) {
+	const startOfToday = new Date();
+	startOfToday.setHours( 0, 0, 0, 0 );
+	return new Date( day.getFullYear(), day.getMonth(), day.getDate() ) < startOfToday;
+}
+
 function JobExpiryPanel() {
 	const { useEntityProp } = wp.coreData;
 	const [ meta, setMeta ] = useEntityProp( 'postType', POST_TYPE, 'meta' );
@@ -178,6 +190,7 @@ function JobExpiryPanel() {
 								<DateTimePicker
 									currentDate={ pickerDate }
 									onChange={ onChangeExpiryDate }
+									isInvalidDate={ isPastCalendarDay }
 									is12Hour
 									startOfWeek={ settings.l10n.startOfWeek }
 								/>
