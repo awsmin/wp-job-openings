@@ -145,7 +145,12 @@ function JobExpiryPanel() {
 					<Dropdown
 						className="awsm-job-expiry-date-dropdown"
 						contentClassName="awsm-job-expiry-date-popover"
-						position="bottom left"
+						popoverProps={ {
+							placement: 'left-start',
+							offset: 36,
+							shift: true,
+						} }
+						focusOnMount
 						renderToggle={ ( { isOpen, onToggle } ) => (
 							<Button
 								onClick={ onToggle }
