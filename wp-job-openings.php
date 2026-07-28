@@ -95,6 +95,13 @@ class AWSM_Job_Openings {
 		add_action( 'wp_head', array( $this, 'awsm_wp_head' ) );
 		add_action( 'awsm_check_for_expired_jobs', array( $this, 'check_date_and_change_status' ) );
 		add_action( 'awsm_jobs_email_digest', array( $this, 'send_email_digest' ) );
+		// Not gated behind is_admin(): the block editor's Job Expiry panel saves
+		// awsm_job_expiry via a REST API request, where is_admin() is false, so
+		// the save_post-based recalculation in awsm_job_save_post() never runs.
+		// rest_after_insert fires only after ALL of the request's registered post
+		// meta (including both awsm_set_exp_list and awsm_job_expiry together)
+		// has already been committed, so both values are guaranteed fresh here.
+		add_action( 'rest_after_insert_awsm_job_openings', array( $this, 'sync_job_status_with_expiry' ), 10, 1 );
 		add_action( 'awsm_job_application_submitted', array( $this, 'plugin_rating_check' ) );
 		add_action( 'wp_loaded', array( $this, 'register_scripts' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'awsm_enqueue_scripts' ) );
@@ -1810,6 +1817,46 @@ class AWSM_Job_Openings {
 		return trim( wp_strip_all_tags( $term ) );
 	}
 
+	/**
+	 * Keep post_status in sync with awsm_job_expiry after a block editor
+	 * REST save — see register_job_expiry_meta() and the added_action()
+	 * call above for why this can't rely on the save_post hook.
+	 */
+	public function sync_job_status_with_expiry( $post ) {
+		if ( ! $post || $post->post_type !== 'awsm_job_openings' || $post->post_status === 'trash' ) {
+			return;
+		}
+
+		if ( get_post_meta( $post->ID, 'awsm_set_exp_list', true ) !== 'set_listing' ) {
+			return;
+		}
+
+		$awsm_job_expiry = get_post_meta( $post->ID, 'awsm_job_expiry', true );
+		if ( empty( $awsm_job_expiry ) ) {
+			return;
+		}
+
+		$expiration_time = strtotime( $awsm_job_expiry );
+		$new_status      = null;
+
+		if ( $expiration_time < time() && $post->post_status !== 'expired' ) {
+			$new_status = 'expired';
+		} elseif ( $expiration_time > time() && $post->post_status === 'expired' ) {
+			$new_status = 'publish';
+		}
+
+		if ( null !== $new_status ) {
+			remove_action( 'rest_after_insert_awsm_job_openings', array( $this, 'sync_job_status_with_expiry' ), 10 );
+			wp_update_post(
+				array(
+					'ID'          => $post->ID,
+					'post_status' => $new_status,
+				)
+			);
+			add_action( 'rest_after_insert_awsm_job_openings', array( $this, 'sync_job_status_with_expiry' ), 10, 1 );
+		}
+	}
+
 	public function awsm_job_save_post( $post_id, $post ) {
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 			return;
@@ -1845,7 +1892,7 @@ class AWSM_Job_Openings {
 				// Check if the job should be expired
 				if ( $expiry_on_list === 'set_listing' && ! empty( $awsm_job_expiry ) ) {
 					$expiration_time = strtotime( $awsm_job_expiry );
-					if ( $expiration_time < ( time() - ( 24 * 60 * 60 ) ) && $post->post_status !== 'trash' ) {
+					if ( $expiration_time < time() && $post->post_status !== 'trash' ) {
 						$post_data                = array();
 						$post_data['ID']          = $post_id;
 						$post_data['post_status'] = 'expired';
@@ -1854,7 +1901,7 @@ class AWSM_Job_Openings {
 						wp_update_post( $post_data );
 						// now, re-hook this function
 						add_action( 'save_post', array( $this, 'awsm_job_save_post' ), 100, 2 );
-					} elseif ( $post->post_status === 'expired' ) {
+					} elseif ( $post->post_status === 'expired' && $expiration_time > time() ) {
 						// Future expiry date set on an expired job — restore to published
 						$post_data                = array();
 						$post_data['ID']          = $post_id;
@@ -1941,7 +1988,7 @@ class AWSM_Job_Openings {
 
 				if ( $expiry_on_list === 'set_listing' && ! empty( $awsm_job_expiry ) ) {
 					$expiration_time = strtotime( $awsm_job_expiry );
-					if ( $expiration_time < ( time() - ( 24 * 60 * 60 ) ) && $post->post_status !== 'trash' ) {
+					if ( $expiration_time < time() && $post->post_status !== 'trash' ) {
 						$post_data                = array();
 						$post_data['ID']          = $post_id;
 						$post_data['post_status'] = 'expired';
@@ -1950,7 +1997,7 @@ class AWSM_Job_Openings {
 						wp_update_post( $post_data );
 						// now, re-hook this function
 						add_action( 'save_post', array( $this, 'awsm_job_save_post' ), 100, 2 );
-					} elseif ( $post->post_status === 'expired' ) {
+					} elseif ( $post->post_status === 'expired' && $expiration_time > time() ) {
 						// Future expiry date set on an expired job — restore to published
 						$post_data                = array();
 						$post_data['ID']          = $post_id;
