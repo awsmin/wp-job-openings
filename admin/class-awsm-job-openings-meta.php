@@ -25,6 +25,7 @@ class AWSM_Job_Openings_Meta {
 		add_filter( 'wp_untrash_post_status', array( $this, 'awsm_job_application_restore_post_to_previous_status' ), 10, 3 );
 		add_filter( 'post_class', array( $this, 'awsm_add_unread_application_class' ), 10, 3 );
 		add_action( 'quick_edit_custom_box', array( $this, 'awsm_job_openings_main_quick_edit_fields' ), 10, 2 );
+		add_action( 'wp_ajax_awsm_job_status_panel', array( $this, 'ajax_job_status_panel' ) );
 	}
 
 
@@ -49,7 +50,12 @@ class AWSM_Job_Openings_Meta {
 		add_meta_box( 'awsm-job-nonce-meta', 'awsm-job-nonce-meta', array( $this, 'awsm_job_nonce_meta_handler' ), 'awsm_job_openings', 'side', 'low' );
 
 		if ( $action === 'edit' ) {
-			add_meta_box( 'awsm-status-meta', esc_html__( 'Job Status', 'wp-job-openings' ), array( $this, 'awsm_job_status' ), 'awsm_job_openings', 'side', 'high' );
+			// The block editor gets a native Gutenberg panel (see
+			// AWSM_Job_Openings::enqueue_job_status_panel()) instead of this classic
+			// metabox; keep the classic version only for the Classic Editor fallback.
+			if ( ! use_block_editor_for_post_type( 'awsm_job_openings' ) ) {
+				add_meta_box( 'awsm-status-meta', esc_html__( 'Job Status', 'wp-job-openings' ), array( $this, 'awsm_job_status' ), 'awsm_job_openings', 'side', 'high' );
+			}
 			add_meta_box( 'awsm-status-meta-applicant', esc_html__( 'Job Details', 'wp-job-openings' ), array( $this, 'awsm_job_status' ), 'awsm_job_application', 'side', 'low' );
 		}
 
@@ -88,6 +94,32 @@ class AWSM_Job_Openings_Meta {
 
 	public function awsm_job_status( $post ) {
 		include $this->cpath . '/templates/meta/job-status.php';
+	}
+
+	/**
+	 * Serves the Job Status metabox markup to the block editor's "Job Status"
+	 * sidebar panel (see blocks/src/job-status-panel), so it renders through
+	 * the exact same template/filters (awsm_job_status_mb_init,
+	 * awsm_job_status_mb_data_rows) as the classic metabox instead of a
+	 * separate re-implementation.
+	 */
+	public function ajax_job_status_panel() {
+		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_key( $_POST['nonce'] ), 'awsm_job_status_panel' ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'Security check failed.', 'wp-job-openings' ) ), 403 );
+		}
+
+		$post_id = isset( $_POST['post_id'] ) ? absint( $_POST['post_id'] ) : 0;
+		$post    = get_post( $post_id );
+
+		if ( ! $post || $post->post_type !== 'awsm_job_openings' || ! current_user_can( 'edit_post', $post_id ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'You are not allowed to view this.', 'wp-job-openings' ) ), 403 );
+		}
+
+		ob_start();
+		$this->awsm_job_status( $post );
+		$html = ob_get_clean();
+
+		wp_send_json_success( array( 'html' => $html ) );
 	}
 
 	public function awsm_job_handle( $post ) {

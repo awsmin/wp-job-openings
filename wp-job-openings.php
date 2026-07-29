@@ -380,6 +380,44 @@ class AWSM_Job_Openings {
 	}
 
 	/**
+	 * Enqueue the Job Status Gutenberg sidebar panel on the block editor
+	 * screen for Job Openings, replacing the classic Job Status metabox
+	 * with a native panel that fetches the same server-rendered markup
+	 * over admin-ajax (see AWSM_Job_Openings_Meta::ajax_job_status_panel()),
+	 * so it stays first in the sidebar ahead of Job Expiry.
+	 */
+	public function enqueue_job_status_panel() {
+		$screen = get_current_screen();
+		if ( ! $screen || $screen->post_type !== 'awsm_job_openings' ) {
+			return;
+		}
+
+		$asset_file = AWSM_JOBS_PLUGIN_DIR . '/blocks/build/job-status-panel.asset.php';
+		if ( ! file_exists( $asset_file ) ) {
+			return;
+		}
+		$asset = include $asset_file;
+
+		wp_enqueue_script(
+			'awsm-job-status-panel',
+			AWSM_JOBS_PLUGIN_URL . '/blocks/build/job-status-panel.js',
+			array_merge( $asset['dependencies'], array( 'wp-plugins', 'wp-edit-post', 'wp-data' ) ),
+			$asset['version'],
+			true
+		);
+		wp_set_script_translations( 'awsm-job-status-panel', 'wp-job-openings', AWSM_JOBS_PLUGIN_DIR . '/languages' );
+
+		wp_localize_script(
+			'awsm-job-status-panel',
+			'awsmJobStatusPanel',
+			array(
+				'ajaxUrl' => admin_url( 'admin-ajax.php' ),
+				'nonce'   => wp_create_nonce( 'awsm_job_status_panel' ),
+			)
+		);
+	}
+
+	/**
 	 * Enqueue the Job Expiry Gutenberg sidebar panel on the block editor
 	 * screen for Job Openings, replacing the classic Job Expiry metabox
 	 * with a native `DateTimePicker`-based panel.
@@ -399,7 +437,14 @@ class AWSM_Job_Openings {
 		wp_enqueue_script(
 			'awsm-job-expiry-panel',
 			AWSM_JOBS_PLUGIN_URL . '/blocks/build/job-expiry-panel.js',
-			array_merge( $asset['dependencies'], array( 'wp-plugins', 'wp-edit-post', 'wp-core-data' ) ),
+			// 'awsm-job-status-panel' is listed purely to force script execution
+			// order — PluginDocumentSettingPanel entries render in
+			// registerPlugin() call order, so this keeps "Job Expiry" appearing
+			// after "Job Status" in the sidebar instead of leaving it to
+			// incidental enqueue timing (mirrors how Pro Pack's
+			// job-display-options-panel depends on this same handle to render
+			// after Job Expiry).
+			array_merge( $asset['dependencies'], array( 'wp-plugins', 'wp-edit-post', 'wp-core-data', 'awsm-job-status-panel' ) ),
 			$asset['version'],
 			true
 		);
@@ -416,6 +461,7 @@ class AWSM_Job_Openings {
 	public function admin_actions() {
 		if ( is_admin() ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'awsm_admin_enqueue_scripts' ) );
+			add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_job_status_panel' ) );
 			add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_job_expiry_panel' ) );
 			add_action( 'admin_head', array( $this, 'admin_head_actions' ) );
 			add_action( 'edit_form_top', array( $this, 'awsm_admin_single_subtitle' ) );
