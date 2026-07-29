@@ -108,16 +108,25 @@ class AWSM_Job_Openings_Meta {
 			wp_send_json_error( array( 'message' => esc_html__( 'Security check failed.', 'wp-job-openings' ) ), 403 );
 		}
 
-		$post_id = isset( $_POST['post_id'] ) ? absint( $_POST['post_id'] ) : 0;
-		$post    = get_post( $post_id );
+		$post_id  = isset( $_POST['post_id'] ) ? absint( $_POST['post_id'] ) : 0;
+		$job_post = get_post( $post_id );
 
-		if ( ! $post || $post->post_type !== 'awsm_job_openings' || ! current_user_can( 'edit_post', $post_id ) ) {
+		if ( ! $job_post || $job_post->post_type !== 'awsm_job_openings' || ! current_user_can( 'edit_post', $post_id ) ) {
 			wp_send_json_error( array( 'message' => esc_html__( 'You are not allowed to view this.', 'wp-job-openings' ) ), 403 );
 		}
+
+		// job-status.php resolves the job ID via get_the_ID(), which reads the
+		// global $post — already set up by WP on the classic metabox's post
+		// edit screen, but not here on a standalone admin-ajax request.
+		global $post;
+		$post = $job_post; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+		setup_postdata( $post );
 
 		ob_start();
 		$this->awsm_job_status( $post );
 		$html = ob_get_clean();
+
+		wp_reset_postdata();
 
 		wp_send_json_success( array( 'html' => $html ) );
 	}
