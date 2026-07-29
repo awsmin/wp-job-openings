@@ -106,15 +106,19 @@ function JobExpiryPanel() {
 	const siteOffsetHours = settings && settings.timezone && typeof settings.timezone.offset === 'number' ? settings.timezone.offset : 0;
 
 	const isExpirySet = meta.awsm_set_exp_list === 'set_listing';
+	const hasExpiryDate = !! meta.awsm_job_expiry;
 	const displayOnList = meta.awsm_exp_list_display === 'list_display';
 	const components = parseStoredComponents( meta.awsm_job_expiry ) || nowComponentsAtSiteOffset( siteOffsetHours );
 
+	// Deliberately does NOT default awsm_job_expiry to "now" here — the listing
+	// must not expire until the user has actively picked a date/time (via the
+	// picker below or its "Now" shortcut). sync_job_status_with_expiry() and
+	// awsm_job_save_post() in wp-job-openings.php already treat an empty
+	// awsm_job_expiry as "no expiry yet" and no-op, so leaving it unset here is
+	// safe and keeps the listing active until a date is actually chosen.
 	const onToggleExpiry = ( checked ) => {
 		if ( checked ) {
-			setMeta( {
-				awsm_set_exp_list: 'set_listing',
-				awsm_job_expiry: meta.awsm_job_expiry || componentsToStoredFormat( nowComponentsAtSiteOffset( siteOffsetHours ) ),
-			} );
+			setMeta( { awsm_set_exp_list: 'set_listing' } );
 		} else {
 			setMeta( {
 				awsm_set_exp_list: '',
@@ -167,9 +171,11 @@ function JobExpiryPanel() {
 							<Button
 								onClick={ onToggle }
 								aria-expanded={ isOpen }
-								variant="tertiary"
+								variant={ hasExpiryDate ? 'tertiary' : 'secondary' }
 							>
-								{ componentsToDisplayLabel( components, settings.l10n.months ) }
+								{ hasExpiryDate
+									? componentsToDisplayLabel( components, settings.l10n.months )
+									: __( 'Select a date & time…', 'wp-job-openings' ) }
 							</Button>
 						) }
 						renderContent={ ( { onClose } ) => (
@@ -197,11 +203,13 @@ function JobExpiryPanel() {
 							</div>
 						) }
 					/>
-					<ToggleControl
-						label={ __( 'Display expiry date', 'wp-job-openings' ) }
-						checked={ displayOnList }
-						onChange={ onToggleDisplay }
-					/>
+					{ hasExpiryDate && (
+						<ToggleControl
+							label={ __( 'Display expiry date', 'wp-job-openings' ) }
+							checked={ displayOnList }
+							onChange={ onToggleDisplay }
+						/>
+					) }
 				</>
 			) }
 		</wp.editPost.PluginDocumentSettingPanel>
