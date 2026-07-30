@@ -873,6 +873,12 @@ a.awsm-text-red:hover {
 	box-sizing: border-box;
 }
 
+@media screen and (min-width: 783px) {
+	.awsm-admin-settings .awsm-wpjo-form-group input:not([type='checkbox']):not([type='radio']), .awsm-admin-settings .awsm-wpjo-form-group select, .awsm-admin-settings .awsm-wpjo-form-group textarea {
+		width: 50em;
+	}
+}
+
 /*------ Setup page ---*/
 .awsm_job_openings_page_awsm-jobs-setup #wpbody-content,
 .awsm_job_openings_page_awsm-jobs-setup #wpcontent {
@@ -2705,7 +2711,9 @@ input.awsm-button:disabled {
 	.awsm-job-admin-nav li {
 		padding: 0 14px;
 	}
-
+	.awsm-sub-options-container table{
+		width: 100%;
+	}
 }
 
 @media (max-width:600px) {
