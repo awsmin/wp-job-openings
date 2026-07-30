@@ -838,12 +838,26 @@ jQuery(document).ready(function($) {
 				var $quickEditRow = $("#edit-" + post_id);
 				var $postRow = $("#post-" + post_id);
 				var $dateField = $quickEditRow.find('.awsm-jobs-datepicker');
+				var $altField = $quickEditRow.find('#awsm-jobs-datepicker-alt');
 
 				var setExpiry = $("#awsm_set_exp_list_" + post_id).val();
 				var jobExpiryValue = $("#awsm_job_expiry_" + post_id).val();
 				var displayExpiry = $("#awsm_exp_list_display_" + post_id).val();
 
 				$dateField.val('');
+
+				// Quick Edit has no time-of-day control, so whatever time was
+				// already saved needs to survive a date-only edit here instead
+				// of being overwritten with midnight.
+				var preservedTime = (jobExpiryValue && jobExpiryValue.indexOf(' ') !== -1) ?
+					jobExpiryValue.split(' ')[1] : '00:00:00';
+
+				var syncAltFieldWithPreservedTime = function () {
+					var pickedDate = $dateField.datepicker('getDate');
+					if (pickedDate) {
+						$altField.val($.datepicker.formatDate('yy-mm-dd', pickedDate) + ' ' + preservedTime);
+					}
+				};
 
 				// Initialize datepicker
 				var dateToday = new Date();
@@ -856,7 +870,7 @@ jQuery(document).ready(function($) {
 				}
 
 				$dateField.datepicker({
-					altField: $quickEditRow.find('#awsm-jobs-datepicker-alt'),
+					altField: $altField,
 					altFormat: 'yy-mm-dd',
 					showOn: 'both',
 					buttonText: '',
@@ -864,7 +878,8 @@ jQuery(document).ready(function($) {
 					changeMonth: true,
 					numberOfMonths: 1,
 					minDate: minDate,
-					defaultDate: null
+					defaultDate: null,
+					onSelect: syncAltFieldWithPreservedTime
 				});
 
 				if (setExpiry === "set_listing") {
@@ -874,6 +889,10 @@ jQuery(document).ready(function($) {
 					if (jobExpiryValue) {
 						setTimeout(function () {
 							$dateField.datepicker('setDate', new Date(jobExpiryValue));
+							// setDate() above just rewrote the alt field via
+							// altFormat (date-only), wiping the saved time —
+							// restore the full value now that a date is set.
+							$altField.val(jobExpiryValue);
 						}, 50);
 					}
 					if (displayExpiry) {
@@ -882,7 +901,7 @@ jQuery(document).ready(function($) {
 				} else {
 					setTimeout(function () {
 						$dateField.val('');
-						$quickEditRow.find('#awsm-jobs-datepicker-alt').val('');
+						$altField.val('');
 					}, 50);
 				}
 			}
