@@ -2668,6 +2668,7 @@ input.awsm-button:disabled {
 		width: 50em;
 	}
 }
+
 @media (max-width:1250px) {
 	.awsm-settings-col-left {
 		width: 100%;
@@ -2713,6 +2714,10 @@ input.awsm-button:disabled {
 	}
 	.awsm-sub-options-container table{
 		width: 100%;
+	}
+	.awsm-admin-settings .awsm-wpjo-form-group input:not([type='checkbox']):not([type='radio']), .awsm-admin-settings .awsm-wpjo-form-group select, .awsm-admin-settings .awsm-wpjo-form-group textarea {
+		max-width: 100%;
+		width: 100% !important;
 	}
 }
 
