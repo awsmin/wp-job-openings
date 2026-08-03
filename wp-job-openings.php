@@ -1883,7 +1883,10 @@ class AWSM_Job_Openings {
 		}
 
 		$expiration_time = strtotime( $awsm_job_expiry );
-		$new_status      = null;
+		if ( false === $expiration_time ) {
+			return;
+		}
+		$new_status = null;
 
 		// Only ever auto-expire a job that is actually publish-ed — 'expired' is
 		// registered with 'public' => true, so flipping a draft/pending/future
@@ -1939,8 +1942,8 @@ class AWSM_Job_Openings {
 				}
 
 				// Check if the job should be expired
-				if ( $expiry_on_list === 'set_listing' && ! empty( $awsm_job_expiry ) ) {
-					$expiration_time = strtotime( $awsm_job_expiry );
+				$expiration_time = ( $expiry_on_list === 'set_listing' && ! empty( $awsm_job_expiry ) ) ? strtotime( $awsm_job_expiry ) : false;
+				if ( false !== $expiration_time ) {
 					// Only auto-expire an actually-published job — 'expired' is public,
 					// so flipping a draft/pending/future post straight to it would make
 					// unpublished content publicly reachable.
@@ -2038,8 +2041,8 @@ class AWSM_Job_Openings {
 					}
 				}
 
-				if ( $expiry_on_list === 'set_listing' && ! empty( $awsm_job_expiry ) ) {
-					$expiration_time = strtotime( $awsm_job_expiry );
+				$expiration_time = ( $expiry_on_list === 'set_listing' && ! empty( $awsm_job_expiry ) ) ? strtotime( $awsm_job_expiry ) : false;
+				if ( false !== $expiration_time ) {
 					// Only auto-expire an actually-published job — 'expired' is public,
 					// so flipping a draft/pending/future post straight to it would make
 					// unpublished content publicly reachable.
