@@ -2719,6 +2719,17 @@ input.awsm-button:disabled {
 		max-width: 100%;
 		width: 100% !important;
 	}
+	  .awsm-captcha-wrapper{
+        gap: 20px;
+    }
+    .awsm-captcha-item {
+        min-width: 100px;
+        width: 100px;
+    }
+    .awsm-captcha-item span img {
+        max-width: 85%;
+        height: auto;
+    }
 }
 
 @media (max-width:600px) {
