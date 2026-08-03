@@ -149,6 +149,7 @@ Yes. You can view, filter, and manage applications from your dashboard.
 * Improved: Job Expiry date/time no longer preselects a value — the user must actively pick one.
 * Improved: Reordered block editor sidebar panels — Job Status, Job Expiry, then Pro Pack panels.
 * Added: New Elementor widget for displaying job listings.
+* Added: Pro feature flag for the settings page Pro tabs.
 * Minor bug fixes and code improvements.
 
 = V 4.0.3 – 2026-07-14 =
