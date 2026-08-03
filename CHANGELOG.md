@@ -5,6 +5,7 @@
 * Improved: Replaced the classic Job Expiry metabox with a Gutenberg sidebar panel using WordPress core's native DateTimePicker; expiry meta now saves via the REST API.
 * Improved: Job Expiry date/time no longer preselects a value — the user must actively pick one.
 * Improved: Reordered block editor sidebar panels — Job Status, Job Expiry, then Pro Pack panels.
+* Added: New Elementor widget for displaying job listings.
 * Minor bug fixes and code improvements.
 
 ### V 4.0.3 – 2026-08-03
