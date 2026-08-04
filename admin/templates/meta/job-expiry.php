@@ -35,10 +35,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<div class="awsm-job-expiry-main">
 			<p>
 				<?php
-					$date_format     = get_awsm_jobs_date_format( 'expiry-admin' );
-					$awsm_job_expiry = get_post_meta( $post->ID, 'awsm_job_expiry', true );
+					$date_format      = get_awsm_jobs_date_format( 'expiry-admin' );
+					$awsm_job_expiry  = get_post_meta( $post->ID, 'awsm_job_expiry', true );
+					$expiry_timestamp = ! empty( $awsm_job_expiry ) ? strtotime( $awsm_job_expiry ) : false;
 				?>
-				<div class="awsm-jobs-datepicker-wrapper"><input type="text" class="awsm-jobs-datepicker" id="awsm-jobs-datepicker" name="awsm_job_expiry_text_field" placeholder="<?php echo esc_attr( $date_format ); ?>" value="<?php echo ( ! empty( $awsm_job_expiry ) ) ? esc_attr( date_i18n( $date_format, strtotime( $awsm_job_expiry ) ) ) : ''; ?>" /><input type="hidden" id="awsm-jobs-datepicker-alt" name="awsm_job_expiry" value="<?php echo esc_attr( $awsm_job_expiry ); ?>" /></div>
+				<div class="awsm-jobs-datepicker-wrapper"><input type="text" class="awsm-jobs-datepicker" id="awsm-jobs-datepicker" name="awsm_job_expiry_text_field" placeholder="<?php echo esc_attr( $date_format ); ?>" value="<?php echo ( false !== $expiry_timestamp ) ? esc_attr( date_i18n( $date_format, $expiry_timestamp ) ) : ''; ?>" /><input type="hidden" id="awsm-jobs-datepicker-alt" name="awsm_job_expiry" value="<?php echo esc_attr( false !== $expiry_timestamp ? $awsm_job_expiry : '' ); ?>" /></div>
 			</p>
 			<p>
 				<label class="awsm-toggle-row" for="awsm-job-expiry-display">

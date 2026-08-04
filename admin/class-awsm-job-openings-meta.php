@@ -450,10 +450,11 @@ class AWSM_Job_Openings_Meta {
 			return;
 		}
 
-		$awsm_job_expiry = get_post_meta( get_the_ID(), 'awsm_job_expiry', true );
-		$display_list    = get_post_meta( get_the_ID(), 'awsm_exp_list_display', true );
-		$set_expiry      = get_post_meta( get_the_ID(), 'awsm_set_exp_list', true ); // Retrieve the expiry checkbox state
-		$date_format     = get_awsm_jobs_date_format( 'expiry-admin' );
+		$awsm_job_expiry  = get_post_meta( get_the_ID(), 'awsm_job_expiry', true );
+		$display_list     = get_post_meta( get_the_ID(), 'awsm_exp_list_display', true );
+		$set_expiry       = get_post_meta( get_the_ID(), 'awsm_set_exp_list', true ); // Retrieve the expiry checkbox state
+		$date_format      = get_awsm_jobs_date_format( 'expiry-admin' );
+		$expiry_timestamp = ! empty( $awsm_job_expiry ) ? strtotime( $awsm_job_expiry ) : false;
 		?>
 		<fieldset class="inline-edit-col-right">
 			<div class="inline-edit-col">
@@ -461,11 +462,11 @@ class AWSM_Job_Openings_Meta {
 					<input type="checkbox" name="awsm_set_exp_list" id="awsm-job-expiry-edit" value="set_listing">
 					<?php esc_html_e( 'Set expiry for listing', 'wp-job-openings' ); ?>
 				</label>
-				
+
 				<div id="awsm-job-expiry-fields" style="display: none; margin-top: 10px;">
 					<label>
-						<input type="text" class="awsm-jobs-datepicker" name="awsm_job_expiry_text_field" placeholder="<?php echo esc_attr( $date_format ); ?>" value="<?php echo ( ! empty( $awsm_job_expiry ) ) ? esc_attr( date_i18n( $date_format, strtotime( $awsm_job_expiry ) ) ) : ''; ?>" />
-						<input type="hidden" id="awsm-jobs-datepicker-alt" name="awsm_job_expiry" value="<?php echo esc_attr( $awsm_job_expiry ); ?>" />
+						<input type="text" class="awsm-jobs-datepicker" name="awsm_job_expiry_text_field" placeholder="<?php echo esc_attr( $date_format ); ?>" value="<?php echo ( false !== $expiry_timestamp ) ? esc_attr( date_i18n( $date_format, $expiry_timestamp ) ) : ''; ?>" />
+						<input type="hidden" id="awsm-jobs-datepicker-alt" name="awsm_job_expiry" value="<?php echo esc_attr( false !== $expiry_timestamp ? $awsm_job_expiry : '' ); ?>" />
 					</label>
 					<br>
 					<label>

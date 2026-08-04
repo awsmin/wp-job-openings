@@ -775,13 +775,15 @@ class AWSM_Job_Openings {
 				break;
 
 			case 'awsm_job_expiry':
-					$expiry_on_list = get_post_meta( $post_id, 'awsm_set_exp_list', true );
-					$job_expiry     = get_post_meta( $post_id, 'awsm_job_expiry', true );
-					$display_list   = get_post_meta( $post_id, 'awsm_exp_list_display', true );
-					echo ( $expiry_on_list === 'set_listing' && ! empty( $job_expiry ) ) ? esc_html( date_i18n( get_awsm_jobs_date_format( 'expiry-admin' ), strtotime( $job_expiry ) ) ) : $default_display; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					$expiry_on_list   = get_post_meta( $post_id, 'awsm_set_exp_list', true );
+					$job_expiry       = get_post_meta( $post_id, 'awsm_job_expiry', true );
+					$display_list     = get_post_meta( $post_id, 'awsm_exp_list_display', true );
+					$expiry_timestamp = ! empty( $job_expiry ) ? strtotime( $job_expiry ) : false;
+					$has_valid_expiry = $expiry_on_list === 'set_listing' && false !== $expiry_timestamp;
+					echo $has_valid_expiry ? esc_html( date_i18n( get_awsm_jobs_date_format( 'expiry-admin' ), $expiry_timestamp ) ) : $default_display; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 					echo '<input type="hidden" id="awsm_set_exp_list_' . esc_attr( $post_id ) . '" value="' . esc_attr( $expiry_on_list ) . '" >';
-					echo '<input type="hidden" id="awsm_job_expiry_' . esc_attr( $post_id ) . '" value="' . esc_attr( ( $expiry_on_list === 'set_listing' && ! empty( $job_expiry ) ) ? $job_expiry : '' ) . '" >';
+					echo '<input type="hidden" id="awsm_job_expiry_' . esc_attr( $post_id ) . '" value="' . esc_attr( $has_valid_expiry ? $job_expiry : '' ) . '" >';
 					echo '<input type="hidden" id="awsm_exp_list_display_' . esc_attr( $post_id ) . '" value="' . esc_attr( $display_list ) . '" >';
 				break;
 
@@ -2548,10 +2550,11 @@ class AWSM_Job_Openings {
 			'description' => get_the_content(),
 			'datePosted'  => get_post_time( 'c' ),
 		);
-		$expiry_on_list  = get_post_meta( $post_id, 'awsm_set_exp_list', true );
-		$expiration_date = get_post_meta( $post_id, 'awsm_job_expiry', true );
-		if ( $expiry_on_list === 'set_listing' && ! empty( $expiration_date ) ) {
-			$data['validThrough'] = gmdate( 'c', strtotime( $expiration_date ) );
+		$expiry_on_list    = get_post_meta( $post_id, 'awsm_set_exp_list', true );
+		$expiration_date   = get_post_meta( $post_id, 'awsm_job_expiry', true );
+		$expiration_stamp  = ! empty( $expiration_date ) ? strtotime( $expiration_date ) : false;
+		if ( $expiry_on_list === 'set_listing' && false !== $expiration_stamp ) {
+			$data['validThrough'] = gmdate( 'c', $expiration_stamp );
 		}
 		$company_name = get_option( 'awsm_job_company_name' );
 		if ( ! empty( $company_name ) ) {

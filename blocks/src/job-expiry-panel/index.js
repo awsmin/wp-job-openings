@@ -36,12 +36,26 @@ function pad( n ) {
 	return String( n ).padStart( 2, '0' );
 }
 
+function isValidComponents( c ) {
+	return Number.isFinite( c.year ) &&
+		Number.isFinite( c.month ) && c.month >= 1 && c.month <= 12 &&
+		Number.isFinite( c.day ) && c.day >= 1 && c.day <= 31 &&
+		Number.isFinite( c.hour ) && c.hour >= 0 && c.hour <= 23 &&
+		Number.isFinite( c.minute ) && c.minute >= 0 && c.minute <= 59 &&
+		Number.isFinite( c.second ) && c.second >= 0 && c.second <= 59;
+}
+
+// awsm_job_expiry is a free-form post meta string (still editable directly via
+// REST/quick edit/older plugin versions), so a stored value can be garbage
+// (e.g. "not-a-real-date") — treat anything that doesn't parse into a real
+// date the same as "no expiry date set" rather than rendering NaN/undefined.
 function parseStoredComponents( value ) {
 	if ( ! value ) {
 		return null;
 	}
 	const [ datePart, timePart ] = value.split( ' ' );
-	return componentsFromParts( datePart, timePart );
+	const components = componentsFromParts( datePart, timePart );
+	return isValidComponents( components ) ? components : null;
 }
 
 function componentsFromNaiveISOString( isoString ) {
@@ -106,9 +120,10 @@ function JobExpiryPanel() {
 	const siteOffsetHours = settings && settings.timezone && typeof settings.timezone.offset === 'number' ? settings.timezone.offset : 0;
 
 	const isExpirySet = meta.awsm_set_exp_list === 'set_listing';
-	const hasExpiryDate = !! meta.awsm_job_expiry;
+	const parsedExpiry = parseStoredComponents( meta.awsm_job_expiry );
+	const hasExpiryDate = !! parsedExpiry;
 	const displayOnList = meta.awsm_exp_list_display === 'list_display';
-	const components = parseStoredComponents( meta.awsm_job_expiry ) || nowComponentsAtSiteOffset( siteOffsetHours );
+	const components = parsedExpiry || nowComponentsAtSiteOffset( siteOffsetHours );
 
 	// Deliberately does NOT default awsm_job_expiry to "now" here — the listing
 	// must not expire until the user has actively picked a date/time (via the
