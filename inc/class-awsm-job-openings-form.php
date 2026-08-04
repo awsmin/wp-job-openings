@@ -693,7 +693,7 @@ class AWSM_Job_Openings_Form {
 		$job_expiry       = get_post_meta( $applicant_details['awsm_job_id'], 'awsm_job_expiry', true );
 		$job_expiry_stamp = ! empty( $job_expiry ) ? strtotime( $job_expiry ) : false;
 		$job_expiry       = ( false !== $job_expiry_stamp ) ? date_i18n( get_awsm_jobs_date_format( 'expiry-mail' ), $job_expiry_stamp ) : '';
-		$attachment_url = isset( $applicant_details['awsm_attachment_id'] ) ? wp_get_attachment_url( $applicant_details['awsm_attachment_id'] ) : '';
+		$attachment_url   = isset( $applicant_details['awsm_attachment_id'] ) ? wp_get_attachment_url( $applicant_details['awsm_attachment_id'] ) : '';
 		if ( ! empty( $attachment_url ) && get_option( 'awsm_hide_uploaded_files' ) === 'hide_files' ) {
 			$attachment_url = AWSM_Job_Openings::get_application_edit_link( $applicant_details['application_id'] );
 		}

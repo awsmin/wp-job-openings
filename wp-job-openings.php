@@ -2542,17 +2542,17 @@ class AWSM_Job_Openings {
 			return;
 		}
 
-		$post_id         = $post->ID;
-		$data            = array(
+		$post_id          = $post->ID;
+		$data             = array(
 			'@context'    => 'http://schema.org/',
 			'@type'       => 'JobPosting',
 			'title'       => wp_strip_all_tags( get_the_title() ),
 			'description' => get_the_content(),
 			'datePosted'  => get_post_time( 'c' ),
 		);
-		$expiry_on_list    = get_post_meta( $post_id, 'awsm_set_exp_list', true );
-		$expiration_date   = get_post_meta( $post_id, 'awsm_job_expiry', true );
-		$expiration_stamp  = ! empty( $expiration_date ) ? strtotime( $expiration_date ) : false;
+		$expiry_on_list   = get_post_meta( $post_id, 'awsm_set_exp_list', true );
+		$expiration_date  = get_post_meta( $post_id, 'awsm_job_expiry', true );
+		$expiration_stamp = ! empty( $expiration_date ) ? strtotime( $expiration_date ) : false;
 		if ( $expiry_on_list === 'set_listing' && false !== $expiration_stamp ) {
 			$data['validThrough'] = gmdate( 'c', $expiration_stamp );
 		}

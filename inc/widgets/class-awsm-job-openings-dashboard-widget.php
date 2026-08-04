@@ -123,8 +123,8 @@ class AWSM_Job_Openings_Dashboard_Widget {
 		$active_jobs = self::get_active_jobs();
 		if ( ! empty( $active_jobs ) ) {
 			foreach ( $active_jobs as $job ) {
-				$views          = intval( get_post_meta( $job->ID, 'awsm_views_count', true ) );
-				$expiry         = '';
+				$views            = intval( get_post_meta( $job->ID, 'awsm_views_count', true ) );
+				$expiry           = '';
 				$expiry_on_list   = get_post_meta( $job->ID, 'awsm_set_exp_list', true );
 				$job_expiry       = get_post_meta( $job->ID, 'awsm_job_expiry', true );
 				$job_expiry_stamp = ! empty( $job_expiry ) ? strtotime( $job_expiry ) : false;
