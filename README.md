@@ -109,7 +109,7 @@ Yes. You can view, filter, and manage applications from your dashboard.
 
 ## Changelog
 
-**V 4.0.4 – 2026-08-03**
+**V 4.0.4 – 2026-08-05**
 * Fixed: Responsive layout issues on the admin settings pages.
 * Improved: Replaced the classic Job Expiry metabox with a Gutenberg sidebar panel using WordPress core's native DateTimePicker; expiry meta now saves via the REST API.
 * Improved: Job Expiry date/time no longer preselects a value — the user must actively pick one.
