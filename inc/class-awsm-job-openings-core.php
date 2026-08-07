@@ -114,6 +114,9 @@ class AWSM_Job_Openings_Core {
 
 		register_post_type( 'awsm_job_openings', $args );
 
+		// 'editor' support implies 'autosave' support in core; remove it explicitly.
+		remove_post_type_support( 'awsm_job_openings', 'autosave' );
+
 		if ( post_type_exists( 'awsm_job_application' ) ) {
 			return;
 		}

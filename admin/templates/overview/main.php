@@ -298,11 +298,13 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 					<div class="awsm-jobs-overview-col-content">
 						<?php
 						foreach ( $jobs as $job ) :
-							$jobmeta     = get_post_meta( $job->ID );
-							$expiry_date = isset( $jobmeta['awsm_job_expiry'][0] ) ? $jobmeta['awsm_job_expiry'][0] : null;
+							$jobmeta      = get_post_meta( $job->ID );
+							$expiry_date  = isset( $jobmeta['awsm_job_expiry'][0] ) ? $jobmeta['awsm_job_expiry'][0] : null;
+							$expiry_stamp = $expiry_date ? strtotime( $expiry_date ) : false;
 
-							// Check if the job is not expired
-							if ( ! $expiry_date || strtotime( $expiry_date ) >= strtotime( current_time( 'Y-m-d' ) ) ) :
+							// Check if the job is not expired — an unparseable expiry date is
+							// treated the same as no expiry date, not as "already expired".
+							if ( ! $expiry_date || false === $expiry_stamp || $expiry_stamp >= strtotime( current_time( 'Y-m-d' ) ) ) :
 								$job_title      = get_the_title( $job->ID );
 								$published_date = get_the_date( 'F j, Y', $job->ID );
 								?>

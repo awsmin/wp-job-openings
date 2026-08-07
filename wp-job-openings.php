@@ -5,7 +5,7 @@
  * Description: HireZoot (formerly WP Job Openings) makes hiring simple. Add job listings, publish a clean careers page, and manage applications without leaving WordPress.
  * Author: AWSM Innovations
  * Author URI: https://awsm.in/
- * Version: 4.0.3
+ * Version: 4.0.4
  * Requires at least: 6.0
  * Requires PHP: 5.6
  * License: GPLv2
@@ -37,7 +37,7 @@ if ( ! defined( 'AWSM_JOBS_PLUGIN_URL' ) ) {
 	define( 'AWSM_JOBS_PLUGIN_URL', untrailingslashit( plugin_dir_url( __FILE__ ) ) );
 }
 if ( ! defined( 'AWSM_JOBS_PLUGIN_VERSION' ) ) {
-	define( 'AWSM_JOBS_PLUGIN_VERSION', '4.0.3' );
+	define( 'AWSM_JOBS_PLUGIN_VERSION', '4.0.4' );
 }
 if ( ! defined( 'AWSM_JOBS_UPLOAD_DIR_NAME' ) ) {
 	define( 'AWSM_JOBS_UPLOAD_DIR_NAME', 'awsm-job-openings' );
@@ -95,6 +95,13 @@ class AWSM_Job_Openings {
 		add_action( 'wp_head', array( $this, 'awsm_wp_head' ) );
 		add_action( 'awsm_check_for_expired_jobs', array( $this, 'check_date_and_change_status' ) );
 		add_action( 'awsm_jobs_email_digest', array( $this, 'send_email_digest' ) );
+		// Not gated behind is_admin(): the block editor's Job Expiry panel saves
+		// awsm_job_expiry via a REST API request, where is_admin() is false, so
+		// the save_post-based recalculation in awsm_job_save_post() never runs.
+		// rest_after_insert fires only after ALL of the request's registered post
+		// meta (including both awsm_set_exp_list and awsm_job_expiry together)
+		// has already been committed, so both values are guaranteed fresh here.
+		add_action( 'rest_after_insert_awsm_job_openings', array( $this, 'sync_job_status_with_expiry' ), 10, 1 );
 		add_action( 'awsm_job_application_submitted', array( $this, 'plugin_rating_check' ) );
 		add_action( 'wp_loaded', array( $this, 'register_scripts' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'awsm_enqueue_scripts' ) );
@@ -125,7 +132,7 @@ class AWSM_Job_Openings {
 
 	public static function load_classes() {
 		$prefix  = 'class-awsm-job-openings';
-		$classes = array( 'core', 'ui-builder', 'filters', 'mail-customizer', 'form', 'third-party', 'block' );
+		$classes = array( 'core', 'ui-builder', 'filters', 'mail-customizer', 'form', 'third-party', 'block', 'elementor' );
 		foreach ( $classes as $class ) {
 			require_once AWSM_JOBS_PLUGIN_DIR . "/inc/{$prefix}-{$class}.php";
 		}
@@ -348,11 +355,114 @@ class AWSM_Job_Openings {
 		$this->unregister_awsm_jobs_taxonomies();
 		$this->awsm_jobs_taxonomies();
 		$this->awsm_custom_expired_status();
+		$this->register_job_expiry_meta();
+	}
+
+	/**
+	 * Expose the Job Expiry fields to the REST API so the block editor's
+	 * Save request can persist them directly as post meta.
+	 */
+	public function register_job_expiry_meta() {
+		$args = array(
+			'type'              => 'string',
+			'single'            => true,
+			'default'           => '',
+			'sanitize_callback' => 'sanitize_text_field',
+			'auth_callback'     => function ( $allowed, $meta_key, $post_id ) {
+				return current_user_can( 'edit_post', $post_id );
+			},
+			'show_in_rest'      => true,
+		);
+
+		register_post_meta( 'awsm_job_openings', 'awsm_set_exp_list', $args );
+		register_post_meta( 'awsm_job_openings', 'awsm_job_expiry', $args );
+		register_post_meta( 'awsm_job_openings', 'awsm_exp_list_display', $args );
+	}
+
+	/**
+	 * Enqueue the Job Status Gutenberg sidebar panel on the block editor
+	 * screen for Job Openings, replacing the classic Job Status metabox
+	 * with a native panel that fetches the same server-rendered markup
+	 * over admin-ajax (see AWSM_Job_Openings_Meta::ajax_job_status_panel()),
+	 * so it stays first in the sidebar ahead of Job Expiry.
+	 */
+	public function enqueue_job_status_panel() {
+		$screen = get_current_screen();
+		if ( ! $screen || $screen->post_type !== 'awsm_job_openings' ) {
+			return;
+		}
+
+		$asset_file = AWSM_JOBS_PLUGIN_DIR . '/blocks/build/job-status-panel.asset.php';
+		if ( ! file_exists( $asset_file ) ) {
+			return;
+		}
+		$asset = include $asset_file;
+
+		wp_enqueue_script(
+			'awsm-job-status-panel',
+			AWSM_JOBS_PLUGIN_URL . '/blocks/build/job-status-panel.js',
+			array_merge( $asset['dependencies'], array( 'wp-plugins', 'wp-edit-post', 'wp-data' ) ),
+			$asset['version'],
+			true
+		);
+		wp_set_script_translations( 'awsm-job-status-panel', 'wp-job-openings', AWSM_JOBS_PLUGIN_DIR . '/languages' );
+
+		wp_localize_script(
+			'awsm-job-status-panel',
+			'awsmJobStatusPanel',
+			array(
+				'ajaxUrl' => admin_url( 'admin-ajax.php' ),
+				'nonce'   => wp_create_nonce( 'awsm_job_status_panel' ),
+			)
+		);
+	}
+
+	/**
+	 * Enqueue the Job Expiry Gutenberg sidebar panel on the block editor
+	 * screen for Job Openings, replacing the classic Job Expiry metabox
+	 * with a native `DateTimePicker`-based panel.
+	 */
+	public function enqueue_job_expiry_panel() {
+		$screen = get_current_screen();
+		if ( ! $screen || $screen->post_type !== 'awsm_job_openings' ) {
+			return;
+		}
+
+		$asset_file = AWSM_JOBS_PLUGIN_DIR . '/blocks/build/job-expiry-panel.asset.php';
+		if ( ! file_exists( $asset_file ) ) {
+			return;
+		}
+		$asset = include $asset_file;
+
+		wp_enqueue_script(
+			'awsm-job-expiry-panel',
+			AWSM_JOBS_PLUGIN_URL . '/blocks/build/job-expiry-panel.js',
+			// 'awsm-job-status-panel' is listed purely to force script execution
+			// order — PluginDocumentSettingPanel entries render in
+			// registerPlugin() call order, so this keeps "Job Expiry" appearing
+			// after "Job Status" in the sidebar instead of leaving it to
+			// incidental enqueue timing (mirrors how Pro Pack's
+			// job-display-options-panel depends on this same handle to render
+			// after Job Expiry).
+			array_merge( $asset['dependencies'], array( 'wp-plugins', 'wp-edit-post', 'wp-core-data', 'awsm-job-status-panel' ) ),
+			$asset['version'],
+			true
+		);
+		wp_set_script_translations( 'awsm-job-expiry-panel', 'wp-job-openings', AWSM_JOBS_PLUGIN_DIR . '/languages' );
+
+		wp_enqueue_style(
+			'awsm-job-expiry-panel',
+			AWSM_JOBS_PLUGIN_URL . '/blocks/build/style-job-expiry-panel.css',
+			array( 'wp-components' ),
+			$asset['version']
+		);
 	}
 
 	public function admin_actions() {
 		if ( is_admin() ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'awsm_admin_enqueue_scripts' ) );
+			add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_job_status_panel' ) );
+			add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_job_expiry_panel' ) );
 			add_action( 'admin_head', array( $this, 'admin_head_actions' ) );
 			add_action( 'edit_form_top', array( $this, 'awsm_admin_single_subtitle' ) );
 			add_action( 'save_post', array( $this, 'awsm_job_save_post' ), 100, 2 );
@@ -665,13 +775,15 @@ class AWSM_Job_Openings {
 				break;
 
 			case 'awsm_job_expiry':
-					$expiry_on_list = get_post_meta( $post_id, 'awsm_set_exp_list', true );
-					$job_expiry     = get_post_meta( $post_id, 'awsm_job_expiry', true );
-					$display_list   = get_post_meta( $post_id, 'awsm_exp_list_display', true );
-					echo ( $expiry_on_list === 'set_listing' && ! empty( $job_expiry ) ) ? esc_html( date_i18n( get_awsm_jobs_date_format( 'expiry-admin' ), strtotime( $job_expiry ) ) ) : $default_display; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					$expiry_on_list   = get_post_meta( $post_id, 'awsm_set_exp_list', true );
+					$job_expiry       = get_post_meta( $post_id, 'awsm_job_expiry', true );
+					$display_list     = get_post_meta( $post_id, 'awsm_exp_list_display', true );
+					$expiry_timestamp = ! empty( $job_expiry ) ? strtotime( $job_expiry ) : false;
+					$has_valid_expiry = $expiry_on_list === 'set_listing' && false !== $expiry_timestamp;
+					echo $has_valid_expiry ? esc_html( date_i18n( get_awsm_jobs_date_format( 'expiry-admin' ), $expiry_timestamp ) ) : $default_display; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 					echo '<input type="hidden" id="awsm_set_exp_list_' . esc_attr( $post_id ) . '" value="' . esc_attr( $expiry_on_list ) . '" >';
-					echo '<input type="hidden" id="awsm_job_expiry_' . esc_attr( $post_id ) . '" value="' . esc_attr( ( $expiry_on_list === 'set_listing' && ! empty( $job_expiry ) ) ? $job_expiry : '' ) . '" >';
+					echo '<input type="hidden" id="awsm_job_expiry_' . esc_attr( $post_id ) . '" value="' . esc_attr( $has_valid_expiry ? $job_expiry : '' ) . '" >';
 					echo '<input type="hidden" id="awsm_exp_list_display_' . esc_attr( $post_id ) . '" value="' . esc_attr( $display_list ) . '" >';
 				break;
 
@@ -825,14 +937,14 @@ class AWSM_Job_Openings {
 	}
 
 	public function check_date_and_change_status() {
-		$current_date  = gmdate( 'Y-m-d' );
+		$current_date  = gmdate( 'Y-m-d H:i:s' );
 		$selected_zone = get_option( 'awsm_jobs_timezone' );
 		if ( is_array( $selected_zone ) && isset( $selected_zone['gmt_offset'] ) && isset( $selected_zone['timezone_string'] ) ) {
 			$timezone = self::get_timezone_string( $selected_zone );
 			if ( $timezone !== 'UTC' ) {
 				$date_timezone = new DateTimeZone( $timezone );
 				$datetime      = new DateTime( 'now', $date_timezone );
-				$current_date  = $datetime->format( 'Y-m-d' );
+				$current_date  = $datetime->format( 'Y-m-d H:i:s' );
 			}
 		}
 
@@ -848,7 +960,7 @@ class AWSM_Job_Openings {
 				array(
 					'key'     => 'awsm_job_expiry',
 					'value'   => $current_date,
-					'type'    => 'DATE',
+					'type'    => 'DATETIME',
 					'compare' => '<',
 				),
 			),
@@ -1676,7 +1788,7 @@ class AWSM_Job_Openings {
 
 					if ( ! taxonomy_exists( $taxonomy ) && ( $tax_length > 0 && $tax_length <= 32 ) ) {
 						$args = array(
-							'labels'       => array( 'name' => esc_html( $spec['filter'] ) ),
+							'labels'       => array( 'name' => $spec['filter'] ),
 							'show_ui'      => false,
 							'show_in_menu' => false,
 							'query_var'    => true,
@@ -1753,6 +1865,52 @@ class AWSM_Job_Openings {
 		return trim( wp_strip_all_tags( $term ) );
 	}
 
+	/**
+	 * Keep post_status in sync with awsm_job_expiry after a block editor
+	 * REST save — see register_job_expiry_meta() and the added_action()
+	 * call above for why this can't rely on the save_post hook.
+	 */
+	public function sync_job_status_with_expiry( $post ) {
+		if ( ! $post || $post->post_type !== 'awsm_job_openings' || $post->post_status === 'trash' ) {
+			return;
+		}
+
+		if ( get_post_meta( $post->ID, 'awsm_set_exp_list', true ) !== 'set_listing' ) {
+			return;
+		}
+
+		$awsm_job_expiry = get_post_meta( $post->ID, 'awsm_job_expiry', true );
+		if ( empty( $awsm_job_expiry ) ) {
+			return;
+		}
+
+		$expiration_time = strtotime( $awsm_job_expiry );
+		if ( false === $expiration_time ) {
+			return;
+		}
+		$new_status = null;
+
+		// Only ever auto-expire a job that is actually publish-ed — 'expired' is
+		// registered with 'public' => true, so flipping a draft/pending/future
+		// post straight to it would make unpublished content publicly reachable.
+		if ( $expiration_time < time() && $post->post_status === 'publish' ) {
+			$new_status = 'expired';
+		} elseif ( $expiration_time > time() && $post->post_status === 'expired' ) {
+			$new_status = 'publish';
+		}
+
+		if ( null !== $new_status ) {
+			remove_action( 'rest_after_insert_awsm_job_openings', array( $this, 'sync_job_status_with_expiry' ), 10 );
+			wp_update_post(
+				array(
+					'ID'          => $post->ID,
+					'post_status' => $new_status,
+				)
+			);
+			add_action( 'rest_after_insert_awsm_job_openings', array( $this, 'sync_job_status_with_expiry' ), 10, 1 );
+		}
+	}
+
 	public function awsm_job_save_post( $post_id, $post ) {
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 			return;
@@ -1786,9 +1944,12 @@ class AWSM_Job_Openings {
 				}
 
 				// Check if the job should be expired
-				if ( $expiry_on_list === 'set_listing' && ! empty( $awsm_job_expiry ) ) {
-					$expiration_time = strtotime( $awsm_job_expiry );
-					if ( $expiration_time < ( time() - ( 24 * 60 * 60 ) ) && $post->post_status !== 'trash' ) {
+				$expiration_time = ( $expiry_on_list === 'set_listing' && ! empty( $awsm_job_expiry ) ) ? strtotime( $awsm_job_expiry ) : false;
+				if ( false !== $expiration_time ) {
+					// Only auto-expire an actually-published job — 'expired' is public,
+					// so flipping a draft/pending/future post straight to it would make
+					// unpublished content publicly reachable.
+					if ( $expiration_time < time() && $post->post_status === 'publish' ) {
 						$post_data                = array();
 						$post_data['ID']          = $post_id;
 						$post_data['post_status'] = 'expired';
@@ -1797,7 +1958,7 @@ class AWSM_Job_Openings {
 						wp_update_post( $post_data );
 						// now, re-hook this function
 						add_action( 'save_post', array( $this, 'awsm_job_save_post' ), 100, 2 );
-					} elseif ( $post->post_status === 'expired' ) {
+					} elseif ( $post->post_status === 'expired' && $expiration_time > time() ) {
 						// Future expiry date set on an expired job — restore to published
 						$post_data                = array();
 						$post_data['ID']          = $post_id;
@@ -1854,51 +2015,61 @@ class AWSM_Job_Openings {
 				}
 			}
 
-			// handle job expiry.
-			$expiry_on_list  = isset( $_POST['awsm_set_exp_list'] ) ? sanitize_text_field( $_POST['awsm_set_exp_list'] ) : '';
-			$awsm_job_expiry = isset( $_POST['awsm_job_expiry'] ) ? sanitize_text_field( $_POST['awsm_job_expiry'] ) : '';
-			$display_list    = isset( $_POST['awsm_exp_list_display'] ) ? sanitize_text_field( $_POST['awsm_exp_list_display'] ) : '';
-			$job_expiry_meta = array(
-				'awsm_set_exp_list'     => $expiry_on_list,
-				'awsm_job_expiry'       => $awsm_job_expiry,
-				'awsm_exp_list_display' => $display_list,
-			);
-			foreach ( $job_expiry_meta as $meta_key => $meta_value ) {
-				$olddata = get_post_meta( $post_id, $meta_key, true );
-				if ( ! empty( $meta_value ) ) {
-					if ( $meta_value !== $olddata && $expiry_on_list === 'set_listing' ) {
-						update_post_meta( $post_id, $meta_key, $meta_value );
-					} elseif ( empty( $expiry_on_list ) ) {
-						delete_post_meta( $post_id, $meta_key, $meta_value );
+			// Handle job expiry via the classic $_POST fields — only relevant when
+			// the classic Job Expiry metabox actually rendered them (i.e. not the
+			// block editor, which saves these fields via REST; see
+			// register_job_expiry_meta() and the Job Expiry Gutenberg panel).
+			// Skipping this for the block editor avoids deleting the REST-saved
+			// values, since $_POST won't contain these keys in that context.
+			if ( ! use_block_editor_for_post_type( 'awsm_job_openings' ) ) {
+				$expiry_on_list  = isset( $_POST['awsm_set_exp_list'] ) ? sanitize_text_field( $_POST['awsm_set_exp_list'] ) : '';
+				$awsm_job_expiry = isset( $_POST['awsm_job_expiry'] ) ? sanitize_text_field( $_POST['awsm_job_expiry'] ) : '';
+				$display_list    = isset( $_POST['awsm_exp_list_display'] ) ? sanitize_text_field( $_POST['awsm_exp_list_display'] ) : '';
+				$job_expiry_meta = array(
+					'awsm_set_exp_list'     => $expiry_on_list,
+					'awsm_job_expiry'       => $awsm_job_expiry,
+					'awsm_exp_list_display' => $display_list,
+				);
+				foreach ( $job_expiry_meta as $meta_key => $meta_value ) {
+					$olddata = get_post_meta( $post_id, $meta_key, true );
+					if ( ! empty( $meta_value ) ) {
+						if ( $meta_value !== $olddata && $expiry_on_list === 'set_listing' ) {
+							update_post_meta( $post_id, $meta_key, $meta_value );
+						} elseif ( empty( $expiry_on_list ) ) {
+							delete_post_meta( $post_id, $meta_key, $meta_value );
+						}
+					} else {
+						delete_post_meta( $post_id, $meta_key, $olddata );
 					}
-				} else {
-					delete_post_meta( $post_id, $meta_key, $olddata );
 				}
-			}
 
-			if ( $expiry_on_list === 'set_listing' && ! empty( $awsm_job_expiry ) ) {
-				$expiration_time = strtotime( $awsm_job_expiry );
-				if ( $expiration_time < ( time() - ( 24 * 60 * 60 ) ) && $post->post_status !== 'trash' ) {
-					$post_data                = array();
-					$post_data['ID']          = $post_id;
-					$post_data['post_status'] = 'expired';
-					// unhook this function so it doesn't loop infinitely
-					remove_action( 'save_post', array( $this, 'awsm_job_save_post' ), 100 );
-					wp_update_post( $post_data );
-					// now, re-hook this function
-					add_action( 'save_post', array( $this, 'awsm_job_save_post' ), 100, 2 );
+				$expiration_time = ( $expiry_on_list === 'set_listing' && ! empty( $awsm_job_expiry ) ) ? strtotime( $awsm_job_expiry ) : false;
+				if ( false !== $expiration_time ) {
+					// Only auto-expire an actually-published job — 'expired' is public,
+					// so flipping a draft/pending/future post straight to it would make
+					// unpublished content publicly reachable.
+					if ( $expiration_time < time() && $post->post_status === 'publish' ) {
+						$post_data                = array();
+						$post_data['ID']          = $post_id;
+						$post_data['post_status'] = 'expired';
+						// unhook this function so it doesn't loop infinitely
+						remove_action( 'save_post', array( $this, 'awsm_job_save_post' ), 100 );
+						wp_update_post( $post_data );
+						// now, re-hook this function
+						add_action( 'save_post', array( $this, 'awsm_job_save_post' ), 100, 2 );
+					} elseif ( $post->post_status === 'expired' && $expiration_time > time() ) {
+						// Future expiry date set on an expired job — restore to published
+						$post_data                = array();
+						$post_data['ID']          = $post_id;
+						$post_data['post_status'] = 'publish';
+						remove_action( 'save_post', array( $this, 'awsm_job_save_post' ), 100 );
+						wp_update_post( $post_data );
+						add_action( 'save_post', array( $this, 'awsm_job_save_post' ), 100, 2 );
+					}
 				} elseif ( $post->post_status === 'expired' ) {
-					// Future expiry date set on an expired job — restore to published
-					$post_data                = array();
-					$post_data['ID']          = $post_id;
-					$post_data['post_status'] = 'publish';
-					remove_action( 'save_post', array( $this, 'awsm_job_save_post' ), 100 );
-					wp_update_post( $post_data );
-					add_action( 'save_post', array( $this, 'awsm_job_save_post' ), 100, 2 );
+						update_post_meta( $post_id, 'awsm_set_exp_list', 'set_listing' );
+						update_post_meta( $post_id, 'awsm_job_expiry', gmdate( 'Y-m-d' ) );
 				}
-			} elseif ( $post->post_status === 'expired' ) {
-					update_post_meta( $post_id, 'awsm_set_exp_list', 'set_listing' );
-					update_post_meta( $post_id, 'awsm_job_expiry', gmdate( 'Y-m-d' ) );
 			}
 
 			$rated_status = intval( get_option( 'awsm_jobs_plugin_rating' ) );
@@ -2371,18 +2542,19 @@ class AWSM_Job_Openings {
 			return;
 		}
 
-		$post_id         = $post->ID;
-		$data            = array(
+		$post_id          = $post->ID;
+		$data             = array(
 			'@context'    => 'http://schema.org/',
 			'@type'       => 'JobPosting',
 			'title'       => wp_strip_all_tags( get_the_title() ),
 			'description' => get_the_content(),
 			'datePosted'  => get_post_time( 'c' ),
 		);
-		$expiry_on_list  = get_post_meta( $post_id, 'awsm_set_exp_list', true );
-		$expiration_date = get_post_meta( $post_id, 'awsm_job_expiry', true );
-		if ( $expiry_on_list === 'set_listing' && ! empty( $expiration_date ) ) {
-			$data['validThrough'] = gmdate( 'c', strtotime( $expiration_date ) );
+		$expiry_on_list   = get_post_meta( $post_id, 'awsm_set_exp_list', true );
+		$expiration_date  = get_post_meta( $post_id, 'awsm_job_expiry', true );
+		$expiration_stamp = ! empty( $expiration_date ) ? strtotime( $expiration_date ) : false;
+		if ( $expiry_on_list === 'set_listing' && false !== $expiration_stamp ) {
+			$data['validThrough'] = gmdate( 'c', $expiration_stamp );
 		}
 		$company_name = get_option( 'awsm_job_company_name' );
 		if ( ! empty( $company_name ) ) {

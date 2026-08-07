@@ -54,6 +54,12 @@ if ( $post->post_type === 'awsm_job_application' ) {
 			$data_rows['current_status'][1] = '<span class="awsm-text-red">' . esc_html__( 'Expired', 'wp-job-openings' ) . '</span>';
 		} elseif ( $check_status === 'trash' ) {
 			$data_rows['current_status'][1] = '<span class="awsm-text-red">' . esc_html__( 'Trashed', 'wp-job-openings' ) . '</span>';
+		} elseif ( $check_status === 'draft' ) {
+			$data_rows['current_status'][1] = '<span>' . esc_html__( 'Draft', 'wp-job-openings' ) . '</span>';
+		} elseif ( $check_status === 'future' ) {
+			$data_rows['current_status'][1] = '<span>' . esc_html__( 'Scheduled', 'wp-job-openings' ) . '</span>';
+		} elseif ( $check_status === 'pending' ) {
+			$data_rows['current_status'][1] = '<span>' . esc_html__( 'Pending Review', 'wp-job-openings' ) . '</span>';
 		} else {
 			$data_rows['current_status'][1] = '<span>' . esc_html__( 'Pending', 'wp-job-openings' ) . '</span>';
 		}
@@ -76,7 +82,8 @@ if ( $post->post_type === 'awsm_job_application' ) {
 			$date_format         = get_awsm_jobs_date_format( 'job-status' );
 			$job_submission_date = date_i18n( $date_format, get_post_time( 'U', false, $job_id ) );
 			$expiry_date         = get_post_meta( $job_id, 'awsm_job_expiry', true );
-			$formatted_date      = ! empty( $expiry_date ) ? date_i18n( $date_format, strtotime( $expiry_date ) ) : esc_html__( 'NA', 'wp-job-openings' );
+			$expiry_date_stamp   = ! empty( $expiry_date ) ? strtotime( $expiry_date ) : false;
+			$formatted_date      = ( false !== $expiry_date_stamp ) ? date_i18n( $date_format, $expiry_date_stamp ) : esc_html__( 'NA', 'wp-job-openings' );
 
 			if ( current_user_can( 'edit_post', $job_id ) ) {
 				$data_rows['job_title'][1] = sprintf( '<a href="%2$s">%1$s</a>', $data_rows['job_title'][1], esc_url( get_edit_post_link( $job_id ) ) );

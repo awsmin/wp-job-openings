@@ -1,5 +1,14 @@
 ## Changelog
 
+### V 4.0.4 – 2026-08-05
+* Fixed: Responsive layout issues on the admin settings pages.
+* Improved: Replaced the classic Job Expiry metabox with a Gutenberg sidebar panel using WordPress core's native DateTimePicker; expiry meta now saves via the REST API.
+* Improved: Job Expiry date/time no longer preselects a value — the user must actively pick one.
+* Improved: Reordered block editor sidebar panels — Job Status, Job Expiry, then Pro Pack panels.
+* Added: New Elementor widget for displaying job listings.
+* Added: Pro feature flag for the settings page Pro tabs.
+* Minor bug fixes and code improvements.
+
 ### V 4.0.3 – 2026-07-14
 * Fixed: Block — job specification/filter dropdowns no longer disappear when a spec's terms have no currently-matching jobs (e.g. all excluded or expired).
 * Fixed: Block — pagination no longer fires duplicate/overlapping requests on rapid double-clicks (Classic and Modern styles).

@@ -3,9 +3,9 @@
 **Contributors:** awsmin, aravindajith, anantajitjg, sarathar, adhun, nithi22, @sruthi89, shilpaashokan94, @vivekawsm, @fathima54321  
 **Tags:** jobs, job listing, job board, careers page, recruitment  
 **Requires at least:** 6.0  
-**Tested up to:** 7.0.1
+**Tested up to:** 7.0.2
 **Requires PHP:** 5.6  
-**Stable tag:** 4.0.3  
+**Stable tag:** 4.0.4 
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
 **Donate link:** https://www.buymeacoffee.com/awsm
@@ -108,6 +108,15 @@ Yes. You can view, filter, and manage applications from your dashboard.
 <img src="https://ps.w.org/wp-job-openings/assets/screenshot-5.png?rev=2639067" width="90%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-2.png?rev=2639067" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-3.png?rev=2639067" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-4.png?rev=2639067" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-1.png?rev=2639067" width="90%"></img>
 
 ## Changelog
+
+**V 4.0.4 – 2026-08-05**
+* Fixed: Responsive layout issues on the admin settings pages.
+* Improved: Replaced the classic Job Expiry metabox with a Gutenberg sidebar panel using WordPress core's native DateTimePicker; expiry meta now saves via the REST API.
+* Improved: Job Expiry date/time no longer preselects a value — the user must actively pick one.
+* Improved: Reordered block editor sidebar panels — Job Status, Job Expiry, then Pro Pack panels.
+* Added: New Elementor widget for displaying job listings.
+* Added: Pro feature flag for the settings page Pro tabs.
+* Minor bug fixes and code improvements.
 
 **V 4.0.3 – 2026-07-14**
 * Fixed: Block — job specification/filter dropdowns no longer disappear when a spec's terms have no currently-matching jobs (e.g. all excluded or expired).

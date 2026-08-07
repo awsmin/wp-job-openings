@@ -152,6 +152,19 @@ if ( ! function_exists( 'awsm_jobs_mail_content_type' ) ) {
 	}
 }
 
+if ( ! function_exists( 'awsm_jobs_is_pro_active' ) ) {
+	/**
+	 * Determines if the Pro Pack plugin is active.
+	 *
+	 * @since 4.0.4
+	 *
+	 * @return bool True if the Pro Pack plugin is active.
+	 */
+	function awsm_jobs_is_pro_active() {
+		return class_exists( 'AWSM_Job_Openings_Pro_Pack' );
+	}
+}
+
 if ( ! function_exists( 'awsm_jobs_is_new_captcha_enabled' ) ) {
 	/**
 	 * Determines if the new CAPTCHA structure is enabled.

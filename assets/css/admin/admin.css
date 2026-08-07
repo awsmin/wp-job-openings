@@ -107,6 +107,46 @@
 	display: none !important;
 }
 
+/*--------Locked (Pro) subtab hover tooltip----------*/
+.awsm-nav-subtab-container .subsubsub li.pro-feature {
+	position: relative;
+}
+
+.awsm-nav-subtab-container .subsubsub li.pro-feature > a:not(.pro-ft) {
+	color: #a7aaad;
+	cursor: default;
+}
+
+.awsm-nav-subtab-container .subsubsub li.pro-feature > a:not(.pro-ft):hover,
+.awsm-nav-subtab-container .subsubsub li.pro-feature > a:not(.pro-ft):focus {
+	color: #a7aaad;
+	text-decoration: none;
+}
+
+.awsm-nav-subtab-container .subsubsub li.pro-feature .pro-ft {
+	opacity: 0;
+	visibility: hidden;
+	transition: all 0.3s ease;
+	background: #161616;
+	padding: 4px 8px;
+	border-radius: 4px;
+	font-size: 11px;
+	color: #6CFAE4;
+	line-height: 1;
+	position: absolute;
+	left: 100%;
+	top: 50%;
+	margin-left: 8px;
+	transform: translateY(-50%);
+	text-decoration: none;
+	white-space: nowrap;
+}
+
+.awsm-nav-subtab-container .subsubsub li.pro-feature:hover .pro-ft {
+	opacity: 1;
+	visibility: visible;
+}
+
 .form-table th.awsm-form-head-title {
 	padding: 10px 10px 10px 0;
 }
@@ -676,18 +716,29 @@ a.awsm-text-red:hover {
 	margin-top: 12px;
 }
 
+.awsm-job-expiry-items:has(#awsm-job-expiry:checked) .awsm-job-expiry-main {
+	display: block;
+}
+
 .awsm-job-expiry-items {
 	margin: 16px 0px 4px 0px;
 }
 
-#awsm-job-expiry:checked~.awsm-job-expiry-main {
-	display: block;
+.awsm-toggle-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	cursor: pointer;
 }
 
-.awsm-job-expiry-items>input,
-.awsm-job-expiry-items>label {
-	display: inline-block;
-	vertical-align: bottom;
+.awsm-toggle-row .awsm-toggle-switch {
+	position: static;
+	flex-shrink: 0;
+}
+
+.awsm-toggle-row-label {
+	font-weight: 600;
 }
 
 .awsm-jobs-datepicker-wrapper {
@@ -710,6 +761,10 @@ a.awsm-text-red:hover {
 }
 
 .awsm-hide {
+	display: none !important;
+}
+
+#awsm-job-nonce-meta {
 	display: none !important;
 }
 
@@ -817,6 +872,8 @@ a.awsm-text-red:hover {
 	width: 100%;
 	box-sizing: border-box;
 }
+
+
 
 /*------ Setup page ---*/
 .awsm_job_openings_page_awsm-jobs-setup #wpbody-content,
@@ -1325,7 +1382,7 @@ p.description.awsm-jobs-invalid {
 	z-index: 9989;
 	padding: 10px 20px;
 	align-items: center;
-	height: 30px;
+	box-sizing: border-box;
 }
 
 .awsm-job-admin-nav-logo a {
@@ -2606,6 +2663,11 @@ input.awsm-button:disabled {
 	}
 
 }
+@media screen and (min-width: 783px) {
+	.awsm-admin-settings .awsm-wpjo-form-group input:not([type='checkbox']):not([type='radio']), .awsm-admin-settings .awsm-wpjo-form-group select, .awsm-admin-settings .awsm-wpjo-form-group textarea {
+		width: 50em;
+	}
+}
 
 @media (max-width:1250px) {
 	.awsm-settings-col-left {
@@ -2650,7 +2712,24 @@ input.awsm-button:disabled {
 	.awsm-job-admin-nav li {
 		padding: 0 14px;
 	}
-
+	.awsm-sub-options-container table{
+		width: 100%;
+	}
+	.awsm-admin-settings .awsm-wpjo-form-group input:not([type='checkbox']):not([type='radio']), .awsm-admin-settings .awsm-wpjo-form-group select, .awsm-admin-settings .awsm-wpjo-form-group textarea {
+		max-width: 100%;
+		width: 100% !important;
+	}
+	  .awsm-captcha-wrapper{
+        gap: 20px;
+    }
+    .awsm-captcha-item {
+        min-width: 100px;
+        width: 100px;
+    }
+    .awsm-captcha-item span img {
+        max-width: 85%;
+        height: auto;
+    }
 }
 
 @media (max-width:600px) {
@@ -2694,7 +2773,7 @@ input.awsm-button:disabled {
 	}
 
 	.awsm-job-admin-nav-logo a {
-		width: 24px;
+		width: 32px;
 	}
 
 	.awsm-job-admin-nav {

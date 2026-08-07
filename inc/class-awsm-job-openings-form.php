@@ -690,9 +690,10 @@ class AWSM_Job_Openings_Form {
 	}
 
 	public function get_mail_template_tags( $applicant_details, $options = array() ) {
-		$job_expiry     = get_post_meta( $applicant_details['awsm_job_id'], 'awsm_job_expiry', true );
-		$job_expiry     = ( ! empty( $job_expiry ) ) ? date_i18n( get_awsm_jobs_date_format( 'expiry-mail' ), strtotime( $job_expiry ) ) : '';
-		$attachment_url = isset( $applicant_details['awsm_attachment_id'] ) ? wp_get_attachment_url( $applicant_details['awsm_attachment_id'] ) : '';
+		$job_expiry       = get_post_meta( $applicant_details['awsm_job_id'], 'awsm_job_expiry', true );
+		$job_expiry_stamp = ! empty( $job_expiry ) ? strtotime( $job_expiry ) : false;
+		$job_expiry       = ( false !== $job_expiry_stamp ) ? date_i18n( get_awsm_jobs_date_format( 'expiry-mail' ), $job_expiry_stamp ) : '';
+		$attachment_url   = isset( $applicant_details['awsm_attachment_id'] ) ? wp_get_attachment_url( $applicant_details['awsm_attachment_id'] ) : '';
 		if ( ! empty( $attachment_url ) && get_option( 'awsm_hide_uploaded_files' ) === 'hide_files' ) {
 			$attachment_url = AWSM_Job_Openings::get_application_edit_link( $applicant_details['application_id'] );
 		}
@@ -1072,7 +1073,7 @@ class AWSM_Job_Openings_Form {
 				'render'        => array(
 					'class'      => 'h-captcha',
 					'data_attrs' => array(),
-					'noscript'   => null,
+					'noscript'   => 'render_captcha_noscript_message',
 				),
 				'script'        => array(
 					'handle'    => 'awsm-jobs-h-captcha',
@@ -1095,7 +1096,7 @@ class AWSM_Job_Openings_Form {
 				'render'        => array(
 					'class'      => 'cf-turnstile',
 					'data_attrs' => array(),
-					'noscript'   => null,
+					'noscript'   => 'render_captcha_noscript_message',
 				),
 				'script'        => array(
 					'handle'    => 'awsm-jobs-cf-turnstile',
@@ -1595,7 +1596,7 @@ class AWSM_Job_Openings_Form {
 		if ( ! empty( $render_config['noscript'] ) ) {
 			$noscript_method = $render_config['noscript'];
 			if ( method_exists( $this, $noscript_method ) ) {
-				$this->{$noscript_method}( $site_key );
+				$this->{$noscript_method}( $site_key, $captcha_type );
 			}
 		}
 	}
@@ -1617,6 +1618,38 @@ class AWSM_Job_Openings_Form {
 					<textarea id="g-recaptcha-response" name="g-recaptcha-response" class="g-recaptcha-response" style="width: 250px; height: 40px; border: 1px solid #c1c1c1; margin: 10px 25px; padding: 0px; resize: none;"></textarea>
 				</div>
 			</div>
+		</noscript>
+		<?php
+	}
+
+	/**
+	 * Render a generic noscript fallback message for CAPTCHA providers
+	 * (e.g. hCaptcha, Turnstile) that do not offer a functional non-JS
+	 * challenge, unlike reCAPTCHA's iframe fallback.
+	 *
+	 * @param string $site_key     Unused, kept for signature parity with render_recaptcha_noscript().
+	 * @param string $captcha_type The active captcha type (e.g. 'hcaptcha', 'turnstile').
+	 * @return void
+	 */
+	private function render_captcha_noscript_message( $site_key, $captcha_type ) {
+		$labels = array(
+			'hcaptcha'  => 'hCaptcha',
+			'turnstile' => 'Turnstile',
+		);
+		$label  = isset( $labels[ $captcha_type ] ) ? $labels[ $captcha_type ] : __( 'CAPTCHA', 'wp-job-openings' );
+		?>
+		<noscript>
+			<p class="awsm-job-captcha-noscript-msg">
+				<?php
+				echo esc_html(
+					sprintf(
+						/* translators: %s: Captcha provider name (e.g. hCaptcha, Turnstile) */
+						__( 'JavaScript is disabled. Enable it to use %s.', 'wp-job-openings' ),
+						$label
+					)
+				);
+				?>
+			</p>
 		</noscript>
 		<?php
 	}
