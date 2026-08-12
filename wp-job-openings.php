@@ -14,7 +14,7 @@
  * Domain Path: /languages
  */
 /**
- * HireZoot Plugin
+ * HireZoot 
  *
  * HireZoot (formerly WP Job Openings) makes hiring simple. Add job listings, publish a clean careers page, and manage applications without leaving WordPress.
  *
