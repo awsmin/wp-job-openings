@@ -53,7 +53,11 @@ class AWSM_Job_Openings_Meta {
 			// The block editor gets a native Gutenberg panel (see
 			// AWSM_Job_Openings::enqueue_job_status_panel()) instead of this classic
 			// metabox; keep the classic version only for the Classic Editor fallback.
-			if ( ! use_block_editor_for_post_type( 'awsm_job_openings' ) ) {
+			// use_block_editor_for_post() (not the _post_type() variant) is required
+			// here so this respects a per-post Classic Editor switch — the _post_type()
+			// check ignores that and stays true even when Classic Editor plugin's
+			// "Allow users to switch editors" has switched this specific post to Classic.
+			if ( ! use_block_editor_for_post( $post ) ) {
 				add_meta_box( 'awsm-status-meta', esc_html__( 'Job Status', 'wp-job-openings' ), array( $this, 'awsm_job_status' ), 'awsm_job_openings', 'side', 'high' );
 			}
 			add_meta_box( 'awsm-status-meta-applicant', esc_html__( 'Job Details', 'wp-job-openings' ), array( $this, 'awsm_job_status' ), 'awsm_job_application', 'side', 'low' );
@@ -66,7 +70,9 @@ class AWSM_Job_Openings_Meta {
 
 		// The block editor gets a native Gutenberg panel (see AWSM_Job_Openings::enqueue_job_expiry_panel())
 		// instead of this classic metabox; keep the classic version only for the Classic Editor fallback.
-		if ( ! use_block_editor_for_post_type( 'awsm_job_openings' ) ) {
+		// See the use_block_editor_for_post() note above for why the _post_type()
+		// variant is wrong here.
+		if ( ! use_block_editor_for_post( $post ) ) {
 			add_meta_box( 'awsm-expiry-meta', esc_html__( 'Job Expiry', 'wp-job-openings' ), array( $this, 'awsm_job_expiration' ), 'awsm_job_openings', 'side', 'low' );
 		}
 

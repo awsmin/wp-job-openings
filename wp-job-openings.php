@@ -2021,7 +2021,9 @@ class AWSM_Job_Openings {
 			// register_job_expiry_meta() and the Job Expiry Gutenberg panel).
 			// Skipping this for the block editor avoids deleting the REST-saved
 			// values, since $_POST won't contain these keys in that context.
-			if ( ! use_block_editor_for_post_type( 'awsm_job_openings' ) ) {
+			// use_block_editor_for_post() (not the _post_type() variant) is required
+			// so this respects a per-post Classic Editor switch.
+			if ( ! use_block_editor_for_post( $post ) ) {
 				$expiry_on_list  = isset( $_POST['awsm_set_exp_list'] ) ? sanitize_text_field( $_POST['awsm_set_exp_list'] ) : '';
 				$awsm_job_expiry = isset( $_POST['awsm_job_expiry'] ) ? sanitize_text_field( $_POST['awsm_job_expiry'] ) : '';
 				$display_list    = isset( $_POST['awsm_exp_list_display'] ) ? sanitize_text_field( $_POST['awsm_exp_list_display'] ) : '';
