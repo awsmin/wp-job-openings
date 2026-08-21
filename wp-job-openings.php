@@ -2023,7 +2023,19 @@ class AWSM_Job_Openings {
 			// values, since $_POST won't contain these keys in that context.
 			// use_block_editor_for_post() (not the _post_type() variant) is required
 			// so this respects a per-post Classic Editor switch.
-			if ( ! use_block_editor_for_post( $post ) ) {
+			//
+			// It is NOT sufficient alone, though: WordPress core's own
+			// use_block_editor_for_post() hard-codes a `return false` whenever
+			// $_GET['meta-box-loader'] is set — the block editor's own internal
+			// request for re-rendering/resubmitting legacy (non-REST) meta boxes,
+			// which fires on every block-editor save regardless of Classic Editor.
+			// Without also excluding that here, this block wrongly treats the
+			// meta-box-loader's request as a genuine classic submission, sees no
+			// expiry fields in ITS $_POST (they were never rendered into that
+			// legacy form), and deletes the value the REST save just wrote moments
+			// earlier — on every single block-editor save. See wp-includes/post.php
+			// use_block_editor_for_post() for the core source of that override.
+			if ( ! use_block_editor_for_post( $post ) && ! isset( $_GET['meta-box-loader'] ) ) {
 				$expiry_on_list  = isset( $_POST['awsm_set_exp_list'] ) ? sanitize_text_field( $_POST['awsm_set_exp_list'] ) : '';
 				$awsm_job_expiry = isset( $_POST['awsm_job_expiry'] ) ? sanitize_text_field( $_POST['awsm_job_expiry'] ) : '';
 				$display_list    = isset( $_POST['awsm_exp_list_display'] ) ? sanitize_text_field( $_POST['awsm_exp_list_display'] ) : '';
