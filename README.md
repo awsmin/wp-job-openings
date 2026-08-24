@@ -109,6 +109,10 @@ Yes. You can view, filter, and manage applications from your dashboard.
 
 ## Changelog
 
+= V 4.0.5 – 2026-08-24 =
+* Fixed: Job Status and Job Expiry metaboxes disappearing on the job edit screen when Classic Editor's "Allow users to switch editors" setting is enabled.
+* Minor bug fixes and code improvements.
+
 **V 4.0.4 – 2026-08-05**
 * Fixed: Responsive layout issues on the admin settings pages.
 * Improved: Replaced the classic Job Expiry metabox with a Gutenberg sidebar panel using WordPress core's native DateTimePicker; expiry meta now saves via the REST API.
