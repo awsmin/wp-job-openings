@@ -5,7 +5,7 @@
  * Description: HireZoot (formerly WP Job Openings) makes hiring simple. Add job listings, publish a clean careers page, and manage applications without leaving WordPress.
  * Author: AWSM Innovations
  * Author URI: https://awsm.in/
- * Version: 4.0.4
+ * Version: 4.0.5
  * Requires at least: 6.0
  * Requires PHP: 5.6
  * License: GPLv2
@@ -14,7 +14,7 @@
  * Domain Path: /languages
  */
 /**
- * HireZoot Plugin
+ * HireZoot
  *
  * HireZoot (formerly WP Job Openings) makes hiring simple. Add job listings, publish a clean careers page, and manage applications without leaving WordPress.
  *
@@ -37,7 +37,7 @@ if ( ! defined( 'AWSM_JOBS_PLUGIN_URL' ) ) {
 	define( 'AWSM_JOBS_PLUGIN_URL', untrailingslashit( plugin_dir_url( __FILE__ ) ) );
 }
 if ( ! defined( 'AWSM_JOBS_PLUGIN_VERSION' ) ) {
-	define( 'AWSM_JOBS_PLUGIN_VERSION', '4.0.4' );
+	define( 'AWSM_JOBS_PLUGIN_VERSION', '4.0.5' );
 }
 if ( ! defined( 'AWSM_JOBS_UPLOAD_DIR_NAME' ) ) {
 	define( 'AWSM_JOBS_UPLOAD_DIR_NAME', 'awsm-job-openings' );
@@ -2021,7 +2021,21 @@ class AWSM_Job_Openings {
 			// register_job_expiry_meta() and the Job Expiry Gutenberg panel).
 			// Skipping this for the block editor avoids deleting the REST-saved
 			// values, since $_POST won't contain these keys in that context.
-			if ( ! use_block_editor_for_post_type( 'awsm_job_openings' ) ) {
+			// use_block_editor_for_post() (not the _post_type() variant) is required
+			// so this respects a per-post Classic Editor switch.
+			//
+			// It is NOT sufficient alone, though: WordPress core's own
+			// use_block_editor_for_post() hard-codes a `return false` whenever
+			// $_GET['meta-box-loader'] is set — the block editor's own internal
+			// request for re-rendering/resubmitting legacy (non-REST) meta boxes,
+			// which fires on every block-editor save regardless of Classic Editor.
+			// Without also excluding that here, this block wrongly treats the
+			// meta-box-loader's request as a genuine classic submission, sees no
+			// expiry fields in ITS $_POST (they were never rendered into that
+			// legacy form), and deletes the value the REST save just wrote moments
+			// earlier — on every single block-editor save. See wp-includes/post.php
+			// use_block_editor_for_post() for the core source of that override.
+			if ( ! use_block_editor_for_post( $post ) && ! isset( $_GET['meta-box-loader'] ) ) {
 				$expiry_on_list  = isset( $_POST['awsm_set_exp_list'] ) ? sanitize_text_field( $_POST['awsm_set_exp_list'] ) : '';
 				$awsm_job_expiry = isset( $_POST['awsm_job_expiry'] ) ? sanitize_text_field( $_POST['awsm_job_expiry'] ) : '';
 				$display_list    = isset( $_POST['awsm_exp_list_display'] ) ? sanitize_text_field( $_POST['awsm_exp_list_display'] ) : '';

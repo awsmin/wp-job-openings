@@ -23,7 +23,8 @@
  * object — compensating for the site offset only at the one boundary
  * (`componentsToPickerDate`) where <DateTimePicker> needs it.
  */
-import { ToggleControl, Dropdown, Button, DateTimePicker } from '@wordpress/components';
+import { ToggleControl, Dropdown, Button, DateTimePicker, Notice } from '@wordpress/components';
+import { Component, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { getSettings } from '@wordpress/date';
 import { close } from '@wordpress/icons';
@@ -108,9 +109,43 @@ function isPastCalendarDay( day ) {
 	return new Date( day.getFullYear(), day.getMonth(), day.getDate() ) < startOfToday;
 }
 
+// Catches render-time exceptions so a break in this panel (e.g. from a
+// WordPress core API changing shape under it) shows up as a visible message
+// in the sidebar instead of the whole panel silently vanishing with nothing
+// in the UI to explain why "Set expiry" / the picked date never stuck.
+class JobExpiryErrorBoundary extends Component {
+	constructor( props ) {
+		super( props );
+		this.state = { error: null };
+	}
+
+	static getDerivedStateFromError( error ) {
+		return { error };
+	}
+
+	render() {
+		if ( this.state.error ) {
+			return (
+				<wp.editPost.PluginDocumentSettingPanel
+					name="awsm-job-expiry"
+					title={ __( 'Job Expiry', 'wp-job-openings' ) }
+					className="awsm-job-expiry-panel"
+				>
+					<Notice status="error" isDismissible={ false }>
+						{ __( 'Job Expiry panel error:', 'wp-job-openings' ) } { this.state.error.message }
+					</Notice>
+				</wp.editPost.PluginDocumentSettingPanel>
+			);
+		}
+		return this.props.children;
+	}
+}
+
 function JobExpiryPanel() {
 	const { useEntityProp } = wp.coreData;
-	const [ meta, setMeta ] = useEntityProp( 'postType', POST_TYPE, 'meta' );
+	const postId = wp.data.useSelect( ( select ) => select( 'core/editor' ).getCurrentPostId(), [] );
+	const [ meta ] = useEntityProp( 'postType', POST_TYPE, 'meta' );
+	const [ handlerError, setHandlerError ] = useState( null );
 
 	if ( ! meta ) {
 		return null;
@@ -125,6 +160,26 @@ function JobExpiryPanel() {
 	const displayOnList = meta.awsm_exp_list_display === 'list_display';
 	const components = parsedExpiry || nowComponentsAtSiteOffset( siteOffsetHours );
 
+	// Reads meta straight from the data store (rather than merging onto the
+	// `meta` above, which is a snapshot from the START of this render) and
+	// dispatches directly instead of going through useEntityProp's setter.
+	// Two setMeta() calls fired close together (e.g. toggling "Set expiry" and
+	// immediately picking "Now") can each close over the same pre-update
+	// snapshot, so the second call's merge silently drops the first call's
+	// change — this bypasses that by always merging onto the current value.
+	const updateMeta = ( changes ) => {
+		try {
+			const freshMeta = wp.data.select( 'core' ).getEditedEntityRecord( 'postType', POST_TYPE, postId ).meta;
+			wp.data.dispatch( 'core' ).editEntityRecord( 'postType', POST_TYPE, postId, {
+				meta: { ...freshMeta, ...changes },
+			} );
+		} catch ( error ) {
+			// eslint-disable-next-line no-console
+			console.error( '[awsm-job-expiry-panel] updateMeta failed', error );
+			setHandlerError( error.message );
+		}
+	};
+
 	// Deliberately does NOT default awsm_job_expiry to "now" here — the listing
 	// must not expire until the user has actively picked a date/time (via the
 	// picker below or its "Now" shortcut). sync_job_status_with_expiry() and
@@ -133,9 +188,9 @@ function JobExpiryPanel() {
 	// safe and keeps the listing active until a date is actually chosen.
 	const onToggleExpiry = ( checked ) => {
 		if ( checked ) {
-			setMeta( { awsm_set_exp_list: 'set_listing' } );
+			updateMeta( { awsm_set_exp_list: 'set_listing' } );
 		} else {
-			setMeta( {
+			updateMeta( {
 				awsm_set_exp_list: '',
 				awsm_job_expiry: '',
 				awsm_exp_list_display: '',
@@ -144,15 +199,15 @@ function JobExpiryPanel() {
 	};
 
 	const onToggleDisplay = ( checked ) => {
-		setMeta( { awsm_exp_list_display: checked ? 'list_display' : '' } );
+		updateMeta( { awsm_exp_list_display: checked ? 'list_display' : '' } );
 	};
 
 	const onChangeExpiryDate = ( naiveIsoString ) => {
-		setMeta( { awsm_job_expiry: componentsToStoredFormat( componentsFromNaiveISOString( naiveIsoString ) ) } );
+		updateMeta( { awsm_job_expiry: componentsToStoredFormat( componentsFromNaiveISOString( naiveIsoString ) ) } );
 	};
 
 	const onClickNow = () => {
-		setMeta( { awsm_job_expiry: componentsToStoredFormat( nowComponentsAtSiteOffset( siteOffsetHours ) ) } );
+		updateMeta( { awsm_job_expiry: componentsToStoredFormat( nowComponentsAtSiteOffset( siteOffsetHours ) ) } );
 	};
 
 	const pickerDate = componentsToPickerDate( components, siteOffsetHours );
@@ -163,6 +218,11 @@ function JobExpiryPanel() {
 			title={ __( 'Job Expiry', 'wp-job-openings' ) }
 			className="awsm-job-expiry-panel"
 		>
+			{ handlerError && (
+				<Notice status="error" isDismissible={ false }>
+					{ __( 'Job Expiry panel error:', 'wp-job-openings' ) } { handlerError }
+				</Notice>
+			) }
 			<ToggleControl
 				label={ __( 'Set expiry for listing', 'wp-job-openings' ) }
 				checked={ isExpirySet }
@@ -231,7 +291,15 @@ function JobExpiryPanel() {
 	);
 }
 
+function JobExpiryPanelWithBoundary() {
+	return (
+		<JobExpiryErrorBoundary>
+			<JobExpiryPanel />
+		</JobExpiryErrorBoundary>
+	);
+}
+
 wp.plugins.registerPlugin( 'awsm-job-expiry-panel', {
-	render: JobExpiryPanel,
+	render: JobExpiryPanelWithBoundary,
 	icon: null,
 } );

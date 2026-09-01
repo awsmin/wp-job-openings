@@ -3,9 +3,9 @@
 **Contributors:** awsmin, aravindajith, anantajitjg, sarathar, adhun, nithi22, @sruthi89, shilpaashokan94, @vivekawsm, @fathima54321  
 **Tags:** jobs, job listing, job board, careers page, recruitment  
 **Requires at least:** 6.0  
-**Tested up to:** 7.0.2
+**Tested up to:** 7.1
 **Requires PHP:** 5.6  
-**Stable tag:** 4.0.4 
+**Stable tag:** 4.0.5
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
 **Donate link:** https://www.buymeacoffee.com/awsm
@@ -108,6 +108,10 @@ Yes. You can view, filter, and manage applications from your dashboard.
 <img src="https://ps.w.org/wp-job-openings/assets/screenshot-5.png?rev=2639067" width="90%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-2.png?rev=2639067" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-3.png?rev=2639067" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-4.png?rev=2639067" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-1.png?rev=2639067" width="90%"></img>
 
 ## Changelog
+
+= V 4.0.5 – 2026-08-28 =
+* Fixed: Job Status and Job Expiry metaboxes disappearing on the job edit screen when Classic Editor's "Allow users to switch editors" setting is enabled.
+* Minor bug fixes and code improvements.
 
 **V 4.0.4 – 2026-08-05**
 * Fixed: Responsive layout issues on the admin settings pages.
