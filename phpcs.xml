@@ -2,7 +2,7 @@
 <ruleset name="WP Job Openings">
     <description>WP Job Openings coding standard.</description>
 
-    <config name="minimum_supported_wp_version" value="4.8" />
+    <config name="minimum_supported_wp_version" value="6.0" />
     <!-- Check for cross-version support for PHP 5.6 and higher. -->
     <config name="testVersion" value="5.6-" />
 
@@ -32,6 +32,37 @@
 		<properties>
 			<property name="customAutoEscapedFunctions" type="array">
 				<element value="awsm_jobs_paginate_links" />
+			</property>
+		</properties>
+	</rule>
+
+	<!-- Custom capabilities/roles registered by this plugin (inc/class-awsm-job-openings-core.php)
+	     and by the sibling Pro Pack add-on (hiring_panelist, via its own "Hiring Panelist" role). -->
+	<rule ref="WordPress.WP.Capabilities">
+		<properties>
+			<property name="custom_capabilities" type="array">
+				<element value="edit_jobs" />
+				<element value="delete_jobs" />
+				<element value="edit_applications" />
+				<element value="delete_applications" />
+				<element value="edit_published_jobs" />
+				<element value="delete_published_jobs" />
+				<element value="publish_jobs" />
+				<element value="edit_published_applications" />
+				<element value="delete_published_applications" />
+				<element value="publish_applications" />
+				<element value="edit_others_jobs" />
+				<element value="read_private_jobs" />
+				<element value="delete_private_jobs" />
+				<element value="delete_others_jobs" />
+				<element value="edit_private_jobs" />
+				<element value="edit_others_applications" />
+				<element value="read_private_applications" />
+				<element value="delete_private_applications" />
+				<element value="delete_others_applications" />
+				<element value="edit_private_applications" />
+				<element value="manage_awsm_jobs" />
+				<element value="hiring_panelist" />
 			</property>
 		</properties>
 	</rule>
