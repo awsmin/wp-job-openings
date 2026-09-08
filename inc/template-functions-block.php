@@ -66,6 +66,8 @@ if ( ! function_exists( 'awsm_block_jobs_query' ) ) {
 			}
 		}
 
+		// Read-only listing search/filter args reflected from the URL; no state mutation, so no nonce is needed here.
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		if ( isset( $_GET['jq'] ) && $_GET['jq'] !== '' ) {
 			$search_job = sanitize_text_field( wp_unslash( $_GET['jq'] ) );
 		}
@@ -76,12 +78,13 @@ if ( ! function_exists( 'awsm_block_jobs_query' ) ) {
 
 				// Check if filter exists in URL ($_GET), else use stored option
 				if ( isset( $_GET[ $current_filter_key ] ) && ! empty( $_GET[ $current_filter_key ] ) ) {
-					$term_slugs = explode( ',', sanitize_text_field( $_GET[ $current_filter_key ] ) );
+					$term_slugs = explode( ',', sanitize_text_field( wp_unslash( $_GET[ $current_filter_key ] ) ) );
 				} else {
 					// Fallback to stored option if URL parameter is missing
 					$saved_terms = get_option( 'awsm_jobs_default_' . $filter, '' ); // Modify key accordingly
 					$term_slugs  = ! empty( $saved_terms ) ? explode( ',', $saved_terms ) : array();
 				}
+				// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
 				if ( ! empty( $term_slugs ) ) {
 					$query_args[ $filter ] = array();

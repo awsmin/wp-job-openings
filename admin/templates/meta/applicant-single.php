@@ -118,7 +118,8 @@ do_action( 'awsm_job_applicant_mb_init', $post->ID );
 				 */
 				do_action( 'awsm_job_application_edit' );
 			?>
-			<?php if ( ! isset( $_GET['application'] ) || $_GET['application'] !== 'edit' ) : ?>
+			<?php // Read-only display-mode toggle for this admin screen; no state mutation. ?>
+		<?php if ( ! isset( $_GET['application'] ) || $_GET['application'] !== 'edit' ) : // phpcs:ignore WordPress.Security.NonceVerification.Recommended ?>
 				<div class="application-main-cnt-tab-sec">
 					<!-- Tabs Navigation -->
 					<ul class="application-main-tab">
