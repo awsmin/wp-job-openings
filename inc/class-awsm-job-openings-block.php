@@ -181,9 +181,12 @@ class AWSM_Job_Openings_Block {
 		if ( ! empty( $filters ) ) {
 			foreach ( $filters as $filter ) {
 				$current_filter_key = str_replace( '-', '__', $filter ) . '_spec';
+				// Read-only listing filter reflected from the URL; no state mutation, so no nonce is needed here.
+				// phpcs:disable WordPress.Security.NonceVerification.Recommended
 				if ( isset( $_GET[ $current_filter_key ] ) ) {
 					$query_args[ $filter ] = sanitize_title( $_GET[ $current_filter_key ] );
 				}
+				// phpcs:enable WordPress.Security.NonceVerification.Recommended
 			}
 		}
 		return $query_args;
@@ -499,6 +502,10 @@ class AWSM_Job_Openings_Block {
 			$attrs['lang'] = $current_lang;
 		}
 
+		// Read-only reflection of the current URL's query args into data-* attributes (sanitized
+		// per key/value below, escaped on output in awsm_block_jobs_data_attrs()); no state mutation,
+		// so no nonce is needed here.
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		if ( isset( $_GET['jq'] ) ) {
 			$attrs['search'] = sanitize_text_field( $_GET['jq'] );
 		}
@@ -522,6 +529,7 @@ class AWSM_Job_Openings_Block {
 				$attrs[ $sanitized_key ] = sanitize_text_field( $value );
 			}
 		}
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
 		if ( is_tax() ) {
 			$q_obj             = get_queried_object();
@@ -732,7 +740,8 @@ class AWSM_Job_Openings_Block {
 		$uid = isset( $block_atts['uid'] ) ? '-' . $block_atts['uid'] : '';
 
 		if ( $enable_search === 'enable' ) {
-			$search_query = isset( $_GET['jq'] ) ? sanitize_text_field( $_GET['jq'] ) : '';
+			// Read-only reflection of the current search term back into the form field; no nonce needed.
+			$search_query = isset( $_GET['jq'] ) ? sanitize_text_field( $_GET['jq'] ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			/**
 			 * Filters the search field placeholder text.
 			 *
@@ -820,10 +829,13 @@ class AWSM_Job_Openings_Block {
 					foreach ( $terms as $term ) {
 						$selected = '';
 						$get_key  = str_replace( '-', '__', $taxonomy ) . '_spec';
+						// Read-only reflection of the URL's selected filter terms; no nonce needed.
+						// phpcs:disable WordPress.Security.NonceVerification.Recommended
 						if ( isset( $_GET[ $get_key ] ) && is_string( $_GET[ $get_key ] ) ) {
 							// URL param takes priority over block preselection (user's explicit choice).
 							$selected_specs = explode( ',', sanitize_text_field( wp_unslash( $_GET[ $get_key ] ) ) );
 							$selected_specs = array_filter( array_map( 'sanitize_title', array_map( 'trim', $selected_specs ) ) );
+							// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
 							if ( in_array( $term->slug, $selected_specs, true ) ) {
 								$selected = ' selected';
@@ -1012,7 +1024,8 @@ class AWSM_Job_Openings_Block {
 		}
 
 		if ( $enable_search === 'enable' ) {
-			$search_query     = isset( $_GET['jq'] ) ? sanitize_text_field( $_GET['jq'] ) : '';
+			// Read-only reflection of the current search term back into the form field; no nonce needed.
+			$search_query     = isset( $_GET['jq'] ) ? sanitize_text_field( $_GET['jq'] ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$placeholder_text = apply_filters( 'awsm_jobs_block_search_field_side_placeholder', $placeholder_search ? $placeholder_search : $default_text );
 
 			$search_icon = '<span class="awsm-job-search-btn awsm-b-job-search-btn awsm-job-search-icon-wrapper awsm-b-job-search-icon-wrapper"><i class="awsm-job-icon-search awsm-b-job-icon-search"></i></span><span class="awsm-job-search-close-btn awsm-b-job-search-close-btn awsm-job-search-icon-wrapper awsm-b-job-search-icon-wrapper awsm-b-job-hide"><i class="awsm-job-icon-close-circle awsm-b-job-icon-close-circle"></i></span>';
@@ -1042,10 +1055,13 @@ class AWSM_Job_Openings_Block {
 						foreach ( $terms as $term ) {
 								$selected = '';
 								$get_key  = str_replace( '-', '__', $taxonomy ) . '_spec';
+							// Read-only reflection of the URL's selected filter terms; no nonce needed.
+							// phpcs:disable WordPress.Security.NonceVerification.Recommended
 							if ( isset( $_GET[ $get_key ] ) && is_string( $_GET[ $get_key ] ) ) {
 								// URL param takes priority over block preselection (user's explicit choice).
 								$selected_specs = explode( ',', sanitize_text_field( wp_unslash( $_GET[ $get_key ] ) ) );
 								$selected_specs = array_filter( array_map( 'sanitize_title', array_map( 'trim', $selected_specs ) ) );
+								// phpcs:enable WordPress.Security.NonceVerification.Recommended
 								if ( in_array( $term->slug, $selected_specs, true ) ) {
 									$selected = ' selected';
 								}

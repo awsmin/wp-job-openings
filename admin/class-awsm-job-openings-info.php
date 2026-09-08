@@ -34,7 +34,7 @@ class AWSM_Job_Openings_Info {
 			return;
 		}
 		delete_transient( '_awsm_activation_redirect' );
-		if ( is_network_admin() || isset( $_GET['activate-multi'] ) ) {
+		if ( is_network_admin() || isset( $_GET['activate-multi'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			return;
 		}
 		wp_safe_redirect( add_query_arg( array( 'page' => 'awsm-jobs-setup' ), admin_url( 'edit.php?post_type=awsm_job_openings' ) ) );
@@ -229,7 +229,8 @@ class AWSM_Job_Openings_Info {
 				} else {
 					$is_page = $screen->id;
 				}
-				// Check if page is the setup page.
+				// Check if page is the setup page. Read-only admin-screen routing; no state mutation.
+				// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				if ( isset( $_GET['page'] ) && $_GET['page'] === 'awsm-jobs-setup' ) {
 					$is_page = false;
 				}

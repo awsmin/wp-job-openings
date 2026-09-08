@@ -46,6 +46,8 @@ if ( ! function_exists( 'awsm_jobs_query' ) ) {
 
 		$search_job = '';
 
+		// Read-only listing search/filter args reflected from the URL; no state mutation, so no nonce is needed here.
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		if ( isset( $_GET['jq'] ) && $_GET['jq'] !== '' ) {
 			$search_job = sanitize_text_field( wp_unslash( $_GET['jq'] ) );
 		}
@@ -54,11 +56,12 @@ if ( ! function_exists( 'awsm_jobs_query' ) ) {
 			foreach ( $filters as $filter ) {
 				$current_filter_key = str_replace( '-', '__', $filter ) . $filter_suffix;
 				if ( isset( $_GET[ $current_filter_key ] ) && ! empty( $_GET[ $current_filter_key ] ) ) {
-					$term_slugs = explode( ',', sanitize_text_field( $_GET[ $current_filter_key ] ) );
+					$term_slugs = explode( ',', sanitize_text_field( wp_unslash( $_GET[ $current_filter_key ] ) ) );
 				} else {
 					$saved_terms = get_option( 'awsm_jobs_default_' . $filter, '' ); // Modify key accordingly
 					$term_slugs  = ! empty( $saved_terms ) ? explode( ',', $saved_terms ) : array();
 				}
+				// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
 				if ( ! empty( $term_slugs ) ) {
 					$query_args[ $filter ] = array();
@@ -228,9 +231,10 @@ if ( ! function_exists( 'awsm_jobs_paginate_links' ) ) {
 	function awsm_jobs_paginate_links( $query, $shortcode_atts = array() ) {
 		$is_homepage = is_front_page() || is_home();
 
-		// phpcs:disable WordPress.Security.NonceVerification.Missing
+		// Read-only pagination state reflected from the request; no state mutation, so no nonce is needed here.
+		// phpcs:disable WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended
 		if ( isset( $_POST['paged'] ) ) {
-			$current = absint( $_POST['paged'] );// phpcs:disable WordPress.Security.NonceVerification.Missing
+			$current = absint( $_POST['paged'] );
 		} elseif ( $is_homepage ) {
 				$current = get_query_var( 'page' ) ? absint( get_query_var( 'page' ) ) : 1;
 		} else {
@@ -241,11 +245,10 @@ if ( ! function_exists( 'awsm_jobs_paginate_links' ) ) {
 		$max_num_pages = isset( $query->max_num_pages ) ? $query->max_num_pages : 1;
 		$base_url      = get_pagenum_link();
 
-		// phpcs:disable WordPress.Security.NonceVerification.Missing
 		if ( isset( $_POST['awsm_pagination_base'] ) ) {
-			$base_url = $_POST['awsm_pagination_base'];
+			$base_url = sanitize_text_field( wp_unslash( $_POST['awsm_pagination_base'] ) );
 		}
-		// phpcs:enable
+		// phpcs:enable WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended
 		$args               = array(
 			'base'    => esc_url_raw( add_query_arg( $page_var, '%#%', $base_url ) ),
 			'format'  => '',
@@ -302,16 +305,20 @@ if ( ! function_exists( 'awsm_no_jobs_msg' ) ) {
 		$job_spec      = array();
 		$search_job    = '';
 
+		// Read-only reflection of the current filter/search state to decide which "no jobs" message to
+		// show; no state mutation, so no nonce is needed here.
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		if ( ! empty( $_GET ) ) {
 			foreach ( $_GET as $key => $value ) {
 				if ( substr( $key, -strlen( $filter_suffix ) ) === $filter_suffix && $value !== '' ) {
-					$job_spec[ $key ] = sanitize_text_field( $value );
+					$job_spec[ $key ] = sanitize_text_field( wp_unslash( $value ) );
 				}
 			}
 			if ( isset( $_GET['jq'] ) && $_GET['jq'] !== '' ) {
 				$search_job = sanitize_text_field( wp_unslash( $_GET['jq'] ) );
 			}
 		}
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
 		if ( ! empty( $job_spec ) || ! empty( $search_job ) ) {
 			echo esc_html__( 'Sorry! No jobs to show.', 'wp-job-openings' );
