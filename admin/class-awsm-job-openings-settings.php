@@ -567,7 +567,7 @@ class AWSM_Job_Openings_Settings {
 	}
 
 	public static function register_defaults() {
-		if ( get_option( 'awsm_register_default_settings' ) == 1 ) {
+		if ( (int) get_option( 'awsm_register_default_settings' ) === 1 ) {
 			return;
 		}
 		self::default_settings();
@@ -617,8 +617,8 @@ class AWSM_Job_Openings_Settings {
 	}
 
 	public function is_localhost() {
-		$server_name = strtolower( $_SERVER['SERVER_NAME'] );
-		return in_array( $server_name, array( 'localhost', '127.0.0.1' ) );
+		$server_name = isset( $_SERVER['SERVER_NAME'] ) ? strtolower( sanitize_text_field( wp_unslash( $_SERVER['SERVER_NAME'] ) ) ) : '';
+		return in_array( $server_name, array( 'localhost', '127.0.0.1' ), true );
 	}
 
 	public function is_email_in_domain( $email, $domain ) {
@@ -639,7 +639,7 @@ class AWSM_Job_Openings_Settings {
 	}
 
 	public function validate_from_email_id( $email ) {
-		$site_domain = strtolower( $_SERVER['SERVER_NAME'] );
+		$site_domain = isset( $_SERVER['SERVER_NAME'] ) ? strtolower( sanitize_text_field( wp_unslash( $_SERVER['SERVER_NAME'] ) ) ) : '';
 		if ( $this->is_localhost() ) {
 			return $email;
 		}
@@ -805,7 +805,7 @@ class AWSM_Job_Openings_Settings {
 		if ( ! empty( $filters ) ) {
 			$taxonomy_objects = get_object_taxonomies( 'awsm_job_openings' );
 			foreach ( $filters as $filter ) {
-				if ( taxonomy_exists( $filter ) && in_array( $filter, $taxonomy_objects ) ) {
+				if ( taxonomy_exists( $filter ) && in_array( $filter, $taxonomy_objects, true ) ) {
 					$terms = get_terms(
 						array(
 							'taxonomy'   => $filter,
@@ -1192,7 +1192,7 @@ class AWSM_Job_Openings_Settings {
 										}
 									}
 									if ( is_array( $value ) ) {
-										$choice_attrs .= ' ' . checked( in_array( $choice, $value ), true, false );
+										$choice_attrs .= ' ' . checked( in_array( $choice, $value, true ), true, false );
 									} else {
 										$choice_attrs .= ' ' . checked( $value, $choice, false );
 									}
@@ -1451,7 +1451,7 @@ class AWSM_Job_Openings_Settings {
 					}
 					// Then, handle terms not in the filtered list
 					foreach ( $terms as $term ) {
-						if ( ! in_array( $term->term_id, $ordered_terms ) ) {
+						if ( ! in_array( $term->term_id, $ordered_terms, true ) ) {
 							update_term_meta( $term->term_id, 'term_order', $position );
 							++$position;
 						}
@@ -1709,7 +1709,7 @@ class AWSM_Job_Openings_Settings {
 	public static function get_captcha_data( $type = 'config', $provider = null, $key_type = null ) {
 		$config = self::get_captcha_config();
 
-		if ( $provider == null ) {
+		if ( $provider === null ) {
 			$provider = self::get_current_captcha_provider();
 		}
 
@@ -1719,7 +1719,7 @@ class AWSM_Job_Openings_Settings {
 			case 'config':
 				return $provider_config;
 			case 'field_name':
-				if ( $key_type == null ) {
+				if ( $key_type === null ) {
 					return null;
 				}
 				if ( $provider === 'recaptcha' ) {
@@ -1731,7 +1731,7 @@ class AWSM_Job_Openings_Settings {
 				}
 				return "awsm_jobs_{$provider}_{$key_type}";
 			case 'key_value':
-				if ( $key_type == null ) {
+				if ( $key_type === null ) {
 					return null;
 				}
 				$field_name = self::get_captcha_data( 'field_name', $provider, $key_type );
@@ -2262,10 +2262,10 @@ class AWSM_Job_Openings_Settings {
 
 	public function sanitize_captcha_no_conflict_scripts( $input ) {
 		$old_value = get_option( 'awsm_jobs_captcha_no_conflict_scripts', '' );
-		$new_value = ! empty( $input ) && 'on' == $input ? 'on' : '';
+		$new_value = ! empty( $input ) && 'on' === $input ? 'on' : '';
 
 		if ( $old_value !== $new_value ) {
-			$status_text = ( 'on' == $new_value )
+			$status_text = ( 'on' === $new_value )
 				? __( 'No-Conflict Mode enabled.', 'wp-job-openings' )
 				: __( 'No-Conflict Mode disabled.', 'wp-job-openings' );
 
