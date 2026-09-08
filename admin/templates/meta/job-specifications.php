@@ -82,7 +82,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					if ( ! empty( $spec_terms ) ) :
 						foreach ( $spec_terms as $spec_term ) :
 							?>
-								<option value="<?php echo esc_attr( $spec_term->term_id ); ?>"<?php echo ( ! empty( $post_terms_ids ) ) ? ( in_array( $spec_term->term_id, $post_terms_ids ) ? ' selected' : '' ) : ''; ?>><?php echo esc_html( $spec_term->name ); ?></option>
+								<option value="<?php echo esc_attr( $spec_term->term_id ); ?>"<?php echo ( ! empty( $post_terms_ids ) ) ? ( in_array( $spec_term->term_id, $post_terms_ids, true ) ? ' selected' : '' ) : ''; ?>><?php echo esc_html( $spec_term->name ); ?></option>
 							<?php
 							endforeach;
 							endif;
