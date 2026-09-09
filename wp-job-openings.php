@@ -1380,7 +1380,7 @@ class AWSM_Job_Openings {
 
 	public function plugin_rating_notice_handler() {
 		$rating_env = apply_filters( 'awsm_jobs_plugin_rating_env', 'WordPress' );
-		$rating_url = apply_filters( 'awsm_jobs_plugin_rating_url', 'https://wordpress.org/support/plugin/wp-job-openings/reviews/?filter=5' );
+		$rating_url = apply_filters( 'awsm_jobs_plugin_rating_url', 'https://wordpress.org/support/plugin/wp-job-openings/reviews/' );
 
 		$rated = intval( get_option( 'awsm_jobs_plugin_rating' ) );
 		if ( $rated !== 1 ) {

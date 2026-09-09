@@ -9,6 +9,9 @@
  * @version 3.2.0
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 ?>
 		</div><!-- #content -->
 	</div><!-- #page -->
