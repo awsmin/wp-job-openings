@@ -386,7 +386,12 @@ class AWSM_Job_Openings_Form {
 				$index_php_file = $directory_path . '/index.php';
 				if ( ! file_exists( $index_php_file ) ) {
 					$index_php_content = "<?php\n\n//Silence is golden.\n";
-					file_put_contents( $index_php_file, $index_php_content );
+					// This runs on every public application submission with a file upload — a full
+					// WP_Filesystem init here would add real overhead (and, in the rare case it
+					// can't get direct access non-interactively, real fragility) to that hot,
+					// user-facing path for a directory the app-submission code path already just
+					// wrote the uploaded file into with the same permissions.
+					file_put_contents( $index_php_file, $index_php_content ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
 				}
 			}
 		}
@@ -1006,7 +1011,11 @@ class AWSM_Job_Openings_Form {
 							if ( ! empty( $admin_attachments ) ) {
 								foreach ( $admin_attachments as $admin_attachment ) {
 									if ( isset( $admin_attachment['temp'] ) && $admin_attachment['temp'] === true ) {
-										unlink( $admin_attachment['file'] );
+										// This process just created this temp file moments earlier in
+										// the same request, so it always has permission to remove it —
+										// a full WP_Filesystem init here would only add overhead on this
+										// hot (application-submission) path with no safety benefit.
+										unlink( $admin_attachment['file'] ); // phpcs:ignore WordPress.WP.AlternativeFunctions.unlink_unlink
 									}
 								}
 							}

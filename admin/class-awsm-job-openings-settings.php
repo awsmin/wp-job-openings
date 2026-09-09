@@ -959,10 +959,24 @@ class AWSM_Job_Openings_Settings {
 		if ( $value === 'hide_files' ) {
 			$file_content = 'deny from all';
 		}
-		$handle = @fopen( $file_name, 'w' );
-		if ( $handle ) {
-			fwrite( $handle, $file_content );
-			fclose( $handle );
+		global $wp_filesystem;
+		if ( ! $wp_filesystem ) {
+			require_once ABSPATH . 'wp-admin/includes/file.php';
+			if ( get_filesystem_method( array(), $upload_dir ) === 'direct' ) {
+				WP_Filesystem();
+			}
+		}
+		if ( $wp_filesystem ) {
+			$wp_filesystem->put_contents( $file_name, $file_content );
+		} else {
+			// Fall back to a direct write when WP_Filesystem needs credentials we don't have
+			// (e.g. a non-direct hosting setup) — matches this method's pre-existing best-effort
+			// behavior rather than silently doing nothing.
+			$handle = @fopen( $file_name, 'w' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen, WordPress.PHP.NoSilencedErrors.Discouraged
+			if ( $handle ) {
+				fwrite( $handle, $file_content ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fwrite
+				fclose( $handle ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose
+			}
 		}
 	}
 
