@@ -306,13 +306,27 @@ class AWSM_Job_Openings_Core {
 			),
 		);
 		if ( wp_mkdir_p( $upload_dir ) ) {
+			global $wp_filesystem;
+			if ( ! $wp_filesystem ) {
+				require_once ABSPATH . 'wp-admin/includes/file.php';
+				if ( get_filesystem_method( array(), $upload_dir ) === 'direct' ) {
+					WP_Filesystem();
+				}
+			}
 			foreach ( $files as $file ) {
 				$current_file = trailingslashit( $upload_dir ) . $file['name'];
 				if ( ! file_exists( $current_file ) ) {
-					$handle = @fopen( $current_file, 'w' );
-					if ( $handle ) {
-						fwrite( $handle, $file['content'] );
-						fclose( $handle );
+					if ( $wp_filesystem ) {
+						$wp_filesystem->put_contents( $current_file, $file['content'] );
+					} else {
+						// Fall back to a direct write when WP_Filesystem needs credentials we don't
+						// have (e.g. a non-direct hosting setup) — matches this method's pre-existing
+						// best-effort behavior rather than silently doing nothing.
+						$handle = @fopen( $current_file, 'w' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen, WordPress.PHP.NoSilencedErrors.Discouraged
+						if ( $handle ) {
+							fwrite( $handle, $file['content'] ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fwrite
+							fclose( $handle ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose
+						}
 					}
 				}
 			}
