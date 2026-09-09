@@ -252,8 +252,10 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 						setup_postdata( $post );
 						$avatar = apply_filters( 'awsm_applicant_photo', get_avatar( $applicant_email, 36 ) );
 						wp_reset_postdata();
-						$edit_link       = AWSM_Job_Openings::get_application_edit_link( $application->ID );
-						$submission_time = human_time_diff( get_the_time( 'U', $application->ID ), current_time( 'timestamp' ) ) . ' ' . __( 'ago', 'wp-job-openings' );
+						$edit_link = AWSM_Job_Openings::get_application_edit_link( $application->ID );
+						// get_the_time( 'U' ) and current_time( 'timestamp' ) both use the site's local-offset
+						// convention (neither is true UTC), so they stay consistent with each other here.
+						$submission_time = human_time_diff( get_the_time( 'U', $application->ID ), current_time( 'timestamp' ) ) . ' ' . __( 'ago', 'wp-job-openings' ); // phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested
 						?>
 						<?php $is_unviewed = 'publish' === $application->post_status && get_post_meta( $application->ID, 'awsm_application_viewed', true ) === '0'; ?>
 					<a href="<?php echo esc_url( $edit_link ); ?>" class="awsm-jobs-overview-list-item<?php echo $is_unviewed ? ' awsm-overview-unviewed' : ''; ?>">
