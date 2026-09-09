@@ -153,7 +153,7 @@ class AWSM_Job_Openings_Info {
 			?>
 			<script>
 			jQuery(document).ready(function($) {
-				var emptyContent = <?php echo json_encode( $empty_content ); ?>;
+				var emptyContent = <?php echo wp_json_encode( $empty_content ); ?>;
 				$('.wrap').html(emptyContent);
 			});
 			</script>
