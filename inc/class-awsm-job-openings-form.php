@@ -1274,7 +1274,8 @@ class AWSM_Job_Openings_Form {
 		if ( ! empty( $script['async'] ) ) {
 			add_filter(
 				'script_loader_tag',
-				function ( $tag, $handle, $src ) use ( $config ) {
+				// $src is part of the script_loader_tag filter's fixed signature; unused here.
+				function ( $tag, $handle, $src ) use ( $config ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
 					$captcha_handles = array();
 					foreach ( $config as $type => $captcha_config ) {
 						if ( isset( $captcha_config['script']['handle'] ) && ! empty( $captcha_config['script']['async'] ) ) {

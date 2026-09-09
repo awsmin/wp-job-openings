@@ -96,7 +96,7 @@ if ( ! function_exists( 'awsm_jobs_view' ) ) {
 }
 
 if ( ! function_exists( 'awsm_jobs_wrapper_class' ) ) {
-	function awsm_jobs_wrapper_class( $echo = true ) {
+	function awsm_jobs_wrapper_class( $display = true ) {
 		$wrapper_class = '';
 		$form_style    = get_option( 'awsm_jobs_form_style', 'theme' );
 		if ( $form_style === 'plugin' ) {
@@ -110,7 +110,7 @@ if ( ! function_exists( 'awsm_jobs_wrapper_class' ) ) {
 		 * @param string $wrapper_class Class names.
 		 */
 		$wrapper_class = apply_filters( 'awsm_jobs_wrapper_class', $wrapper_class );
-		if ( $echo ) {
+		if ( $display ) {
 			echo esc_attr( $wrapper_class );
 		} else {
 			return $wrapper_class;
@@ -119,24 +119,24 @@ if ( ! function_exists( 'awsm_jobs_wrapper_class' ) ) {
 }
 
 if ( ! function_exists( 'awsm_jobs_view_class' ) ) {
-	function awsm_jobs_view_class( $class = '', $shortcode_atts = array() ) {
+	function awsm_jobs_view_class( $css_class = '', $shortcode_atts = array() ) {
 		$view_class = AWSM_Job_Openings::get_job_listing_view_class( $shortcode_atts );
-		if ( ! empty( $class ) ) {
-			$view_class = trim( $view_class . ' ' . $class );
+		if ( ! empty( $css_class ) ) {
+			$view_class = trim( $view_class . ' ' . $css_class );
 		}
 		printf( 'class="%s"', esc_attr( $view_class ) );
 	}
 }
 
 if ( ! function_exists( 'awsm_jobs_listing_item_class' ) ) {
-	function awsm_jobs_listing_item_class( $class = array() ) {
+	function awsm_jobs_listing_item_class( $extra_classes = array() ) {
 		$job_id  = get_the_ID();
 		$classes = array( 'awsm-job-listing-item' );
 		if ( is_awsm_job_expired() ) {
 			$classes[] = 'awsm-job-expired-item';
 		}
-		if ( ! empty( $class ) ) {
-			$classes = array_merge( $classes, $class );
+		if ( ! empty( $extra_classes ) ) {
+			$classes = array_merge( $classes, $extra_classes );
 		}
 		/**
 		 * Filters the classes for each job listing item.
@@ -167,10 +167,10 @@ if ( ! function_exists( 'awsm_jobs_data_attrs' ) ) {
 }
 
 if ( ! function_exists( 'awsm_job_content_class' ) ) {
-	function awsm_job_content_class( $class = '' ) {
+	function awsm_job_content_class( $css_class = '' ) {
 		$content_class = 'awsm-job-single-wrap' . awsm_jobs_wrapper_class( false ) . AWSM_Job_Openings::get_job_details_class();
-		if ( ! empty( $class ) ) {
-			$content_class .= ' ' . $class;
+		if ( ! empty( $css_class ) ) {
+			$content_class .= ' ' . $css_class;
 		}
 		printf( 'class="%s"', esc_attr( $content_class ) );
 	}
@@ -367,7 +367,7 @@ if ( ! function_exists( 'awsm_job_form_submit_btn' ) ) {
 }
 
 if ( ! function_exists( 'awsm_jobs_featured_image' ) ) {
-	function awsm_jobs_featured_image( $echo = true, $size = 'thumbnail', $attr = '' ) {
+	function awsm_jobs_featured_image( $display = true, $size = 'thumbnail', $attr = '' ) {
 		$content                = '';
 		$post_thumbnail_id      = get_post_thumbnail_id();
 		$featured_image_support = get_option( 'awsm_jobs_enable_featured_image' );
@@ -386,7 +386,7 @@ if ( ! function_exists( 'awsm_jobs_featured_image' ) ) {
 		if ( ! empty( $content ) ) {
 			$content = '<div class="awsm-job-featured-image">' . $content . '</div>';
 		}
-		if ( $echo ) {
+		if ( $display ) {
 			echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		} else {
 			return $content;
