@@ -18,8 +18,14 @@ class AWSM_Job_Openings_Dashboard_Widget {
 		return self::$instance;
 	}
 
+	/**
+	 * Restricted to `manage_awsm_jobs` (administrators and the custom `hr` role only -
+	 * see AWSM_Job_Openings_Core::get_caps()/add_custom_role()) rather than `edit_jobs`,
+	 * which editors and authors also hold by default and would otherwise let them see
+	 * this overview widget too.
+	 */
 	public function dashboard_setup() {
-		if ( current_user_can( 'edit_jobs' ) ) {
+		if ( current_user_can( 'manage_awsm_jobs' ) ) {
 			wp_add_dashboard_widget( 'awsm-jobs-overview-dashboard', esc_html__( 'HireZoot - Overview', 'wp-job-openings' ), array( $this, 'display_widget' ) );
 		}
 	}
