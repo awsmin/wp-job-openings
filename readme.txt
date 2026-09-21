@@ -2,9 +2,9 @@
 Contributors: awsmin, aravindajith, anantajitjg, sarathar, adhun, nithi22, @sruthi89, shilpaashokan94, @vivekawsm, @fathima54321
 Tags: jobs, job listing, job board, careers page, recruitment
 Requires at least: 6.0
-Tested up to: 7.1
+Tested up to: 7.1.1
 Requires PHP: 5.6
-Stable tag: 4.0.5
+Stable tag: 4.0.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://www.buymeacoffee.com/awsm
@@ -143,6 +143,9 @@ Yes. You can view, filter, and manage applications from your dashboard.
 15. Notifications Template Settings
 
 == Changelog ==
+
+= V 4.0.6 – 2026-09-21 =
+* Fixed: Restrict "HireZoot - Overview" dashboard widget to admins and HR  
 
 = V 4.0.5 – 2026-08-28 =
 * Fixed: Job Status and Job Expiry metaboxes disappearing on the job edit screen when Classic Editor's "Allow users to switch editors" setting is enabled.
