@@ -1,6 +1,6 @@
 ## Changelog
 
-### V 4.0.6 – 2026-09-21
+### V 4.1.0 – 2026-09-21
 * Fixed: Restrict "HireZoot - Overview" dashboard widget to admins and HR
 
 ### V 4.0.5 – 2026-08-28
