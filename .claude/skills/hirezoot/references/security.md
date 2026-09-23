@@ -4,6 +4,11 @@ Use this file for any change touching input handling, output rendering, AJAX, or
 this repo. This plugin's largest untrusted-input surface is the public job-application form and its
 file-upload flow — ground new work in the patterns already used there, not generic textbook advice.
 
+This file is about writing secure code. To actually **test** these controls against a running
+install (CSRF/nonce bypass attempts, capability-boundary tests, file-upload bypass payloads, XSS/
+injection probes, IDOR checks) use the sibling `hirezoot-security-testing` skill instead — it turns
+each pattern below into a concrete, reproducible test case with file:line citations.
+
 ## Golden rule
 
 Sanitize/validate on input, escape on output. Both are required; neither substitutes for the other.

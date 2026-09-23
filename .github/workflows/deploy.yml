@@ -57,4 +57,4 @@ jobs:
         run: ssh-keyscan -p 22 -H ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts
 
       - name: Deploy with rsync
-        run: rsync -avz -e "ssh -p 22" --exclude='.git' --exclude='.github' --exclude='node_modules' --exclude='.gitignore' --exclude='.eslintrc' --exclude='gulpfile.js' --exclude='package.json' --exclude='package-lock.json' --exclude='composer.json' --exclude='composer.lock' --exclude='.eslintignore' --exclude='.browserslistrc' . ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:${{ secrets.REMOTE_PATH }}/wp-content/plugins/${{ env.PLUGIN_NAME }}
+        run: rsync -avz -e "ssh -p 22" --exclude='.git' --exclude='.github' --exclude='.claude' --exclude='node_modules' --exclude='.gitignore' --exclude='.eslintrc' --exclude='gulpfile.js' --exclude='package.json' --exclude='package-lock.json' --exclude='composer.json' --exclude='composer.lock' --exclude='.eslintignore' --exclude='.browserslistrc' . ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:${{ secrets.REMOTE_PATH }}/wp-content/plugins/${{ env.PLUGIN_NAME }}
