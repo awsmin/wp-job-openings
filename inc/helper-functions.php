@@ -52,8 +52,12 @@ if ( ! function_exists( 'get_awsm_jobs_time_format' ) ) {
 
 if ( ! function_exists( 'awsm_jobs_is_valid_template_file' ) ) {
 	function awsm_jobs_is_valid_template_file( $filename, $unsupported_versions = array() ) {
-		$is_valid         = true;
-		$template_content = @file_get_contents( $filename );
+		$is_valid = true;
+		// Read-only check of a bundled/theme-overridden template's header, called on the
+		// notification-email send path — kept as a lightweight direct read rather than a full
+		// WP_Filesystem init (which adds real overhead and offers no benefit for reading a
+		// plugin/theme-controlled local path).
+		$template_content = @file_get_contents( $filename ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents, WordPress.PHP.NoSilencedErrors.Discouraged
 		if ( ! empty( $template_content ) ) {
 			if ( strpos( $template_content, '@version' ) === false ) {
 				$is_valid = false;

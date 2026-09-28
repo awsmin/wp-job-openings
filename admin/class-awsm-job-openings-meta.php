@@ -382,7 +382,11 @@ class AWSM_Job_Openings_Meta {
 				}
 
 				if ( is_readable( $file_details['file_name'] ) ) {
-					readfile( $file_details['file_name'] );
+					// is_readable() above already confirms this process can read the file directly;
+					// streaming it with readfile() (rather than buffering the whole file into memory
+					// via WP_Filesystem::get_contents(), or risking WP_Filesystem choosing an FTP
+					// transport to fetch a file we can already read locally) is the correct choice here.
+					readfile( $file_details['file_name'] ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_readfile
 				} else {
 					wp_die( esc_html__( 'File is not readable.', 'wp-job-openings' ) );
 				}

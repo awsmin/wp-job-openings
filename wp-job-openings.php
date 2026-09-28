@@ -337,7 +337,21 @@ class AWSM_Job_Openings {
 	public function index_to_upload_dir( $dir ) {
 		$index_file = $dir . '/index.php';
 		if ( ! file_exists( $index_file ) ) {
-			file_put_contents( $index_file, "<?php\n\n//Silence is golden.\n" );
+			global $wp_filesystem;
+			if ( ! $wp_filesystem ) {
+				require_once ABSPATH . 'wp-admin/includes/file.php';
+				if ( get_filesystem_method( array(), $dir ) === 'direct' ) {
+					WP_Filesystem();
+				}
+			}
+			if ( $wp_filesystem ) {
+				$wp_filesystem->put_contents( $index_file, "<?php\n\n//Silence is golden.\n" );
+			} else {
+				// Fall back to a direct write when WP_Filesystem needs credentials we don't have
+				// (e.g. a non-direct hosting setup) — matches this method's pre-existing
+				// best-effort behavior rather than silently doing nothing.
+				file_put_contents( $index_file, "<?php\n\n//Silence is golden.\n" ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
+			}
 		}
 		$sub_dirs = array_filter( glob( $dir . '/*' ), 'is_dir' );
 		foreach ( $sub_dirs as $sub_dir ) {
