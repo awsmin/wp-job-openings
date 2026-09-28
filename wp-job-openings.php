@@ -2489,14 +2489,14 @@ class AWSM_Job_Openings {
 		/** Filters the job specifications content. */
 		return apply_filters( 'awsm_job_specs_content', $spec_content, $post_id );
 	}
-	public static function display_specifications_content( $post_id, $pos, $echo = true ) {
+	public static function display_specifications_content( $post_id, $pos, $display = true ) {
 		$content       = '';
 		$show_job_spec = get_option( 'awsm_jobs_specification_job_detail', 'show_in_detail' );
 		$spec_position = get_option( 'awsm_jobs_specs_position', 'below_content' );
 		if ( $spec_position === $pos && $show_job_spec === 'show_in_detail' ) {
 			$content = sprintf( '<div class="awsm-job-specifications-container %2$s"><div class="awsm-job-specifications-row">%1$s</div></div>', self::get_specifications_content( $post_id, true ), esc_attr( 'awsm_job_spec_' . $pos ) );
 		}
-		if ( $echo ) {
+		if ( $display ) {
 			echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		} else {
 			return $content;

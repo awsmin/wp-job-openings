@@ -40,7 +40,9 @@ class AWSM_Job_Openings_Settings {
 		return self::$instance;
 	}
 
-	public function settings_page_capability( $capability ) {
+	// $capability is part of the option_page_capability_{group} filter's fixed signature; this
+	// callback always overrides it, regardless of the incoming value.
+	public function settings_page_capability( $capability ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found
 		return 'manage_awsm_jobs';
 	}
 
@@ -1009,13 +1011,13 @@ class AWSM_Job_Openings_Settings {
 		wp_die();
 	}
 
-	public function is_settings_field_checked( $option, $value, $default = false ) {
+	public function is_settings_field_checked( $option, $value, $default_value = false ) {
 		$checked = '';
 		if ( ! empty( $option ) ) {
 			if ( $option === $value ) {
 				$checked = 'checked';
 			}
-		} elseif ( $default ) {
+		} elseif ( $default_value ) {
 				$checked = 'checked';
 		}
 		return $checked;
@@ -1092,7 +1094,7 @@ class AWSM_Job_Openings_Settings {
 		<?php
 	}
 
-	public function display_settings_fields( $settings_fields, $container = 'table', $echo = true ) {
+	public function display_settings_fields( $settings_fields, $container = 'table', $display = true ) {
 		$content = '';
 		if ( ! empty( $settings_fields ) && is_array( $settings_fields ) ) {
 			$allowed_html = array(
@@ -1384,7 +1386,7 @@ class AWSM_Job_Openings_Settings {
 		 * @param string $container Container for settings fields
 		 */
 		$content = apply_filters( 'awsm_jobs_settings_fields_content', $content, $settings_fields, $container );
-		if ( $echo === true ) {
+		if ( $display === true ) {
 			echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		} else {
 			return $content;

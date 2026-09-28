@@ -11,12 +11,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! function_exists( 'awsm_block_jobs_view_class' ) ) {
-	function awsm_block_jobs_view_class( $class = '', $attributes = array() ) {
+	function awsm_block_jobs_view_class( $css_class = '', $attributes = array() ) {
 		$view_class = AWSM_Job_Openings_Block::get_job_listing_view_class_block( $attributes );
 
 		// Merge custom class with view class if present
-		if ( ! empty( $class ) ) {
-			$view_class = trim( "$view_class $class" );
+		if ( ! empty( $css_class ) ) {
+			$view_class = trim( "$view_class $css_class" );
 		}
 
 		// Only return the class attribute if there's a class to output
@@ -202,7 +202,7 @@ if ( ! function_exists( 'awsm_block_jobs_paginate_links' ) ) {
 }
 
 if ( ! function_exists( 'awsm_jobs_block_featured_image' ) ) {
-	function awsm_jobs_block_featured_image( $echo = true, $size = 'thumbnail', $attr = '', $block_atts = array() ) {
+	function awsm_jobs_block_featured_image( $display = true, $size = 'thumbnail', $attr = '', $block_atts = array() ) {
 		$content                = '';
 		$post_thumbnail_id      = get_post_thumbnail_id();
 		$featured_image_support = get_option( 'awsm_jobs_enable_featured_image' );
@@ -221,7 +221,7 @@ if ( ! function_exists( 'awsm_jobs_block_featured_image' ) ) {
 		if ( ! empty( $content ) ) {
 			$content = '<div class="awsm-job-featured-image">' . $content . '</div>';
 		}
-		if ( $echo ) {
+		if ( $display ) {
 			echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		} else {
 			return $content;
@@ -236,14 +236,14 @@ if ( ! function_exists( 'awsm_block_job_listing_spec_content' ) ) {
 }
 
 if ( ! function_exists( 'awsm_jobs_block_listing_item_class' ) ) {
-	function awsm_jobs_block_listing_item_class( $class = array() ) {
+	function awsm_jobs_block_listing_item_class( $extra_classes = array() ) {
 		$job_id  = get_the_ID();
 		$classes = array( 'awsm-b-job-listing-item' );
 		if ( is_awsm_job_expired() ) {
 			$classes[] = 'awsm-b-job-expired-item';
 		}
-		if ( ! empty( $class ) ) {
-			$classes = array_merge( $classes, $class );
+		if ( ! empty( $extra_classes ) ) {
+			$classes = array_merge( $classes, $extra_classes );
 		}
 		/**
 		 * Filters the classes for each job listing item.
