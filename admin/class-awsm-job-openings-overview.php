@@ -70,6 +70,8 @@ class AWSM_Job_Openings_Overview {
 
 	public function redirect_to_overview() {
 		global $pagenow;
+		// Read-only admin-screen routing; no state mutation.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( isset( $pagenow ) && $pagenow === 'admin.php' && isset( $_GET['page'] ) && $_GET['page'] === self::$menu_slug ) {
 			wp_safe_redirect( add_query_arg( array( 'page' => self::$menu_slug ), admin_url( 'edit.php?post_type=awsm_job_openings' ) ) );
 			exit;

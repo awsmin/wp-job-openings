@@ -1214,13 +1214,16 @@ class AWSM_Job_Openings {
 
 	public function awsm_admin_filtering_posts() {
 		global $typenow;
+		// Read-only admin list-table filter UI (mirrors WP core's own GET-based list filters);
+		// no state mutation, so no nonce is needed here.
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		if ( $typenow === 'awsm_job_application' ) {
 			$jobs_post_filter = '';
 			if ( isset( $_GET['awsm_filter_posts'] ) ) {
 				$jobs_post_filter = intval( $_GET['awsm_filter_posts'] );
 			}
-			$date_range_from = ( isset( $_GET['awsm_filter_by_date_from'] ) && $_GET['awsm_filter_by_date_from'] ) ? $_GET['awsm_filter_by_date_from'] : '';
-			$date_range_to   = ( isset( $_GET['awsm_filter_by_date_to'] ) && $_GET['awsm_filter_by_date_to'] ) ? $_GET['awsm_filter_by_date_to'] : '';
+			$date_range_from = ( isset( $_GET['awsm_filter_by_date_from'] ) && $_GET['awsm_filter_by_date_from'] ) ? sanitize_text_field( wp_unslash( $_GET['awsm_filter_by_date_from'] ) ) : '';
+			$date_range_to   = ( isset( $_GET['awsm_filter_by_date_to'] ) && $_GET['awsm_filter_by_date_to'] ) ? sanitize_text_field( wp_unslash( $_GET['awsm_filter_by_date_to'] ) ) : '';
 
 			$custom_posts = array(
 				'posts_per_page'   => -1,
@@ -1247,19 +1250,23 @@ class AWSM_Job_Openings {
 			echo '<input type="text" class="awsm-application-date-filter" id="awsm_application_date_filter_to" name="awsm_filter_by_date_to" placeholder="' . esc_attr__( 'Date To', 'wp-job-openings' ) . '" value="' . esc_attr( $date_range_to ) . '" />';
 
 			$pro_spec_filter   = isset( $_GET['awsm_job_admin_filter'] ) ? array_filter( (array) $_GET['awsm_job_admin_filter'] ) : array();
-			$pro_filled_filter = isset( $_GET['awsm_filled_jobs_filter'] ) ? sanitize_text_field( $_GET['awsm_filled_jobs_filter'] ) : '';
+			$pro_filled_filter = isset( $_GET['awsm_filled_jobs_filter'] ) ? sanitize_text_field( wp_unslash( $_GET['awsm_filled_jobs_filter'] ) ) : '';
 			$has_filters       = ! empty( $jobs_post_filter ) || ! empty( $date_range_from ) || ! empty( $date_range_to ) || ! empty( $pro_spec_filter ) || ! empty( $pro_filled_filter );
 			if ( $has_filters ) {
 				echo '<a href="' . esc_url( admin_url( 'edit.php?post_type=awsm_job_application' ) ) . '" id="awsm-clear-filters" class="button awsm-clr-flt-btn">' . esc_html__( 'Clear Filter', 'wp-job-openings' ) . '</a>';
 			}
 		}
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 	}
 
 	public function awsm_admin_filter_posts( $query ) {
 		global $pagenow;
+		// Read-only admin list-table query filtering driven by the GET-based filter UI above;
+		// no state mutation, so no nonce is needed here.
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		$type = 'awsm_job_application';
 		if ( isset( $_GET['post_type'] ) ) {
-			$type = $_GET['post_type'];
+			$type = sanitize_text_field( wp_unslash( $_GET['post_type'] ) );
 		}
 		if ( $type === 'awsm_job_application' && is_admin() && $pagenow === 'edit.php' && isset( $_GET['awsm_filter_posts'] ) && $query->is_main_query() ) {
 			$meta_value = intval( $_GET['awsm_filter_posts'] );
@@ -1269,8 +1276,8 @@ class AWSM_Job_Openings {
 			}
 		}
 
-		$date_from = ( isset( $_GET['awsm_filter_by_date_from'] ) && ! empty( $_GET['awsm_filter_by_date_from'] ) ) ? sanitize_text_field( $_GET['awsm_filter_by_date_from'] ) : '';
-		$date_to   = ( isset( $_GET['awsm_filter_by_date_to'] ) && ! empty( $_GET['awsm_filter_by_date_to'] ) ) ? sanitize_text_field( $_GET['awsm_filter_by_date_to'] ) : '';
+		$date_from = ( isset( $_GET['awsm_filter_by_date_from'] ) && ! empty( $_GET['awsm_filter_by_date_from'] ) ) ? sanitize_text_field( wp_unslash( $_GET['awsm_filter_by_date_from'] ) ) : '';
+		$date_to   = ( isset( $_GET['awsm_filter_by_date_to'] ) && ! empty( $_GET['awsm_filter_by_date_to'] ) ) ? sanitize_text_field( wp_unslash( $_GET['awsm_filter_by_date_to'] ) ) : '';
 
 		if ( $type === 'awsm_job_application' && is_admin() && $pagenow === 'edit.php' && $query->is_main_query() && ( ! empty( $date_from ) || ! empty( $date_to ) ) ) {
 			$date_query = array( 'inclusive' => true );
@@ -1284,6 +1291,7 @@ class AWSM_Job_Openings {
 
 			$query->query_vars['date_query'] = array( $date_query );
 		}
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 	}
 
 	public function awsm_job_month_dropdown( $months, $post_type ) {
@@ -1484,6 +1492,9 @@ class AWSM_Job_Openings {
 
 		wp_enqueue_script( 'awsm-job-scripts', AWSM_JOBS_PLUGIN_URL . '/assets/js/script.min.js', array( 'jquery' ), AWSM_JOBS_PLUGIN_VERSION, true );
 
+		// Read-only reflection of the current search term into the localized script data; no state
+		// mutation, so no nonce is needed here.
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		$enable_search = get_option( 'awsm_enable_job_search' ) === 'enable' && isset( $_GET['jq'] );
 
 		global $post;
@@ -1491,7 +1502,7 @@ class AWSM_Job_Openings {
 		$localized_script_data = array(
 			'ajaxurl'            => admin_url( 'admin-ajax.php' ),
 			'is_tax_archive'     => is_tax(),
-			'is_search'          => $enable_search ? sanitize_text_field( $_GET['jq'] ) : '',
+			'is_search'          => $enable_search ? sanitize_text_field( wp_unslash( $_GET['jq'] ) ) : '',
 			'job_id'             => is_singular( 'awsm_job_openings' ) ? $post->ID : 0,
 			'wp_max_upload_size' => ( wp_max_upload_size() ) ? ( wp_max_upload_size() ) : 0,
 			'deep_linking'       => array(
@@ -1515,6 +1526,7 @@ class AWSM_Job_Openings {
 			'block_nonce'        => wp_create_nonce( 'awsm_block_ajax' ),
 			'view_count_nonce'   => wp_create_nonce( 'awsm_view_count_nonce' ),
 		);
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 		/**
 		 * Filters the public script localized data.
 		 *
@@ -2307,13 +2319,17 @@ class AWSM_Job_Openings {
 			$attrs['lang'] = $current_lang;
 		}
 
+		// Read-only reflection of the current URL's search/sort state into data-* attributes
+		// (escaped on output in awsm_jobs_data_attrs()); no state mutation, so no nonce is needed here.
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		if ( isset( $_GET['jq'] ) ) {
-			$attrs['search'] = sanitize_text_field( $_GET['jq'] );
+			$attrs['search'] = sanitize_text_field( wp_unslash( $_GET['jq'] ) );
 		}
 
 		if ( isset( $_GET['sort'] ) ) {
-			$attrs['sort'] = $_GET['sort'];
+			$attrs['sort'] = sanitize_text_field( wp_unslash( $_GET['sort'] ) );
 		}
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
 		if ( isset( $shortcode_atts['loadmore'] ) && $shortcode_atts['loadmore'] === 'no' ) {
 				$attrs['loadmore'] = 'no';

@@ -392,8 +392,10 @@ class AWSM_Job_Openings_Core {
 			2  => __( 'Custom field updated.', 'default' ),
 			3  => __( 'Custom field deleted.', 'default' ),
 			4  => __( 'Job listing updated.', 'wp-job-openings' ),
+			// Read-only display of which revision core just restored; the restore action itself is
+			// core's own nonce-checked request, so no nonce is needed for this display-only read.
 			/* translators: %s: date and time of the revision */
-			5  => isset( $_GET['revision'] ) ? sprintf( __( 'Job listing restored to revision from %s.', 'wp-job-openings' ), wp_post_revision_title( intval( $_GET['revision'] ), false ) ) : false,
+			5  => isset( $_GET['revision'] ) ? sprintf( __( 'Job listing restored to revision from %s.', 'wp-job-openings' ), wp_post_revision_title( intval( $_GET['revision'] ), false ) ) : false, // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			6  => __( 'Job listing published.', 'wp-job-openings' ) . $view_post_link_html,
 			7  => __( 'Job listing saved.', 'wp-job-openings' ),
 			8  => __( 'Job listing submitted.', 'wp-job-openings' ) . $preview_post_link_html,
@@ -408,8 +410,10 @@ class AWSM_Job_Openings_Core {
 			2  => __( 'Custom field updated.', 'default' ),
 			3  => __( 'Custom field deleted.', 'default' ),
 			4  => __( 'Application updated.', 'wp-job-openings' ),
+			// Read-only display of which revision core just restored; the restore action itself is
+			// core's own nonce-checked request, so no nonce is needed for this display-only read.
 			/* translators: %s: date and time of the revision */
-			5  => isset( $_GET['revision'] ) ? sprintf( __( 'Application restored to revision from %s.', 'wp-job-openings' ), wp_post_revision_title( intval( $_GET['revision'] ), false ) ) : false,
+			5  => isset( $_GET['revision'] ) ? sprintf( __( 'Application restored to revision from %s.', 'wp-job-openings' ), wp_post_revision_title( intval( $_GET['revision'] ), false ) ) : false, // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			6  => __( 'Application published.', 'wp-job-openings' ),
 			7  => __( 'Application saved.', 'wp-job-openings' ),
 			8  => __( 'Application submitted.', 'wp-job-openings' ),

@@ -31,9 +31,12 @@ class AWSM_Job_Openings_Filters {
 		if ( ! empty( $filters ) ) {
 			foreach ( $filters as $filter ) {
 				$current_filter_key = str_replace( '-', '__', $filter ) . self::$filter_suffix;
+				// Read-only listing filter reflected from the URL; no state mutation, so no nonce is needed here.
+				// phpcs:disable WordPress.Security.NonceVerification.Recommended
 				if ( isset( $_GET[ $current_filter_key ] ) ) {
 					$query_args[ $filter ] = sanitize_title( $_GET[ $current_filter_key ] );
 				}
+				// phpcs:enable WordPress.Security.NonceVerification.Recommended
 			}
 		}
 		return $query_args;
@@ -68,7 +71,8 @@ class AWSM_Job_Openings_Filters {
 		$uid = isset( $shortcode_atts['uid'] ) ? '-' . $shortcode_atts['uid'] : '';
 
 		if ( $enable_search === 'enable' ) {
-			$search_query = isset( $_GET['jq'] ) ? $_GET['jq'] : '';
+			// Read-only reflection of the current search term back into the form field; no nonce needed.
+			$search_query = isset( $_GET['jq'] ) ? sanitize_text_field( wp_unslash( $_GET['jq'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			/**
 			 * Filters the search field placeholder text.
 			 *
@@ -313,7 +317,7 @@ class AWSM_Job_Openings_Filters {
 	}
 
 	public function awsm_posts_filters() {
-        // phpcs:disable WordPress.Security.NonceVerification.Missing
+        // phpcs:disable WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended
 		$filters = $shortcode_atts = array(); // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
 
 		$filter_action = isset( $_POST['action'] ) ? $_POST['action'] : '';
