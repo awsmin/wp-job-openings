@@ -1223,11 +1223,13 @@ class AWSM_Job_Openings_Form {
 					// The JS executeRecaptcha() calls grecaptcha.execute(siteKey,{action})
 					// which is a v3 API method — it requires the v3 script URL regardless
 					// of which recaptcha subtype the admin selected.
+					// null version is intentional: this is Google's externally-hosted, self-versioned
+					// script, not a local asset — we don't control its cache-busting.
 					wp_enqueue_script(
 						'awsm-jobs-g-recaptcha',
 						esc_url( "https://www.google.com/recaptcha/api.js?render={$site_key}" ),
 						array(),
-						null,
+						null, // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
 						array(
 							'in_footer' => false,
 							'strategy'  => 'defer',
@@ -1260,11 +1262,13 @@ class AWSM_Job_Openings_Form {
 		// Generic path: v2_checkbox, hcaptcha, turnstile.
 		$script = apply_filters( 'awsm_jobs_captcha_script_config', $script, $captcha_type );
 
+		// null version is intentional: all of the built-in providers here are externally-hosted,
+		// self-versioned scripts, not local assets — we don't control their cache-busting.
 		wp_enqueue_script(
 			$script['handle'],
 			$script['src'],
 			isset( $script['deps'] ) ? $script['deps'] : array(),
-			null,
+			null, // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
 			array(
 				'in_footer' => $script['in_footer'],
 				'strategy'  => $script['strategy'],

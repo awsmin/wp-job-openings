@@ -241,13 +241,18 @@ class AWSM_Job_Openings {
 	}
 
 	public static function log( $data, $prefix = '' ) {
+		// Dedicated debug logging utility, gated behind WP_DEBUG_LOG and this plugin's own
+		// AWSM_JOBS_DEBUG constant (both must be explicitly opted into) — not a stray debug
+		// statement left in by mistake.
+		// phpcs:disable WordPress.PHP.DevelopmentFunctions.error_log_error_log
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG && defined( 'AWSM_JOBS_DEBUG' ) && AWSM_JOBS_DEBUG ) {
 			if ( is_string( $data ) ) {
 				error_log( 'HireZoot:' . $prefix . ': ' . $data );
 			} else {
-				error_log( 'HireZoot:' . $prefix . ': ' . json_encode( $data, JSON_PRETTY_PRINT ) );
+				error_log( 'HireZoot:' . $prefix . ': ' . wp_json_encode( $data, JSON_PRETTY_PRINT ) );
 			}
 		}
+		// phpcs:enable WordPress.PHP.DevelopmentFunctions.error_log_error_log
 	}
 
 	private function register_default_settings() {
@@ -848,7 +853,10 @@ class AWSM_Job_Openings {
 				break;
 
 			case 'submission_time':
-				$submission = human_time_diff( get_the_time( 'U' ), current_time( 'timestamp' ) ) . ' ' . __( 'ago', 'wp-job-openings' );
+				// get_the_time( 'U' ) and current_time( 'timestamp' ) both use the site's local-offset
+				// convention (neither is true UTC), so they stay consistent with each other here; this
+				// is WordPress core's own pattern for "time ago" displays.
+				$submission = human_time_diff( get_the_time( 'U' ), current_time( 'timestamp' ) ) . ' ' . __( 'ago', 'wp-job-openings' ); // phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested
 				echo esc_html( $submission );
 				break;
 		}
@@ -1504,7 +1512,7 @@ class AWSM_Job_Openings {
 				'form_error_msg' => array(
 					'general'         => esc_html__( 'Error in submitting your application. Please try again later!', 'wp-job-openings' ),
 					'file_validation' => esc_html__( 'The file you have selected is too large.', 'wp-job-openings' ),
-					'captcha_failed'  => esc_html__( 'reCAPTCHA failed to load. Please check your configuration.' ),
+					'captcha_failed'  => esc_html__( 'reCAPTCHA failed to load. Please check your configuration.', 'wp-job-openings' ),
 				),
 			),
 			'vendors'            => array(
