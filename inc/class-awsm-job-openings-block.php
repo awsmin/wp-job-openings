@@ -802,7 +802,7 @@ class AWSM_Job_Openings_Block {
 			}
 			$filter_dropdown_map = array();
 			foreach ( $taxonomies as $taxonomy => $tax_details ) {
-				if ( in_array( $taxonomy, $available_filters ) ) {
+				if ( in_array( $taxonomy, $available_filters, true ) ) {
 
 					/**
 					 * Filter arguments for the specification terms in the job filter.
@@ -1252,7 +1252,7 @@ class AWSM_Job_Openings_Block {
 				$display = true;
 				if ( ! empty( $listing_specs ) ) {
 					$display = false;
-					if ( isset( $listing_specs['specs'] ) && is_array( $listing_specs['specs'] ) && in_array( $taxonomy, $listing_specs['specs'] ) ) {
+					if ( isset( $listing_specs['specs'] ) && is_array( $listing_specs['specs'] ) && in_array( $taxonomy, $listing_specs['specs'], true ) ) {
 						$display = true;
 					}
 				}

@@ -258,7 +258,7 @@ class AWSM_Job_Openings {
 	}
 
 	private function insert_default_specs_terms() {
-		if ( get_option( 'awsm_jobs_insert_default_specs_terms' ) == 1 ) {
+		if ( (int) get_option( 'awsm_jobs_insert_default_specs_terms' ) === 1 ) {
 			return;
 		}
 		$specs = get_option( 'awsm_jobs_filter' );
@@ -1444,7 +1444,7 @@ class AWSM_Job_Openings {
 
 		$contexts = array( 'job', 'application' );
 		$context  = isset( $_POST['context'] ) ? sanitize_text_field( $_POST['context'] ) : '';
-		if ( empty( $context ) || ! in_array( $context, $contexts ) ) {
+		if ( empty( $context ) || ! in_array( $context, $contexts, true ) ) {
 			$response['errors'][] = esc_html__( 'Invalid context!', 'wp-job-openings' );
 		}
 
@@ -1694,14 +1694,14 @@ class AWSM_Job_Openings {
 		if ( is_page() ) {
 			$job_listing_page_id = get_option( 'awsm_select_page_listing', get_option( 'awsm_jobs_default_listing_page_id' ) );
 			$current_page_id     = $wp_query->get_queried_object_id();
-			if ( $current_page_id == $job_listing_page_id ) {
+			if ( $current_page_id === (int) $job_listing_page_id ) {
 				$classes[] = 'listing-page-awsm_job_openings';
 			}
 		}
 		if ( is_singular( 'awsm_job_openings' ) ) {
 			$job_details_template = get_option( 'awsm_jobs_details_page_template', 'default' );
 			if ( $job_details_template === 'custom' ) {
-				$key = array_search( 'awsm_job_openings-template-default', $classes );
+				$key = array_search( 'awsm_job_openings-template-default', $classes, true );
 				if ( $key !== false ) {
 					$classes[ $key ] = 'awsm_job_openings-template-custom';
 				}
@@ -2262,7 +2262,7 @@ class AWSM_Job_Openings {
 			$number_columns = get_option( 'awsm_jobs_number_of_columns' );
 			$view_class     = 'awsm-row';
 			$column_class   = 'awsm-grid-col-' . $number_columns;
-			if ( $number_columns == 1 ) {
+			if ( (int) $number_columns === 1 ) {
 				$column_class = 'awsm-grid-col';
 			}
 			$view_class .= ' ' . $column_class;
@@ -2387,7 +2387,7 @@ class AWSM_Job_Openings {
 				$display = true;
 				if ( ! empty( $listing_specs ) ) {
 					$display = false;
-					if ( isset( $listing_specs['specs'] ) && is_array( $listing_specs['specs'] ) && in_array( $taxonomy, $listing_specs['specs'] ) ) {
+					if ( isset( $listing_specs['specs'] ) && is_array( $listing_specs['specs'] ) && in_array( $taxonomy, $listing_specs['specs'], true ) ) {
 						$display = true;
 					}
 				}
