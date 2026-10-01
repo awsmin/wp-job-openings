@@ -806,26 +806,34 @@ a.awsm-text-red:hover {
 	padding: 10px 8px;
 }
 
+/* Column widths add up to 100% so no spare space is pushed into the drag column. */
 .awsm-specs tbody td:first-child {
-	width: 20px;
+	width: 1%;
 	padding-left: 12px;
 	padding-right: 4px;
 	text-align: center;
+	white-space: nowrap;
 }
 
-.awsm-specs tbody td.awsm-specs-plural-wrap,
-.awsm-specs tbody tr:first-child td:nth-child(3) {
-	width: 11%;
+.awsm-specs tbody td:nth-child(2) {
+	width: 15%;
 }
 
-.awsm-specs tbody td.awsm-specs-options-wrap,
-.awsm-specs tbody tr:first-child td:nth-child(6) {
-	width: 25%;
+.awsm-specs tbody td:nth-child(3) {
+	width: 13%;
 }
 
-.awsm-specs tbody td.awsm-specs-key-wrap,
-.awsm-specs tbody tr:first-child td:nth-child(7) {
-	width: 10%;
+.awsm-specs tbody td:nth-child(4),
+.awsm-specs tbody td:nth-child(5) {
+	width: 14%;
+}
+
+.awsm-specs tbody td:nth-child(6) {
+	width: 30%;
+}
+
+.awsm-specs tbody td:nth-child(7) {
+	width: 12%;
 }
 
 .awsm-specs tbody td:last-child {
