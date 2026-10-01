@@ -1705,6 +1705,30 @@ class AWSM_Job_Openings {
 	}
 
 	/**
+	 * Get the translated plural label of a job specification for display.
+	 *
+	 * Falls back to the (translated) singular label, so specs without a
+	 * plural label keep showing exactly what they did before.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param string $taxonomy Specification key.
+	 * @param string $singular_label The singular label, usually the taxonomy label.
+	 * @return string
+	 */
+	public static function get_spec_plural_name( $taxonomy, $singular_label ) {
+		$plural = '';
+		$spec   = self::get_spec_by_taxonomy( $taxonomy );
+		if ( isset( $spec['plural'] ) && strlen( $spec['plural'] ) > 0 ) {
+			$plural = $spec['plural'];
+		}
+		if ( strlen( $plural ) === 0 || $plural === $singular_label ) {
+			return apply_filters( 'wpml_translate_single_string', $singular_label, 'WordPress', sprintf( 'taxonomy general name: %s', $singular_label ) );
+		}
+		return apply_filters( 'wpml_translate_single_string', $plural, 'WordPress', sprintf( 'taxonomy plural name: %s', $plural ) );
+	}
+
+	/**
 	 * Get the saved specification data for a taxonomy.
 	 *
 	 * @since 4.2.0
