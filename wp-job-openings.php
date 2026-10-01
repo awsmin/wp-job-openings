@@ -1652,6 +1652,79 @@ class AWSM_Job_Openings {
 		return array( 'job-category', 'job-type', 'job-location' );
 	}
 
+	/**
+	 * Get the available field types for job specifications.
+	 *
+	 * 'tags' is the original behavior (select existing values or add new ones)
+	 * and stays the default for every spec without a saved field type.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @return array Field type => label.
+	 */
+	public static function get_spec_field_types() {
+		return array(
+			'tags'     => esc_html__( 'Tag Input', 'wp-job-openings' ),
+			'single'   => esc_html__( 'Single Select', 'wp-job-openings' ),
+			'multiple' => esc_html__( 'Multi Select', 'wp-job-openings' ),
+		);
+	}
+
+	/**
+	 * Get the field type of a job specification, falling back to 'tags'.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param array $spec Specification data from the awsm_jobs_filter option.
+	 * @return string
+	 */
+	public static function get_spec_field_type( $spec ) {
+		$field_type = is_array( $spec ) && isset( $spec['field_type'] ) ? $spec['field_type'] : '';
+		if ( ! array_key_exists( $field_type, self::get_spec_field_types() ) ) {
+			$field_type = 'tags';
+		}
+		return $field_type;
+	}
+
+	/**
+	 * Get the plural label of a job specification, falling back to the singular label.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param array $spec Specification data from the awsm_jobs_filter option.
+	 * @return string
+	 */
+	public static function get_spec_plural_label( $spec ) {
+		if ( ! is_array( $spec ) ) {
+			return '';
+		}
+		if ( isset( $spec['plural'] ) && strlen( $spec['plural'] ) > 0 ) {
+			return $spec['plural'];
+		}
+		return isset( $spec['filter'] ) ? $spec['filter'] : '';
+	}
+
+	/**
+	 * Get the saved specification data for a taxonomy.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param string $taxonomy Specification key.
+	 * @param array  $filters Optional. Specifications. Defaults to the awsm_jobs_filter option.
+	 * @return array Empty array when not found.
+	 */
+	public static function get_spec_by_taxonomy( $taxonomy, $filters = null ) {
+		$filters = is_array( $filters ) ? $filters : get_option( 'awsm_jobs_filter' );
+		if ( is_array( $filters ) ) {
+			foreach ( $filters as $filter ) {
+				if ( isset( $filter['taxonomy'] ) && $taxonomy === $filter['taxonomy'] ) {
+					return $filter;
+				}
+			}
+		}
+		return array();
+	}
+
 	public static function get_spec_terms( $spec ) {
 		$terms_args = array(
 			'taxonomy'   => $spec,
@@ -1988,8 +2061,29 @@ class AWSM_Job_Openings {
 			if ( isset( $_POST['awsm_job_spec_terms'] ) ) {
 				$specs = $_POST['awsm_job_spec_terms'];
 				if ( ! empty( $specs ) ) {
+					$awsm_filters = get_option( 'awsm_jobs_filter' );
 					foreach ( $specs as $taxonomy => $spec_terms ) {
 						if ( taxonomy_exists( $taxonomy ) ) {
+							$field_type = self::get_spec_field_type( self::get_spec_by_taxonomy( $taxonomy, $awsm_filters ) );
+							if ( 'tags' !== $field_type ) {
+								// Select field types only accept options configured in the settings, never new terms.
+								$terms = array();
+								foreach ( (array) $spec_terms as $spec_term ) {
+									if ( is_numeric( $spec_term ) ) {
+										$term = get_term( intval( $spec_term ), $taxonomy );
+										if ( $term instanceof WP_Term ) {
+											$terms[] = $term->term_id;
+										}
+									}
+								}
+								$terms = array_unique( $terms );
+								if ( 'single' === $field_type ) {
+									$terms = array_slice( $terms, 0, 1 );
+								}
+								wp_set_object_terms( $post_id, $terms, $taxonomy, false );
+								continue;
+							}
+
 							$terms      = array();
 							$spec_terms = array_unique( $spec_terms );
 							foreach ( $spec_terms as $spec_term ) {

@@ -191,6 +191,19 @@ jQuery(document).ready(function($) {
 		}
 	});
 
+	// Single/Multi Select specs: only the configured options can be picked, no new values.
+	$('.awsm_job_specification_select').each(function() {
+		var $select = $(this);
+		$select.awsmSelect2({
+			theme: 'awsm-job',
+			allowClear: $select.data('fieldType') === 'single',
+			minimumResultsForSearch: 10,
+			dropdownCssClass: 'awsm-select2-dropdown-control'
+		});
+	});
+
+	jobsAdminMain.selectControl($('.awsm-jobs-spec-field-type'));
+
 	var specRegEx = new RegExp('^([a-z0-9]+(-|_))*[a-z0-9]+$');
 	var $specWrapper = $('#awsm-job-specifications-options-container');
 
@@ -283,6 +296,7 @@ jQuery(document).ready(function($) {
 			$wrapper.find('.awsm_job_specifications_settings_body').append(specTemplate(templateData));
 			jobsAdminMain.tagSelect($('.awsm_jobs_filter_tags').last());
 			jobsAdminMain.iconSelect($('.awsm-icon-select-control').last(), iconData);
+			jobsAdminMain.selectControl($('.awsm-jobs-spec-field-type').last());
 			if ( filterItemsOrder === 'custom' ) {
 				var $newTagSelect = $('.awsm_jobs_filter_tags').last();
 				enableSelect2Sortable( $newTagSelect.next('.select2-container'), $newTagSelect );

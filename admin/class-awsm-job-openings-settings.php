@@ -768,6 +768,12 @@ class AWSM_Job_Openings_Settings {
 
 				$filters[ $index ]['filter']   = $spec_name;
 				$filters[ $index ]['taxonomy'] = $spec_key;
+
+				// Plural label falls back to the singular label when left empty.
+				$spec_plural                     = isset( $filter['plural'] ) ? sanitize_text_field( $filter['plural'] ) : '';
+				$filters[ $index ]['plural']     = strlen( $spec_plural ) > 0 ? $spec_plural : $spec_name;
+				$filters[ $index ]['field_type'] = AWSM_Job_Openings::get_spec_field_type( $filter );
+
 				if ( isset( $filter['remove_tags'] ) ) {
 					if ( ! empty( $filter['remove_tags'] ) ) {
 						$remove_tags = $filter['remove_tags'];
@@ -1395,7 +1401,8 @@ class AWSM_Job_Openings_Settings {
 		if ( ! empty( $tax_details ) && ! is_numeric( $index ) ) {
 			return;
 		}
-		$spec_title = $row_data = $del_btn_data = $icon_option = $tag_options = ''; // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
+		$spec_title = $spec_plural = $row_data = $del_btn_data = $icon_option = $tag_options = ''; // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
+		$field_type = 'tags';
 
 		$spec_key_html = sprintf(
 			'<input type="text" class="widefat awsm-jobs-spec-key" name="awsm_jobs_filter[%1$s][taxonomy]" value="" maxlength="32" placeholder="%2$s" title="%3$s" required /><input type="hidden" name="awsm_jobs_filter[%1$s][register]" value="true" />',
@@ -1411,11 +1418,17 @@ class AWSM_Job_Openings_Settings {
 			$del_btn_data  = sprintf( ' data-taxonomy="%s"', esc_attr( $spec_key ) );
 			$spec_title    = $spec_options->label;
 			$spec_key_html = sprintf( '<input type="text" class="widefat" value="%2$s" disabled /><input type="hidden" name="awsm_jobs_filter[%1$s][taxonomy]" value="%2$s" />', esc_attr( $index ), esc_attr( $spec_key ) );
+			$spec_plural   = $spec_title;
 			foreach ( $filters as $filter ) {
 				if ( $spec_key === $filter['taxonomy'] ) {
 					if ( ! empty( $filter['icon'] ) ) {
 						$icon_option = sprintf( '<option value="%1$s" selected><i class="awsm-job-icon-%1$s"></i> %1$s</option>', sanitize_html_class( $filter['icon'] ) );
 					}
+					// Specs saved before these settings existed get the singular label and Tag Input.
+					if ( isset( $filter['plural'] ) && strlen( $filter['plural'] ) > 0 ) {
+						$spec_plural = $filter['plural'];
+					}
+					$field_type = AWSM_Job_Openings::get_spec_field_type( $filter );
 				}
 			}
 
@@ -1502,16 +1515,26 @@ class AWSM_Job_Openings_Settings {
 			<td>
 				<input type="text" class="widefat awsm-jobs-spec-title" name="awsm_jobs_filter[<?php echo esc_attr( $index ); ?>][filter]" value="<?php echo esc_attr( $spec_title ); ?>" placeholder="<?php esc_html_e( 'Enter a specification', 'wp-job-openings' ); ?>" required />
 			</td>
-			<td>
-				<?php echo $spec_key_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			<td class="awsm-specs-plural-wrap">
+				<input type="text" class="widefat awsm-jobs-spec-plural" name="awsm_jobs_filter[<?php echo esc_attr( $index ); ?>][plural]" value="<?php echo esc_attr( $spec_plural ); ?>" placeholder="<?php esc_attr_e( 'Enter plural label', 'wp-job-openings' ); ?>" />
 			</td>
-			<td>
+			<td class="awsm-specs-icon-wrap">
 				<select class="awsm-font-icon-selector awsm-icon-select-control" name="awsm_jobs_filter[<?php echo esc_attr( $index ); ?>][icon]" style="width: 100%;" data-placeholder="<?php esc_html_e( 'Select icon', 'wp-job-openings' ); ?>"><?php echo $icon_option; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></select>
 			</td>
-			<td>
+			<td class="awsm-specs-field-type-wrap">
+				<select class="awsm-jobs-spec-field-type" name="awsm_jobs_filter[<?php echo esc_attr( $index ); ?>][field_type]" style="width: 100%;">
+					<?php foreach ( AWSM_Job_Openings::get_spec_field_types() as $field_type_value => $field_type_label ) : ?>
+						<option value="<?php echo esc_attr( $field_type_value ); ?>"<?php selected( $field_type, $field_type_value ); ?>><?php echo esc_html( $field_type_label ); ?></option>
+					<?php endforeach; ?>
+				</select>
+			</td>
+			<td class="awsm-specs-options-wrap">
 				<select class="awsm_jobs_filter_tags" name="awsm_jobs_filter[<?php echo esc_attr( $index ); ?>][tags][]" multiple="multiple" style="width: 100%;" data-placeholder="<?php esc_html_e( 'Enter options here. Press enter after each one.', 'wp-job-openings' ); ?>"><?php echo $tag_options; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></select>
 			</td>
-			<td><a class="button awsm-text-red awsm-filters-remove-row" href="#"<?php echo $del_btn_data; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>><?php esc_html_e( 'Delete', 'wp-job-openings' ); ?></a>
+			<td class="awsm-specs-key-wrap">
+				<?php echo $spec_key_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			</td>
+			<td class="awsm-specs-delete-wrap"><a class="button awsm-text-red awsm-filters-remove-row" href="#"<?php echo $del_btn_data; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>><?php esc_html_e( 'Delete', 'wp-job-openings' ); ?></a>
 			</td>
 		</tr>
 		<?php

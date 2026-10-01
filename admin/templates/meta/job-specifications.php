@@ -68,18 +68,36 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 			$post_terms     = get_the_terms( $post->ID, $spec );
 			$post_terms_ids = array();
-			if ( ! empty( $post_terms ) ) {
+			if ( ! empty( $post_terms ) && ! is_wp_error( $post_terms ) ) {
 				foreach ( $post_terms as $post_term ) {
 					$post_terms_ids[] = $post_term->term_id;
 				}
+			}
+
+			$field_type = AWSM_Job_Openings::get_spec_field_type( AWSM_Job_Openings::get_spec_by_taxonomy( $spec, $awsm_filters ) );
+			if ( 'single' === $field_type ) {
+				// A single select can hold only one value, so keep the first assigned term.
+				$post_terms_ids = array_slice( $post_terms_ids, 0, 1 );
+			}
+
+			if ( 'tags' === $field_type ) {
+				$select_class       = 'awsm_job_specification_terms';
+				$select_placeholder = __( 'Select an existing option or type a new one. Press Enter to add.', 'wp-job-openings' );
+			} else {
+				$select_class       = 'awsm_job_specification_select';
+				$select_placeholder = 'single' === $field_type ? __( 'Select an option', 'wp-job-openings' ) : __( 'Select options', 'wp-job-openings' );
 			}
 			?>
 				<li>
 					<input type="hidden" name="awsm_job_spec_terms[<?php echo esc_attr( $spec ); ?>][]" value="" />
 					<label for="awsm_job_<?php echo esc_attr( $spec ); ?>_specification"><?php echo esc_html( $spec_options->label ); ?></label>
-					<select class="awsm_job_specification_terms" id="awsm_job_<?php echo esc_attr( $spec ); ?>_specification" name="awsm_job_spec_terms[<?php echo esc_attr( $spec ); ?>][]" multiple="multiple" style="width: 100%;" data-placeholder="<?php esc_html_e( 'Select an existing option or type a new one. Press Enter to add.', 'wp-job-openings' ); ?>">
+					<select class="<?php echo esc_attr( $select_class ); ?>" id="awsm_job_<?php echo esc_attr( $spec ); ?>_specification" name="awsm_job_spec_terms[<?php echo esc_attr( $spec ); ?>][]"<?php echo 'single' !== $field_type ? ' multiple="multiple"' : ''; ?> style="width: 100%;" data-placeholder="<?php echo esc_attr( $select_placeholder ); ?>" data-field-type="<?php echo esc_attr( $field_type ); ?>">
 					<?php
-					if ( ! empty( $spec_terms ) ) :
+					if ( 'single' === $field_type ) :
+						// Empty option so the placeholder shows and the selection can be cleared.
+						echo '<option value=""></option>';
+					endif;
+					if ( ! empty( $spec_terms ) && ! is_wp_error( $spec_terms ) ) :
 						foreach ( $spec_terms as $spec_term ) :
 							?>
 								<option value="<?php echo esc_attr( $spec_term->term_id ); ?>"<?php echo ( ! empty( $post_terms_ids ) ) ? ( in_array( $spec_term->term_id, $post_terms_ids ) ? ' selected' : '' ) : ''; ?>><?php echo esc_html( $spec_term->name ); ?></option>

@@ -791,9 +791,9 @@ a.awsm-text-red:hover {
 }
 
 .awsm-specs tbody td {
-	padding: 20px 15px;
-	width: 15%;
-	vertical-align: top;
+	padding: 12px 8px;
+	width: 13%;
+	vertical-align: middle;
 	background: #fff;
 	border-bottom: 1px solid #dddbdb;
 }
@@ -803,26 +803,52 @@ a.awsm-text-red:hover {
 }
 
 .awsm-specs tbody tr:first-child td {
-	padding: 10px 15px;
+	padding: 10px 8px;
 }
 
 .awsm-specs tbody td:first-child {
 	width: 20px;
+	padding-left: 12px;
+	padding-right: 4px;
+	text-align: center;
 }
 
-.awsm-specs tbody td:nth-child(5) {
-	width: 60%;
+.awsm-specs tbody td.awsm-specs-plural-wrap,
+.awsm-specs tbody tr:first-child td:nth-child(3) {
+	width: 11%;
+}
+
+.awsm-specs tbody td.awsm-specs-options-wrap,
+.awsm-specs tbody tr:first-child td:nth-child(6) {
+	width: 25%;
+}
+
+.awsm-specs tbody td.awsm-specs-key-wrap,
+.awsm-specs tbody tr:first-child td:nth-child(7) {
+	width: 10%;
 }
 
 .awsm-specs tbody td:last-child {
-	width: 10%;
+	width: 1%;
+	padding-right: 12px;
+	white-space: nowrap;
 }
 
 .awsm-specs tbody td>input,
 .awsm-specs tbody td>select {
 	display: block;
 	width: 100%;
-	height: 30px;
+	height: 38px;
+}
+
+.awsm-specs .select2-container--awsm-job .select2-selection--multiple {
+	min-height: 38px;
+}
+
+.awsm-specs .awsm-filters-remove-row.button {
+	min-height: 38px;
+	line-height: 36px;
+	padding: 0 12px;
 }
 
 .awsm-specs-drag-control {
@@ -2726,11 +2752,12 @@ input.awsm-button:disabled {
 
 	/* Size the fields to their content; the table grows to fit them and scrolls. */
 	#awsm-repeatable-specifications tbody td > input,
-	#awsm-repeatable-specifications tbody td:nth-child(4) .select2-container {
-		min-width: 160px;
+	#awsm-repeatable-specifications tbody td.awsm-specs-icon-wrap .select2-container,
+	#awsm-repeatable-specifications tbody td.awsm-specs-field-type-wrap .select2-container {
+		min-width: 140px;
 	}
 
-	#awsm-repeatable-specifications tbody td:nth-child(5) .select2-container {
+	#awsm-repeatable-specifications tbody td.awsm-specs-options-wrap .select2-container {
 		min-width: 240px;
 	}
 	.awsm-admin-settings .awsm-wpjo-form-group input:not([type='checkbox']):not([type='radio']), .awsm-admin-settings .awsm-wpjo-form-group select, .awsm-admin-settings .awsm-wpjo-form-group textarea {
