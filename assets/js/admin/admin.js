@@ -194,12 +194,24 @@ jQuery(document).ready(function($) {
 	// Single/Multi Select specs: only the configured options can be picked, no new values.
 	$('.awsm_job_specification_select').each(function() {
 		var $select = $(this);
-		$select.awsmSelect2({
+		var config = {
 			theme: 'awsm-job',
-			allowClear: $select.data('fieldType') === 'single',
 			minimumResultsForSearch: 10,
 			dropdownCssClass: 'awsm-select2-dropdown-control'
-		});
+		};
+		if ($select.prop('multiple')) {
+
+			// Build the multi selection without its inline search box so nothing can be typed in.
+			var utils = $.fn.awsmSelect2.amd.require('select2/utils');
+			config.selectionAdapter = utils.Decorate(
+				utils.Decorate(
+					$.fn.awsmSelect2.amd.require('select2/selection/multiple'),
+					$.fn.awsmSelect2.amd.require('select2/selection/placeholder')
+				),
+				$.fn.awsmSelect2.amd.require('select2/selection/eventRelay')
+			);
+		}
+		$select.awsmSelect2(config);
 	});
 
 	jobsAdminMain.selectControl($('.awsm-jobs-spec-field-type'));
