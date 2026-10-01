@@ -2694,6 +2694,17 @@ input.awsm-button:disabled {
 		top: 46px;
 	}
 
+	/* Keep the header below the responsive admin menu (z-index: 100) and push it aside with #wpbody. */
+	.wp-responsive-open .awsm-job-admin-nav-header {
+		z-index: 99;
+		left: 16em;
+	}
+
+	.rtl .wp-responsive-open .awsm-job-admin-nav-header {
+		left: auto;
+		right: 16em;
+	}
+
 	.awsm-job-admin-nav {
 		padding-left: 25px;
 	}
