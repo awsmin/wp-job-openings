@@ -2715,6 +2715,24 @@ input.awsm-button:disabled {
 	.awsm-sub-options-container table{
 		width: 100%;
 	}
+
+	/* Let the specifications table scroll horizontally instead of squashing its columns. */
+	/* position: relative keeps select2's absolutely positioned hidden selects inside the scroll box. */
+	#awsm-job-specifications-options-container .awsm-form-section {
+		position: relative;
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	/* Size the fields to their content; the table grows to fit them and scrolls. */
+	#awsm-repeatable-specifications tbody td > input,
+	#awsm-repeatable-specifications tbody td:nth-child(4) .select2-container {
+		min-width: 160px;
+	}
+
+	#awsm-repeatable-specifications tbody td:nth-child(5) .select2-container {
+		min-width: 240px;
+	}
 	.awsm-admin-settings .awsm-wpjo-form-group input:not([type='checkbox']):not([type='radio']), .awsm-admin-settings .awsm-wpjo-form-group select, .awsm-admin-settings .awsm-wpjo-form-group textarea {
 		max-width: 100%;
 		width: 100% !important;
