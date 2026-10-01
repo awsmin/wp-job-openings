@@ -780,7 +780,16 @@ class AWSM_Job_Openings {
 					$display_list     = get_post_meta( $post_id, 'awsm_exp_list_display', true );
 					$expiry_timestamp = ! empty( $job_expiry ) ? strtotime( $job_expiry ) : false;
 					$has_valid_expiry = $expiry_on_list === 'set_listing' && false !== $expiry_timestamp;
-					echo $has_valid_expiry ? esc_html( date_i18n( get_awsm_jobs_date_format( 'expiry-admin' ), $expiry_timestamp ) ) : $default_display; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				if ( $has_valid_expiry ) {
+					printf(
+						/* translators: 1: Job expiry date, 2: Job expiry time. */
+						esc_html__( '%1$s at %2$s', 'wp-job-openings' ),
+						esc_html( date_i18n( get_awsm_jobs_date_format( 'expiry-admin' ), $expiry_timestamp ) ),
+						esc_html( date_i18n( get_awsm_jobs_time_format( 'expiry-admin' ), $expiry_timestamp ) )
+					);
+				} else {
+					echo $default_display; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				}
 
 					echo '<input type="hidden" id="awsm_set_exp_list_' . esc_attr( $post_id ) . '" value="' . esc_attr( $expiry_on_list ) . '" >';
 					echo '<input type="hidden" id="awsm_job_expiry_' . esc_attr( $post_id ) . '" value="' . esc_attr( $has_valid_expiry ? $job_expiry : '' ) . '" >';
