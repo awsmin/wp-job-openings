@@ -756,6 +756,27 @@ a.awsm-text-red:hover {
 	margin-left: 4px;
 }
 
+/* Quick Edit expiry: reuses core's .inline-edit-date layout */
+.inline-edit-row fieldset.awsm-job-expiry-timestamp {
+	float: none;
+	margin-bottom: 6px;
+}
+
+.inline-edit-row fieldset.awsm-job-expiry-timestamp .timestamp-wrap {
+	margin-left: 0;
+}
+
+.inline-edit-row fieldset.awsm-job-expiry-timestamp input[type="text"] {
+	vertical-align: middle;
+	text-align: center;
+	padding: 0 4px;
+}
+
+.inline-edit-row fieldset.awsm-job-expiry-timestamp.form-invalid input[type="text"],
+.inline-edit-row fieldset.awsm-job-expiry-timestamp.form-invalid select {
+	border-color: #d63638;
+}
+
 .widefat .column-awsm-photo {
 	width: 32px;
 }

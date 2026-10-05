@@ -461,12 +461,6 @@ class AWSM_Job_Openings_Meta {
 		if ( $post_type !== 'awsm_job_openings' || $column_name !== 'awsm_job_expiry' ) {
 			return;
 		}
-
-		$awsm_job_expiry  = get_post_meta( get_the_ID(), 'awsm_job_expiry', true );
-		$display_list     = get_post_meta( get_the_ID(), 'awsm_exp_list_display', true );
-		$set_expiry       = get_post_meta( get_the_ID(), 'awsm_set_exp_list', true ); // Retrieve the expiry checkbox state
-		$date_format      = get_awsm_jobs_date_format( 'expiry-admin' );
-		$expiry_timestamp = ! empty( $awsm_job_expiry ) ? strtotime( $awsm_job_expiry ) : false;
 		?>
 		<fieldset class="inline-edit-col-right">
 			<div class="inline-edit-col">
@@ -476,17 +470,57 @@ class AWSM_Job_Openings_Meta {
 				</label>
 
 				<div id="awsm-job-expiry-fields" style="display: none; margin-top: 10px;">
-					<label>
-						<input type="text" class="awsm-jobs-datepicker" name="awsm_job_expiry_text_field" placeholder="<?php echo esc_attr( $date_format ); ?>" value="<?php echo ( false !== $expiry_timestamp ) ? esc_attr( date_i18n( $date_format, $expiry_timestamp ) ) : ''; ?>" />
-						<input type="hidden" id="awsm-jobs-datepicker-alt" name="awsm_job_expiry" value="<?php echo esc_attr( false !== $expiry_timestamp ? $awsm_job_expiry : '' ); ?>" />
-					</label>
-					<br>
+					<?php self::quick_edit_expiry_date_fields(); ?>
 					<label>
 						<input type="checkbox" name="awsm_exp_list_display" id="awsm-job-expiry-display" value="list_display">
 						<?php esc_html_e( 'Display expiry date', 'wp-job-openings' ); ?>
 					</label>
 				</div>
 			</div>
+		</fieldset>
+		<?php
+	}
+
+	/**
+	 * Output the Quick Edit expiry date and time fields, laid out like core's
+	 * post date fields. Also used by Pro Pack's own Quick Edit panel.
+	 *
+	 * The fields are rendered once as a template; per-job values are filled in
+	 * by admin.js from the hidden inputs in the Expiry column. The awsm_exp_*
+	 * names must not collide with core's mm/jj/aa/hh/mn, which
+	 * inline-edit-post.js looks up page-wide.
+	 *
+	 * @since 4.1.1
+	 */
+	public static function quick_edit_expiry_date_fields() {
+		global $wp_locale;
+
+		$month = '<label><span class="screen-reader-text">' . esc_html__( 'Month', 'wp-job-openings' ) . '</span><select class="awsm-job-expiry-mm" name="awsm_exp_mm">';
+		for ( $i = 1; $i < 13; $i++ ) {
+			$monthnum  = zeroise( $i, 2 );
+			$monthtext = $wp_locale->get_month_abbrev( $wp_locale->get_month( $i ) );
+			/* translators: 1: Month number (01, 02, etc.), 2: Month abbreviation. */
+			$month .= '<option value="' . esc_attr( $monthnum ) . '">' . esc_html( sprintf( __( '%1$s-%2$s', 'wp-job-openings' ), $monthnum, $monthtext ) ) . '</option>';
+		}
+		$month .= '</select></label>';
+
+		$number_field = function( $class, $name, $label, $size ) {
+			return sprintf( '<label><span class="screen-reader-text">%3$s</span><input type="text" class="%1$s" name="%2$s" size="%4$d" maxlength="%4$d" autocomplete="off" inputmode="numeric" /></label>', esc_attr( $class ), esc_attr( $name ), esc_html( $label ), (int) $size );
+		};
+		$day    = $number_field( 'awsm-job-expiry-jj', 'awsm_exp_jj', __( 'Day', 'wp-job-openings' ), 2 );
+		$year   = $number_field( 'awsm-job-expiry-aa', 'awsm_exp_aa', __( 'Year', 'wp-job-openings' ), 4 );
+		$hour   = $number_field( 'awsm-job-expiry-hh', 'awsm_exp_hh', __( 'Hour', 'wp-job-openings' ), 2 );
+		$minute = $number_field( 'awsm-job-expiry-mn', 'awsm_exp_mn', __( 'Minute', 'wp-job-openings' ), 2 );
+		?>
+		<fieldset class="inline-edit-date awsm-job-expiry-timestamp">
+			<legend class="screen-reader-text"><?php esc_html_e( 'Expiry date and time', 'wp-job-openings' ); ?></legend>
+			<div class="timestamp-wrap">
+				<?php
+					/* translators: 1: Month, 2: Day, 3: Year, 4: Hour, 5: Minute. */
+					printf( __( '%1$s %2$s, %3$s at %4$s:%5$s', 'wp-job-openings' ), $month, $day, $year, $hour, $minute ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				?>
+			</div>
+			<input type="hidden" class="awsm-job-expiry-value" name="awsm_job_expiry" value="" />
 		</fieldset>
 		<?php
 	}
