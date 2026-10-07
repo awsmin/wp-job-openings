@@ -497,6 +497,7 @@ class AWSM_Job_Openings {
 			add_filter( 'views_edit-awsm_job_application', array( $this, 'awsm_job_application_action_links' ) );
 			add_filter( 'bulk_actions-edit-awsm_job_application', array( $this, 'awsm_job_application_bulk_actions' ) );
 			add_filter( 'post_row_actions', array( $this, 'awsm_posts_row_actions' ), 10, 2 );
+			add_action( 'wp_ajax_inline-save', array( $this, 'validate_quick_edit_job_expiry' ), 0 );
 		}
 	}
 
@@ -1013,6 +1014,73 @@ class AWSM_Job_Openings {
 		}
 
 		return $timezone_string;
+	}
+
+	/**
+	 * @since 4.1.1
+	 *
+	 * @return int
+	 */
+	public static function get_jobs_timezone_offset() {
+		$selected_zone = get_option( 'awsm_jobs_timezone' );
+		$timezone      = is_array( $selected_zone ) ? self::get_timezone_string( $selected_zone ) : 'UTC';
+		try {
+			$date_timezone = new DateTimeZone( $timezone );
+		} catch ( Exception $e ) {
+			return 0;
+		}
+		return $date_timezone->getOffset( new DateTime( 'now', $date_timezone ) );
+	}
+
+	/**
+	 * @since 4.1.1
+	 *
+	 * @param string $expiry Expiry value.
+	 * @return bool
+	 */
+	public static function is_valid_job_expiry( $expiry ) {
+		if ( ! preg_match( '/^(\d{4})-(\d{2})-(\d{2})(?: (\d{2}):(\d{2})(?::(\d{2}))?)?$/', $expiry, $matches ) ) {
+			return false;
+		}
+		if ( ! checkdate( (int) $matches[2], (int) $matches[3], (int) $matches[1] ) ) {
+			return false;
+		}
+		$hour   = isset( $matches[4] ) ? (int) $matches[4] : 0;
+		$minute = isset( $matches[5] ) ? (int) $matches[5] : 0;
+		$second = isset( $matches[6] ) ? (int) $matches[6] : 0;
+		return $hour < 24 && $minute < 60 && $second < 60;
+	}
+
+	/**
+	 *
+	 * @since 4.1.1
+	 */
+	public function validate_quick_edit_job_expiry() {
+		$post_id = isset( $_POST['post_ID'] ) ? absint( $_POST['post_ID'] ) : 0;
+		if ( ! $post_id || get_post_type( $post_id ) !== 'awsm_job_openings' ) {
+			return;
+		}
+		if ( ! isset( $_POST['_inline_edit'] ) || ! wp_verify_nonce( sanitize_key( $_POST['_inline_edit'] ), 'inlineeditnonce' ) ) {
+			return;
+		}
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return;
+		}
+		$expiry_on_list = isset( $_POST['awsm_set_exp_list'] ) ? sanitize_text_field( wp_unslash( $_POST['awsm_set_exp_list'] ) ) : '';
+		if ( $expiry_on_list !== 'set_listing' ) {
+			return;
+		}
+
+		$expiry  = isset( $_POST['awsm_job_expiry'] ) ? sanitize_text_field( wp_unslash( $_POST['awsm_job_expiry'] ) ) : '';
+		$message = '';
+		if ( $expiry === '' ) {
+			$message = __( 'Please enter the expiry date.', 'wp-job-openings' );
+		} elseif ( ! self::is_valid_job_expiry( $expiry ) ) {
+			$message = __( 'Please enter a valid expiry date and time.', 'wp-job-openings' );
+		}
+		if ( $message !== '' ) {
+			wp_die( esc_html( $message ), '', array( 'response' => 200 ) );
+		}
 	}
 
 	public function send_email_digest() {
@@ -1589,7 +1657,13 @@ class AWSM_Job_Openings {
 						'btn_text' => esc_html__( 'Choose', 'wp-job-openings' ),
 					),
 					'edit_job_specs'  => esc_html__( 'Edit Job Specifications', 'wp-job-openings' ),
+					'job_expiry'      => array(
+						'required' => esc_html__( 'Please enter the expiry date.', 'wp-job-openings' ),
+						'invalid'  => esc_html__( 'Please enter a valid expiry date and time.', 'wp-job-openings' ),
+						'past'     => esc_html__( 'The expiry date and time must be in the future.', 'wp-job-openings' ),
+					),
 				),
+				'jobs_timezone_offset'      => self::get_jobs_timezone_offset(),
 				'specs_settings_url'        => admin_url( 'edit.php?post_type=awsm_job_openings&page=awsm-jobs-settings&tab=specifications&subtab=awsm-manage_spec-specifications-nav-subtab' ),
 				'filter_items_order'        => sanitize_text_field( get_option( 'awsm_jobs_filter_items_order', 'custom' ) ),
 				'awsm_filters'              => self::get_filter_specifications(),

@@ -504,13 +504,17 @@ class AWSM_Job_Openings_Meta {
 		}
 		$month .= '</select></label>';
 
-		$number_field = function( $class, $name, $label, $size ) {
-			return sprintf( '<label><span class="screen-reader-text">%3$s</span><input type="text" class="%1$s" name="%2$s" size="%4$d" maxlength="%4$d" autocomplete="off" inputmode="numeric" /></label>', esc_attr( $class ), esc_attr( $name ), esc_html( $label ), (int) $size );
+		$number_field = function( $class, $name, $label, $size, $placeholder ) {
+			return sprintf( '<label><span class="screen-reader-text">%3$s</span><input type="text" class="%1$s" name="%2$s" size="%4$d" maxlength="%4$d" placeholder="%5$s" autocomplete="off" inputmode="numeric" /></label>', esc_attr( $class ), esc_attr( $name ), esc_html( $label ), (int) $size, esc_attr( $placeholder ) );
 		};
-		$day    = $number_field( 'awsm-job-expiry-jj', 'awsm_exp_jj', __( 'Day', 'wp-job-openings' ), 2 );
-		$year   = $number_field( 'awsm-job-expiry-aa', 'awsm_exp_aa', __( 'Year', 'wp-job-openings' ), 4 );
-		$hour   = $number_field( 'awsm-job-expiry-hh', 'awsm_exp_hh', __( 'Hour', 'wp-job-openings' ), 2 );
-		$minute = $number_field( 'awsm-job-expiry-mn', 'awsm_exp_mn', __( 'Minute', 'wp-job-openings' ), 2 );
+		/* translators: Placeholder for the two-digit day field in the job expiry date. */
+		$day = $number_field( 'awsm-job-expiry-jj', 'awsm_exp_jj', __( 'Day', 'wp-job-openings' ), 2, _x( 'DD', 'job expiry day placeholder', 'wp-job-openings' ) );
+		/* translators: Placeholder for the four-digit year field in the job expiry date. */
+		$year = $number_field( 'awsm-job-expiry-aa', 'awsm_exp_aa', __( 'Year', 'wp-job-openings' ), 4, _x( 'YYYY', 'job expiry year placeholder', 'wp-job-openings' ) );
+		/* translators: Placeholder for the two-digit hour field in the job expiry time. */
+		$hour = $number_field( 'awsm-job-expiry-hh', 'awsm_exp_hh', __( 'Hour', 'wp-job-openings' ), 2, _x( 'HH', 'job expiry hour placeholder', 'wp-job-openings' ) );
+		/* translators: Placeholder for the two-digit minute field in the job expiry time. */
+		$minute = $number_field( 'awsm-job-expiry-mn', 'awsm_exp_mn', __( 'Minute', 'wp-job-openings' ), 2, _x( 'MM', 'job expiry minute placeholder', 'wp-job-openings' ) );
 		?>
 		<fieldset class="inline-edit-date awsm-job-expiry-timestamp">
 			<legend class="screen-reader-text"><?php esc_html_e( 'Expiry date and time', 'wp-job-openings' ); ?></legend>

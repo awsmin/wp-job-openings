@@ -777,6 +777,12 @@ a.awsm-text-red:hover {
 	border-color: #d63638;
 }
 
+.inline-edit-row fieldset.awsm-job-expiry-timestamp .awsm-job-expiry-error {
+	margin: 4px 0 0;
+	color: #d63638;
+	font-size: 12px;
+}
+
 .widefat .column-awsm-photo {
 	width: 32px;
 }
