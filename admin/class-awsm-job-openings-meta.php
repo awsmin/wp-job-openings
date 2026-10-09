@@ -504,7 +504,7 @@ class AWSM_Job_Openings_Meta {
 		}
 		$month .= '</select></label>';
 
-		$number_field = function( $class, $name, $label, $size, $placeholder ) {
+		$number_field = function ( $class, $name, $label, $size, $placeholder ) {
 			return sprintf( '<label><span class="screen-reader-text">%3$s</span><input type="text" class="%1$s" name="%2$s" size="%4$d" maxlength="%4$d" placeholder="%5$s" autocomplete="off" inputmode="numeric" /></label>', esc_attr( $class ), esc_attr( $name ), esc_html( $label ), (int) $size, esc_attr( $placeholder ) );
 		};
 		/* translators: Placeholder for the two-digit day field in the job expiry date. */
