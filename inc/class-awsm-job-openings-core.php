@@ -25,6 +25,9 @@ class AWSM_Job_Openings_Core {
 		add_filter( 'woocommerce_disable_admin_bar', array( $this, 'woocommerce_disable_backend_access' ) );
 		add_filter( 'woocommerce_prevent_admin_access', array( $this, 'woocommerce_disable_backend_access' ) );
 		add_filter( 'enter_title_here', array( $this, 'change_add_title_for_awsm_job_openings' ), 10, 2 );
+
+		// Hiring Panelist - view-only access to applications.
+		add_filter( 'map_meta_cap', array( $this, 'restrict_hiring_panelist_application_caps' ), 10, 4 );
 	}
 
 	public static function init() {
@@ -32,6 +35,43 @@ class AWSM_Job_Openings_Core {
 			self::$instance = new self();
 		}
 		return self::$instance;
+	}
+
+	/**
+	 * Hiring Panelists can view applications but never update, publish or delete them.
+	 *
+	 * The role still needs 'edit_post' to open the application screen (post.php checks it
+	 * for viewing as well as saving), so 'edit_post' is only denied for a non-AJAX POST,
+	 * i.e. the application being saved. AJAX edits are checked by their own handlers.
+	 *
+	 * @param string[] $caps    Primitive capabilities required.
+	 * @param string   $cap     Capability being checked.
+	 * @param int      $user_id User ID.
+	 * @param array    $args    Additional arguments, the post ID first.
+	 * @return string[]
+	 */
+	public function restrict_hiring_panelist_application_caps( $caps, $cap, $user_id, $args ) {
+		if ( ! in_array( $cap, array( 'edit_post', 'publish_post', 'delete_post' ), true ) || empty( $args[0] ) ) {
+			return $caps;
+		}
+
+		if ( get_post_type( $args[0] ) !== 'awsm_job_application' ) {
+			return $caps;
+		}
+
+		$user = get_userdata( $user_id );
+		if ( ! $user || ! in_array( 'hiring_panelist', (array) $user->roles, true ) ) {
+			return $caps;
+		}
+
+		if ( 'edit_post' === $cap ) {
+			$is_save = isset( $_SERVER['REQUEST_METHOD'] ) && 'POST' === $_SERVER['REQUEST_METHOD'] && ! wp_doing_ajax();
+			if ( ! $is_save ) {
+				return $caps;
+			}
+		}
+
+		return array( 'do_not_allow' );
 	}
 
 	public function register() {
