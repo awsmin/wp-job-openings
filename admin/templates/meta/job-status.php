@@ -28,7 +28,7 @@ if ( $post->post_type === 'awsm_job_application' ) {
 		$data_rows = array(
 			'job_title'       => array(
 				esc_html__( 'Job Title', 'wp-job-openings' ),
-				wp_strip_all_tags( $job_title ),
+				esc_html( $job_title ),
 			),
 			'current_status'  => array(
 				esc_html__( 'Current Status:', 'wp-job-openings' ),

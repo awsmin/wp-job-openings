@@ -734,20 +734,34 @@ class AWSM_Job_Openings {
 	}
 
 	/**
-	 * Get a job title as plain text for storing with an application
-	 * (awsm_apply_for meta), where it is also used in mail subjects.
+	 * Get a job title for storing with an application (awsm_apply_for meta).
 	 *
-	 * The title is decoded so entities such as &amp; read correctly as text,
-	 * then stripped of tags, since decoding can turn an entity-encoded title
-	 * into live markup. Always escape the stored value on output.
+	 * The title is stored HTML-encoded, so it can never become live markup
+	 * and still shows exactly as entered once escaped on output (esc_html()
+	 * doesn't double-encode). Use get_job_title_plain_text() wherever the
+	 * stored value is used as plain text, e.g. mail subjects or exports.
 	 *
 	 * @since 4.1.1
 	 *
 	 * @param int $job_id Job post ID.
 	 * @return string
 	 */
-	public static function get_job_title_text( $job_id ) {
-		return trim( wp_strip_all_tags( html_entity_decode( get_the_title( $job_id ), ENT_QUOTES, get_bloginfo( 'charset' ) ) ) );
+	public static function get_job_title_for_meta( $job_id ) {
+		return esc_html( get_the_title( $job_id ) );
+	}
+
+	/**
+	 * Decode a stored job title (awsm_apply_for meta) for plain-text use,
+	 * such as mail subjects, PDF text or CSV exports. Never print the result
+	 * into HTML without escaping it.
+	 *
+	 * @since 4.1.1
+	 *
+	 * @param string $job_title Stored job title.
+	 * @return string
+	 */
+	public static function get_job_title_plain_text( $job_title ) {
+		return html_entity_decode( (string) $job_title, ENT_QUOTES, get_bloginfo( 'charset' ) );
 	}
 
 	public static function get_applications( $job_id, $fields = 'all' ) {
