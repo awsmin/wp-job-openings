@@ -733,6 +733,23 @@ class AWSM_Job_Openings {
 		);
 	}
 
+	/**
+	 * Get a job title as plain text for storing with an application
+	 * (awsm_apply_for meta), where it is also used in mail subjects.
+	 *
+	 * The title is decoded so entities such as &amp; read correctly as text,
+	 * then stripped of tags, since decoding can turn an entity-encoded title
+	 * into live markup. Always escape the stored value on output.
+	 *
+	 * @since 4.1.1
+	 *
+	 * @param int $job_id Job post ID.
+	 * @return string
+	 */
+	public static function get_job_title_text( $job_id ) {
+		return trim( wp_strip_all_tags( html_entity_decode( get_the_title( $job_id ), ENT_QUOTES, get_bloginfo( 'charset' ) ) ) );
+	}
+
 	public static function get_applications( $job_id, $fields = 'all' ) {
 		$applications = get_children(
 			array(

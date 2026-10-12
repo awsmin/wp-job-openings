@@ -564,7 +564,7 @@ class AWSM_Job_Openings_Form {
 							// Add the applicant details as meta data
 							$applicant_details = array(
 								'awsm_job_id'           => $job_id,
-								'awsm_apply_for'        => html_entity_decode( get_the_title( $job_id ) ),
+								'awsm_apply_for'        => AWSM_Job_Openings::get_job_title_text( $job_id ),
 								'awsm_applicant_ip'     => isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( $_SERVER['REMOTE_ADDR'] ) : '',
 								'awsm_applicant_name'   => $applicant_name,
 								'awsm_applicant_email'  => $applicant_email,
