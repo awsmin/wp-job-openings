@@ -1,5 +1,8 @@
 ## Changelog
 
+### V 4.1.1 – 2026-10-13
+* Security: Fixed a stored cross-site scripting (XSS) issue where the applied job title saved with an application could be shown unescaped on the application screen after the job was deleted.
+
 ### V 4.1.0 – 2026-09-21
 * Fixed: Restrict "HireZoot - Overview" dashboard widget to admins and HR
 

@@ -5,7 +5,7 @@
 **Requires at least:** 6.0  
 **Tested up to:** 7.1.1
 **Requires PHP:** 5.6  
-**Stable tag:** 4.1.0
+**Stable tag:** 4.1.1
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
 **Donate link:** https://www.buymeacoffee.com/awsm
@@ -108,6 +108,9 @@ Yes. You can view, filter, and manage applications from your dashboard.
 <img src="https://ps.w.org/wp-job-openings/assets/screenshot-5.png?rev=2639067" width="90%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-2.png?rev=2639067" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-3.png?rev=2639067" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-4.png?rev=2639067" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-1.png?rev=2639067" width="90%"></img>
 
 ## Changelog
+
+**V 4.1.1 – 2026-10-13**
+* Security: Fixed a stored cross-site scripting (XSS) issue where the applied job title saved with an application could be shown unescaped on the application screen after the job was deleted.
 
 **V 4.1.0 – 2026-09-21**
 * Fixed: Restrict "HireZoot - Overview" dashboard widget to admins and HR
