@@ -1330,15 +1330,19 @@ a.awsm-text-red:hover {
 
 /* Single and Multi Select specs have no inline search, so the box only opens the options list. */
 .awsm_job_specification_select + .select2-container .select2-selection--multiple {
-	min-height: 38px;
-	box-sizing: border-box;
 	cursor: pointer;
 }
 
+/* Mirror the Tag Input search field's placeholder so all spec fields look the same. */
 .awsm_job_specification_select + .select2-container .select2-selection--multiple .select2-selection__placeholder {
 	display: inline-block;
-	margin: 9px 0 0 8px;
-	color: #999;
+	height: 18px;
+	margin: 5px 0 0 5px;
+	font-family: sans-serif;
+	font-size: 100%;
+	line-height: 18px;
+	vertical-align: top;
+	color: #757575;
 }
 
 .awsm-jobs-error-container {
