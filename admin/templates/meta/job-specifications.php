@@ -91,12 +91,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<li>
 					<input type="hidden" name="awsm_job_spec_terms[<?php echo esc_attr( $spec ); ?>][]" value="" />
 					<label for="awsm_job_<?php echo esc_attr( $spec ); ?>_specification"><?php echo esc_html( $spec_options->label ); ?></label>
-					<select class="<?php echo esc_attr( $select_class ); ?>" id="awsm_job_<?php echo esc_attr( $spec ); ?>_specification" name="awsm_job_spec_terms[<?php echo esc_attr( $spec ); ?>][]"<?php echo 'single' !== $field_type ? ' multiple="multiple"' : ''; ?> style="width: 100%;" data-placeholder="<?php echo esc_attr( $select_placeholder ); ?>" data-field-type="<?php echo esc_attr( $field_type ); ?>">
+					<select class="<?php echo esc_attr( $select_class ); ?>" id="awsm_job_<?php echo esc_attr( $spec ); ?>_specification" name="awsm_job_spec_terms[<?php echo esc_attr( $spec ); ?>][]" multiple="multiple" style="width: 100%;" data-placeholder="<?php echo esc_attr( $select_placeholder ); ?>" data-field-type="<?php echo esc_attr( $field_type ); ?>">
 					<?php
-					if ( 'single' === $field_type ) :
-						// Empty option so the placeholder shows and the selection can be cleared.
-						echo '<option value=""></option>';
-					endif;
 					if ( ! empty( $spec_terms ) && ! is_wp_error( $spec_terms ) ) :
 						foreach ( $spec_terms as $spec_term ) :
 							?>

@@ -199,19 +199,24 @@ jQuery(document).ready(function($) {
 			minimumResultsForSearch: 10,
 			dropdownCssClass: 'awsm-select2-dropdown-control'
 		};
-		if ($select.prop('multiple')) {
+		var utils = $.fn.awsmSelect2.amd.require('select2/utils');
 
-			// Build the multi selection without its inline search box so nothing can be typed in.
-			var utils = $.fn.awsmSelect2.amd.require('select2/utils');
-			config.selectionAdapter = utils.Decorate(
-				utils.Decorate(
-					$.fn.awsmSelect2.amd.require('select2/selection/multiple'),
-					$.fn.awsmSelect2.amd.require('select2/selection/placeholder')
-				),
-				$.fn.awsmSelect2.amd.require('select2/selection/eventRelay')
-			);
-		}
+		// Chip selection without its inline search box so nothing can be typed in.
+		config.selectionAdapter = utils.Decorate(
+			utils.Decorate(
+				$.fn.awsmSelect2.amd.require('select2/selection/multiple'),
+				$.fn.awsmSelect2.amd.require('select2/selection/placeholder')
+			),
+			$.fn.awsmSelect2.amd.require('select2/selection/eventRelay')
+		);
 		$select.awsmSelect2(config);
+
+		// Single Select uses the same chip field, but picking an option replaces the current one.
+		if ($select.data('fieldType') === 'single') {
+			$select.on('select2:select', function(e) {
+				$select.val([ e.params.data.id ]).trigger('change');
+			});
+		}
 	});
 
 	jobsAdminMain.selectControl($('.awsm-jobs-spec-field-type'));
