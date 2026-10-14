@@ -24,7 +24,7 @@
  * (`componentsToPickerDate`) where <DateTimePicker> needs it.
  */
 import { ToggleControl, Dropdown, Button, DateTimePicker, Notice } from '@wordpress/components';
-import { Component, useState } from '@wordpress/element';
+import { Component, useState, useEffect } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { getSettings } from '@wordpress/date';
 import { close } from '@wordpress/icons';
@@ -32,6 +32,16 @@ import { close } from '@wordpress/icons';
 import './style.scss';
 
 const POST_TYPE = 'awsm_job_openings';
+const SAVE_LOCK_KEY = 'awsm-job-expiry-past';
+
+// Expiry values are wall-clock times in the HireZoot timezone setting (the
+// one the expiry cron and the save handlers compare against), which can
+// differ from the WordPress site timezone the picker works in. So "now" for
+// defaults and the past-date check is taken in that timezone.
+function getJobsTimezoneOffsetHours() {
+	const offset = window.awsmJobExpiryPanel && Number( window.awsmJobExpiryPanel.jobsTimezoneOffset );
+	return Number.isFinite( offset ) ? offset / 3600 : 0;
+}
 
 function pad( n ) {
 	return String( n ).padStart( 2, '0' );
@@ -99,14 +109,14 @@ function componentsToPickerDate( c, siteOffsetHours ) {
 
 /**
  * <DateTimePicker>'s calendar grid days are generated (via date-fns/use-lilius)
- * using plain local-time getters, so "is this day in the past" is judged the
- * same way — against the browser's own local today — rather than through the
- * siteOffsetHours conversion used for the stored value.
+ * using plain local-time getters, so the day's own Y/M/D digits are compared
+ * against today's date in the HireZoot timezone.
  */
 function isPastCalendarDay( day ) {
-	const startOfToday = new Date();
-	startOfToday.setHours( 0, 0, 0, 0 );
-	return new Date( day.getFullYear(), day.getMonth(), day.getDate() ) < startOfToday;
+	const today = nowComponentsAtSiteOffset( getJobsTimezoneOffsetHours() );
+	const dayKey = `${ day.getFullYear() }-${ pad( day.getMonth() + 1 ) }-${ pad( day.getDate() ) }`;
+	const todayKey = `${ today.year }-${ pad( today.month ) }-${ pad( today.day ) }`;
+	return dayKey < todayKey;
 }
 
 // Catches render-time exceptions so a break in this panel (e.g. from a
@@ -146,6 +156,34 @@ function JobExpiryPanel() {
 	const postId = wp.data.useSelect( ( select ) => select( 'core/editor' ).getCurrentPostId(), [] );
 	const [ meta ] = useEntityProp( 'postType', POST_TYPE, 'meta' );
 	const [ handlerError, setHandlerError ] = useState( null );
+	// Value set through the "Now" shortcut: a deliberate "expire this job
+	// now", so it's exempt from the past-date check below.
+	const [ nowExpiry, setNowExpiry ] = useState( null );
+	const savedExpiry = wp.data.useSelect( ( select ) => {
+		const savedMeta = select( 'core/editor' ).getCurrentPostAttribute( 'meta' );
+		return savedMeta ? savedMeta.awsm_job_expiry : '';
+	}, [] );
+
+	const jobsOffsetHours = getJobsTimezoneOffsetHours();
+	const isExpirySetValue = !! meta && meta.awsm_set_exp_list === 'set_listing';
+	const parsedExpiryValue = meta ? parseStoredComponents( meta.awsm_job_expiry ) : null;
+	// A past expiry is only rejected when it was changed here, so an already
+	// expired job can still be edited without touching its expiry date.
+	const isPastExpiry = isExpirySetValue && !! parsedExpiryValue &&
+		meta.awsm_job_expiry !== savedExpiry &&
+		meta.awsm_job_expiry !== nowExpiry &&
+		componentsToStoredFormat( parsedExpiryValue ) <= componentsToStoredFormat( nowComponentsAtSiteOffset( jobsOffsetHours ) );
+
+	useEffect( () => {
+		const editor = wp.data.dispatch( 'core/editor' );
+		if ( isPastExpiry ) {
+			editor.lockPostSaving( SAVE_LOCK_KEY );
+		} else {
+			editor.unlockPostSaving( SAVE_LOCK_KEY );
+		}
+	}, [ isPastExpiry ] );
+
+	useEffect( () => () => wp.data.dispatch( 'core/editor' ).unlockPostSaving( SAVE_LOCK_KEY ), [] );
 
 	if ( ! meta ) {
 		return null;
@@ -158,7 +196,7 @@ function JobExpiryPanel() {
 	const parsedExpiry = parseStoredComponents( meta.awsm_job_expiry );
 	const hasExpiryDate = !! parsedExpiry;
 	const displayOnList = meta.awsm_exp_list_display === 'list_display';
-	const components = parsedExpiry || nowComponentsAtSiteOffset( siteOffsetHours );
+	const components = parsedExpiry || nowComponentsAtSiteOffset( jobsOffsetHours );
 
 	// Reads meta straight from the data store (rather than merging onto the
 	// `meta` above, which is a snapshot from the START of this render) and
@@ -207,7 +245,9 @@ function JobExpiryPanel() {
 	};
 
 	const onClickNow = () => {
-		updateMeta( { awsm_job_expiry: componentsToStoredFormat( nowComponentsAtSiteOffset( siteOffsetHours ) ) } );
+		const now = componentsToStoredFormat( nowComponentsAtSiteOffset( jobsOffsetHours ) );
+		setNowExpiry( now );
+		updateMeta( { awsm_job_expiry: now } );
 	};
 
 	const pickerDate = componentsToPickerDate( components, siteOffsetHours );
@@ -272,12 +312,17 @@ function JobExpiryPanel() {
 									currentDate={ pickerDate }
 									onChange={ onChangeExpiryDate }
 									isInvalidDate={ isPastCalendarDay }
-									is12Hour
+									is12Hour={ /(^|[^\\])[aA]/.test( ( settings.formats && settings.formats.time ) || 'g:i a' ) }
 									startOfWeek={ settings.l10n.startOfWeek }
 								/>
 							</div>
 						) }
 					/>
+					{ isPastExpiry && (
+						<Notice status="error" isDismissible={ false } className="awsm-job-expiry-past-notice">
+							{ __( 'The expiry date and time must be in the future.', 'wp-job-openings' ) }
+						</Notice>
+					) }
 					{ hasExpiryDate && (
 						<ToggleControl
 							label={ __( 'Display expiry date', 'wp-job-openings' ) }

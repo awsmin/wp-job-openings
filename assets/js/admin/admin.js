@@ -895,6 +895,14 @@ jQuery(document).ready(function($) {
 				}
 				parts[key] = parseInt(parts[key], 10);
 			}
+			// 12-hour sites: hours are 1-12 plus AM/PM; store as 24-hour.
+			var $meridiem = $row.find('.awsm-job-expiry-ampm');
+			if ($meridiem.length && $.trim($row.find('.awsm-job-expiry-hh').val())) {
+				if (parts.hour < 1 || parts.hour > 12) {
+					return { error: 'invalid' };
+				}
+				parts.hour = (parts.hour % 12) + ($meridiem.val() === 'pm' ? 12 : 0);
+			}
 			var date = new Date(parts.year, parts.month - 1, parts.day);
 			if (parts.year < 1000 || date.getMonth() !== parts.month - 1 || date.getDate() !== parts.day || parts.hour > 23 || parts.minute > 59) {
 				return { error: 'invalid' };
@@ -1032,7 +1040,14 @@ jQuery(document).ready(function($) {
 					$quickEditRow.find('.awsm-job-expiry-mm').val(savedExpiry ? savedExpiry[2] : padNumber(new Date().getMonth() + 1, 2));
 					$quickEditRow.find('.awsm-job-expiry-jj').val(savedExpiry ? savedExpiry[3] : '');
 					$quickEditRow.find('.awsm-job-expiry-aa').val(savedExpiry ? savedExpiry[1] : '');
-					$quickEditRow.find('.awsm-job-expiry-hh').val(savedExpiry ? (savedExpiry[4] || '00') : '');
+					var savedHour = savedExpiry ? parseInt(savedExpiry[4] || '0', 10) : null;
+					var $meridiem = $quickEditRow.find('.awsm-job-expiry-ampm');
+					if ($meridiem.length) {
+						$quickEditRow.find('.awsm-job-expiry-hh').val(savedExpiry ? padNumber(savedHour % 12 || 12, 2) : '');
+						$meridiem.val(savedHour !== null && savedHour >= 12 ? 'pm' : 'am');
+					} else {
+						$quickEditRow.find('.awsm-job-expiry-hh').val(savedExpiry ? (savedExpiry[4] || '00') : '');
+					}
 					$quickEditRow.find('.awsm-job-expiry-mn').val(savedExpiry ? (savedExpiry[5] || '00') : '');
 					$quickEditRow.find('.awsm-job-expiry-value').val(jobExpiryValue || '');
 					$quickEditRow.data('awsmInitialExpiry', savedExpiry ? getQuickEditExpiry($quickEditRow).value : null);

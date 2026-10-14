@@ -449,6 +449,11 @@ class AWSM_Job_Openings {
 			true
 		);
 		wp_set_script_translations( 'awsm-job-expiry-panel', 'wp-job-openings', AWSM_JOBS_PLUGIN_DIR . '/languages' );
+		wp_add_inline_script(
+			'awsm-job-expiry-panel',
+			'window.awsmJobExpiryPanel = ' . wp_json_encode( array( 'jobsTimezoneOffset' => self::get_jobs_timezone_offset() ) ) . ';',
+			'before'
+		);
 
 		wp_enqueue_style(
 			'awsm-job-expiry-panel',
@@ -1030,6 +1035,34 @@ class AWSM_Job_Openings {
 			return 0;
 		}
 		return $date_timezone->getOffset( new DateTime( 'now', $date_timezone ) );
+	}
+
+	/**
+	 * Get the real Unix timestamp of a job expiry value.
+	 *
+	 * Expiry values are stored as wall-clock "Y-m-d H:i:s" in the HireZoot
+	 * timezone setting (the one check_date_and_change_status() compares
+	 * against), so they must not go through strtotime(), which would read
+	 * them as UTC. Use this for comparing against time(); keep strtotime()
+	 * for date_i18n() display.
+	 *
+	 * @since 4.1.1
+	 *
+	 * @param string $expiry Expiry value.
+	 * @return int|false
+	 */
+	public static function get_job_expiry_timestamp( $expiry ) {
+		if ( empty( $expiry ) || ! is_string( $expiry ) ) {
+			return false;
+		}
+		$selected_zone = get_option( 'awsm_jobs_timezone' );
+		$timezone      = is_array( $selected_zone ) ? self::get_timezone_string( $selected_zone ) : 'UTC';
+		try {
+			$datetime = new DateTime( $expiry, new DateTimeZone( $timezone ) );
+		} catch ( Exception $e ) {
+			return false;
+		}
+		return $datetime->getTimestamp();
 	}
 
 	/**
@@ -2064,7 +2097,7 @@ class AWSM_Job_Openings {
 			return;
 		}
 
-		$expiration_time = strtotime( $awsm_job_expiry );
+		$expiration_time = self::get_job_expiry_timestamp( $awsm_job_expiry );
 		if ( false === $expiration_time ) {
 			return;
 		}
@@ -2124,7 +2157,7 @@ class AWSM_Job_Openings {
 				}
 
 				// Check if the job should be expired
-				$expiration_time = ( $expiry_on_list === 'set_listing' && ! empty( $awsm_job_expiry ) ) ? strtotime( $awsm_job_expiry ) : false;
+				$expiration_time = ( $expiry_on_list === 'set_listing' && ! empty( $awsm_job_expiry ) ) ? self::get_job_expiry_timestamp( $awsm_job_expiry ) : false;
 				if ( false !== $expiration_time ) {
 					// Only auto-expire an actually-published job — 'expired' is public,
 					// so flipping a draft/pending/future post straight to it would make
@@ -2258,7 +2291,7 @@ class AWSM_Job_Openings {
 					}
 				}
 
-				$expiration_time = ( $expiry_on_list === 'set_listing' && ! empty( $awsm_job_expiry ) ) ? strtotime( $awsm_job_expiry ) : false;
+				$expiration_time = ( $expiry_on_list === 'set_listing' && ! empty( $awsm_job_expiry ) ) ? self::get_job_expiry_timestamp( $awsm_job_expiry ) : false;
 				if ( false !== $expiration_time ) {
 					// Only auto-expire an actually-published job — 'expired' is public,
 					// so flipping a draft/pending/future post straight to it would make
@@ -2558,7 +2591,8 @@ class AWSM_Job_Openings {
 			$timestamp = strtotime( $expiry_date );
 			if ( $timestamp !== false ) {
 				$display_status = esc_html__( 'Closing on', 'wp-job-openings' );
-				if ( $post_status === 'expired' || $timestamp < time() ) {
+				$expiry_time    = self::get_job_expiry_timestamp( $expiry_date );
+				if ( $post_status === 'expired' || ( false !== $expiry_time && $expiry_time < time() ) ) {
 					$display_status = esc_html__( 'Expired on', 'wp-job-openings' );
 				}
 				$content = sprintf(

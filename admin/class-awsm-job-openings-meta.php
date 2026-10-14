@@ -492,6 +492,18 @@ class AWSM_Job_Openings_Meta {
 	 *
 	 * @since 4.1.1
 	 */
+	/**
+	 * Whether the site's time format (Settings > General) is 12-hour.
+	 *
+	 * @since 4.1.1
+	 *
+	 * @return bool
+	 */
+	public static function is_12_hour_time_format() {
+		// An unescaped a/A (am/pm) means a 12-hour clock; \a is a literal "a".
+		return (bool) preg_match( '/(?<!\\\\)[aA]/', (string) get_option( 'time_format' ) );
+	}
+
 	public static function quick_edit_expiry_date_fields() {
 		global $wp_locale;
 
@@ -515,6 +527,18 @@ class AWSM_Job_Openings_Meta {
 		$hour = $number_field( 'awsm-job-expiry-hh', 'awsm_exp_hh', __( 'Hour', 'wp-job-openings' ), 2, _x( 'HH', 'job expiry hour placeholder', 'wp-job-openings' ) );
 		/* translators: Placeholder for the two-digit minute field in the job expiry time. */
 		$minute = $number_field( 'awsm-job-expiry-mn', 'awsm_exp_mn', __( 'Minute', 'wp-job-openings' ), 2, _x( 'MM', 'job expiry minute placeholder', 'wp-job-openings' ) );
+
+		// Follow the site's time format: 12-hour sites get an AM/PM selector,
+		// the same as the block editor's Job Expiry panel.
+		$meridiem = '';
+		if ( self::is_12_hour_time_format() ) {
+			$meridiem = sprintf(
+				' <label><span class="screen-reader-text">%1$s</span><select class="awsm-job-expiry-ampm" name="awsm_exp_ampm"><option value="am">%2$s</option><option value="pm">%3$s</option></select></label>',
+				esc_html__( 'AM or PM', 'wp-job-openings' ),
+				esc_html( $GLOBALS['wp_locale']->get_meridiem( 'AM' ) ),
+				esc_html( $GLOBALS['wp_locale']->get_meridiem( 'PM' ) )
+			);
+		}
 		?>
 		<fieldset class="inline-edit-date awsm-job-expiry-timestamp">
 			<legend class="screen-reader-text"><?php esc_html_e( 'Expiry date and time', 'wp-job-openings' ); ?></legend>
@@ -522,6 +546,7 @@ class AWSM_Job_Openings_Meta {
 				<?php
 					/* translators: 1: Month, 2: Day, 3: Year, 4: Hour, 5: Minute. */
 					printf( __( '%1$s %2$s, %3$s at %4$s:%5$s', 'wp-job-openings' ), $month, $day, $year, $hour, $minute ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					echo $meridiem; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				?>
 			</div>
 			<input type="hidden" class="awsm-job-expiry-value" name="awsm_job_expiry" value="" />
