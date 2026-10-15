@@ -29,6 +29,7 @@ class AWSM_Job_Openings_Uninstall {
 			'awsm_jobs_enable_featured_image',
 			'awsm_hide_uploaded_files',
 			'awsm_delete_data_on_uninstall',
+			'awsm_jobs_enable_job_schema',
 			'awsm_current_appearance_subtab',
 			'awsm_jobs_listing_view',
 			'awsm_jobs_list_per_page',

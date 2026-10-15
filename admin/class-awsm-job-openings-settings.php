@@ -21,6 +21,7 @@ class AWSM_Job_Openings_Settings {
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 		add_action( 'wp_ajax_settings_switch', array( $this, 'settings_switch_ajax' ) );
 		add_action( 'before_awsm_settings_main_content', array( $this, 'settings_notice' ) );
+		add_filter( 'awsm_jobs_settings_tab_menus', array( $this, 'job_schema_tab_menu' ), 20 );
 
 		add_action( 'update_option_awsm_select_page_listing', array( $this, 'update_awsm_page_listing' ), 10, 2 );
 		add_action( 'update_option_awsm_permalink_slug', array( $this, 'update_awsm_permalink_slug' ), 10, 2 );
@@ -63,6 +64,21 @@ class AWSM_Job_Openings_Settings {
 			'form'           => esc_html__( 'Form', 'wp-job-openings' ),
 			'notification'   => esc_html__( 'Notifications', 'wp-job-openings' ),
 		);
+	}
+
+	/**
+	 * Add the Job Schema tab after the Shortcodes tab (added by Pro Pack), or at the end when it isn't present.
+	 *
+	 * @param array $tab_menus Settings tab menus.
+	 * @return array
+	 */
+	public function job_schema_tab_menu( $tab_menus ) {
+		$schema_tab = array( 'job-schema' => esc_html__( 'Job Schema', 'wp-job-openings' ) );
+		$position   = array_search( 'shortcodes', array_keys( $tab_menus ), true );
+		if ( $position === false ) {
+			return array_merge( $tab_menus, $schema_tab );
+		}
+		return array_merge( array_slice( $tab_menus, 0, $position + 1, true ), $schema_tab, array_slice( $tab_menus, $position + 1, null, true ) );
 	}
 
 	public function setting_subtabs( $section ) {
@@ -346,6 +362,12 @@ class AWSM_Job_Openings_Settings {
 					/** @since 1.1.0 */
 					'option_name' => 'awsm_jobs_enable_recaptcha',
 					'callback'    => array( $this, 'sanitize_captcha_provider' ),
+				),
+			),
+
+			'job-schema'     => array(
+				array(
+					'option_name' => 'awsm_jobs_enable_job_schema',
 				),
 			),
 

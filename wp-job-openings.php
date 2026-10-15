@@ -2787,7 +2787,7 @@ class AWSM_Job_Openings {
 	}
 
 	public function display_structured_data() {
-		if ( ! is_singular( 'awsm_job_openings' ) ) {
+		if ( ! is_singular( 'awsm_job_openings' ) || get_option( 'awsm_jobs_enable_job_schema', 'enable' ) !== 'enable' ) {
 			return;
 		}
 
