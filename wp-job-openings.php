@@ -1107,7 +1107,7 @@ class AWSM_Job_Openings {
 		$expiry  = isset( $_POST['awsm_job_expiry'] ) ? sanitize_text_field( wp_unslash( $_POST['awsm_job_expiry'] ) ) : '';
 		$message = '';
 		if ( $expiry === '' ) {
-			$message = __( 'Please enter the expiry date.', 'wp-job-openings' );
+			$message = __( 'Please enter the expiry date and time.', 'wp-job-openings' );
 		} elseif ( ! self::is_valid_job_expiry( $expiry ) ) {
 			$message = __( 'Please enter a valid expiry date and time.', 'wp-job-openings' );
 		}
@@ -1691,9 +1691,11 @@ class AWSM_Job_Openings {
 					),
 					'edit_job_specs'  => esc_html__( 'Edit Job Specifications', 'wp-job-openings' ),
 					'job_expiry'      => array(
-						'required' => esc_html__( 'Please enter the expiry date.', 'wp-job-openings' ),
-						'invalid'  => esc_html__( 'Please enter a valid expiry date and time.', 'wp-job-openings' ),
-						'past'     => esc_html__( 'The expiry date and time must be in the future.', 'wp-job-openings' ),
+						'required'          => esc_html__( 'Please enter the expiry date.', 'wp-job-openings' ),
+						'required_datetime' => esc_html__( 'Please enter the expiry date and time.', 'wp-job-openings' ),
+						'required_time'     => esc_html__( 'Please enter the expiry time.', 'wp-job-openings' ),
+						'invalid'           => esc_html__( 'Please enter a valid expiry date and time.', 'wp-job-openings' ),
+						'past'              => esc_html__( 'The expiry date and time must be in the future.', 'wp-job-openings' ),
 					),
 				),
 				'jobs_timezone_offset'      => self::get_jobs_timezone_offset(),

@@ -869,6 +869,8 @@ jQuery(document).ready(function($) {
 
 		var expiryMessages = $.extend({
 			required: 'Please enter the expiry date.',
+			required_datetime: 'Please enter the expiry date and time.',
+			required_time: 'Please enter the expiry time.',
 			invalid: 'Please enter a valid expiry date and time.',
 			past: 'The expiry date and time must be in the future.'
 		}, awsmJobsAdmin.i18n.job_expiry);
@@ -882,11 +884,19 @@ jQuery(document).ready(function($) {
 				year: $.trim($row.find('.awsm-job-expiry-aa').val()),
 				month: $row.find('.awsm-job-expiry-mm').val(),
 				day: $.trim($row.find('.awsm-job-expiry-jj').val()),
-				hour: $.trim($row.find('.awsm-job-expiry-hh').val()) || '0',
-				minute: $.trim($row.find('.awsm-job-expiry-mn').val()) || '0'
+				hour: $.trim($row.find('.awsm-job-expiry-hh').val()),
+				minute: $.trim($row.find('.awsm-job-expiry-mn').val())
 			};
-			if (!parts.day || !parts.year) {
+			var hasDate = parts.day && parts.year;
+			var hasTime = parts.hour && parts.minute;
+			if (!hasDate && !hasTime) {
+				return { error: 'required_datetime' };
+			}
+			if (!hasDate) {
 				return { error: 'required' };
+			}
+			if (!hasTime) {
+				return { error: 'required_time' };
 			}
 			var key;
 			for (key in parts) {
@@ -897,7 +907,7 @@ jQuery(document).ready(function($) {
 			}
 			// 12-hour sites: hours are 1-12 plus AM/PM; store as 24-hour.
 			var $meridiem = $row.find('.awsm-job-expiry-ampm');
-			if ($meridiem.length && $.trim($row.find('.awsm-job-expiry-hh').val())) {
+			if ($meridiem.length) {
 				if (parts.hour < 1 || parts.hour > 12) {
 					return { error: 'invalid' };
 				}
