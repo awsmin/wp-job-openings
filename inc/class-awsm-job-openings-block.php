@@ -847,7 +847,6 @@ class AWSM_Job_Openings_Block {
 					}
 
 					$filter_key = str_replace( '-', '__', $taxonomy );
-					$spec_name  = apply_filters( 'wpml_translate_single_string', $tax_details->label, 'WordPress', sprintf( 'taxonomy general name: %s', $tax_details->label ) );
 					/**
 					 * Filters the default label for the job filter.
 					 *
@@ -857,7 +856,7 @@ class AWSM_Job_Openings_Block {
 					 * @param string $taxonomy Taxonomy key.
 					 * @param WP_Taxonomy $tax_details Taxonomy details.
 					 */
-					$filter_label = apply_filters( 'awsm_filter_block_label', esc_html_x( 'All', 'job filter', 'wp-job-openings' ) . ' ' . $spec_name, $taxonomy, $tax_details );
+					$filter_label = apply_filters( 'awsm_filter_block_label', esc_html_x( 'All', 'job filter', 'wp-job-openings' ) . ' ' . AWSM_Job_Openings::get_spec_plural_name( $taxonomy, $tax_details->label ), $taxonomy, $tax_details );
 
 					$filter_class_admin_select_control = '';
 					if ( ! self::is_edit_or_add_page() ) {
@@ -1098,7 +1097,7 @@ class AWSM_Job_Openings_Block {
 							 */
 							$all_spec_label = apply_filters(
 								'awsm_filter_block_dropdown_label',
-								esc_html_x( 'All', 'job filter', 'wp-job-openings' ) . ' ' . esc_html( $spec_name ),
+								esc_html_x( 'All', 'job filter', 'wp-job-openings' ) . ' ' . esc_html( AWSM_Job_Openings::get_spec_plural_name( $taxonomy, $tax_details->label ) ),
 								$taxonomy,
 								$tax_details
 							);

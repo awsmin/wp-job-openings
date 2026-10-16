@@ -211,7 +211,6 @@ class AWSM_Job_Openings_Filters {
 						}
 
 							$filter_key = str_replace( '-', '__', $taxonomy );
-							$spec_name  = apply_filters( 'wpml_translate_single_string', $tax_details->label, 'WordPress', sprintf( 'taxonomy general name: %s', $tax_details->label ) );
 							/**
 							 * Filters the default label for the job filter.
 							 *
@@ -221,7 +220,7 @@ class AWSM_Job_Openings_Filters {
 							 * @param string $taxonomy Taxonomy key.
 							 * @param WP_Taxonomy $tax_details Taxonomy details.
 							 */
-							$filter_label = apply_filters( 'awsm_filter_label', esc_html_x( 'All', 'job filter', 'wp-job-openings' ) . ' ' . $spec_name, $taxonomy, $tax_details );
+							$filter_label = apply_filters( 'awsm_filter_label', esc_html_x( 'All', 'job filter', 'wp-job-openings' ) . ' ' . AWSM_Job_Openings::get_spec_plural_name( $taxonomy, $tax_details->label ), $taxonomy, $tax_details );
 
 							$dropdown_content = sprintf( '<div class="awsm-filter-item" data-filter="%2$s"><label for="awsm-%1$s-filter-option%5$s" class="awsm-sr-only">%3$s</label><select name="awsm_job_spec[%1$s]" class="awsm-filter-option awsm-%1$s-filter-option" id="awsm-%1$s-filter-option%5$s" aria-label="%3$s"><option value="">%3$s</option>%4$s</select></div>', esc_attr( $taxonomy ), esc_attr( $filter_key . self::$filter_suffix ), esc_html( $filter_label ), $options_content, esc_attr( $uid ) );
 							/**

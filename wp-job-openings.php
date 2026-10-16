@@ -449,6 +449,11 @@ class AWSM_Job_Openings {
 			true
 		);
 		wp_set_script_translations( 'awsm-job-expiry-panel', 'wp-job-openings', AWSM_JOBS_PLUGIN_DIR . '/languages' );
+		wp_add_inline_script(
+			'awsm-job-expiry-panel',
+			'window.awsmJobExpiryPanel = ' . wp_json_encode( array( 'jobsTimezoneOffset' => self::get_jobs_timezone_offset() ) ) . ';',
+			'before'
+		);
 
 		wp_enqueue_style(
 			'awsm-job-expiry-panel',
@@ -497,6 +502,7 @@ class AWSM_Job_Openings {
 			add_filter( 'views_edit-awsm_job_application', array( $this, 'awsm_job_application_action_links' ) );
 			add_filter( 'bulk_actions-edit-awsm_job_application', array( $this, 'awsm_job_application_bulk_actions' ) );
 			add_filter( 'post_row_actions', array( $this, 'awsm_posts_row_actions' ), 10, 2 );
+			add_action( 'wp_ajax_inline-save', array( $this, 'validate_quick_edit_job_expiry' ), 0 );
 		}
 	}
 
@@ -811,7 +817,16 @@ class AWSM_Job_Openings {
 					$display_list     = get_post_meta( $post_id, 'awsm_exp_list_display', true );
 					$expiry_timestamp = ! empty( $job_expiry ) ? strtotime( $job_expiry ) : false;
 					$has_valid_expiry = $expiry_on_list === 'set_listing' && false !== $expiry_timestamp;
-					echo $has_valid_expiry ? esc_html( date_i18n( get_awsm_jobs_date_format( 'expiry-admin' ), $expiry_timestamp ) ) : $default_display; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				if ( $has_valid_expiry ) {
+					printf(
+						/* translators: 1: Job expiry date, 2: Job expiry time. */
+						esc_html__( '%1$s at %2$s', 'wp-job-openings' ),
+						esc_html( date_i18n( get_awsm_jobs_date_format( 'expiry-admin' ), $expiry_timestamp ) ),
+						esc_html( date_i18n( get_awsm_jobs_time_format( 'expiry-admin' ), $expiry_timestamp ) )
+					);
+				} else {
+					echo $default_display; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				}
 
 					echo '<input type="hidden" id="awsm_set_exp_list_' . esc_attr( $post_id ) . '" value="' . esc_attr( $expiry_on_list ) . '" >';
 					echo '<input type="hidden" id="awsm_job_expiry_' . esc_attr( $post_id ) . '" value="' . esc_attr( $has_valid_expiry ? $job_expiry : '' ) . '" >';
@@ -1035,6 +1050,101 @@ class AWSM_Job_Openings {
 		}
 
 		return $timezone_string;
+	}
+
+	/**
+	 * @since 4.1.1
+	 *
+	 * @return int
+	 */
+	public static function get_jobs_timezone_offset() {
+		$selected_zone = get_option( 'awsm_jobs_timezone' );
+		$timezone      = is_array( $selected_zone ) ? self::get_timezone_string( $selected_zone ) : 'UTC';
+		try {
+			$date_timezone = new DateTimeZone( $timezone );
+		} catch ( Exception $e ) {
+			return 0;
+		}
+		return $date_timezone->getOffset( new DateTime( 'now', $date_timezone ) );
+	}
+
+	/**
+	 * Get the real Unix timestamp of a job expiry value.
+	 *
+	 * Expiry values are stored as wall-clock "Y-m-d H:i:s" in the HireZoot
+	 * timezone setting (the one check_date_and_change_status() compares
+	 * against), so they must not go through strtotime(), which would read
+	 * them as UTC. Use this for comparing against time(); keep strtotime()
+	 * for date_i18n() display.
+	 *
+	 * @since 4.1.1
+	 *
+	 * @param string $expiry Expiry value.
+	 * @return int|false
+	 */
+	public static function get_job_expiry_timestamp( $expiry ) {
+		if ( empty( $expiry ) || ! is_string( $expiry ) ) {
+			return false;
+		}
+		$selected_zone = get_option( 'awsm_jobs_timezone' );
+		$timezone      = is_array( $selected_zone ) ? self::get_timezone_string( $selected_zone ) : 'UTC';
+		try {
+			$datetime = new DateTime( $expiry, new DateTimeZone( $timezone ) );
+		} catch ( Exception $e ) {
+			return false;
+		}
+		return $datetime->getTimestamp();
+	}
+
+	/**
+	 * @since 4.1.1
+	 *
+	 * @param string $expiry Expiry value.
+	 * @return bool
+	 */
+	public static function is_valid_job_expiry( $expiry ) {
+		if ( ! preg_match( '/^(\d{4})-(\d{2})-(\d{2})(?: (\d{2}):(\d{2})(?::(\d{2}))?)?$/', $expiry, $matches ) ) {
+			return false;
+		}
+		if ( ! checkdate( (int) $matches[2], (int) $matches[3], (int) $matches[1] ) ) {
+			return false;
+		}
+		$hour   = isset( $matches[4] ) ? (int) $matches[4] : 0;
+		$minute = isset( $matches[5] ) ? (int) $matches[5] : 0;
+		$second = isset( $matches[6] ) ? (int) $matches[6] : 0;
+		return $hour < 24 && $minute < 60 && $second < 60;
+	}
+
+	/**
+	 *
+	 * @since 4.1.1
+	 */
+	public function validate_quick_edit_job_expiry() {
+		$post_id = isset( $_POST['post_ID'] ) ? absint( $_POST['post_ID'] ) : 0;
+		if ( ! $post_id || get_post_type( $post_id ) !== 'awsm_job_openings' ) {
+			return;
+		}
+		if ( ! isset( $_POST['_inline_edit'] ) || ! wp_verify_nonce( sanitize_key( $_POST['_inline_edit'] ), 'inlineeditnonce' ) ) {
+			return;
+		}
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return;
+		}
+		$expiry_on_list = isset( $_POST['awsm_set_exp_list'] ) ? sanitize_text_field( wp_unslash( $_POST['awsm_set_exp_list'] ) ) : '';
+		if ( $expiry_on_list !== 'set_listing' ) {
+			return;
+		}
+
+		$expiry  = isset( $_POST['awsm_job_expiry'] ) ? sanitize_text_field( wp_unslash( $_POST['awsm_job_expiry'] ) ) : '';
+		$message = '';
+		if ( $expiry === '' ) {
+			$message = __( 'Please enter the expiry date and time.', 'wp-job-openings' );
+		} elseif ( ! self::is_valid_job_expiry( $expiry ) ) {
+			$message = __( 'Please enter a valid expiry date and time.', 'wp-job-openings' );
+		}
+		if ( $message !== '' ) {
+			wp_die( esc_html( $message ), '', array( 'response' => 200 ) );
+		}
 	}
 
 	public function send_email_digest() {
@@ -1611,7 +1721,15 @@ class AWSM_Job_Openings {
 						'btn_text' => esc_html__( 'Choose', 'wp-job-openings' ),
 					),
 					'edit_job_specs'  => esc_html__( 'Edit Job Specifications', 'wp-job-openings' ),
+					'job_expiry'      => array(
+						'required'          => esc_html__( 'Please enter the expiry date.', 'wp-job-openings' ),
+						'required_datetime' => esc_html__( 'Please enter the expiry date and time.', 'wp-job-openings' ),
+						'required_time'     => esc_html__( 'Please enter the expiry time.', 'wp-job-openings' ),
+						'invalid'           => esc_html__( 'Please enter a valid expiry date and time.', 'wp-job-openings' ),
+						'past'              => esc_html__( 'The expiry date and time must be in the future.', 'wp-job-openings' ),
+					),
 				),
+				'jobs_timezone_offset'      => self::get_jobs_timezone_offset(),
 				'specs_settings_url'        => admin_url( 'edit.php?post_type=awsm_job_openings&page=awsm-jobs-settings&tab=specifications&subtab=awsm-manage_spec-specifications-nav-subtab' ),
 				'filter_items_order'        => sanitize_text_field( get_option( 'awsm_jobs_filter_items_order', 'custom' ) ),
 				'awsm_filters'              => self::get_filter_specifications(),
@@ -1681,6 +1799,103 @@ class AWSM_Job_Openings {
 			return wp_list_pluck( $defaults, 'taxonomy' );
 		}
 		return array( 'job-category', 'job-type', 'job-location' );
+	}
+
+	/**
+	 * Get the available field types for job specifications.
+	 *
+	 * 'tags' is the original behavior (select existing values or add new ones)
+	 * and stays the default for every spec without a saved field type.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @return array Field type => label.
+	 */
+	public static function get_spec_field_types() {
+		return array(
+			'tags'     => esc_html__( 'Tag Input', 'wp-job-openings' ),
+			'single'   => esc_html__( 'Single Select', 'wp-job-openings' ),
+			'multiple' => esc_html__( 'Multi Select', 'wp-job-openings' ),
+		);
+	}
+
+	/**
+	 * Get the field type of a job specification, falling back to 'tags'.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param array $spec Specification data from the awsm_jobs_filter option.
+	 * @return string
+	 */
+	public static function get_spec_field_type( $spec ) {
+		$field_type = is_array( $spec ) && isset( $spec['field_type'] ) ? $spec['field_type'] : '';
+		if ( ! array_key_exists( $field_type, self::get_spec_field_types() ) ) {
+			$field_type = 'tags';
+		}
+		return $field_type;
+	}
+
+	/**
+	 * Get the plural label of a job specification, falling back to the singular label.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param array $spec Specification data from the awsm_jobs_filter option.
+	 * @return string
+	 */
+	public static function get_spec_plural_label( $spec ) {
+		if ( ! is_array( $spec ) ) {
+			return '';
+		}
+		if ( isset( $spec['plural'] ) && strlen( $spec['plural'] ) > 0 ) {
+			return $spec['plural'];
+		}
+		return isset( $spec['filter'] ) ? $spec['filter'] : '';
+	}
+
+	/**
+	 * Get the translated plural label of a job specification for display.
+	 *
+	 * Falls back to the (translated) singular label, so specs without a
+	 * plural label keep showing exactly what they did before.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param string $taxonomy Specification key.
+	 * @param string $singular_label The singular label, usually the taxonomy label.
+	 * @return string
+	 */
+	public static function get_spec_plural_name( $taxonomy, $singular_label ) {
+		$plural = '';
+		$spec   = self::get_spec_by_taxonomy( $taxonomy );
+		if ( isset( $spec['plural'] ) && strlen( $spec['plural'] ) > 0 ) {
+			$plural = $spec['plural'];
+		}
+		if ( strlen( $plural ) === 0 || $plural === $singular_label ) {
+			return apply_filters( 'wpml_translate_single_string', $singular_label, 'WordPress', sprintf( 'taxonomy general name: %s', $singular_label ) );
+		}
+		return apply_filters( 'wpml_translate_single_string', $plural, 'WordPress', sprintf( 'taxonomy plural name: %s', $plural ) );
+	}
+
+	/**
+	 * Get the saved specification data for a taxonomy.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param string $taxonomy Specification key.
+	 * @param array  $filters Optional. Specifications. Defaults to the awsm_jobs_filter option.
+	 * @return array Empty array when not found.
+	 */
+	public static function get_spec_by_taxonomy( $taxonomy, $filters = null ) {
+		$filters = is_array( $filters ) ? $filters : get_option( 'awsm_jobs_filter' );
+		if ( is_array( $filters ) ) {
+			foreach ( $filters as $filter ) {
+				if ( isset( $filter['taxonomy'] ) && $taxonomy === $filter['taxonomy'] ) {
+					return $filter;
+				}
+			}
+		}
+		return array();
 	}
 
 	public static function get_spec_terms( $spec ) {
@@ -1915,7 +2130,7 @@ class AWSM_Job_Openings {
 			return;
 		}
 
-		$expiration_time = strtotime( $awsm_job_expiry );
+		$expiration_time = self::get_job_expiry_timestamp( $awsm_job_expiry );
 		if ( false === $expiration_time ) {
 			return;
 		}
@@ -1975,7 +2190,7 @@ class AWSM_Job_Openings {
 				}
 
 				// Check if the job should be expired
-				$expiration_time = ( $expiry_on_list === 'set_listing' && ! empty( $awsm_job_expiry ) ) ? strtotime( $awsm_job_expiry ) : false;
+				$expiration_time = ( $expiry_on_list === 'set_listing' && ! empty( $awsm_job_expiry ) ) ? self::get_job_expiry_timestamp( $awsm_job_expiry ) : false;
 				if ( false !== $expiration_time ) {
 					// Only auto-expire an actually-published job — 'expired' is public,
 					// so flipping a draft/pending/future post straight to it would make
@@ -2019,8 +2234,29 @@ class AWSM_Job_Openings {
 			if ( isset( $_POST['awsm_job_spec_terms'] ) ) {
 				$specs = $_POST['awsm_job_spec_terms'];
 				if ( ! empty( $specs ) ) {
+					$awsm_filters = get_option( 'awsm_jobs_filter' );
 					foreach ( $specs as $taxonomy => $spec_terms ) {
 						if ( taxonomy_exists( $taxonomy ) ) {
+							$field_type = self::get_spec_field_type( self::get_spec_by_taxonomy( $taxonomy, $awsm_filters ) );
+							if ( 'tags' !== $field_type ) {
+								// Select field types only accept options configured in the settings, never new terms.
+								$terms = array();
+								foreach ( (array) $spec_terms as $spec_term ) {
+									if ( is_numeric( $spec_term ) ) {
+										$term = get_term( intval( $spec_term ), $taxonomy );
+										if ( $term instanceof WP_Term ) {
+											$terms[] = $term->term_id;
+										}
+									}
+								}
+								$terms = array_unique( $terms );
+								if ( 'single' === $field_type ) {
+									$terms = array_slice( $terms, 0, 1 );
+								}
+								wp_set_object_terms( $post_id, $terms, $taxonomy, false );
+								continue;
+							}
+
 							$terms      = array();
 							$spec_terms = array_unique( $spec_terms );
 							foreach ( $spec_terms as $spec_term ) {
@@ -2088,7 +2324,7 @@ class AWSM_Job_Openings {
 					}
 				}
 
-				$expiration_time = ( $expiry_on_list === 'set_listing' && ! empty( $awsm_job_expiry ) ) ? strtotime( $awsm_job_expiry ) : false;
+				$expiration_time = ( $expiry_on_list === 'set_listing' && ! empty( $awsm_job_expiry ) ) ? self::get_job_expiry_timestamp( $awsm_job_expiry ) : false;
 				if ( false !== $expiration_time ) {
 					// Only auto-expire an actually-published job — 'expired' is public,
 					// so flipping a draft/pending/future post straight to it would make
@@ -2388,7 +2624,8 @@ class AWSM_Job_Openings {
 			$timestamp = strtotime( $expiry_date );
 			if ( $timestamp !== false ) {
 				$display_status = esc_html__( 'Closing on', 'wp-job-openings' );
-				if ( $post_status === 'expired' || $timestamp < time() ) {
+				$expiry_time    = self::get_job_expiry_timestamp( $expiry_date );
+				if ( $post_status === 'expired' || ( false !== $expiry_time && $expiry_time < time() ) ) {
 					$display_status = esc_html__( 'Expired on', 'wp-job-openings' );
 				}
 				$content = sprintf(
