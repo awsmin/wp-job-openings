@@ -112,7 +112,7 @@ Yes. You can view, filter, and manage applications from your dashboard.
 **V 4.2.0 – 2026-10-22**
 * Added: Plural Label and Field Type (Tag Input, Single Select, Multi Select) options for Job Specifications.
 * Improved: Job listing Expiry column now shows the expiry time along with the date.
-* Minor bug fixes and code improvements
+* Minor bug fixes and code improvements.
 
 **V 4.1.1 – 2026-10-13**
 * Security: Fixed a stored cross-site scripting (XSS) issue where the applied job title saved with an application could be shown unescaped on the application screen after the job was deleted.
