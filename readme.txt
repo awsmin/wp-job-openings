@@ -2,9 +2,9 @@
 Contributors: awsmin, aravindajith, anantajitjg, sarathar, adhun, nithi22, @sruthi89, shilpaashokan94, @vivekawsm, @fathima54321
 Tags: jobs, job listing, job board, careers page, recruitment
 Requires at least: 6.0
-Tested up to: 7.1.1
+Tested up to: 7.1.3
 Requires PHP: 5.6
-Stable tag: 4.1.1
+Stable tag: 4.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://www.buymeacoffee.com/awsm
@@ -144,17 +144,10 @@ Yes. You can view, filter, and manage applications from your dashboard.
 
 == Changelog ==
 
-= V 4.1.2 – 2026-10-22 =
+= V 4.2.0 – 2026-10-22 =
 * Added: Plural Label and Field Type (Tag Input, Single Select, Multi Select) options for Job Specifications.
 * Improved: Job listing Expiry column now shows the expiry time along with the date.
-* Improved: Quick Edit job expiry now uses core-style date and time fields, with validation and specific messages when the expiry date or time is missing.
-* Fixed: Job expiry now validates past times and uses the HireZoot timezone.
-* Fixed: "All …" filter dropdowns on job listings now use the job specification plural label.
-* Fixed: Single select job specifications now show as a removable chip, and placeholder styles match the tag input.
-* Fixed: Job Specifications settings table now scrolls horizontally on mobile, with a compact drag column.
-* Fixed: HireZoot header no longer hides the WP admin menu on mobile.
-* Fixed: Interviews add-on now shows the Activated state correctly on the Add-ons page.
-* Minor bug fixes and code improvements.
+* Minor bug fixes and code improvements
 
 = V 4.1.1 – 2026-10-13 =
 * Security: Fixed a stored cross-site scripting (XSS) issue where the applied job title saved with an application could be shown unescaped on the application screen after the job was deleted.
