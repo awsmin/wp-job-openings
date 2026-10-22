@@ -395,9 +395,7 @@ if ( get_transient( '_awsm_add_ons_data' ) === false ) {
 											</div>
 											<?php
 											if ( current_user_can( 'install_plugins' ) ) {
-												if ( empty( $add_on['wp_plugin'] ) && ( sanitize_title( $add_on['name'] ) === 'wp-job-openings-pro-pack' || sanitize_title( $add_on['name'] ) === 'hirezoot-pro-pack' ) ) {
-													$add_on['wp_plugin'] = 'pro-pack-for-wp-job-openings/pro-pack.php';
-												}
+												$add_on['wp_plugin'] = AWSM_Job_Openings_Info::get_add_on_plugin_file( $add_on );
 
 												if ( ! empty( $add_on['wp_plugin'] ) || ! empty( $add_on['url'] ) ) {
 													$add_on_details = array(
