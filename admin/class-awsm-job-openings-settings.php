@@ -539,7 +539,7 @@ class AWSM_Job_Openings_Settings {
 			'awsm_jobs_author_notification_content' => "This email is to notify you that your job listing for [{job-title}] has just expired. As a result, applicants will no longer be able to apply for this position.\n\nIf you would like to extend the expiration date or remove the listing, please log in to the dashboard and take the necessary steps.\n\nPowered by HireZoot Plugin",
 			'awsm_jobs_notification_customizer'     => array(
 				'logo'        => 'default',
-				'base_color'  => '#05BC9C',
+				'base_color'  => '#96F5E3',
 				'from_email'  => $default_from_email,
 				/* translators: %1$s: Site link, %2$s: Plugin website link */
 				'footer_text' => sprintf( esc_html__( 'Sent from %1$s by %2$s Plugin', 'wp-job-openings' ), '<a href="{site-url}">{site-title}</a>', '<a href="' . AWSM_JOBS_SITE_URL . '">' . esc_html__( 'HireZoot', 'wp-job-openings' ) . '</a>' ),

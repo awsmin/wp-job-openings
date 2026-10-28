@@ -232,7 +232,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 								'type'        => 'colorpicker',
 								'value'       => $customizer_settings['base_color'],
 								'other_attrs' => array(
-									'data-default-color' => '#05BC9C',
+									'data-default-color' => '#96F5E3',
 								),
 							),
 							array(

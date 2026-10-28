@@ -66,7 +66,7 @@ class AWSM_Job_Openings_Mail_Customizer {
 			'awsm_jobs_notification_customizer_default_values',
 			array(
 				'logo'        => 'default',
-				'base_color'  => '#05BC9C',
+				'base_color'  => '#96F5E3',
 				'from_email'  => $default_from_email,
 				/* translators: %1$s: Site link, %2$s: Plugin website link */
 				'footer_text' => sprintf( esc_html__( 'Sent from %1$s by %2$s Plugin', 'wp-job-openings' ), '<a href="{site-url}">{site-title}</a>', '<a href="' . AWSM_JOBS_SITE_URL . '">' . esc_html__( 'HireZoot', 'wp-job-openings' ) . '</a>' ),
@@ -452,6 +452,190 @@ class AWSM_Job_Openings_Mail_Customizer {
 				'selector'    => '.footer a',
 				'declaration' => array(
 					'color' => '#4F5F5E',
+				),
+			),
+			array(
+				'selector'    => '.awsm-jobs-digest .awsm-jobs-digest-intro',
+				'declaration' => array(
+					'padding'    => '0 20px',
+					'text-align' => 'center',
+				),
+			),
+			array(
+				'selector'    => '.awsm-jobs-digest .awsm-jobs-digest-title',
+				'declaration' => array(
+					'max-width'   => '420px',
+					'margin'      => '0 auto 14px',
+					'font-size'   => '30px',
+					'line-height' => '1.3',
+					'font-weight' => '700',
+					'color'       => '#1A1A1A',
+				),
+			),
+			array(
+				'selector'    => '.awsm-jobs-digest .awsm-jobs-digest-subtitle',
+				'declaration' => array(
+					'max-width'   => '300px',
+					'margin'      => '0 auto',
+					'font-size'   => '16px',
+					'line-height' => '1.5',
+					'color'       => '#4B4B4B',
+				),
+			),
+			array(
+				'selector'    => '.awsm-jobs-digest .awsm-jobs-digest-stats-wrap',
+				'declaration' => array(
+					'padding' => '28px 20px',
+				),
+			),
+			array(
+				'selector'    => '.awsm-jobs-digest .awsm-jobs-digest-stats',
+				'declaration' => array(
+					'width'     => '100%',
+					'max-width' => '504px',
+				),
+			),
+			array(
+				'selector'    => '.awsm-jobs-digest .awsm-jobs-digest-stat',
+				'declaration' => array(
+					'width'          => '33.33%',
+					'padding'        => '0 7px',
+					'vertical-align' => 'top',
+				),
+			),
+			array(
+				'selector'    => '.awsm-jobs-digest .awsm-jobs-digest-stat-box',
+				'declaration' => array(
+					'padding'          => '30px 8px',
+					'background-color' => $settings['base_color'],
+					'border-radius'    => '6px',
+					'text-align'       => 'center',
+				),
+			),
+			array(
+				'selector'    => '.awsm-jobs-digest .awsm-jobs-digest-stat-count',
+				'declaration' => array(
+					'display'       => 'block',
+					'margin-bottom' => '10px',
+					'font-size'     => '28px',
+					'line-height'   => '1.2',
+					'font-weight'   => '700',
+					'color'         => '#1A1A1A',
+				),
+			),
+			array(
+				'selector'    => '.awsm-jobs-digest .awsm-jobs-digest-stat-label',
+				'declaration' => array(
+					'display'     => 'block',
+					'font-size'   => '13px',
+					'line-height' => '1.4',
+					'color'       => '#2B2B2B',
+				),
+			),
+			array(
+				'selector'    => '.awsm-jobs-digest .awsm-jobs-digest-recent-wrap',
+				'declaration' => array(
+					'padding' => '16px 20px 0',
+				),
+			),
+			array(
+				'selector'    => '.awsm-jobs-digest .awsm-jobs-digest-recent',
+				'declaration' => array(
+					'max-width'     => '518px',
+					'margin'        => '0 auto',
+					'padding'       => '18px 10px 10px',
+					'border'        => '1px solid #D9DCE1',
+					'border-radius' => '12px',
+					'text-align'    => 'center',
+				),
+			),
+			array(
+				'selector'    => '.awsm-jobs-digest .awsm-jobs-digest-recent-title',
+				'declaration' => array(
+					'margin'         => '0 0 16px',
+					'font-size'      => '16px',
+					'font-weight'    => '600',
+					'text-transform' => 'none',
+					'color'          => '#2B2B2B',
+				),
+			),
+			array(
+				'selector'    => '.awsm-jobs-digest .awsm-jobs-digest-table',
+				'declaration' => array(
+					'width'     => '100%',
+					'font-size' => '13px',
+					'color'     => '#1A1A1A',
+				),
+			),
+			array(
+				'selector'    => '.awsm-jobs-digest .awsm-jobs-digest-table th',
+				'declaration' => array(
+					'padding'          => '9px 8px',
+					'background-color' => '#F0F2F5',
+					'font-weight'      => '400',
+					'color'            => '#2B2B2B',
+					'text-align'       => 'left',
+				),
+			),
+			array(
+				'selector'    => '.awsm-jobs-digest .awsm-jobs-digest-table td',
+				'declaration' => array(
+					'padding'       => '15px 8px',
+					'border-bottom' => '1px solid #E6E8EB',
+					'text-align'    => 'left',
+				),
+			),
+			array(
+				'selector'    => '.awsm-jobs-digest .awsm-jobs-digest-table td a',
+				'declaration' => array(
+					'color' => '#1A1A1A',
+				),
+			),
+			array(
+				'selector'    => '.awsm-jobs-digest .awsm-jobs-digest-action',
+				'declaration' => array(
+					'margin' => '16px 0 2px',
+				),
+			),
+			array(
+				'selector'    => '.awsm-jobs-digest .awsm-jobs-digest-btn',
+				'declaration' => array(
+					'display'          => 'inline-block',
+					'padding'          => '11px 16px',
+					'background-color' => '#262626',
+					'border-radius'    => '6px',
+					'font-size'        => '15px',
+					'font-weight'      => '600',
+					'color'            => '#FFFFFF',
+				),
+			),
+			array(
+				'media_query' => '@media screen and (max-width: 550px)',
+				'css'         => array(
+					array(
+						'selector'    => '.awsm-jobs-digest .awsm-jobs-digest-title',
+						'declaration' => array(
+							'font-size' => '24px',
+						),
+					),
+					array(
+						'selector'    => '.awsm-jobs-digest .awsm-jobs-digest-stat',
+						'declaration' => array(
+							'padding' => '0 4px',
+						),
+					),
+					array(
+						'selector'    => '.awsm-jobs-digest .awsm-jobs-digest-stat-box',
+						'declaration' => array(
+							'padding' => '20px 4px',
+						),
+					),
+					array(
+						'selector'    => '.awsm-jobs-digest .awsm-jobs-digest-stat-count',
+						'declaration' => array(
+							'font-size' => '22px',
+						),
+					),
 				),
 			),
 			array(
