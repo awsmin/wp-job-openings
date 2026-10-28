@@ -30,6 +30,9 @@ class AWSM_Job_Openings_WPML {
 					if ( $tax_length > 0 && $tax_length <= 32 ) {
 						do_action( 'wpml_register_single_string', 'WordPress', sprintf( 'taxonomy general name: %s', $spec['filter'] ), $spec['filter'] );
 						do_action( 'wpml_register_single_string', 'WordPress', sprintf( 'taxonomy singular name: %s', $spec['filter'] ), $spec['filter'] );
+						if ( ! empty( $spec['plural'] ) && $spec['plural'] !== $spec['filter'] ) {
+							do_action( 'wpml_register_single_string', 'WordPress', sprintf( 'taxonomy plural name: %s', $spec['plural'] ), $spec['plural'] );
+						}
 					}
 				}
 			}

@@ -564,7 +564,7 @@ class AWSM_Job_Openings_Form {
 							// Add the applicant details as meta data
 							$applicant_details = array(
 								'awsm_job_id'           => $job_id,
-								'awsm_apply_for'        => html_entity_decode( get_the_title( $job_id ) ),
+								'awsm_apply_for'        => AWSM_Job_Openings::get_job_title_for_meta( $job_id ),
 								'awsm_applicant_ip'     => isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( $_SERVER['REMOTE_ADDR'] ) : '',
 								'awsm_applicant_name'   => $applicant_name,
 								'awsm_applicant_email'  => $applicant_email,
@@ -689,6 +689,22 @@ class AWSM_Job_Openings_Form {
 		printf( '<ul class="%1$s">%2$s</ul>', esc_attr( $class_name ), $content ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
+	/**
+	 * Get mail template tags for use in a mail subject, which is plain text:
+	 * the job title is decoded so it doesn't show HTML entities.
+	 *
+	 * @since 4.1.1
+	 *
+	 * @param array $tags Mail template tags from get_mail_template_tags().
+	 * @return array
+	 */
+	public static function get_mail_subject_tags( $tags ) {
+		if ( isset( $tags['{job-title}'] ) ) {
+			$tags['{job-title}'] = AWSM_Job_Openings::get_job_title_plain_text( $tags['{job-title}'] );
+		}
+		return $tags;
+	}
+
 	public function get_mail_template_tags( $applicant_details, $options = array() ) {
 		$job_expiry       = get_post_meta( $applicant_details['awsm_job_id'], 'awsm_job_expiry', true );
 		$job_expiry_stamp = ! empty( $job_expiry ) ? strtotime( $job_expiry ) : false;
@@ -706,7 +722,7 @@ class AWSM_Job_Openings_Form {
 			'{applicant-phone}'  => isset( $applicant_details['awsm_applicant_phone'] ) ? $applicant_details['awsm_applicant_phone'] : '',
 			'{job-id}'           => $applicant_details['awsm_job_id'],
 			'{job-expiry}'       => $job_expiry,
-			'{job-title}'        => $applicant_details['awsm_apply_for'],
+			'{job-title}'        => esc_html( $applicant_details['awsm_apply_for'] ),
 			'{applicant-cover}'  => isset( $applicant_details['awsm_applicant_letter'] ) ? nl2br( $applicant_details['awsm_applicant_letter'] ) : '',
 			'{applicant-resume}' => ( ! empty( $attachment_url ) ) ? esc_url( $attachment_url ) : '',
 			'{author-email}'     => esc_html( $author_email ),
@@ -856,7 +872,7 @@ class AWSM_Job_Openings_Form {
 				$email_tag_values = array( $admin_email, $hr_mail, $applicant_email, $author_email, $default_from_email );
 
 				if ( ! empty( $options['subject'] ) && ! empty( $options['content'] ) ) {
-					$subject    = str_replace( $tag_names, $tag_values, $options['subject'] );
+					$subject    = str_replace( $tag_names, array_values( self::get_mail_subject_tags( $tags ) ), $options['subject'] );
 					$from_email = str_replace( $tag_names, $tag_values, $options['from'] );
 					$reply_to   = str_replace( $email_tag_names, $email_tag_values, $options['reply_to'] );
 					$cc         = str_replace( $email_tag_names, $email_tag_values, $options['cc'] );

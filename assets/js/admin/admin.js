@@ -191,6 +191,36 @@ jQuery(document).ready(function($) {
 		}
 	});
 
+	// Single/Multi Select specs: only the configured options can be picked, no new values.
+	$('.awsm_job_specification_select').each(function() {
+		var $select = $(this);
+		var config = {
+			theme: 'awsm-job',
+			minimumResultsForSearch: 10,
+			dropdownCssClass: 'awsm-select2-dropdown-control'
+		};
+		var utils = $.fn.awsmSelect2.amd.require('select2/utils');
+
+		// Chip selection without its inline search box so nothing can be typed in.
+		config.selectionAdapter = utils.Decorate(
+			utils.Decorate(
+				$.fn.awsmSelect2.amd.require('select2/selection/multiple'),
+				$.fn.awsmSelect2.amd.require('select2/selection/placeholder')
+			),
+			$.fn.awsmSelect2.amd.require('select2/selection/eventRelay')
+		);
+		$select.awsmSelect2(config);
+
+		// Single Select uses the same chip field, but picking an option replaces the current one.
+		if ($select.data('fieldType') === 'single') {
+			$select.on('select2:select', function(e) {
+				$select.val([ e.params.data.id ]).trigger('change');
+			});
+		}
+	});
+
+	jobsAdminMain.selectControl($('.awsm-jobs-spec-field-type'));
+
 	var specRegEx = new RegExp('^([a-z0-9]+(-|_))*[a-z0-9]+$');
 	var $specWrapper = $('#awsm-job-specifications-options-container');
 
@@ -283,6 +313,7 @@ jQuery(document).ready(function($) {
 			$wrapper.find('.awsm_job_specifications_settings_body').append(specTemplate(templateData));
 			jobsAdminMain.tagSelect($('.awsm_jobs_filter_tags').last());
 			jobsAdminMain.iconSelect($('.awsm-icon-select-control').last(), iconData);
+			jobsAdminMain.selectControl($('.awsm-jobs-spec-field-type').last());
 			if ( filterItemsOrder === 'custom' ) {
 				var $newTagSelect = $('.awsm_jobs_filter_tags').last();
 				enableSelect2Sortable( $newTagSelect.next('.select2-container'), $newTagSelect );
@@ -825,6 +856,177 @@ jQuery(document).ready(function($) {
 
 	if (typeof inlineEditPost !== 'undefined') {
 		var $wp_inline_edit = inlineEditPost.edit;
+		var $wp_inline_save = inlineEditPost.save;
+		var expiryPattern = /^(\d{4})-(\d{2})-(\d{2})(?:[ T](\d{2}):(\d{2}))?/;
+
+		var padNumber = function (value, length) {
+			value = String(value);
+			while (value.length < length) {
+				value = '0' + value;
+			}
+			return value;
+		};
+
+		var expiryMessages = $.extend({
+			required: 'Please enter the expiry date.',
+			required_datetime: 'Please enter the expiry date and time.',
+			required_time: 'Please enter the expiry time.',
+			invalid: 'Please enter a valid expiry date and time.',
+			past: 'The expiry date and time must be in the future.'
+		}, awsmJobsAdmin.i18n.job_expiry);
+
+		/**
+		 * Build the Y-m-d H:i:s expiry value from the Quick Edit date fields.
+		 * Returns { value } on success, or { error } with a key of expiryMessages.
+		 */
+		var getQuickEditExpiry = function ($row) {
+			var parts = {
+				year: $.trim($row.find('.awsm-job-expiry-aa').val()),
+				month: $row.find('.awsm-job-expiry-mm').val(),
+				day: $.trim($row.find('.awsm-job-expiry-jj').val()),
+				hour: $.trim($row.find('.awsm-job-expiry-hh').val()),
+				minute: $.trim($row.find('.awsm-job-expiry-mn').val())
+			};
+			var hasDate = parts.day && parts.year;
+			var hasTime = parts.hour && parts.minute;
+			if (!hasDate && !hasTime) {
+				return { error: 'required_datetime' };
+			}
+			if (!hasDate) {
+				return { error: 'required' };
+			}
+			if (!hasTime) {
+				return { error: 'required_time' };
+			}
+			var key;
+			for (key in parts) {
+				if (!/^\d+$/.test(parts[key])) {
+					return { error: 'invalid' };
+				}
+				parts[key] = parseInt(parts[key], 10);
+			}
+			// 12-hour sites: hours are 1-12 plus AM/PM; store as 24-hour.
+			var $meridiem = $row.find('.awsm-job-expiry-ampm');
+			if ($meridiem.length) {
+				if (parts.hour < 1 || parts.hour > 12) {
+					return { error: 'invalid' };
+				}
+				parts.hour = (parts.hour % 12) + ($meridiem.val() === 'pm' ? 12 : 0);
+			}
+			var date = new Date(parts.year, parts.month - 1, parts.day);
+			if (parts.year < 1000 || date.getMonth() !== parts.month - 1 || date.getDate() !== parts.day || parts.hour > 23 || parts.minute > 59) {
+				return { error: 'invalid' };
+			}
+			return { value: parts.year + '-' + padNumber(parts.month, 2) + '-' + padNumber(parts.day, 2) + ' ' + padNumber(parts.hour, 2) + ':' + padNumber(parts.minute, 2) + ':00' };
+		};
+
+		// Current time as Y-m-d H:i:s in the jobs timezone, which expiry values
+		// are stored in and the expiry cron compares against.
+		var getJobsTimezoneNow = function () {
+			var now = new Date(Date.now() + (parseInt(awsmJobsAdmin.jobs_timezone_offset, 10) || 0) * 1000);
+			return now.getUTCFullYear() + '-' + padNumber(now.getUTCMonth() + 1, 2) + '-' + padNumber(now.getUTCDate(), 2) + ' ' + padNumber(now.getUTCHours(), 2) + ':' + padNumber(now.getUTCMinutes(), 2) + ':' + padNumber(now.getUTCSeconds(), 2);
+		};
+
+		var clearQuickEditExpiryError = function ($expiryFields) {
+			$expiryFields.removeClass('form-invalid').find('.awsm-job-expiry-error').remove();
+		};
+
+		var showQuickEditExpiryError = function ($expiryFields, message) {
+			$expiryFields.addClass('form-invalid');
+			$('<p class="awsm-job-expiry-error" role="alert"></p>').text(message).appendTo($expiryFields);
+			var $emptyField = $expiryFields.find('input[type="text"]').filter(function () {
+				return !$.trim($(this).val());
+			});
+			($emptyField.length ? $emptyField : $expiryFields.find('input[type="text"]')).first().trigger('focus');
+		};
+
+		/**
+		 * Write the expiry date fields into the hidden awsm_job_expiry input
+		 * before a Quick Edit save. Returns false (and shows the error) when
+		 * expiry is enabled but the date is missing, invalid or in the past,
+		 * so the save can be stopped. Exposed for Pro Pack, which replaces
+		 * inlineEditPost.save() entirely.
+		 */
+		var syncQuickEditExpiry = function ($row) {
+			var $expiryFields = $row.find('.awsm-job-expiry-timestamp');
+			if (!$expiryFields.length) {
+				return true;
+			}
+			var $expiryValue = $expiryFields.find('.awsm-job-expiry-value');
+			clearQuickEditExpiryError($expiryFields);
+
+			if (!$row.find('input[name="awsm_set_exp_list"]').is(':checked')) {
+				$expiryValue.val('');
+				return true;
+			}
+			var expiry = getQuickEditExpiry($row);
+			// An already saved past date is allowed through unchanged, so an
+			// expired job can still be quick edited without touching its expiry.
+			if (!expiry.error && expiry.value !== $row.data('awsmInitialExpiry') && expiry.value <= getJobsTimezoneNow()) {
+				expiry.error = 'past';
+			}
+			if (expiry.error) {
+				showQuickEditExpiryError($expiryFields, expiryMessages[expiry.error]);
+				return false;
+			}
+			$expiryValue.val(expiry.value);
+			return true;
+		};
+		window.awsmJobExpiryQuickEdit = { sync: syncQuickEditExpiry };
+
+		// Older Pro Pack versions still render the datepicker markup.
+		var initLegacyQuickEditDatepicker = function ($quickEditRow, setExpiry, jobExpiryValue) {
+			var $dateField = $quickEditRow.find('.awsm-jobs-datepicker');
+			var $altField = $quickEditRow.find('#awsm-jobs-datepicker-alt');
+
+			$dateField.val('');
+
+			// The datepicker has no time-of-day control, so whatever time was
+			// already saved needs to survive a date-only edit here instead
+			// of being overwritten with midnight.
+			var preservedTime = (jobExpiryValue && jobExpiryValue.indexOf(' ') !== -1) ?
+				jobExpiryValue.split(' ')[1] : '00:00:00';
+
+			var dateToday = new Date();
+			var minDate;
+			if (jobExpiryValue) {
+				var parsedSavedDate = new Date(jobExpiryValue);
+				minDate = parsedSavedDate < dateToday ? parsedSavedDate : dateToday;
+			} else {
+				minDate = dateToday;
+			}
+
+			$dateField.datepicker({
+				altField: $altField,
+				altFormat: 'yy-mm-dd',
+				showOn: 'both',
+				buttonText: '',
+				buttonImageOnly: true,
+				changeMonth: true,
+				numberOfMonths: 1,
+				minDate: minDate,
+				defaultDate: null,
+				onSelect: function () {
+					var pickedDate = $dateField.datepicker('getDate');
+					if (pickedDate) {
+						$altField.val($.datepicker.formatDate('yy-mm-dd', pickedDate) + ' ' + preservedTime);
+					}
+				}
+			});
+
+			setTimeout(function () {
+				if (setExpiry === "set_listing" && jobExpiryValue) {
+					$dateField.datepicker('setDate', new Date(jobExpiryValue));
+					// setDate() above just rewrote the alt field via
+					// altFormat (date-only), wiping the saved time —
+					// restore the full value now that a date is set.
+					$altField.val(jobExpiryValue);
+				} else {
+					$dateField.val('');
+					$altField.val('');
+				}
+			}, 50);
+		};
 
 		inlineEditPost.edit = function (id) {
 			$wp_inline_edit.apply(this, arguments);
@@ -836,83 +1038,62 @@ jQuery(document).ready(function($) {
 
 			if (post_id > 0) {
 				var $quickEditRow = $("#edit-" + post_id);
-				var $postRow = $("#post-" + post_id);
-				var $dateField = $quickEditRow.find('.awsm-jobs-datepicker');
-				var $altField = $quickEditRow.find('#awsm-jobs-datepicker-alt');
 
 				var setExpiry = $("#awsm_set_exp_list_" + post_id).val();
 				var jobExpiryValue = $("#awsm_job_expiry_" + post_id).val();
 				var displayExpiry = $("#awsm_exp_list_display_" + post_id).val();
 
-				$dateField.val('');
-
-				// Quick Edit has no time-of-day control, so whatever time was
-				// already saved needs to survive a date-only edit here instead
-				// of being overwritten with midnight.
-				var preservedTime = (jobExpiryValue && jobExpiryValue.indexOf(' ') !== -1) ?
-					jobExpiryValue.split(' ')[1] : '00:00:00';
-
-				var syncAltFieldWithPreservedTime = function () {
-					var pickedDate = $dateField.datepicker('getDate');
-					if (pickedDate) {
-						$altField.val($.datepicker.formatDate('yy-mm-dd', pickedDate) + ' ' + preservedTime);
+				if ($quickEditRow.find('.awsm-job-expiry-timestamp').length) {
+					// Parse the stored string directly rather than via new Date(),
+					// which would shift a date-only value by the browser's UTC offset.
+					var savedExpiry = jobExpiryValue ? expiryPattern.exec(jobExpiryValue) : null;
+					$quickEditRow.find('.awsm-job-expiry-mm').val(savedExpiry ? savedExpiry[2] : padNumber(new Date().getMonth() + 1, 2));
+					$quickEditRow.find('.awsm-job-expiry-jj').val(savedExpiry ? savedExpiry[3] : '');
+					$quickEditRow.find('.awsm-job-expiry-aa').val(savedExpiry ? savedExpiry[1] : '');
+					var savedHour = savedExpiry ? parseInt(savedExpiry[4] || '0', 10) : null;
+					var $meridiem = $quickEditRow.find('.awsm-job-expiry-ampm');
+					if ($meridiem.length) {
+						$quickEditRow.find('.awsm-job-expiry-hh').val(savedExpiry ? padNumber(savedHour % 12 || 12, 2) : '');
+						$meridiem.val(savedHour !== null && savedHour >= 12 ? 'pm' : 'am');
+					} else {
+						$quickEditRow.find('.awsm-job-expiry-hh').val(savedExpiry ? (savedExpiry[4] || '00') : '');
 					}
-				};
-
-				// Initialize datepicker
-				var dateToday = new Date();
-				var minDate;
-				if (jobExpiryValue) {
-					var parsedSavedDate = new Date(jobExpiryValue);
-					minDate = parsedSavedDate < dateToday ? parsedSavedDate : dateToday;
-				} else {
-					minDate = dateToday;
+					$quickEditRow.find('.awsm-job-expiry-mn').val(savedExpiry ? (savedExpiry[5] || '00') : '');
+					$quickEditRow.find('.awsm-job-expiry-value').val(jobExpiryValue || '');
+					$quickEditRow.data('awsmInitialExpiry', savedExpiry ? getQuickEditExpiry($quickEditRow).value : null);
+				} else if ($quickEditRow.find('.awsm-jobs-datepicker').length) {
+					initLegacyQuickEditDatepicker($quickEditRow, setExpiry, jobExpiryValue);
 				}
-
-				$dateField.datepicker({
-					altField: $altField,
-					altFormat: 'yy-mm-dd',
-					showOn: 'both',
-					buttonText: '',
-					buttonImageOnly: true,
-					changeMonth: true,
-					numberOfMonths: 1,
-					minDate: minDate,
-					defaultDate: null,
-					onSelect: syncAltFieldWithPreservedTime
-				});
 
 				if (setExpiry === "set_listing") {
 					$quickEditRow.find('input[name="awsm_set_exp_list"]').prop("checked", true);
-					$('#awsm-job-expiry-fields').show();
-
-					if (jobExpiryValue) {
-						setTimeout(function () {
-							$dateField.datepicker('setDate', new Date(jobExpiryValue));
-							// setDate() above just rewrote the alt field via
-							// altFormat (date-only), wiping the saved time —
-							// restore the full value now that a date is set.
-							$altField.val(jobExpiryValue);
-						}, 50);
-					}
+					$quickEditRow.find('#awsm-job-expiry-fields').show();
 					if (displayExpiry) {
 						$quickEditRow.find('input[name="awsm_exp_list_display"]').prop("checked", true);
 					}
-				} else {
-					setTimeout(function () {
-						$dateField.val('');
-						$altField.val('');
-					}, 50);
 				}
 			}
 		};
+
+		inlineEditPost.save = function (id) {
+			var post_id = parseInt(typeof id == "object" ? this.getId(id) : id);
+			if (!syncQuickEditExpiry($("#edit-" + post_id))) {
+				return false;
+			}
+			return $wp_inline_save.apply(this, arguments);
+		};
 	}
 
+	$(document).on('input change', '.awsm-job-expiry-timestamp :input', function () {
+		$(this).closest('.awsm-job-expiry-timestamp').removeClass('form-invalid').find('.awsm-job-expiry-error').remove();
+	});
+
 	$(document).on('change', '#awsm-job-expiry-edit', function () {
+		var $fields = $(this).closest('.inline-edit-row').find('#awsm-job-expiry-fields');
 		if ($(this).is(':checked')) {
-			$('#awsm-job-expiry-fields').slideDown();
+			$fields.slideDown();
 		} else {
-			$('#awsm-job-expiry-fields').slideUp();
+			$fields.slideUp();
 		}
 	});
 

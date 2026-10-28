@@ -28,7 +28,7 @@ if ( $post->post_type === 'awsm_job_application' ) {
 		$data_rows = array(
 			'job_title'       => array(
 				esc_html__( 'Job Title', 'wp-job-openings' ),
-				wp_strip_all_tags( $job_title ),
+				esc_html( $job_title ),
 			),
 			'current_status'  => array(
 				esc_html__( 'Current Status:', 'wp-job-openings' ),
@@ -92,7 +92,7 @@ if ( $post->post_type === 'awsm_job_application' ) {
 			if ( empty( $data_rows['job_title'][1] ) ) {
 				$job_name                       = get_post_meta( $post->ID, 'awsm_apply_for', true );
 				$data_rows['current_status'][1] = '<span class="awsm-text-red">' . esc_html__( 'Deleted', 'wp-job-openings' ) . '</span>';
-				$data_rows['job_title'][1]      = $job_name;
+				$data_rows['job_title'][1]      = esc_html( $job_name );
 			}
 
 			$data_rows['date_posted'] = array(

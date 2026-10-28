@@ -26,7 +26,7 @@ do_action( 'awsm_resume_preview_mb_init', $post->ID );
 			?>
 			<div class="awsm-document-preview">
 				<div class="awsm-preview-loader">
-					<div class="awsm-preview-spinner"></div>
+					<span class="awsm-preview-spinner"><img src="<?php echo esc_url( admin_url( 'images/spinner-2x.gif' ) ); ?>" width="32" height="32" alt="" /></span>
 					<button type="button" class="awsm-preview-reload-btn">
 						&#8635; <?php esc_html_e( 'Reload Preview', 'wp-job-openings' ); ?>
 					</button>

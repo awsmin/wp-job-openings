@@ -182,6 +182,25 @@ class AWSM_Job_Openings_Info {
 		<?php
 	}
 
+	/**
+	 * Get the plugin file for an add-on, falling back to a known mapping when the remote feed doesn't provide one.
+	 *
+	 * @param array $add_on Add-on data from the remote feed.
+	 * @return string Plugin file relative to the plugins directory, or empty string.
+	 */
+	public static function get_add_on_plugin_file( $add_on ) {
+		if ( ! empty( $add_on['wp_plugin'] ) ) {
+			return $add_on['wp_plugin'];
+		}
+		$known_add_ons = array(
+			'wp-job-openings-pro-pack'          => 'pro-pack-for-wp-job-openings/pro-pack.php',
+			'hirezoot-pro-pack'                 => 'pro-pack-for-wp-job-openings/pro-pack.php',
+			'interviews-and-assessments-add-on' => 'interviews-for-hirezoot/interviews-for-hirezoot.php',
+		);
+		$add_on_slug   = isset( $add_on['name'] ) ? sanitize_title( $add_on['name'] ) : '';
+		return isset( $known_add_ons[ $add_on_slug ] ) ? $known_add_ons[ $add_on_slug ] : '';
+	}
+
 	public function get_add_on_btn_content( $plugin, $add_on_details = array() ) {
 		$plugin_slug = $installed_plugin = $content = $btn_attrs = ''; // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
 		$action_url  = $add_on_details['url'];
