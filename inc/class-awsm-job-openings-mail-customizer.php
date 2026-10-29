@@ -9,6 +9,7 @@ class AWSM_Job_Openings_Mail_Customizer {
 	public function __construct() {
 		add_action( 'awsm_jobs_notification_html_template_head', array( $this, 'template_head' ) );
 		add_action( 'awsm_jobs_notification_html_template_footer', array( $this, 'template_footer' ) );
+		add_filter( 'awsm_jobs_notification_customizer_fields', array( $this, 'remove_legacy_customizer_fields' ), 100 );
 	}
 
 	public static function init() {
@@ -75,7 +76,18 @@ class AWSM_Job_Openings_Mail_Customizer {
 
 		$settings            = get_option( 'awsm_jobs_notification_customizer' );
 		$customizer_settings = wp_parse_args( $settings, $default_values );
+		// The background color option is removed. Older Pro Pack versions still apply 'bg_color' when it is set.
+		unset( $customizer_settings['bg_color'] );
 		return $customizer_settings;
+	}
+
+	public function remove_legacy_customizer_fields( $customizer_fields ) {
+		foreach ( $customizer_fields as $index => $field ) {
+			if ( isset( $field['id'] ) && $field['id'] === 'awsm_jobs_notification_customizer_bg_color' ) {
+				unset( $customizer_fields[ $index ] );
+			}
+		}
+		return array_values( $customizer_fields );
 	}
 
 	public static function validate_template() {

@@ -904,6 +904,7 @@ class AWSM_Job_Openings_Settings {
 		$input['from_email']  = $this->sanitize_from_email_id( $input['from_email'] );
 		$input['base_color']  = sanitize_text_field( $input['base_color'] );
 		$input['footer_text'] = AWSM_Job_Openings_Mail_Customizer::sanitize_content( $input['footer_text'] );
+		unset( $input['bg_color'] );
 		return $input;
 	}
 
