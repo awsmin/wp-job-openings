@@ -132,8 +132,8 @@ if ( $has_search || $has_filters || $has_alerts ) {
 }
 
 $button_style        = ! empty( $styles['button_style'] ) ? $styles['button_style'] : 'none';
-$button_style_filter = function ( $class ) use ( $button_style ) {
-	return $class . ' is-button-' . $button_style;
+$button_style_filter = function ( $css_class ) use ( $button_style ) {
+	return $css_class . ' is-button-' . $button_style;
 };
 add_filter( 'awsm_b_job_more_button_class', $button_style_filter );
 

@@ -328,8 +328,8 @@ class AWSM_Job_Openings_Block {
 		$query = new WP_Query( $args );
 
 		$ajax_button_style        = ! empty( $attributes['hz_button_style'] ) ? sanitize_key( $attributes['hz_button_style'] ) : 'none';
-		$ajax_button_style_filter = function ( $class ) use ( $ajax_button_style ) {
-			return $class . ' is-button-' . $ajax_button_style;
+		$ajax_button_style_filter = function ( $css_class ) use ( $ajax_button_style ) {
+			return $css_class . ' is-button-' . $ajax_button_style;
 		};
 		add_filter( 'awsm_b_job_more_button_class', $ajax_button_style_filter );
 

@@ -84,11 +84,11 @@ if ( ! function_exists( 'awsm_jobs_get_original_image_url' ) ) {
 }
 
 if ( ! function_exists( 'awsm_jobs_array_flatten' ) ) {
-	function awsm_jobs_array_flatten( $array ) {
+	function awsm_jobs_array_flatten( $items ) {
 		$result = array();
-		if ( is_array( $array ) ) {
+		if ( is_array( $items ) ) {
 			array_walk_recursive(
-				$array,
+				$items,
 				function ( $item ) use ( &$result ) {
 					$result[] = $item;
 				}
