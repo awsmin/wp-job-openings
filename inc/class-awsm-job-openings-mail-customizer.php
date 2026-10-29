@@ -27,7 +27,7 @@ class AWSM_Job_Openings_Mail_Customizer {
 
 	public function template_footer( $settings ) {
 		?>
-			<td style="text-align: center; padding: 30px 0;">
+			<td class="awsm-jobs-mail-footer-text">
 				<?php echo nl2br( self::sanitize_content( $settings['footer_text'] ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			</td>
 		<?php
@@ -361,8 +361,16 @@ class AWSM_Job_Openings_Mail_Customizer {
 			array(
 				'selector'    => '.logo',
 				'declaration' => array(
-					'padding'    => '30px 0',
+					'padding'    => '40px 20px 10px',
 					'text-align' => 'center',
+					'background' => '#ffffff',
+					'border-top' => '9px solid ' . $settings['base_color'],
+				),
+			),
+			array(
+				'selector'    => '.email-main-container',
+				'declaration' => array(
+					'padding' => '20px 0',
 				),
 			),
 			array(
@@ -384,10 +392,7 @@ class AWSM_Job_Openings_Mail_Customizer {
 			array(
 				'selector'    => '.main-content',
 				'declaration' => array(
-					'padding'      => '40px 0',
-					'border-width' => '9px 1px 1px',
-					'border-style' => 'solid',
-					'border-color' => $settings['base_color'] . ' #C6CCD2 #C6CCD2',
+					'padding' => '20px 0 10px',
 				),
 			),
 			array(
@@ -449,9 +454,26 @@ class AWSM_Job_Openings_Mail_Customizer {
 				),
 			),
 			array(
+				'selector'    => '.footer',
+				'declaration' => array(
+					'background' => '#ffffff',
+				),
+			),
+			array(
 				'selector'    => '.footer a',
 				'declaration' => array(
-					'color' => '#4F5F5E',
+					'color'       => '#3A3A3A',
+					'font-weight' => '600',
+				),
+			),
+			array(
+				'selector'    => '.awsm-jobs-mail-footer-text',
+				'declaration' => array(
+					'padding'     => '20px 40px 40px',
+					'text-align'  => 'center',
+					'font-size'   => '13px',
+					'line-height' => '1.6',
+					'color'       => '#5F6368',
 				),
 			),
 			array(
@@ -644,13 +666,19 @@ class AWSM_Job_Openings_Mail_Customizer {
 					array(
 						'selector'    => '.logo',
 						'declaration' => array(
-							'padding' => '25px 0',
+							'padding' => '25px 15px 5px',
 						),
 					),
 					array(
 						'selector'    => '.main-content',
 						'declaration' => array(
-							'padding' => '25px 0',
+							'padding' => '15px 0 5px',
+						),
+					),
+					array(
+						'selector'    => '.awsm-jobs-mail-footer-text',
+						'declaration' => array(
+							'padding' => '15px 20px 25px',
 						),
 					),
 					array(

@@ -5,7 +5,7 @@
  * Override this by copying it to currenttheme/wp-job-openings/mail/header.php
  *
  * @package wp-job-openings
- * @version 3.3.2
+ * @version 4.1.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
