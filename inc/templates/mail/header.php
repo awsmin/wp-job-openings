@@ -37,8 +37,8 @@ $customizer_settings = AWSM_Job_Openings_Mail_Customizer::get_settings();
 	?>
 </head>
 
-<body width="100%" style="margin: 0; padding: 0 !important; mso-line-height-rule: exactly; background-color: #F1F4F7;" class="email-container-body">
-	<center style="width: 100%; background-color: #F1F4F7;" class="email-main-container">
+<body width="100%" style="margin: 0; padding: 0 !important; mso-line-height-rule: exactly; background-color: #ffffff;" class="email-container-body">
+	<center style="width: 100%; background-color: #ffffff;" class="email-main-container">
 
 		<table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="640"  style="margin: auto; width:100%; max-width:640px;">
 			<tr>

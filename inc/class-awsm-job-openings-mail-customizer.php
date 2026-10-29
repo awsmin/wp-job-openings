@@ -139,7 +139,7 @@ class AWSM_Job_Openings_Mail_Customizer {
 					'padding'    => '0 !important',
 					'height'     => '100% !important',
 					'width'      => '100% !important',
-					'background' => '#f1f1f1',
+					'background' => '#ffffff',
 				),
 			),
 			/* What it does: Stops email clients resizing small text. */
@@ -363,7 +363,11 @@ class AWSM_Job_Openings_Mail_Customizer {
 				'declaration' => array(
 					'padding'    => '40px 20px 10px',
 					'text-align' => 'center',
-					'background' => '#ffffff',
+				),
+			),
+			array(
+				'selector'    => '.email-container-body',
+				'declaration' => array(
 					'border-top' => '9px solid ' . $settings['base_color'],
 				),
 			),
@@ -451,12 +455,6 @@ class AWSM_Job_Openings_Mail_Customizer {
 				'selector'    => '.main-content-in-3',
 				'declaration' => array(
 					'padding-top' => '30px',
-				),
-			),
-			array(
-				'selector'    => '.footer',
-				'declaration' => array(
-					'background' => '#ffffff',
 				),
 			),
 			array(
