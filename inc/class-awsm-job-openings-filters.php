@@ -129,7 +129,7 @@ class AWSM_Job_Openings_Filters {
 			 */
 			$available_filters = apply_filters( 'awsm_active_job_filters', $available_filters, $shortcode_atts );
 			foreach ( $taxonomies as $taxonomy => $tax_details ) {
-				if ( in_array( $taxonomy, $available_filters ) ) {
+				if ( in_array( $taxonomy, $available_filters, true ) ) {
 					/**
 					 * Filter arguments for the specification terms in the job filter.
 					 *
@@ -192,7 +192,7 @@ class AWSM_Job_Openings_Filters {
 							$options_content = '';
 						foreach ( $terms as $term ) {
 							$selected = '';
-							if ( in_array( $taxonomy, array_keys( $selected_filters ) ) && $selected_filters[ $taxonomy ] === $term->slug ) {
+							if ( in_array( $taxonomy, array_keys( $selected_filters ), true ) && $selected_filters[ $taxonomy ] === $term->slug ) {
 								$selected = ' selected';
 							}
 							$option_content = sprintf( '<option value="%1$s" data-slug="%3$s"%4$s>%2$s</option>', esc_attr( $term->term_id ), esc_html( $term->name ), esc_attr( $term->slug ), esc_attr( $selected ) );
