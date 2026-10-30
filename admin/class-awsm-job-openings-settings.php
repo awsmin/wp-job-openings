@@ -26,6 +26,7 @@ class AWSM_Job_Openings_Settings {
 		add_action( 'update_option_awsm_permalink_slug', array( $this, 'update_awsm_permalink_slug' ), 10, 2 );
 		add_action( 'update_option_awsm_jobs_remove_permalink_front_base', array( $this, 'update_permalink_front_base' ), 10, 2 );
 		add_action( 'update_option_awsm_jobs_disable_archive_page', array( $this, 'update_jobs_archive_page' ) );
+		add_action( 'add_option_awsm_hide_uploaded_files', array( $this, 'add_awsm_hide_uploaded_files' ), 10, 2 );
 		add_action( 'update_option_awsm_hide_uploaded_files', array( $this, 'update_awsm_hide_uploaded_files' ), 10, 2 );
 		add_action( 'update_option_awsm_jobs_filter', array( $this, 'update_awsm_jobs_filter' ), 10, 2 );
 		add_action( 'update_option_awsm_jobs_remove_filters', array( $this, 'update_awsm_jobs_remove_filters' ), 10, 2 );
@@ -581,6 +582,7 @@ class AWSM_Job_Openings_Settings {
 				register_setting( 'awsm-jobs-' . $group . '-settings', $setting_args['option_name'], isset( $setting_args['callback'] ) ? $setting_args['callback'] : 'sanitize_text_field' );
 			}
 		}
+		$this->sync_hide_uploaded_files_htaccess();
 	}
 
 	private function set_settings_capability() {
@@ -954,6 +956,28 @@ class AWSM_Job_Openings_Settings {
 
 	public function update_jobs_archive_page() {
 		$this->refresh_permalink( 'awsm_jobs_disable_archive_page' );
+	}
+
+	/**
+	 * The first save of the option runs add_option(), which doesn't fire the update_option_ hook.
+	 */
+	public function add_awsm_hide_uploaded_files( $option, $value ) {
+		$this->update_awsm_hide_uploaded_files( '', $value );
+	}
+
+	/**
+	 * Repair the upload directory .htaccess when secure uploads is enabled but not applied.
+	 */
+	public function sync_hide_uploaded_files_htaccess() {
+		if ( get_option( 'awsm_hide_uploaded_files' ) !== 'hide_files' ) {
+			return;
+		}
+		$upload_dir = wp_upload_dir();
+		$file_name  = trailingslashit( $upload_dir['basedir'] ) . AWSM_JOBS_UPLOAD_DIR_NAME . '/.htaccess';
+		$content    = file_exists( $file_name ) ? (string) file_get_contents( $file_name ) : '';
+		if ( stripos( $content, 'deny from all' ) === false && stripos( $content, 'require all denied' ) === false ) {
+			$this->update_awsm_hide_uploaded_files( '', 'hide_files' );
+		}
 	}
 
 	public function update_awsm_hide_uploaded_files( $old_value, $value ) {
