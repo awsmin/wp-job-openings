@@ -67,7 +67,7 @@ function JobStatusPanel() {
 	return (
 		<wp.editPost.PluginDocumentSettingPanel
 			name="awsm-job-status"
-			title={ __( 'Job Status', 'wp-job-openings' ) }
+			title={ __( 'Job Overview', 'wp-job-openings' ) }
 			className="awsm-job-status-panel"
 		>
 			{ html === null ? __( 'Loading…', 'wp-job-openings' ) : <RawHTML>{ html }</RawHTML> }

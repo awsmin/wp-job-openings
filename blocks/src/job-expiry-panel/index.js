@@ -138,11 +138,11 @@ class JobExpiryErrorBoundary extends Component {
 			return (
 				<wp.editPost.PluginDocumentSettingPanel
 					name="awsm-job-expiry"
-					title={ __( 'Job Expiry', 'wp-job-openings' ) }
+					title={ __( 'Expiry Rules', 'wp-job-openings' ) }
 					className="awsm-job-expiry-panel"
 				>
 					<Notice status="error" isDismissible={ false }>
-						{ __( 'Job Expiry panel error:', 'wp-job-openings' ) } { this.state.error.message }
+						{ __( 'Expiry Rules panel error:', 'wp-job-openings' ) } { this.state.error.message }
 					</Notice>
 				</wp.editPost.PluginDocumentSettingPanel>
 			);
@@ -255,16 +255,16 @@ function JobExpiryPanel() {
 	return (
 		<wp.editPost.PluginDocumentSettingPanel
 			name="awsm-job-expiry"
-			title={ __( 'Job Expiry', 'wp-job-openings' ) }
+			title={ __( 'Expiry Rules', 'wp-job-openings' ) }
 			className="awsm-job-expiry-panel"
 		>
 			{ handlerError && (
 				<Notice status="error" isDismissible={ false }>
-					{ __( 'Job Expiry panel error:', 'wp-job-openings' ) } { handlerError }
+					{ __( 'Expiry Rules panel error:', 'wp-job-openings' ) } { handlerError }
 				</Notice>
 			) }
 			<ToggleControl
-				label={ __( 'Set expiry for listing', 'wp-job-openings' ) }
+				label={ __( 'Set expiry date', 'wp-job-openings' ) }
 				checked={ isExpirySet }
 				onChange={ onToggleExpiry }
 			/>
@@ -325,7 +325,7 @@ function JobExpiryPanel() {
 					) }
 					{ hasExpiryDate && (
 						<ToggleControl
-							label={ __( 'Display expiry date', 'wp-job-openings' ) }
+							label={ __( 'Show expiry date', 'wp-job-openings' ) }
 							checked={ displayOnList }
 							onChange={ onToggleDisplay }
 						/>
