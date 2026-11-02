@@ -118,7 +118,7 @@ class AWSM_Job_Openings_Mail_Customizer {
 		/**
 		 * Filters the notification customizer test email content.
 		 *
-		 * @since 4.1.0
+		 * @since 4.2.2
 		 *
 		 * @param string $content Test email content (HTML).
 		 */
@@ -134,14 +134,19 @@ class AWSM_Job_Openings_Mail_Customizer {
 			wp_send_json_error( array( 'message' => esc_html__( 'Permission denied.', 'wp-job-openings' ) ), 403 );
 		}
 
-		$raw_email = isset( $_POST['email'] ) ? trim( sanitize_text_field( wp_unslash( $_POST['email'] ) ) ) : '';
+		if ( isset( $_POST['email'] ) && ! is_string( $_POST['email'] ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'Please enter a valid email address.', 'wp-job-openings' ) ) );
+		}
+
+		// The raw value is only compared against its sanitized versions below, it is never used directly.
+		$raw_email = isset( $_POST['email'] ) ? trim( wp_unslash( $_POST['email'] ) ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		if ( $raw_email === '' ) {
 			wp_send_json_error( array( 'message' => esc_html__( 'Please enter an email address.', 'wp-job-openings' ) ) );
 		}
 
-		// Reject the input outright if sanitization would have silently altered it.
+		// Reject the input outright if any sanitization would have silently altered it (tags, line breaks, invalid characters).
 		$email = sanitize_email( $raw_email );
-		if ( strlen( $raw_email ) > 100 || $email !== $raw_email || ! is_email( $email ) ) {
+		if ( strlen( $raw_email ) > 100 || $email !== $raw_email || sanitize_text_field( $raw_email ) !== $raw_email || ! is_email( $email ) ) {
 			wp_send_json_error( array( 'message' => esc_html__( 'Please enter a valid email address.', 'wp-job-openings' ) ) );
 		}
 
