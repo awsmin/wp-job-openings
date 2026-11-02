@@ -427,7 +427,9 @@ class AWSM_Job_Openings_Form {
 
 		if ( $_SERVER['REQUEST_METHOD'] === 'POST' && ! empty( $_POST['action'] ) && $_POST['action'] === 'awsm_applicant_form_submission' ) {
 			if ( ! isset( $_POST['awsm_nonce'] ) || ! wp_verify_nonce( sanitize_key( $_POST['awsm_nonce'] ), 'awsm_application_nonce' ) ) {
-				wp_send_json_error( array( 'message' => esc_html__( 'Security check failed. Please refresh the page and try again.', 'wp-job-openings' ) ) );
+				$awsm_response['error'][] = esc_html__( 'Security check failed. Please refresh the page and try again.', 'wp-job-openings' );
+				add_action( 'awsm_application_form_notices', array( $this, 'awsm_form_submit_notices' ) );
+				return $awsm_response;
 			}
 			$job_id               = intval( $_POST['awsm_job_id'] );
 			$job_status           = get_post_status( $job_id );
