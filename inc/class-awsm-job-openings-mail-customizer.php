@@ -10,6 +10,7 @@ class AWSM_Job_Openings_Mail_Customizer {
 		add_action( 'awsm_jobs_notification_html_template_head', array( $this, 'template_head' ) );
 		add_action( 'awsm_jobs_notification_html_template_footer', array( $this, 'template_footer' ) );
 		add_filter( 'awsm_jobs_notification_customizer_fields', array( $this, 'remove_legacy_customizer_fields' ), 100 );
+		add_action( 'wp_ajax_awsm_jobs_send_notification_test_email', array( $this, 'send_test_email_handler' ) );
 	}
 
 	public static function init() {
@@ -88,6 +89,112 @@ class AWSM_Job_Openings_Mail_Customizer {
 			}
 		}
 		return array_values( $customizer_fields );
+	}
+
+	/**
+	 * Get the main content of the test email.
+	 *
+	 * @return string
+	 */
+	public static function get_test_email_content() {
+		$checklist = array(
+			__( 'The logo displays correctly.', 'wp-job-openings' ),
+			__( 'Background and base colors appear as expected.', 'wp-job-openings' ),
+			__( 'Text formatting, links, and spacing look right.', 'wp-job-openings' ),
+			__( 'The footer and site links are displayed properly.', 'wp-job-openings' ),
+		);
+
+		$content  = '<p>' . esc_html__( 'Hi there,', 'wp-job-openings' ) . '</p>';
+		$content .= '<p>' . esc_html__( 'Thank you for using HireZoot to manage your recruitment process. This email is intended for testing the appearance and functionality of your customized HTML email template.', 'wp-job-openings' ) . '</p>';
+		$content .= '<p>' . esc_html__( 'Please verify that:', 'wp-job-openings' ) . '</p>';
+		$content .= '<ul>';
+		foreach ( $checklist as $item ) {
+			$content .= '<li>' . esc_html( $item ) . '</li>';
+		}
+		$content .= '</ul>';
+		$content .= '<p>' . esc_html__( 'If everything looks good, your template is ready for further testing.', 'wp-job-openings' ) . '</p>';
+		$content .= '<p>' . esc_html__( 'Best regards,', 'wp-job-openings' ) . '<br />' . esc_html__( 'The HireZoot Team', 'wp-job-openings' ) . '</p>';
+
+		/**
+		 * Filters the notification customizer test email content.
+		 *
+		 * @since 4.1.0
+		 *
+		 * @param string $content Test email content (HTML).
+		 */
+		return apply_filters( 'awsm_jobs_notification_test_email_content', $content );
+	}
+
+	/**
+	 * AJAX: send a test email using the saved notification HTML template.
+	 */
+	public function send_test_email_handler() {
+		$nonce = isset( $_POST['nonce'] ) ? sanitize_key( $_POST['nonce'] ) : '';
+		if ( ! wp_verify_nonce( $nonce, 'awsm-admin-nonce' ) || ! current_user_can( 'manage_awsm_jobs' ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'Permission denied.', 'wp-job-openings' ) ), 403 );
+		}
+
+		$raw_email = isset( $_POST['email'] ) ? trim( sanitize_text_field( wp_unslash( $_POST['email'] ) ) ) : '';
+		if ( $raw_email === '' ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'Please enter an email address.', 'wp-job-openings' ) ) );
+		}
+
+		// Reject the input outright if sanitization would have silently altered it.
+		$email = sanitize_email( $raw_email );
+		if ( strlen( $raw_email ) > 100 || $email !== $raw_email || ! is_email( $email ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'Please enter a valid email address.', 'wp-job-openings' ) ) );
+		}
+
+		$subject = esc_html__( 'HireZoot HTML Email Template Preview', 'wp-job-openings' );
+		$content = self::get_test_email_content();
+
+		// Header mail template.
+		ob_start();
+		include AWSM_Job_Openings::get_template_path( 'header.php', 'mail' );
+		$header_template  = ob_get_clean();
+		$header_template .= '<div style="padding: 0 15px; font-size: 16px; max-width: 512px; margin: 0 auto;">';
+
+		// Footer mail template.
+		ob_start();
+		include AWSM_Job_Openings::get_template_path( 'footer.php', 'mail' );
+		$footer_template = ob_get_clean();
+		$footer_template = '</div>' . $footer_template;
+
+		$tags                   = AWSM_Job_Openings::get_mail_generic_template_tags();
+		$tags['{mail-subject}'] = $subject;
+		$message                = str_replace( array_keys( $tags ), array_values( $tags ), $header_template . $content . $footer_template );
+
+		$company_name = get_option( 'awsm_job_company_name', '' );
+		$from         = wp_strip_all_tags( ! empty( $company_name ) ? $company_name : get_option( 'blogname' ) );
+		$from_email   = AWSM_Job_Openings_Settings::awsm_from_email();
+		$headers      = array(
+			'Content-Type: text/html; charset=UTF-8',
+			sprintf( 'From: %1$s <%2$s>', $from, $from_email ),
+		);
+
+		// Capture the mailer error (if any) so it can be reported back to the admin.
+		$mail_error  = '';
+		$on_mail_err = function ( $wp_error ) use ( &$mail_error ) {
+			if ( is_wp_error( $wp_error ) ) {
+				$mail_error = $wp_error->get_error_message();
+			}
+		};
+		add_action( 'wp_mail_failed', $on_mail_err );
+		add_filter( 'wp_mail_content_type', 'awsm_jobs_mail_content_type' );
+		$is_sent = wp_mail( $email, $subject, $message, $headers );
+		remove_filter( 'wp_mail_content_type', 'awsm_jobs_mail_content_type' );
+		remove_action( 'wp_mail_failed', $on_mail_err );
+
+		if ( ! $is_sent ) {
+			$error_msg = esc_html__( 'The test email could not be sent. Please check your site email configuration.', 'wp-job-openings' );
+			if ( ! empty( $mail_error ) ) {
+				$error_msg .= ' ' . esc_html( $mail_error );
+			}
+			wp_send_json_error( array( 'message' => $error_msg ) );
+		}
+
+		/* translators: %s: recipient email address */
+		wp_send_json_success( array( 'message' => sprintf( esc_html__( 'Test email sent to %s.', 'wp-job-openings' ), esc_html( $email ) ) ) );
 	}
 
 	public static function validate_template() {

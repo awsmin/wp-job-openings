@@ -1732,6 +1732,12 @@ class AWSM_Job_Openings {
 						'invalid'  => esc_html__( 'Please enter a valid expiry date and time.', 'wp-job-openings' ),
 						'past'     => esc_html__( 'The expiry date and time must be in the future.', 'wp-job-openings' ),
 					),
+					'test_email'      => array(
+						'empty'   => esc_html__( 'Please enter an email address.', 'wp-job-openings' ),
+						'invalid' => esc_html__( 'Please enter a valid email address.', 'wp-job-openings' ),
+						'sending' => esc_html__( 'Sending...', 'wp-job-openings' ),
+						'error'   => esc_html__( 'The test email could not be sent. Please try again.', 'wp-job-openings' ),
+					),
 				),
 				'jobs_timezone_offset'      => self::get_jobs_timezone_offset(),
 				'specs_settings_url'        => admin_url( 'edit.php?post_type=awsm_job_openings&page=awsm-jobs-settings&tab=specifications&subtab=awsm-manage_spec-specifications-nav-subtab' ),

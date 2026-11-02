@@ -277,6 +277,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<?php $template_tags = $this->get_template_tags(); ?>
 
 	<div class="awsm-settings-col-right">
+		<?php $test_email_user = wp_get_current_user(); ?>
+		<div class="awsm-settings-aside awsm-jobs-test-email-aside" id="awsm-jobs-test-email-aside" style="display: none;">
+			<h3><?php esc_html_e( 'Test Email', 'wp-job-openings' ); ?></h3>
+			<p class="awsm-jobs-test-email-desc"><?php esc_html_e( 'Send a test email to verify that your email configuration is working correctly.', 'wp-job-openings' ); ?></p>
+			<form id="awsm-jobs-test-email-form" class="awsm-jobs-test-email-form" method="post">
+				<label for="awsm-jobs-test-email-address" class="screen-reader-text"><?php esc_html_e( 'Recipient email address', 'wp-job-openings' ); ?></label>
+				<div class="awsm-jobs-test-email-fields">
+					<input type="email" id="awsm-jobs-test-email-address" class="awsm-form-control" name="awsm_jobs_test_email" value="<?php echo esc_attr( $test_email_user->user_email ); ?>" maxlength="100" autocomplete="email" required aria-describedby="awsm-jobs-test-email-message" />
+					<button type="submit" class="button awsm-jobs-test-email-btn"><?php esc_html_e( 'Send a Test Mail', 'wp-job-openings' ); ?></button>
+				</div>
+				<p id="awsm-jobs-test-email-message" class="awsm-jobs-test-email-message" role="status" aria-live="polite"></p>
+			</form>
+		</div><!-- .awsm-jobs-test-email-aside -->
 		<div class="awsm-settings-aside">
 			<h3><?php echo esc_html__( 'Template Tags', 'wp-job-openings' ); ?></h3>
 			<ul class="awsm-job-template-tag-list">

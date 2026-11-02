@@ -1152,6 +1152,117 @@ jQuery(document).ready(function($) {
         startPreviewTimeout();
     }
 
+	/*================ Notification Customizer: Test Email ================*/
+	var $testEmailAside = $('#awsm-jobs-test-email-aside');
+	if ($testEmailAside.length > 0) {
+		var $testEmailForm = $('#awsm-jobs-test-email-form');
+		var $testEmailInput = $('#awsm-jobs-test-email-address');
+		var $testEmailBtn = $testEmailForm.find('.awsm-jobs-test-email-btn');
+		var $testEmailMsg = $('#awsm-jobs-test-email-message');
+		var $settingsColRight = $testEmailAside.closest('.awsm-settings-col-right');
+		var testEmailI18n = awsmJobsAdmin.i18n.test_email;
+
+		// Show the widget only for the notification "Customize" subtab.
+		var toggleTestEmailAside = function() {
+			var isCustomize = $('#awsm-customize-notification-nav-subtab').hasClass('current');
+			$testEmailAside.toggle(isCustomize);
+			$settingsColRight.toggleClass('awsm-jobs-test-email-active', isCustomize);
+		};
+		toggleTestEmailAside();
+		$('#awsm-job-settings-wrap').on('click', '#settings-awsm-settings-notification .awsm-nav-subtab', toggleTestEmailAside);
+
+		// Mirrors the checks performed by WordPress core's is_email().
+		var isValidEmail = function(email) {
+			if (email.length < 6 || email.length > 100 || email.indexOf('@', 1) === -1) {
+				return false;
+			}
+			var parts = email.split('@');
+			if (parts.length !== 2) {
+				return false;
+			}
+			var local = parts[0];
+			var domain = parts[1];
+			if (! /^[a-zA-Z0-9!#$%&'*+/=?^_`{|}~.-]+$/.test(local)) {
+				return false;
+			}
+			if (/\.{2,}/.test(domain) || /^[\s.]|[\s.]$/.test(domain)) {
+				return false;
+			}
+			var labels = domain.split('.');
+			if (labels.length < 2) {
+				return false;
+			}
+			for (var i = 0; i < labels.length; i++) {
+				if (/^[\s-]|[\s-]$/.test(labels[i]) || ! /^[a-z0-9-]+$/i.test(labels[i])) {
+					return false;
+				}
+			}
+			return true;
+		};
+
+		var showTestEmailMsg = function(message, isError) {
+			$testEmailMsg.text(message)
+				.toggleClass('awsm-jobs-test-email-error', isError)
+				.toggleClass('awsm-jobs-test-email-success', ! isError);
+		};
+
+		$testEmailInput.on('input', function() {
+			this.setCustomValidity('');
+			$testEmailInput.removeAttr('aria-invalid');
+			showTestEmailMsg('', false);
+		});
+
+		$testEmailForm.on('submit', function(e) {
+			e.preventDefault();
+			if ($testEmailBtn.prop('disabled')) {
+				return;
+			}
+			var email = $.trim($testEmailInput.val());
+			$testEmailInput.val(email);
+
+			var errorMsg = '';
+			if (email.length === 0) {
+				errorMsg = testEmailI18n.empty;
+			} else if (! isValidEmail(email)) {
+				errorMsg = testEmailI18n.invalid;
+			}
+			$testEmailInput.get(0).setCustomValidity(errorMsg);
+			if (errorMsg.length > 0) {
+				$testEmailInput.attr('aria-invalid', 'true');
+				showTestEmailMsg(errorMsg, true);
+				$testEmailInput.get(0).reportValidity();
+				return;
+			}
+
+			var btnText = $testEmailBtn.text();
+			$testEmailBtn.prop('disabled', true).text(testEmailI18n.sending);
+			showTestEmailMsg('', false);
+
+			$.ajax({
+				url: awsmJobsAdmin.ajaxurl,
+				type: 'POST',
+				data: {
+					action: 'awsm_jobs_send_notification_test_email',
+					nonce: awsmJobsAdmin.nonce,
+					email: email
+				},
+				dataType: 'json'
+			})
+				.done(function(response) {
+					var message = response && response.data && response.data.message ? response.data.message : testEmailI18n.error;
+					showTestEmailMsg(message, ! (response && response.success));
+				})
+				.fail(function(xhr) {
+					var response = xhr.responseJSON;
+					var message = response && response.data && response.data.message ? response.data.message : testEmailI18n.error;
+					showTestEmailMsg(message, true);
+				})
+				.always(function() {
+					$testEmailBtn.prop('disabled', false).text(btnText);
+				});
+		});
+	}
+
 });
 
 
