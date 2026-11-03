@@ -1,5 +1,10 @@
 ## Changelog
 
+### V 4.2.1 – 2026-11-03
+* Security: Restricted access to resume attachments so that only users who can manage the application can view them through the REST API (media endpoint) and oEmbed.
+* Security: Fixed the "Secure uploaded files" setting not being applied when it was saved for the first time.
+* Fixed: An invalid or expired security token on the application form left the submit button disabled with no error message.
+
 ### V 4.2.0 – 2026-10-26
 * Added: Plural Label and Field Type (Tag Input, Single Select, Multi Select) options for Job Specifications.
 * Improved: Job listing Expiry column now shows the expiry time along with the date.
