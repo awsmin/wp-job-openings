@@ -2977,3 +2977,43 @@ input.awsm-button:disabled {
 }
 
 
+
+/* Notification Customizer: Test Email */
+.awsm-settings-col-right.awsm-jobs-test-email-active .awsm-jobs-test-email-aside + .awsm-settings-aside {
+	margin-top: 15px;
+}
+
+.awsm-jobs-test-email-aside .awsm-jobs-test-email-desc {
+	margin: -8px 0 15px;
+}
+
+.awsm-jobs-test-email-fields {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.awsm-jobs-test-email-fields .awsm-form-control {
+	flex: 1 1 160px;
+	min-width: 0;
+}
+
+.awsm-jobs-test-email-fields .button {
+	flex: 0 0 auto;
+}
+
+.awsm-jobs-test-email-message {
+	margin: 10px 0 0;
+}
+
+.awsm-jobs-test-email-message:empty {
+	display: none;
+}
+
+.awsm-jobs-test-email-message.awsm-jobs-test-email-error {
+	color: #d63638;
+}
+
+.awsm-jobs-test-email-message.awsm-jobs-test-email-success {
+	color: #00a32a;
+}

@@ -572,8 +572,78 @@ class AWSM_Job_Openings {
 			$post_id = wp_insert_post( $post );
 			if ( ! empty( $post_id ) ) {
 				update_option( 'awsm_jobs_default_listing_page_id', $post_id );
+
+				if ( self::can_setup_default_elementor_page() ) {
+					self::setup_default_elementor_page( $post_id );
+				}
 			}
 		}
+	}
+
+	/**
+	 * Checks whether the default job listing page can be built with Elementor.
+	 *
+	 * @return bool
+	 */
+	protected static function can_setup_default_elementor_page() {
+		$can_setup = 'elementor' === self::get_active_page_builder() && class_exists( '\Elementor\Plugin' ) && version_compare( ELEMENTOR_VERSION, '3.5.0', '>=' ) && post_type_supports( 'page', 'elementor' );
+
+		/**
+		 * Filters whether the default job listing page should be built with Elementor.
+		 *
+		 * @param bool $can_setup Whether to build the page with Elementor.
+		 */
+		return apply_filters( 'awsm_jobs_setup_default_elementor_page', $can_setup );
+	}
+
+	/**
+	 * Builds the default job listing page with the Elementor "Job Listings" widget.
+	 * The shortcode in post content is kept as a fallback if Elementor is deactivated.
+	 *
+	 * @param int $post_id The page ID.
+	 */
+	protected static function setup_default_elementor_page( $post_id ) {
+		$widget = array(
+			'id'         => substr( md5( uniqid( 'awsm', true ) ), 0, 7 ),
+			'elType'     => 'widget',
+			'widgetType' => 'awsm-job-listings',
+			'settings'   => new stdClass(),
+			'elements'   => array(),
+		);
+
+		$experiments = isset( \Elementor\Plugin::$instance->experiments ) ? \Elementor\Plugin::$instance->experiments : null;
+		if ( $experiments && $experiments->is_feature_active( 'container' ) ) {
+			$elements = array(
+				array(
+					'id'       => substr( md5( uniqid( 'awsm', true ) ), 0, 7 ),
+					'elType'   => 'container',
+					'settings' => new stdClass(),
+					'elements' => array( $widget ),
+				),
+			);
+		} else {
+			// Legacy Section > Column structure.
+			$elements = array(
+				array(
+					'id'       => substr( md5( uniqid( 'awsm', true ) ), 0, 7 ),
+					'elType'   => 'section',
+					'settings' => new stdClass(),
+					'elements' => array(
+						array(
+							'id'       => substr( md5( uniqid( 'awsm', true ) ), 0, 7 ),
+							'elType'   => 'column',
+							'settings' => array( '_column_size' => 100 ),
+							'elements' => array( $widget ),
+						),
+					),
+				),
+			);
+		}
+
+		update_post_meta( $post_id, '_elementor_data', wp_slash( wp_json_encode( $elements ) ) );
+		update_post_meta( $post_id, '_elementor_edit_mode', 'builder' );
+		update_post_meta( $post_id, '_elementor_template_type', 'wp-page' );
+		update_post_meta( $post_id, '_elementor_version', ELEMENTOR_VERSION );
 	}
 
 	public static function add_shortcode_to_page( $page_id ) {
@@ -1741,6 +1811,12 @@ class AWSM_Job_Openings {
 						'required_time'     => esc_html__( 'Please enter the expiry time.', 'wp-job-openings' ),
 						'invalid'           => esc_html__( 'Please enter a valid expiry date and time.', 'wp-job-openings' ),
 						'past'              => esc_html__( 'The expiry date and time must be in the future.', 'wp-job-openings' ),
+					),
+					'test_email'      => array(
+						'empty'   => esc_html__( 'Please enter an email address.', 'wp-job-openings' ),
+						'invalid' => esc_html__( 'Please enter a valid email address.', 'wp-job-openings' ),
+						'sending' => esc_html__( 'Sending...', 'wp-job-openings' ),
+						'error'   => esc_html__( 'The test email could not be sent. Please try again.', 'wp-job-openings' ),
 					),
 				),
 				'jobs_timezone_offset'      => self::get_jobs_timezone_offset(),
