@@ -107,6 +107,47 @@
 	display: none !important;
 }
 
+/*--------Locked (Pro) settings option----------*/
+.awsm-jobs-pro-locked-option {
+	color: #a7aaad;
+	cursor: default;
+}
+
+.awsm-jobs-pro-locked {
+	position: relative;
+	display: inline-block;
+}
+
+.awsm-jobs-pro-ft {
+	opacity: 0;
+	visibility: hidden;
+	transition: all 0.3s ease;
+	position: absolute;
+	left: 100%;
+	top: 50%;
+	transform: translateY(-50%);
+	margin-left: 8px;
+	padding: 4px 8px;
+	border-radius: 4px;
+	background: #161616;
+	color: #6CFAE4;
+	font-size: 11px;
+	line-height: 1;
+	text-decoration: none;
+	white-space: nowrap;
+}
+
+.awsm-jobs-pro-locked:hover .awsm-jobs-pro-ft,
+.awsm-jobs-pro-locked:focus-within .awsm-jobs-pro-ft {
+	opacity: 1;
+	visibility: visible;
+}
+
+.awsm-jobs-pro-ft:hover,
+.awsm-jobs-pro-ft:focus {
+	color: #6CFAE4;
+}
+
 /*--------Locked (Pro) subtab hover tooltip----------*/
 .awsm-nav-subtab-container .subsubsub li.pro-feature {
 	position: relative;
