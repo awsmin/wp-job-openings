@@ -3,24 +3,40 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+	$schema_fields = array(
+		array(
+			'name'          => 'awsm_jobs_enable_job_schema',
+			'label'         => __( 'Schema', 'wp-job-openings' ),
+			'type'          => 'checkbox',
+			'default_value' => 'enable',
+			'choices'       => array(
+				array(
+					'value' => 'enable',
+					'text'  => __( 'Enable JobPosting schema', 'wp-job-openings' ),
+				),
+			),
+			'description'   => __( 'Add JobPosting structured data to job pages.', 'wp-job-openings' ),
+		),
+	);
+
+	// Pro Pack adds the working option via the filter below; show a locked placeholder when it's not active.
+	if ( ! awsm_jobs_is_pro_active() ) {
+		$schema_fields[] = array(
+			'id'    => 'awsm-jobs-advanced-schema-pro',
+			'type'  => 'raw',
+			'value' => sprintf(
+				'<span class="awsm-jobs-pro-locked"><label class="awsm-jobs-pro-locked-option"><input type="checkbox" disabled="disabled" />%1$s</label><a class="awsm-jobs-pro-ft" href="%2$s" target="_blank">%3$s</a></span>',
+				esc_html__( 'Enable advanced schema management', 'wp-job-openings' ),
+				esc_url( AWSM_JOBS_SITE_URL . '/pro-pack/' ),
+				esc_html__( 'Pro Feature', 'wp-job-openings' )
+			),
+		);
+	}
+
 	$settings_fields = apply_filters(
 		'awsm_jobs_job_schema_settings_fields',
 		array(
-			'default' => array(
-				array(
-					'name'          => 'awsm_jobs_enable_job_schema',
-					'label'         => __( 'Schema', 'wp-job-openings' ),
-					'type'          => 'checkbox',
-					'default_value' => 'enable',
-					'choices'       => array(
-						array(
-							'value' => 'enable',
-							'text'  => __( 'Enable JobPosting schema', 'wp-job-openings' ),
-						),
-					),
-					'description'   => __( 'Add JobPosting structured data to job pages.', 'wp-job-openings' ),
-				),
-			),
+			'default' => $schema_fields,
 		)
 	);
 	?>
