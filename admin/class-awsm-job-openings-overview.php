@@ -166,7 +166,6 @@ class AWSM_Job_Openings_Overview {
 		$widget_id = 'your-listings';
 		$jobs      = self::get_jobs_by_author();
 		include $this->get_widget_path( 'job-listings', self::$menu_slug . '-' . $widget_id );
-		self::get_applications_analytics_data();
 	}
 
 	public static function get_jobs( $args ) {
@@ -314,6 +313,8 @@ class AWSM_Job_Openings_Overview {
 	}
 
 	public static function get_applications_analytics_data( $date_query = array(), $key_format = 'n', $label_format = 'M' ) {
+		static $cached_data = array();
+
 		$analytics_data = array();
 		if ( ! current_user_can( 'edit_applications' ) ) {
 			return $analytics_data;
@@ -326,6 +327,12 @@ class AWSM_Job_Openings_Overview {
 				),
 			);
 		}
+
+		$cache_key = md5( wp_json_encode( array( get_current_user_id(), $date_query, $key_format, $label_format ) ) );
+		if ( isset( $cached_data[ $cache_key ] ) ) {
+			return $cached_data[ $cache_key ];
+		}
+
 		$args         = array(
 			'orderby'    => 'date',
 			'order'      => 'ASC',
@@ -333,10 +340,26 @@ class AWSM_Job_Openings_Overview {
 		);
 		$applications = AWSM_Job_Openings::get_all_applications( 'ids', $args );
 		if ( ! empty( $applications ) ) {
-			$data = array();
-			foreach ( $applications as $application_id ) {
-				$key                   = get_post_time( $key_format, false, $application_id );
-				$label                 = get_post_time( $label_format, false, $application_id, true );
+			global $wpdb;
+
+			// Fetch only the post dates in bulk. Calling get_post_time() per application loads each post individually, resulting in one query per application.
+			$post_dates = array();
+			foreach ( array_chunk( array_map( 'absint', $applications ), 1000 ) as $ids_chunk ) {
+				$placeholders = implode( ',', array_fill( 0, count( $ids_chunk ), '%d' ) );
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
+				$dates_chunk = $wpdb->get_col( $wpdb->prepare( "SELECT post_date FROM {$wpdb->posts} WHERE ID IN ($placeholders) ORDER BY post_date ASC", $ids_chunk ) );
+				$post_dates  = array_merge( $post_dates, $dates_chunk );
+			}
+
+			$timezone = wp_timezone();
+			$data     = array();
+			foreach ( $post_dates as $post_date ) {
+				$datetime = date_create_immutable_from_format( 'Y-m-d H:i:s', $post_date, $timezone );
+				if ( false === $datetime ) {
+					continue;
+				}
+				$key                   = $datetime->format( $key_format );
+				$label                 = wp_date( $label_format, $datetime->getTimestamp(), $timezone );
 				$data[ $key ]['label'] = esc_html( $label );
 				$count                 = 1;
 				if ( isset( $data[ $key ]['count'] ) ) {
@@ -348,6 +371,7 @@ class AWSM_Job_Openings_Overview {
 			$analytics_data['labels'] = array_values( wp_list_pluck( $data, 'label' ) );
 			$analytics_data['data']   = array_values( wp_list_pluck( $data, 'count' ) );
 		}
+		$cached_data[ $cache_key ] = $analytics_data;
 		return $analytics_data;
 	}
 }

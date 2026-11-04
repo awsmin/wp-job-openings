@@ -1701,6 +1701,20 @@ class AWSM_Job_Openings {
 			if ( $screen->id === AWSM_Job_Openings_Overview::$screen_id ) {
 				wp_enqueue_style( 'awsm-job-admin-overview' );
 				wp_enqueue_script( 'awsm-job-admin-overview' );
+
+				// Analytics data is only needed on the overview screen, so avoid computing it on every admin request.
+				wp_localize_script(
+					'awsm-job-admin-overview',
+					'awsmJobsAdminOverview',
+					array(
+						'screen_id'      => AWSM_Job_Openings_Overview::$screen_id,
+						'analytics_data' => AWSM_Job_Openings_Overview::get_applications_analytics_data(),
+						'default_option' => get_option( 'awsm_jobs_analytics_data', 'year' ),
+						'i18n'           => array(
+							'chart_label' => esc_html__( 'Applications', 'wp-job-openings' ),
+						),
+					)
+				);
 			}
 		}
 
@@ -1736,18 +1750,6 @@ class AWSM_Job_Openings {
 				'awsm_filters_block'        => AWSM_Job_Openings_Block::get_block_filter_specifications(),
 				'awsm_featured_image_block' => AWSM_Job_Openings_Block::get_block_featured_image_size(),
 				'awsm_default_spec_keys'    => self::get_default_spec_keys(),
-			)
-		);
-		wp_localize_script(
-			'awsm-job-admin-overview',
-			'awsmJobsAdminOverview',
-			array(
-				'screen_id'      => AWSM_Job_Openings_Overview::$screen_id,
-				'analytics_data' => AWSM_Job_Openings_Overview::get_applications_analytics_data(),
-				'default_option' => get_option( 'awsm_jobs_analytics_data', 'year' ),
-				'i18n'           => array(
-					'chart_label' => esc_html__( 'Applications', 'wp-job-openings' ),
-				),
 			)
 		);
 	}
