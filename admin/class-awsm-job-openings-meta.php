@@ -66,7 +66,7 @@ class AWSM_Job_Openings_Meta {
 			// AWSM_Job_Openings::enqueue_job_status_panel()) instead of this classic
 			// metabox; keep the classic version only for the Classic Editor fallback.
 			if ( $is_classic_editor_context ) {
-				add_meta_box( 'awsm-status-meta', esc_html__( 'Job Status', 'wp-job-openings' ), array( $this, 'awsm_job_status' ), 'awsm_job_openings', 'side', 'high' );
+				add_meta_box( 'awsm-status-meta', esc_html__( 'Job Overview', 'wp-job-openings' ), array( $this, 'awsm_job_status' ), 'awsm_job_openings', 'side', 'high' );
 			}
 			add_meta_box( 'awsm-status-meta-applicant', esc_html__( 'Job Details', 'wp-job-openings' ), array( $this, 'awsm_job_status' ), 'awsm_job_application', 'side', 'low' );
 		}
@@ -79,7 +79,7 @@ class AWSM_Job_Openings_Meta {
 		// The block editor gets a native Gutenberg panel (see AWSM_Job_Openings::enqueue_job_expiry_panel())
 		// instead of this classic metabox; keep the classic version only for the Classic Editor fallback.
 		if ( $is_classic_editor_context ) {
-			add_meta_box( 'awsm-expiry-meta', esc_html__( 'Job Expiry', 'wp-job-openings' ), array( $this, 'awsm_job_expiration' ), 'awsm_job_openings', 'side', 'low' );
+			add_meta_box( 'awsm-expiry-meta', esc_html__( 'Expiry Rules', 'wp-job-openings' ), array( $this, 'awsm_job_expiration' ), 'awsm_job_openings', 'side', 'low' );
 		}
 
 		add_meta_box( 'awsm-job-details-meta', esc_html__( 'Applicant Details', 'wp-job-openings' ), array( $this, 'awsm_job_application_handle' ), 'awsm_job_application', 'normal', 'high' );
@@ -466,14 +466,14 @@ class AWSM_Job_Openings_Meta {
 			<div class="inline-edit-col">
 				<label>
 					<input type="checkbox" name="awsm_set_exp_list" id="awsm-job-expiry-edit" value="set_listing">
-					<?php esc_html_e( 'Set expiry for listing', 'wp-job-openings' ); ?>
+					<?php esc_html_e( 'Set expiry date', 'wp-job-openings' ); ?>
 				</label>
 
 				<div id="awsm-job-expiry-fields" style="display: none; margin-top: 10px;">
 					<?php self::quick_edit_expiry_date_fields(); ?>
 					<label>
 						<input type="checkbox" name="awsm_exp_list_display" id="awsm-job-expiry-display" value="list_display">
-						<?php esc_html_e( 'Display expiry date', 'wp-job-openings' ); ?>
+						<?php esc_html_e( 'Show expiry date', 'wp-job-openings' ); ?>
 					</label>
 				</div>
 			</div>

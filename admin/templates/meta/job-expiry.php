@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			do_action( 'before_awsm_job_expiry_mb_content', $post->ID );
 		?>
 		<label class="awsm-toggle-row" for="awsm-job-expiry">
-			<span class="awsm-toggle-row-label"><?php esc_html_e( 'Set expiry for listing', 'wp-job-openings' ); ?></span>
+			<span class="awsm-toggle-row-label"><?php esc_html_e( 'Set expiry date', 'wp-job-openings' ); ?></span>
 			<span class="awsm-toggle-switch">
 				<input type="checkbox" name="awsm_set_exp_list" class="awsm-check-control-field" id="awsm-job-expiry" value="set_listing"<?php echo ( $expiry_on_list === 'set_listing' ) ? ' checked' : ''; ?> data-req-target="#awsm-jobs-datepicker" />
 				<span class="awsm-ts-inner"></span>
@@ -43,7 +43,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</p>
 			<p>
 				<label class="awsm-toggle-row" for="awsm-job-expiry-display">
-					<span class="awsm-toggle-row-label"><?php esc_html_e( 'Display expiry date', 'wp-job-openings' ); ?></span>
+					<span class="awsm-toggle-row-label"><?php esc_html_e( 'Show expiry date', 'wp-job-openings' ); ?></span>
 					<span class="awsm-toggle-switch">
 						<input type="checkbox" name="awsm_exp_list_display" id="awsm-job-expiry-display" value="list_display"<?php echo ( $display_list === 'list_display' ) ? ' checked' : ''; ?> />
 						<span class="awsm-ts-inner"></span>
