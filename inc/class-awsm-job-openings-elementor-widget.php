@@ -794,16 +794,105 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 			wp_parse_str( (string) $query, $params );
 
 			if ( ! empty( $params['id'] ) ) {
-				return 'var(--e-global-color-' . sanitize_html_class( $params['id'] ) . ')';
+				$color_id = sanitize_html_class( $params['id'] );
+				$fallback = $this->get_kit_color( $color_id );
+
+				// The literal fallback keeps the color intact in the [plain-content] block
+				// markup Elementor writes to post_content, where --e-global-color-* no
+				// longer exists once Elementor is deactivated.
+				return 'var(--e-global-color-' . $color_id . ( $fallback ? ', ' . $fallback : '' ) . ')';
 			}
 		}
 
 		return isset( $settings[ $key ] ) ? $settings[ $key ] : '';
 	}
 
+	/**
+	 * Looks up the literal hex value of an Elementor Global Color in the active kit.
+	 *
+	 * @param string $color_id Global color ID (e.g. 'primary' or a custom color's _id).
+	 * @return string Sanitized hex color, or an empty string when not found.
+	 */
+	protected function get_kit_color( $color_id ) {
+		if ( ! class_exists( '\Elementor\Plugin' ) || empty( \Elementor\Plugin::$instance->kits_manager ) ) {
+			return '';
+		}
+
+		$kit = \Elementor\Plugin::$instance->kits_manager->get_active_kit_for_frontend();
+		if ( ! $kit ) {
+			return '';
+		}
+
+		foreach ( array( 'system_colors', 'custom_colors' ) as $group ) {
+			$colors = $kit->get_settings_for_display( $group );
+			if ( ! is_array( $colors ) ) {
+				continue;
+			}
+			foreach ( $colors as $color ) {
+				if ( isset( $color['_id'], $color['color'] ) && $color['_id'] === $color_id ) {
+					return (string) sanitize_hex_color( $color['color'] );
+				}
+			}
+		}
+
+		return '';
+	}
+
 	protected function render() {
-		if ( ! class_exists( 'Awsm_Job_Guten_Blocks' ) || ! function_exists( 'awsm_jobs_query' ) ) {
+		$atts = $this->get_block_attributes();
+		if ( null === $atts ) {
 			return;
+		}
+
+		echo Awsm_Job_Guten_Blocks::get_instance()->block_render_callback( $atts, '' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	}
+
+	/**
+	 * Output written to post_content when the page is saved in Elementor.
+	 *
+	 * Elementor stores each widget's plain content in post_content as the fallback
+	 * shown when Elementor is deactivated. The default implementation dumps the fully
+	 * rendered listing HTML, which Elementor then strips of every div, span, script and
+	 * class attribute — leaving a broken, unstyled listing once Elementor is gone.
+	 * Instead, store the equivalent Job Listings block (same attributes, so the widget's
+	 * layout, filters and styling carry over), or the shortcode if blocks are unavailable.
+	 */
+	public function render_plain_content() {
+		$atts = $this->get_block_attributes();
+
+		if ( null === $atts || ! function_exists( 'serialize_block' ) ) {
+			echo '[awsmjobs]';
+			return;
+		}
+
+		// Must match the block's save() output (blocks/src/save.js) so the block editor
+		// validates it if the page is later opened in Gutenberg. Single-quoted on purpose:
+		// Elementor strips every ` class="…"` from plain content, and the editor's
+		// validator treats quote style as equivalent.
+		$inner_html = "<p class='wp-block-wp-job-openings-blocks'></p>";
+
+		$block = array(
+			'blockName'    => 'wp-job-openings/blocks',
+			'attrs'        => $atts,
+			'innerBlocks'  => array(),
+			'innerHTML'    => $inner_html,
+			'innerContent' => array( $inner_html ),
+		);
+
+		// Elementor's save_plain_text() passes this output to wp_update_post() unslashed,
+		// and wp_insert_post() runs wp_unslash() on it — which would strip the JSON escapes
+		// (", -…) and corrupt the attributes. Pre-slash so they survive intact.
+		echo "\n" . wp_slash( serialize_block( $block ) ) . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Block delimiter comment; attributes are JSON-encoded with HTML-significant characters escaped by serialize_block_attributes().
+	}
+
+	/**
+	 * Maps this widget's settings to the Job Listings block attributes.
+	 *
+	 * @return array|null Block attributes, or null when the block renderer is unavailable.
+	 */
+	protected function get_block_attributes() {
+		if ( ! class_exists( 'Awsm_Job_Guten_Blocks' ) || ! function_exists( 'awsm_jobs_query' ) ) {
+			return null;
 		}
 
 		$settings = $this->get_settings_for_display();
@@ -903,8 +992,6 @@ class AWSM_Job_Openings_Elementor_Widget extends Widget_Base {
 		 * @param array      $settings Full Elementor settings array for this widget instance.
 		 * @param Widget_Base $widget  This widget instance.
 		 */
-		$atts = apply_filters( 'awsm_jobs_elementor_widget_attributes', $atts, $settings, $this );
-
-		echo Awsm_Job_Guten_Blocks::get_instance()->block_render_callback( $atts, '' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		return apply_filters( 'awsm_jobs_elementor_widget_attributes', $atts, $settings, $this );
 	}
 }

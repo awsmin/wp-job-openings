@@ -11,6 +11,8 @@ class AWSM_Job_Openings_Elementor {
 		add_action( 'elementor/widgets/register', array( $this, 'register_widget' ) );
 		add_action( 'elementor/editor/after_enqueue_styles', array( $this, 'enqueue_widget_icon_style' ) );
 
+		add_action( 'deactivate_plugin', array( $this, 'refresh_fallback_content' ) );
+
 		if ( ! class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) {
 			add_action( 'elementor/editor/after_enqueue_styles', array( $this, 'enqueue_widget_pro_lock_style' ) );
 			add_action( 'elementor/editor/after_enqueue_scripts', array( $this, 'enqueue_widget_pro_lock_script' ) );
@@ -22,6 +24,57 @@ class AWSM_Job_Openings_Elementor {
 			self::$instance = new self();
 		}
 		return self::$instance;
+	}
+
+	/**
+	 * Rewrites the post_content fallback of every Elementor page using the Job Listings
+	 * widget, right before Elementor is deactivated (its classes are still loaded here).
+	 *
+	 * @param string $plugin Basename of the plugin being deactivated.
+	 *
+	 * Pages saved in Elementor before the widget had render_plain_content() hold stripped,
+	 * unstyled listing HTML in post_content, which is what WordPress displays once Elementor
+	 * is off. Regenerating it stores the equivalent Job Listings block instead.
+	 */
+	public function refresh_fallback_content( $plugin ) {
+		if ( ! defined( 'ELEMENTOR_PLUGIN_BASE' ) || ELEMENTOR_PLUGIN_BASE !== $plugin ) {
+			return;
+		}
+		if ( ! class_exists( '\Elementor\Plugin' ) || empty( \Elementor\Plugin::$instance->db ) ) {
+			return;
+		}
+
+		$post_ids = get_posts(
+			array(
+				'post_type'        => 'any',
+				'post_status'      => array( 'publish', 'private', 'draft', 'pending', 'future' ),
+				'posts_per_page'   => -1,
+				'fields'           => 'ids',
+				'no_found_rows'    => true,
+				'suppress_filters' => true,
+				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- One-off, runs only on Elementor deactivation.
+				'meta_query'       => array(
+					array(
+						'key'   => '_elementor_edit_mode',
+						'value' => 'builder',
+					),
+					array(
+						'key'     => '_elementor_data',
+						'value'   => '"widgetType":"awsm-job-listings"',
+						'compare' => 'LIKE',
+					),
+				),
+			)
+		);
+
+		foreach ( $post_ids as $post_id ) {
+			try {
+				\Elementor\Plugin::$instance->db->save_plain_text( $post_id );
+			} catch ( \Throwable $e ) {
+				// Never block Elementor's deactivation; the page keeps its previous content.
+				continue;
+			}
+		}
 	}
 
 	public function register_category( $elements_manager ) {
