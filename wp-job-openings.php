@@ -2861,19 +2861,49 @@ class AWSM_Job_Openings {
 			'PER_DIEM'   => __( 'Per Diem', 'wp-job-openings' ),
 			'OTHER'      => __( 'Other', 'wp-job-openings' ),
 		);
-		$default_emp_types = array_flip( array_map( 'sanitize_title', $default_emp_types ) );
+		// Job type slug => Google employmentType. English slugs and common synonyms always match,
+		// so a job type keeps working when the site language (and its translated labels) differ.
+		$emp_type_map = array(
+			'full-time'  => 'FULL_TIME',
+			'fulltime'   => 'FULL_TIME',
+			'part-time'  => 'PART_TIME',
+			'parttime'   => 'PART_TIME',
+			'freelance'  => 'CONTRACTOR',
+			'contract'   => 'CONTRACTOR',
+			'contractor' => 'CONTRACTOR',
+			'temporary'  => 'TEMPORARY',
+			'temp'       => 'TEMPORARY',
+			'intern'     => 'INTERN',
+			'internship' => 'INTERN',
+			'volunteer'  => 'VOLUNTEER',
+			'per-diem'   => 'PER_DIEM',
+			'other'      => 'OTHER',
+		);
+		foreach ( $default_emp_types as $emp_value => $emp_label ) {
+			$emp_type_map[ sanitize_title( $emp_label ) ] = $emp_value;
+		}
+		/**
+		 * Filters the job type slug to Google employmentType map used in the JobPosting schema.
+		 *
+		 * @param array $emp_type_map Job type slug => employmentType value.
+		 */
+		$emp_type_map = apply_filters( 'awsm_job_employment_type_map', $emp_type_map );
 		if ( taxonomy_exists( 'job-type' ) ) {
 			$emp_types = get_the_terms( $post->ID, 'job-type' );
-			if ( ! empty( $emp_types ) ) {
-				$data['employmentType'] = array();
+			if ( ! empty( $emp_types ) && ! is_wp_error( $emp_types ) ) {
+				$employment = array();
 				foreach ( $emp_types as $emp_type ) {
-					$slug = $emp_type->slug;
-					if ( array_key_exists( $slug, $default_emp_types ) ) {
-						$data['employmentType'][] = $default_emp_types[ $slug ];
+					foreach ( array( $emp_type->slug, sanitize_title( $emp_type->name ) ) as $slug ) {
+						if ( isset( $emp_type_map[ $slug ] ) ) {
+							$employment[] = $emp_type_map[ $slug ];
+							break;
+						}
 					}
 				}
-				if ( count( $data['employmentType'] ) === 1 ) {
-					$data['employmentType'] = $data['employmentType'][0];
+				$employment = array_values( array_unique( $employment ) );
+				// Omit employmentType when no job type maps to a Google value; an empty array is invalid.
+				if ( ! empty( $employment ) ) {
+					$data['employmentType'] = count( $employment ) === 1 ? $employment[0] : $employment;
 				}
 			}
 		}
@@ -2907,7 +2937,7 @@ class AWSM_Job_Openings {
 			'@context'    => 'http://schema.org/',
 			'@type'       => 'JobPosting',
 			'title'       => wp_strip_all_tags( get_the_title() ),
-			'description' => get_the_content(),
+			'description' => apply_filters( 'the_content', get_the_content() ),
 			'datePosted'  => get_post_time( 'c' ),
 		);
 		$expiry_on_list   = get_post_meta( $post_id, 'awsm_set_exp_list', true );
