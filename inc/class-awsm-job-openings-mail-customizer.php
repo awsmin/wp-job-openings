@@ -635,8 +635,10 @@ class AWSM_Job_Openings_Mail_Customizer {
 			array(
 				'selector'    => '.awsm-jobs-digest .awsm-jobs-digest-stats',
 				'declaration' => array(
-					'width'     => '100%',
-					'max-width' => '504px',
+					'width'           => '100%',
+					'max-width'       => '504px',
+					/* Rounded corners on the stat cells need separated borders; the reset forces collapse on all tables. */
+					'border-collapse' => 'separate !important',
 				),
 			),
 			array(
@@ -650,12 +652,24 @@ class AWSM_Job_Openings_Mail_Customizer {
 			array(
 				'selector'    => '.awsm-jobs-digest .awsm-jobs-digest-stat-box',
 				'declaration' => array(
+					'width'            => '31%',
 					'padding'          => '30px 8px',
 					'background-color' => $settings['base_color'],
 					'border-radius'    => '6px',
 					'text-align'       => 'center',
+					'vertical-align'   => 'middle',
 				),
 			),
+			array(
+				'selector'    => '.awsm-jobs-digest .awsm-jobs-digest-stat-spacer',
+				'declaration' => array(
+					'width'       => '14px',
+					'min-width'   => '14px',
+					'padding'     => '0',
+					'font-size'   => '1px',
+					'line-height' => '1px',
+				),
+ 			),
 			array(
 				'selector'    => '.awsm-jobs-digest .awsm-jobs-digest-stat-count',
 				'declaration' => array(
@@ -766,6 +780,13 @@ class AWSM_Job_Openings_Mail_Customizer {
 						'selector'    => '.awsm-jobs-digest .awsm-jobs-digest-stat',
 						'declaration' => array(
 							'padding' => '0 4px',
+						),
+					),
+					array(
+						'selector'    => '.awsm-jobs-digest .awsm-jobs-digest-stat-spacer',
+						'declaration' => array(
+							'width'     => '8px',
+							'min-width' => '8px',
 						),
 					),
 					array(

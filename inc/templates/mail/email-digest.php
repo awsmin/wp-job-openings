@@ -5,7 +5,7 @@
  * Override this by copying it to currenttheme/wp-job-openings/mail/email-digest.php
  *
  * @package wp-job-openings
- * @version 4.1.0
+ * @version 4.1.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -47,12 +47,13 @@ $digest_stats  = array(
 		<td class="awsm-jobs-digest-stats-wrap">
 			<table role="presentation" cellspacing="0" cellpadding="0" border="0" class="awsm-jobs-digest-stats">
 				<tr>
-					<?php foreach ( $digest_stats as $digest_stat ) : ?>
-						<td class="awsm-jobs-digest-stat">
-							<div class="awsm-jobs-digest-stat-box">
-								<span class="awsm-jobs-digest-stat-count"><?php echo esc_html( $digest_stat['count'] ); ?></span>
-								<span class="awsm-jobs-digest-stat-label"><?php echo esc_html( $digest_stat['label'] ); ?></span>
-							</div>
+					<?php foreach ( $digest_stats as $digest_stat_index => $digest_stat ) : ?>
+						<?php if ( $digest_stat_index > 0 ) : ?>
+							<td class="awsm-jobs-digest-stat-spacer">&nbsp;</td>
+						<?php endif; ?>
+						<td class="awsm-jobs-digest-stat-box">
+							<span class="awsm-jobs-digest-stat-count"><?php echo esc_html( $digest_stat['count'] ); ?></span>
+							<span class="awsm-jobs-digest-stat-label"><?php echo esc_html( $digest_stat['label'] ); ?></span>
 						</td>
 					<?php endforeach; ?>
 				</tr>
