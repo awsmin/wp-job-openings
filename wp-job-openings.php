@@ -92,6 +92,7 @@ class AWSM_Job_Openings {
 		add_action( 'plugins_loaded', array( $this, 'upgrade' ) );
 		add_action( 'after_setup_theme', array( $this, 'template_functions' ) );
 		add_action( 'init', array( $this, 'init_actions' ) );
+		add_action( 'init', array( $this, 'register_react_jsx_runtime' ) );
 		add_action( 'wp_head', array( $this, 'awsm_wp_head' ) );
 		add_action( 'awsm_check_for_expired_jobs', array( $this, 'check_date_and_change_status' ) );
 		add_action( 'awsm_jobs_email_digest', array( $this, 'send_email_digest' ) );
@@ -356,6 +357,33 @@ class AWSM_Job_Openings {
 		$this->awsm_jobs_taxonomies();
 		$this->awsm_custom_expired_status();
 		$this->register_job_expiry_meta();
+	}
+
+	/**
+	 * Register the `react-jsx-runtime` script on WordPress versions that
+	 * don't provide it (core added it in 6.6).
+	 *
+	 * The @wordpress/scripts builds in blocks/build (and Pro Pack's) list
+	 * `react-jsx-runtime` as a dependency. When a dependency isn't
+	 * registered, WordPress silently drops the dependent script, so on
+	 * WP 6.0-6.5 the Job Overview / Expiry Rules panels, Pro Pack's panels
+	 * chained on them, and the Job Openings block never load. The bundled
+	 * file is core's own copy (React 18.3.1, wp-includes/js/dist/vendor);
+	 * it only wraps the window.React that WP already loads.
+	 *
+	 * @since 4.2.2
+	 */
+	public function register_react_jsx_runtime() {
+		if ( wp_script_is( 'react-jsx-runtime', 'registered' ) ) {
+			return;
+		}
+		wp_register_script(
+			'react-jsx-runtime',
+			AWSM_JOBS_PLUGIN_URL . '/assets/js/vendor/react-jsx-runtime.min.js',
+			array( 'react' ),
+			'18.3.1',
+			true
+		);
 	}
 
 	/**
