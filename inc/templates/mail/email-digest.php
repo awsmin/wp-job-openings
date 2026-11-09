@@ -18,7 +18,7 @@ $overview_data = AWSM_Job_Openings::get_overview_data();
 $digest_stats  = array(
 	array(
 		'count' => $overview_data['active_jobs'],
-		'label' => __( 'Active Jobs', 'wp-job-openings' ),
+		'label' => __( 'Open Positions', 'wp-job-openings' ),
 	),
 	array(
 		'count' => isset( $overview_data['unread_applications'] ) ? $overview_data['unread_applications'] : 0,
