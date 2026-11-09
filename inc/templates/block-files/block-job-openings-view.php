@@ -137,11 +137,7 @@ $button_style_filter = function ( $class ) use ( $button_style ) {
 };
 add_filter( 'awsm_b_job_more_button_class', $button_style_filter );
 
-$button_text = ! empty( $styles['button_text'] ) ? $styles['button_text'] : '';
-// The block.json default is an untranslated English literal; fall back to the translatable default instead.
-if ( 'More Details →' === $button_text ) {
-	$button_text = '';
-}
+$button_text        = ! empty( $styles['button_text'] ) ? $styles['button_text'] : '';
 $button_text_filter = null;
 if ( $button_text ) {
 	$button_text_filter = function () use ( $button_text ) {
