@@ -2942,7 +2942,7 @@ class AWSM_Job_Openings {
 		);
 		$expiry_on_list   = get_post_meta( $post_id, 'awsm_set_exp_list', true );
 		$expiration_date  = get_post_meta( $post_id, 'awsm_job_expiry', true );
-		$expiration_stamp = ! empty( $expiration_date ) ? strtotime( $expiration_date ) : false;
+		$expiration_stamp = ! empty( $expiration_date ) ? self::get_job_expiry_timestamp( $expiration_date ) : false;
 		if ( $expiry_on_list === 'set_listing' && false !== $expiration_stamp ) {
 			$data['validThrough'] = gmdate( 'c', $expiration_stamp );
 		}
