@@ -947,7 +947,7 @@ class AWSM_Job_Openings_Form {
 						ob_start();
 						include AWSM_Job_Openings::get_template_path( 'header.php', 'mail' );
 						$header_template  = ob_get_clean();
-						$header_template .= '<div style="padding: 0 15px; font-size: 16px; max-width: 512px; margin: 0 auto;">';
+						$header_template .= '<div style="padding: 0 15px; font-size: 16px; max-width: 512px; margin: 0 auto; overflow-wrap: anywhere; word-break: break-word;">';
 
 						// Footer mail template.
 						ob_start();
