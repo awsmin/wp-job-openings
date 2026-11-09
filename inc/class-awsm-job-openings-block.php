@@ -333,7 +333,11 @@ class AWSM_Job_Openings_Block {
 		};
 		add_filter( 'awsm_b_job_more_button_class', $ajax_button_style_filter );
 
-		$ajax_button_text        = ! empty( $attributes['hz_button_text'] ) ? $attributes['hz_button_text'] : '';
+		$ajax_button_text = ! empty( $attributes['hz_button_text'] ) ? $attributes['hz_button_text'] : '';
+		// The block.json default is an untranslated English literal; fall back to the translatable default instead.
+		if ( 'More Details →' === $ajax_button_text ) {
+			$ajax_button_text = '';
+		}
 		$ajax_button_text_filter = null;
 		if ( $ajax_button_text ) {
 			$ajax_button_text_filter = function () use ( $ajax_button_text ) {
