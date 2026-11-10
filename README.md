@@ -5,7 +5,7 @@
 **Requires at least:** 6.0  
 **Tested up to:** 7.1.3
 **Requires PHP:** 5.6  
-**Stable tag:** 4.2.0
+**Stable tag:** 4.2.2
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
 **Donate link:** https://www.buymeacoffee.com/awsm
@@ -108,6 +108,15 @@ Yes. You can view, filter, and manage applications from your dashboard.
 <img src="https://ps.w.org/wp-job-openings/assets/screenshot-5.png?rev=2639067" width="90%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-2.png?rev=2639067" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-3.png?rev=2639067" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-4.png?rev=2639067" width="30%"></img> <img src="https://ps.w.org/wp-job-openings/assets/screenshot-1.png?rev=2639067" width="90%"></img>
 
 ## Changelog
+
+**V 4.2.2 – 2026-11-10**
+* Security: Fixed mail template tags (such as {hr-email}) entered in application form fields being expanded in notification emails and the daily email digest. Thanks to Nathan Cross (CyberBadger) for reporting.
+* Security: Fixed resume attachments becoming viewable through the REST API after an application was deleted outside the admin dashboard (for example, by WP-Cron when emptying the trash, WP-CLI, or another plugin). Thanks to Nathan Cross (CyberBadger) for reporting.
+
+**V 4.2.1 – 2026-11-03**
+* Security: Restricted access to resume attachments so that only users who can manage the application can view them through the REST API (media endpoint) and oEmbed.
+* Security: Fixed the “Secure uploaded files” setting not being applied when it was saved for the first time.
+* Fixed: An invalid or expired security token on the application form left the submit button disabled with no error message.
 
 **V 4.2.0 – 2026-10-26**
 * Added: Plural Label and Field Type (Tag Input, Single Select, Multi Select) options for Job Specifications.
