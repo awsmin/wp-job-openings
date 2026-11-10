@@ -859,7 +859,7 @@ class AWSM_Job_Openings_Form {
 				}
 				$default_from_email = AWSM_Job_Openings_Settings::awsm_from_email();
 
-				$tags             = $this->get_mail_template_tags(
+				$tags       = $this->get_mail_template_tags(
 					$applicant_details,
 					array(
 						'admin_email'        => $admin_email,
@@ -868,16 +868,19 @@ class AWSM_Job_Openings_Form {
 						'default_from_email' => $default_from_email,
 					)
 				);
-				$tag_names        = array_keys( $tags );
-				$tag_values       = array_values( $tags );
-				$email_tag_names  = array( '{admin-email}', '{hr-email}', '{applicant-email}', '{author-email}', '{default-from-email}' );
-				$email_tag_values = array( $admin_email, $hr_mail, $applicant_email, $author_email, $default_from_email );
+				$email_tags = array(
+					'{admin-email}'        => $admin_email,
+					'{hr-email}'           => $hr_mail,
+					'{applicant-email}'    => $applicant_email,
+					'{author-email}'       => $author_email,
+					'{default-from-email}' => $default_from_email,
+				);
 
 				if ( ! empty( $options['subject'] ) && ! empty( $options['content'] ) ) {
-					$subject    = str_replace( $tag_names, array_values( self::get_mail_subject_tags( $tags ) ), $options['subject'] );
-					$from_email = str_replace( $tag_names, $tag_values, $options['from'] );
-					$reply_to   = str_replace( $email_tag_names, $email_tag_values, $options['reply_to'] );
-					$cc         = str_replace( $email_tag_names, $email_tag_values, $options['cc'] );
+					$subject    = AWSM_Job_Openings::replace_mail_tags( $options['subject'], self::get_mail_subject_tags( $tags ) );
+					$from_email = AWSM_Job_Openings::replace_mail_tags( $options['from'], $tags );
+					$reply_to   = AWSM_Job_Openings::replace_mail_tags( $options['reply_to'], $email_tags );
+					$cc         = AWSM_Job_Openings::replace_mail_tags( $options['cc'], $email_tags );
 
 					/**
 					 * Filters the applicant or admin notification mail headers.
@@ -983,13 +986,12 @@ class AWSM_Job_Openings_Form {
 						$mail_content   = str_replace( '{mail-content}', $mail_content, $basic_template );
 					}
 
-					$tag_names[]  = '{mail-subject}';
-					$tag_values[] = $subject;
-					$mail_content = str_replace( $tag_names, $tag_values, $mail_content );
+					$tags['{mail-subject}'] = $subject;
+					$mail_content           = AWSM_Job_Openings::replace_mail_tags( $mail_content, $tags );
 
 					$to = $applicant_email;
 					if ( $type !== 'applicant' ) {
-						$to = str_replace( $email_tag_names, $email_tag_values, $options['to'] );
+						$to = AWSM_Job_Openings::replace_mail_tags( $options['to'], $email_tags );
 					}
 					AWSM_Job_Openings::log(
 						array(
@@ -1016,7 +1018,7 @@ class AWSM_Job_Openings_Form {
 									'mail_date'    => $current_time,
 									'cc'           => $cc,
 									'subject'      => $subject,
-									'mail_content' => str_replace( $tag_names, $tag_values, nl2br( $options['content'] ) ),
+									'mail_content' => AWSM_Job_Openings::replace_mail_tags( nl2br( $options['content'] ), $tags ),
 								),
 							);
 							update_post_meta( $applicant_details['application_id'], 'awsm_application_mails', $mails_data );
