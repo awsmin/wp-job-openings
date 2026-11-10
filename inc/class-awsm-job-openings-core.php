@@ -16,6 +16,10 @@ class AWSM_Job_Openings_Core {
 			add_filter( 'ajax_query_attachments_args', array( $this, 'grid_attachments' ), 100 );
 		}
 
+		// Restrict read access to application attachments (resumes).
+		add_filter( 'map_meta_cap', array( $this, 'application_attachment_meta_cap' ), 10, 4 );
+		add_filter( 'oembed_response_data', array( $this, 'application_attachment_oembed_data' ), 10, 2 );
+
 		add_filter( 'post_updated_messages', array( $this, 'job_updated_messages' ) );
 		add_filter( 'bulk_post_updated_messages', array( $this, 'jobs_bulk_updated_messages' ), 10, 2 );
 		// Login redirect for HR user.
@@ -357,6 +361,40 @@ class AWSM_Job_Openings_Core {
 			$query['meta_query'] = self::get_attachments_meta_query( $meta_query );
 		}
 		return $query;
+	}
+
+	public static function is_application_attachment( $attachment_id ) {
+		if ( get_post_type( $attachment_id ) !== 'attachment' ) {
+			return false;
+		}
+		if ( get_post_type( wp_get_post_parent_id( $attachment_id ) ) === 'awsm_job_application' ) {
+			return true;
+		}
+		// Orphaned resume files are still identified by the upload directory.
+		$file = get_post_meta( $attachment_id, '_wp_attached_file', true );
+		return is_string( $file ) && strpos( $file, AWSM_JOBS_UPLOAD_DIR_NAME . '/' ) === 0;
+	}
+
+	/**
+	 * Attachments inherit the 'publish' status of their parent application, which lets any user with
+	 * the 'read' capability read resumes. Require the application edit capability instead.
+	 */
+	public function application_attachment_meta_cap( $caps, $cap, $user_id, $args ) {
+		if ( $cap !== 'read_post' || empty( $args[0] ) || ! self::is_application_attachment( $args[0] ) ) {
+			return $caps;
+		}
+		$application_id = wp_get_post_parent_id( $args[0] );
+		if ( $application_id && get_post_type( $application_id ) === 'awsm_job_application' ) {
+			return map_meta_cap( 'edit_post', $user_id, $application_id );
+		}
+		return array( 'edit_others_applications' );
+	}
+
+	public function application_attachment_oembed_data( $data, $post ) {
+		if ( self::is_application_attachment( $post->ID ) && ! current_user_can( 'read_post', $post->ID ) ) {
+			return false;
+		}
+		return $data;
 	}
 
 	public function job_updated_messages( $messages ) {

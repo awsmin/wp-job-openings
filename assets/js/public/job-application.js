@@ -81,18 +81,20 @@ jQuery(document).ready(function($) {
 				var className = 'awsm-default-message';
 				var msg = '';
 				var msgArray = [];
-				if (response.error.length > 0) {
+				if (Array.isArray(response.error) && response.error.length > 0) {
 					className = errorClass;
 					msgArray = response.error;
 					$form.trigger('awsmjobs_application_failed', [ response ]);
-				} else {
-					if (response.success.length > 0) {
-						$form[0].reset();
-						$form.find('select.awsm-job-form-field').selectric('refresh');
-						className = successClass;
-						msgArray = response.success;
-						$form.trigger('awsmjobs_application_submitted', [ response ]);
-					}
+				} else if (Array.isArray(response.success) && response.success.length > 0) {
+					$form[0].reset();
+					$form.find('select.awsm-job-form-field').selectric('refresh');
+					className = successClass;
+					msgArray = response.success;
+					$form.trigger('awsmjobs_application_submitted', [ response ]);
+				} else if (response.success === false) {
+					className = errorClass;
+					msgArray = [ (response.data && response.data.message) ? response.data.message : awsmJobsPublic.i18n.form_error_msg.general ];
+					$form.trigger('awsmjobs_application_failed', [ response ]);
 				}
 				$(msgArray).each(function(index, value) {
 					msg += '<p>' + value + '</p>';
