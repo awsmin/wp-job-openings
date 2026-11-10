@@ -669,7 +669,7 @@ class AWSM_Job_Openings_Mail_Customizer {
 					'font-size'   => '1px',
 					'line-height' => '1px',
 				),
- 			),
+			),
 			array(
 				'selector'    => '.awsm-jobs-digest .awsm-jobs-digest-stat-count',
 				'declaration' => array(
