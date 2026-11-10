@@ -325,7 +325,7 @@ class AWSM_Job_Openings_Meta {
 		$attachment_file = get_attached_file( $attachment_id );
 		if ( ! empty( $attachment_file ) ) {
 			$file_type    = wp_check_filetype( $attachment_file );
-			$file_size    = filesize( $attachment_file );
+			$file_size    = AWSM_Job_Openings_File_Protection::get_file_size( $attachment_file );
 			$display_size = size_format( $file_size );
 			$details      = array(
 				'file_name' => $attachment_file,
@@ -382,7 +382,8 @@ class AWSM_Job_Openings_Meta {
 				}
 
 				if ( is_readable( $file_details['file_name'] ) ) {
-					readfile( $file_details['file_name'] );
+					// Decrypts the file when it is stored encrypted (secure uploads).
+					AWSM_Job_Openings_File_Protection::output_file( $file_details['file_name'] );
 				} else {
 					wp_die( esc_html__( 'File is not readable.', 'wp-job-openings' ) );
 				}

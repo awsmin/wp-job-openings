@@ -82,6 +82,7 @@ class AWSM_Job_Openings {
 		$this->awsm_form = AWSM_Job_Openings_Form::init();
 		AWSM_Job_Openings_Mail_Customizer::init();
 		AWSM_Job_Openings_Filters::init();
+		AWSM_Job_Openings_File_Protection::init();
 		if ( is_admin() ) {
 			AWSM_Job_Openings_Overview::init();
 			AWSM_Job_Openings_Meta::init();
@@ -132,7 +133,7 @@ class AWSM_Job_Openings {
 
 	public static function load_classes() {
 		$prefix  = 'class-awsm-job-openings';
-		$classes = array( 'core', 'ui-builder', 'filters', 'mail-customizer', 'form', 'third-party', 'block', 'elementor' );
+		$classes = array( 'core', 'ui-builder', 'filters', 'mail-customizer', 'form', 'file-protection', 'third-party', 'block', 'elementor' );
 		foreach ( $classes as $class ) {
 			require_once AWSM_JOBS_PLUGIN_DIR . "/inc/{$prefix}-{$class}.php";
 		}

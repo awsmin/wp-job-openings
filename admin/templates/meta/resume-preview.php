@@ -12,7 +12,7 @@ do_action( 'awsm_resume_preview_mb_init', $post->ID );
 <div class="awsm-resume-preview">
 	<?php
 		$awsm_attachment_id    = get_post_meta( $post->ID, 'awsm_attachment_id', true );
-		$secure_upload_enabled = get_option( 'awsm_hide_uploaded_files' ) === 'hide_files';
+		$secure_upload_enabled = get_option( 'awsm_hide_uploaded_files' ) === 'hide_files' || ( ! empty( $awsm_attachment_id ) && AWSM_Job_Openings_File_Protection::is_encrypted_file( get_attached_file( intval( $awsm_attachment_id ) ) ) );
 		$attachment_url        = ( ! $secure_upload_enabled ) ? wp_get_attachment_url( intval( $awsm_attachment_id ) ) : false;
 	if ( $secure_upload_enabled && ! empty( $awsm_attachment_id ) ) :
 		?>

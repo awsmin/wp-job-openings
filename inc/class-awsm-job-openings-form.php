@@ -1004,6 +1004,15 @@ class AWSM_Job_Openings_Form {
 					$is_mail_send = wp_mail( $to, $subject, $mail_content, array_values( $headers ), $attachments );
 					remove_filter( 'wp_mail_content_type', 'awsm_jobs_mail_content_type' );
 
+					// Temporary attachment copies have predictable names, so remove them even if the mail failed.
+					if ( $type === 'admin' && ! empty( $admin_attachments ) ) {
+						foreach ( $admin_attachments as $admin_attachment ) {
+							if ( isset( $admin_attachment['temp'], $admin_attachment['file'] ) && $admin_attachment['temp'] === true && file_exists( $admin_attachment['file'] ) ) {
+								unlink( $admin_attachment['file'] );
+							}
+						}
+					}
+
 					if ( $is_mail_send ) {
 						if ( $type === 'applicant' ) {
 							// Save the applicant notification details.
@@ -1018,14 +1027,6 @@ class AWSM_Job_Openings_Form {
 								),
 							);
 							update_post_meta( $applicant_details['application_id'], 'awsm_application_mails', $mails_data );
-						} elseif ( $type === 'admin' ) {
-							if ( ! empty( $admin_attachments ) ) {
-								foreach ( $admin_attachments as $admin_attachment ) {
-									if ( isset( $admin_attachment['temp'] ) && $admin_attachment['temp'] === true ) {
-										unlink( $admin_attachment['file'] );
-									}
-								}
-							}
 						}
 
 						/**
