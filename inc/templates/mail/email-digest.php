@@ -75,8 +75,8 @@ require AWSM_Job_Openings::get_template_path( 'header.php', 'mail' );
 							$job_name = get_post_meta( $application->ID, 'awsm_apply_for', true );
 							?>
 									<tr style="border-bottom: 1px solid #D7DFDF;">
-										<td><?php echo esc_html( $application->post_title ); ?></td>
-										<td><?php echo esc_html( $job_name ); ?></td>
+										<td><?php echo AWSM_Job_Openings::esc_mail_tag_html( $application->post_title ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></td>
+										<td><?php echo AWSM_Job_Openings::esc_mail_tag_html( $job_name ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></td>
 										<td><?php echo esc_html( date_i18n( get_awsm_jobs_date_format( 'email-digest', __( 'j F Y', 'wp-job-openings' ) ), get_post_time( 'U', false, $application->ID ) ) ); ?></td>
 										<td><a href="<?php echo esc_url( AWSM_Job_Openings::get_application_edit_link( $application->ID ) ); ?>"><strong><?php esc_html_e( 'View', 'wp-job-openings' ); ?></strong></a></td>
 									</tr>
