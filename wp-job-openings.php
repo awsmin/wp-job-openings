@@ -169,8 +169,8 @@ class AWSM_Job_Openings {
 					$req_plugin = sprintf( '<strong>%s</strong>', esc_html__( 'HireZoot', 'wp-job-openings' ) );
 					$plugin     = sprintf( '<strong>%s</strong>', esc_html__( 'Pro Pack', 'wp-job-openings' ) );
 
-					/* translators: %1$s: main plugin, %2$s: current plugin, %3$s: minimum required version of the main plugin, %4$s: plugin update link */
-					printf( esc_html__( 'Update recommended: The %2$s Addon is recommended to be updated to version 4.0 or higher to function seamlessly with the newer version of %1$s.', 'wp-job-openings' ), $req_plugin, $plugin ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					/* translators: %1$s: main plugin, %2$s: add-on plugin */
+					printf( esc_html__( 'Update recommended: Update the %2$s Addon to the latest version to use all features with this version of %1$s, including advanced Job Schema management.', 'wp-job-openings' ), $req_plugin, $plugin ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				?>
 			</p>
 		</div>
@@ -193,7 +193,11 @@ class AWSM_Job_Openings {
 
 					$required_pro_version = '4.0';
 
-					if ( version_compare( $pro_version, $required_pro_version, '<' ) ) {
+					// A Pro Pack without Job Schema support can still be 4.0.x, so also detect
+					// the missing feature directly instead of relying on the version number.
+					$has_schema_support = class_exists( 'AWSM_Job_Openings_Pro_Schema' );
+
+					if ( version_compare( $pro_version, $required_pro_version, '<' ) || ! $has_schema_support ) {
 						add_action( 'admin_notices', array( $this, 'pro_version_admin_notice' ) );
 					}
 				}
