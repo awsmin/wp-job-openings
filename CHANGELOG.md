@@ -1,8 +1,12 @@
 ## Changelog
 
+### V 4.2.2 – 2026-11-11
+* Security: Fixed mail template tags (such as {hr-email}) entered in application form fields being expanded in notification emails and the daily email digest. Thanks to Nathan Cross (CyberBadger) for reporting.
+* Security: Fixed resume attachments becoming viewable through the REST API after an application was deleted outside the admin dashboard (for example, by WP-Cron when emptying the trash, WP-CLI, or another plugin). Thanks to Nathan Cross (CyberBadger) for reporting.
+
 ### V 4.2.1 – 2026-11-03
-* Security: Restricted access to resume attachments so that only users who can manage the application can view them through the REST API (media endpoint) and oEmbed.
-* Security: Fixed the "Secure uploaded files" setting not being applied when it was saved for the first time.
+* Security: Restricted access to resume attachments so that only users who can manage the application can view them through the REST API (media endpoint) and oEmbed. Thanks to Nathan Cross (CyberBadger) for reporting.
+* Security: Fixed the “Secure uploaded files” setting not being applied when it was saved for the first time. Thanks to Nathan Cross (CyberBadger) for reporting.
 * Fixed: An invalid or expired security token on the application form left the submit button disabled with no error message.
 
 ### V 4.2.0 – 2026-10-26

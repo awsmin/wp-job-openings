@@ -104,6 +104,11 @@ class AWSM_Job_Openings {
 		// has already been committed, so both values are guaranteed fresh here.
 		add_action( 'rest_after_insert_awsm_job_openings', array( $this, 'sync_job_status_with_expiry' ), 10, 1 );
 		add_action( 'awsm_job_application_submitted', array( $this, 'plugin_rating_check' ) );
+		// Not gated behind is_admin(): applications are also deleted from WP-CLI,
+		// WP-Cron (wp_scheduled_delete empties the trash) and other plugins. If the
+		// resume is not deleted here, core reparents it to the published job, which
+		// makes it readable through the REST media endpoint.
+		add_action( 'before_delete_post', array( $this, 'delete_attachment_post' ) );
 		add_action( 'wp_loaded', array( $this, 'register_scripts' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'awsm_enqueue_scripts' ) );
 		add_action( 'template_redirect', array( $this, 'redirect_attachment_page' ), 1 );
@@ -503,7 +508,6 @@ class AWSM_Job_Openings {
 			add_action( 'admin_head', array( $this, 'admin_head_actions' ) );
 			add_action( 'edit_form_top', array( $this, 'awsm_admin_single_subtitle' ) );
 			add_action( 'save_post', array( $this, 'awsm_job_save_post' ), 100, 2 );
-			add_action( 'before_delete_post', array( $this, 'delete_attachment_post' ) );
 			add_action( 'restrict_manage_posts', array( $this, 'awsm_admin_filtering_posts' ) );
 			add_action( 'before_awsm_job_settings_init', array( $this, 'no_script_msg' ) );
 			add_action( 'wp_ajax_awsm_plugin_rating', array( $this, 'plugin_rating' ) );
@@ -1270,6 +1274,18 @@ class AWSM_Job_Openings {
 					$admin_email  = get_option( 'admin_email' );
 					$from_email   = get_option( 'awsm_jobs_admin_from_email_notification', $default_from_email );
 
+					// The whole rendered template is passed through replace_mail_tags() below, so a tag typed
+					// into a user-supplied field (e.g. '{admin-email}' as the applicant name) would be expanded.
+					// Neutralize braces in the applicant name up front; this also covers theme-overridden templates.
+					$applications = array_map(
+						function ( $application ) {
+							$application             = clone $application;
+							$application->post_title = self::esc_mail_tag_braces( $application->post_title );
+							return $application;
+						},
+						$applications
+					);
+
 					ob_start();
 					include self::get_template_path( 'email-digest.php', 'mail' );
 					$mail_content = ob_get_clean();
@@ -1292,10 +1308,8 @@ class AWSM_Job_Openings {
 								'default_from_email' => $default_from_email,
 							)
 						);
-						$tag_names    = array_keys( $tags );
-						$tag_values   = array_values( $tags );
-						$from_email   = str_replace( $tag_names, $tag_values, $from_email );
-						$mail_content = str_replace( $tag_names, $tag_values, $mail_content );
+						$from_email   = self::replace_mail_tags( $from_email, $tags );
+						$mail_content = self::replace_mail_tags( $mail_content, $tags );
 						/**
 						 * Filters the daily email digest headers.
 						 *
@@ -1327,6 +1341,50 @@ class AWSM_Job_Openings {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Replace mail template tags in a single pass.
+	 *
+	 * Unlike str_replace() with arrays, strtr() never re-scans the values it inserts, so a tag
+	 * typed into a field (for example, '{hr-email}' as the applicant name) is not expanded.
+	 *
+	 * @since 4.2.2
+	 *
+	 * @param string $text Text containing the mail template tags.
+	 * @param array  $tags Mail template tags, as tag => value.
+	 * @return string
+	 */
+	public static function replace_mail_tags( $text, $tags ) {
+		return strtr( (string) $text, (array) $tags );
+	}
+
+	/**
+	 * Encode the curly braces in a value so it can't be matched as a mail template tag.
+	 *
+	 * Use for user-supplied values printed into mail content that is later passed through
+	 * replace_mail_tags() as a whole (e.g. the email digest). The numeric entities render
+	 * as '{' and '}' in HTML mail, and esc_html() does not double-encode them.
+	 *
+	 * @since 4.2.2
+	 *
+	 * @param string $text Text to encode.
+	 * @return string
+	 */
+	public static function esc_mail_tag_braces( $text ) {
+		return str_replace( array( '{', '}' ), array( '&#123;', '&#125;' ), (string) $text );
+	}
+
+	/**
+	 * Escape a value for HTML mail content and prevent it from being expanded as a mail template tag.
+	 *
+	 * @since 4.2.2
+	 *
+	 * @param string $text Text to escape.
+	 * @return string
+	 */
+	public static function esc_mail_tag_html( $text ) {
+		return self::esc_mail_tag_braces( esc_html( $text ) );
 	}
 
 	public static function get_mail_generic_template_tags( $options = array() ) {
