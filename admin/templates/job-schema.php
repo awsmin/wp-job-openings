@@ -20,7 +20,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 	);
 
 	// Pro Pack adds the working option via the filter below; show a locked placeholder when it's not active.
-	if ( ! awsm_jobs_is_pro_active() ) {
+	// An older Pro Pack (before schema support) is active but adds nothing, so show the option
+	// greyed out with an update notice instead of leaving the feature invisible.
+	if ( awsm_jobs_is_pro_active() && ! class_exists( 'AWSM_Job_Openings_Pro_Schema' ) ) {
+		$schema_fields[] = array(
+			'id'          => 'awsm-jobs-advanced-schema-pro',
+			'type'        => 'raw',
+			'value'       => sprintf(
+				'<label class="awsm-jobs-pro-locked-option"><input type="checkbox" disabled="disabled" />%s</label>',
+				esc_html__( 'Enable advanced schema management', 'wp-job-openings' )
+			),
+			'description' => __( 'Update Pro Pack to the latest version to use advanced schema management.', 'wp-job-openings' ),
+		);
+	} elseif ( ! awsm_jobs_is_pro_active() ) {
 		$schema_fields[] = array(
 			'id'    => 'awsm-jobs-advanced-schema-pro',
 			'type'  => 'raw',
