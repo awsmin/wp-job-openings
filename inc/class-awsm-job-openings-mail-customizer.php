@@ -118,7 +118,7 @@ class AWSM_Job_Openings_Mail_Customizer {
 		/**
 		 * Filters the notification customizer test email content.
 		 *
-		 * @since 4.2.2
+		 * @since 4.3.0
 		 *
 		 * @param string $content Test email content (HTML).
 		 */
