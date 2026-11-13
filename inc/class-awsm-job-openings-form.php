@@ -173,6 +173,17 @@ class AWSM_Job_Openings_Form {
 					$required_label   = ( $required ) ? ' <span class="awsm-job-form-error">*</span>' : '';
 					$form_group_class = 'awsm-job-form-group';
 					$form_group_class = ( isset( $field_args['label_inline'] ) ) ? $form_group_class . ' awsm-job-inline-group' : $form_group_class;
+					/**
+					 * Filters the CSS classes of a field's wrapper on the job application form.
+					 *
+					 * @since 4.3.0
+					 *
+					 * @param string $form_group_class Space-separated classes of the field wrapper.
+					 * @param string $field_name The field's name (its field key).
+					 * @param array $field_args Form field options.
+					 * @param array $form_attrs Attributes array for the form.
+					 */
+					$form_group_class = apply_filters( 'awsm_application_form_group_class', $form_group_class, $field_name, $field_args, $form_attrs );
 					$extra_content    = ( isset( $field_args['content'] ) ) ? $field_args['content'] : '';
 					// Validation
 					$data_error_msg = ( isset( $field_args['error'] ) && ! empty( $field_args['error'] ) ) ? ( ( isset( $field_args['error']['error_msg'], $field_args['error']['error_rule'] ) && ! empty( $field_args['error']['error_msg'] ) && ! empty( $field_args['error']['error_rule'] ) ) ? ( ' data-rule-' . $field_args['error']['error_rule'] . '="true" data-msg-' . $field_args['error']['error_rule'] . '="' . esc_attr( $field_args['error']['error_msg'] ) . '"' ) : '' ) : '';
