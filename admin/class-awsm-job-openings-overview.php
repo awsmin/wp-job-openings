@@ -269,7 +269,9 @@ class AWSM_Job_Openings_Overview {
 			$orderby = "{$wpdb->posts}.post_date DESC";
 		}
 
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// The %s/%d placeholders live inside $where/$join, built incrementally above alongside
+		// $values — the sniff can't see across that split, hence both ignores below.
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
 		$results = $wpdb->get_results( $wpdb->prepare( "SELECT {$wpdb->posts}.ID, COUNT(DISTINCT applications.ID) AS applications_count FROM {$wpdb->posts} {$join} {$where} GROUP BY {$wpdb->posts}.ID ORDER BY {$orderby}", $values ), OBJECT );
 
 		// Remove jobs whose application limit has been exceeded (pro pack hooks awsm_jobs_active_count_ids).
