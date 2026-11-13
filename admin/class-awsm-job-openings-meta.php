@@ -104,7 +104,9 @@ class AWSM_Job_Openings_Meta {
 		wp_nonce_field( 'awsm_save_post_meta', 'awsm_jobs_posts_nonce' );
 	}
 
-	public function awsm_job_status( $post ) {
+	// $post is used by templates/meta/job-status.php via PHP's include-shared local scope, not
+	// referenced directly in this method body.
+	public function awsm_job_status( $post ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found
 		include $this->cpath . '/templates/meta/job-status.php';
 	}
 
@@ -143,15 +145,21 @@ class AWSM_Job_Openings_Meta {
 		wp_send_json_success( array( 'html' => $html ) );
 	}
 
-	public function awsm_job_handle( $post ) {
+	// $post is used by templates/meta/job-specifications.php via PHP's include-shared local
+	// scope, not referenced directly in this method body.
+	public function awsm_job_handle( $post ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found
 		include $this->cpath . '/templates/meta/job-specifications.php';
 	}
 
-	public function awsm_job_expiration( $post ) {
+	// $post is used by templates/meta/job-expiry.php via PHP's include-shared local scope, not
+	// referenced directly in this method body.
+	public function awsm_job_expiration( $post ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found
 		include $this->cpath . '/templates/meta/job-expiry.php';
 	}
 
-	public function awsm_job_application_handle( $post ) {
+	// $post is used by templates/meta/applicant-single.php via PHP's include-shared local scope,
+	// not referenced directly in this method body.
+	public function awsm_job_application_handle( $post ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found
 		include $this->cpath . '/templates/meta/applicant-single.php';
 	}
 
@@ -170,7 +178,9 @@ class AWSM_Job_Openings_Meta {
 		}
 	}
 
-	public function application_actions_meta_handler( $post ) {
+	// $post is used by templates/meta/application-actions.php via PHP's include-shared local
+	// scope, not referenced directly in this method body.
+	public function application_actions_meta_handler( $post ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found
 		include $this->cpath . '/templates/meta/application-actions.php';
 	}
 
@@ -198,7 +208,10 @@ class AWSM_Job_Openings_Meta {
 		return apply_filters( 'awsm_jobs_opening_applicant_single_tab_list', $tab_list );
 	}
 
-	public static function get_applicant_single_view_content( $post_id, $attachment_id ) {
+	// $attachment_id is part of this method's public signature (called with it from
+	// templates/meta/applicant-single.php) but isn't currently forwarded to the filter below;
+	// changing that filter's signature is a cross-plugin-hook decision outside this cleanup's scope.
+	public static function get_applicant_single_view_content( $post_id, $attachment_id ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
 		$tab_content = array();
 		return apply_filters( 'awsm_jobs_opening_applicant_single_view_content', $tab_content, $post_id );
 	}
@@ -441,7 +454,7 @@ class AWSM_Job_Openings_Meta {
 		return $new_status;
 	}
 
-	public function awsm_add_unread_application_class( $classes, $class, $post_id ) {
+	public function awsm_add_unread_application_class( $classes, $extra_class, $post_id ) {
 		if ( get_post_type( $post_id ) === 'awsm_job_application' ) {
 			$post_status = get_post_status( $post_id );
 
