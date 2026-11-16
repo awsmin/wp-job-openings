@@ -77,7 +77,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<input type="hidden" name="action" value="awsm_applicant_form_submission">
 		<?php wp_nonce_field( 'awsm_application_nonce', 'awsm_nonce' ); ?>
 		<div class="awsm-job-form-group">
-			<?php awsm_job_form_submit_btn( $form_attrs ); ?>
+			<?php
+				/**
+				 * Fires inside the application form's submit row, before the submit button.
+				 *
+				 * Add-ons can add controls next to the submit button, such as Back and Next
+				 * buttons for a form split into steps.
+				 *
+				 * @since 4.3.0
+				 *
+				 * @param array $form_attrs Attributes array for the form.
+				 */
+				do_action( 'awsm_application_form_before_submit_btn', $form_attrs );
+
+				awsm_job_form_submit_btn( $form_attrs );
+			?>
 		</div>
 
 	</form>
