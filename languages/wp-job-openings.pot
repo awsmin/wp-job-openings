@@ -1306,7 +1306,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: inc/class-awsm-job-openings-elementor-widget.php:16
-msgid "Job Listings ( Beta )"
+msgid "Job Listings"
 msgstr ""
 
 #: inc/class-awsm-job-openings-elementor-widget.php:66
