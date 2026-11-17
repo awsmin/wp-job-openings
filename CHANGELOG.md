@@ -1,5 +1,12 @@
 ## Changelog
 
+### V 4.3.0 – 2026-11-17
+* Added: Job Schema settings tab with an option to enable or disable the JobPosting structured data.
+* Added: Test Email option in Notifications > Customize.
+* Improved: Redesigned notification email template and daily email digest. The background color option has been removed.
+* Improved: Reduced database queries from applications analytics data on admin pages.
+* Minor bug fixes and code improvements.
+
 ### V 4.2.2 – 2026-11-11
 * Security: Fixed mail template tags (such as {hr-email}) entered in application form fields being expanded in notification emails and the daily email digest. Thanks to Nathan Cross (CyberBadger) for reporting.
 * Security: Fixed resume attachments becoming viewable through the REST API after an application was deleted outside the admin dashboard (for example, by WP-Cron when emptying the trash, WP-CLI, or another plugin). Thanks to Nathan Cross (CyberBadger) for reporting.

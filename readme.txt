@@ -2,7 +2,7 @@
 Contributors: awsmin, aravindajith, anantajitjg, sarathar, adhun, nithi22, @sruthi89, shilpaashokan94, @vivekawsm, @fathima54321
 Tags: jobs, job listing, job board, careers page, recruitment
 Requires at least: 6.0
-Tested up to: 7.1.3
+Tested up to: 7.1
 Requires PHP: 5.6
 Stable tag: trunk
 License: GPLv2 or later
@@ -143,6 +143,13 @@ Yes. You can view, filter, and manage applications from your dashboard.
 15. Notifications Template Settings
 
 == Changelog ==
+
+= V 4.3.0 – 2026-11-17 =
+* Added: Job Schema settings tab with an option to enable or disable the JobPosting structured data.
+* Added: Test Email option in Notifications > Customize.
+* Improved: Redesigned notification email template and daily email digest. The background color option has been removed.
+* Improved: Reduced database queries from applications analytics data on admin pages.
+* Minor bug fixes and code improvements.
 
 = V 4.2.2 – 2026-11-11 =
 * Security: Fixed mail template tags (such as {hr-email}) entered in application form fields being expanded in notification emails and the daily email digest. Thanks to Nathan Cross (CyberBadger) for reporting.
