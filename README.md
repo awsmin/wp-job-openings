@@ -109,7 +109,7 @@ Yes. You can view, filter, and manage applications from your dashboard.
 
 ## Changelog
 
-**V 4.3.0 – 2026-11-17**
+**V 4.3.0 – 2026-11-18**
 * Added: Job Schema settings tab with an option to enable or disable the JobPosting structured data.
 * Added: Test Email option in Notifications > Customize.
 * Improved: Redesigned notification email template and daily email digest. The background color option has been removed.
