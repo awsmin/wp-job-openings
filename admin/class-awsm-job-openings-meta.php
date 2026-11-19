@@ -13,6 +13,10 @@ class AWSM_Job_Openings_Meta {
 		add_action( 'add_meta_boxes', array( $this, 'awsm_register_meta_boxes' ) );
 		add_action( 'admin_menu', array( $this, 'remove_meta_boxes' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'dequeue_autosave' ) );
+		// Read-only routing: decides which handler to hook, nothing else. Each handler itself
+		// requires the 'edit_others_applications' capability and its own per-download nonce
+		// (attached_file_download_handler()) before it does anything with the request.
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		if ( isset( $_GET['awsm_action'] ) ) {
 			if ( $_GET['awsm_action'] === 'download_resume' ) {
 				add_action( 'plugins_loaded', array( $this, 'download_resume_handle' ) );
@@ -20,6 +24,7 @@ class AWSM_Job_Openings_Meta {
 				add_action( 'plugins_loaded', array( $this, 'download_file_handle' ) );
 			}
 		}
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 		add_action( 'awsm_job_applicant_profile_details_resume_preview', array( $this, 'docs_viewer_handle' ) );
 		add_filter( 'post_row_actions', array( $this, 'awsm_job_application_row_actions_label' ), 10, 2 );
 		add_filter( 'wp_untrash_post_status', array( $this, 'awsm_job_application_restore_post_to_previous_status' ), 10, 3 );
@@ -59,7 +64,7 @@ class AWSM_Job_Openings_Meta {
 		// values into the legacy form the block editor resubmits afterward —
 		// which is exactly what was wiping the REST-saved Job Expiry values on
 		// every save. See use_block_editor_for_post() in wp-includes/post.php.
-		$is_classic_editor_context = ! use_block_editor_for_post( $post ) && ! isset( $_GET['meta-box-loader'] );
+		$is_classic_editor_context = ! use_block_editor_for_post( $post ) && ! isset( $_GET['meta-box-loader'] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 		if ( $action === 'edit' ) {
 			// The block editor gets a native Gutenberg panel (see
@@ -398,7 +403,10 @@ class AWSM_Job_Openings_Meta {
 	}
 
 	public function download_file_handle() {
-		$suffix = isset( $_GET['attachment_label'] ) ? '-' . $_GET['attachment_label'] : '';
+		// Read-only: attached_file_download_handler() requires the 'edit_others_applications'
+		// capability and its own per-download nonce before this suffix is ever used; it's also
+		// passed through sanitize_title() there before reaching the Content-Disposition header.
+		$suffix = isset( $_GET['attachment_label'] ) ? '-' . sanitize_text_field( wp_unslash( $_GET['attachment_label'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$this->attached_file_download_handler( 'file', $suffix );
 	}
 

@@ -4,7 +4,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 	do_action( 'before_awsm_job_settings_init' );
 
-	$tab_menus   = AWSM_Job_Openings_Settings::settings_tab_menus();
+	$tab_menus = AWSM_Job_Openings_Settings::settings_tab_menus();
+	// Read-only tab selection for this settings screen; no state mutation. sanitize_title() also
+	// strips '.' and '/', so $current_tab can't be used to traverse outside the templates directory
+	// when it's used to build a file path below.
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	$current_tab = isset( $_GET['tab'] ) ? sanitize_title( $_GET['tab'] ) : 'general';
 
 ?>
