@@ -34,7 +34,9 @@ class Awsm_Job_Guten_Blocks {
 		register_block_type( __DIR__ . '/build', $args );
 	}
 
-	public function block_render_callback( $atts, $content ) {
+	// $content is part of the Gutenberg render_callback's fixed signature (attributes, content,
+	// block); this dynamic block ignores the inner block content and renders from $atts alone.
+	public function block_render_callback( $atts, $content ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
 
 		if ( ! isset( $atts['filter_options'] ) || ! is_array( $atts['filter_options'] ) ) {
 			$atts['filter_options'] = array();
