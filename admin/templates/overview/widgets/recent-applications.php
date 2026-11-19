@@ -31,7 +31,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 					$applicant_email = get_post_meta( $application->ID, 'awsm_applicant_email', true );
 					$avatar          = apply_filters( 'awsm_applicant_photo', get_avatar( $applicant_email, 32 ), $application->ID );
 					$edit_link       = AWSM_Job_Openings::get_application_edit_link( $application->ID );
-					$submission_time = human_time_diff( get_the_time( 'U', $application->ID ), current_time( 'timestamp' ) ) . ' ' . __( 'ago', 'wp-job-openings' );
+					// get_the_time( 'U' ) and current_time( 'timestamp' ) both use the site's local-offset
+					// convention (neither is true UTC), so they stay consistent with each other here.
+					$submission_time = human_time_diff( get_the_time( 'U', $application->ID ), current_time( 'timestamp' ) ) . ' ' . __( 'ago', 'wp-job-openings' ); // phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested
 					?>
 						<tr>
 							<td>
