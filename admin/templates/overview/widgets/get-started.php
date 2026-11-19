@@ -44,7 +44,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				),
 			);
 			if ( class_exists( 'AWSM_Job_Openings_Pro_Pack' ) ) {
-				$support_link_key = array_search( 'support', wp_list_pluck( $get_started_links, 'id' ) );
+				$support_link_key = array_search( 'support', wp_list_pluck( $get_started_links, 'id' ), true );
 				if ( $support_link_key !== false ) {
 					unset( $get_started_links[ $support_link_key ] );
 				}
