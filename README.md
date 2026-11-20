@@ -53,41 +53,41 @@ HireZoot continues to evolve with improvements to job listings, applications, no
 
 ## 💼 Key Features
 
-✔ Simple setup - get started in minutes
-✔ Create a professional careers page directly in WordPress
-✔ Publish and manage unlimited job listings
-✔ Multiple layouts: Grid, List, and Stack
-✔ Sidebar and inline filtering options
-✔ AJAX-powered job search and filtering
-✔ Multi-select filters and sorting options
-✔ Unlimited job specifications
-✔ Flexible Job Specification field types
-✔ Built-in application form
-✔ Manage applications inside WordPress
-✔ Resume preview
-✔ Customizable email notifications
-✔ Daily email digest
-✔ Job expiry options with date and time
-✔ JobPosting structured data for SEO
-✔ Gutenberg block with advanced customization options
-✔ Elementor widget support
-✔ Shortcodes for displaying job listings
-✔ WPML support
+✔ Simple setup - get started in minutes  
+✔ Create a professional careers page directly in WordPress  
+✔ Publish and manage unlimited job listings  
+✔ Multiple layouts: Grid, List, and Stack  
+✔ Sidebar and inline filtering options  
+✔ AJAX-powered job search and filtering  
+✔ Multi-select filters and sorting options  
+✔ Unlimited job specifications  
+✔ Flexible Job Specification field types  
+✔ Built-in application form  
+✔ Manage applications inside WordPress  
+✔ Resume preview  
+✔ Customizable email notifications  
+✔ Daily email digest  
+✔ Job expiry options with date and time  
+✔ JobPosting structured data for SEO  
+✔ Gutenberg block with advanced customization options  
+✔ Elementor widget support  
+✔ Shortcodes for displaying job listings  
+✔ WPML support  
 ✔ Developer-friendly hooks and customization options 
 
 ## 👥 Applications & Candidate Management
 
 Collect applications directly through your website and manage candidates from the WordPress dashboard.
 
-✔ View and manage applications
-✔ Filter applications by status and date
-✔ Track application status
-✔ View unread application counts
-✔ Preview resumes
-✔ Configure application notification emails
-✔ Customize notification templates
-✔ Send notifications to multiple recipients
-✔ Restore applications from trash
+✔ View and manage applications  
+✔ Filter applications by status and date  
+✔ Track application status  
+✔ View unread application counts  
+✔ Preview resumes  
+✔ Configure application notification emails  
+✔ Customize notification templates  
+✔ Send notifications to multiple recipients  
+✔ Restore applications from trash  
 ✔ Extend candidate management with HireZoot Pro
 
 HireZoot keeps your job listings and applications connected, giving your team a central place to manage candidates without switching between multiple systems.
@@ -96,14 +96,14 @@ HireZoot keeps your job listings and applications connected, giving your team a 
 
 HireZoot Pro adds advanced tools for customizing application forms and managing candidates.
 
-✔ Custom application form builder
-✔ Shortlist, reject, and rate candidates
-✔ Notes and activity logs
-✔ Advanced email notifications
-✔ Export and filter applications
-✔ Attach files with email notifications
-✔ Shortcode generator for custom job listings
-✔ External application links
+✔ Custom application form builder  
+✔ Shortlist, reject, and rate candidates  
+✔ Notes and activity logs  
+✔ Advanced email notifications  
+✔ Export and filter applications  
+✔ Attach files with email notifications  
+✔ Shortcode generator for custom job listings  
+✔ External application links  
 ✔ Third-party application forms
 
 **[All Premium Features ↗︎](https://hirezoot.com/pricing/)**
@@ -122,14 +122,14 @@ Extend HireZoot with additional tools for different recruitment requirements.
 
 The Interviews & Assessments add-on extends HireZoot beyond application management and helps teams manage structured candidate evaluation.
 
-✔ Schedule interviews and assessments
-✔ Support video and in-person interviews
-✔ Use reusable evaluation forms and scorecards
-✔ Assign hiring panelists and evaluators
-✔ Create custom evaluation criteria
-✔ Collect structured panel feedback
-✔ Record evaluations and recommendations
-✔ Reschedule or cancel interviews and assessments
+✔ Schedule interviews and assessments  
+✔ Support video and in-person interviews   
+✔ Use reusable evaluation forms and scorecards  
+✔ Assign hiring panelists and evaluators  
+✔ Create custom evaluation criteria  
+✔ Collect structured panel feedback  
+✔ Record evaluations and recommendations  
+✔ Reschedule or cancel interviews and assessments  
 ✔ Review candidate evaluation results
 
 This gives hiring teams a more structured workflow from application review through interview and candidate evaluation.
@@ -156,13 +156,13 @@ The free plugin includes Job Schema settings that allow administrators to enable
 
 HireZoot is designed to work with the WordPress tools and workflows you already use.
 
-✔ Gutenberg block support
-✔ Elementor widget support
-✔ Shortcodes
-✔ WPML compatibility
-✔ Developer hooks and filters
-✔ Template customization
-✔ REST API support
+✔ Gutenberg block support  
+✔ Elementor widget support  
+✔ Shortcodes  
+✔ WPML compatibility  
+✔ Developer hooks and filters  
+✔ Template customization  
+✔ REST API support   
 ✔ WordPress-native administration
 
 Developers can extend HireZoot using available hooks, filters, and APIs without modifying the plugin's core files.
@@ -181,12 +181,12 @@ Start with the core job listings and application features, then extend the workf
 
 HireZoot can be used for:
 
-✔ Company careers pages
-✔ Internal recruitment teams
-✔ HR departments
-✔ Recruitment agencies
-✔ Client websites
-✔ Multi-user hiring teams
+✔ Company careers pages  
+✔ Internal recruitment teams  
+✔ HR departments  
+✔ Recruitment agencies  
+✔ Client websites  
+✔ Multi-user hiring teams  
 ✔ Custom WordPress recruitment portals
 
 Whether you need a simple WordPress job board or a more structured recruitment workflow, HireZoot provides a WordPress-native foundation that can grow with your hiring process.
