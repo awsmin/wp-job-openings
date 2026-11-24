@@ -91,8 +91,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<li>
 					<input type="hidden" name="awsm_job_spec_terms[<?php echo esc_attr( $spec ); ?>][]" value="" />
 					<label for="awsm_job_<?php echo esc_attr( $spec ); ?>_specification"><?php echo esc_html( $spec_options->label ); ?></label>
-					<select class="<?php echo esc_attr( $select_class ); ?>" id="awsm_job_<?php echo esc_attr( $spec ); ?>_specification" name="awsm_job_spec_terms[<?php echo esc_attr( $spec ); ?>][]" multiple="multiple" style="width: 100%;" data-placeholder="<?php echo esc_attr( $select_placeholder ); ?>" data-field-type="<?php echo esc_attr( $field_type ); ?>">
+					<select class="<?php echo esc_attr( $select_class ); ?>" id="awsm_job_<?php echo esc_attr( $spec ); ?>_specification" name="awsm_job_spec_terms[<?php echo esc_attr( $spec ); ?>][]"<?php echo 'single' !== $field_type ? ' multiple="multiple" data-placeholder="' . esc_attr( $select_placeholder ) . '"' : ''; ?> style="width: 100%;" data-field-type="<?php echo esc_attr( $field_type ); ?>">
 					<?php
+					if ( 'single' === $field_type ) {
+						// Selectable empty option, so the value can be removed without a clear button.
+						printf( '<option value="">%s</option>', esc_html( $select_placeholder ) );
+					}
 					if ( ! empty( $spec_terms ) && ! is_wp_error( $spec_terms ) ) :
 						foreach ( $spec_terms as $spec_term ) :
 							?>
