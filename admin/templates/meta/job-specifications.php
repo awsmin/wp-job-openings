@@ -85,7 +85,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				$select_placeholder = __( 'Select an existing option or type a new one. Press Enter to add.', 'wp-job-openings' );
 			} else {
 				$select_class       = 'awsm_job_specification_select';
-				$select_placeholder = 'single' === $field_type ? __( 'Select an option', 'wp-job-openings' ) : __( 'Select options', 'wp-job-openings' );
+				$select_placeholder = 'single' === $field_type ? __( 'Select an option', 'wp-job-openings' ) : __( 'Select one or more options', 'wp-job-openings' );
 			}
 			?>
 				<li>
