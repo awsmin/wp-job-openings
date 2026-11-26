@@ -1445,6 +1445,22 @@ class AWSM_Job_Openings_Settings {
 		}
 	}
 
+	/**
+	 * Save a term's order only when it changed.
+	 *
+	 * Meta is stored as a string, so compare as a string; passing an int to
+	 * update_term_meta() makes WordPress run an UPDATE even when unchanged.
+	 *
+	 * @param int $term_id  Term ID.
+	 * @param int $position Order position.
+	 */
+	private function maybe_update_term_order( $term_id, $position ) {
+		$position = (string) $position;
+		if ( get_term_meta( $term_id, 'term_order', true ) !== $position ) {
+			update_term_meta( $term_id, 'term_order', $position );
+		}
+	}
+
 	public function spec_template( $index, $tax_details = array(), $filters = array() ) {
 		if ( ! empty( $tax_details ) && ! is_numeric( $index ) ) {
 			return;
@@ -1505,7 +1521,7 @@ class AWSM_Job_Openings_Settings {
 					foreach ( $filter['tags'] as $tag_name ) {
 						if ( isset( $terms_map[ $tag_name ] ) ) {
 							$term_id = $terms_map[ $tag_name ]->term_id;
-							update_term_meta( $term_id, 'term_order', $position );
+							$this->maybe_update_term_order( $term_id, $position );
 							$ordered_terms[] = $term_id;
 							++$position;
 						}
@@ -1513,7 +1529,7 @@ class AWSM_Job_Openings_Settings {
 					// Then, handle terms not in the filtered list
 					foreach ( $terms as $term ) {
 						if ( ! in_array( $term->term_id, $ordered_terms ) ) {
-							update_term_meta( $term->term_id, 'term_order', $position );
+							$this->maybe_update_term_order( $term->term_id, $position );
 							++$position;
 						}
 					}
