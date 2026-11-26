@@ -274,6 +274,7 @@ class AWSM_Job_Openings {
 		$specs = get_option( 'awsm_jobs_filter' );
 		$this->awsm_jobs_taxonomies( $specs );
 		$this->insert_specs_terms( $specs );
+		$this->update_specs_terms_order( $specs );
 		update_option( 'awsm_jobs_insert_default_specs_terms', 1 );
 	}
 
@@ -2212,37 +2213,78 @@ class AWSM_Job_Openings {
 						$args = apply_filters( 'awsm_jobs_tax_args', $args, $taxonomy );
 						register_taxonomy( $taxonomy, array( 'awsm_job_openings' ), $args );
 					}
-
-					// Check if tags exist and update term order
-					if ( isset( $spec['tags'] ) && ! empty( $spec['tags'] ) ) {
-						$terms = get_terms(
-							array(
-								'taxonomy'   => $taxonomy,
-								'hide_empty' => false,
-							)
-						);
-
-						if ( ! is_wp_error( $terms ) && ! empty( $terms ) ) {
-							$term_names = wp_list_pluck( $terms, 'name' );
-							$spec_tags  = array_values( $spec['tags'] );
-
-							// Check if orders don't match
-							if ( $term_names !== $spec_tags ) {
-								foreach ( $spec['tags'] as $index => $tag_name ) {
-									// Find the term by name
-									$term = get_term_by( 'name', $tag_name, $taxonomy );
-
-									if ( $term && ! is_wp_error( $term ) ) {
-										// Update term meta with new order
-										update_term_meta( $term->term_id, 'awsm_job_tag_order', $index );
-									}
-								}
-							}
-						}
-					}
 				}
 			}
 		}
+	}
+
+	/**
+	 * Store the specification tag order as term meta.
+	 *
+	 * Runs only when specifications are saved (never on init), and writes
+	 * only when the stored order differs, to avoid redundant UPDATE queries.
+	 *
+	 * @param array $specs Job specifications.
+	 */
+	public function update_specs_terms_order( $specs ) {
+		if ( empty( $specs ) || ! is_array( $specs ) ) {
+			return;
+		}
+		foreach ( $specs as $spec ) {
+			if ( empty( $spec['taxonomy'] ) || empty( $spec['tags'] ) || ! taxonomy_exists( $spec['taxonomy'] ) ) {
+				continue;
+			}
+			$taxonomy  = $spec['taxonomy'];
+			$spec_tags = array_values( $spec['tags'] );
+
+			// Fetch all terms for this spec in one query, with their meta primed in one more.
+			$terms = get_terms(
+				array(
+					'taxonomy'               => $taxonomy,
+					'name'                   => $spec_tags,
+					'hide_empty'             => false,
+					'update_term_meta_cache' => true,
+				)
+			);
+			if ( is_wp_error( $terms ) || empty( $terms ) ) {
+				continue;
+			}
+
+			$terms_by_name = array();
+			foreach ( $terms as $term ) {
+				$key = $this->term_name_key( $term->name, $taxonomy );
+				if ( ! isset( $terms_by_name[ $key ] ) ) {
+					$terms_by_name[ $key ] = $term;
+				}
+			}
+
+			foreach ( $spec_tags as $index => $tag_name ) {
+				$key = $this->term_name_key( $tag_name, $taxonomy );
+				if ( ! isset( $terms_by_name[ $key ] ) ) {
+					continue;
+				}
+				$term_id = $terms_by_name[ $key ]->term_id;
+				// Meta is stored as a string; compare as string so unchanged values are skipped.
+				$order = (string) $index;
+				if ( get_term_meta( $term_id, 'awsm_job_tag_order', true ) !== $order ) {
+					update_term_meta( $term_id, 'awsm_job_tag_order', $order );
+				}
+			}
+		}
+	}
+
+	/**
+	 * Normalize a term name the way WP_Term_Query does for its 'name' lookup,
+	 * so spec tags (e.g. "R&D") map to stored names (e.g. "R&amp;D").
+	 * Lowercased because the database comparison is case-insensitive.
+	 *
+	 * @param string $name     Term name.
+	 * @param string $taxonomy Taxonomy.
+	 * @return string
+	 */
+	private function term_name_key( $name, $taxonomy ) {
+		$name = stripslashes( sanitize_term_field( 'name', $name, 0, $taxonomy, 'db' ) );
+		return function_exists( 'mb_strtolower' ) ? mb_strtolower( $name ) : strtolower( $name );
 	}
 
 	public function insert_specs_terms( $specs ) {

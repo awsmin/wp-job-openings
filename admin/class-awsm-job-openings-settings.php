@@ -828,6 +828,7 @@ class AWSM_Job_Openings_Settings {
 		$awsm_job_openings = AWSM_Job_Openings::init();
 		$awsm_job_openings->awsm_jobs_taxonomies( $new_value );
 		$awsm_job_openings->insert_specs_terms( $new_value );
+		$awsm_job_openings->update_specs_terms_order( $new_value );
 	}
 
 	public function update_awsm_jobs_remove_filters( $old_value, $new_value ) {
