@@ -231,6 +231,10 @@ Yes. You can view, filter, and manage applications from your dashboard.
 
 ## Changelog
 
+**V 4.3.1 – 2026-11-27**
+* Improved: Removed unnecessary database queries that ran on every front-end and admin page load to save the job specification tag order. The order is now saved only when specifications are saved.
+* Minor bug fixes and code improvements.
+
 **V 4.3.0 – 2026-11-18**
 * Added: Job Schema settings tab with an option to enable or disable the JobPosting structured data.
 * Added: Test Email option in Notifications > Customize.
