@@ -361,6 +361,10 @@ class AWSM_Job_Openings_Meta {
 			if ( ! $attachment_id ) {
 				wp_die( esc_html__( 'Invalid id.', 'wp-job-openings' ) );
 			}
+			// The nonce isn't tied to the file, so don't serve media that doesn't belong to an application.
+			if ( ! AWSM_Job_Openings_Core::is_application_attachment( $attachment_id ) ) {
+				wp_die( esc_html__( 'You are not allowed to download this file.', 'wp-job-openings' ), '', array( 'response' => 403 ) );
+			}
 			$file_details = $this->get_attached_file_details( $attachment_id );
 
 			if ( ! empty( $file_details ) ) {
